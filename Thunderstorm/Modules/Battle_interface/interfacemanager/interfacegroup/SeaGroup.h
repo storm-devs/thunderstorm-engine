@@ -6,13 +6,16 @@
 class BI_SeaGroup : public BI_BaseGroup
 {
 public:
-	BI_SeaGroup( BI_ManagerBase* pManager );
+	BI_SeaGroup(BI_ManagerBase* pManager);
 	virtual ~BI_SeaGroup();
 
-	virtual void Init();
-	virtual void Update(){}
+	void Init() override;
 
-	virtual long Event(const char* pcEventName) {return 0;}
+	void Update() override
+	{
+	}
+
+	long Event(const char* pcEventName) override { return 0; }
 
 protected:
 };

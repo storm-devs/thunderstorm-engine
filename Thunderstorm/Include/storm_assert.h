@@ -61,16 +61,18 @@ public:
 #define _X_NO_LAYER				0x100
 */
 
-inline void __Storm_Assert__(bool expression, const char * file, long line, const char * str)
+inline void __Storm_Assert__(bool expression, const char* file, long line, const char* str)
 {
-	if(!expression)
+	if (!expression)
 	{
-		if(str)
+		if (str)
 		{
 			spdlog::critical("Assert failed in {} line {}, expression string {}", file, line, str);
-		//	_VSYSTEM_API->Trace("Assert failed in %s line %d, expression string %s", file, line, str);
-		}else{
-		//	_VSYSTEM_API->Trace("Assert failed in %s line %d", file, line);
+			//	_VSYSTEM_API->Trace("Assert failed in %s line %d, expression string %s", file, line, str);
+		}
+		else
+		{
+			//	_VSYSTEM_API->Trace("Assert failed in %s line %d", file, line);
 			spdlog::critical("Assert failed in {} line {}", file, line);
 		}
 #ifdef EX_OFF

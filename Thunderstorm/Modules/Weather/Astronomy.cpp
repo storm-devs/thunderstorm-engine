@@ -1,7 +1,7 @@
 #include "Astronomy.h"
 
-VDX9RENDER * Astronomy::pRS = nullptr;
-VGEOMETRY * Astronomy::pGS = nullptr;
+VDX9RENDER* Astronomy::pRS = nullptr;
+VGEOMETRY* Astronomy::pGS = nullptr;
 
 Astronomy::Astronomy()
 {
@@ -22,7 +22,8 @@ bool Astronomy::Init()
 
 void Astronomy::SetDevice()
 {
-	pRS = (VDX9RENDER *)api->CreateService("dx9render"); Assert(pRS);
+	pRS = (VDX9RENDER *)api->CreateService("dx9render");
+	Assert(pRS);
 	pGS = (VGEOMETRY *)api->CreateService("geometry");
 }
 
@@ -35,15 +36,15 @@ void Astronomy::Realize(uint32_t Delta_Time)
 	Planets.Realize(dDeltaTime, dHour);
 }
 
-uint32_t Astronomy::AttributeChanged(ATTRIBUTES * pA)
+uint32_t Astronomy::AttributeChanged(ATTRIBUTES* pA)
 {
 	if (*pA == "isDone")
-	{ 
+	{
 		Stars.Init(AttributesPointer);
 		Planets.Init(AttributesPointer);
 		return 0;
 	}
-	
+
 	if (*pA == "TimeScale")
 	{
 		dTimeScale = double(pA->GetAttributeAsFloat());

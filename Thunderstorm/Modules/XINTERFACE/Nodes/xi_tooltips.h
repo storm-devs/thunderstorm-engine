@@ -9,13 +9,13 @@ class VXSERVICE;
 class CXI_ToolTip
 {
 public:
-	CXI_ToolTip( VXSERVICE* pPicService, VSTRSERVICE* pStrService, XYPOINT& pntScrSize );
+	CXI_ToolTip(VXSERVICE* pPicService, VSTRSERVICE* pStrService, XYPOINT& pntScrSize);
 	~CXI_ToolTip();
 
 	void Draw();
-	void SetByFormatString( XYRECT& rectOwner, INIFILE* pDefIni, const char* pFmtStr );
+	void SetByFormatString(XYRECT& rectOwner, INIFILE* pDefIni, const char* pFmtStr);
 
-	void MousePos( float fDeltaTime, long nX, long nY );
+	void MousePos(float fDeltaTime, long nX, long nY);
 
 protected:
 	void ReleaseAll();
@@ -25,7 +25,7 @@ protected:
 	void UpdateIndexBuffer();
 	void UpdateVertexBuffer();
 
-	void ReplaceRectangle( long x, long y );
+	void ReplaceRectangle(long x, long y);
 
 protected:
 	VDX9RENDER* m_rs;

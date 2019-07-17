@@ -22,7 +22,6 @@ class IParticleManager;
 //Источник данных для партиклов...
 class DataSource
 {
-
 public:
 
 	//Описание партикла (используеться при создании системы)
@@ -31,7 +30,7 @@ public:
 		ParticleType Type;
 		FieldList Fields;
 
-		ParticleDesc ()
+		ParticleDesc()
 		{
 			Type = UNKNOWN_PARTICLE;
 		}
@@ -44,7 +43,7 @@ public:
 		FieldList Fields;
 		std::vector<ParticleDesc> Particles;
 
-		EmitterDesc ()
+		EmitterDesc()
 		{
 			Type = UNKNOWN_EMITTER;
 		}
@@ -54,54 +53,48 @@ private:
 	std::vector<EmitterDesc> Emitters;
 
 	//Загрузить точечный эмиттер
-	void CreatePointEmitter (MemFile* pMemFile);
-	
+	void CreatePointEmitter(MemFile* pMemFile);
+
 	//Загрузить BillBoard партикл
-	void CreateBillBoardParticle (std::vector<ParticleDesc> &Particles, MemFile* pMemFile);
+	void CreateBillBoardParticle(std::vector<ParticleDesc>& Particles, MemFile* pMemFile);
 
 	//Загрузить Model партикл
-	void CreateModelParticle (std::vector<ParticleDesc> &Particles, MemFile* pMemFile);
+	void CreateModelParticle(std::vector<ParticleDesc>& Particles, MemFile* pMemFile);
 
 
-	int FindEmitter (const char* Name);
-	
+	int FindEmitter(const char* Name);
+
 
 protected:
 
- virtual ~DataSource ();
+	virtual ~DataSource();
 
 public:
 
-	FieldList* CreateEmptyPointEmitter (const char* EmitterName);
-	FieldList* CreateBillBoardParticle (const char* ParticleName, const char* EmitterName);
-	FieldList* CreateModelParticle (const char* ParticleName, const char* EmitterName);
+	FieldList* CreateEmptyPointEmitter(const char* EmitterName);
+	FieldList* CreateBillBoardParticle(const char* ParticleName, const char* EmitterName);
+	FieldList* CreateModelParticle(const char* ParticleName, const char* EmitterName);
 
-	void DeletePointEmitter (FieldList* pEmitter);
-	void DeleteBillboard (FieldList* pEmitter, FieldList* pParticles);
-	void DeleteModel (FieldList* pEmitter, FieldList* pParticles);
- 
-	void Destroy ();
+	void DeletePointEmitter(FieldList* pEmitter);
+	void DeleteBillboard(FieldList* pEmitter, FieldList* pParticles);
+	void DeleteModel(FieldList* pEmitter, FieldList* pParticles);
+
+	void Destroy();
 
 	//---------- Создание/удаление --------------------
-	DataSource (IParticleManager* Master);
-	bool Release ();
+	DataSource(IParticleManager* Master);
+	bool Release();
 
 
-// ========================= Load & Save =======================================
+	// ========================= Load & Save =======================================
 	//Сохранить/восстановить из файла
-	virtual void Write (MemFile* pMemFile);
-	virtual void Load (MemFile* pMemFile);
+	virtual void Write(MemFile* pMemFile);
+	virtual void Load(MemFile* pMemFile);
 
 
-
-	virtual int GetEmitterCount ();
-	DataSource::EmitterDesc* GetEmitterDesc (int Index);
+	virtual int GetEmitterCount();
+	EmitterDesc* GetEmitterDesc(int Index);
 };
-
-
-
-
-
 
 
 #endif

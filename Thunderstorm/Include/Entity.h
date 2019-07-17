@@ -14,15 +14,18 @@ constexpr auto max_ent_num = max_ent_in_layer * max_layers_num;
 constexpr entid_t invalid_entity = 0;
 
 /* Entity base class */
-class Entity {
+class Entity
+{
 	friend class EntityManager;
 public:
-	struct EntitySelfData {
+	struct EntitySelfData
+	{
 		//const char* name;
 		entid_t id;
 	};
 
-	enum class Stage : uint_fast8_t {
+	enum class Stage : uint_fast8_t
+	{
 		execute,
 		realize,
 		lost_render,
@@ -36,6 +39,7 @@ public:
 	{
 		return data_.id;
 	}
+
 	/*[[nodiscard]]
 	auto GetName() const
 	{
@@ -55,5 +59,5 @@ public:
 
 
 private:
-	EntitySelfData data_ {};
+	EntitySelfData data_{};
 };

@@ -1,7 +1,7 @@
 #include "AIShip.h"
 #include "AIFort.h"
 
-AIShipTaskController::AIShipTaskController(AIShip *pShip)
+AIShipTaskController::AIShipTaskController(AIShip* pShip)
 {
 	fZapasDistance = 80.0f + FRAND(100.0f);
 	SetAIShip(pShip);
@@ -18,18 +18,18 @@ bool AIShipTaskController::CheckCurrentTaskComplete()
 
 	switch (GetCurrentTask()->dwTaskType)
 	{
-		case AITASK_ABORDAGE:
-		case AITASK_ATTACK:
-		case AITASK_DEFEND:
-			if (!GetCurrentTaskAIObj() || GetCurrentTaskAIObj()->isDead()) return true;
+	case AITASK_ABORDAGE:
+	case AITASK_ATTACK:
+	case AITASK_DEFEND:
+		if (!GetCurrentTaskAIObj() || GetCurrentTaskAIObj()->isDead()) return true;
 		break;
-		case AITASK_MOVE:
-		case AITASK_RUNAWAY:
+	case AITASK_MOVE:
+	case AITASK_RUNAWAY:
 		break;
-		case AITASK_FOLLOW:
-			if (!GetCurrentTaskAIObj() || GetCurrentTaskAIObj()->isDead()) return true;
+	case AITASK_FOLLOW:
+		if (!GetCurrentTaskAIObj() || GetCurrentTaskAIObj()->isDead()) return true;
 		break;
-		case AITASK_DRIFT:
+	case AITASK_DRIFT:
 		break;
 	}
 	return false;
@@ -45,8 +45,8 @@ void AIShipTaskController::DoAttackRotate()
 	CVECTOR vFirePos = GetCurrentTaskAIObj()->GetPos();
 	CVECTOR vOurDir = CVECTOR(sinf(GetAIShip()->GetAng().y), 0.0f, cosf(GetAIShip()->GetAng().y));
 
-	AIShipCannonController * pCC = GetAIShip()->GetCannonController();
-	
+	AIShipCannonController* pCC = GetAIShip()->GetCannonController();
+
 	uint32_t dwBort = pCC->GetBestFireBortOnlyDistance(vFirePos, 20.0f + FRAND(50.0f));
 
 	if (INVALID_BORT_INDEX != dwBort)
@@ -61,28 +61,29 @@ void AIShipTaskController::DoAttackRotate()
 void AIShipTaskController::FindRunAwayPoint()
 {
 	CVECTOR vRAPoint = 0.0f;
-	uint32_t	iNumPoints = 0;
+	uint32_t iNumPoints = 0;
 
-	float fShipK = 1.0f;		// коэффициент воздействия от кораблей
-	float fFortK = 1.0f;		// коэффициент воздействия от форта
-	float fWindK = 10.0f;		// коэффициент воздействия для ветра
+	float fShipK = 1.0f; // коэффициент воздействия от кораблей
+	float fFortK = 1.0f; // коэффициент воздействия от форта
+	float fWindK = 10.0f; // коэффициент воздействия для ветра
 
 	// check ships
-	for (uint32_t i=0;i<AIShip::AIShips.size();i++) if (GetAIShip() != AIShip::AIShips[i])
-	{
-		if (!Helper.isEnemy(AIShip::AIShips[i]->GetACharacter(), GetAIShip()->GetACharacter())) continue;
-		CVECTOR vDir = AIShip::AIShips[i]->GetPos() - GetAIShip()->GetPos();
-		float fDistance = sqrtf(~vDir);
-		vRAPoint += ((!vDir) * fShipK * Clamp(1.0f - fDistance / 1000.0f));
-		iNumPoints++;
-	}
+	for (uint32_t i = 0; i < AIShip::AIShips.size(); i++)
+		if (GetAIShip() != AIShip::AIShips[i])
+		{
+			if (!Helper.isEnemy(AIShip::AIShips[i]->GetACharacter(), GetAIShip()->GetACharacter())) continue;
+			CVECTOR vDir = AIShip::AIShips[i]->GetPos() - GetAIShip()->GetPos();
+			float fDistance = sqrtf(~vDir);
+			vRAPoint += ((!vDir) * fShipK * Clamp(1.0f - fDistance / 1000.0f));
+			iNumPoints++;
+		}
 
 	// check forts
 	if (AIFort::pAIFort)
 	{
-		for (uint32_t k=0; k<AIFort::pAIFort->GetNumForts(); k++)
+		for (uint32_t k = 0; k < AIFort::pAIFort->GetNumForts(); k++)
 		{
-			AIFort::AI_FORT * pFort = AIFort::pAIFort->GetFort(k);
+			AIFort::AI_FORT* pFort = AIFort::pAIFort->GetFort(k);
 			if (!Helper.isEnemy(pFort->GetACharacter(), GetAIShip()->GetACharacter())) continue;
 			if (!pFort->isNormalMode()) continue;
 
@@ -101,7 +102,7 @@ void AIShipTaskController::FindRunAwayPoint()
 	{
 		// Получаем направление ветра
 		float fWindAngle = -PI;
-		ATTRIBUTES * pAWind = GetAIShip()->GetACharacter()->FindAClass(GetAIShip()->GetACharacter(), "SeaAI.WindAngle");
+		ATTRIBUTES* pAWind = GetAIShip()->GetACharacter()->FindAClass(GetAIShip()->GetACharacter(), "SeaAI.WindAngle");
 		if (pAWind) fWindAngle = pAWind->GetAttributeAsFloat();
 		CVECTOR vWindDir = CVECTOR(cosf(fWindAngle), 0.0f, sinf(fWindAngle));
 		//api->Trace("fWindAngle = %.3f", fWindAngle);
@@ -113,8 +114,8 @@ void AIShipTaskController::FindRunAwayPoint()
 	else
 	{
 		// Если из скрипта возвращается 1 - то используем скриптовую точку
-		VDATA * pV = api->Event(SHIP_GET_RUNAWAY_POINT, "aff", GetAIShip()->GetACharacter(), vRAPoint.x, vRAPoint.z);
-		ATTRIBUTES * pARAP = GetAIShip()->GetACharacter()->FindAClass(GetAIShip()->GetACharacter(), "SeaAI.RunAwayPnt");
+		VDATA* pV = api->Event(SHIP_GET_RUNAWAY_POINT, "aff", GetAIShip()->GetACharacter(), vRAPoint.x, vRAPoint.z);
+		ATTRIBUTES* pARAP = GetAIShip()->GetACharacter()->FindAClass(GetAIShip()->GetACharacter(), "SeaAI.RunAwayPnt");
 		vRAPoint.y = 0.0f;
 		vRAPoint.x = pARAP->GetAttributeAsFloat("x", 0.0f);
 		vRAPoint.z = pARAP->GetAttributeAsFloat("z", 0.0f);
@@ -131,51 +132,51 @@ void AIShipTaskController::FindRunAwayPoint()
 
 void AIShipTaskController::DoTask(float fDeltaTime)
 {
-	AITask * pTask = GetCurrentTask();
-	VAI_INNEROBJ * pTaskAIObj = GetCurrentTaskAIObj();
+	AITask* pTask = GetCurrentTask();
+	VAI_INNEROBJ* pTaskAIObj = GetCurrentTaskAIObj();
 
 	switch (pTask->dwTaskType)
 	{
-		case AITASK_ABORDAGE:
-			if (pTaskAIObj) SetDestinationPoint(pTaskAIObj->GetPos() + pTaskAIObj->GetAbordagePoint(GetAIShip()));
+	case AITASK_ABORDAGE:
+		if (pTaskAIObj) SetDestinationPoint(pTaskAIObj->GetPos() + pTaskAIObj->GetAbordagePoint(GetAIShip()));
 		break;
-		case AITASK_ATTACK:
-			if (pTaskAIObj) SetDestinationPoint(pTaskAIObj->GetPos() + pTaskAIObj->GetAttackPoint(GetAIShip()));
-			GetAIShip()->GetSpeedController()->AddSpeed(0.5f);
-			DoAttackRotate();
+	case AITASK_ATTACK:
+		if (pTaskAIObj) SetDestinationPoint(pTaskAIObj->GetPos() + pTaskAIObj->GetAttackPoint(GetAIShip()));
+		GetAIShip()->GetSpeedController()->AddSpeed(0.5f);
+		DoAttackRotate();
 		break;
-		case AITASK_DEFEND:
-			if (pTaskAIObj) SetDestinationPoint(pTaskAIObj->GetPos() + pTaskAIObj->GetFollowPoint(GetAIShip()));
+	case AITASK_DEFEND:
+		if (pTaskAIObj) SetDestinationPoint(pTaskAIObj->GetPos() + pTaskAIObj->GetFollowPoint(GetAIShip()));
 		break;
-		case AITASK_MOVE:
-			SetDestinationPoint(pTask->vTaskPnt);
+	case AITASK_MOVE:
+		SetDestinationPoint(pTask->vTaskPnt);
 		break;
-		case AITASK_RUNAWAY:
-			FindRunAwayPoint();
+	case AITASK_RUNAWAY:
+		FindRunAwayPoint();
 		break;
-		case AITASK_BRANDER:
-			if (pTaskAIObj) SetDestinationPoint(pTaskAIObj->GetPos());
+	case AITASK_BRANDER:
+		if (pTaskAIObj) SetDestinationPoint(pTaskAIObj->GetPos());
 		break;
-		case AITASK_FOLLOW:
-			if (pTaskAIObj) SetDestinationPoint(pTaskAIObj->GetPos() + pTaskAIObj->GetFollowPoint(GetAIShip()));
+	case AITASK_FOLLOW:
+		if (pTaskAIObj) SetDestinationPoint(pTaskAIObj->GetPos() + pTaskAIObj->GetFollowPoint(GetAIShip()));
 		break;
-		case AITASK_DRIFT:
-			GetAIShip()->GetSpeedController()->SetGlobalMultiply(0.0f);
-			GetAIShip()->GetRotateController()->SetGlobalMultiply(0.0f);
+	case AITASK_DRIFT:
+		GetAIShip()->GetSpeedController()->SetGlobalMultiply(0.0f);
+		GetAIShip()->GetRotateController()->SetGlobalMultiply(0.0f);
 		break;
 	}
 }
 
 void AIShipTaskController::Execute(float fDeltaTime)
 {
-	if (fDeltaTime<=0.0f) return;
+	if (fDeltaTime <= 0.0f) return;
 
 	bool bTaskCompleted = CheckCurrentTaskComplete();
-	if (bTaskCompleted) 
+	if (bTaskCompleted)
 	{
 		if (Secondary.isActive()) Secondary.SetActive(false);
 		bTaskCompleted = CheckCurrentTaskComplete();
-		if (bTaskCompleted) 
+		if (bTaskCompleted)
 		{
 			// find new primary task
 		}
@@ -186,10 +187,10 @@ void AIShipTaskController::Execute(float fDeltaTime)
 	}
 }
 
-void AIShipTaskController::SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskType, CVECTOR & vPnt)
+void AIShipTaskController::SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskType, CVECTOR& vPnt)
 {
-	AITask * pTask = GetTask(dwPriority);
-	
+	AITask* pTask = GetTask(dwPriority);
+
 	pTask->SetActive(true);
 	pTask->dwTaskType = _dwNewTaskType;
 	pTask->pATaskCharacter = nullptr;
@@ -197,39 +198,39 @@ void AIShipTaskController::SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskTy
 	pTask->vTaskPnt = vPnt;
 }
 
-void AIShipTaskController::SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskType, ATTRIBUTES * _pATaskCharacter)
+void AIShipTaskController::SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskType, ATTRIBUTES* _pATaskCharacter)
 {
-	AITask * pTask = GetTask(dwPriority);
-	
+	AITask* pTask = GetTask(dwPriority);
+
 	pTask->SetActive(true);
 	pTask->pATaskCharacter = _pATaskCharacter;
 	pTask->dwTaskType = _dwNewTaskType;
 }
 
-bool AIShipTaskController::isAttack(ATTRIBUTES * pAOtherCharacter)
+bool AIShipTaskController::isAttack(ATTRIBUTES* pAOtherCharacter)
 {
-	AITask * pTask = GetCurrentTask();
+	AITask* pTask = GetCurrentTask();
 	if (pTask && pTask->pATaskCharacter == pAOtherCharacter) //~!~
 	{
 		switch (pTask->dwTaskType)
 		{
-			case AITASK_ABORDAGE:
-			case AITASK_ATTACK:
-				return true;
+		case AITASK_ABORDAGE:
+		case AITASK_ATTACK:
+			return true;
 			break;
 		}
 	}
 	return false;
 }
 
-void AIShipTaskController::Save(CSaveLoad * pSL)
+void AIShipTaskController::Save(CSaveLoad* pSL)
 {
 	pSL->SaveFloat(fZapasDistance);
 	Primary.Save(pSL);
 	Secondary.Save(pSL);
 }
 
-void AIShipTaskController::Load(CSaveLoad * pSL)
+void AIShipTaskController::Load(CSaveLoad* pSL)
 {
 	fZapasDistance = pSL->LoadFloat();
 

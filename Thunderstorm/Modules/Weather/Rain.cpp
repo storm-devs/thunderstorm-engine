@@ -44,7 +44,7 @@ RAIN::~RAIN()
 void RAIN::Release()
 {
 	STORM_DELETE(pRainBlocks);
-	if (iVertexBuffer >= 0) rs->ReleaseVertexBuffer(iVertexBuffer); 
+	if (iVertexBuffer >= 0) rs->ReleaseVertexBuffer(iVertexBuffer);
 	if (iRainbowTex >= 0) rs->TextureRelease(iRainbowTex);
 	if (iRainDropsTexture >= 0) rs->TextureRelease(iRainDropsTexture);
 	if (iSeaDropTex >= 0) rs->TextureRelease(iSeaDropTex);
@@ -52,15 +52,14 @@ void RAIN::Release()
 	iRainbowTex = -1;
 	iSeaDropTex = -1;
 
-	if (iIBSeaDrops >= 0) rs->ReleaseIndexBuffer(iIBSeaDrops); 
-	if (iVBSeaDrops >= 0) rs->ReleaseVertexBuffer(iVBSeaDrops ); 
+	if (iIBSeaDrops >= 0) rs->ReleaseIndexBuffer(iIBSeaDrops);
+	if (iVBSeaDrops >= 0) rs->ReleaseVertexBuffer(iVBSeaDrops);
 
 	iIBSeaDrops = -1;
 	iVBSeaDrops = -1;
-
 }
 
-void RAIN::GenerateRandomDrop(CVECTOR *vPos)
+void RAIN::GenerateRandomDrop(CVECTOR* vPos)
 {
 	float fDist = 1.5f + FRAND(fRainRadius);
 	float fAngle = FRAND(PIm2);
@@ -75,12 +74,12 @@ void RAIN::SetDevice()
 
 void RAIN::GenerateRain()
 {
-	uint32_t	i;
+	uint32_t i;
 
-	entid_t	ent;
+	entid_t ent;
 	if (!(ent = EntityManager::GetEntityId("weather")))
 		throw std::exception("No found WEATHER entity!");
-	pWeather = (WEATHER_BASE*)EntityManager::GetEntityPointer(ent); 
+	pWeather = (WEATHER_BASE*)EntityManager::GetEntityPointer(ent);
 	Assert(pWeather);
 
 	Release();
@@ -94,13 +93,13 @@ void RAIN::GenerateRain()
 	//float fRainRadiusD2 = fRainRadius / 2.0f;
 	//dwNumDrops = Weather->GetLong(whi_rain_drops_num);
 
-	if (dwNumDrops==0) return;
+	if (dwNumDrops == 0) return;
 
 	dwNumRainBlocks = 4;
 
-	dwRainR = (dwRainColor>>0x10)&0xFF;
-	dwRainG = (dwRainColor>>0x8)&0xFF;
-	dwRainB = (dwRainColor)&0xFF;
+	dwRainR = (dwRainColor >> 0x10) & 0xFF;
+	dwRainG = (dwRainColor >> 0x8) & 0xFF;
+	dwRainB = (dwRainColor) & 0xFF;
 
 	fWindPower = pWeather->GetFloat(whf_wind_speed) / 18.0f;
 	fWindAngle = pWeather->GetFloat(whf_wind_angle);
@@ -113,7 +112,7 @@ void RAIN::GenerateRain()
 	pRainBlocks[2].vPos = CVECTOR(0.0f, fRainHeight / 2.0f, 0.0f);
 	pRainBlocks[3].vPos = CVECTOR(0.0f, fRainHeight + fRainHeight / 2.0f, 0.0f);
 
-	for (i=0;i<dwNumRainBlocks;i++)
+	for (i = 0; i < dwNumRainBlocks; i++)
 	{
 		InitialSomeBlockParameters(i);
 
@@ -124,30 +123,33 @@ void RAIN::GenerateRain()
 		pRainBlocks[i].fWindSpeedJitter = FRAND(jitter) - jitter / 2.0f;
 	}
 
-	iVertexBuffer = rs->CreateVertexBuffer(D3DRAINVERTEX_FORMAT,dwNumDrops*2*sizeof(RAINVERTEX),D3DUSAGE_WRITEONLY);
-	if (iVertexBuffer<0) return;
+	iVertexBuffer = rs->
+		CreateVertexBuffer(D3DRAINVERTEX_FORMAT, dwNumDrops * 2 * sizeof(RAINVERTEX),D3DUSAGE_WRITEONLY);
+	if (iVertexBuffer < 0) return;
 
-	RAINVERTEX * pVertBuf = (RAINVERTEX*)rs->LockVertexBuffer(iVertexBuffer);
+	RAINVERTEX* pVertBuf = (RAINVERTEX*)rs->LockVertexBuffer(iVertexBuffer);
 	if (!pVertBuf) return;
 
-	for (i=0;i<dwNumDrops;i++) 
+	for (i = 0; i < dwNumDrops; i++)
 	{
-		GenerateRandomDrop(&pVertBuf[i*2+0].vPos);
-		pVertBuf[i*2+0].dwColor = 0xFFFFFFFF;
- 
-		pVertBuf[i*2+1].vPos = pVertBuf[i*2+0].vPos;
-		pVertBuf[i*2+1].vPos.y += fDropLength;
-		pVertBuf[i*2+1].dwColor = 0xFFFFFF;
+		GenerateRandomDrop(&pVertBuf[i * 2 + 0].vPos);
+		pVertBuf[i * 2 + 0].dwColor = 0xFFFFFFFF;
+
+		pVertBuf[i * 2 + 1].vPos = pVertBuf[i * 2 + 0].vPos;
+		pVertBuf[i * 2 + 1].vPos.y += fDropLength;
+		pVertBuf[i * 2 + 1].dwColor = 0xFFFFFF;
 	}
 	rs->UnLockVertexBuffer(iVertexBuffer);
 
-	iIBSeaDrops = rs->CreateIndexBuffer(NUM_SEA_DROPS * 2 * 3 * sizeof(uint16_t), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
-	iVBSeaDrops = rs->CreateVertexBuffer(D3DSEADROPVERTEX_FORMAT, NUM_SEA_DROPS * 4 * sizeof(SEADROPVERTEX), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY); 
+	iIBSeaDrops = rs->CreateIndexBuffer(NUM_SEA_DROPS * 2 * 3 * sizeof(uint16_t),
+	                                    D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
+	iVBSeaDrops = rs->CreateVertexBuffer(D3DSEADROPVERTEX_FORMAT, NUM_SEA_DROPS * 4 * sizeof(SEADROPVERTEX),
+	                                     D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
 
-	uint16_t * pI = (uint16_t *)rs->LockIndexBuffer(iIBSeaDrops);
-	if (pI) 
+	uint16_t* pI = (uint16_t *)rs->LockIndexBuffer(iIBSeaDrops);
+	if (pI)
 	{
-		for (long i=0; i<NUM_SEA_DROPS; i++)
+		for (long i = 0; i < NUM_SEA_DROPS; i++)
 		{
 			*pI++ = uint16_t(i * 4 + 0);
 			*pI++ = uint16_t(i * 4 + 3);
@@ -183,12 +185,12 @@ bool RAIN::Init()
 	return true;
 }
 
-bool RAIN::CreateState(ENTITY_STATE_GEN * state_gen)
+bool RAIN::CreateState(ENTITY_STATE_GEN* state_gen)
 {
 	return true;
 }
 
-bool RAIN::LoadState(ENTITY_STATE * state)
+bool RAIN::LoadState(ENTITY_STATE* state)
 {
 	return true;
 }
@@ -202,7 +204,7 @@ void RAIN::InitialSomeBlockParameters(long iIdx)
 	float fDist = 6.0f * 5.4f * fWindPower;
 	pRainBlocks[iIdx].vPos.x = -fDist * sinf(fWindAngle);
 	pRainBlocks[iIdx].vPos.z = -fDist * cosf(fWindAngle);
-	pRainBlocks[iIdx].fWindFlaw	= 0.0f;
+	pRainBlocks[iIdx].fWindFlaw = 0.0f;
 }
 
 void RAIN::RealizeDrops(uint32_t Delta_Time)
@@ -221,7 +223,7 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 	vCamPos = mView.Pos();
 
 	entid_t sea_id;
-	SEA_BASE * pSea = nullptr;
+	SEA_BASE* pSea = nullptr;
 	if (sea_id = EntityManager::GetEntityId("sea"))
 		pSea = (SEA_BASE*)EntityManager::GetEntityPointer(sea_id);
 
@@ -233,7 +235,8 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 	if (fDropsDeltaTime < 0.0f) fDropsDeltaTime = 0.0f;
 
 	const auto its = EntityManager::GetEntityIdIterators(RAIN_DROPS);
-	if (its.first != its.second) {
+	if (its.first != its.second)
+	{
 		for (long i = 0; i < iNumNewDrops1 + iNumNewDrops2; i++)
 		{
 			SHIP_BASE* pShip = nullptr;
@@ -281,7 +284,7 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 				//sea_drop.vPos = vSrc + fTest * (vDst - vSrc);
 				//sea_drop.fTime = 1.0f;
 				//sea_drop.fLifeTime = 1.0f;
-				aSeaDrops.push_back(seadrop_t{ vSrc + fTest * (vDst - vSrc), 1.0f, 1.0f });
+				aSeaDrops.push_back(seadrop_t{vSrc + fTest * (vDst - vSrc), 1.0f, 1.0f});
 			}
 
 			if (fTest <= 1.0f)
@@ -302,7 +305,7 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 						//ship_t & ship = aShips[aShips.Add()];
 						//ship.eid = pShip->GetId();
 						//ship.pShip = pShip;
-						aShips.push_back(ship_t{ pShip->GetId(), pShip });
+						aShips.push_back(ship_t{pShip->GetId(), pShip});
 					}
 					CMatrix mShip = *pShip->GetMatrix();
 					mShip.Transposition();
@@ -315,7 +318,7 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 
 	aRects.clear();
 
-	for (long i=0; i<aShips.size(); i++)
+	for (long i = 0; i < aShips.size(); i++)
 	{
 		if (!EntityManager::GetEntityPointer(aShips[i].eid))
 		{
@@ -323,9 +326,9 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 		}
 	}
 
-	for (long i=0; i<aDrops.size(); i++)
+	for (long i = 0; i < aDrops.size(); i++)
 	{
-		drop_t & drop = aDrops[i];
+		drop_t& drop = aDrops[i];
 
 		drop.fLifeTime -= fDeltaTime;
 		if (drop.fLifeTime <= 0.0f || (drop.iShip >= 0 && !aShips[drop.iShip].pShip))
@@ -366,63 +369,64 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 	rs->SetWorld(IMatrix);
 	rs->TextureSet(0, iSeaDropTex);
 
-	SEADROPVERTEX * pVSeaDropBuffer = (SEADROPVERTEX *)rs->LockVertexBuffer(iVBSeaDrops, D3DLOCK_DISCARD);
+	SEADROPVERTEX* pVSeaDropBuffer = (SEADROPVERTEX *)rs->LockVertexBuffer(iVBSeaDrops, D3DLOCK_DISCARD);
 	long n = 0;
-	if (pVSeaDropBuffer) for (long i=0; i<aSeaDrops.size(); i++)
-	{
-		seadrop_t & drop = aSeaDrops[i];
-
-		drop.fTime -= fDeltaTime;
-		if (drop.fTime <= 0.0f)
+	if (pVSeaDropBuffer)
+		for (long i = 0; i < aSeaDrops.size(); i++)
 		{
-			//aSeaDrops.ExtractNoShift(i);
-			aSeaDrops[i] = aSeaDrops.back();
-			aSeaDrops.pop_back();
-			i--;
-			continue;
+			seadrop_t& drop = aSeaDrops[i];
+
+			drop.fTime -= fDeltaTime;
+			if (drop.fTime <= 0.0f)
+			{
+				//aSeaDrops.ExtractNoShift(i);
+				aSeaDrops[i] = aSeaDrops.back();
+				aSeaDrops.pop_back();
+				i--;
+				continue;
+			}
+
+			CVECTOR v = drop.vPos;
+			v.y = pSea->WaveXZ(v.x, v.z) + 0.015f;
+
+			SEADROPVERTEX* pV = &pVSeaDropBuffer[n * 4];
+
+			float fSize = 0.15f;
+			long frame = long((1.0f - drop.fTime / drop.fLifeTime) * 8.0f);
+			float du = 1.0f / 8.0f;
+			float u = float(frame) * du;
+
+			pV[0].vPos = v + CVECTOR(-fSize, 0.0f, -fSize);
+			pV[0].dwColor = 0xFFFFFFFF;
+			pV[0].tu = u;
+			pV[0].tv = 0.0f;
+
+			pV[1].vPos = v + CVECTOR(fSize, 0.0f, -fSize);
+			pV[1].dwColor = 0xFFFFFFFF;
+			pV[1].tu = u + du;
+			pV[1].tv = 0.0f;
+
+			pV[2].vPos = v + CVECTOR(fSize, 0.0f, fSize);
+			pV[2].dwColor = 0xFFFFFFFF;
+			pV[2].tu = u + du;
+			pV[2].tv = 1.0f;
+
+			pV[3].vPos = v + CVECTOR(-fSize, 0.0f, fSize);
+			pV[3].dwColor = 0xFFFFFFFF;
+			pV[3].tu = u;
+			pV[3].tv = 1.0f;
+
+			n++;
+
+			if (n >= NUM_SEA_DROPS)
+			{
+				rs->UnLockVertexBuffer(iVBSeaDrops);
+				rs->DrawBuffer(iVBSeaDrops, sizeof(SEADROPVERTEX), iIBSeaDrops, 0, n * 4, 0, n * 2, "sea_rain_drops");
+
+				n = 0;
+				pVSeaDropBuffer = (SEADROPVERTEX *)rs->LockVertexBuffer(iVBSeaDrops, D3DLOCK_DISCARD);
+			}
 		}
-
-		CVECTOR v = drop.vPos;
-		v.y = pSea->WaveXZ(v.x, v.z) + 0.015f;
-
-		SEADROPVERTEX * pV = &pVSeaDropBuffer[n * 4];
-
-		float fSize = 0.15f;
-		long frame = long((1.0f - drop.fTime / drop.fLifeTime) * 8.0f);
-		float du = 1.0f / 8.0f;
-		float u = float(frame) * du; 
-
-		pV[0].vPos = v + CVECTOR(-fSize, 0.0f, -fSize);
-		pV[0].dwColor = 0xFFFFFFFF;
-		pV[0].tu = u; 
-		pV[0].tv = 0.0f;
-
-		pV[1].vPos = v + CVECTOR(fSize, 0.0f, -fSize);
-		pV[1].dwColor = 0xFFFFFFFF;
-		pV[1].tu = u + du; 
-		pV[1].tv = 0.0f;
-
-		pV[2].vPos = v + CVECTOR(fSize, 0.0f, fSize);
-		pV[2].dwColor = 0xFFFFFFFF;
-		pV[2].tu = u + du; 
-		pV[2].tv = 1.0f;
-
-		pV[3].vPos = v + CVECTOR(-fSize, 0.0f, fSize);
-		pV[3].dwColor = 0xFFFFFFFF;
-		pV[3].tu = u; 
-		pV[3].tv = 1.0f;
-
-		n++;
-
-		if (n >= NUM_SEA_DROPS)
-		{
-			rs->UnLockVertexBuffer(iVBSeaDrops);
-			rs->DrawBuffer(iVBSeaDrops, sizeof(SEADROPVERTEX), iIBSeaDrops, 0, n * 4, 0, n * 2, "sea_rain_drops");
-
-			n = 0;
-			pVSeaDropBuffer = (SEADROPVERTEX *)rs->LockVertexBuffer(iVBSeaDrops, D3DLOCK_DISCARD);
-		}
-	}
 
 	if (n > 0)
 	{
@@ -433,84 +437,90 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 
 void RAIN::Realize(uint32_t Delta_Time)
 {
-	if( !bShow ) return;
+	if (!bShow) return;
 
-	uint32_t	i;
-	float	fFov;
+	uint32_t i;
+	float fFov;
 
-	rs->GetCamera(vCamPos,vCamAng,fFov);
+	rs->GetCamera(vCamPos, vCamAng, fFov);
 
-	if (iVertexBuffer>=0)
+	if (iVertexBuffer >= 0)
 	{
 		bool bDraw = rs->TechniqueExecuteStart("rain");
 
-		if (bDraw) for (i=0;i<dwNumRainBlocks;i++)
-		{
-			auto dwAlpha = uint32_t(255.0f * float(pRainBlocks[i].dwTime) / float(dwRainTimeBlend));
-			if (dwAlpha>dwRainMaxBlend) dwAlpha = dwRainMaxBlend;
-			uint32_t dwColor = ARGB(dwAlpha,dwRainR,dwRainG,dwRainB);
-			rs->SetRenderState(D3DRS_TEXTUREFACTOR,dwColor);
-
-			CMatrix mY1,mX,mY2,mWorld;
-
-			mWorld.BuildPosition(vCamPos.x + pRainBlocks[i].vPos.x,pRainBlocks[i].vPos.y,vCamPos.z + pRainBlocks[i].vPos.z);
-
-			mY1.BuildRotateY(pRainBlocks[i].vAng.y);
-			mX.BuildRotateX(fWindPower + pRainBlocks[i].fWindSpeedJitter);
-			mY2.BuildRotateY(PI+fWindAngle);
-
-			mWorld = mY1 * mX * mY2 * mWorld;
-
-			pRainBlocks[i].vPos.y -= fRainSpeed*0.2f * float(Delta_Time) / 60.0f;
-			pRainBlocks[i].fWindFlaw += FRAND(fRainJitter) - fRainJitter/2.0f;
-			float f = 0.0f; //pRainBlocks[i].fWindFlaw * float(Delta_Time) / 50.0f;
-			pRainBlocks[i].vPos.x += (fRainSpeed*fRainWindSpeed+f) * float(Delta_Time) / 60.0f * sinf(fWindAngle);
-			pRainBlocks[i].vPos.z += (fRainSpeed*fRainWindSpeed+f) * float(Delta_Time) / 60.0f * cosf(fWindAngle);
-			pRainBlocks[i].dwTime += Delta_Time;
-			if (pRainBlocks[i].vPos.y<vCamPos.y-fRainHeight) 
+		if (bDraw)
+			for (i = 0; i < dwNumRainBlocks; i++)
 			{
-				InitialSomeBlockParameters(i);
-				pRainBlocks[i].vPos.y += fRainHeight*2.0f - 1.0f;
-				pRainBlocks[i].vAng.y = FRAND(PIm2);
-				pRainBlocks[i].dwTime = 0;
+				auto dwAlpha = uint32_t(255.0f * float(pRainBlocks[i].dwTime) / float(dwRainTimeBlend));
+				if (dwAlpha > dwRainMaxBlend) dwAlpha = dwRainMaxBlend;
+				uint32_t dwColor = ARGB(dwAlpha, dwRainR, dwRainG, dwRainB);
+				rs->SetRenderState(D3DRS_TEXTUREFACTOR, dwColor);
+
+				CMatrix mY1, mX, mY2, mWorld;
+
+				mWorld.BuildPosition(vCamPos.x + pRainBlocks[i].vPos.x, pRainBlocks[i].vPos.y,
+				                     vCamPos.z + pRainBlocks[i].vPos.z);
+
+				mY1.BuildRotateY(pRainBlocks[i].vAng.y);
+				mX.BuildRotateX(fWindPower + pRainBlocks[i].fWindSpeedJitter);
+				mY2.BuildRotateY(PI + fWindAngle);
+
+				mWorld = mY1 * mX * mY2 * mWorld;
+
+				pRainBlocks[i].vPos.y -= fRainSpeed * 0.2f * float(Delta_Time) / 60.0f;
+				pRainBlocks[i].fWindFlaw += FRAND(fRainJitter) - fRainJitter / 2.0f;
+				float f = 0.0f; //pRainBlocks[i].fWindFlaw * float(Delta_Time) / 50.0f;
+				pRainBlocks[i].vPos.x += (fRainSpeed * fRainWindSpeed + f) * float(Delta_Time) / 60.0f * sinf(
+					fWindAngle);
+				pRainBlocks[i].vPos.z += (fRainSpeed * fRainWindSpeed + f) * float(Delta_Time) / 60.0f * cosf(
+					fWindAngle);
+				pRainBlocks[i].dwTime += Delta_Time;
+				if (pRainBlocks[i].vPos.y < vCamPos.y - fRainHeight)
+				{
+					InitialSomeBlockParameters(i);
+					pRainBlocks[i].vPos.y += fRainHeight * 2.0f - 1.0f;
+					pRainBlocks[i].vAng.y = FRAND(PIm2);
+					pRainBlocks[i].dwTime = 0;
+				}
+
+				rs->SetTransform(D3DTS_WORLD, mWorld);
+
+				rs->DrawPrimitive(D3DPT_LINELIST, iVertexBuffer, sizeof(RAINVERTEX), 0, dwNumDrops);
 			}
-
-			rs->SetTransform(D3DTS_WORLD, mWorld);
-
-			rs->DrawPrimitive(D3DPT_LINELIST, iVertexBuffer, sizeof(RAINVERTEX), 0, dwNumDrops);
+		if (bDraw) while (rs->TechniqueExecuteNext())
+		{
 		}
-		if (bDraw) while (rs->TechniqueExecuteNext()) {};
-	
+
 		RealizeDrops(Delta_Time);
 	}
 	// draw rainbow
 	if (bRainbowEnable)
 	{
-		RS_RECT		rs_rect;
-		CVECTOR vPos = vCamPos + CVECTOR(0.32f,0.0f,0.72f) * 1900.0f;
+		RS_RECT rs_rect;
+		CVECTOR vPos = vCamPos + CVECTOR(0.32f, 0.0f, 0.72f) * 1900.0f;
 		vPos.y = 350.0f;
 		rs_rect.dwColor = 0x0F0F0F;
 		rs_rect.vPos = vPos;
 		rs_rect.fSize = 1600.0f;
 		rs_rect.fAngle = 0.0f;
 
-		rs->TextureSet(0,iRainbowTex);
-		rs->DrawRects(&rs_rect,1,"rainbow");
+		rs->TextureSet(0, iRainbowTex);
+		rs->DrawRects(&rs_rect, 1, "rainbow");
 	}
 }
 
-uint64_t RAIN::ProcessMessage(MESSAGE & message)
+uint64_t RAIN::ProcessMessage(MESSAGE& message)
 {
-	switch(message.Long())
+	switch (message.Long())
 	{
 	case 1:
-		bShow = (0!=message.Long());
+		bShow = (0 != message.Long());
 		break;
 	}
 	return 0;
 }
 
-uint32_t RAIN::AttributeChanged(ATTRIBUTES * pAttribute)
+uint32_t RAIN::AttributeChanged(ATTRIBUTES* pAttribute)
 {
 	if (*pAttribute == "Clear")
 	{
@@ -522,39 +532,120 @@ uint32_t RAIN::AttributeChanged(ATTRIBUTES * pAttribute)
 	}
 
 	if (*pAttribute == "isDone")
-	{ 
-		GenerateRain(); return 0; 
+	{
+		GenerateRain();
+		return 0;
 	}
 
-	ATTRIBUTES * pParent = pAttribute->GetParent();
+	ATTRIBUTES* pParent = pAttribute->GetParent();
 	if (*pParent == "RainDrops")
 	{
-		if (*pAttribute == "DropsNearNum")		{ dwDropsNearNum = pAttribute->GetAttributeAsDword(); return 0; }
-		if (*pAttribute == "DropsFarNum")		{ dwDropsFarNum = pAttribute->GetAttributeAsDword(); return 0; }
-		if (*pAttribute == "DropsNearRadius")	{ fDropsNearRadius = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "DropsFarRadius")	{ fDropsFarRadius = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "DropsLifeTime")		{ fDropsLifeTime = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "DropsSize")			{ fDropsSize = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "DropsColor")		{ dwDropsColor = pAttribute->GetAttributeAsDword(); return 0; }
-		if (*pAttribute == "DropsTexture")		{ sDropsTexture = pAttribute->GetThisAttr(); return 0; }
+		if (*pAttribute == "DropsNearNum")
+		{
+			dwDropsNearNum = pAttribute->GetAttributeAsDword();
+			return 0;
+		}
+		if (*pAttribute == "DropsFarNum")
+		{
+			dwDropsFarNum = pAttribute->GetAttributeAsDword();
+			return 0;
+		}
+		if (*pAttribute == "DropsNearRadius")
+		{
+			fDropsNearRadius = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "DropsFarRadius")
+		{
+			fDropsFarRadius = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "DropsLifeTime")
+		{
+			fDropsLifeTime = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "DropsSize")
+		{
+			fDropsSize = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "DropsColor")
+		{
+			dwDropsColor = pAttribute->GetAttributeAsDword();
+			return 0;
+		}
+		if (*pAttribute == "DropsTexture")
+		{
+			sDropsTexture = pAttribute->GetThisAttr();
+			return 0;
+		}
 	}
 	else if (*pParent == "Rainbow")
 	{
-		if (*pAttribute == "Enable")			{ bRainbowEnable = pAttribute->GetAttributeAsDword() == 1; return 0; }
-		if (*pAttribute == "Texture")			{ sRainbowTexture = pAttribute->GetThisAttr(); return 0; }
+		if (*pAttribute == "Enable")
+		{
+			bRainbowEnable = pAttribute->GetAttributeAsDword() == 1;
+			return 0;
+		}
+		if (*pAttribute == "Texture")
+		{
+			sRainbowTexture = pAttribute->GetThisAttr();
+			return 0;
+		}
 	}
 	else
 	{
-		if (*pAttribute == "color")				{ dwRainColor = pAttribute->GetAttributeAsDword(); return 0; }
-		if (*pAttribute == "NumDrops")			{ dwNumDrops = pAttribute->GetAttributeAsDword(); return 0; }
-		if (*pAttribute == "DropLength")		{ fDropLength = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "Height")			{ fRainHeight = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "Radius")			{ fRainRadius = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "Speed")				{ fRainSpeed = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "Jitter")			{ fRainJitter = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "WindSpeedJitter")	{ fRainWindSpeedJitter = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "TimeBlend")			{ dwRainTimeBlend = pAttribute->GetAttributeAsDword(); return 0; }
-		if (*pAttribute == "MaxBlend")			{ dwRainMaxBlend = pAttribute->GetAttributeAsDword(); return 0; }
+		if (*pAttribute == "color")
+		{
+			dwRainColor = pAttribute->GetAttributeAsDword();
+			return 0;
+		}
+		if (*pAttribute == "NumDrops")
+		{
+			dwNumDrops = pAttribute->GetAttributeAsDword();
+			return 0;
+		}
+		if (*pAttribute == "DropLength")
+		{
+			fDropLength = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "Height")
+		{
+			fRainHeight = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "Radius")
+		{
+			fRainRadius = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "Speed")
+		{
+			fRainSpeed = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "Jitter")
+		{
+			fRainJitter = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "WindSpeedJitter")
+		{
+			fRainWindSpeedJitter = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "TimeBlend")
+		{
+			dwRainTimeBlend = pAttribute->GetAttributeAsDword();
+			return 0;
+		}
+		if (*pAttribute == "MaxBlend")
+		{
+			dwRainMaxBlend = pAttribute->GetAttributeAsDword();
+			return 0;
+		}
 	}
 
 	return 0;

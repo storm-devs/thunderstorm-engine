@@ -25,40 +25,41 @@ public:
 		Command_ForceDword = 0xffffffff
 	};
 
-	BIShipIcon( entid_t BIEntityID, VDX9RENDER* pRS );
+	BIShipIcon(entid_t BIEntityID, VDX9RENDER* pRS);
 	~BIShipIcon();
 
 	void Draw();
-	void Init( ATTRIBUTES* pRoot, ATTRIBUTES* pA );
+	void Init(ATTRIBUTES* pRoot, ATTRIBUTES* pA);
 
-	long AddTexture( const char* pcTextureName, long nCols, long nRows );
+	long AddTexture(const char* pcTextureName, long nCols, long nRows);
 
 	void Recollect();
-	void SetUpdate() {m_bMakeUpdate=true;}
+	void SetUpdate() { m_bMakeUpdate = true; }
 	bool IsActive();
 	void SetActive(bool bActive);
 	void MakeControl();
-	void ExecuteCommand( CommandType command );
+	void ExecuteCommand(CommandType command);
 
 protected:
 	void Release();
 	long CalculateShipQuantity();
-	void UpdateBuffers( long nShipQ );
+	void UpdateBuffers(long nShipQ);
 	void FillIndexBuffer();
 	void FillVertexBuffer();
-	long WriteSquareToVBuff( BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size );
-	long WriteSquareToVBuffWithProgress( BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size, float fClampUp, float fClampDown, float fClampLeft, float fClampRight );
+	long WriteSquareToVBuff(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size);
+	long WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size,
+	                                    float fClampUp, float fClampDown, float fClampLeft, float fClampRight);
 	void UpdateCommandList();
 
 	long GetCurrentCommandTopLine();
 	long GetCurrentCommandCharacterIndex();
 	long GetCurrentCommandMode();
 
-	ATTRIBUTES* GetSailorQuantityAttribute( SHIP_DESCRIBE_LIST::SHIP_DESCR * pSD );
+	ATTRIBUTES* GetSailorQuantityAttribute(SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD);
 	float GetProgressShipHP(long nShipNum);
 	float GetProgressShipSP(long nShipNum);
 	float GetProgressShipClass(long nShipNum);
-	void GetShipUVFromPictureIndex( long nPicIndex, FRECT& rUV );
+	void GetShipUVFromPictureIndex(long nPicIndex, FRECT& rUV);
 
 	long GetShipClass(long nCharIdx);
 
@@ -113,6 +114,7 @@ protected:
 		std::string sShipName;
 		long nShipClass;
 	} m_Ship[MAX_SHIP_QUANTITY];
+
 	long m_nShipQuantity;
 	long m_nCurrentShipIndex;
 	long m_nCommandListVerticalOffset;

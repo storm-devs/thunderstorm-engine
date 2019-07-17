@@ -21,32 +21,33 @@ public:
 		Command_ForceDword = 0xffffffff
 	};
 
-	BISignIcon( entid_t BIEntityID, VDX9RENDER* pRS );
+	BISignIcon(entid_t BIEntityID, VDX9RENDER* pRS);
 	virtual ~BISignIcon();
 
 	virtual void Draw();
-	virtual void Init( ATTRIBUTES* pRoot, ATTRIBUTES* pA );
+	virtual void Init(ATTRIBUTES* pRoot, ATTRIBUTES* pA);
 
 	void Recollect();
-	void SetUpdate() {m_bMakeUpdate=true;}
-	bool IsActive() {return m_bActive;}
+	void SetUpdate() { m_bMakeUpdate = true; }
+	bool IsActive() { return m_bActive; }
 	void SetActive(bool bActive);
 
 	void MakeControl();
-	virtual void ExecuteCommand( CommandType command ) = 0;
+	virtual void ExecuteCommand(CommandType command) = 0;
 
-	long GetLineY(long n) {return (long)m_Sign[n].pntPos.x;}
+	long GetLineY(long n) { return (long)m_Sign[n].pntPos.x; }
 
 protected:
 	virtual long CalculateSignQuantity();
 	virtual void UpdateChildrens() = 0;
 
 	void Release();
-	void UpdateBuffers( long nQ );
+	void UpdateBuffers(long nQ);
 	void FillIndexBuffer();
 	void FillVertexBuffer();
-	long WriteSquareToVBuff( BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size );
-	long WriteSquareToVBuffWithProgress( BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size, float fClampUp, float fClampDown, float fClampLeft, float fClampRight );
+	long WriteSquareToVBuff(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size);
+	long WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size,
+	                                    float fClampUp, float fClampDown, float fClampLeft, float fClampRight);
 
 	VDX9RENDER* m_pRS;
 
@@ -105,6 +106,7 @@ protected:
 		FRECT rFaceUV;
 		std::string sText;
 	} m_Sign[MAX_SIGN_QUANTITY];
+
 	long m_nMaxSquareQ;
 	long m_nSignQ;
 };

@@ -2,7 +2,6 @@
 #define NAMES_HEADER
 
 
-
 #define EMISSION_RATE								"Emission rate"
 #define MAX_PARTICLES_COUNT					"Max Particles count"
 #define PARTICLE_LIFE_TIME					"Life time"
@@ -41,9 +40,6 @@
 #define PARTICLE_GRAVITATION_K			"ForceField_gravity"
 #define PARTICLE_DIR_ORIENT					"Direction Orient"
 #define PARTICLE_ADDPOWER						"Add Technique Power"
-
-
-
 
 
 #endif

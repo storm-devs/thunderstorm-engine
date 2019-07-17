@@ -6,11 +6,11 @@
 //Конструирование, деструктурирование
 //============================================================================================
 
-extern float	fCausticScale, fCausticDelta, fFogDensity, fCausticDistance;
-extern CVECTOR4	v4CausticColor;
-extern bool		bCausticEnable;
-extern float	fCausticFrame;
-extern long		iCausticTex[32];
+extern float fCausticScale, fCausticDelta, fFogDensity, fCausticDistance;
+extern CVECTOR4 v4CausticColor;
+extern bool bCausticEnable;
+extern float fCausticFrame;
+extern long iCausticTex[32];
 
 LocModelRealizer::LocModelRealizer()
 {
@@ -37,12 +37,14 @@ void LocModelRealizer::Execute(uint32_t delta_time)
 
 void LocModelRealizer::Realize(uint32_t delta_time)
 {
-	if( !bShow ) return;
-	Entity* pE = EntityManager::GetEntityPointer( eid_model );
-	if( pE ) {
+	if (!bShow) return;
+	Entity* pE = EntityManager::GetEntityPointer(eid_model);
+	if (pE)
+	{
 		BOOL bLight0Enable;
 		uint32_t dwLighting;
-		if (lights) {
+		if (lights)
+		{
 			rs->GetRenderState(D3DRS_LIGHTING, &dwLighting);
 			rs->GetLightEnable(0, &bLight0Enable);
 			lights->SetCharacterLights();
@@ -50,8 +52,9 @@ void LocModelRealizer::Realize(uint32_t delta_time)
 			rs->LightEnable(0, TRUE);
 		}
 
-		pE->ProcessStage(Entity::Stage::realize, delta_time);
-		if (lights) {
+		pE->ProcessStage(Stage::realize, delta_time);
+		if (lights)
+		{
 			lights->DelCharacterLights();
 			rs->SetRenderState(D3DRS_LIGHTING, dwLighting);
 			rs->LightEnable(0, bLight0Enable);
@@ -78,23 +81,23 @@ void LocModelRealizer::Realize(uint32_t delta_time)
 
 			// рисуем каустики
 			gs->SetCausticMode(true);
-			pE->ProcessStage(Entity::Stage::realize, 0);;
+			pE->ProcessStage(Stage::realize, 0);
 			gs->SetCausticMode(false);
 		}
 	}
 }
 
 //Сообщения
-uint64_t LocModelRealizer::ProcessMessage(MESSAGE & message)
+uint64_t LocModelRealizer::ProcessMessage(MESSAGE& message)
 {
-	switch(message.Long())
+	switch (message.Long())
 	{
 	case 1:
 		eid_model = message.EntityID();
 		lights = (Lights*)message.Pointer();
-	break;
+		break;
 	case 2:
-		bShow = message.Long()!=0;
+		bShow = message.Long() != 0;
 		break;
 	}
 	return 0;

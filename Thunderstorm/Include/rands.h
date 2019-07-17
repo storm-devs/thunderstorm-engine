@@ -5,8 +5,8 @@
 inline float rand(float r)
 // returns random float
 {
-	static const auto randMax = (float) RAND_MAX;
-	return r * (((float) rand()) / randMax);
+	static const auto randMax = (float)RAND_MAX;
+	return r * (((float)rand()) / randMax);
 }
 
 //--------------------------------------------------------------------

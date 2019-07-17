@@ -4,7 +4,7 @@
 #include "Sd2_h/SaveLoad.h"
 #include "EntityManager.h"
 
-entid_t	FirePlace::eidSound;
+entid_t FirePlace::eidSound;
 
 FirePlace::FirePlace()
 {
@@ -21,13 +21,16 @@ FirePlace::~FirePlace()
 	Stop();
 }
 
-bool FirePlace::CreateParticle(const char * pParticleSmokeName, const char * pParticleFireName)
+bool FirePlace::CreateParticle(const char* pParticleSmokeName, const char* pParticleFireName)
 {
 	if (const auto eidParticle = EntityManager::GetEntityId("particles"))
 	{
 		CVECTOR vPos = GetPos();
-		pParticleSmoke = (VPARTICLE_SYSTEM*)api->Send_Message(eidParticle, "lsffffffl", PS_CREATE_RIC, pParticleSmokeName, vPos.x, vPos.y, vPos.z, 0.0f, 1.0f, 0.0f, 0);
-		pParticleFire = (VPARTICLE_SYSTEM*)api->Send_Message(eidParticle, "lsffffffl", PS_CREATE_RIC, pParticleFireName, vPos.x, vPos.y, vPos.z, 0.0f, 1.0f, 0.0f, 0);
+		pParticleSmoke = (VPARTICLE_SYSTEM*)api->Send_Message(eidParticle, "lsffffffl", PS_CREATE_RIC,
+		                                                      pParticleSmokeName, vPos.x, vPos.y, vPos.z, 0.0f, 1.0f,
+		                                                      0.0f, 0);
+		pParticleFire = (VPARTICLE_SYSTEM*)api->Send_Message(eidParticle, "lsffffffl", PS_CREATE_RIC, pParticleFireName,
+		                                                     vPos.x, vPos.y, vPos.z, 0.0f, 1.0f, 0.0f, 0);
 		return true;
 	}
 	return false;
@@ -37,11 +40,11 @@ void FirePlace::DeleteParticle()
 {
 	if (const auto eidParticle = EntityManager::GetEntityId("particles"))
 	{
-		if(pParticleSmoke && api->Send_Message(eidParticle,"ll",PS_VALIDATE_PARTICLE,pParticleSmoke))
+		if (pParticleSmoke && api->Send_Message(eidParticle, "ll",PS_VALIDATE_PARTICLE, pParticleSmoke))
 		{
-			pParticleSmoke->Pause(true);//>StopEmitter();
+			pParticleSmoke->Pause(true); //>StopEmitter();
 		}
-		if(pParticleFire && api->Send_Message(eidParticle,"ll",PS_VALIDATE_PARTICLE,pParticleFire))
+		if (pParticleFire && api->Send_Message(eidParticle, "ll",PS_VALIDATE_PARTICLE, pParticleFire))
 		{
 			pParticleFire->Pause(true);
 		}
@@ -61,13 +64,15 @@ void FirePlace::DeleteParticle()
 	pParticleFire = nullptr;
 }
 
-void FirePlace::Run(const char * pParticleSmokeName, const char * pParticleFireName, long _iBallCharacterIndex, const char * pSoundName, float _fRunTime)
+void FirePlace::Run(const char* pParticleSmokeName, const char* pParticleFireName, long _iBallCharacterIndex,
+                    const char* pSoundName, float _fRunTime)
 {
 	if (isActive()) return;
 	if (!CreateParticle(pParticleSmokeName, pParticleFireName)) return;
 	CVECTOR vPos = GetPos();
 	fRunTime = _fRunTime;
-	iSoundID = api->Send_Message(eidSound, "lsllllllfff", MSG_SOUND_PLAY, pSoundName, SOUND_WAV_3D, VOLUME_FX, false, true, false, 0, vPos.x, vPos.y, vPos.z);
+	iSoundID = api->Send_Message(eidSound, "lsllllllfff", MSG_SOUND_PLAY, pSoundName, SOUND_WAV_3D, VOLUME_FX, false,
+	                             true, false, 0, vPos.x, vPos.y, vPos.z);
 	SetActive(true);
 	sParticleSmokeName = pParticleSmokeName;
 	sParticleFireName = pParticleFireName;
@@ -98,17 +103,18 @@ void FirePlace::Execute(float fDeltaTime)
 	CVECTOR vCurPos = GetPos();
 
 	fRunTime -= fDeltaTime;
-	if (fRunTime < 0)// || pSea->WaveXZ(vCurPos.x, vCurPos.z) > vCurPos.y)
+	if (fRunTime < 0) // || pSea->WaveXZ(vCurPos.x, vCurPos.z) > vCurPos.y)
 	{
 		Stop();
 		return;
 	}
 	if (pParticleSmoke) pParticleSmoke->SetEmitter(vCurPos, CVECTOR(0.0f, 1.0f, 0.0f));
-	if (pParticleFire)	pParticleFire->SetEmitter(vCurPos, CVECTOR(0.0f, 1.0f, 0.0f));
-	api->Send_Message(eidSound, "lllfff", MSG_SOUND_SET_3D_PARAM, iSoundID, SOUND_PARAM_POSITION, vCurPos.x, vCurPos.y, vCurPos.z);
+	if (pParticleFire) pParticleFire->SetEmitter(vCurPos, CVECTOR(0.0f, 1.0f, 0.0f));
+	api->Send_Message(eidSound, "lllfff", MSG_SOUND_SET_3D_PARAM, iSoundID, SOUND_PARAM_POSITION, vCurPos.x, vCurPos.y,
+	                  vCurPos.z);
 }
 
-void FirePlace::Init(SEA_BASE * _pSea, SHIP_BASE * _pShip, GEOS::LABEL & label)
+void FirePlace::Init(SEA_BASE* _pSea, SHIP_BASE* _pShip, GEOS::LABEL& label)
 {
 	SetShip(_pShip);
 	pSea = _pSea;
@@ -119,7 +125,7 @@ void FirePlace::Init(SEA_BASE * _pSea, SHIP_BASE * _pShip, GEOS::LABEL & label)
 	SetPos(m.Pos());
 }
 
-void FirePlace::Save(CSaveLoad * pSL)
+void FirePlace::Save(CSaveLoad* pSL)
 {
 	pSL->SaveVector(vOrigPos);
 	pSL->SaveDword(bActive);
@@ -130,7 +136,7 @@ void FirePlace::Save(CSaveLoad * pSL)
 	pSL->SaveString(sSoundName);
 }
 
-void FirePlace::Load(CSaveLoad * pSL)
+void FirePlace::Load(CSaveLoad* pSL)
 {
 	vOrigPos = pSL->LoadVector();
 	bActive = pSL->LoadDword() != 0;

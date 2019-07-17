@@ -26,33 +26,32 @@ AICannon::~AICannon()
 
 void AICannon::Execute(float fDeltaTime)
 {
-	if (fTime2Action>=0.0f)
+	if (fTime2Action >= 0.0f)
 	{
-		if (isRecharged() && (!bCanRecharge || isEmpty()))
-			;
+		if (isRecharged() && (!bCanRecharge || isEmpty()));
 		else
 			fTime2Action -= fDeltaTime;
 	}
 
-	if (fTime2Action<=0.0f && isRecharged())
+	if (fTime2Action <= 0.0f && isRecharged())
 	{
 		bRecharged = false;
 		if (!isEmpty()) bReady2Fire = true;
 		return;
 	}
 
-	if (fTime2Action<=0.0f && isFired() && !isDamaged() && !isEmpty())
+	if (fTime2Action <= 0.0f && isFired() && !isDamaged() && !isEmpty())
 	{
 		RDTSC_B(dwTmpRDTSC);
 		RealFire();
 		RDTSC_E(dwTmpRDTSC);
-		return;
 	}
 }
 
-float AICannon::CalcHeightFireAngle(float _fSpeedV0, CVECTOR & vOur, CVECTOR & vEnemy)
+float AICannon::CalcHeightFireAngle(float _fSpeedV0, CVECTOR& vOur, CVECTOR& vEnemy)
 {
-	CVECTOR vTemp = vOur - vEnemy; vTemp.y = 0.0f;
+	CVECTOR vTemp = vOur - vEnemy;
+	vTemp.y = 0.0f;
 	double fDistance = sqrtf(~vTemp);
 	auto g = double(AIHelper::fGravity);
 	double a, b, c, d;
@@ -60,8 +59,8 @@ float AICannon::CalcHeightFireAngle(float _fSpeedV0, CVECTOR & vOur, CVECTOR & v
 	a = SQR(g) / 4.0f;
 	b = (fHeight * g - SQR(_fSpeedV0));
 	c = SQR(fHeight) + SQR(fDistance);
-	d = b*b - 4 * a * c;
-	if (d<0) return 0.0f;
+	d = b * b - 4 * a * c;
+	if (d < 0) return 0.0f;
 
 	double x1, x2, t1, t2;
 
@@ -81,7 +80,7 @@ float AICannon::CalcHeightFireAngle(float _fSpeedV0, CVECTOR & vOur, CVECTOR & v
 	return (fabs(sy0 - fHeight) < fabs(sy1 - fHeight)) ? float(fAlpha) : float(-fAlpha);
 }
 
-VAI_OBJBASE	* AICannon::GetAIObjPointer() const
+VAI_OBJBASE* AICannon::GetAIObjPointer() const
 {
 	return (VAI_OBJBASE*)EntityManager::GetEntityPointer(GetParentEID());
 }
@@ -89,7 +88,7 @@ VAI_OBJBASE	* AICannon::GetAIObjPointer() const
 float AICannon::GetDirY()
 {
 	CMatrix mRot;
-	VAI_OBJBASE * pAIObj = GetAIObjPointer();
+	VAI_OBJBASE* pAIObj = GetAIObjPointer();
 
 	(*pAIObj->GetMatrix()).Get3X3(mRot);
 
@@ -97,15 +96,15 @@ float AICannon::GetDirY()
 	return NormalizeAngle(atan2f(vDirTemp.x, vDirTemp.z));
 }
 
-CVECTOR	AICannon::GetDir()
+CVECTOR AICannon::GetDir()
 {
 	CMatrix mRot;
-	VAI_OBJBASE * pAIObj = GetAIObjPointer();
+	VAI_OBJBASE* pAIObj = GetAIObjPointer();
 	(*pAIObj->GetMatrix()).Get3X3(mRot);
 	return mRot * vDir;
 }
 
-CVECTOR	AICannon::GetPos()
+CVECTOR AICannon::GetPos()
 {
 	return *GetAIObjPointer()->GetMatrix() * vPos;
 }
@@ -115,7 +114,7 @@ void AICannon::RealFire()
 	CMatrix mRot;
 	// calculate real world cannon position and direction,
 	// calculate fire height and azimuth angle, and call script
-	VAI_OBJBASE * pAIObj = GetAIObjPointer();
+	VAI_OBJBASE* pAIObj = GetAIObjPointer();
 	CVECTOR vPosTemp = *pAIObj->GetMatrix() * vPos;
 	(*pAIObj->GetMatrix()).Get3X3(mRot);
 
@@ -125,7 +124,8 @@ void AICannon::RealFire()
 
 	CVECTOR vDirTemp = mRot * vDir;
 	float fDirY = NormalizeAngle(atan2f(vDirTemp.x, vDirTemp.z));
-	api->Event(CANNON_FIRE, "affffffff", pAHolder->GetACharacter(), vPosTemp.x, vPosTemp.y, vPosTemp.z, fSpeedV0, fFireDirection, fFireHeightAngle, fDirY, fMaxFireDistance);
+	api->Event(CANNON_FIRE, "affffffff", pAHolder->GetACharacter(), vPosTemp.x, vPosTemp.y, vPosTemp.z, fSpeedV0,
+	           fFireDirection, fFireHeightAngle, fDirY, fMaxFireDistance);
 
 	pAIObj->Fire(*pAIObj->GetMatrix() * (vPos + vDir));
 
@@ -134,11 +134,11 @@ void AICannon::RealFire()
 	Recharge();
 }
 
-bool AICannon::Fire(float _fSpeedV0, CVECTOR & _vFirePos)
+bool AICannon::Fire(float _fSpeedV0, CVECTOR& _vFirePos)
 {
 	if (isFired() || isRecharged() || isDamaged() || isEmpty()) return false;
 
-	VAI_OBJBASE * pAIObj = GetAIObjPointer();
+	VAI_OBJBASE* pAIObj = GetAIObjPointer();
 	CVECTOR vPosTemp = *pAIObj->GetMatrix() * vPos;
 	CMatrix mRot;
 	(*pAIObj->GetMatrix()).Get3X3(mRot);
@@ -155,7 +155,8 @@ bool AICannon::Fire(float _fSpeedV0, CVECTOR & _vFirePos)
 	fSpeedV0 = _fSpeedV0;
 
 	// calculate in script timeout before real fire
-	VDATA * pVData = api->Event(CANNON_GET_FIRE_TIME, "a", pAHolder->GetACharacter()); Assert(pVData);
+	VDATA* pVData = api->Event(CANNON_GET_FIRE_TIME, "a", pAHolder->GetACharacter());
+	Assert(pVData);
 	fTotalTime2Action = fTime2Action = pVData->GetFloat();
 	return true;
 }
@@ -175,7 +176,8 @@ void AICannon::Unload()
 
 void AICannon::Load()
 {
-	VDATA * pVData = api->Event(CANNON_LOAD, "a", pAHolder->GetACharacter()); Assert(pVData);
+	VDATA* pVData = api->Event(CANNON_LOAD, "a", pAHolder->GetACharacter());
+	Assert(pVData);
 	bEmpty = pVData->GetLong() == 0;
 }
 
@@ -188,7 +190,8 @@ void AICannon::Recharge()
 	bRecharged = true;
 
 	// calculate in script recharge time, and possibility of recharge
-	VDATA * pVData = api->Event(CANNON_GET_RECHARGE_TIME, "a", pAHolder->GetACharacter()); Assert(pVData);
+	VDATA* pVData = api->Event(CANNON_GET_RECHARGE_TIME, "a", pAHolder->GetACharacter());
+	Assert(pVData);
 	fTotalTime2Action = fTime2Action = pVData->GetFloat();
 }
 
@@ -218,7 +221,7 @@ float AICannon::CalcMaxFireDistance(float fFireHeight, float fSpeedV0, float fAn
 	return fDistance;
 }
 
-void AICannon::Init(AIAttributesHolder * _pAHolder, const entid_t  eid, GEOS::LABEL & lbl)
+void AICannon::Init(AIAttributesHolder* _pAHolder, const entid_t eid, GEOS::LABEL& lbl)
 {
 	pAHolder = _pAHolder;
 	eidParent = eid;
@@ -231,7 +234,7 @@ void AICannon::Init(AIAttributesHolder * _pAHolder, const entid_t  eid, GEOS::LA
 	//vDir = atan2f(m.Vz().x,m.Vz().z);
 }
 
-void AICannon::Save(CSaveLoad * pSL)
+void AICannon::Save(CSaveLoad* pSL)
 {
 	pSL->SaveVector(vPos);
 	pSL->SaveVector(vDir);
@@ -248,7 +251,7 @@ void AICannon::Save(CSaveLoad * pSL)
 	pSL->SaveDword(bCanRecharge);
 }
 
-void AICannon::Load(CSaveLoad * pSL, AIAttributesHolder * _pAHolder, const entid_t  eid)
+void AICannon::Load(CSaveLoad* pSL, AIAttributesHolder* _pAHolder, const entid_t eid)
 {
 	pAHolder = _pAHolder;
 	eidParent = eid;

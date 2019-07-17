@@ -5,44 +5,49 @@
 
 struct XBGAMEPAD : public XINPUT_GAMEPAD
 {
-    // The following members are inherited from XINPUT_GAMEPAD:
-    //    WORD    wButtons;
-    //    BYTE    bAnalogButtons[8];
-    //    SHORT   sThumbLX;
-    //    SHORT   sThumbLY;
-    //    SHORT   sThumbRX;
-    //    SHORT   sThumbRY;
+	// The following members are inherited from XINPUT_GAMEPAD:
+	//    WORD    wButtons;
+	//    BYTE    bAnalogButtons[8];
+	//    SHORT   sThumbLX;
+	//    SHORT   sThumbLY;
+	//    SHORT   sThumbRX;
+	//    SHORT   sThumbRY;
 
-    // Thumb stick values converted to range [-1,+1]
-    FLOAT      fX1;
-    FLOAT      fY1;
-    FLOAT      fX2;
-    FLOAT      fY2;
-    
-    // State of buttons tracked since last poll
-    uint16_t       wLastButtons;
-    BOOL       bLastAnalogButtons[8];
-    uint16_t       wPressedButtons;
-    BOOL       bPressedAnalogButtons[8];
+	// Thumb stick values converted to range [-1,+1]
+	FLOAT fX1;
+	FLOAT fY1;
+	FLOAT fX2;
+	FLOAT fY2;
 
-    // Rumble properties
-    XINPUT_RUMBLE   Rumble;
-    XINPUT_FEEDBACK Feedback;
+	// State of buttons tracked since last poll
+	uint16_t wLastButtons;
+	BOOL bLastAnalogButtons[8];
+	uint16_t wPressedButtons;
+	BOOL bPressedAnalogButtons[8];
 
-    // Device properties
-    XINPUT_CAPABILITIES caps;
-    HANDLE     hDevice;
+	// Rumble properties
+	XINPUT_RUMBLE Rumble;
+	XINPUT_FEEDBACK Feedback;
 
-    // Flags for whether gamepad was just inserted or removed
-    BOOL       bInserted;
-    BOOL       bRemoved;
+	// Device properties
+	XINPUT_CAPABILITIES caps;
+	HANDLE hDevice;
+
+	// Flags for whether gamepad was just inserted or removed
+	BOOL bInserted;
+	BOOL bRemoved;
 };
 
 class XVCONTROLS : public SERVICE
 {
 public:
-	XVCONTROLS(){};
-	~XVCONTROLS(){};
+	XVCONTROLS()
+	{
+	};
+
+	~XVCONTROLS()
+	{
+	};
 
 	virtual XBGAMEPAD* GetGamepadsState() = 0;
 };

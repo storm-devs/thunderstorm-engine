@@ -16,17 +16,19 @@ public:
 	ItemEntity();
 	~ItemEntity();
 
-	bool Init();
+	bool Init() override;
 	void Realize(uint32_t delta_time);
-	uint64_t ProcessMessage(MESSAGE & message);
+	uint64_t ProcessMessage(MESSAGE& message) override;
+
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)
 		{
-		//case Stage::execute:
-		//	Execute(delta); break;
+			//case Stage::execute:
+			//	Execute(delta); break;
 		case Stage::realize:
-			Realize(delta); break;
+			Realize(delta);
+			break;
 			/*case Stage::lost_render:
 				LostRender(delta); break;
 			case Stage::restore_render:
@@ -41,14 +43,15 @@ protected:
 	void Release();
 
 	void SetModelToPosition(const CMatrix& mtx);
-	void SetTechnique( const char* pcTechnique );
+	void SetTechnique(const char* pcTechnique);
 	bool TieToLocator(entid_t mdlEID, const char* pcLocName);
 	void UnTieFromLocator();
 	void EndEventProcess();
 
 	void DrawIntoLocator();
 
-	void SetEventListener(entid_t mdlEID, entid_t mdlToTieEID,const char* pcLocName, const char* pcStartEvent,const char* pcEndEvent);
+	void SetEventListener(entid_t mdlEID, entid_t mdlToTieEID, const char* pcLocName, const char* pcStartEvent,
+	                      const char* pcEndEvent);
 	entid_t GetModelEIDFromCharacterEID(entid_t chrEID);
 
 protected: // data
@@ -66,7 +69,7 @@ protected: // data
 	{
 	public:
 		//Принять событие
-		virtual void Event(Animation * animation, long playerIndex, const char * eventName);
+		void Event(Animation* animation, long playerIndex, const char* eventName) override;
 
 		ItemEntity* item;
 		std::string m_sStartEvent;
@@ -76,6 +79,7 @@ protected: // data
 		entid_t m_eidToTieModel;
 		std::string m_sToTieLocator;
 	};
+
 	friend EventListener;
 	EventListener m_eventListener;
 

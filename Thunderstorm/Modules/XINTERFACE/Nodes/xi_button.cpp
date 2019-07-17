@@ -26,31 +26,39 @@ CXI_BUTTON::~CXI_BUTTON()
 	ReleaseAll();
 }
 
-void CXI_BUTTON::Draw(bool bSelected,uint32_t Delta_Time)
+void CXI_BUTTON::Draw(bool bSelected, uint32_t Delta_Time)
 {
-	if(nPressedDelay>0)
+	if (nPressedDelay > 0)
 		nPressedDelay--;
 
-	if(m_bUse)
+	if (m_bUse)
 	{
 		// Create rectangle
 		XI_ONETEX_VERTEX vFace[4];
 		XI_ONETEX_VERTEX vShadow[4];
 
 		uint32_t dwFaceColor = m_dwFaceColor;
-		if(bSelected && m_fBlindSpeed>0.f)
+		if (bSelected && m_fBlindSpeed > 0.f)
 		{
-			dwFaceColor = ColorInterpolate(m_dwDarkColor,m_dwLightColor,m_fCurBlind);
-			if(m_bUpBlind)	m_fCurBlind += m_fBlindSpeed*Delta_Time;
-			else	m_fCurBlind -= m_fBlindSpeed*Delta_Time;
-			if(m_fCurBlind<0.f) {m_fCurBlind=0.f; m_bUpBlind=true;}
-			if(m_fCurBlind>1.f) {m_fCurBlind=1.f; m_bUpBlind=false;}
+			dwFaceColor = ColorInterpolate(m_dwDarkColor, m_dwLightColor, m_fCurBlind);
+			if (m_bUpBlind) m_fCurBlind += m_fBlindSpeed * Delta_Time;
+			else m_fCurBlind -= m_fBlindSpeed * Delta_Time;
+			if (m_fCurBlind < 0.f)
+			{
+				m_fCurBlind = 0.f;
+				m_bUpBlind = true;
+			}
+			if (m_fCurBlind > 1.f)
+			{
+				m_fCurBlind = 1.f;
+				m_bUpBlind = false;
+			}
 		}
 
-		for(int i=0; i<4; i++)
+		for (int i = 0; i < 4; i++)
 		{
-			vFace[i].color   = dwFaceColor;
-			vFace[i].pos.z   = 1.f;
+			vFace[i].color = dwFaceColor;
+			vFace[i].pos.z = 1.f;
 			vShadow[i].color = m_dwShadowColor;
 			vShadow[i].pos.z = 1.f;
 		}
@@ -64,14 +72,18 @@ void CXI_BUTTON::Draw(bool bSelected,uint32_t Delta_Time)
 		vFace[3].tu = vShadow[3].tu = m_tRect.right;
 		vFace[3].tv = vShadow[3].tv = m_tRect.bottom;
 
-		vFace[0].pos.x = (float)m_rect.left;	vFace[0].pos.y = (float)m_rect.top;
-		vFace[1].pos.x = (float)m_rect.right;	vFace[1].pos.y = (float)m_rect.top;
-		vFace[2].pos.x = (float)m_rect.left;	vFace[2].pos.y = (float)m_rect.bottom;
-		vFace[3].pos.x = (float)m_rect.right;	vFace[3].pos.y = (float)m_rect.bottom;
+		vFace[0].pos.x = (float)m_rect.left;
+		vFace[0].pos.y = (float)m_rect.top;
+		vFace[1].pos.x = (float)m_rect.right;
+		vFace[1].pos.y = (float)m_rect.top;
+		vFace[2].pos.x = (float)m_rect.left;
+		vFace[2].pos.y = (float)m_rect.bottom;
+		vFace[3].pos.x = (float)m_rect.right;
+		vFace[3].pos.y = (float)m_rect.bottom;
 
-		for(int i=0; i<4; i++)
+		for (int i = 0; i < 4; i++)
 		{
-			if(nPressedDelay>0)
+			if (nPressedDelay > 0)
 			{
 				vFace[i].pos.x += fXDeltaPress;
 				vFace[i].pos.y += fYDeltaPress;
@@ -85,160 +97,168 @@ void CXI_BUTTON::Draw(bool bSelected,uint32_t Delta_Time)
 			}
 		}
 
-		if(m_idTex!=-1)	m_rs->TextureSet(0,m_idTex);
-		else	m_rs->SetTexture(0,m_pTex ? m_pTex->m_pTexture : nullptr);
+		if (m_idTex != -1) m_rs->TextureSet(0, m_idTex);
+		else m_rs->SetTexture(0, m_pTex ? m_pTex->m_pTexture : nullptr);
 
-		if(m_idTex>=0 || m_pTex!= nullptr)
+		if (m_idTex >= 0 || m_pTex != nullptr)
 		{
-			m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF,2,vShadow,sizeof(XI_ONETEX_VERTEX),"iShadow");
-			if(m_bClickable && m_bSelected)
-				m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF,2,vFace,sizeof(XI_ONETEX_VERTEX),"iButton");
+			m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF, 2, vShadow, sizeof(XI_ONETEX_VERTEX), "iShadow");
+			if (m_bClickable && m_bSelected)
+				m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF, 2, vFace, sizeof(XI_ONETEX_VERTEX), "iButton");
 			else
 			{
-				m_rs->SetRenderState(D3DRS_TEXTUREFACTOR,m_argbDisableColor);
-				m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF,2,vFace,sizeof(XI_ONETEX_VERTEX),"iDisabledNode");
+				m_rs->SetRenderState(D3DRS_TEXTUREFACTOR, m_argbDisableColor);
+				m_rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,XI_ONETEX_FVF, 2, vFace, sizeof(XI_ONETEX_VERTEX),
+				                      "iDisabledNode");
 			}
 		}
 
-		if(m_idString!=-1L)
-			if(nPressedDelay>0)
+		if (m_idString != -1L)
+			if (nPressedDelay > 0)
 			{
-				m_rs->ExtPrint(m_nFontNum,m_dwFontColor,0,PR_ALIGN_CENTER,false,1.f,m_screenSize.x,
-					m_screenSize.y,	(m_rect.left+m_rect.right)/2+(int)fXDeltaPress,
-					m_rect.top+m_dwStrOffset+(int)fYDeltaPress,
-					"%s",pStringService->GetString(m_idString));
+				m_rs->ExtPrint(m_nFontNum, m_dwFontColor, 0,PR_ALIGN_CENTER, false, 1.f, m_screenSize.x,
+				               m_screenSize.y, (m_rect.left + m_rect.right) / 2 + (int)fXDeltaPress,
+				               m_rect.top + m_dwStrOffset + (int)fYDeltaPress,
+				               "%s", pStringService->GetString(m_idString));
 			}
 			else
 			{
-				m_rs->ExtPrint(m_nFontNum,m_dwFontColor,0,PR_ALIGN_CENTER,false,1.f,m_screenSize.x,
-					m_screenSize.y,	(m_rect.left+m_rect.right)/2, m_rect.top + m_dwStrOffset,
-					"%s",pStringService->GetString(m_idString));
+				m_rs->ExtPrint(m_nFontNum, m_dwFontColor, 0,PR_ALIGN_CENTER, false, 1.f, m_screenSize.x,
+				               m_screenSize.y, (m_rect.left + m_rect.right) / 2, m_rect.top + m_dwStrOffset,
+				               "%s", pStringService->GetString(m_idString));
 			}
 	}
 }
 
-bool CXI_BUTTON::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize)
+bool CXI_BUTTON::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+                      XYPOINT& ScreenSize)
 {
-	if( !CINODE::Init(ini1,name1, ini2,name2, rs,hostRect,ScreenSize) ) return false;
+	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
 	return true;
 }
 
-void CXI_BUTTON::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
+void CXI_BUTTON::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
 {
 	char param[255];
 	XYPOINT tmpLPnt;
 
 	// get font number
-	if( ReadIniString(ini1,name1, ini2,name2, "font", param, sizeof(param),"") )
+	if (ReadIniString(ini1, name1, ini2, name2, "font", param, sizeof(param), ""))
 	{
-		if( (m_nFontNum=m_rs->LoadFont(param))==-1 )
-			api->Trace("can not load font:'%s'",param);
+		if ((m_nFontNum = m_rs->LoadFont(param)) == -1)
+			api->Trace("can not load font:'%s'", param);
 	}
 
 	// get face color
-	m_dwFaceColor = GetIniARGB(ini1,name1, ini2,name2, "faceColor", 0xFFFFFFFF);
+	m_dwFaceColor = GetIniARGB(ini1, name1, ini2, name2, "faceColor", 0xFFFFFFFF);
 
 	// selected color (light)
-	m_dwLightColor = GetIniARGB(ini1,name1, ini2,name2, "lightColor", 0xFFFFFFFF);
+	m_dwLightColor = GetIniARGB(ini1, name1, ini2, name2, "lightColor", 0xFFFFFFFF);
 
 	// (dark)
-	m_dwDarkColor = GetIniARGB(ini1,name1, ini2,name2, "darkColor", 0xFFFFFFFF);
+	m_dwDarkColor = GetIniARGB(ini1, name1, ini2, name2, "darkColor", 0xFFFFFFFF);
 
 	// скорость мигания
-	m_fBlindSpeed = GetIniFloat(ini1,name1, ini2,name2, "blindTimeSec",-1.f);
-	if(m_fBlindSpeed<=0.f) m_fBlindSpeed = 1.f;
-	else m_fBlindSpeed = .001f/m_fBlindSpeed;
+	m_fBlindSpeed = GetIniFloat(ini1, name1, ini2, name2, "blindTimeSec", -1.f);
+	if (m_fBlindSpeed <= 0.f) m_fBlindSpeed = 1.f;
+	else m_fBlindSpeed = .001f / m_fBlindSpeed;
 	m_fCurBlind = 1.f;
 	m_bUpBlind = false;
 
 	// get disable color
-	m_argbDisableColor = GetIniARGB(ini1,name1, ini2,name2, "disableColor", ARGB(255,128,128,128));
+	m_argbDisableColor = GetIniARGB(ini1, name1, ini2, name2, "disableColor", ARGB(255, 128, 128, 128));
 
 	// get shadow color
-	m_dwShadowColor = GetIniARGB(ini1,name1, ini2,name2, "shadowColor", ARGB(255,0,0,0));
+	m_dwShadowColor = GetIniARGB(ini1, name1, ini2, name2, "shadowColor", ARGB(255, 0, 0, 0));
 
 	// get font color
-	m_dwFontColor = GetIniARGB(ini1,name1, ini2,name2, "fontColor", 0xFFFFFFFF);
+	m_dwFontColor = GetIniARGB(ini1, name1, ini2, name2, "fontColor", 0xFFFFFFFF);
 
 	// get group name and get texture for this
-	if( ReadIniString(ini1,name1, ini2,name2, "group", param, sizeof(param),"") )
+	if (ReadIniString(ini1, name1, ini2, name2, "group", param, sizeof(param), ""))
 	{
 		m_idTex = pPictureService->GetTextureID(param);
 		const auto len = strlen(param) + 1;
 		m_sGroupName = new char[len];
 		if (m_sGroupName == nullptr)
 			throw std::exception("allocate memory error");
-		memcpy(m_sGroupName,param,len);
+		memcpy(m_sGroupName, param, len);
 
 		// get button picture name
-		if( ReadIniString(ini1,name1, ini2,name2, "picture", param, sizeof(param),"") )
-		pPictureService->GetTexturePos(m_sGroupName,param,m_tRect);
+		if (ReadIniString(ini1, name1, ini2, name2, "picture", param, sizeof(param), ""))
+			pPictureService->GetTexturePos(m_sGroupName, param, m_tRect);
 	}
 	else
 	{
-		if( ReadIniString(ini1,name1, ini2,name2, "videoTexture", param, sizeof(param),"") )
+		if (ReadIniString(ini1, name1, ini2, name2, "videoTexture", param, sizeof(param), ""))
 			m_pTex = m_rs->GetVideoTexture(param);
-		m_tRect.left = 0.f;		m_tRect.top = 0.f;
-		m_tRect.right = 1.f;	m_tRect.bottom = 1.f;
+		m_tRect.left = 0.f;
+		m_tRect.top = 0.f;
+		m_tRect.right = 1.f;
+		m_tRect.bottom = 1.f;
 	}
 
 	// get offset button image in case pressed button
-	tmpLPnt = GetIniLongPoint(ini1,name1, ini2,name2, "pressPictureOffset", XYPOINT(0,0));
-	fXDeltaPress = (float)tmpLPnt.x; fYDeltaPress = (float)tmpLPnt.y;
+	tmpLPnt = GetIniLongPoint(ini1, name1, ini2, name2, "pressPictureOffset", XYPOINT(0, 0));
+	fXDeltaPress = (float)tmpLPnt.x;
+	fYDeltaPress = (float)tmpLPnt.y;
 
 	// get offset button shadow in case pressed button
-	tmpLPnt = GetIniLongPoint(ini1,name1, ini2,name2, "shadowOffset", XYPOINT(0,0));
-	fXShadow = (float)tmpLPnt.x; fYShadow = (float)tmpLPnt.y;
+	tmpLPnt = GetIniLongPoint(ini1, name1, ini2, name2, "shadowOffset", XYPOINT(0, 0));
+	fXShadow = (float)tmpLPnt.x;
+	fYShadow = (float)tmpLPnt.y;
 
 	// get offset button shadow in case not pressed button
-	tmpLPnt = GetIniLongPoint(ini1,name1, ini2,name2, "pressShadowOffset", XYPOINT(0,0));
-	fXShadowPress = (float)tmpLPnt.x; fYShadowPress = (float)tmpLPnt.y;
+	tmpLPnt = GetIniLongPoint(ini1, name1, ini2, name2, "pressShadowOffset", XYPOINT(0, 0));
+	fXShadowPress = (float)tmpLPnt.x;
+	fYShadowPress = (float)tmpLPnt.y;
 
 	// get press delay
-	nMaxDelay = GetIniLong(ini1,name1, ini2,name2, "pressDelay", 20);
+	nMaxDelay = GetIniLong(ini1, name1, ini2, name2, "pressDelay", 20);
 
-	m_dwStrOffset = GetIniLong(ini1,name1, ini2,name2, "strOffset", 0);
+	m_dwStrOffset = GetIniLong(ini1, name1, ini2, name2, "strOffset", 0);
 
 	m_idString = -1;
-	if( ReadIniString(ini1,name1, ini2,name2, "group", param, sizeof(param),"") )
+	if (ReadIniString(ini1, name1, ini2, name2, "group", param, sizeof(param), ""))
 		m_idString = pStringService->GetStringNum(param);
 }
 
 void CXI_BUTTON::ReleaseAll()
 {
-	PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
+	PICTURE_TEXTURE_RELEASE(pPictureService, m_sGroupName, m_idTex);
 	STORM_DELETE(m_sGroupName);
-	FONT_RELEASE(m_rs,m_nFontNum);
-	VIDEOTEXTURE_RELEASE(m_rs,m_pTex);
+	FONT_RELEASE(m_rs, m_nFontNum);
+	VIDEOTEXTURE_RELEASE(m_rs, m_pTex);
 }
 
 int CXI_BUTTON::CommandExecute(int wActCode)
 {
-	if(m_bUse)
+	if (m_bUse)
 	{
-		switch(wActCode)
+		switch (wActCode)
 		{
 		case ACTION_ACTIVATE:
 			nPressedDelay = nMaxDelay;
 			break;
-		//case ACTION_MOUSEDBLCLICK:
+			//case ACTION_MOUSEDBLCLICK:
 		case ACTION_MOUSECLICK:
-			if(m_bClickable && m_bSelected)	nPressedDelay = nMaxDelay;
+			if (m_bClickable && m_bSelected) nPressedDelay = nMaxDelay;
 			break;
 		}
 	}
 	return -1;
 }
 
-bool CXI_BUTTON::IsClick(int buttonID,long xPos,long yPos)
+bool CXI_BUTTON::IsClick(int buttonID, long xPos, long yPos)
 {
-	if( xPos>=m_rect.left && xPos<=m_rect.right &&
-		yPos>=m_rect.top  && yPos<=m_rect.bottom && m_bClickable && m_bSelected && m_bUse)		return true;
+	if (xPos >= m_rect.left && xPos <= m_rect.right &&
+		yPos >= m_rect.top && yPos <= m_rect.bottom && m_bClickable && m_bSelected && m_bUse)
+		return true;
 
 	return false;
 }
 
-void CXI_BUTTON::ChangePosition( XYRECT &rNewPos )
+void CXI_BUTTON::ChangePosition(XYRECT& rNewPos)
 {
 	m_rect = rNewPos;
 }
@@ -247,15 +267,16 @@ void CXI_BUTTON::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
-	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
+	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+	if (!pIni)
+	{
+		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
 		return;
 	}
 
 	// save position
-	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
-	pIni->WriteString( m_nodeName, "position", pcWriteParam );
+	sprintf_s(pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom);
+	pIni->WriteString(m_nodeName, "position", pcWriteParam);
 
 	delete pIni;
 }
@@ -266,48 +287,48 @@ void CXI_BUTTON::SetUsing(bool bUsing)
 	nPressedDelay = 0;
 }
 
-uint32_t CXI_BUTTON::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_BUTTON::MessageProc(long msgcode, MESSAGE& message)
 {
-	switch(msgcode)
+	switch (msgcode)
 	{
 	case 0: // Сменить позицию кнопки
 		m_rect.left = message.Long();
 		m_rect.top = message.Long();
 		m_rect.right = message.Long();
 		m_rect.bottom = message.Long();
-		GetAbsoluteRect(m_rect,message.Long());
-	break;
+		GetAbsoluteRect(m_rect, message.Long());
+		break;
 
 	case 1: // Сменить текстурные координаты
 		m_tRect.left = message.Float();
 		m_tRect.top = message.Float();
 		m_tRect.right = message.Float();
 		m_tRect.bottom = message.Float();
-	break;
+		break;
 
 	case 2: // Сменить картинку
 		{
 			char param[256];
-			message.String(sizeof(param),param);
+			message.String(sizeof(param), param);
 			const auto len = strlen(param) + 1;
-			if(len==1) break;
+			if (len == 1) break;
 
-			if(m_sGroupName== nullptr || _stricmp(m_sGroupName,param)!=0)
+			if (m_sGroupName == nullptr || _stricmp(m_sGroupName, param) != 0)
 			{
-				PICTURE_TEXTURE_RELEASE(pPictureService,m_sGroupName,m_idTex);
+				PICTURE_TEXTURE_RELEASE(pPictureService, m_sGroupName, m_idTex);
 				STORM_DELETE(m_sGroupName);
 
 				m_sGroupName = new char[len];
 				if (m_sGroupName == nullptr)
 					throw std::exception("allocate memory error");
-				memcpy(m_sGroupName,param,len);
+				memcpy(m_sGroupName, param, len);
 				m_idTex = pPictureService->GetTextureID(m_sGroupName);
 			}
 
-			message.String(sizeof(param),param);
-			pPictureService->GetTexturePos(m_sGroupName,param,m_tRect);
+			message.String(sizeof(param), param);
+			pPictureService->GetTexturePos(m_sGroupName, param, m_tRect);
 		}
-	break;
+		break;
 	}
 
 	return 0;

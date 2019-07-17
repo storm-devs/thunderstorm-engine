@@ -40,7 +40,7 @@ Player::~Player()
 {
 #ifndef _XBOX
 	entid_t peid;
-	if(peid = EntityManager::GetEntityId("ShootGunParticles"))
+	if (peid = EntityManager::GetEntityId("ShootGunParticles"))
 		EntityManager::EraseEntity(peid);
 #endif
 }
@@ -48,14 +48,14 @@ Player::~Player()
 bool Player::PostInit()
 {
 	const auto location = GetLocation();
-	if(!location->supervisor.player) location->supervisor.player = this;
+	if (!location->supervisor.player) location->supervisor.player = this;
 	baterfl = EntityManager::GetEntityId("Animals");
 	return NPCharacter::PostInit();
 }
 
 void Player::Reset()
 {
-	if(fgtCurType == fgt_block && !isSetBlock) fgtCurType = fgt_none;
+	if (fgtCurType == fgt_block && !isSetBlock) fgtCurType = fgt_none;
 	NPCharacter::Reset();
 }
 
@@ -64,37 +64,41 @@ void Player::Move(float dltTime)
 {
 #ifndef _XBOX
 
-	kSMReload += dltTime*0.7f;
-	if(kSMReload > 1.0f) kSMReload = 1.0f;
-	if(!locCam)
+	kSMReload += dltTime * 0.7f;
+	if (kSMReload > 1.0f) kSMReload = 1.0f;
+	if (!locCam)
 	{
 		entid_t lcam;
-		if(lcam = EntityManager::GetEntityId("LocationCamera"))
+		if (lcam = EntityManager::GetEntityId("LocationCamera"))
 		{
 			locCam = (LocationCamera *)EntityManager::GetEntityPointer(lcam);
 		}
-	}else{
+	}
+	else
+	{
 		locCam->LockFPMode(shootgunMode);
 	}
 	//tuner.isVisible = !shootgunMode;
 
 	bool oldSGMode = shootgunMode;
 	shootgunMode = false;
-	VDATA * vd = api->Event("EventSGMode", nullptr);
-	if(vd)
+	VDATA* vd = api->Event("EventSGMode", nullptr);
+	if (vd)
 	{
 		long data = 0;
-		if(vd->Get(data)) shootgunMode = (data != 0);
+		if (vd->Get(data)) shootgunMode = (data != 0);
 	}
-	if(oldSGMode != shootgunMode)
+	if (oldSGMode != shootgunMode)
 	{
-		if(shootgunMode)
+		if (shootgunMode)
 		{
 			api->Send_Message(effects, "s", "SGInited");
 			tuner.alpha = 0.0f;
 			tuner.camAlpha = 0.0f;
 			isFight = true;
-		}else{
+		}
+		else
+		{
 			api->Send_Message(effects, "s", "SGRelease");
 			tuner.alpha = 1.0f;
 			tuner.camAlpha = 1.0f;
@@ -111,59 +115,65 @@ void Player::Move(float dltTime)
 		impulse.y *= 2;
 	}*/
 
-	if(task.task == npct_none)
+	if (task.task == npct_none)
 	{
 		isEnableJump = true;
 		//------------------------------------
 		Rotate(dltTime);
 		//------------------------------------
-		if(lastChange > 0.3f)
+		if (lastChange > 0.3f)
 		{
 			//lastChange = 0.0f;
 			SetRunMode(IsRunMode(dltTime));
-			if(GoForward(dltTime))
+			if (GoForward(dltTime))
 			{
 				StartMove(false);
 				StrafeWhenMove(dltTime);
-			}else
-			if(GoBack(dltTime))
+			}
+			else if (GoBack(dltTime))
 			{
-				if(!IsFight())
+				if (!IsFight())
 				{
 					StartMove(true);
 					StrafeWhenMove(dltTime);
-				}else{
+				}
+				else
+				{
 					Recoil();
 				}
-			}else{
+			}
+			else
+			{
 				StopMove();
 				StrafeWhenStop(dltTime);
 			}
-		}else lastChange += dltTime;
+		}
+		else lastChange += dltTime;
 		//------------------------------------
 #ifndef _XBOX
-		if(!shootgunMode)
+		if (!shootgunMode)
 		{
 #endif
-			if(IsChangeFightMode())
+			if (IsChangeFightMode())
 			{
 				isSetBlock = false;
 				SetFightMode(!IsFight());
 			}
-			if(IsFight())
+			if (IsFight())
 			{
-				if(IsDoBlock())
+				if (IsDoBlock())
 				{
 					// boal -->
-					if (fgtCurType == fgt_attack_fast || fgtCurType == fgt_attack_force || fgtCurType == fgt_attack_round ||
+					if (fgtCurType == fgt_attack_fast || fgtCurType == fgt_attack_force || fgtCurType ==
+						fgt_attack_round ||
 						fgtCurType == fgt_attack_break || fgtCurType == fgt_attack_feint || fgtCurType == fgt_parry)
 					{
 						StopFightAnimation();
 					}
 					// boal <--
 					Block();
-				}else
-				if(IsDoParry())
+				}
+				else if (IsDoParry())
 				{
 					// boal -->
 					if (fgtCurType == fgt_block || fgtCurType == fgt_blockhit || fgtCurType == fgt_blockbreak ||
@@ -173,54 +183,54 @@ void Player::Move(float dltTime)
 					}
 					// boal <--
 					Parry();
-				}else
-				if(IsDoAttackForce())
+				}
+				else if (IsDoAttackForce())
 				{
-                    // boal -->
+					// boal -->
 					if (fgtCurType == fgt_block || fgtCurType == fgt_blockhit || fgtCurType == fgt_blockbreak)
 					{
 						StopFightAnimation();
 					}
 					// boal <--
 					Attack(FindAttackCharacter(), fgt_attack_force);
-				}else
-				if(IsDoAttackFast())
+				}
+				else if (IsDoAttackFast())
 				{
-                    if (fgtCurType == fgt_block || fgtCurType == fgt_blockhit || fgtCurType == fgt_blockbreak)
+					if (fgtCurType == fgt_block || fgtCurType == fgt_blockhit || fgtCurType == fgt_blockbreak)
 					{
 						StopFightAnimation();
 					}
 					Attack(FindAttackCharacter(), fgt_attack_fast);
-				}else
-				if(IsDoAttackRound())
+				}
+				else if (IsDoAttackRound())
 				{
-                    if (fgtCurType == fgt_block || fgtCurType == fgt_blockhit || fgtCurType == fgt_blockbreak ||
+					if (fgtCurType == fgt_block || fgtCurType == fgt_blockhit || fgtCurType == fgt_blockbreak ||
 						fgtCurType == fgt_hit_attack)
 					{
 						StopFightAnimation();
 					}
 					Attack(FindAttackCharacter(), fgt_attack_round);
-				}else
-				if(IsDoAttackBreak())
+				}
+				else if (IsDoAttackBreak())
 				{
-                    if (fgtCurType == fgt_block || fgtCurType == fgt_blockhit || fgtCurType == fgt_blockbreak)
+					if (fgtCurType == fgt_block || fgtCurType == fgt_blockhit || fgtCurType == fgt_blockbreak)
 					{
 						StopFightAnimation();
 					}
 					Attack(FindAttackCharacter(), fgt_attack_break);
-				}else
-				if(IsDoAttackFeint())
+				}
+				else if (IsDoAttackFeint())
 				{
-                    if (fgtCurType == fgt_block || fgtCurType == fgt_blockhit || fgtCurType == fgt_blockbreak ||
+					if (fgtCurType == fgt_block || fgtCurType == fgt_blockhit || fgtCurType == fgt_blockbreak ||
 						fgtCurType == fgt_hit_attack)
 					{
 						StopFightAnimation();
 					}
 					Attack(FindAttackCharacter(), fgt_attack_feint);
-				}else
-				if(IsFire())
+				}
+				else if (IsFire())
 				{
-                    if (fgtCurType == fgt_block || fgtCurType == fgt_blockhit || fgtCurType == fgt_blockbreak ||
+					if (fgtCurType == fgt_block || fgtCurType == fgt_blockhit || fgtCurType == fgt_blockbreak ||
 						fgtCurType == fgt_hit_attack)
 					{
 						StopFightAnimation();
@@ -229,15 +239,18 @@ void Player::Move(float dltTime)
 				}
 			}
 #ifndef _XBOX
-		}else{
+		}
+		else
+		{
 			tuner.alpha = 0.0f;
 			tuner.camAlpha = 0.0f;
 			isFight = true;
-			if(kSMReload >= 1.0f) if(IsFire()) FireFromShootgun();
+			if (kSMReload >= 1.0f) if (IsFire()) FireFromShootgun();
 		}
 #endif
 		//------------------------------------
-	}else isEnableJump = false;
+	}
+	else isEnableJump = false;
 	NPCharacter::Move(dltTime);
 }
 
@@ -257,42 +270,46 @@ void Player::Update(float dltTime)
 	}
 #endif
 	bool aDialog = false;
-	if(task.task == npct_none)
+	if (task.task == npct_none)
 	{
-		if(!IsFight())
+		if (!IsFight())
 		{
 			CONTROL_STATE cs;
-			api->Controls->GetControlState("ChrAction",cs);
-			if(cs.state == CST_ACTIVATED) aDialog = true;
-			if(activatedDialog)
+			api->Controls->GetControlState("ChrAction", cs);
+			if (cs.state == CST_ACTIVATED) aDialog = true;
+			if (activatedDialog)
 			{
- 				Character * chr = FindDialogCharacter();
-				if(chr)
+				Character* chr = FindDialogCharacter();
+				if (chr)
 				{
 					Assert(AttributesPointer);
 					Assert(chr->AttributesPointer);
 					long first = AttributesPointer->GetAttributeAsDword("index", -1);
 					long next = chr->AttributesPointer->GetAttributeAsDword("index", -1);
-					if(first >= 0 && next >= 0)
+					if (first >= 0 && next >= 0)
 					{
 						api->Event("dlgReady", "ll", next, first);
-					}else{
+					}
+					else
+					{
 						api->Trace("Incorrect character index! Dialog not activated...");
 					}
 				}
 			}
 
-			api->Controls->GetControlState("ChrJump",cs);
-			if(cs.state == CST_ACTIVATED)
+			api->Controls->GetControlState("ChrJump", cs);
+			if (cs.state == CST_ACTIVATED)
 			{
 				StartJump();
 			}
-		}else{
-			if(IsFireFindTarget())
+		}
+		else
+		{
+			if (IsFireFindTarget())
 			{
 				float kDist;
-				Character * c = FindGunTarget(kDist);
-				if(c) c->Select();
+				Character* c = FindGunTarget(kDist);
+				if (c) c->Select();
 			}
 		}
 	}
@@ -304,13 +321,13 @@ void Player::Update(float dltTime)
 	activatedDialog = aDialog;
 	api->Send_Message(baterfl, "lff", MSG_ANIMALS_BUTTERFLIES_XYZ, curPos.x, curPos.z);
 	//Перебираем персонажей в поисках врагов к игроку
-	if(const auto eid = EntityManager::GetEntityId("CharactersGroups"))
+	if (const auto eid = EntityManager::GetEntityId("CharactersGroups"))
 	{
 		const auto location = GetLocation();
-		for(long i = 0; i < location->supervisor.numCharacters; i++)
+		for (long i = 0; i < location->supervisor.numCharacters; i++)
 		{
-			Character * chr = location->supervisor.character[i].c;
-			if(chr != this && chr)
+			Character* chr = location->supervisor.character[i].c;
+			if (chr != this && chr)
 			{
 				chr->isPlayerEnemy = (api->Send_Message(eid, "sii", "IsEnemy", GetId(), chr->GetId()) != 0);
 			}
@@ -319,17 +336,17 @@ void Player::Update(float dltTime)
 }
 
 //Сохранить параметры
-void Player::SetSaveData(ATTRIBUTES * sdata)
+void Player::SetSaveData(ATTRIBUTES* sdata)
 {
-	if(!sdata) return;
+	if (!sdata) return;
 	sdata->SetAttributeUseDword("isFight", isFight);
 }
 
 //Востанавить параметры
-void Player::GetSaveData(ATTRIBUTES * sdata)
+void Player::GetSaveData(ATTRIBUTES* sdata)
 {
-	if(!sdata) return;
-	if(task.task == npct_none)
+	if (!sdata) return;
+	if (task.task == npct_none)
 	{
 		SetFightMode(sdata->GetAttributeAsDword("isFight", isFight) != 0, false);
 	}
@@ -339,21 +356,23 @@ void Player::GetSaveData(ATTRIBUTES * sdata)
 void Player::Rotate(float dltTime)
 {
 	CONTROL_STATE cs;
-	if(!isSpecialMode)
+	if (!isSpecialMode)
 	{
-		float a = GetRotateH()*0.01f;
-		if(a > 0.3f) a = 0.3f;
-		if(a < -0.3f) a = -0.3f;
+		float a = GetRotateH() * 0.01f;
+		if (a > 0.3f) a = 0.3f;
+		if (a < -0.3f) a = -0.3f;
 		Turn(GetAY() + a);
-	}else{
-		if(!lockRotate)
+	}
+	else
+	{
+		if (!lockRotate)
 		{
-			float dx = GetRotateH()*0.067f;
-			api->Controls->GetControlState("ChrTurnV",cs);
-			float dz = cs.fValue*0.067f;
-			if(api->Controls->GetControlState("ChrTurnV1",cs)) dz += cs.fValue*0.067f;
-			if(api->Controls->GetControlState("ChrTurnV2",cs)) dz += cs.fValue*0.067f;
-			if(dx*dx + dz*dz > 0.1f)
+			float dx = GetRotateH() * 0.067f;
+			api->Controls->GetControlState("ChrTurnV", cs);
+			float dz = cs.fValue * 0.067f;
+			if (api->Controls->GetControlState("ChrTurnV1", cs)) dz += cs.fValue * 0.067f;
+			if (api->Controls->GetControlState("ChrTurnV2", cs)) dz += cs.fValue * 0.067f;
+			if (dx * dx + dz * dz > 0.1f)
 			{
 				//Повернём вектор относительно камеры
 				CMatrix mtx;
@@ -364,9 +383,9 @@ void Player::Rotate(float dltTime)
 				mtx.Vx().y = 0.0f;
 				mtx.Vz().y = 0.0f;
 				mtx.Vx() = !CVECTOR(mtx.Vx());
-				mtx.Vz()= !CVECTOR(mtx.Vz());
+				mtx.Vz() = !CVECTOR(mtx.Vz());
 				mtx.Pos() = 0.0f;
-				CVECTOR res = mtx*CVECTOR(dx, 0.0f, dz);
+				CVECTOR res = mtx * CVECTOR(dx, 0.0f, dz);
 				Turn(res.x, res.z);
 			}
 		}
@@ -376,38 +395,37 @@ void Player::Rotate(float dltTime)
 bool Player::GoForward(float dltTime)
 {
 	CONTROL_STATE cs;
-	if(!isSpecialMode)
+	if (!isSpecialMode)
 	{
 		bool res = false;
-		api->Controls->GetControlState("ChrForward",cs);
-		if(cs.lValue != 0) res = true;
-		if(api->Controls->GetControlState("ChrForward1",cs) && cs.lValue != 0) res = true;
-		if(api->Controls->GetControlState("ChrForward2",cs) && cs.lValue != 0) res = true;
+		api->Controls->GetControlState("ChrForward", cs);
+		if (cs.lValue != 0) res = true;
+		if (api->Controls->GetControlState("ChrForward1", cs) && cs.lValue != 0) res = true;
+		if (api->Controls->GetControlState("ChrForward2", cs) && cs.lValue != 0) res = true;
 		return res;
-	}else{
-		float dx = GetRotateH()*0.067f;
-		api->Controls->GetControlState("ChrTurnV",cs);
-		float dz = cs.fValue*0.067f;
-		if(api->Controls->GetControlState("ChrTurnV1",cs)) dz += cs.fValue*0.067f;
-		if(api->Controls->GetControlState("ChrTurnV2",cs)) dz += cs.fValue*0.067f;
-		if(IsMove())
-		{
-			return dx*dx + dz*dz > 0.1f;
-		}
-		return dx*dx + dz*dz > 0.2f;
 	}
+	float dx = GetRotateH() * 0.067f;
+	api->Controls->GetControlState("ChrTurnV", cs);
+	float dz = cs.fValue * 0.067f;
+	if (api->Controls->GetControlState("ChrTurnV1", cs)) dz += cs.fValue * 0.067f;
+	if (api->Controls->GetControlState("ChrTurnV2", cs)) dz += cs.fValue * 0.067f;
+	if (IsMove())
+	{
+		return dx * dx + dz * dz > 0.1f;
+	}
+	return dx * dx + dz * dz > 0.2f;
 }
 
 bool Player::GoBack(float dltTime)
 {
-	if(!isSpecialMode)
+	if (!isSpecialMode)
 	{
 		CONTROL_STATE cs;
 		bool res = false;
-		api->Controls->GetControlState("ChrBackward",cs);
-		if(cs.lValue != 0) res = true;
-		if(api->Controls->GetControlState("ChrBackward1",cs) && cs.lValue != 0) res = true;
-		if(api->Controls->GetControlState("ChrBackward2",cs) && cs.lValue != 0) res = true;
+		api->Controls->GetControlState("ChrBackward", cs);
+		if (cs.lValue != 0) res = true;
+		if (api->Controls->GetControlState("ChrBackward1", cs) && cs.lValue != 0) res = true;
+		if (api->Controls->GetControlState("ChrBackward2", cs) && cs.lValue != 0) res = true;
 		return res;
 	}
 	return false;
@@ -416,49 +434,48 @@ bool Player::GoBack(float dltTime)
 bool Player::IsRunMode(float dltTime)
 {
 	CONTROL_STATE cs;
-	if(!isSpecialMode)
+	if (!isSpecialMode)
 	{
-		api->Controls->GetControlState("ChrRun",cs);
+		api->Controls->GetControlState("ChrRun", cs);
 		return !(cs.lValue != 0);
-	}else{
-		float dx = GetRotateH()*0.067f;
-		api->Controls->GetControlState("ChrTurnV",cs);
-		float dz = cs.fValue*0.067f;
-		if(api->Controls->GetControlState("ChrTurnV1",cs)) dz += cs.fValue*0.067f;
-		if(api->Controls->GetControlState("ChrTurnV2",cs)) dz += cs.fValue*0.067f;
-		if(IsMove() && IsRun())
-		{
-			return dx*dx + dz*dz > 0.4f;
-		}
-		return dx*dx + dz*dz > 0.6f;
 	}
+	float dx = GetRotateH() * 0.067f;
+	api->Controls->GetControlState("ChrTurnV", cs);
+	float dz = cs.fValue * 0.067f;
+	if (api->Controls->GetControlState("ChrTurnV1", cs)) dz += cs.fValue * 0.067f;
+	if (api->Controls->GetControlState("ChrTurnV2", cs)) dz += cs.fValue * 0.067f;
+	if (IsMove() && IsRun())
+	{
+		return dx * dx + dz * dz > 0.4f;
+	}
+	return dx * dx + dz * dz > 0.6f;
 }
 
 void Player::StrafeWhenMove(float dltTime)
 {
 	strafeMove = 0.0f;
 
-//----------------------------------------------------------------------------------------
-//Если надо выключить стрейфы - раскомментарь return
-//stopstrafe
-//----------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------
+	//Если надо выключить стрейфы - раскомментарь return
+	//stopstrafe
+	//----------------------------------------------------------------------------------------
 
 	//return;
 
 
-	if(!isSpecialMode)
+	if (!isSpecialMode)
 	{
 		CONTROL_STATE cs;
-		if(api->Controls->GetControlState("ChrStrafeLeft", cs))
+		if (api->Controls->GetControlState("ChrStrafeLeft", cs))
 		{
-			if(cs.lValue != 0)
+			if (cs.lValue != 0)
 			{
 				strafeMove += -1.0f;
 			}
 		}
-		if(api->Controls->GetControlState("ChrStrafeRight", cs))
+		if (api->Controls->GetControlState("ChrStrafeRight", cs))
 		{
-			if(cs.lValue != 0)
+			if (cs.lValue != 0)
 			{
 				strafeMove += 1.0f;
 			}
@@ -469,48 +486,50 @@ void Player::StrafeWhenMove(float dltTime)
 void Player::StrafeWhenStop(float dltTime)
 {
 	StrafeWhenMove(dltTime);
-	if(IsFight())
+	if (IsFight())
 	{
-		if(strafeMove > 0.5f)
+		if (strafeMove > 0.5f)
 		{
 			StrafeRight();
-		}else
-		if(strafeMove < -0.5f)
+		}
+		else if (strafeMove < -0.5f)
 		{
 			StrafeLeft();
 		}
 		strafeMove = 0.0f;
-	} else {
+	}
+	else
+	{
 		strafeMove = 0.0f;
 	}
 }
 
 bool Player::IsDoBlock()
 {
-//	return true;
+	//	return true;
 	CONTROL_STATE cs;
-	api->Controls->GetControlState("ChrBlock",cs);
-	if(cs.state == CST_ACTIVATED)
+	api->Controls->GetControlState("ChrBlock", cs);
+	if (cs.state == CST_ACTIVATED)
 	{
 		isSetBlock = true;
-	}else
-	if(cs.state == CST_INACTIVATED)
+	}
+	else if (cs.state == CST_INACTIVATED)
 	{
 		isSetBlock = false;
-	} else
-	if( cs.state == CST_INACTIVE )
+	}
+	else if (cs.state == CST_INACTIVE)
 	{
-		api->Controls->GetControlState("ChrBlock2",cs);
-		if(cs.state == CST_ACTIVATED)
+		api->Controls->GetControlState("ChrBlock2", cs);
+		if (cs.state == CST_ACTIVATED)
 		{
 			isSetBlock = true;
-		}else
-		if(cs.state == CST_INACTIVATED)
+		}
+		else if (cs.state == CST_INACTIVATED)
 		{
 			isSetBlock = false;
 		}
 	}
-	if(!IsFight())
+	if (!IsFight())
 	{
 		isSetBlock = false;
 	}
@@ -521,10 +540,10 @@ bool Player::IsDoParry()
 {
 	CONTROL_STATE cs;
 	bool bPressed = false;
-	api->Controls->GetControlState("ChrParry",cs);
-	if( cs.state == CST_ACTIVATED ) bPressed = true;
-	api->Controls->GetControlState("ChrParry2",cs);
-	if( cs.state == CST_ACTIVATED ) bPressed = true;
+	api->Controls->GetControlState("ChrParry", cs);
+	if (cs.state == CST_ACTIVATED) bPressed = true;
+	api->Controls->GetControlState("ChrParry2", cs);
+	if (cs.state == CST_ACTIVATED) bPressed = true;
 	return bPressed;
 }
 
@@ -532,10 +551,10 @@ bool Player::IsDoAttackForce()
 {
 	CONTROL_STATE cs;
 	bool bPressed = false;
-	api->Controls->GetControlState("ChrAttackForce",cs);
-	if( cs.state == CST_ACTIVATED ) bPressed = true;
-	api->Controls->GetControlState("ChrAttackForce2",cs);
-	if( cs.state == CST_ACTIVATED ) bPressed = true;
+	api->Controls->GetControlState("ChrAttackForce", cs);
+	if (cs.state == CST_ACTIVATED) bPressed = true;
+	api->Controls->GetControlState("ChrAttackForce2", cs);
+	if (cs.state == CST_ACTIVATED) bPressed = true;
 	return bPressed;
 }
 
@@ -543,10 +562,10 @@ bool Player::IsDoAttackFast()
 {
 	CONTROL_STATE cs;
 	bool bPressed = false;
-	api->Controls->GetControlState("ChrAttackFast",cs);
-	if( cs.state == CST_ACTIVATED ) bPressed = true;
-	api->Controls->GetControlState("ChrAttackFast2",cs);
-	if( cs.state == CST_ACTIVATED ) bPressed = true;
+	api->Controls->GetControlState("ChrAttackFast", cs);
+	if (cs.state == CST_ACTIVATED) bPressed = true;
+	api->Controls->GetControlState("ChrAttackFast2", cs);
+	if (cs.state == CST_ACTIVATED) bPressed = true;
 	return bPressed;
 }
 
@@ -554,10 +573,10 @@ bool Player::IsDoAttackRound()
 {
 	CONTROL_STATE cs;
 	bool bPressed = false;
-	api->Controls->GetControlState("ChrAttackRound",cs);
-	if( cs.state == CST_ACTIVATED ) bPressed = true;
-	api->Controls->GetControlState("ChrAttackRound2",cs);
-	if( cs.state == CST_ACTIVATED ) bPressed = true;
+	api->Controls->GetControlState("ChrAttackRound", cs);
+	if (cs.state == CST_ACTIVATED) bPressed = true;
+	api->Controls->GetControlState("ChrAttackRound2", cs);
+	if (cs.state == CST_ACTIVATED) bPressed = true;
 	return bPressed;
 }
 
@@ -565,10 +584,10 @@ bool Player::IsDoAttackBreak()
 {
 	CONTROL_STATE cs;
 	bool bPressed = false;
-	api->Controls->GetControlState("ChrAttackBreak",cs);
-	if( cs.state == CST_ACTIVATED ) bPressed = true;
-	api->Controls->GetControlState("ChrAttackBreak2",cs);
-	if( cs.state == CST_ACTIVATED ) bPressed = true;
+	api->Controls->GetControlState("ChrAttackBreak", cs);
+	if (cs.state == CST_ACTIVATED) bPressed = true;
+	api->Controls->GetControlState("ChrAttackBreak2", cs);
+	if (cs.state == CST_ACTIVATED) bPressed = true;
 	return bPressed;
 }
 
@@ -576,36 +595,36 @@ bool Player::IsDoAttackFeint()
 {
 	CONTROL_STATE cs;
 	bool bPressed = false;
-	api->Controls->GetControlState("ChrAttackFient",cs);
-	if( cs.state == CST_ACTIVATED ) bPressed = true;
-	api->Controls->GetControlState("ChrAttackFient2",cs);
-	if( cs.state == CST_ACTIVATED ) bPressed = true;
+	api->Controls->GetControlState("ChrAttackFient", cs);
+	if (cs.state == CST_ACTIVATED) bPressed = true;
+	api->Controls->GetControlState("ChrAttackFient2", cs);
+	if (cs.state == CST_ACTIVATED) bPressed = true;
 	return bPressed;
 }
 
 bool Player::IsFire()
 {
 	CONTROL_STATE cs;
-	api->Controls->GetControlState("ChrFire",cs);
+	api->Controls->GetControlState("ChrFire", cs);
 	return (cs.state == CST_ACTIVATED);
 }
 
 bool Player::IsChangeFightMode()
 {
 	CONTROL_STATE cs;
-	api->Controls->GetControlState("ChrFightMode",cs);
+	api->Controls->GetControlState("ChrFightMode", cs);
 	return (cs.state == CST_ACTIVATED);
 }
 
 
 //Найти атакующего противника
-Player * Player::FindAttackCharacter()
+Player* Player::FindAttackCharacter()
 {
 	const auto location = GetLocation();
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	static long num = 0;
-	if(!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_ATTACK_DIST*1.1f)) return nullptr;
+	if (!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_ATTACK_DIST * 1.1f)) return nullptr;
 	//Выбираем лутшего
 	float minDst;
 	long task = -1;
@@ -615,27 +634,32 @@ Player * Player::FindAttackCharacter()
 	float cdx = sinf(ay);
 	float cdz = cosf(ay);
 	long j = -1;
-	for(long i = 0; i < num; i++)
+	for (long i = 0; i < num; i++)
 	{
 		//Персонаж
-		Supervisor::FindCharacter & fc = fndCharacter[i];
+		Supervisor::FindCharacter& fc = fndCharacter[i];
 		//Невоюющих не смотрим
 		//if(!fc.c->IsFight()) continue;
 		auto* chr = (Player *)fc.c;
-		if(chr == this) continue;
+		if (chr == this) continue;
 		//Мёртвых пропускаем
-		if(chr->liveValue < 0 || chr->deadName) continue;
+		if (chr->liveValue < 0 || chr->deadName) continue;
 		//Отсеиваем неинтересных
-		if(isEnemy) //~!~
+		if (isEnemy) //~!~
 		{
-			if(chr->task.task != npct_fight ||
-				EntityManager::GetEntityPointer(chr->task.target) != this) continue;
-		}else{
-			if(isFgt)
+			if (chr->task.task != npct_fight ||
+				EntityManager::GetEntityPointer(chr->task.target) != this)
+				continue;
+		}
+		else
+		{
+			if (isFgt)
 			{
-				if(!chr->isFight) continue;
-			}else{
-				if(chr->isFight)
+				if (!chr->isFight) continue;
+			}
+			else
+			{
+				if (chr->isFight)
 				{
 					j = -1;
 					isFgt = true;
@@ -651,31 +675,34 @@ Player * Player::FindAttackCharacter()
 			*/
 		}
 		//Невражеских пропускаем
-		if(!isEnemy) //~!~
+		if (!isEnemy) //~!~
 		{
-			if(const auto eid = EntityManager::GetEntityId("CharactersGroups"))
+			if (const auto eid = EntityManager::GetEntityId("CharactersGroups"))
 			{
-				if(!api->Send_Message(eid, "sii", "IsEnemy", GetId(), chr->GetId())) continue;
+				if (!api->Send_Message(eid, "sii", "IsEnemy", GetId(), chr->GetId())) continue;
 			}
 		}
 		//Этот гад на нас лезет
-		if(j >= 0)
+		if (j >= 0)
 		{
 			float cs = -1.0f;
-			if(fc.d2 > 0.0f) cs = (fc.dx*cdx + fc.dz*cdz)/sqrtf(fc.d2);
-			if(cs > enemyCos)
+			if (fc.d2 > 0.0f) cs = (fc.dx * cdx + fc.dz * cdz) / sqrtf(fc.d2);
+			if (cs > enemyCos)
 			{
 				j = i;
 				minDst = fc.d2;
 				enemyCos = cs;
 			}
-		}else{
+		}
+		else
+		{
 			j = i;
 			minDst = fc.d2;
-			if(fc.d2 > 0.0f) enemyCos = (fc.dx*cdx + fc.dz*cdz)/sqrtf(fc.d2); else enemyCos = -1.0f;
+			if (fc.d2 > 0.0f) enemyCos = (fc.dx * cdx + fc.dz * cdz) / sqrtf(fc.d2);
+			else enemyCos = -1.0f;
 		}
 	}
-	if(j >= 0) return (Player *)fndCharacter[j].c;
+	if (j >= 0) return (Player *)fndCharacter[j].c;
 	return nullptr;
 }
 
@@ -684,7 +711,7 @@ void Player::FireFromShootgun()
 {
 #ifndef _XBOX
 	kSMReload = 0.0f;
-	if(const auto peid = EntityManager::GetEntityId("sound"))
+	if (const auto peid = EntityManager::GetEntityId("sound"))
 	{
 		api->Send_Message(peid, "lsllll", MSG_SOUND_PLAY, "OBJECTS\\sgboom.wav", 4, false, false, false);
 	}
@@ -695,60 +722,62 @@ void Player::FireFromShootgun()
 	const auto location = GetLocation();
 	location->GetRS()->GetTransform(D3DTS_VIEW, mtx);
 	mtx.Transposition();
-	CVECTOR src = mtx.Pos() + mtx.Vz()*0.7f;
-	api->Send_Message(effects, "sffffff", "SGFireParticles", src.x, src.y - 0.35f, src.z, mtx.Vz().x, mtx.Vz().y, mtx.Vz().z);
+	CVECTOR src = mtx.Pos() + mtx.Vz() * 0.7f;
+	api->Send_Message(effects, "sffffff", "SGFireParticles", src.x, src.y - 0.35f, src.z, mtx.Vz().x, mtx.Vz().y,
+	                  mtx.Vz().z);
 
 	auto* collide = (COLLIDE *)api->CreateService("COLL");
-	if(!collide)
+	if (!collide)
 	{
 		return;
 	}
 	struct ChrsDmg
 	{
-		Character * chr;
+		Character* chr;
 		float dmg;
 	};
 	ChrsDmg chrs[16];
 	long numChrs = 0;
 
 	auto ids = EntityManager::GetEntityIdIterators(SUN_TRACE);
-	for(long i = 0; i < 6; i++)
+	for (long i = 0; i < 6; i++)
 	{
 		//Получим позицию куда попадёт картечина
-		float r = rand()*3.0f/RAND_MAX;
-		float a = rand()*6.283185307f/(RAND_MAX + 1);
-		CVECTOR dst = mtx*CVECTOR(r*sinf(a), r*cosf(a), 25.0f);
-		if(collide)
+		float r = rand() * 3.0f / RAND_MAX;
+		float a = rand() * 6.283185307f / (RAND_MAX + 1);
+		CVECTOR dst = mtx * CVECTOR(r * sinf(a), r * cosf(a), 25.0f);
+		if (collide)
 		{
 			auto id = GetId();
 			float dist = collide->Trace(ids, src, dst, &id, 0);
-			if(dist <= 1.0f && dist > (0.2f/25.0f))
+			if (dist <= 1.0f && dist > (0.2f / 25.0f))
 			{
 				CVECTOR dir = !(src - dst);
-				dst = src + (dst - src)*dist;
+				dst = src + (dst - src) * dist;
 				//Куда то попали
-				Entity * e = EntityManager::GetEntityPointer(collide->GetObjectID());
-				if(e && e != this)
+				Entity* e = EntityManager::GetEntityPointer(collide->GetObjectID());
+				if (e && e != this)
 				{
 					long n, nm;
-					for(n = 0, nm = location->supervisor.numCharacters; n < nm; n++)
+					for (n = 0, nm = location->supervisor.numCharacters; n < nm; n++)
 					{
 						auto* c = (Player *)location->supervisor.character[n].c;
-						if(c->Model() == e)
+						if (c->Model() == e)
 						{
-							api->Send_Message(effects, "sffffff", "SGBloodParticles", dst.x, dst.y, dst.z, dir.x, dir.y, dir.z);
-							c->impulse -= dir*(1.5f + rand()*(1.0f/RAND_MAX));
-							c->impulse.y += 1.5f + rand()*(1.0f/RAND_MAX);
+							api->Send_Message(effects, "sffffff", "SGBloodParticles", dst.x, dst.y, dst.z, dir.x, dir.y,
+							                  dir.z);
+							c->impulse -= dir * (1.5f + rand() * (1.0f / RAND_MAX));
+							c->impulse.y += 1.5f + rand() * (1.0f / RAND_MAX);
 							long j;
-							for(j = 0; j < numChrs; j++)
+							for (j = 0; j < numChrs; j++)
 							{
-								if(chrs[j].chr == c)
+								if (chrs[j].chr == c)
 								{
 									chrs[j].dmg *= 2.0f;
 									break;
 								}
 							}
-							if(j >= numChrs && numChrs < 16)
+							if (j >= numChrs && numChrs < 16)
 							{
 								chrs[numChrs].chr = c;
 								chrs[numChrs++].dmg = 1.0f;
@@ -756,12 +785,14 @@ void Player::FireFromShootgun()
 							break;
 						}
 					}
-					if(n >= nm) api->Send_Message(effects, "sffffff", "SGEnvParticles", dst.x, dst.y, dst.z, dir.x, dir.y, dir.z);
-				}else api->Send_Message(effects, "sffffff", "SGEnvParticles", dst.x, dst.y, dst.z, dir.x, dir.y, dir.z);
+					if (n >= nm) api->Send_Message(effects, "sffffff", "SGEnvParticles", dst.x, dst.y, dst.z, dir.x,
+					                               dir.y, dir.z);
+				}
+				else api->Send_Message(effects, "sffffff", "SGEnvParticles", dst.x, dst.y, dst.z, dir.x, dir.y, dir.z);
 			}
 		}
 	}
-	for(long i = 0; i < numChrs; i++)
+	for (long i = 0; i < numChrs; i++)
 	{
 		api->Event("Location_CharacterSGFire", "iif", GetId(), chrs[i].chr->GetId(), chrs[i].dmg);
 	}
@@ -771,20 +802,21 @@ void Player::FireFromShootgun()
 float Player::GetRotateH()
 {
 	CONTROL_STATE cs;
-	api->Controls->GetControlState("ChrCamSpecMode",cs);
+	api->Controls->GetControlState("ChrCamSpecMode", cs);
 	float dx = 0.f;
-	if( cs.state != CST_ACTIVE ) {
-		api->Controls->GetControlState("ChrTurnH",cs);
+	if (cs.state != CST_ACTIVE)
+	{
+		api->Controls->GetControlState("ChrTurnH", cs);
 		dx = cs.fValue;
 	}
-	if(api->Controls->GetControlState("ChrTurnH1",cs)) dx += cs.fValue;
-	if(api->Controls->GetControlState("ChrTurnHR",cs))
+	if (api->Controls->GetControlState("ChrTurnH1", cs)) dx += cs.fValue;
+	if (api->Controls->GetControlState("ChrTurnHR", cs))
 	{
-		if(cs.state == CST_ACTIVE) dx += 12.0f;
+		if (cs.state == CST_ACTIVE) dx += 12.0f;
 	}
-	if(api->Controls->GetControlState("ChrTurnHL",cs))
+	if (api->Controls->GetControlState("ChrTurnHL", cs))
 	{
-		if(cs.state == CST_ACTIVE) dx -= 12.0f;
+		if (cs.state == CST_ACTIVE) dx -= 12.0f;
 	}
 	return dx;
 }

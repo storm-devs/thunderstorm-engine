@@ -2,23 +2,24 @@
 #define AISHIPCAMERACONTROLLER_HPP
 
 class AIShip;
+
 class AIShipCameraController
 {
 private:
-	ATTRIBUTES		* pTargetAPointer;
-	uint32_t			dwTarget;
-	float			fDelta;
-	long			iCrosshairTex;
-	bool			bCameraOutside;
+	ATTRIBUTES* pTargetAPointer;
+	uint32_t dwTarget;
+	float fDelta;
+	long iCrosshairTex;
+	bool bCameraOutside;
 
-	uint32_t			Colors[4];
+	uint32_t Colors[4];
 
-	uint32_t			dwSubTexturesX, dwSubTexturesY;
+	uint32_t dwSubTexturesX, dwSubTexturesY;
 
-	AIShip			* pOurAIShip;
-	ATTRIBUTES		* pACrosshair;
+	AIShip* pOurAIShip;
+	ATTRIBUTES* pACrosshair;
 
-	bool			isCameraOutside() { return bCameraOutside; };
+	bool isCameraOutside() { return bCameraOutside; };
 
 public:
 	void Realize(float fDeltaTime);
@@ -27,14 +28,14 @@ public:
 	bool Fire();
 	bool Init();
 
-	AIShipCameraController(AIShip *);
+	AIShipCameraController(AIShip*);
 	~AIShipCameraController();
 
-	void	SetAIShip(AIShip *pShip) { pOurAIShip = pShip; }
-	AIShip	*GetAIShip() { return pOurAIShip; }
+	void SetAIShip(AIShip* pShip) { pOurAIShip = pShip; }
+	AIShip* GetAIShip() { return pOurAIShip; }
 
-	void Save(CSaveLoad * pSL);
-	void Load(CSaveLoad * pSL);
+	void Save(CSaveLoad* pSL);
+	void Load(CSaveLoad* pSL);
 };
 
 #endif

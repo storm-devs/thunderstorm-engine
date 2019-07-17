@@ -21,26 +21,24 @@ class ParticleSystem : public IParticleSystem
 	std::vector<EmitterDesc> Emitters;
 
 	//Автоудаляемая система или обычная
-	bool AutoDeleted;  
-	
-	// Не рождать новые партиклы !!!
-	bool EmissionPause;		
+	bool AutoDeleted;
 
-	bool DeleteIfNeed ();
+	// Не рождать новые партиклы !!!
+	bool EmissionPause;
+
+	bool DeleteIfNeed();
 
 	std::string SystemName;
 
-
-	
 
 protected:
 
 	virtual ~ParticleSystem();
 
 
-	IEmitter* CreatePointEmitter (DataSource::EmitterDesc* pEmitter);
+	IEmitter* CreatePointEmitter(DataSource::EmitterDesc* pEmitter);
 
-	void DeleteAllEmitters ();
+	void DeleteAllEmitters();
 
 	ParticleManager* pMaster;
 
@@ -48,60 +46,57 @@ protected:
 
 public:
 
-//Создание/удаление 
+	//Создание/удаление 
 	ParticleSystem(ParticleManager* serv);
-	virtual bool Release ();
+	bool Release() override;
 
-//Отработать всем партиклам
-  virtual uint32_t Execute (float DeltaTime);
-
-
-//Перезапустить партикловую систему  
-  virtual void Restart (uint32_t RandomSeed);
-  
-//Запаузить испускание партиклов  
-  virtual void PauseEmission (bool bPause);
-
-	virtual void Stop ();
-//Узнать на паузе эмиссия или нет  
-  virtual bool IsEmissionPaused ();
+	//Отработать всем партиклам
+	uint32_t Execute(float DeltaTime) override;
 
 
-//Установить автоудаляемая система или обычная...  
-  virtual void AutoDelete (bool Enabled);
-//Узнаять автоудаляемая система или нет  
-	virtual bool IsAutoDeleted ();
-//Установить матрицу трансформации для системы 
-	virtual void SetTransform (const Matrix& transform);
-	virtual void GetTransform (Matrix& _matWorld);
+	//Перезапустить партикловую систему  
+	void Restart(uint32_t RandomSeed) override;
+
+	//Запаузить испускание партиклов  
+	void PauseEmission(bool bPause) override;
+
+	void Stop() override;
+	//Узнать на паузе эмиссия или нет  
+	bool IsEmissionPaused() override;
 
 
-	void CreateFromDataSource (DataSource* pDataSource);
+	//Установить автоудаляемая система или обычная...  
+	void AutoDelete(bool Enabled) override;
+	//Узнаять автоудаляемая система или нет  
+	bool IsAutoDeleted() override;
+	//Установить матрицу трансформации для системы 
+	void SetTransform(const Matrix& transform) override;
+	void GetTransform(Matrix& _matWorld) override;
 
 
-	ParticleManager* GetMaster ();
+	void CreateFromDataSource(DataSource* pDataSource);
 
-	IEmitter* FindEmitter (const char* name);
-	IEmitter* FindEmitterByData (FieldList* Data);
-	
 
-	void Teleport (const Matrix &transform);
+	ParticleManager* GetMaster();
 
-	bool IsAlive ();
+	IEmitter* FindEmitter(const char* name);
+	IEmitter* FindEmitterByData(FieldList* Data);
 
-	const char* GetName ();
-	void SetName (const char* Name);
+
+	void Teleport(const Matrix& transform) override;
+
+	bool IsAlive() override;
+
+	const char* GetName() override;
+	void SetName(const char* Name);
 
 
 public:
-	uint32_t GetEmittersCount ();
-	IEmitter* GetEmitterByIndex (uint32_t Index);
-	EmitterType GetEmitterTypeByIndex  (uint32_t Index);
+	uint32_t GetEmittersCount();
+	IEmitter* GetEmitterByIndex(uint32_t Index);
+	EmitterType GetEmitterTypeByIndex(uint32_t Index);
 
-	void Editor_UpdateCachedData ();
-
-
-
+	void Editor_UpdateCachedData();
 };
 
 #endif

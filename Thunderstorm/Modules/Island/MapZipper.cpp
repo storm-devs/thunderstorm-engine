@@ -18,13 +18,13 @@ void MapZipper::UnInit()
 	free(pRealData);
 }
 
-void MapZipper::DoZip(uint8_t * pSrc, uint32_t _dwSizeX)
+void MapZipper::DoZip(uint8_t* pSrc, uint32_t _dwSizeX)
 {
-	uint32_t	i, j, k, x, y, xx, yy;
+	uint32_t i, j, k, x, y, xx, yy;
 
 	UnInit();
 
-	uint32_t	dwRealIndex = 0;
+	uint32_t dwRealIndex = 0;
 
 	dwSizeX = _dwSizeX;
 
@@ -37,7 +37,7 @@ void MapZipper::DoZip(uint8_t * pSrc, uint32_t _dwSizeX)
 
 	pWordTable = new uint16_t[dwDX * dwDX];
 	pRealData = (uint8_t*)malloc(dwSizeX * dwSizeX);
-	for (i=0; i<dwDX * dwDX; i++)
+	for (i = 0; i < dwDX * dwDX; i++)
 	{
 		y = i / dwDX;
 		x = i - y * dwDX;
@@ -45,7 +45,7 @@ void MapZipper::DoZip(uint8_t * pSrc, uint32_t _dwSizeX)
 
 		bool bTest = true;
 		uint8_t byTest;
-		for (j=0; j<dwBlockSize * dwBlockSize; j++)
+		for (j = 0; j < dwBlockSize * dwBlockSize; j++)
 		{
 			yy = j >> dwBlockShift;
 			xx = j - (yy << dwBlockShift);
@@ -55,7 +55,7 @@ void MapZipper::DoZip(uint8_t * pSrc, uint32_t _dwSizeX)
 			{
 				bTest = false;
 				pWordTable[i] = uint16_t(dwRealIndex);
-				for (k=0; k<dwBlockSize * dwBlockSize; k++)
+				for (k = 0; k < dwBlockSize * dwBlockSize; k++)
 				{
 					yy = k >> dwBlockShift;
 					xx = k - (yy << dwBlockShift);
@@ -71,10 +71,10 @@ void MapZipper::DoZip(uint8_t * pSrc, uint32_t _dwSizeX)
 	dwNumRealBlocks = dwRealIndex;
 	pRealData = (uint8_t*)realloc(pRealData, dwRealIndex * dwBlockSize * dwBlockSize);
 
-	for (y=0; y<_dwSizeX; y++)
-		for (x=0; x<_dwSizeX; x++)
+	for (y = 0; y < _dwSizeX; y++)
+		for (x = 0; x < _dwSizeX; x++)
 		{
-			if (Get(x,y) != pSrc[x + y * _dwSizeX])
+			if (Get(x, y) != pSrc[x + y * _dwSizeX])
 				__debugbreak();
 		}
 }

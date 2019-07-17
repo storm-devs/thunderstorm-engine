@@ -7,54 +7,59 @@
 class CXI_SCROLLER : public CINODE
 {
 public:
-	 CXI_SCROLLER();
+	CXI_SCROLLER();
 	~CXI_SCROLLER();
 
-	void	Draw(bool bSelected,uint32_t Delta_Time);
-	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
-	void	ReleaseAll();
-	int		CommandExecute(int wActCode);
-	bool	IsClick(int buttonID,long xPos,long yPos);
-	void	MouseThis(float fX, float fY) {}
-	void	ChangePosition( XYRECT &rNewPos );
-	void	SaveParametersToIni();
+	void Draw(bool bSelected, uint32_t Delta_Time) override;
+	bool Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+	          XYPOINT& ScreenSize) override;
+	void ReleaseAll() override;
+	int CommandExecute(int wActCode) override;
+	bool IsClick(int buttonID, long xPos, long yPos) override;
 
-	void	SetRollerPos(float pos);
-	void	LinkNodeChanged(float fPos);
+	void MouseThis(float fX, float fY) override
+	{
+	}
+
+	void ChangePosition(XYRECT& rNewPos) override;
+	void SaveParametersToIni() override;
+
+	void SetRollerPos(float pos);
+	void LinkNodeChanged(float fPos);
 
 	std::vector<std::string> m_asOwnedNodes;
 
 protected:
-	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
-	void	MakeOwnedControl();
-	void	UpPress();
-	void	DownPress();
-	float	GetOwnedStep();
+	void LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2) override;
+	void MakeOwnedControl();
+	void UpPress();
+	void DownPress();
+	float GetOwnedStep();
 
-	void	FillVertexBuffer();
-	void	MouseMove();
+	void FillVertexBuffer();
+	void MouseMove();
 
 protected:
-	FXYRECT		m_upButtonPos;
-	FXYRECT		m_downButtonPos;
-	FXYPOINT	m_pressOffset;
+	FXYRECT m_upButtonPos;
+	FXYRECT m_downButtonPos;
+	FXYPOINT m_pressOffset;
 
-	long	m_idBaseTex; // border texture identificator
-	long	m_idRollerTex; // roller texture identificator
+	long m_idBaseTex; // border texture identificator
+	long m_idRollerTex; // roller texture identificator
 
-	long	m_idVBuf;
+	long m_idVBuf;
 
-	FXYRECT	m_rollerPlace;
+	FXYRECT m_rollerPlace;
 	FXYRECT m_rollerCur;
-	float	m_rollerHeight;
+	float m_rollerHeight;
 
-	FXYPOINT	m_curMousePos;
+	FXYPOINT m_curMousePos;
 
-	bool	m_bDragRoll;
-	float	m_fPos;
+	bool m_bDragRoll;
+	float m_fPos;
 
-	float	m_fOffTexHeight;
-	float	m_fOffHeight;
+	float m_fOffTexHeight;
+	float m_fOffHeight;
 	FXYRECT m_ScrollTexRect;
 	FXYRECT m_RollTexRect;
 };

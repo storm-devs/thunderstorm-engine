@@ -18,7 +18,7 @@ BaseEmitter::BaseEmitter(ParticleSystem* pSystem)
 	LifeTime = 0.0f;
 	pMaster = pSystem;
 	ElapsedTime = 0.0f;
-	Position = Vector (0.0f);
+	Position = Vector(0.0f);
 	EmissionDirX = nullptr;
 	EmissionDirY = nullptr;
 	EmissionDirZ = nullptr;
@@ -33,7 +33,7 @@ BaseEmitter::~BaseEmitter()
 }
 
 //Родить новые партиклы 
-void BaseEmitter::BornParticles (float DeltaTime)
+void BaseEmitter::BornParticles(float DeltaTime)
 {
 	float SavedTime = ElapsedTime;
 	if (!Visible) return;
@@ -51,7 +51,7 @@ void BaseEmitter::BornParticles (float DeltaTime)
 		MatrixBlend += MatrixBlendInc;
 
 		float DeltaTimeDiv = DeltaTime / INTERPOLATION_STEPS;
-		IncreaseTime (DeltaTimeDiv);
+		IncreaseTime(DeltaTimeDiv);
 
 		// Если запаузился эмиттер досрочный выход
 		if (Stoped)
@@ -70,7 +70,7 @@ void BaseEmitter::BornParticles (float DeltaTime)
 			EmissionRate *= DeltaTimeDiv;
 
 			// How many particles remain unemissed from last frame
-			float ParticlesRemain = ParticleTypes[n].Remain;	
+			float ParticlesRemain = ParticleTypes[n].Remain;
 
 			ParticlesRemain += EmissionRate;
 			ParticleTypes[n].Remain = ParticlesRemain;
@@ -80,18 +80,22 @@ void BaseEmitter::BornParticles (float DeltaTime)
 				ParticleTypes[n].Remain -= 1.0f;
 				if (ParticleTypes[n].ActiveCount < ParticleTypes[n].MaxParticlesCount)
 				{
-					Vector ParticlePos = GetNewParticlePosition (DeltaTime);
-					GetEmissionDirection (matTransform);
+					Vector ParticlePos = GetNewParticlePosition(DeltaTime);
+					GetEmissionDirection(matTransform);
 					Vector VelDir = matTransform.vy;
-					switch(ParticleTypes[n].Type)
+					switch (ParticleTypes[n].Type)
 					{
 					case BILLBOARD_PARTICLE:
 						ParticleTypes[n].ActiveCount++;
-						GetManager()->GetBBProcessor()->AddParticle(pMaster, VelDir, ParticlePos, matWorldTransform, ElapsedTime, LifeTime, ParticleTypes[n].pFields, &ParticleTypes[n].ActiveCount, (Unique_GUID+n));
+						GetManager()->GetBBProcessor()->AddParticle(pMaster, VelDir, ParticlePos, matWorldTransform,
+						                                            ElapsedTime, LifeTime, ParticleTypes[n].pFields,
+						                                            &ParticleTypes[n].ActiveCount, (Unique_GUID + n));
 						break;
 					case MODEL_PARTICLE:
 						ParticleTypes[n].ActiveCount++;
-						GetManager()->GetMDLProcessor()->AddParticle(pMaster, VelDir, ParticlePos, matWorldTransform, ElapsedTime, LifeTime, ParticleTypes[n].pFields, &ParticleTypes[n].ActiveCount, (Unique_GUID+n));
+						GetManager()->GetMDLProcessor()->AddParticle(pMaster, VelDir, ParticlePos, matWorldTransform,
+						                                             ElapsedTime, LifeTime, ParticleTypes[n].pFields,
+						                                             &ParticleTypes[n].ActiveCount, (Unique_GUID + n));
 						//ParticleTypes[n].ActiveCount++;
 						//GetMaster()->GetMaster()->GetMDLProcessor()->AddParticle(ParticleTypes[n].pFields);
 						break;
@@ -101,44 +105,43 @@ void BaseEmitter::BornParticles (float DeltaTime)
 				} // Active < Max
 			} // While Remain
 		} // For all types
-	}	 // INTERPOLATION_STEPS iterations
+	} // INTERPOLATION_STEPS iterations
 
 	matWorldTransformOld = matWorldTransformNew;
 
 	ElapsedTime = SavedTime;
 }
-  
+
 
 //Исполнить
-void BaseEmitter::Execute (float DeltaTime)
+void BaseEmitter::Execute(float DeltaTime)
 {
-	
-	if (!Stoped && !IsAttachedFlag) BornParticles (DeltaTime);
+	if (!Stoped && !IsAttachedFlag) BornParticles(DeltaTime);
 
-	IncreaseTime (DeltaTime);
+	IncreaseTime(DeltaTime);
 
-/*
-	for (DWORD n = 0; n < ParticleTypes.size(); n++)
-	{
-		switch (ParticleTypes[n].Type)
+	/*
+		for (DWORD n = 0; n < ParticleTypes.size(); n++)
 		{
-			case BILLBOARD_PARTICLE:
-				break;
-			case MODEL_PARTICLE:
-				break;
+			switch (ParticleTypes[n].Type)
+			{
+				case BILLBOARD_PARTICLE:
+					break;
+				case MODEL_PARTICLE:
+					break;
+			}
 		}
-	}
-*/
+	*/
 }
 
 //Присоединиться к источнику данных
-void BaseEmitter::AttachToDataSource (DataSource::EmitterDesc* pEmitter)
+void BaseEmitter::AttachToDataSource(DataSource::EmitterDesc* pEmitter)
 {
 	this->pEmitter = pEmitter;
 	pFields = &pEmitter->Fields;
 	Type = pEmitter->Type;
 
-	Editor_UpdateCachedData ();
+	Editor_UpdateCachedData();
 
 	EmissionDirX = pEmitter->Fields.FindGraph(EMISSION_DIR_X);
 	EmissionDirY = pEmitter->Fields.FindGraph(EMISSION_DIR_Y);
@@ -150,20 +153,19 @@ void BaseEmitter::AttachToDataSource (DataSource::EmitterDesc* pEmitter)
 		DataSource::ParticleDesc* pDesc = &pEmitter->Particles[n];
 		switch (pDesc->Type)
 		{
-			case BILLBOARD_PARTICLE:
-				CreateBillBoardParticle (pDesc->Fields);
-				break;
-			case MODEL_PARTICLE:
-				CreateModelParticle (pDesc->Fields);
-				break;
-			default:
-				throw std::exception("Particles: Unknown particle type !!!!");
+		case BILLBOARD_PARTICLE:
+			CreateBillBoardParticle(pDesc->Fields);
+			break;
+		case MODEL_PARTICLE:
+			CreateModelParticle(pDesc->Fields);
+			break;
+		default:
+			throw std::exception("Particles: Unknown particle type !!!!");
 		}
-
 	}
 }
 
-void BaseEmitter::IncreaseTime (float DeltaTime)
+void BaseEmitter::IncreaseTime(float DeltaTime)
 {
 	ElapsedTime += DeltaTime;
 	if (ElapsedTime > LifeTime)
@@ -173,9 +175,9 @@ void BaseEmitter::IncreaseTime (float DeltaTime)
 	}
 }
 
-void BaseEmitter::CreateBillBoardParticle (FieldList &Fields)
+void BaseEmitter::CreateBillBoardParticle(FieldList& Fields)
 {
-//	api->Trace("Create BB Particle\n");
+	//	api->Trace("Create BB Particle\n");
 
 	ParticleTypes.push_back(structParticleType{});
 	//structParticleType* NewBillBoard = &ParticleTypes[ParticleTypes.Add()];
@@ -188,13 +190,12 @@ void BaseEmitter::CreateBillBoardParticle (FieldList &Fields)
 	NewBillBoard->pFields = &Fields;
 	NewBillBoard->Visible = true;
 
-//	api->Trace("%d", NewBillBoard->MaxParticlesCount);
-	
+	//	api->Trace("%d", NewBillBoard->MaxParticlesCount);
 }
 
-void BaseEmitter::CreateModelParticle (FieldList &Fields)
+void BaseEmitter::CreateModelParticle(FieldList& Fields)
 {
-//	api->Trace("Create MODEL Particle\n");
+	//	api->Trace("Create MODEL Particle\n");
 
 	ParticleTypes.push_back(structParticleType{});
 	//structParticleType* NewModel = &ParticleTypes[ParticleTypes.Add()];
@@ -208,17 +209,17 @@ void BaseEmitter::CreateModelParticle (FieldList &Fields)
 	NewModel->Visible = true;
 }
 
-ParticleSystem* BaseEmitter::GetMaster ()
+ParticleSystem* BaseEmitter::GetMaster()
 {
 	return pMaster;
 }
 
-ParticleManager* BaseEmitter::GetManager ()
+ParticleManager* BaseEmitter::GetManager()
 {
 	return pMaster->GetMaster();
 }
 
-void BaseEmitter::GetEmissionDirection (Matrix &matWorld)
+void BaseEmitter::GetEmissionDirection(Matrix& matWorld)
 {
 	Vector DirAngles;
 	DirAngles.x = EmissionDirX->GetRandomValue(ElapsedTime, LifeTime);
@@ -227,11 +228,11 @@ void BaseEmitter::GetEmissionDirection (Matrix &matWorld)
 
 	DirAngles *= MUL_DEGTORAD;
 
-	
+
 	matWorld = Matrix(DirAngles, Vector(0.0f));
 }
 
-void BaseEmitter::Restart ()
+void BaseEmitter::Restart()
 {
 	//Удаляем свои партиклы...
 	GetManager()->GetBBProcessor()->DeleteWithGUID(Unique_GUID);
@@ -240,7 +241,7 @@ void BaseEmitter::Restart ()
 	ElapsedTime = 0.0f;
 }
 
-uint32_t BaseEmitter::GetParticleCount ()
+uint32_t BaseEmitter::GetParticleCount()
 {
 	uint32_t Count = 0;
 	for (uint32_t n = 0; n < ParticleTypes.size(); n++)
@@ -251,31 +252,31 @@ uint32_t BaseEmitter::GetParticleCount ()
 	return Count;
 }
 
-bool BaseEmitter::IsStoped ()
+bool BaseEmitter::IsStoped()
 {
 	return Stoped;
 }
 
-void BaseEmitter::SetTransform (const Matrix& matWorld)
+void BaseEmitter::SetTransform(const Matrix& matWorld)
 {
 	if (OldMatrixNotInitialized)
 	{
 		matWorldTransformOld = matWorld;
 		OldMatrixNotInitialized = false;
-	} 
+	}
 
 	matWorldTransformNew = matWorld;
 	//matWorldTransform = matWorld;
 }
 
-void BaseEmitter::Teleport (const Matrix &matWorld)
+void BaseEmitter::Teleport(const Matrix& matWorld)
 {
 	matWorldTransformOld = matWorld;
 	matWorldTransformNew = matWorld;
 }
 
 
-void BaseEmitter::BlendMatrix (Matrix& result, const Matrix& mat1, const Matrix& mat2, float BlendK)
+void BaseEmitter::BlendMatrix(Matrix& result, const Matrix& mat1, const Matrix& mat2, float BlendK)
 {
 	Quaternion qRot1(mat1);
 	Quaternion qRot2(mat2);
@@ -292,52 +293,52 @@ void BaseEmitter::BlendMatrix (Matrix& result, const Matrix& mat1, const Matrix&
 	result.pos = vBlend;
 }
 
-const char* BaseEmitter::GetName ()
+const char* BaseEmitter::GetName()
 {
 	return Name.c_str();
 }
 
-void BaseEmitter::SetAttachedFlag (bool Flag)
+void BaseEmitter::SetAttachedFlag(bool Flag)
 {
 	IsAttachedFlag = Flag;
 }
 
-bool BaseEmitter::IsAttached ()
+bool BaseEmitter::IsAttached()
 {
 	return IsAttachedFlag;
 }
 
-float BaseEmitter::GetTime ()
+float BaseEmitter::GetTime()
 {
 	return ElapsedTime;
 }
 
-void BaseEmitter::SetTime (float Time)
+void BaseEmitter::SetTime(float Time)
 {
 	ElapsedTime = Time;
 }
 
-uint32_t BaseEmitter::GetParticleTypesCount ()
+uint32_t BaseEmitter::GetParticleTypesCount()
 {
 	return ParticleTypes.size();
 }
 
-FieldList* BaseEmitter::GetParticleTypeDataByIndex (uint32_t Index)
+FieldList* BaseEmitter::GetParticleTypeDataByIndex(uint32_t Index)
 {
 	return ParticleTypes[Index].pFields;
 }
 
-ParticleType BaseEmitter::GetParticleTypeByIndex  (uint32_t Index)
+ParticleType BaseEmitter::GetParticleTypeByIndex(uint32_t Index)
 {
 	return ParticleTypes[Index].Type;
 }
 
-FieldList* BaseEmitter::GetData ()
+FieldList* BaseEmitter::GetData()
 {
 	return pFields;
 }
 
-bool BaseEmitter::SetEnable (bool bVisible)
+bool BaseEmitter::SetEnable(bool bVisible)
 {
 	Visible = bVisible;
 
@@ -348,18 +349,18 @@ bool BaseEmitter::SetEnable (bool bVisible)
 	}
 
 	for (uint32_t n = 0; n < ParticleTypes.size(); n++)
-							ParticleTypes[n].Visible = bVisible;
+		ParticleTypes[n].Visible = bVisible;
 
 
 	return Visible;
 }
 
-bool BaseEmitter::GetEnable ()
+bool BaseEmitter::GetEnable()
 {
 	return Visible;
 }
 
-int BaseEmitter::GetParticleTypeIndex (FieldList* pFields)
+int BaseEmitter::GetParticleTypeIndex(FieldList* pFields)
 {
 	for (uint32_t n = 0; n < ParticleTypes.size(); n++)
 	{
@@ -368,29 +369,29 @@ int BaseEmitter::GetParticleTypeIndex (FieldList* pFields)
 	return -1;
 }
 
-bool BaseEmitter::SetParticleTypeEnable (bool bVisible, uint32_t Index)
+bool BaseEmitter::SetParticleTypeEnable(bool bVisible, uint32_t Index)
 {
 	ParticleTypes[Index].Visible = bVisible;
 
 	if (bVisible == false)
 	{
-		GetManager()->GetBBProcessor()->DeleteWithGUID(Unique_GUID+Index, 1);
-		GetManager()->GetMDLProcessor()->DeleteWithGUID(Unique_GUID+Index, 1);
+		GetManager()->GetBBProcessor()->DeleteWithGUID(Unique_GUID + Index, 1);
+		GetManager()->GetMDLProcessor()->DeleteWithGUID(Unique_GUID + Index, 1);
 	}
 
 	return ParticleTypes[Index].Visible;
 }
 
-bool BaseEmitter::GetParticleTypeEnable (uint32_t Index)
+bool BaseEmitter::GetParticleTypeEnable(uint32_t Index)
 {
 	return ParticleTypes[Index].Visible;
 }
 
-void BaseEmitter::Editor_UpdateCachedData ()
+void BaseEmitter::Editor_UpdateCachedData()
 {
 	Name = pEmitter->Fields.GetString(EMITTER_NAME, "NoName");
 	LifeTime = pEmitter->Fields.GetFloat(EMITTER_LIFETIME);
-	Assert (LifeTime > 0);
+	Assert(LifeTime > 0);
 	Position = pEmitter->Fields.GetPosition(EMITTER_POSITION);
 	Looped = pEmitter->Fields.GetBool(EMITTER_LOOPING, false);
 
@@ -398,19 +399,17 @@ void BaseEmitter::Editor_UpdateCachedData ()
 	{
 		ParticleTypes[n].MaxParticlesCount = ParticleTypes[n].pFields->GetFloatAsInt(MAX_PARTICLES_COUNT);
 	}
-	
-
 }
 
-void BaseEmitter::SetName (const char* Name)
+void BaseEmitter::SetName(const char* Name)
 {
 	DataString* EmitterName = pEmitter->Fields.FindString(EMITTER_NAME);
-	Assert (EmitterName);
+	Assert(EmitterName);
 	EmitterName->SetValue(Name);
-	Editor_UpdateCachedData ();
+	Editor_UpdateCachedData();
 }
 
-void BaseEmitter::Stop ()
+void BaseEmitter::Stop()
 {
 	Stoped = true;
 }

@@ -14,7 +14,7 @@
 
 //============================================================================================
 
-WdmObjects * wdmObjects = nullptr;
+WdmObjects* wdmObjects = nullptr;
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -38,7 +38,7 @@ WdmObjects::WdmObjects()
 	playarInStorm = false;
 	worldSizeX = 2000.0f;
 	worldSizeZ = 2000.0f;
-	for(long i = 0; i < sizeof(entryModels)/sizeof(entryModels[0]); i++)
+	for (long i = 0; i < sizeof(entryModels) / sizeof(entryModels[0]); i++)
 	{
 		entryModels[i] = -1;
 	}
@@ -47,7 +47,7 @@ WdmObjects::WdmObjects()
 WdmObjects::~WdmObjects()
 {
 	wdmObjects = nullptr;
-	for(long i = 0; i < models.size(); i++)
+	for (long i = 0; i < models.size(); i++)
 	{
 		delete models[i].geo;
 	}
@@ -59,7 +59,7 @@ void WdmObjects::SetWorldSize(float x, float z)
 	worldSizeZ = z;
 	x *= 1.2f;
 	z *= 1.2f;
-	windField.Init(-0.5f*x, -0.5f*z, 0.5f*x, 0.5f*z);
+	windField.Init(-0.5f * x, -0.5f * z, 0.5f * x, 0.5f * z);
 }
 
 void WdmObjects::Clear()
@@ -72,34 +72,36 @@ void WdmObjects::Clear()
 	isPause = false;
 	shipSpeedOppositeWind = 0.8f;
 	shipSpeedOverWind = 1.2f;
-	enemyshipViewDistMin = 20.0f;		//Растояние на котором корабль начинает исчезать
-	enemyshipViewDistMax = 50.0f;		//Растояние на котором исчезает полностью корабль
-	enemyshipDistKill = 100.0f;			//Расстояние на котором убиваем корабль
-	enemyshipBrnDistMin = 40.0f;		//Минимальное растояние при котором рожается корабль
-	enemyshipBrnDistMax = 70.0f;		//Максимальное растояние при котором рожается корабль
-	stormViewDistMin = 120.0f;			//Растояние на котором шторм начинает исчезать
-	stormViewDistMax = 160.0f;			//Растояние на котором шторм исчезает полностью
-	stormDistKill = 200.0f;				//Расстояние на котором убиваем шторм
-	stormBrnDistMin = 70.0f;			//Минимальное растояние на котором рожается шторм
-	stormBrnDistMax = 160.0f;			//Максимальное растояние на котором рожается шторм
-	stormZone = 50.0f;					//Общий радиус действия шторма
+	enemyshipViewDistMin = 20.0f; //Растояние на котором корабль начинает исчезать
+	enemyshipViewDistMax = 50.0f; //Растояние на котором исчезает полностью корабль
+	enemyshipDistKill = 100.0f; //Расстояние на котором убиваем корабль
+	enemyshipBrnDistMin = 40.0f; //Минимальное растояние при котором рожается корабль
+	enemyshipBrnDistMax = 70.0f; //Максимальное растояние при котором рожается корабль
+	stormViewDistMin = 120.0f; //Растояние на котором шторм начинает исчезать
+	stormViewDistMax = 160.0f; //Растояние на котором шторм исчезает полностью
+	stormDistKill = 200.0f; //Расстояние на котором убиваем шторм
+	stormBrnDistMin = 70.0f; //Минимальное растояние на котором рожается шторм
+	stormBrnDistMax = 160.0f; //Максимальное растояние на котором рожается шторм
+	stormZone = 50.0f; //Общий радиус действия шторма
 	enableSkipEnemy = false;
 	playarInStorm = false;
 	isNextDayUpdate = true;
 	SetWorldSize(2000.0f, 2000.0f);
 }
 
-void WdmObjects::AddShip(WdmShip * ship)
+void WdmObjects::AddShip(WdmShip* ship)
 {
 	Assert(ship);
 	ships.push_back(ship);
 }
 
-void WdmObjects::DelShip(WdmShip * ship)
+void WdmObjects::DelShip(WdmShip* ship)
 {
 	Assert(ship);
-	for (auto & it : ships) {
-		if (it == ship) {
+	for (auto& it : ships)
+	{
+		if (it == ship)
+		{
 			it = ships.back();
 			ships.pop_back();
 			break;
@@ -107,16 +109,18 @@ void WdmObjects::DelShip(WdmShip * ship)
 	}
 }
 
-void WdmObjects::AddStorm(WdmStorm * storm)
+void WdmObjects::AddStorm(WdmStorm* storm)
 {
 	Assert(storm);
 	storms.push_back(storm);
 }
 
-void WdmObjects::DelStorm(WdmStorm * storm)
+void WdmObjects::DelStorm(WdmStorm* storm)
 {
-	for (auto & it : storms) {
-		if (it == storm) {
+	for (auto& it : storms)
+	{
+		if (it == storm)
+		{
 			it = storms.back();
 			storms.pop_back();
 			break;
@@ -125,17 +129,17 @@ void WdmObjects::DelStorm(WdmStorm * storm)
 }
 
 //Создать геометрию
-GEOS * WdmObjects::CreateGeometry(const char * path)
+GEOS* WdmObjects::CreateGeometry(const char* path)
 {
-	if(!path || !path[0] || !gs) return nullptr;
+	if (!path || !path[0] || !gs) return nullptr;
 	//Ищим среди добавленных
 	uint32_t hash = TOREMOVE::HashNoCase(path);
-	long i = hash & (sizeof(entryModels)/sizeof(entryModels[0]) - 1);
-	for(i = entryModels[i]; i >= 0; i = models[i].next)
+	long i = hash & (sizeof(entryModels) / sizeof(entryModels[0]) - 1);
+	for (i = entryModels[i]; i >= 0; i = models[i].next)
 	{
-		if(models[i].hash == hash)
+		if (models[i].hash == hash)
 		{
-			if(_stricmp(models[i].path.c_str(), path) == 0)
+			if (_stricmp(models[i].path.c_str(), path) == 0)
 			{
 				return models[i].geo;
 			}
@@ -145,7 +149,7 @@ GEOS * WdmObjects::CreateGeometry(const char * path)
 	modelPath = "WorldMap\\";
 	modelPath += path;
 	gs->SetTexturePath("WorldMap\\Geometry\\");
-	GEOS * geo = gs->CreateGeometry(modelPath.c_str(), "", 0);
+	GEOS* geo = gs->CreateGeometry(modelPath.c_str(), "", 0);
 	gs->SetTexturePath("");
 	//Добавляем в таблицу
 	//Model & m = models[models.Add()];
@@ -153,13 +157,15 @@ GEOS * WdmObjects::CreateGeometry(const char * path)
 	//m.hash = hash;
 	//m.next = -1;
 	//m.geo = geo;
-	models.push_back(Model{ geo ,path, hash, -1 });
-	long index = hash & (sizeof(entryModels)/sizeof(entryModels[0]) - 1);
-	if(entryModels[index] < 0)
+	models.push_back(Model{geo, path, hash, -1});
+	long index = hash & (sizeof(entryModels) / sizeof(entryModels[0]) - 1);
+	if (entryModels[index] < 0)
 	{
 		entryModels[index] = i;
-	}else{
-		for(index = entryModels[index]; models[index].next >= 0; index = models[index].next);
+	}
+	else
+	{
+		for (index = entryModels[index]; models[index].next >= 0; index = models[index].next);
 		models[index].next = i;
 	}
 	return geo;
@@ -174,21 +180,20 @@ GEOS * WdmObjects::CreateGeometry(const char * path)
 WdmObjects::Vertex WdmObjects::vertex[1024];
 
 
-
-void WdmObjects::DrawCircle(const CVECTOR & pos, float radius, uint32_t color)
+void WdmObjects::DrawCircle(const CVECTOR& pos, float radius, uint32_t color)
 {
 	static CMatrix mtx;
 	mtx.SetPosition(pos.x, pos.y, pos.z);
 	DrawCircle(mtx, radius, color);
 }
 
-void WdmObjects::DrawCircle(CMatrix & mtx, float radius, uint32_t color)
+void WdmObjects::DrawCircle(CMatrix& mtx, float radius, uint32_t color)
 {
-	for(long i = 0; i < 64; i++)
+	for (long i = 0; i < 64; i++)
 	{
-		vertex[i].v.x = radius*sinf(2.0f*WdmObjects_myPI*i/63);
+		vertex[i].v.x = radius * sinf(2.0f * WdmObjects_myPI * i / 63);
 		vertex[i].v.y = 0.0f;
-		vertex[i].v.z = radius*cosf(2.0f*WdmObjects_myPI*i/63);
+		vertex[i].v.z = radius * cosf(2.0f * WdmObjects_myPI * i / 63);
 		vertex[i].c = color;
 	}
 	rs->TextureSet(0, -1);
@@ -197,84 +202,84 @@ void WdmObjects::DrawCircle(CMatrix & mtx, float radius, uint32_t color)
 	rs->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, D3DFVF_XYZ | D3DFVF_DIFFUSE, 62, vertex, sizeof(vertex[0]), "WdmDebugDraw");
 }
 
-void WdmObjects::DrawVector(const CVECTOR & start, const CVECTOR & end, uint32_t color)
+void WdmObjects::DrawVector(const CVECTOR& start, const CVECTOR& end, uint32_t color)
 {
 	CVECTOR dir = end - start;
 	float len = ~dir;
-	if(len == 0.0f) return;
+	if (len == 0.0f) return;
 	len = sqrtf(len);
-	dir *= 1.0f/len;
-	float p = 0.9f*len;
-	float r = 0.03f*len;
+	dir *= 1.0f / len;
+	float p = 0.9f * len;
+	float r = 0.03f * len;
 
 	long t = 0;
-	for(long i = 0, imax = 8; i < imax; i++)
+	for (long i = 0, imax = 8; i < imax; i++)
 	{
-		float y1 = r*sinf(2.0f*WdmObjects_myPI*i/float(imax));
-		float x1 = r*cosf(2.0f*WdmObjects_myPI*i/float(imax));
-		float y2 = r*sinf(2.0f*WdmObjects_myPI*(i + 1)/float(imax));
-		float x2 = r*cosf(2.0f*WdmObjects_myPI*(i + 1)/float(imax));
+		float y1 = r * sinf(2.0f * WdmObjects_myPI * i / float(imax));
+		float x1 = r * cosf(2.0f * WdmObjects_myPI * i / float(imax));
+		float y2 = r * sinf(2.0f * WdmObjects_myPI * (i + 1) / float(imax));
+		float x2 = r * cosf(2.0f * WdmObjects_myPI * (i + 1) / float(imax));
 		//Добавляем треугольники 1 линии
 		//0,0,0
-		vertex[t*3 + 0].v.x = 0.0f;
-		vertex[t*3 + 0].v.y = 0.0f;
-		vertex[t*3 + 0].v.z = len;
-		vertex[t*3 + 0].c = color;
+		vertex[t * 3 + 0].v.x = 0.0f;
+		vertex[t * 3 + 0].v.y = 0.0f;
+		vertex[t * 3 + 0].v.z = len;
+		vertex[t * 3 + 0].c = color;
 		//0,1,1
-		vertex[t*3 + 1].v.x = x1;
-		vertex[t*3 + 1].v.y = y1;
-		vertex[t*3 + 1].v.z = p;
-		vertex[t*3 + 1].c = color;
+		vertex[t * 3 + 1].v.x = x1;
+		vertex[t * 3 + 1].v.y = y1;
+		vertex[t * 3 + 1].v.z = p;
+		vertex[t * 3 + 1].c = color;
 		//0,2,2
-		vertex[t*3 + 2].v.x = x2;
-		vertex[t*3 + 2].v.y = y2;
-		vertex[t*3 + 2].v.z = p;
-		vertex[t*3 + 2].c = color;
+		vertex[t * 3 + 2].v.x = x2;
+		vertex[t * 3 + 2].v.y = y2;
+		vertex[t * 3 + 2].v.z = p;
+		vertex[t * 3 + 2].c = color;
 		//1,0,3
-		vertex[t*3 + 3] = vertex[t*3 + 2];
+		vertex[t * 3 + 3] = vertex[t * 3 + 2];
 		//1,1,4
-		vertex[t*3 + 4] = vertex[t*3 + 1];
+		vertex[t * 3 + 4] = vertex[t * 3 + 1];
 		//1,2,5
-		vertex[t*3 + 5].v.x = x1*0.3f;
-		vertex[t*3 + 5].v.y = y1*0.3f;
-		vertex[t*3 + 5].v.z = p;
-		vertex[t*3 + 5].c = color;
+		vertex[t * 3 + 5].v.x = x1 * 0.3f;
+		vertex[t * 3 + 5].v.y = y1 * 0.3f;
+		vertex[t * 3 + 5].v.z = p;
+		vertex[t * 3 + 5].c = color;
 		//2,0,6
-		vertex[t*3 + 6] = vertex[t*3 + 2];
+		vertex[t * 3 + 6] = vertex[t * 3 + 2];
 		//2,1,7
-		vertex[t*3 + 7] = vertex[t*3 + 5];
+		vertex[t * 3 + 7] = vertex[t * 3 + 5];
 		//2,2,8
-		vertex[t*3 + 8].v.x = x2*0.3f;
-		vertex[t*3 + 8].v.y = y2*0.3f;
-		vertex[t*3 + 8].v.z = p;
-		vertex[t*3 + 8].c = color;
+		vertex[t * 3 + 8].v.x = x2 * 0.3f;
+		vertex[t * 3 + 8].v.y = y2 * 0.3f;
+		vertex[t * 3 + 8].v.z = p;
+		vertex[t * 3 + 8].c = color;
 		//3,0,9
-		vertex[t*3 + 10] = vertex[t*3 + 5];
+		vertex[t * 3 + 10] = vertex[t * 3 + 5];
 		//3,1,10
-		vertex[t*3 + 9] = vertex[t*3 + 8];
+		vertex[t * 3 + 9] = vertex[t * 3 + 8];
 		//3,2,11
-		vertex[t*3 + 11].v.x = x1*0.5f;
-		vertex[t*3 + 11].v.y = y1*0.5f;
-		vertex[t*3 + 11].v.z = 0.0f;
-		vertex[t*3 + 11].c = color;
+		vertex[t * 3 + 11].v.x = x1 * 0.5f;
+		vertex[t * 3 + 11].v.y = y1 * 0.5f;
+		vertex[t * 3 + 11].v.z = 0.0f;
+		vertex[t * 3 + 11].c = color;
 		//4,0,12
-		vertex[t*3 + 12] = vertex[t*3 + 8];
+		vertex[t * 3 + 12] = vertex[t * 3 + 8];
 		//4,1,13
-		vertex[t*3 + 13] = vertex[t*3 + 11];
+		vertex[t * 3 + 13] = vertex[t * 3 + 11];
 		//4,2,14
-		vertex[t*3 + 14].v.x = x2*0.5f;
-		vertex[t*3 + 14].v.y = y2*0.5f;
-		vertex[t*3 + 14].v.z = 0.0f;
-		vertex[t*3 + 14].c = color;
+		vertex[t * 3 + 14].v.x = x2 * 0.5f;
+		vertex[t * 3 + 14].v.y = y2 * 0.5f;
+		vertex[t * 3 + 14].v.z = 0.0f;
+		vertex[t * 3 + 14].c = color;
 		//5,0,15
-		vertex[t*3 + 15] = vertex[t*3 + 14];
+		vertex[t * 3 + 15] = vertex[t * 3 + 14];
 		//5,1,16
-		vertex[t*3 + 16] = vertex[t*3 + 11];
+		vertex[t * 3 + 16] = vertex[t * 3 + 11];
 		//5,2,17
-		vertex[t*3 + 17].v.x = 0.0f;
-		vertex[t*3 + 17].v.y = 0.0f;
-		vertex[t*3 + 17].v.z = 0.0f;
-		vertex[t*3 + 17].c = color;
+		vertex[t * 3 + 17].v.x = 0.0f;
+		vertex[t * 3 + 17].v.y = 0.0f;
+		vertex[t * 3 + 17].v.z = 0.0f;
+		vertex[t * 3 + 17].c = color;
 
 		t += 6;
 	}
@@ -282,11 +287,11 @@ void WdmObjects::DrawVector(const CVECTOR & start, const CVECTOR & end, uint32_t
 	rs->TextureSet(0, -1);
 	rs->TextureSet(1, -1);
 	CVECTOR yBs = dir ^ CVECTOR(0.0f, 1.0f, 0.0f);
-	if(~yBs == 0.0f)
+	if (~yBs == 0.0f)
 	{
 		yBs = dir ^ CVECTOR(1.0f, 0.0f, 0.0f);
-		if(~yBs == 0.0f) yBs = dir ^ CVECTOR(0.0f, 0.0f, 1.0f);
-		if(~yBs == 0.0f) return;
+		if (~yBs == 0.0f) yBs = dir ^ CVECTOR(0.0f, 0.0f, 1.0f);
+		if (~yBs == 0.0f) return;
 	}
 	CMatrix mtx;
 	mtx.Vx() = yBs ^ dir;
@@ -297,7 +302,7 @@ void WdmObjects::DrawVector(const CVECTOR & start, const CVECTOR & end, uint32_t
 	rs->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, t, vertex, sizeof(vertex[0]), "WdmDebugDraw");
 }
 
-void WdmObjects::DrawLine(const CVECTOR & start, const CVECTOR & end, uint32_t color)
+void WdmObjects::DrawLine(const CVECTOR& start, const CVECTOR& end, uint32_t color)
 {
 	vertex[0].v = start;
 	vertex[0].c = color;
@@ -308,7 +313,7 @@ void WdmObjects::DrawLine(const CVECTOR & start, const CVECTOR & end, uint32_t c
 	rs->DrawPrimitiveUP(D3DPT_LINELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, 1, vertex, sizeof(vertex[0]), "WdmDebugDraw");
 }
 
-void WdmObjects::DrawBox2D(CMatrix & mtx, float l, float w, uint32_t color)
+void WdmObjects::DrawBox2D(CMatrix& mtx, float l, float w, uint32_t color)
 {
 	vertex[0].v = CVECTOR(-w, 0.2f, l);
 	vertex[0].c = color;
@@ -331,7 +336,7 @@ void WdmObjects::DrawBox2D(CMatrix & mtx, float l, float w, uint32_t color)
 }
 
 //Получить размеры vp
-void WdmObjects::GetVPSize(float & w, float & h)
+void WdmObjects::GetVPSize(float& w, float& h)
 {
 	//Получим текущие размеры vp
 	D3DVIEWPORT9 vp;
@@ -341,21 +346,23 @@ void WdmObjects::GetVPSize(float & w, float & h)
 }
 
 //Получить направление и силу ветра
-float WdmObjects::GetWind(float x, float z, CVECTOR & dir)
+float WdmObjects::GetWind(float x, float z, CVECTOR& dir)
 {
 	windField.GetWind(x, z, dir.x, dir.z);
 	dir.y = 0.0f;
-	float len = sqrtf(dir.x*dir.x + dir.z*dir.z);
-	if(len > 1e-20f)
+	float len = sqrtf(dir.x * dir.x + dir.z * dir.z);
+	if (len > 1e-20f)
 	{
 		dir.x /= len;
 		dir.z /= len;
-	}else{
+	}
+	else
+	{
 		dir.x = 0.0f;
 		dir.z = 1.0f;
 	}
-	if(len < 0.0f) len = 0.0f;
-	if(len > 1.0f) len = 1.0f;
+	if (len < 0.0f) len = 0.0f;
+	if (len > 1.0f) len = 1.0f;
 	return len;
 }
 
@@ -379,11 +386,10 @@ void WdmObjects::UpdateWind(float dltTime)
 		}
 	}
 	*/
-
 }
 
 //Получить строку сохранение
-const char * WdmObjects::GetWindSaveString(std::string & windData)
+const char* WdmObjects::GetWindSaveString(std::string& windData)
 {
 	windData = "v02_";
 	long size = sizeof(windField);
@@ -392,7 +398,7 @@ const char * WdmObjects::GetWindSaveString(std::string & windData)
 	AddDataToString(windData, uint8_t(size >> 16));
 	AddDataToString(windData, uint8_t(size >> 24));
 	const auto* buf = (const uint8_t *)&windField;
-	for(long i = 0; i < size; i++)
+	for (long i = 0; i < size; i++)
 	{
 		AddDataToString(windData, buf[i]);
 	}
@@ -400,14 +406,14 @@ const char * WdmObjects::GetWindSaveString(std::string & windData)
 }
 
 //Установить строку сохранение
-void WdmObjects::SetWindSaveString(const char * str)
+void WdmObjects::SetWindSaveString(const char* str)
 {
-	if(!str)
+	if (!str)
 	{
 		windField.Reinit();
 		return;
 	}
-	if(str[0] != 'v' || str[1] != '0' || str[2] != '2' || str[3] != '_')
+	if (str[0] != 'v' || str[1] != '0' || str[2] != '2' || str[3] != '_')
 	{
 		windField.Reinit();
 		return;
@@ -419,16 +425,16 @@ void WdmObjects::SetWindSaveString(const char * str)
 	testSize |= (uint32_t)GetDataFromString(str) << 8;
 	testSize |= (uint32_t)GetDataFromString(str) << 16;
 	testSize |= (uint32_t)GetDataFromString(str) << 24;
-	if(size != testSize)
+	if (size != testSize)
 	{
 		windField.Reinit();
 		return;
 	}
 	auto* buf = (uint8_t *)&windField;
-	for(long i = 0; i < size; i++)
+	for (long i = 0; i < size; i++)
 	{
 		long data = GetDataFromString(str);
-		if(data < 0)
+		if (data < 0)
 		{
 			windField.Reinit();
 			return;
@@ -438,7 +444,7 @@ void WdmObjects::SetWindSaveString(const char * str)
 }
 
 //Добавить float в cтроку
-void WdmObjects::AddDataToString(std::string & str, uint8_t d)
+void WdmObjects::AddDataToString(std::string& str, uint8_t d)
 {
 	char hex[] = "0123456789ABCDEF";
 	str += hex[(d >> 4) & 0xf];
@@ -446,37 +452,53 @@ void WdmObjects::AddDataToString(std::string & str, uint8_t d)
 }
 
 //Получить float из строки
-long WdmObjects::GetDataFromString(const char * & cur)
+long WdmObjects::GetDataFromString(const char* & cur)
 {
 	uint32_t tmp = 0;
-	for(long cnt = 0; cnt < 2; cnt++)
+	for (long cnt = 0; cnt < 2; cnt++)
 	{
-		if(!*cur) return -1;
+		if (!*cur) return -1;
 		uint32_t v;
-		switch(*cur++)
+		switch (*cur++)
 		{
-		case '0': v = 0x0; break;
-		case '1': v = 0x1; break;
-		case '2': v = 0x2; break;
-		case '3': v = 0x3; break;
-		case '4': v = 0x4; break;
-		case '5': v = 0x5; break;
-		case '6': v = 0x6; break;
-		case '7': v = 0x7; break;
-		case '8': v = 0x8; break;
-		case '9': v = 0x9; break;
+		case '0': v = 0x0;
+			break;
+		case '1': v = 0x1;
+			break;
+		case '2': v = 0x2;
+			break;
+		case '3': v = 0x3;
+			break;
+		case '4': v = 0x4;
+			break;
+		case '5': v = 0x5;
+			break;
+		case '6': v = 0x6;
+			break;
+		case '7': v = 0x7;
+			break;
+		case '8': v = 0x8;
+			break;
+		case '9': v = 0x9;
+			break;
 		case 'a':
-		case 'A': v = 0xA; break;
+		case 'A': v = 0xA;
+			break;
 		case 'b':
-		case 'B': v = 0xB; break;
+		case 'B': v = 0xB;
+			break;
 		case 'c':
-		case 'C': v = 0xC; break;
+		case 'C': v = 0xC;
+			break;
 		case 'd':
-		case 'D': v = 0xD; break;
+		case 'D': v = 0xD;
+			break;
 		case 'e':
-		case 'E': v = 0xE; break;
+		case 'E': v = 0xE;
+			break;
 		case 'f':
-		case 'F': v = 0xF; break;
+		case 'F': v = 0xF;
+			break;
 		default:
 			return -1;
 		}
@@ -484,5 +506,3 @@ long WdmObjects::GetDataFromString(const char * & cur)
 	}
 	return tmp;
 }
-
-

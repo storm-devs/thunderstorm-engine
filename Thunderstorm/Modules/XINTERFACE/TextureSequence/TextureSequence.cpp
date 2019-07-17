@@ -3,9 +3,10 @@
 #include "TextureSequence.h"
 
 #define FILE_PATH "TextureSequence\\%s.tga"
-static const char *INI_FILENAME = "resource\\ini\\TextureSequence.ini";
+static const char* INI_FILENAME = "resource\\ini\\TextureSequence.ini";
 
 #define TS_VERTEX_FRMT		(D3DFVF_XYZRHW|D3DFVF_TEX2|D3DFVF_TEXTUREFORMAT2)
+
 struct TS_VERTEX
 {
 	CVECTOR pos;
@@ -14,26 +15,26 @@ struct TS_VERTEX
 	float tu2, tv2;
 };
 
-void GetRectFromNum(FRECT & texRect,int xq,int yq,int curNum, bool bHorzFlip,bool bVertFlip)
+void GetRectFromNum(FRECT& texRect, int xq, int yq, int curNum, bool bHorzFlip, bool bVertFlip)
 {
-	int y = curNum/xq;
-	if(y>=yq) y=0;
-	int x = curNum - y*xq;
-	if(x>=xq) x=0;
+	int y = curNum / xq;
+	if (y >= yq) y = 0;
+	int x = curNum - y * xq;
+	if (x >= xq) x = 0;
 
-	float width = 1.f/xq;
-	float height = 1.f/yq;
+	float width = 1.f / xq;
+	float height = 1.f / yq;
 
-	if(bHorzFlip)	texRect.left = width + (texRect.right = x*width);
-	else	texRect.right = width + (texRect.left = x*width);
-	if(bVertFlip)	texRect.top = height + (texRect.bottom = y*height);
-	else	texRect.bottom = height + (texRect.top = y*height);
+	if (bHorzFlip) texRect.left = width + (texRect.right = x * width);
+	else texRect.right = width + (texRect.left = x * width);
+	if (bVertFlip) texRect.top = height + (texRect.bottom = y * height);
+	else texRect.bottom = height + (texRect.top = y * height);
 }
 
 TextureSequence::TextureSequence()
 {
-	m_pTexture= nullptr;
-	m_AllTex=-1;
+	m_pTexture = nullptr;
+	m_AllTex = -1;
 	m_bHorzFlip = false;
 	m_bVertFlip = false;
 }
@@ -43,46 +44,59 @@ TextureSequence::~TextureSequence()
 	Release();
 }
 
-IDirect3DTexture9* TextureSequence::Initialize(VDX9RENDER *pRS, const char* cTSfileName, bool bCicled)
+IDirect3DTexture9* TextureSequence::Initialize(VDX9RENDER* pRS, const char* cTSfileName, bool bCicled)
 {
 	m_bCicled = bCicled;
-	if(pRS== nullptr || cTSfileName== nullptr) return nullptr;
+	if (pRS == nullptr || cTSfileName == nullptr) return nullptr;
 	m_pRS = pRS;
 
 	// open ini file
-	INIFILE * ini = fio->OpenIniFile((char*)INI_FILENAME);
-	if(!ini)
+	INIFILE* ini = fio->OpenIniFile((char*)INI_FILENAME);
+	if (!ini)
 	{
-		api->Trace("ini file %s not found!",INI_FILENAME);
+		api->Trace("ini file %s not found!", INI_FILENAME);
 		return nullptr;
 	}
-	m_dwDeltaTime = ini->GetLong((char*)cTSfileName,"timeDelay",128);
-	if(m_dwDeltaTime==0) {delete ini; return nullptr;}
-	m_texWidth = ini->GetLong((char*)cTSfileName,"width",128);
-	m_texHeight = ini->GetLong((char*)cTSfileName,"height",128);
-	m_xQuantity = ini->GetLong((char*)cTSfileName,"horzQ",1);
-	m_yQuantity = ini->GetLong((char*)cTSfileName,"vertQ",1);
-	m_maxCurNum = m_xQuantity*m_yQuantity;
-	if(m_maxCurNum==0) {delete ini; return nullptr;}
+	m_dwDeltaTime = ini->GetLong((char*)cTSfileName, "timeDelay", 128);
+	if (m_dwDeltaTime == 0)
+	{
+		delete ini;
+		return nullptr;
+	}
+	m_texWidth = ini->GetLong((char*)cTSfileName, "width", 128);
+	m_texHeight = ini->GetLong((char*)cTSfileName, "height", 128);
+	m_xQuantity = ini->GetLong((char*)cTSfileName, "horzQ", 1);
+	m_yQuantity = ini->GetLong((char*)cTSfileName, "vertQ", 1);
+	m_maxCurNum = m_xQuantity * m_yQuantity;
+	if (m_maxCurNum == 0)
+	{
+		delete ini;
+		return nullptr;
+	}
 
 	// load sequence texture
 	char fullName[256];
-	if( !ini->ReadString((char*)cTSfileName,"TextureFile",fullName,sizeof(fullName)-1,"") )
-		sprintf_s(fullName,FILE_PATH,cTSfileName);
+	if (!ini->ReadString((char*)cTSfileName, "TextureFile", fullName, sizeof(fullName) - 1, ""))
+		sprintf_s(fullName,FILE_PATH, cTSfileName);
 	m_AllTex = m_pRS->TextureCreate(fullName);
-	if(m_AllTex==-1)
-		{delete ini; return nullptr;}
-
-	m_bHorzFlip = ini->GetLong((char*)cTSfileName,"flipH",0)!=0;
-	m_bVertFlip = ini->GetLong((char*)cTSfileName,"flipV",0)!=0;
-
-	m_pTexture= nullptr;
-	// create output texture
-	if( S_OK != m_pRS->CreateTexture(m_texWidth,m_texHeight,1,D3DUSAGE_RENDERTARGET,D3DFMT_A8R8G8B8,D3DPOOL_DEFAULT,&m_pTexture) )
+	if (m_AllTex == -1)
 	{
-		m_pTexture= nullptr;
+		delete ini;
+		return nullptr;
+	}
+
+	m_bHorzFlip = ini->GetLong((char*)cTSfileName, "flipH", 0) != 0;
+	m_bVertFlip = ini->GetLong((char*)cTSfileName, "flipV", 0) != 0;
+
+	m_pTexture = nullptr;
+	// create output texture
+	if (S_OK != m_pRS->CreateTexture(m_texWidth, m_texHeight, 1,D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT,
+	                                 &m_pTexture))
+	{
+		m_pTexture = nullptr;
 		api->Trace("Can`t create texture");
-		delete ini; return nullptr;
+		delete ini;
+		return nullptr;
 	}
 
 	// first render
@@ -91,7 +105,7 @@ IDirect3DTexture9* TextureSequence::Initialize(VDX9RENDER *pRS, const char* cTSf
 	//ToTextureRender(0.f);
 
 	delete ini;
-    return m_pTexture;
+	return m_pTexture;
 }
 
 //-----------------------------------------------------------------------------
@@ -101,65 +115,78 @@ IDirect3DTexture9* TextureSequence::Initialize(VDX9RENDER *pRS, const char* cTSf
 bool TextureSequence::FrameUpdate()
 {
 	m_dwCurDeltaTime += api->GetRDeltaTime();
-	while(m_dwCurDeltaTime>m_dwDeltaTime)
+	while (m_dwCurDeltaTime > m_dwDeltaTime)
 	{
 		m_dwCurDeltaTime -= m_dwDeltaTime;
 		m_curNum++;
-		if(m_curNum>=m_maxCurNum) m_curNum=0;
+		if (m_curNum >= m_maxCurNum) m_curNum = 0;
 	}
 
-	ToTextureRender( (float)m_dwCurDeltaTime/(float)m_dwDeltaTime );
-    return true;
+	ToTextureRender((float)m_dwCurDeltaTime / (float)m_dwDeltaTime);
+	return true;
 }
 
 void TextureSequence::ToTextureRender(float blendValue)
 {
-	uint32_t newTFactor = ARGB(long(255.f*blendValue),long(255.f*blendValue),long(255.f*blendValue),long(255.f*blendValue));
+	uint32_t newTFactor = ARGB(long(255.f*blendValue), long(255.f*blendValue), long(255.f*blendValue),
+	                           long(255.f*blendValue));
 
 	// set texture as render target
-	IDirect3DSurface9 *pRenderTarg= nullptr, *pOldRenderTarg= nullptr;
-	if( m_pRS->GetRenderTarget(&pOldRenderTarg)==S_OK )
+	IDirect3DSurface9 *pRenderTarg = nullptr, *pOldRenderTarg = nullptr;
+	if (m_pRS->GetRenderTarget(&pOldRenderTarg) == S_OK)
 	{
-		if( m_pRS->GetSurfaceLevel(m_pTexture,0,&pRenderTarg) == S_OK )
+		if (m_pRS->GetSurfaceLevel(m_pTexture, 0, &pRenderTarg) == S_OK)
 		{
-			IDirect3DSurface9 * pStencil;
+			IDirect3DSurface9* pStencil;
 			m_pRS->GetDepthStencilSurface(&pStencil);
-			if( m_pRS->SetRenderTarget(pRenderTarg, nullptr) == S_OK )
+			if (m_pRS->SetRenderTarget(pRenderTarg, nullptr) == S_OK)
 			{
 				CMatrix matw;
-				m_pRS->SetTransform(D3DTS_WORLD,(D3DMATRIX*)&matw);
-				m_pRS->TextureSet(0,m_AllTex);
-				m_pRS->TextureSet(1,m_AllTex);
+				m_pRS->SetTransform(D3DTS_WORLD, (D3DMATRIX*)&matw);
+				m_pRS->TextureSet(0, m_AllTex);
+				m_pRS->TextureSet(1, m_AllTex);
 
 				FRECT m_rectTex;
 				TS_VERTEX v[4];
-				for(int i=0; i<4; i++)
+				for (int i = 0; i < 4; i++)
 				{
 					v[i].w = 0.5f;
 					v[i].pos.z = 1.f;
 				}
-				v[0].pos.x = 0;					v[0].pos.y = 0;
-				v[1].pos.x = 0;					v[1].pos.y = (float)m_texHeight;
-				v[2].pos.x = (float)m_texWidth;	v[2].pos.y = 0;
-				v[3].pos.x = (float)m_texWidth;	v[3].pos.y = (float)m_texHeight;
+				v[0].pos.x = 0;
+				v[0].pos.y = 0;
+				v[1].pos.x = 0;
+				v[1].pos.y = (float)m_texHeight;
+				v[2].pos.x = (float)m_texWidth;
+				v[2].pos.y = 0;
+				v[3].pos.x = (float)m_texWidth;
+				v[3].pos.y = (float)m_texHeight;
 
 				GetRectFromNum(m_rectTex, m_xQuantity, m_yQuantity, m_curNum, m_bHorzFlip, m_bVertFlip);
-				v[0].tu1=m_rectTex.left;	v[0].tv1=m_rectTex.bottom;
-				v[1].tu1=m_rectTex.left;	v[1].tv1=m_rectTex.top;
-				v[2].tu1=m_rectTex.right;	v[2].tv1=m_rectTex.bottom;
-				v[3].tu1=m_rectTex.right;	v[3].tv1=m_rectTex.top;
+				v[0].tu1 = m_rectTex.left;
+				v[0].tv1 = m_rectTex.bottom;
+				v[1].tu1 = m_rectTex.left;
+				v[1].tv1 = m_rectTex.top;
+				v[2].tu1 = m_rectTex.right;
+				v[2].tv1 = m_rectTex.bottom;
+				v[3].tu1 = m_rectTex.right;
+				v[3].tv1 = m_rectTex.top;
 
-				GetRectFromNum(m_rectTex, m_xQuantity, m_yQuantity, m_curNum+1, m_bHorzFlip, m_bVertFlip);
-				v[0].tu2=m_rectTex.left;	v[0].tv2=m_rectTex.bottom;
-				v[1].tu2=m_rectTex.left;	v[1].tv2=m_rectTex.top;
-				v[2].tu2=m_rectTex.right;	v[2].tv2=m_rectTex.bottom;
-				v[3].tu2=m_rectTex.right;	v[3].tv2=m_rectTex.top;
+				GetRectFromNum(m_rectTex, m_xQuantity, m_yQuantity, m_curNum + 1, m_bHorzFlip, m_bVertFlip);
+				v[0].tu2 = m_rectTex.left;
+				v[0].tv2 = m_rectTex.bottom;
+				v[1].tu2 = m_rectTex.left;
+				v[1].tv2 = m_rectTex.top;
+				v[2].tu2 = m_rectTex.right;
+				v[2].tv2 = m_rectTex.bottom;
+				v[3].tu2 = m_rectTex.right;
+				v[3].tv2 = m_rectTex.top;
 
 				// draw rectangle
-				m_pRS->SetRenderState(D3DRS_TEXTUREFACTOR,newTFactor);
-				m_pRS->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,TS_VERTEX_FRMT,2,v,sizeof(TS_VERTEX),"TextureSequence");
+				m_pRS->SetRenderState(D3DRS_TEXTUREFACTOR, newTFactor);
+				m_pRS->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP,TS_VERTEX_FRMT, 2, v, sizeof(TS_VERTEX), "TextureSequence");
 
-				m_pRS->SetRenderTarget(pOldRenderTarg,pStencil);
+				m_pRS->SetRenderTarget(pOldRenderTarg, pStencil);
 			}
 			pStencil->Release();
 			pRenderTarg->Release();
@@ -170,15 +197,15 @@ void TextureSequence::ToTextureRender(float blendValue)
 
 void TextureSequence::Release()
 {
-	if(m_pTexture!= nullptr && m_pRS!= nullptr)
+	if (m_pTexture != nullptr && m_pRS != nullptr)
 	{
 		m_pRS->Release(m_pTexture);
-		m_pTexture= nullptr;
+		m_pTexture = nullptr;
 	}
-	if(m_pRS!= nullptr && m_AllTex!=-1)
+	if (m_pRS != nullptr && m_AllTex != -1)
 	{
 		m_pRS->TextureRelease(m_AllTex);
-		m_AllTex=-1;
+		m_AllTex = -1;
 	}
 }
 
@@ -189,5 +216,6 @@ void TextureSequence::LostRender()
 
 void TextureSequence::RestoreRender()
 {
-	m_pRS->CreateTexture(m_texWidth,m_texHeight,1,D3DUSAGE_RENDERTARGET,D3DFMT_A8R8G8B8,D3DPOOL_DEFAULT,&m_pTexture);
+	m_pRS->CreateTexture(m_texWidth, m_texHeight, 1,D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT,
+	                     &m_pTexture);
 }

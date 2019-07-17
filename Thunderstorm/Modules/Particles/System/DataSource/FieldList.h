@@ -22,8 +22,8 @@ class FieldList
 {
 public:
 
-  struct FieldDesc
-  {
+	struct FieldDesc
+	{
 		//При конвертации используеться этот флажок
 		bool MarkForDelete;
 
@@ -31,91 +31,84 @@ public:
 		uint32_t HashValue;
 
 		//Тип
-    FieldType Type;
+		FieldType Type;
 
 		//Имя
-	  std::string Name;
+		std::string Name;
 
 		//Указатель
-    void* pPointer;
-  };
-  
+		void* pPointer;
+	};
+
 private:
 
-  std::vector<FieldDesc> Fields;
+	std::vector<FieldDesc> Fields;
 
-	void DeleteFieldData (const FieldList::FieldDesc& pData);
+	void DeleteFieldData(const FieldDesc& pData);
 
 
 	//=================== создание пустых аттрибутов
-	void CreateEmptyBoolField (const char* Name, bool def_value);
-	void CreateEmptyFloatField (const char* Name, float def_value);
-	void CreateEmptyGraphField (const char* Name, float def_value_min, float def_value_max);
-	void CreateEmptyPositionField (const char* Name, const Vector& def_value);
-	void CreateEmptyStringField (const char* Name, const char* def_value);
-	void CreateEmptyUVField (const char* Name);
-	void CreateEmptyColorField (const char* Name, uint32_t def_value);
+	void CreateEmptyBoolField(const char* Name, bool def_value);
+	void CreateEmptyFloatField(const char* Name, float def_value);
+	void CreateEmptyGraphField(const char* Name, float def_value_min, float def_value_max);
+	void CreateEmptyPositionField(const char* Name, const Vector& def_value);
+	void CreateEmptyStringField(const char* Name, const char* def_value);
+	void CreateEmptyUVField(const char* Name);
+	void CreateEmptyColorField(const char* Name, uint32_t def_value);
 
 
 	//=================== Прогрузка аттрибутов из файла
-	void CreateBoolField (MemFile* pMemFile);
-	void CreateFloatField (MemFile* pMemFile);
-	void CreateGraphField (MemFile* pMemFile);
-	void CreatePositionField (MemFile* pMemFile);
-	void CreateStringField (MemFile* pMemFile);
-	void CreateUVField (MemFile* pMemFile);
-	void CreateColorField (MemFile* pMemFile);
+	void CreateBoolField(MemFile* pMemFile);
+	void CreateFloatField(MemFile* pMemFile);
+	void CreateGraphField(MemFile* pMemFile);
+	void CreatePositionField(MemFile* pMemFile);
+	void CreateStringField(MemFile* pMemFile);
+	void CreateUVField(MemFile* pMemFile);
+	void CreateColorField(MemFile* pMemFile);
 
 
-	FieldList::FieldDesc* FindField (const char* Name);
+	FieldDesc* FindField(const char* Name);
 
 public:
 
-  FieldList ();
-  ~FieldList ();
+	FieldList();
+	~FieldList();
 
-	void DelAll ();
-
-  
-//Сохранить/загрузить...
-	void Load (MemFile* File);
-  void Write (MemFile* File);
+	void DelAll();
 
 
-	DataColor* FindColor (const char* AttrName);
-	DataGraph* FindGraph (const char* AttrName);
-	DataUV* FindUV (const char* AttrName);
-
-	DataBool* FindBool (const char* AttrName);
-	DataFloat* FindFloat (const char* AttrName);
-	DataString* FindString (const char* AttrName);
-	DataPosition* FindPosition (const char* AttrName);
+	//Сохранить/загрузить...
+	void Load(MemFile* File);
+	void Write(MemFile* File);
 
 
-	float GetFloat (const char* AttrName, float def_value = 0.0f);
-	int GetFloatAsInt (const char* AttrName, int def_value = 0);
-	bool GetBool (const char* AttrName, bool def_value = false);
-	const char* GetString (const char* AttrName, const char* def_value = "");
-	const Vector& GetPosition (const char* AttrName, const Vector& def_value = Vector(0.0f));
+	DataColor* FindColor(const char* AttrName);
+	DataGraph* FindGraph(const char* AttrName);
+	DataUV* FindUV(const char* AttrName);
 
-	float GetGraphVal (const char* AttrName, float Time, float LifeTime, float K_Rand, float def_value = 0.0f);
-	float GetRandomGraphVal (const char* AttrName, float Time, float LifeTime, float def_value = 0.0f);
-
-
-	uint32_t GetFieldCount ();
-	const FieldList::FieldDesc& GetFieldByIndex (uint32_t Index);
+	DataBool* FindBool(const char* AttrName);
+	DataFloat* FindFloat(const char* AttrName);
+	DataString* FindString(const char* AttrName);
+	DataPosition* FindPosition(const char* AttrName);
 
 
+	float GetFloat(const char* AttrName, float def_value = 0.0f);
+	int GetFloatAsInt(const char* AttrName, int def_value = 0);
+	bool GetBool(const char* AttrName, bool def_value = false);
+	const char* GetString(const char* AttrName, const char* def_value = "");
+	const Vector& GetPosition(const char* AttrName, const Vector& def_value = Vector(0.0f));
 
-//Конвертация ГАРАНТИРУЕТ, что в данном DataSource будут нужные поля
-//и не будет лишнего мусора...
-	void Convert (DataDescripion* pDataDescriptor);
+	float GetGraphVal(const char* AttrName, float Time, float LifeTime, float K_Rand, float def_value = 0.0f);
+	float GetRandomGraphVal(const char* AttrName, float Time, float LifeTime, float def_value = 0.0f);
 
 
+	uint32_t GetFieldCount();
+	const FieldDesc& GetFieldByIndex(uint32_t Index);
 
 
-  
-
+	//Конвертация ГАРАНТИРУЕТ, что в данном DataSource будут нужные поля
+	//и не будет лишнего мусора...
+	void Convert(DataDescripion* pDataDescriptor);
 };
 
 

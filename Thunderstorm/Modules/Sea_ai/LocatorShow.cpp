@@ -23,12 +23,12 @@ void SeaLocatorShow::SetDevice()
 {
 }
 
-bool SeaLocatorShow::isLocator(ATTRIBUTES * pA)
+bool SeaLocatorShow::isLocator(ATTRIBUTES* pA)
 {
-	return pA->FindAClass(pA,"z") != nullptr;
+	return pA->FindAClass(pA, "z") != nullptr;
 }
 
-CVECTOR SeaLocatorShow::GetLocatorPos(ATTRIBUTES * pA)
+CVECTOR SeaLocatorShow::GetLocatorPos(ATTRIBUTES* pA)
 {
 	CVECTOR v;
 	v.x = pA->GetAttributeAsFloat("x");
@@ -37,39 +37,40 @@ CVECTOR SeaLocatorShow::GetLocatorPos(ATTRIBUTES * pA)
 	return v;
 }
 
-char * SeaLocatorShow::GetRealLocatorName(ATTRIBUTES * pA)
+char* SeaLocatorShow::GetRealLocatorName(ATTRIBUTES* pA)
 {
 	return pA->GetThisName();
 }
 
-char * SeaLocatorShow::GetLocatorName(ATTRIBUTES * pA)
+char* SeaLocatorShow::GetLocatorName(ATTRIBUTES* pA)
 {
-	char * pName = pA->GetAttribute("name");
+	char* pName = pA->GetAttribute("name");
 	if (!pName) pName = pA->GetThisName();
 	return pName;
 }
 
-char * SeaLocatorShow::GetLocatorGroupName(ATTRIBUTES * pA)
+char* SeaLocatorShow::GetLocatorGroupName(ATTRIBUTES* pA)
 {
-	ATTRIBUTES * pAParent = pA->GetParent(); Assert(pAParent);
+	ATTRIBUTES* pAParent = pA->GetParent();
+	Assert(pAParent);
 	return pAParent->GetThisName();
 }
 
-float SeaLocatorShow::GetLocatorRadius(ATTRIBUTES * pA)
+float SeaLocatorShow::GetLocatorRadius(ATTRIBUTES* pA)
 {
-	return pA->GetAttributeAsFloat("radius",0.0f);
+	return pA->GetAttributeAsFloat("radius", 0.0f);
 }
 
-float SeaLocatorShow::GetLocatorAng(ATTRIBUTES * pA)
+float SeaLocatorShow::GetLocatorAng(ATTRIBUTES* pA)
 {
-	return pA->GetAttributeAsFloat("ay",0.0f);
+	return pA->GetAttributeAsFloat("ay", 0.0f);
 }
 
-void SeaLocatorShow::PrintLocator(ATTRIBUTES * pA)
+void SeaLocatorShow::PrintLocator(ATTRIBUTES* pA)
 {
-	MTX_PRJ_VECTOR	vrt;
+	MTX_PRJ_VECTOR vrt;
 
-	if(!sphereNumTrgs) CreateSphere();
+	if (!sphereNumTrgs) CreateSphere();
 	CMatrix mPos;
 
 	float d = view.Vz() | view.Pos();
@@ -78,7 +79,7 @@ void SeaLocatorShow::PrintLocator(ATTRIBUTES * pA)
 
 	CVECTOR vPos = GetLocatorPos(pA);
 	float fAng = GetLocatorAng(pA);
-	if((vPos | view.Vz()) < d) return;
+	if ((vPos | view.Vz()) < d) return;
 
 	vPos.y += 1.0f;
 
@@ -88,55 +89,59 @@ void SeaLocatorShow::PrintLocator(ATTRIBUTES * pA)
 	//m.BuildPosition(vPos.x,vPos.y,vPos.z);
 	AIHelper::pRS->SetTransform(D3DTS_WORLD, m);
 
-	AIHelper::pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, sphereNumTrgs, sphereVertex, sizeof(SphVertex), "SeaLocatorsShow");
+	AIHelper::pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, sphereNumTrgs, sphereVertex,
+	                               sizeof(SphVertex), "SeaLocatorsShow");
 
 	mtx.Projection(&vPos, &vrt, 1, fWidth, fHeight, sizeof(CVECTOR), sizeof(MTX_PRJ_VECTOR));
 	vPos = CVECTOR(vrt.x, vrt.y, vrt.z);
 
-	char * pName, * pGName;
-	
-	if (pGName = GetLocatorGroupName(pA))	AIHelper::Print(vPos.x, vPos.y - fh * 0.8f, fScale, "grp: \"%s\"", pGName);
-	if (pName = GetLocatorName(pA))			AIHelper::Print(vPos.x, vPos.y, fScale, "loc: \"%s\"", pName);
+	char *pName, *pGName;
+
+	if (pGName = GetLocatorGroupName(pA)) AIHelper::Print(vPos.x, vPos.y - fh * 0.8f, fScale, "grp: \"%s\"", pGName);
+	if (pName = GetLocatorName(pA)) AIHelper::Print(vPos.x, vPos.y, fScale, "loc: \"%s\"", pName);
 	float fRadius = GetLocatorRadius(pA);
 	AIHelper::Print(vPos.x, vPos.y + fh * 0.8f, fScale, "rad: %.2f", fRadius);
 	if (fRadius > 0.0f)
 	{
-		std::vector<SphVertex>	Vrts;
-		CVECTOR				vPos1 = GetLocatorPos(pA);
-		CVECTOR				vCenter = CVECTOR(vPos1.x, 2.0f, vPos1.z);
+		std::vector<SphVertex> Vrts;
+		CVECTOR vPos1 = GetLocatorPos(pA);
+		CVECTOR vCenter = CVECTOR(vPos1.x, 2.0f, vPos1.z);
 
 		//SphVertex* pVrt = &Vrts[Vrts.Add()];
 		//pVrt->v = vCenter;
 		//pVrt->c = 0x4F00FF00;
 		Vrts.push_back(SphVertex{vCenter, 0x4F00FF00});
-		for (uint32_t i=0;i<32;i++)
+		for (uint32_t i = 0; i < 32; i++)
 		{
 			float fAngle = float(i) / 31.0f * PIm2;
 			//pVrt = &Vrts[Vrts.Add()];			
 			//pVrt->v = vCenter + CVECTOR(sinf(fAngle) * fRadius, 0.0f, cosf(fAngle) * fRadius);
 			//pVrt->c = 0x0F00FF00
-			Vrts.push_back(SphVertex{vCenter + CVECTOR(sinf(fAngle) * fRadius, 0.0f, cosf(fAngle) * fRadius), 0x0F00FF00});
+			Vrts.push_back(SphVertex{
+				vCenter + CVECTOR(sinf(fAngle) * fRadius, 0.0f, cosf(fAngle) * fRadius), 0x0F00FF00
+			});
 		}
 		CMatrix m_ident;
 		m_ident.SetIdentity();
 		AIHelper::pRS->SetTransform(D3DTS_WORLD, m_ident);
-		AIHelper::pRS->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, D3DFVF_XYZ | D3DFVF_DIFFUSE, Vrts.size()-2, &Vrts[0], sizeof(SphVertex), "SeaLocatorsShow");
+		AIHelper::pRS->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, D3DFVF_XYZ | D3DFVF_DIFFUSE, Vrts.size() - 2, &Vrts[0],
+		                               sizeof(SphVertex), "SeaLocatorsShow");
 	}
 }
 
-void SeaLocatorShow::ProcessLocators(ATTRIBUTES * pA)
+void SeaLocatorShow::ProcessLocators(ATTRIBUTES* pA)
 {
 	if (!pA) return;
 	if (isLocator(pA)) PrintLocator(pA);
-	for (uint32_t i=0;i<pA->GetAttributesNum();i++) ProcessLocators(pA->GetAttributeClass(i));
+	for (uint32_t i = 0; i < pA->GetAttributesNum(); i++) ProcessLocators(pA->GetAttributeClass(i));
 }
 
 void SeaLocatorShow::Realize(uint32_t Delta_Time)
 {
 #ifndef _XBOX
-	if (api->Controls->GetDebugAsyncKeyState('6')<0) fScale -= float(Delta_Time) * 0.001f * 0.5f;
-	if (api->Controls->GetDebugAsyncKeyState('7')<0) fScale += float(Delta_Time) * 0.001f * 0.5f;
-	if (api->Controls->GetDebugAsyncKeyState('5')<0) 
+	if (api->Controls->GetDebugAsyncKeyState('6') < 0) fScale -= float(Delta_Time) * 0.001f * 0.5f;
+	if (api->Controls->GetDebugAsyncKeyState('7') < 0) fScale += float(Delta_Time) * 0.001f * 0.5f;
+	if (api->Controls->GetDebugAsyncKeyState('5') < 0)
 	{
 		bShow ^= 1;
 		Sleep(200);
@@ -148,11 +153,11 @@ void SeaLocatorShow::Realize(uint32_t Delta_Time)
 	AIHelper::pRS->GetTransform(D3DTS_PROJECTION, prj);
 	mtx.EqMultiply(view, prj);
 
-	D3DVIEWPORT9	vp;
+	D3DVIEWPORT9 vp;
 
 	AIHelper::pRS->GetViewport(&vp);
-	fWidth = vp.Width*0.5f;
-	fHeight = vp.Height*0.5f;
+	fWidth = vp.Width * 0.5f;
+	fHeight = vp.Height * 0.5f;
 	view.Transposition();
 	// Рисуем
 
@@ -167,28 +172,28 @@ void SeaLocatorShow::Execute(uint32_t Delta_Time)
 {
 	if (!pALocators) return;
 }
-	
-bool SeaLocatorShow::CreateState(ENTITY_STATE_GEN * state_gen)
+
+bool SeaLocatorShow::CreateState(ENTITY_STATE_GEN* state_gen)
 {
 	return true;
 }
 
-bool SeaLocatorShow::LoadState(ENTITY_STATE * state)
+bool SeaLocatorShow::LoadState(ENTITY_STATE* state)
 {
 	return true;
 }
-	
-void SeaLocatorShow::ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam)
+
+void SeaLocatorShow::ProcessMessage(uint32_t iMsg, uint32_t wParam, uint32_t lParam)
 {
 }
 
-uint64_t SeaLocatorShow::ProcessMessage(MESSAGE & message)
+uint64_t SeaLocatorShow::ProcessMessage(MESSAGE& message)
 {
 	pALocators = message.AttributePointer();
 	return 0;
 }
 
-uint32_t SeaLocatorShow::AttributeChanged(ATTRIBUTES *pAttribute)
+uint32_t SeaLocatorShow::AttributeChanged(ATTRIBUTES* pAttribute)
 {
 	return 0;
 }
@@ -198,59 +203,59 @@ void SeaLocatorShow::CreateSphere()
 #define CalcKColor(ind) {kColor = light | !CVECTOR(sphereVertex[t*3 + ind].v.x, sphereVertex[t*3 + ind].v.y, sphereVertex[t*3 + ind].v.z); if(kColor < 0.0f) kColor = 0.0f; }
 #define CLerp(c, min) (uint32_t(c*(kColor*(1.0f - min) + min)))
 #define Color ((CLerp(255.0f, 0.5f) << 24) | (CLerp(255.0f, 0.7f) << 16) | (CLerp(255.0f, 0.7f) << 8) | (CLerp(255.0f, 0.7f) << 0));
-	
-	if(sphereVertex) return;
+
+	if (sphereVertex) return;
 
 	const float myPI = 3.1415926535897932f;
 	const long a1 = 32;
-	const long a2 = (a1/2);
+	const long a2 = (a1 / 2);
 
-	sphereNumTrgs = a1*a2*2;
-	sphereVertex = new SphVertex[sphereNumTrgs*6];
+	sphereNumTrgs = a1 * a2 * 2;
+	sphereVertex = new SphVertex[sphereNumTrgs * 6];
 
 	CVECTOR light = !CVECTOR(0.0f, 0.0f, 1.0f);
 	float kColor;
 	//Заполняем вершины
-	for(long i = 0, t = 0; i < a2; i++)
+	for (long i = 0, t = 0; i < a2; i++)
 	{
-		float r1 = sinf(myPI*i/float(a2));
-		float y1 = cosf(myPI*i/float(a2));
-		float r2 = sinf(myPI*(i + 1)/float(a2));
-		float y2 = cosf(myPI*(i + 1)/float(a2));
-		for(long j = 0; j < a1; j++)
+		float r1 = sinf(myPI * i / float(a2));
+		float y1 = cosf(myPI * i / float(a2));
+		float r2 = sinf(myPI * (i + 1) / float(a2));
+		float y2 = cosf(myPI * (i + 1) / float(a2));
+		for (long j = 0; j < a1; j++)
 		{
-			float x1 = sinf(2.0f*myPI*j/float(a1));
-			float z1 = cosf(2.0f*myPI*j/float(a1));
-			float x2 = sinf(2.0f*myPI*(j + 1)/float(a1));
-			float z2 = cosf(2.0f*myPI*(j + 1)/float(a1));
+			float x1 = sinf(2.0f * myPI * j / float(a1));
+			float z1 = cosf(2.0f * myPI * j / float(a1));
+			float x2 = sinf(2.0f * myPI * (j + 1) / float(a1));
+			float z2 = cosf(2.0f * myPI * (j + 1) / float(a1));
 			//0
-			sphereVertex[t*3 + 0].v.x = r1*x1;
-			sphereVertex[t*3 + 0].v.y = y1;
-			sphereVertex[t*3 + 0].v.z = r1*z1;
+			sphereVertex[t * 3 + 0].v.x = r1 * x1;
+			sphereVertex[t * 3 + 0].v.y = y1;
+			sphereVertex[t * 3 + 0].v.z = r1 * z1;
 			CalcKColor(0);
-			sphereVertex[t*3 + 0].c = Color;
+			sphereVertex[t * 3 + 0].c = Color;
 			//1
-			sphereVertex[t*3 + 1].v.x = r2*x1;
-			sphereVertex[t*3 + 1].v.y = y2;
-			sphereVertex[t*3 + 1].v.z = r2*z1;
+			sphereVertex[t * 3 + 1].v.x = r2 * x1;
+			sphereVertex[t * 3 + 1].v.y = y2;
+			sphereVertex[t * 3 + 1].v.z = r2 * z1;
 			CalcKColor(1);
-			sphereVertex[t*3 + 1].c = Color;
+			sphereVertex[t * 3 + 1].c = Color;
 			//2
-			sphereVertex[t*3 + 2].v.x = r1*x2;
-			sphereVertex[t*3 + 2].v.y = y1;
-			sphereVertex[t*3 + 2].v.z = r1*z2;
+			sphereVertex[t * 3 + 2].v.x = r1 * x2;
+			sphereVertex[t * 3 + 2].v.y = y1;
+			sphereVertex[t * 3 + 2].v.z = r1 * z2;
 			CalcKColor(2);
-			sphereVertex[t*3 + 2].c = Color;
+			sphereVertex[t * 3 + 2].c = Color;
 			//3 = 2
-			sphereVertex[t*3 + 3] = sphereVertex[t*3 + 2];
+			sphereVertex[t * 3 + 3] = sphereVertex[t * 3 + 2];
 			//4 = 1
-			sphereVertex[t*3 + 4] = sphereVertex[t*3 + 1];
+			sphereVertex[t * 3 + 4] = sphereVertex[t * 3 + 1];
 			//5
-			sphereVertex[t*3 + 5].v.x = r2*x2;
-			sphereVertex[t*3 + 5].v.y = y2;
-			sphereVertex[t*3 + 5].v.z = r2*z2;
+			sphereVertex[t * 3 + 5].v.x = r2 * x2;
+			sphereVertex[t * 3 + 5].v.y = y2;
+			sphereVertex[t * 3 + 5].v.z = r2 * z2;
 			CalcKColor(5);
-			sphereVertex[t*3 + 5].c = Color;
+			sphereVertex[t * 3 + 5].c = Color;
 			//Добавили 2 треугольника
 			t += 2;
 		}

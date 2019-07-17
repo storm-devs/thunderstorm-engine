@@ -17,19 +17,29 @@
 
 class WdmRenderObject
 {
-//--------------------------------------------------------------------------------------------
-//Конструирование, деструктурирование
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Конструирование, деструктурирование
+	//--------------------------------------------------------------------------------------------
 public:
 	WdmRenderObject();
 	virtual ~WdmRenderObject();
 
 	//Расчёты
-	virtual void Update(float dltTime){};
+	virtual void Update(float dltTime)
+	{
+	};
 	//Отрисовка
-	virtual void PRender(VDX9RENDER * rs){};
-	virtual void MRender(VDX9RENDER * rs){};
-	virtual void LRender(VDX9RENDER * rs){};
+	virtual void PRender(VDX9RENDER* rs)
+	{
+	};
+
+	virtual void MRender(VDX9RENDER* rs)
+	{
+	};
+
+	virtual void LRender(VDX9RENDER* rs)
+	{
+	};
 
 	static void DeleteAllObjects();
 
@@ -37,14 +47,13 @@ public:
 	bool isEnablePause;
 
 
-//--------------------------------------------------------------------------------------------
-//Инкапсуляция
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Инкапсуляция
+	//--------------------------------------------------------------------------------------------
 private:
-	WdmRenderObject * prevObject;
-	WdmRenderObject * nextObject;
-	static WdmRenderObject * firstObject;
+	WdmRenderObject* prevObject;
+	WdmRenderObject* nextObject;
+	static WdmRenderObject* firstObject;
 };
 
 #endif
-

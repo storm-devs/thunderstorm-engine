@@ -2,27 +2,28 @@
 
 CXI_QUESTTEXTS::STRING_DESCRIBER::STRING_DESCRIBER(char* ls)
 {
-	const auto len = strlen(ls)+1;
-	if(len==1)
+	const auto len = strlen(ls) + 1;
+	if (len == 1)
 		lineStr = nullptr;
 	else
 	{
-		if( (lineStr=new char[len]) == nullptr )
+		if ((lineStr = new char[len]) == nullptr)
 		{
 			throw std::exception("allocate memory error");
 		}
-		memcpy(lineStr,ls,len);
+		memcpy(lineStr, ls, len);
 	}
 	complete = false;
 	next = nullptr;
 	strNum = 0;
 	prev = nullptr;
 }
-CXI_QUESTTEXTS::STRING_DESCRIBER* CXI_QUESTTEXTS::STRING_DESCRIBER::Add(char* ls,bool complete)
+
+CXI_QUESTTEXTS::STRING_DESCRIBER* CXI_QUESTTEXTS::STRING_DESCRIBER::Add(char* ls, bool complete)
 {
-	if(ls== nullptr) return nullptr;
+	if (ls == nullptr) return nullptr;
 	auto* newSD = new STRING_DESCRIBER(ls);
-	if(newSD== nullptr)
+	if (newSD == nullptr)
 	{
 		throw std::exception("allocate memory error");
 	}
@@ -31,19 +32,19 @@ CXI_QUESTTEXTS::STRING_DESCRIBER* CXI_QUESTTEXTS::STRING_DESCRIBER::Add(char* ls
 	newSD->prev = this;
 	newSD->next = next;
 	next = newSD;
-	newSD->strNum = strNum+1;
+	newSD->strNum = strNum + 1;
 
 	return newSD;
 }
 
-bool GetNextIdFromList(char* &sptr, char* bufQuestID,size_t nSizeBufQuestID, char* buf,size_t bufSize, char* dataBuf)
+bool GetNextIdFromList(char* & sptr, char* bufQuestID, size_t nSizeBufQuestID, char* buf, size_t bufSize, char* dataBuf)
 {
-	if(sptr== nullptr) return false;
-	char *sstart = sptr;
-	long idSize=0;
-	while(*sptr!=0)
+	if (sptr == nullptr) return false;
+	char* sstart = sptr;
+	long idSize = 0;
+	while (*sptr != 0)
 	{
-		if(*sptr==',')
+		if (*sptr == ',')
 		{
 			sptr++;
 			break;
@@ -51,98 +52,109 @@ bool GetNextIdFromList(char* &sptr, char* bufQuestID,size_t nSizeBufQuestID, cha
 		sptr++;
 		idSize++;
 	}
-	if(idSize==0) return false;
-	if(sstart[0]=='@')
+	if (idSize == 0) return false;
+	if (sstart[0] == '@')
 	{
-		sstart++; idSize--;
+		sstart++;
+		idSize--;
 		int n;
-		if( sstart[0]<'0' || sstart[0]>'9' )
-		{ // не дата
-			n=0;
-			while(sstart[0] && sstart[0]!='@')
+		if (sstart[0] < '0' || sstart[0] > '9')
+		{
+			// не дата
+			n = 0;
+			while (sstart[0] && sstart[0] != '@')
 			{
-				if( n < (long)nSizeBufQuestID )
+				if (n < (long)nSizeBufQuestID)
 					bufQuestID[n++] = sstart[0];
-				sstart++; idSize--;
+				sstart++;
+				idSize--;
 			}
 			bufQuestID[n] = '\0';
-			sstart++; idSize--;
-		} else {
+			sstart++;
+			idSize--;
+		}
+		else
+		{
 			bufQuestID[0] = '\0';
 		}
 
 		// дата
-		n=0;
-		while(sstart[0] && sstart[0]!='@')
+		n = 0;
+		while (sstart[0] && sstart[0] != '@')
 		{
 			dataBuf[n] = sstart[0];
-			sstart++; idSize--; n++;
+			sstart++;
+			idSize--;
+			n++;
 		}
 		dataBuf[n] = '\0';
-		sstart++; idSize--;
-	} else {
+		sstart++;
+		idSize--;
+	}
+	else
+	{
 		dataBuf[0] = '\0';
 		bufQuestID[0] = '\0';
 	}
-	if(idSize==0) return false;
-	if((size_t)idSize>=bufSize) idSize=bufSize-1;
-	strncpy_s(buf,bufSize,sstart,idSize);
-	buf[idSize]=0;
+	if (idSize == 0) return false;
+	if ((size_t)idSize >= bufSize) idSize = bufSize - 1;
+	strncpy_s(buf, bufSize, sstart, idSize);
+	buf[idSize] = 0;
 	return true;
 }
 
-static void SubRightWord(char* buf,int fontNum,int width,VDX9RENDER *rs)
+static void SubRightWord(char* buf, int fontNum, int width, VDX9RENDER* rs)
 {
-	if(buf== nullptr) return;
+	if (buf == nullptr) return;
 	long bufSize = strlen(buf);
-	for(char* pEnd = buf+bufSize; pEnd>buf; pEnd--)
+	for (char* pEnd = buf + bufSize; pEnd > buf; pEnd--)
 	{
-		if(*pEnd==' ')
+		if (*pEnd == ' ')
 		{
-			*pEnd=0;
-			if( rs->StringWidth(buf,fontNum) <= width ) return;
+			*pEnd = 0;
+			if (rs->StringWidth(buf, fontNum) <= width) return;
 		}
 	}
 }
 
 void CXI_QUESTTEXTS::ReleaseStringes()
 {
-	while(m_listRoot!= nullptr)
+	while (m_listRoot != nullptr)
 	{
 		m_listCur = m_listRoot;
 		m_listRoot = m_listRoot->next;
 		STORM_DELETE(m_listCur->lineStr);
 		STORM_DELETE(m_listCur);
 	}
-	m_listCur= nullptr;
-	m_nAllTextStrings=0;
+	m_listCur = nullptr;
+	m_nAllTextStrings = 0;
 }
 
-bool CXI_QUESTTEXTS::GetLineNext(int fontNum,char* &pInStr,char* buf,int bufSize)
+bool CXI_QUESTTEXTS::GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize)
 {
-	if(pInStr== nullptr || buf== nullptr) return false;
-	char *pStart = pInStr;
-	bool bYesEOL=false;
-	while(*pInStr!=0)
+	if (pInStr == nullptr || buf == nullptr) return false;
+	char* pStart = pInStr;
+	bool bYesEOL = false;
+	while (*pInStr != 0)
 	{
-		if(*pInStr==0x0D || *pInStr==0x0A) bYesEOL=true;
-		else if(bYesEOL) break;
+		if (*pInStr == 0x0D || *pInStr == 0x0A) bYesEOL = true;
+		else if (bYesEOL) break;
 		pInStr++;
 	}
-	size_t lineSize = pInStr-pStart;
-	if(lineSize==0) return false;
-	if(lineSize>bufSize-1) lineSize=bufSize-1;
+	size_t lineSize = pInStr - pStart;
+	if (lineSize == 0) return false;
+	if (lineSize > bufSize - 1) lineSize = bufSize - 1;
 
-	strncpy_s(buf,bufSize,pStart,lineSize);
-	buf[lineSize]=0;
-	long strWidth = m_rs->StringWidth(buf,fontNum);
-	if( strWidth <= m_rect.right - m_rect.left ) return true;
+	strncpy_s(buf, bufSize, pStart, lineSize);
+	buf[lineSize] = 0;
+	long strWidth = m_rs->StringWidth(buf, fontNum);
+	if (strWidth <= m_rect.right - m_rect.left) return true;
 
-	SubRightWord( buf, fontNum, m_rect.right-m_rect.left, m_rs );
-	pInStr = pStart+strlen(buf);
+	SubRightWord(buf, fontNum, m_rect.right - m_rect.left, m_rs);
+	pInStr = pStart + strlen(buf);
 
 	// удалим начальные пробелы
-	while(*pInStr!=0 && (unsigned)*pInStr<=' ') pInStr++;
+	while (*pInStr != 0 && (unsigned)*pInStr <= ' ') pInStr++;
 
 	return true;
 }
@@ -152,8 +164,8 @@ CXI_QUESTTEXTS::CXI_QUESTTEXTS()
 	m_nNodeType = NODETYPE_QTEXTS;
 
 	m_idFont = -1;
-	m_dwNonCompleteColor = ARGB(255,255,255,255);
-	m_dwCompleteColor = ARGB(255,128,128,128);
+	m_dwNonCompleteColor = ARGB(255, 255, 255, 255);
+	m_dwCompleteColor = ARGB(255, 128, 128, 128);
 
 	m_allStrings = 0;
 
@@ -166,79 +178,82 @@ CXI_QUESTTEXTS::~CXI_QUESTTEXTS()
 	ReleaseAll();
 }
 
-void CXI_QUESTTEXTS::Draw(bool bSelected,uint32_t Delta_Time)
+void CXI_QUESTTEXTS::Draw(bool bSelected, uint32_t Delta_Time)
 {
-	if(!m_bUse) return;
+	if (!m_bUse) return;
 
 	long curY = m_rect.top;
-	int i=0;
-	for(STRING_DESCRIBER* sd=m_listCur;sd!= nullptr && i<m_allStrings;sd=sd->next,i++)
+	int i = 0;
+	for (STRING_DESCRIBER* sd = m_listCur; sd != nullptr && i < m_allStrings; sd = sd->next, i++)
 	{
 		// отобразить строки
 		uint32_t curColor = sd->complete ? m_dwCompleteColor : m_dwNonCompleteColor;
-		if(sd->lineStr!= nullptr && sd->lineStr[0]!=0)
-			m_rs->ExtPrint( m_idFont,curColor,0,PR_ALIGN_LEFT,true,1.f,m_screenSize.x,m_screenSize.y,
-				m_rect.left, curY, "%s",sd->lineStr);
+		if (sd->lineStr != nullptr && sd->lineStr[0] != 0)
+			m_rs->ExtPrint(m_idFont, curColor, 0,PR_ALIGN_LEFT, true, 1.f, m_screenSize.x, m_screenSize.y,
+			               m_rect.left, curY, "%s", sd->lineStr);
 		curY += m_vertOffset;
 	}
 }
 
-bool CXI_QUESTTEXTS::Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize)
+bool CXI_QUESTTEXTS::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+                          XYPOINT& ScreenSize)
 {
-	if( !CINODE::Init(ini1,name1, ini2,name2, rs,hostRect,ScreenSize) ) return false;
+	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
 	SetGlowCursor(false);
 	return true;
 }
 
 void CXI_QUESTTEXTS::ReleaseAll()
 {
-	FONT_RELEASE(m_rs,m_idFont);
+	FONT_RELEASE(m_rs, m_idFont);
 	ReleaseStringes();
 }
 
 int CXI_QUESTTEXTS::CommandExecute(int wActCode)
 {
-	if(m_bUse)
+	if (m_bUse)
 	{
-		if(m_listCur== nullptr) return -1;
-		switch(wActCode)
+		if (m_listCur == nullptr) return -1;
+		switch (wActCode)
 		{
 		case ACTION_UPSTEP:
-			if(m_listCur->prev!= nullptr)
-				m_listCur=m_listCur->prev;
+			if (m_listCur->prev != nullptr)
+				m_listCur = m_listCur->prev;
 			break;
 		case ACTION_DOWNSTEP:
-			if(m_listCur->next!= nullptr)
-				m_listCur=m_listCur->next;
+			if (m_listCur->next != nullptr)
+				m_listCur = m_listCur->next;
 			break;
 		case ACTION_SPEEDUP:
 			{
-				for(int i=0;i<m_allStrings;i++)
-					if(m_listCur->prev== nullptr) break;
-					else
-						m_listCur=m_listCur->prev;
+				for (int i = 0; i < m_allStrings; i++)
+				{
+					if (m_listCur->prev == nullptr) break;
+					m_listCur = m_listCur->prev;
+				}
 			}
 			break;
 		case ACTION_SPEEDDOWN:
 			{
-				for(int i=0;i<m_allStrings;i++)
-					if(m_listCur->next== nullptr) break;
-					else
-						m_listCur=m_listCur->next;
+				for (int i = 0; i < m_allStrings; i++)
+				{
+					if (m_listCur->next == nullptr) break;
+					m_listCur = m_listCur->next;
+				}
 			}
 			break;
 		}
-		api->Event("SetScrollerPos","sf",m_nodeName,(float)m_listCur->strNum/(float)m_nAllTextStrings);
+		api->Event("SetScrollerPos", "sf", m_nodeName, (float)m_listCur->strNum / (float)m_nAllTextStrings);
 	}
 	return -1;
 }
 
-bool CXI_QUESTTEXTS::IsClick(int buttonID,long xPos,long yPos)
+bool CXI_QUESTTEXTS::IsClick(int buttonID, long xPos, long yPos)
 {
 	return false;
 }
 
-void CXI_QUESTTEXTS::ChangePosition( XYRECT &rNewPos )
+void CXI_QUESTTEXTS::ChangePosition(XYRECT& rNewPos)
 {
 	m_rect = rNewPos;
 }
@@ -247,49 +262,50 @@ void CXI_QUESTTEXTS::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE * pIni = fio->OpenIniFile( (char*)ptrOwner->m_sDialogFileName.c_str() );
-	if( !pIni ) {
-		api->Trace( "Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str() );
+	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+	if (!pIni)
+	{
+		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
 		return;
 	}
 
 	// save position
-	sprintf_s( pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom );
-	pIni->WriteString( m_nodeName, "position", pcWriteParam );
+	sprintf_s(pcWriteParam, sizeof(pcWriteParam), "%d,%d,%d,%d", m_rect.left, m_rect.top, m_rect.right, m_rect.bottom);
+	pIni->WriteString(m_nodeName, "position", pcWriteParam);
 
 	delete pIni;
 }
 
-void CXI_QUESTTEXTS::LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2)
+void CXI_QUESTTEXTS::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
 {
 	char param[255];
 
 	// get line space
-	m_vertOffset = GetIniLong(ini1,name1, ini2,name2, "lineSpace", 30);
-	if(m_vertOffset==0) m_vertOffset=10;
+	m_vertOffset = GetIniLong(ini1, name1, ini2, name2, "lineSpace", 30);
+	if (m_vertOffset == 0) m_vertOffset = 10;
 
 	// подсчет количества выводимых строк на экране
-	m_allStrings = (m_rect.bottom-m_rect.top)/m_vertOffset;
+	m_allStrings = (m_rect.bottom - m_rect.top) / m_vertOffset;
 
 	// get colors
-	m_dwCompleteColor = GetIniARGB(ini1,name1, ini2,name2, "completeColor", ARGB(255,128,128,128));
-	m_dwNonCompleteColor = GetIniARGB(ini1,name1, ini2,name2, "noncompleteColor", ARGB(255,255,255,255));
+	m_dwCompleteColor = GetIniARGB(ini1, name1, ini2, name2, "completeColor", ARGB(255, 128, 128, 128));
+	m_dwNonCompleteColor = GetIniARGB(ini1, name1, ini2, name2, "noncompleteColor", ARGB(255, 255, 255, 255));
 
 	// get font
 	m_idFont = -1;
-	if( ReadIniString(ini1,name1, ini2,name2, "font", param, sizeof(param),"") )
+	if (ReadIniString(ini1, name1, ini2, name2, "font", param, sizeof(param), ""))
 		m_idFont = m_rs->LoadFont(param);
 }
 
-void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES * pA,int qn)
+void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES* pA, int qn)
 {
-	if(pA== nullptr) return;
+	if (pA == nullptr) return;
 	long aq = pA->GetAttributesNum();
-	if(qn<0) qn=0;
-	if(qn>=aq) qn=aq-1;
+	if (qn < 0) qn = 0;
+	if (qn >= aq) qn = aq - 1;
 
 	// удалим старые строки
-	while(m_listRoot!= nullptr)
+	while (m_listRoot != nullptr)
 	{
 		m_listCur = m_listRoot;
 		m_listRoot = m_listRoot->next;
@@ -297,94 +313,94 @@ void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES * pA,int qn)
 		STORM_DELETE(m_listCur);
 	}
 
-	ATTRIBUTES *pAttr = pA->GetAttributeClass(qn);
-	if(pAttr== nullptr) return;
+	ATTRIBUTES* pAttr = pA->GetAttributeClass(qn);
+	if (pAttr == nullptr) return;
 
-	bool cFlag = pAttr->GetAttributeAsDword("Complete",0)!=0;
+	bool cFlag = pAttr->GetAttributeAsDword("Complete", 0) != 0;
 	ATTRIBUTES* pATextList = pAttr->GetAttributeClass("Text");
 	char* questLogName = pAttr->GetAttribute("LogName");
-	if( !questLogName ) questLogName = pAttr->GetThisName();
+	if (!questLogName) questLogName = pAttr->GetThisName();
 
 	std::vector<std::string> asStringList;
-	if( ptrOwner->QuestFileReader() && pATextList )
+	if (ptrOwner->QuestFileReader() && pATextList)
 	{
 		long q = pATextList->GetAttributesNum();
-		for( long n=q-1; n>=0; n-- )
+		for (long n = q - 1; n >= 0; n--)
 		{
 			ATTRIBUTES* pAttr = pATextList->GetAttributeClass(n);
-			if( !pAttr ) continue;
+			if (!pAttr) continue;
 
 			// space for aparting records
-			if(m_listCur!= nullptr)
-				m_listCur = m_listCur->Add("",cFlag);
+			if (m_listCur != nullptr)
+				m_listCur = m_listCur->Add("", cFlag);
 
 			// весь набор строк для одной записи
 			asStringList.clear();
-			GetStringListForQuestRecord( asStringList, pAttr->GetThisAttr(), pAttr->GetAttribute("UserData") );
-			for( long i=0; i<asStringList.size(); i++ )
+			GetStringListForQuestRecord(asStringList, pAttr->GetThisAttr(), pAttr->GetAttribute("UserData"));
+			for (long i = 0; i < asStringList.size(); i++)
 			{
 				// разложим полученную строку на строки влезающие в область вывода
 				char* pcStrPtr = (char*)asStringList[i].c_str();
 				char newStr[512];
-				while( GetLineNext(m_idFont,pcStrPtr,newStr,sizeof(newStr)) )
+				while (GetLineNext(m_idFont, pcStrPtr, newStr, sizeof(newStr)))
 				{
-					if(m_listCur== nullptr)
+					if (m_listCur == nullptr)
 					{
-						if( (m_listCur=m_listRoot=new STRING_DESCRIBER(newStr)) == nullptr )
+						if ((m_listCur = m_listRoot = new STRING_DESCRIBER(newStr)) == nullptr)
 						{
 							throw std::exception("allocate memory error");
 						}
 						m_listCur->complete = cFlag;
 					}
 					else
-						m_listCur = m_listCur->Add(newStr,cFlag);
+						m_listCur = m_listCur->Add(newStr, cFlag);
 				}
 			}
 		}
 	}
-	m_nAllTextStrings = m_listCur== nullptr ? 0 : m_listCur->strNum;
+	m_nAllTextStrings = m_listCur == nullptr ? 0 : m_listCur->strNum;
 	m_listCur = m_listRoot;
-	api->Event("SetScrollerPos","sf",m_nodeName,0.f);
+	api->Event("SetScrollerPos", "sf", m_nodeName, 0.f);
 }
 
 float CXI_QUESTTEXTS::GetLineStep()
 {
-	if( m_nAllTextStrings<1 ) return 0.f;
+	if (m_nAllTextStrings < 1) return 0.f;
 	return 1.f / (float)(m_nAllTextStrings);
 }
 
 void CXI_QUESTTEXTS::ScrollerChanged(float fPos)
 {
-	if(m_listRoot== nullptr || m_nAllTextStrings<=0) return;
-	long topStrNum = long(fPos*m_nAllTextStrings);
-	if(topStrNum>m_nAllTextStrings)	topStrNum = m_nAllTextStrings;
-	if(topStrNum<0) topStrNum=0;
+	if (m_listRoot == nullptr || m_nAllTextStrings <= 0) return;
+	long topStrNum = long(fPos * m_nAllTextStrings);
+	if (topStrNum > m_nAllTextStrings) topStrNum = m_nAllTextStrings;
+	if (topStrNum < 0) topStrNum = 0;
 	m_listCur = m_listRoot;
-	for(int i=0; i<topStrNum; i++)
-		if(m_listCur->next!= nullptr)
+	for (int i = 0; i < topStrNum; i++)
+		if (m_listCur->next != nullptr)
 			m_listCur = m_listCur->next;
 }
 
-uint32_t CXI_QUESTTEXTS::MessageProc(long msgcode, MESSAGE & message)
+uint32_t CXI_QUESTTEXTS::MessageProc(long msgcode, MESSAGE& message)
 {
-	switch(msgcode)
+	switch (msgcode)
 	{
 	case 0: // установить верхнюю строку показа в определенный номер
 		{
 			long topStrNum = message.Long();
-			if(m_listRoot== nullptr || m_nAllTextStrings<=0) return 0;
-			if(topStrNum>=m_nAllTextStrings)	topStrNum = m_nAllTextStrings-1;
-			if(topStrNum<0) topStrNum=0;
+			if (m_listRoot == nullptr || m_nAllTextStrings <= 0) return 0;
+			if (topStrNum >= m_nAllTextStrings) topStrNum = m_nAllTextStrings - 1;
+			if (topStrNum < 0) topStrNum = 0;
 			m_listCur = m_listRoot;
-			for(int i=0; i<topStrNum; i++)
-				if(m_listCur!= nullptr)	m_listCur = m_listCur->next;
+			for (int i = 0; i < topStrNum; i++)
+				if (m_listCur != nullptr) m_listCur = m_listCur->next;
 			return 0;
 		}
 		break;
 
 	case 1: // установить верхнюю строку показа на относительный номер
 		{
-			ScrollerChanged( message.Float() );
+			ScrollerChanged(message.Float());
 			return 0;
 		}
 		break;
@@ -392,7 +408,8 @@ uint32_t CXI_QUESTTEXTS::MessageProc(long msgcode, MESSAGE & message)
 	return -1;
 }
 
-void CXI_QUESTTEXTS::GetStringListForQuestRecord( std::vector<std::string> & asStringList, const char* pcRecText, const char* pcUserData )
+void CXI_QUESTTEXTS::GetStringListForQuestRecord(std::vector<std::string>& asStringList, const char* pcRecText,
+                                                 const char* pcUserData)
 {
 	char pcQuestID[1024];
 	char pcTextID[1024];
@@ -400,10 +417,10 @@ void CXI_QUESTTEXTS::GetStringListForQuestRecord( std::vector<std::string> & asS
 
 	char* pcTmp = (char*)pcRecText;
 
-	if( GetNextIdFromList(pcTmp, pcQuestID,sizeof(pcQuestID), pcTextID,sizeof(pcTextID)-1, pcDate) )
+	if (GetNextIdFromList(pcTmp, pcQuestID, sizeof(pcQuestID), pcTextID, sizeof(pcTextID) - 1, pcDate))
 	{
 		asStringList.clear();
-		if( pcDate[0] ) asStringList.push_back(pcDate);
-		ptrOwner->QuestFileReader()->GetRecordTextList(asStringList, pcQuestID,pcTextID, pcUserData);
+		if (pcDate[0]) asStringList.push_back(pcDate);
+		ptrOwner->QuestFileReader()->GetRecordTextList(asStringList, pcQuestID, pcTextID, pcUserData);
 	}
 }

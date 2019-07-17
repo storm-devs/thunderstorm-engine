@@ -26,7 +26,7 @@ void SoundVisualisationEntity::Execute(uint32_t dTime)
 {
 }
 
-void SoundVisualisationEntity::SetMasterSoundService (SoundService* pSoundService)
+void SoundVisualisationEntity::SetMasterSoundService(SoundService* pSoundService)
 {
 	pSound = pSoundService;
 }

@@ -85,14 +85,19 @@
 class WEATHER_BASE : public Entity
 {
 public:
-	WEATHER_BASE(){};
-	virtual ~WEATHER_BASE(){};
+	WEATHER_BASE()
+	{
+	};
 
-	virtual	long	GetLong(uint32_t dwCode) = 0;
-	virtual	uint32_t	GetColor(uint32_t, CVECTOR*) = 0;
-	virtual uint32_t	GetColor(uint32_t) = 0;
-	virtual float	GetFloat(uint32_t) = 0;
-	virtual void	GetVector(uint32_t,CVECTOR*) = 0;
+	virtual ~WEATHER_BASE()
+	{
+	};
+
+	virtual long GetLong(uint32_t dwCode) = 0;
+	virtual uint32_t GetColor(uint32_t, CVECTOR*) = 0;
+	virtual uint32_t GetColor(uint32_t) = 0;
+	virtual float GetFloat(uint32_t) = 0;
+	virtual void GetVector(uint32_t, CVECTOR*) = 0;
 };
 
 #endif

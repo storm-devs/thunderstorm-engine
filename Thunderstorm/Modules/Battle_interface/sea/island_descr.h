@@ -24,43 +24,43 @@ public:
 
 	struct LOCATOR_DESCR
 	{
-		int		locatorType;
-		int		relation;
-		ATTRIBUTES * pA;
-		float x,z,r;
-		char *	pchr_note;
-		int		picIdx;
-		int		selPicIdx;
-		int		texIdx;
-		long	characterIndex;
-		bool	bDiseased;
+		int locatorType;
+		int relation;
+		ATTRIBUTES* pA;
+		float x, z, r;
+		char* pchr_note;
+		int picIdx;
+		int selPicIdx;
+		int texIdx;
+		long characterIndex;
+		bool bDiseased;
 	};
 
 	void ReleaseAll();
-	bool YesIsland() {return m_bYesIsland;}
-	void SetIsland(ATTRIBUTES * pAIsland);
-	LOCATOR_DESCR * GetFirstLocator();
-	LOCATOR_DESCR * GetFirstLand();
-	LOCATOR_DESCR * GetFirstFort();
-	LOCATOR_DESCR * GetFirstFriendFort();
-	LOCATOR_DESCR * GetFirstNeutralFort();
-	LOCATOR_DESCR * GetFirstEnemyFort();
-	LOCATOR_DESCR * GetFirstBrokenFort();
-	LOCATOR_DESCR * GetNext();
-	LOCATOR_DESCR * FindLocatorByName(char * name);
+	bool YesIsland() { return m_bYesIsland; }
+	void SetIsland(ATTRIBUTES* pAIsland);
+	LOCATOR_DESCR* GetFirstLocator();
+	LOCATOR_DESCR* GetFirstLand();
+	LOCATOR_DESCR* GetFirstFort();
+	LOCATOR_DESCR* GetFirstFriendFort();
+	LOCATOR_DESCR* GetFirstNeutralFort();
+	LOCATOR_DESCR* GetFirstEnemyFort();
+	LOCATOR_DESCR* GetFirstBrokenFort();
+	LOCATOR_DESCR* GetNext();
+	LOCATOR_DESCR* FindLocatorByName(char* name);
 
 	void Refresh();
 
 protected:
-	LOCATOR_DESCR * FindLocator(LOCATOR_DESCR * p,int nMax);
+	LOCATOR_DESCR* FindLocator(LOCATOR_DESCR* p, int nMax);
 
-	bool			m_bYesIsland;
-	ATTRIBUTES *	m_pIslandAttributes;
-	LOCATOR_DESCR * m_pLocators;
-	int				m_nLocators;
+	bool m_bYesIsland;
+	ATTRIBUTES* m_pIslandAttributes;
+	LOCATOR_DESCR* m_pLocators;
+	int m_nLocators;
 	// find data
-	int				m_lastFindIdx;
-	int				m_nFindType;
+	int m_lastFindIdx;
+	int m_nFindType;
 };
 
 extern ISLAND_DESCRIBER g_IslandDescr;

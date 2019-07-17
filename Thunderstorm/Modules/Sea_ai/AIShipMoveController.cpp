@@ -1,6 +1,6 @@
 #include "AIShip.h"
 
-AIShipMoveController::AIShipMoveController(AIShip *pShip)
+AIShipMoveController::AIShipMoveController(AIShip* pShip)
 {
 	//EntityManager::CreateEntity(&eidSphere,"modelr");
 	//api->Send_Message(eidSphere,"ls",MSG_MODEL_LOAD_GEO,"mirror");
@@ -22,7 +22,7 @@ bool AIShipMoveController::Init()
 	return true;
 }
 
-void AIShipMoveController::Execute(float fDeltaTime) 
+void AIShipMoveController::Execute(float fDeltaTime)
 {
 	//return;
 	//entid_t	eid;
@@ -35,7 +35,7 @@ void AIShipMoveController::Execute(float fDeltaTime)
 	fMoveTime -= fDeltaTime;
 
 	if (isStopped() || GetAIShip()->isMainCharacter()) return;
-	auto*pShip = (SHIP_BASE*)GetAIShip()->GetShipPointer();
+	auto* pShip = (SHIP_BASE*)GetAIShip()->GetShipPointer();
 	Assert(pShip);
 
 	CVECTOR vCurPos = GetAIShip()->GetPos();
@@ -43,10 +43,10 @@ void AIShipMoveController::Execute(float fDeltaTime)
 
 	CVECTOR vMovePoint = vDestPoint;
 
-	vDeflectForce.z = 1.0f;//FRAND(2.0f) - 1.0f;
+	vDeflectForce.z = 1.0f; //FRAND(2.0f) - 1.0f;
 	//vDeflectForce.z = FRAND(2.0f) - 1.0f;
 
-	CVECTOR vCurDir = CVECTOR(sinf(vCurAng.y),0.0f,cosf(vCurAng.y));
+	CVECTOR vCurDir = CVECTOR(sinf(vCurAng.y), 0.0f, cosf(vCurAng.y));
 	CVECTOR vDestDir = !(vMovePoint - vCurPos);
 
 	float fTime = 0.0f;
@@ -54,7 +54,7 @@ void AIShipMoveController::Execute(float fDeltaTime)
 	float fBrakingDistance = pShip->GetBrakingDistance(&fTime);
 
 	float fSpeed = 1.0f;
-	if (fBrakingDistance > fDist + 20.0f) 
+	if (fBrakingDistance > fDist + 20.0f)
 	{
 		fSpeed = 1.0f - (fBrakingDistance - (fDist + 20.0f)) / 20.0f;
 		if (fSpeed < 0.0f) fSpeed = 0.0f;
@@ -79,13 +79,13 @@ void AIShipMoveController::Execute(float fDeltaTime)
 		//float fBestRotate = GetAIShip()->GetTouchController()->GetBestRotateDirection();
 		//if (fBestRotate != 0.0f) fSignRot = fBestRotate;
 		float fMul = (fDot > 0.0f) ? Bring2Range(1.0f, 0.1f, 0.0f, 1.0f, fDot) : 1.0f;
-		float fAngRot =  fSignRot;
+		float fAngRot = fSignRot;
 		if (fRotationAngle >= fRotAng) fAngRot = 0.0f;
 		GetAIShip()->GetRotateController()->AddRotate(fMul * fAngRot);
 		if (fMul > 0.3f) GetAIShip()->GetSpeedController()->MulSpeed(0.5f);
 		//pShip->SetRotate(fAngRot);
 	}
-	
+
 	//vDeflectForce = 0.0f;
 	vRetardForce = 0.0f;
 }
@@ -119,7 +119,7 @@ void AIShipMoveController::Realize(float fDeltaTime)
 	*/
 }
 
-void AIShipMoveController::Move(CVECTOR vMovePoint) 
+void AIShipMoveController::Move(CVECTOR vMovePoint)
 {
 	float fDist = sqrtf(~(vMovePoint - vDestPoint));
 	if (fMoveTime > 0.0f) return;
@@ -131,7 +131,7 @@ void AIShipMoveController::Move(CVECTOR vMovePoint)
 		CVECTOR vRealMovePoint;
 		CVECTOR vOurPos = GetAIShip()->GetPos();
 		vOurPos.y = vMovePoint.y = 0.0f;
-		bool b = AIHelper::pIsland->GetMovePoint(vOurPos,vMovePoint,vRealMovePoint);
+		bool b = AIHelper::pIsland->GetMovePoint(vOurPos, vMovePoint, vRealMovePoint);
 		if (b)
 		{
 			vMovePoint = vRealMovePoint;
@@ -144,7 +144,7 @@ void AIShipMoveController::Move(CVECTOR vMovePoint)
 void AIShipMoveController::AddRetardForce(CVECTOR _vRetardForce) { vRetardForce += _vRetardForce; }
 void AIShipMoveController::AddDeflectForce(CVECTOR _vDeflectForce) { vDeflectForce += _vDeflectForce; }
 
-void AIShipMoveController::Save(CSaveLoad * pSL)
+void AIShipMoveController::Save(CSaveLoad* pSL)
 {
 	pSL->SaveDword(bStopped);
 	pSL->SaveVector(vDestPoint);
@@ -154,7 +154,7 @@ void AIShipMoveController::Save(CSaveLoad * pSL)
 	pSL->SaveDword(dwCurPnt);
 }
 
-void AIShipMoveController::Load(CSaveLoad * pSL)
+void AIShipMoveController::Load(CSaveLoad* pSL)
 {
 	bStopped = pSL->LoadDword() != 0;
 	vDestPoint = pSL->LoadVector();

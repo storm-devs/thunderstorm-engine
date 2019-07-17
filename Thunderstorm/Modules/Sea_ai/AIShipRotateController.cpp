@@ -1,6 +1,6 @@
 #include "AIShip.h"
 
-AIShipRotateController::AIShipRotateController(AIShip * pShip)
+AIShipRotateController::AIShipRotateController(AIShip* pShip)
 {
 	fRotate = 0.0f;
 	dwRotateNum = 0;
@@ -26,8 +26,8 @@ void AIShipRotateController::Execute(float fDeltaTime)
 	if (GetAIShip()->isMainCharacter()) return;
 	fRotateTime += fDeltaTime;
 	dwRotateNum++;
-	if (fRotate<-1.0f) fRotate = -1.0f;
-	if (fRotate>1.0f) fRotate = 1.0f;
+	if (fRotate < -1.0f) fRotate = -1.0f;
+	if (fRotate > 1.0f) fRotate = 1.0f;
 	fRotateSmooth += fRotate;
 	if (fRotateTime >= 1.0f)
 	{
@@ -59,7 +59,7 @@ void AIShipRotateController::SetGlobalMultiply(float _fGlobalMultiply)
 		fGlobalMultiply = _fGlobalMultiply;
 }
 
-void AIShipRotateController::Save(CSaveLoad * pSL)
+void AIShipRotateController::Save(CSaveLoad* pSL)
 {
 	pSL->SaveDword(dwRotateNum);
 	pSL->SaveFloat(fRotateMode);
@@ -69,7 +69,7 @@ void AIShipRotateController::Save(CSaveLoad * pSL)
 	pSL->SaveFloat(fGlobalMultiply);
 }
 
-void AIShipRotateController::Load(CSaveLoad * pSL)
+void AIShipRotateController::Load(CSaveLoad* pSL)
 {
 	dwRotateNum = pSL->LoadDword();
 	fRotateMode = pSL->LoadFloat();

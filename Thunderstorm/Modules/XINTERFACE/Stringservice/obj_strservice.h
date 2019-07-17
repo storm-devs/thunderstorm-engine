@@ -5,12 +5,13 @@
 
 class OBJ_STRSERVICE : public Entity
 {
-	VSTRSERVICE * m_pStrService;
+	VSTRSERVICE* m_pStrService;
 public:
 	OBJ_STRSERVICE();
 	~OBJ_STRSERVICE();
-	bool	Init();
-    uint64_t ProcessMessage(MESSAGE & message);
+	bool Init() override;
+	uint64_t ProcessMessage(MESSAGE& message) override;
+
 	void ProcessStage(Stage, uint32_t) override
 	{
 	}

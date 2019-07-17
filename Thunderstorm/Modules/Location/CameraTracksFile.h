@@ -28,27 +28,27 @@
 //Заголовок файла
 struct AntFileHeader
 {
-	unsigned long id;					//Идентификатор файла
-	unsigned long ver;					//Версия файла
-	unsigned long bonesCount;			//Количество костей в файле >= 1
-	unsigned long framesCount;			//Количество кадров анимации >= 1
-	unsigned long stringsTableSize;		//Размер таблицы строк имён костей
-	float defaultFPS;					//Скорость проигрывания анимации
+	unsigned long id; //Идентификатор файла
+	unsigned long ver; //Версия файла
+	unsigned long bonesCount; //Количество костей в файле >= 1
+	unsigned long framesCount; //Количество кадров анимации >= 1
+	unsigned long stringsTableSize; //Размер таблицы строк имён костей
+	float defaultFPS; //Скорость проигрывания анимации
 };
 
 //Описание кости
 struct AntFileBone
 {
-	long parentIndex;					//Индекс родительской кости, меньший текущего
-	unsigned long nameIndex;			//Индекс строки в таблице строк
+	long parentIndex; //Индекс родительской кости, меньший текущего
+	unsigned long nameIndex; //Индекс строки в таблице строк
 };
 
 //Описание элемента трека
 struct AntFileTrackElement
 {
-	float qx, qy, qz, qw;					//Кватернион
-	float px, py, pz;						//Позиция
-	float sx, sy, sz;						//Коэфициенты масштабирования
+	float qx, qy, qz, qw; //Кватернион
+	float px, py, pz; //Позиция
+	float sx, sy, sz; //Коэфициенты масштабирования
 };
 
 

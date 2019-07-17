@@ -21,43 +21,41 @@ class GEOS;
 class VGEOMETRY;
 
 
-class WdmRenderModel : public WdmRenderObject  
+class WdmRenderModel : public WdmRenderObject
 {
-//--------------------------------------------------------------------------------------------
-//Конструирование, деструктурирование
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Конструирование, деструктурирование
+	//--------------------------------------------------------------------------------------------
 public:
 	WdmRenderModel();
 	virtual ~WdmRenderModel();
 
-	virtual bool Load(const char * modelName);
+	virtual bool Load(const char* modelName);
 
-	void PRender(VDX9RENDER * rs);
-	void MRender(VDX9RENDER * rs);
-	void LRender(VDX9RENDER * rs);
+	void PRender(VDX9RENDER* rs) override;
+	void MRender(VDX9RENDER* rs) override;
+	void LRender(VDX9RENDER* rs) override;
 
-	void SetTech(const char * t, const char * ta);
+	void SetTech(const char* t, const char* ta);
 	long GetTexture(long stage);
 	void SetTexture(long stage, long id);
-	
+
 
 	CMatrix mtx;
 	float alpha;
 
 public:
-	void Render(VDX9RENDER * rs);
+	void Render(VDX9RENDER* rs);
 
-	GEOS *geo;
-	const char * tech;
-	const char * techa;
+	GEOS* geo;
+	const char* tech;
+	const char* techa;
 
 	//Позиционированный круг
 	CVECTOR center;
 	float radius;
 
 	bool drawCircle;
-	
 };
 
 #endif
-

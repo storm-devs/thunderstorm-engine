@@ -25,9 +25,9 @@
 #define PLOD 5.0f
 //=============================================================
 
-IDirect3DVertexDeclaration9 * BillBoardProcessor::vertexDecl_ = nullptr;
+IDirect3DVertexDeclaration9* BillBoardProcessor::vertexDecl_ = nullptr;
 
-BillBoardProcessor::BillBoardProcessor ()
+BillBoardProcessor::BillBoardProcessor()
 {
 	Particles.reserve(MAX_BILLBOARDS);
 	pMemArray = new MemArrayItem[MAX_BILLBOARDS];
@@ -38,17 +38,17 @@ BillBoardProcessor::BillBoardProcessor ()
 	}
 
 	pRS = (VDX9RENDER*)api->CreateService("DX9Render");
-	Assert (pRS);
+	Assert(pRS);
 
 	CreateVertexDeclaration();
 
-	int RectVertexSize =  sizeof(RECT_VERTEX);
+	int RectVertexSize = sizeof(RECT_VERTEX);
 
-	pVBuffer = pRS->CreateVertexBuffer(0, MAX_BILLBOARDS * RectVertexSize* 4, D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
-	Assert (pVBuffer != -1);
+	pVBuffer = pRS->CreateVertexBuffer(0, MAX_BILLBOARDS * RectVertexSize * 4, D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
+	Assert(pVBuffer != -1);
 
 	pIBuffer = pRS->CreateIndexBuffer(MAX_BILLBOARDS * 6 * sizeof(uint16_t));
-	Assert (pIBuffer != -1);
+	Assert(pIBuffer != -1);
 	auto* pTrgs = (uint16_t*)pRS->LockIndexBuffer(pIBuffer);
 	Assert(pTrgs != NULL);
 
@@ -62,12 +62,10 @@ BillBoardProcessor::BillBoardProcessor ()
 		pTrgs[i * 6 + 5] = uint16_t(i * 4 + 3);
 	}
 	pRS->UnLockIndexBuffer(pIBuffer);
-
 }
 
-BillBoardProcessor::~BillBoardProcessor ()
+BillBoardProcessor::~BillBoardProcessor()
 {
-
 	delete pMemArray;
 
 	pRS->ReleaseVertexBuffer(pVBuffer);
@@ -75,12 +73,11 @@ BillBoardProcessor::~BillBoardProcessor ()
 
 	pVBuffer = -1;
 	pIBuffer = -1;
-
 }
 
 
 //"Выделить" память для хранения партикла
-BB_ParticleData* BillBoardProcessor::AllocParticle ()
+BB_ParticleData* BillBoardProcessor::AllocParticle()
 {
 	for (uint32_t n = 0; n < MAX_BILLBOARDS; n++)
 	{
@@ -95,11 +92,11 @@ BB_ParticleData* BillBoardProcessor::AllocParticle ()
 }
 
 //"Убить" партикл
-void BillBoardProcessor::FreeParticle (BB_ParticleData* pItem)
+void BillBoardProcessor::FreeParticle(BB_ParticleData* pItem)
 {
 	for (uint32_t n = 0; n < MAX_BILLBOARDS; n++)
 	{
-		if	(&pMemArray[n].pData == pItem)
+		if (&pMemArray[n].pData == pItem)
 		{
 			pMemArray[n].Free = true;
 			return;
@@ -108,14 +105,16 @@ void BillBoardProcessor::FreeParticle (BB_ParticleData* pItem)
 }
 
 
-void BillBoardProcessor::AddParticle (ParticleSystem* pSystem, const Vector& velocity_dir, const Vector& pos, const Matrix& matWorld, float EmitterTime, float EmitterLifeTime, FieldList* pFields, uint32_t* pActiveCount, uint32_t dwGUID)
+void BillBoardProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velocity_dir, const Vector& pos,
+                                     const Matrix& matWorld, float EmitterTime, float EmitterLifeTime,
+                                     FieldList* pFields, uint32_t* pActiveCount, uint32_t dwGUID)
 {
-	BB_ParticleData* pData = AllocParticle ();
+	BB_ParticleData* pData = AllocParticle();
 
 	//Сработает если партиклов будет > MAX_BILLBOARDS, столько их быть не должно :))))
 	if (!pData)
 	{
-		*(pActiveCount) = (*(pActiveCount)-1);
+		*(pActiveCount) = (*(pActiveCount) - 1);
 		return;
 	}
 
@@ -129,15 +128,13 @@ void BillBoardProcessor::AddParticle (ParticleSystem* pSystem, const Vector& vel
 	PositionOffset.z = pData->Graph_TrackZ->GetRandomValue(0.0f, 100.0f);
 
 
-
 	pData->SpeedOriented = pFields->GetBool(PARTICLE_DIR_ORIENT, false);
 	pData->EmitterGUID = dwGUID;
 	pData->ActiveCount = pActiveCount;
-	pData->RenderPos = (pos+PositionOffset) * matWorld;
+	pData->RenderPos = (pos + PositionOffset) * matWorld;
 	pData->Velocity = matWorld.MulNormal(velocity_dir);
 	pData->ElapsedTime = 0.0f;
 	pData->matWorld = matWorld;
-
 
 
 	pData->Angle = 0.0f;
@@ -155,7 +152,7 @@ void BillBoardProcessor::AddParticle (ParticleSystem* pSystem, const Vector& vel
 
 	float VelocityPower = pFields->GetRandomGraphVal(PARTICLE_VELOCITY_POWER, EmitterTime, EmitterLifeTime);
 	pData->Velocity = pData->Velocity * VelocityPower;
-	pData->UMass = fabsf (pData->Mass);
+	pData->UMass = fabsf(pData->Mass);
 
 
 	pData->Graph_SpinDrag = pFields->FindGraph(PARTICLE_SPIN_DRAG);
@@ -170,37 +167,38 @@ void BillBoardProcessor::AddParticle (ParticleSystem* pSystem, const Vector& vel
 	pData->graph_AddPower = pFields->FindGraph(PARTICLE_ADDPOWER);
 
 
-	pData->DragK = FRAND (1.0f);
-	pData->SpinDragK = FRAND (1.0f);
-	pData->SizeK = FRAND (1.0f);
-	pData->ColorK = FRAND (1.0f);
-	pData->AlphaK = FRAND (1.0f);
-	pData->FrameK = FRAND (1.0f);
-	pData->GravKK = FRAND (1.0f);
-	pData->AddPowerK = FRAND (1.0f);
+	pData->DragK = FRAND(1.0f);
+	pData->SpinDragK = FRAND(1.0f);
+	pData->SizeK = FRAND(1.0f);
+	pData->ColorK = FRAND(1.0f);
+	pData->AlphaK = FRAND(1.0f);
+	pData->FrameK = FRAND(1.0f);
+	pData->GravKK = FRAND(1.0f);
+	pData->AddPowerK = FRAND(1.0f);
 
-	pData->KPhysBlend = FRAND (1.0f);
-	pData->KTrackX = FRAND (1.0f);
-	pData->KTrackY = FRAND (1.0f);
-	pData->KTrackZ = FRAND (1.0f);
+	pData->KPhysBlend = FRAND(1.0f);
+	pData->KTrackX = FRAND(1.0f);
+	pData->KTrackY = FRAND(1.0f);
+	pData->KTrackZ = FRAND(1.0f);
 
 
 	const char* pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
-	if (_stricmp (pEmitterName, "none") == 0)
+	if (_stricmp(pEmitterName, "none") == 0)
 	{
 		pData->AttachedEmitter = nullptr;
-	} else
-		{
-			pData->AttachedEmitter = pSystem->FindEmitter(pEmitterName);
-			if (pData->AttachedEmitter) pData->AttachedEmitter->SetAttachedFlag(true);
-		}
+	}
+	else
+	{
+		pData->AttachedEmitter = pSystem->FindEmitter(pEmitterName);
+		if (pData->AttachedEmitter) pData->AttachedEmitter->SetAttachedFlag(true);
+	}
 
 	Particles.push_back(pData);
 }
 
 
 //Считает физику, треки  и т.д.
-void BillBoardProcessor::Process (float DeltaTime)
+void BillBoardProcessor::Process(float DeltaTime)
 {
 	//DWORD t;
 	//RDTSC_B (t);
@@ -212,13 +210,13 @@ void BillBoardProcessor::Process (float DeltaTime)
 		float Time = Particles[n]->ElapsedTime;
 		float LifeTime = Particles[n]->LifeTime;
 
-//		_mm_prefetch ((const char *)Particles[n+1], _MM_HINT_T0);
+		//		_mm_prefetch ((const char *)Particles[n+1], _MM_HINT_T0);
 
 		//Сразу убиваем дохлые...
 		if (Time > LifeTime)
 		{
-			*(Particles[n]->ActiveCount) = (*(Particles[n]->ActiveCount)-1);
-			FreeParticle (Particles[n]);
+			*(Particles[n]->ActiveCount) = (*(Particles[n]->ActiveCount) - 1);
+			FreeParticle(Particles[n]);
 			//Particles.ExtractNoShift(n);
 			Particles[n] = Particles.back();
 			Particles.pop_back();
@@ -227,21 +225,21 @@ void BillBoardProcessor::Process (float DeltaTime)
 		}
 
 		float Drag = Particles[n]->Graph_Drag->GetValue(Time, LifeTime, Particles[n]->DragK);
-		Drag = 1.0f -(Drag * 0.01f);
+		Drag = 1.0f - (Drag * 0.01f);
 		if (Drag < 0.0f) Drag = 0.0f;
 		if (Drag > 1.0f) Drag = 1.0f;
 
 
-
 		float GravK = Particles[n]->graph_GravK->GetValue(Time, LifeTime, Particles[n]->GravKK);
 
-		AddGravityForce (Particles[n]->ExternalForce, Particles[n]->Mass, GravK);
-		SolvePhysic (Particles[n]->PhysPos, Particles[n]->Velocity, Particles[n]->ExternalForce, Particles[n]->UMass, Drag, DeltaTime);
+		AddGravityForce(Particles[n]->ExternalForce, Particles[n]->Mass, GravK);
+		SolvePhysic(Particles[n]->PhysPos, Particles[n]->Velocity, Particles[n]->ExternalForce, Particles[n]->UMass,
+		            Drag, DeltaTime);
 		Particles[n]->ExternalForce = Vector(0.0f);
 
 		//FIX ME !!!
 		float SpinDrag = Particles[n]->Graph_SpinDrag->GetValue(Time, LifeTime, Particles[n]->SpinDragK);
-		SpinDrag = 1.0f -(SpinDrag * 0.01f);
+		SpinDrag = 1.0f - (SpinDrag * 0.01f);
 		if (SpinDrag < 0.0f) SpinDrag = 0.0f;
 		if (SpinDrag > 1.0f) SpinDrag = 1.0f;
 		Particles[n]->Angle += (Particles[n]->Spin * SpinDrag) * DeltaTime;
@@ -279,8 +277,8 @@ void BillBoardProcessor::Process (float DeltaTime)
 	{
 		if (Particles[n]->AttachedEmitter)
 		{
-//			api->Trace("%d, %3.2f, %3.2f, %3.2f", n, Particles[n]->RenderPos.x, Particles[n]->RenderPos.y, Particles[n]->RenderPos.z);
-//			Particles[n]->AttachedEmitter->SaveTime();
+			//			api->Trace("%d, %3.2f, %3.2f, %3.2f", n, Particles[n]->RenderPos.x, Particles[n]->RenderPos.y, Particles[n]->RenderPos.z);
+			//			Particles[n]->AttachedEmitter->SaveTime();
 			Particles[n]->AttachedEmitter->Teleport(Matrix(Particles[n]->OldRenderAngle, Particles[n]->OldRenderPos));
 			Particles[n]->AttachedEmitter->SetTransform(Matrix(Particles[n]->RenderAngle, Particles[n]->RenderPos));
 			Particles[n]->AttachedEmitter->BornParticles(DeltaTime);
@@ -295,31 +293,32 @@ void BillBoardProcessor::Process (float DeltaTime)
 }
 
 //Считает расстояние до билбоардов
-uint32_t BillBoardProcessor::CalcDistanceToCamera ()
+uint32_t BillBoardProcessor::CalcDistanceToCamera()
 {
 	uint32_t VisParticles = 0;
 	Matrix mView;
 	pRS->GetTransform(D3DTS_VIEW, mView);
-	for (uint32_t j = 0; j <  Particles.size(); j++)
+	for (uint32_t j = 0; j < Particles.size(); j++)
 	{
 		Particles[j]->CamDistance = Vector(Particles[j]->RenderPos * mView).z;
 
-//		_mm_prefetch ((const char *)Particles[j+1], _MM_HINT_T0);
+		//		_mm_prefetch ((const char *)Particles[j+1], _MM_HINT_T0);
 
 		if (Particles[j]->CamDistance > 0)
 		{
 			Particles[j]->Visible = true;
 			VisParticles++;
-		} else
-				{
-					Particles[j]->Visible = false;
-				}
+		}
+		else
+		{
+			Particles[j]->Visible = false;
+		}
 	}
 	return VisParticles;
 }
 
 //Функция сравнения при сортировке
-BOOL BillBoardProcessor::CompareFunction (BB_ParticleData* e1, BB_ParticleData* e2)
+BOOL BillBoardProcessor::CompareFunction(BB_ParticleData* e1, BB_ParticleData* e2)
 {
 	if (e1->CamDistance > e2->CamDistance) return true;
 	return false;
@@ -329,7 +328,7 @@ BOOL BillBoardProcessor::CompareFunction (BB_ParticleData* e1, BB_ParticleData* 
 //Рисует все плашки...
 void BillBoardProcessor::Draw()
 {
-	if (CalcDistanceToCamera() == 0)	return;
+	if (CalcDistanceToCamera() == 0) return;
 	ParticleSorter.QSort(CompareFunction, &Particles[0], Particles.size());
 
 	auto* pVerts = (RECT_VERTEX*)pRS->LockVertexBuffer(pVBuffer, D3DLOCK_DISCARD);
@@ -338,7 +337,7 @@ void BillBoardProcessor::Draw()
 
 	long Index = 0;
 	uint32_t ParticlesCount = 0;
-	for (uint32_t j = 0; j <  Particles.size(); j++)
+	for (uint32_t j = 0; j < Particles.size(); j++)
 	{
 		BB_ParticleData* pR = Particles[j];
 
@@ -348,7 +347,7 @@ void BillBoardProcessor::Draw()
 		float fSize = pR->Graph_Size->GetValue(pR->ElapsedTime, pR->LifeTime, pR->SizeK);
 		if (fSize <= 0.000001f) continue;
 
-//		_mm_prefetch ((const char *)Particles[j+1], _MM_HINT_T0);
+		//		_mm_prefetch ((const char *)Particles[j+1], _MM_HINT_T0);
 
 
 		float fAngle = pR->RenderAngle;
@@ -372,21 +371,19 @@ void BillBoardProcessor::Draw()
 		//AddPower = 0.0f;
 
 
-
-
 		float FrameIndex = pR->Graph_Frames->GetValue(pR->ElapsedTime, pR->LifeTime, pR->FrameK);
 		long FrameIndexLong = fftol(FrameIndex);
 		float FrameBlendK = 1.0f - (FrameIndex - FrameIndexLong);
 		const Vector4& UV_WH1 = pR->Graph_UV->GetValue(FrameIndexLong);
-		const Vector4& UV_WH2 = pR->Graph_UV->GetValue(FrameIndexLong+1);
+		const Vector4& UV_WH2 = pR->Graph_UV->GetValue(FrameIndexLong + 1);
 
 		//Ограничитель максимального размера партиклов...
 		//=============================================================
 		float SizeK = pR->CamDistance / fSize;
-		if (SizeK < PLOD)	fSize = pR->CamDistance / PLOD;
+		if (SizeK < PLOD) fSize = pR->CamDistance / PLOD;
 		//=============================================================
 
-		RECT_VERTEX	* pV = &pVerts[Index * 4];
+		RECT_VERTEX* pV = &pVerts[Index * 4];
 		Index++;
 
 		float DirAngle = 0.0f;
@@ -397,10 +394,10 @@ void BillBoardProcessor::Draw()
 			Matrix matView;
 			pRS->GetTransform(D3DTS_VIEW, matView);
 			Vector SpeedVector = pR->Velocity;
-				//pR->RenderPos - pR->OldRenderPos;
+			//pR->RenderPos - pR->OldRenderPos;
 			SpeedVector = matView.MulNormal(SpeedVector);
 			SpeedVector.Normalize();
-			ScaleF = 1.0f - fabsf (SpeedVector.z);
+			ScaleF = 1.0f - fabsf(SpeedVector.z);
 
 			if (ScaleF < 0.3f) ScaleF = 0.3f;
 			Alpha *= ScaleF;
@@ -420,8 +417,10 @@ void BillBoardProcessor::Draw()
 
 		pV[0].vRelativePos = Vector(-fSize, -fSize, 0.0f);
 		pV[0].dwColor = dwColor;
-		pV[0].tu1 = UV_WH1.v4[UV_TX1]; pV[0].tv1 = UV_WH1.v4[UV_TY1];
-		pV[0].tu2 = UV_WH2.v4[UV_TX1]; pV[0].tv2 = UV_WH2.v4[UV_TY1];
+		pV[0].tu1 = UV_WH1.v4[UV_TX1];
+		pV[0].tv1 = UV_WH1.v4[UV_TY1];
+		pV[0].tu2 = UV_WH2.v4[UV_TX1];
+		pV[0].tv2 = UV_WH2.v4[UV_TY1];
 		pV[0].angle = fAngle;
 		pV[0].BlendK = FrameBlendK;
 		pV[0].vParticlePos = vPos;
@@ -437,12 +436,12 @@ void BillBoardProcessor::Draw()
 		}
 
 
-
-
 		pV[1].vRelativePos = Vector(-fSize, fSize, 0.0f);
 		pV[1].dwColor = dwColor;
-		pV[1].tu1 = UV_WH1.v4[UV_TX1]; pV[1].tv1 = UV_WH1.v4[UV_TY2];
-		pV[1].tu2 = UV_WH2.v4[UV_TX1]; pV[1].tv2 = UV_WH2.v4[UV_TY2];
+		pV[1].tu1 = UV_WH1.v4[UV_TX1];
+		pV[1].tv1 = UV_WH1.v4[UV_TY2];
+		pV[1].tu2 = UV_WH2.v4[UV_TX1];
+		pV[1].tv2 = UV_WH2.v4[UV_TY2];
 		pV[1].angle = fAngle;
 		pV[1].BlendK = FrameBlendK;
 		pV[1].vParticlePos = vPos;
@@ -456,12 +455,12 @@ void BillBoardProcessor::Draw()
 		}
 
 
-
-
 		pV[2].vRelativePos = Vector(fSize, fSize, 0.0f);
 		pV[2].dwColor = dwColor;
-		pV[2].tu1 = UV_WH1.v4[UV_TX2]; pV[2].tv1 = UV_WH1.v4[UV_TY2];
-		pV[2].tu2 = UV_WH2.v4[UV_TX2]; pV[2].tv2 = UV_WH2.v4[UV_TY2];
+		pV[2].tu1 = UV_WH1.v4[UV_TX2];
+		pV[2].tv1 = UV_WH1.v4[UV_TY2];
+		pV[2].tu2 = UV_WH2.v4[UV_TX2];
+		pV[2].tv2 = UV_WH2.v4[UV_TY2];
 		pV[2].angle = fAngle;
 		pV[2].BlendK = FrameBlendK;
 		pV[2].vParticlePos = vPos;
@@ -475,11 +474,12 @@ void BillBoardProcessor::Draw()
 		}
 
 
-
 		pV[3].vRelativePos = Vector(fSize, -fSize, 0.0f);
 		pV[3].dwColor = dwColor;
-		pV[3].tu1 = UV_WH1.v4[UV_TX2]; pV[3].tv1 = UV_WH1.v4[UV_TY1];
-		pV[3].tu2 = UV_WH2.v4[UV_TX2]; pV[3].tv2 = UV_WH2.v4[UV_TY1];
+		pV[3].tu1 = UV_WH1.v4[UV_TX2];
+		pV[3].tv1 = UV_WH1.v4[UV_TY1];
+		pV[3].tu2 = UV_WH2.v4[UV_TX2];
+		pV[3].tv2 = UV_WH2.v4[UV_TY1];
 		pV[3].angle = fAngle;
 		pV[3].BlendK = FrameBlendK;
 		pV[3].vParticlePos = vPos;
@@ -523,27 +523,27 @@ void BillBoardProcessor::Draw()
 
 	pRS->SetTransform(D3DTS_VIEW, Matrix());
 	pRS->SetTransform(D3DTS_WORLD, Matrix());
-	pRS->DrawBuffer(pVBuffer, sizeof (RECT_VERTEX), pIBuffer, 0, ParticlesCount * 4, 0, ParticlesCount * 2, "AdvancedParticles");
+	pRS->DrawBuffer(pVBuffer, sizeof(RECT_VERTEX), pIBuffer, 0, ParticlesCount * 4, 0, ParticlesCount * 2,
+	                "AdvancedParticles");
 
 	pRS->SetTransform(D3DTS_VIEW, matOldView);
 
 	//pRS->Print(20, 20, "PSYS 2.0 : Draw %d billboard particles", ParticlesCount);
-
 }
 
-uint32_t BillBoardProcessor::GetCount ()
+uint32_t BillBoardProcessor::GetCount()
 {
 	return Particles.size();
 }
 
-void BillBoardProcessor::DeleteWithGUID (uint32_t dwGUID, uint32_t GUIDRange)
+void BillBoardProcessor::DeleteWithGUID(uint32_t dwGUID, uint32_t GUIDRange)
 {
-	for (uint32_t j = 0; j <  Particles.size(); j++)
+	for (uint32_t j = 0; j < Particles.size(); j++)
 	{
-		if (Particles[j]->EmitterGUID >= dwGUID && Particles[j]->EmitterGUID < dwGUID+GUIDRange)
+		if (Particles[j]->EmitterGUID >= dwGUID && Particles[j]->EmitterGUID < dwGUID + GUIDRange)
 		{
-			*(Particles[j]->ActiveCount) = (*(Particles[j]->ActiveCount)-1);
-			FreeParticle (Particles[j]);
+			*(Particles[j]->ActiveCount) = (*(Particles[j]->ActiveCount) - 1);
+			FreeParticle(Particles[j]);
 			//Particles.ExtractNoShift(j);
 			Particles[j] = Particles.back();
 			Particles.pop_back();
@@ -552,12 +552,12 @@ void BillBoardProcessor::DeleteWithGUID (uint32_t dwGUID, uint32_t GUIDRange)
 	}
 }
 
-void BillBoardProcessor::Clear ()
+void BillBoardProcessor::Clear()
 {
-	for (uint32_t j = 0; j <  Particles.size(); j++)
+	for (uint32_t j = 0; j < Particles.size(); j++)
 	{
-		*(Particles[j]->ActiveCount) = (*(Particles[j]->ActiveCount)-1);
-		FreeParticle (Particles[j]);
+		*(Particles[j]->ActiveCount) = (*(Particles[j]->ActiveCount) - 1);
+		FreeParticle(Particles[j]);
 	}
 	Particles.clear();
 }
@@ -569,8 +569,8 @@ void BillBoardProcessor::CreateVertexDeclaration()
 
 	const D3DVERTEXELEMENT9 VertexElements[] =
 	{
-		{0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
-		{0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,  0},
+		{0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
+		{0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0},
 		{0, 16, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
 		{0, 24, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 1},
 		{0, 32, D3DDECLTYPE_FLOAT1, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT, 0},

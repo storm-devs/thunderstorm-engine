@@ -3,16 +3,16 @@
 
 namespace TOREMOVE
 {
-	inline unsigned long HashNoCase(const char * str)
+	inline unsigned long HashNoCase(const char* str)
 	{
 		unsigned long hval = 0;
-		while(*str != '\0')
+		while (*str != '\0')
 		{
 			char c = *str++;
-			if(c >= 'A' && c <= 'Z') c += 'a' - 'A';
-			hval = (hval<<4) + (unsigned long)c;
-			unsigned long g = hval & ((unsigned long) 0xf << (32 - 4));
-			if(g != 0)
+			if (c >= 'A' && c <= 'Z') c += 'a' - 'A';
+			hval = (hval << 4) + (unsigned long)c;
+			unsigned long g = hval & ((unsigned long)0xf << (32 - 4));
+			if (g != 0)
 			{
 				hval ^= g >> (32 - 8);
 				hval ^= g;
@@ -36,17 +36,32 @@ namespace TOREMOVE
 
 struct FPOINT
 {
-	float	x,y;
+	float x, y;
 };
 
 struct FRECT
 {
 	union
 	{
-		struct { float	x1,y1,x2,y2; };
-		struct { float	xs,ys,xe,ye; };
-		struct { float	x_start,y_start,x_end,y_end; };
-		struct { float	left,top,right,bottom; };
+		struct
+		{
+			float x1, y1, x2, y2;
+		};
+
+		struct
+		{
+			float xs, ys, xe, ye;
+		};
+
+		struct
+		{
+			float x_start, y_start, x_end, y_end;
+		};
+
+		struct
+		{
+			float left, top, right, bottom;
+		};
 	};
 };
 
@@ -65,23 +80,24 @@ struct FRECT
 
 // Defines
 #ifdef RGB
-	#undef RGB
+#undef RGB
 #endif
 
 #ifdef DELETE
-	#undef DELETE
+#undef DELETE
 #endif
 
 #ifdef SQR
-	#undef SQR
+#undef SQR
 #endif
 
-inline uint32_t F2DW( float f ) { return *reinterpret_cast<uint32_t*>(&f); }
+inline uint32_t F2DW(float f) { return *reinterpret_cast<uint32_t*>(&f); }
 
 inline int ftoi(float f)
 {
 	return _mm_cvt_ss2si(_mm_load_ss(&f));
 }
+
 #define STORM_DELETE(x)			{ delete x; x=0; }
 #define DELETE_Entity(x)	{ EntityManager::EraseEntity(x); }
 #define RELEASE(x)			{ if (x) x->Release(); x = 0; }
@@ -110,13 +126,54 @@ inline int ftoi(float f)
 #define METERS2KNOTS(x)		((x) * 3600.0f / 1853.0f)
 #define KNOTS2METERS(x)		((x) * 1853.0f / 3600.0f)
 
-template<class T> void Swap(T & t1, T & t2) { T tmp; tmp = t1; t1 = t2; t2 = tmp; };
-template<class T> T Clamp(T t) { if (t < (T)0) return (T)0; if (t > (T)1) return (T)1; return t; };
-template<class T> T Clamp(T t, T Min, T Max) { if (t < Min) return Min; if (t > Max) return Max; return t; };
-template<class T> T Bring2Range(T Min1, T Max1, T Min2, T Max2, T Value) { if (Value < Min2) Value = Min2; if (Value > Max2) Value = Max2; float Delta = float(Value - Min2) / float(Max2 - Min2); return Min1 + Delta * (Max1 - Min1); };
-template<class T> T Bring2RangeNoCheck(T Min1, T Max1, T Min2, T Max2, T Value) { float Delta = float(Value - Min2) / float(Max2 - Min2); return Min1 + Delta * (Max1 - Min1); };
-template<class T> T Min(T t1, T t2) { return ((t1 < t2) ? t1 : t2); };
-template<class T> T Max(T t1, T t2) { return ((t1 > t2) ? t1 : t2); };
-template<class T> T Sqr(T t1) { return (t1 * t1); };
+template <class T>
+void Swap(T& t1, T& t2)
+{
+	T tmp;
+	tmp = t1;
+	t1 = t2;
+	t2 = tmp;
+};
+
+template <class T>
+T Clamp(T t)
+{
+	if (t < (T)0) return (T)0;
+	if (t > (T)1) return (T)1;
+	return t;
+};
+
+template <class T>
+T Clamp(T t, T Min, T Max)
+{
+	if (t < Min) return Min;
+	if (t > Max) return Max;
+	return t;
+};
+
+template <class T>
+T Bring2Range(T Min1, T Max1, T Min2, T Max2, T Value)
+{
+	if (Value < Min2) Value = Min2;
+	if (Value > Max2) Value = Max2;
+	float Delta = float(Value - Min2) / float(Max2 - Min2);
+	return Min1 + Delta * (Max1 - Min1);
+};
+
+template <class T>
+T Bring2RangeNoCheck(T Min1, T Max1, T Min2, T Max2, T Value)
+{
+	float Delta = float(Value - Min2) / float(Max2 - Min2);
+	return Min1 + Delta * (Max1 - Min1);
+};
+
+template <class T>
+T Min(T t1, T t2) { return ((t1 < t2) ? t1 : t2); };
+
+template <class T>
+T Max(T t1, T t2) { return ((t1 > t2) ? t1 : t2); };
+
+template <class T>
+T Sqr(T t1) { return (t1 * t1); };
 
 //#include "inlines.h"

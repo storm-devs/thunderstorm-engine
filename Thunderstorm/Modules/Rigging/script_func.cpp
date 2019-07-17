@@ -6,89 +6,98 @@
 extern float g_fSailHoleDepend;
 //extern float GetSailSpeed(int holeQ,int holeMax,float maxSpeed,float fSailHoleDepend);
 
-uint32_t _ShipSailState(VS_STACK * pS)
+uint32_t _ShipSailState(VS_STACK* pS)
 {
-	auto* pChrIdx = (VDATA*)pS->Pop(); if(!pChrIdx) return IFUNCRESULT_FAILED;
+	auto* pChrIdx = (VDATA*)pS->Pop();
+	if (!pChrIdx) return IFUNCRESULT_FAILED;
 	long nChrIdx = pChrIdx->GetLong();
 
-	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push();
+	if (!pVR) return IFUNCRESULT_FAILED;
 
 	// find sail class
-	if(const auto eid = EntityManager::GetEntityId("SAIL"))
+	if (const auto eid = EntityManager::GetEntityId("SAIL"))
 	{
 		long n = ((SAIL*)EntityManager::GetEntityPointer(eid))->GetSailStateForCharacter(nChrIdx);
-		pVR->Set( n );
+		pVR->Set(n);
 	}
-	else pVR->Set( (long)0 );
+	else pVR->Set((long)0);
 
 	return IFUNCRESULT_OK;
 }
 
-uint32_t _GetAssembledString(VS_STACK * pS)
+uint32_t _GetAssembledString(VS_STACK* pS)
 {
-	VDATA * pAttrPnt = (VDATA*)pS->Pop();	if (!pAttrPnt) return IFUNCRESULT_FAILED;
-	ATTRIBUTES * pAttr = pAttrPnt->GetAClass();
+	VDATA* pAttrPnt = (VDATA*)pS->Pop();
+	if (!pAttrPnt) return IFUNCRESULT_FAILED;
+	ATTRIBUTES* pAttr = pAttrPnt->GetAClass();
 
-	VDATA * pFormatStr = (VDATA*)pS->Pop();	if (!pFormatStr) return IFUNCRESULT_FAILED;
-	char * formatStr = pFormatStr->GetString();
+	VDATA* pFormatStr = (VDATA*)pS->Pop();
+	if (!pFormatStr) return IFUNCRESULT_FAILED;
+	char* formatStr = pFormatStr->GetString();
 
-	char retString[1024];	retString[0] = 0;
-	if(formatStr!= nullptr && pAttr!= nullptr)
+	char retString[1024];
+	retString[0] = 0;
+	if (formatStr != nullptr && pAttr != nullptr)
 	{
 		bool bBuildAccessString = false;
 		char accessString[sizeof(retString)];
 		accessString[0] = 0;
 		int accessStrSize = 0;
-		for(int i=0; ; i++)
+		for (int i = 0; ; i++)
 		{
-			if(formatStr[i]=='#' || !formatStr[i])
+			if (formatStr[i] == '#' || !formatStr[i])
 			{
 				accessString[accessStrSize] = 0;
-				if(bBuildAccessString)
+				if (bBuildAccessString)
 				{
-					if(accessStrSize>1)
+					if (accessStrSize > 1)
 					{
 						int nAttrNameStart = 1;
-						if(accessString[0]=='f' && accessString[1]=='.')
+						if (accessString[0] == 'f' && accessString[1] == '.')
 						{
 							nAttrNameStart = 3;
 						}
-						ATTRIBUTES * pA = pAttr->FindAClass(pAttr,&accessString[nAttrNameStart]);
-						char * writeStr = nullptr;
-						if(pA!= nullptr)	writeStr = pA->GetThisAttr();
-						if(writeStr) switch(accessString[0])
-						{
-						case 's':	strcat_s(retString,writeStr); break;
-						case 'f':
+						ATTRIBUTES* pA = pAttr->FindAClass(pAttr, &accessString[nAttrNameStart]);
+						char* writeStr = nullptr;
+						if (pA != nullptr) writeStr = pA->GetThisAttr();
+						if (writeStr)
+							switch (accessString[0])
 							{
-								char tmpp[256]; float ftmp=0.f;
-								sscanf(writeStr,"%f",&ftmp);
-								if(nAttrNameStart==1)	sprintf_s(tmpp,"%f",ftmp);
-								else
+							case 's': strcat_s(retString, writeStr);
+								break;
+							case 'f':
 								{
-									char tmpFmtStr[5];
-									tmpFmtStr[0]='%';
-									tmpFmtStr[1]='.';
-									tmpFmtStr[2]=accessString[2];
-									tmpFmtStr[3]='f';
-									tmpFmtStr[4]=0;
-									sprintf_s(tmpp,tmpFmtStr,ftmp);
+									char tmpp[256];
+									float ftmp = 0.f;
+									sscanf(writeStr, "%f", &ftmp);
+									if (nAttrNameStart == 1) sprintf_s(tmpp, "%f", ftmp);
+									else
+									{
+										char tmpFmtStr[5];
+										tmpFmtStr[0] = '%';
+										tmpFmtStr[1] = '.';
+										tmpFmtStr[2] = accessString[2];
+										tmpFmtStr[3] = 'f';
+										tmpFmtStr[4] = 0;
+										sprintf_s(tmpp, tmpFmtStr, ftmp);
+									}
+									strcat_s(retString, tmpp);
 								}
-								strcat_s(retString,tmpp);
+								break;
+							case 'd':
+								{
+									char tmpp[256];
+									int ntmp = 0;
+									sscanf(writeStr, "%d", &ntmp);
+									sprintf_s(tmpp, "%d", ntmp);
+									strcat_s(retString, tmpp);
+								}
+								break;
 							}
-						break;
-						case 'd':
-							{
-								char tmpp[256]; int ntmp=0;
-								sscanf(writeStr,"%d",&ntmp);
-								sprintf_s(tmpp,"%d",ntmp);
-								strcat_s(retString,tmpp);
-							}
-						break;
-						}
 					}
 				}
-				else	strcat_s(retString,accessString);
+				else strcat_s(retString, accessString);
 				bBuildAccessString = !bBuildAccessString;
 				accessStrSize = 0;
 			}
@@ -96,16 +105,17 @@ uint32_t _GetAssembledString(VS_STACK * pS)
 			{
 				accessString[accessStrSize++] = formatStr[i];
 			}
-			if(!formatStr[i]) break;
+			if (!formatStr[i]) break;
 		}
 	}
 
-	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push();
+	if (!pVR) return IFUNCRESULT_FAILED;
 	pVR->Set(retString);
 	return IFUNCRESULT_OK;
 }
 
-uint32_t _funcGetSailSpeed(VS_STACK * pS)
+uint32_t _funcGetSailSpeed(VS_STACK* pS)
 {
 	auto* pSailPow = (VDATA*)pS->Pop();
 	float fSailPow = pSailPow->GetFloat();
@@ -116,33 +126,35 @@ uint32_t _funcGetSailSpeed(VS_STACK * pS)
 	auto* pHoleQ = (VDATA*)pS->Pop();
 	long nHoleQ = pHoleQ->GetLong();
 
-	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
-	pVR->Set( fSailPow - GetSailSpeed(nHoleQ, nHoleMax, fSailPow) );
+	auto* pVR = (VDATA*)pS->Push();
+	if (!pVR) return IFUNCRESULT_FAILED;
+	pVR->Set(fSailPow - GetSailSpeed(nHoleQ, nHoleMax, fSailPow));
 
 	return IFUNCRESULT_OK;
 }
 
-uint32_t _RandomHole2Sail(VS_STACK * pS)
+uint32_t _RandomHole2Sail(VS_STACK* pS)
 {
-	VDATA * pData;
+	VDATA* pData;
 
-	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
+	if (!(pData = (VDATA*)pS->Pop())) return IFUNCRESULT_FAILED;
 	int _addHoleQ = pData->GetLong();
-	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
+	if (!(pData = (VDATA*)pS->Pop())) return IFUNCRESULT_FAILED;
 	uint32_t _holeData = pData->GetLong();
-	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
+	if (!(pData = (VDATA*)pS->Pop())) return IFUNCRESULT_FAILED;
 	int _maxHole = pData->GetLong();
-	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
+	if (!(pData = (VDATA*)pS->Pop())) return IFUNCRESULT_FAILED;
 	int _groupNum = pData->GetLong();
-	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
-	char * _reyName = pData->GetString();
-	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
+	if (!(pData = (VDATA*)pS->Pop())) return IFUNCRESULT_FAILED;
+	char* _reyName = pData->GetString();
+	if (!(pData = (VDATA*)pS->Pop())) return IFUNCRESULT_FAILED;
 	int _chrIdx = pData->GetLong();
 
-	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push();
+	if (!pVR) return IFUNCRESULT_FAILED;
 
-	SAILONE_BASE * pSail = nullptr;
-	if(const auto ei = EntityManager::GetEntityId("ShipsailTracks"))
+	SAILONE_BASE* pSail = nullptr;
+	if (const auto ei = EntityManager::GetEntityId("ShipsailTracks"))
 	{
 		pSail = ((SAIL_BASE*)EntityManager::GetEntityPointer(ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
 	}
@@ -150,21 +162,21 @@ uint32_t _RandomHole2Sail(VS_STACK * pS)
 	int holeArraySize = 0;
 	int holeIdx[20];
 	uint32_t holeMask = _holeData;
-	for(int i=0; holeMask>0; i++,holeMask>>=1)
-		if( !(holeMask&1) )
+	for (int i = 0; holeMask > 0; i++, holeMask >>= 1)
+		if (!(holeMask & 1))
 			holeIdx[holeArraySize++] = i;
 
 	holeMask = _holeData;
-	while(holeArraySize>0 && _addHoleQ>0)
+	while (holeArraySize > 0 && _addHoleQ > 0)
 	{
-		int i = rand()%holeArraySize;
-		holeMask |= 1<<holeIdx[i];
+		int i = rand() % holeArraySize;
+		holeMask |= 1 << holeIdx[i];
 		holeArraySize--;
 		_addHoleQ--;
 		holeIdx[i] = holeIdx[holeArraySize];
 	}
 
-	if(pSail!= nullptr && holeMask!=_holeData)
+	if (pSail != nullptr && holeMask != _holeData)
 	{
 		pSail->SetAllHole(holeMask);
 		pSail->CalculateMirrorSailIndex();
@@ -175,28 +187,29 @@ uint32_t _RandomHole2Sail(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t _DeleteOneSailHole(VS_STACK * pS)
+uint32_t _DeleteOneSailHole(VS_STACK* pS)
 {
-	VDATA * pData;
+	VDATA* pData;
 
-	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
+	if (!(pData = (VDATA*)pS->Pop())) return IFUNCRESULT_FAILED;
 	int _delHoleQ = pData->GetLong();
-	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
+	if (!(pData = (VDATA*)pS->Pop())) return IFUNCRESULT_FAILED;
 	uint32_t _holeData = pData->GetLong();
-	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
-	char * _reyName = pData->GetString();
-	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
-	char * _groupName = pData->GetString();
-	if ( !(pData=(VDATA*)pS->Pop()) ) return IFUNCRESULT_FAILED;
+	if (!(pData = (VDATA*)pS->Pop())) return IFUNCRESULT_FAILED;
+	char* _reyName = pData->GetString();
+	if (!(pData = (VDATA*)pS->Pop())) return IFUNCRESULT_FAILED;
+	char* _groupName = pData->GetString();
+	if (!(pData = (VDATA*)pS->Pop())) return IFUNCRESULT_FAILED;
 	int _chrIdx = pData->GetLong();
 
-	auto* pVR = (VDATA*)pS->Push(); if (!pVR) return IFUNCRESULT_FAILED;
+	auto* pVR = (VDATA*)pS->Push();
+	if (!pVR) return IFUNCRESULT_FAILED;
 
 	int _groupNum;
-	sscanf(_groupName,"%d",&_groupNum);
+	sscanf(_groupName, "%d", &_groupNum);
 
-	SAILONE_BASE * pSail = nullptr;
-	if(const auto ei = EntityManager::GetEntityId("sail"))
+	SAILONE_BASE* pSail = nullptr;
+	if (const auto ei = EntityManager::GetEntityId("sail"))
 	{
 		pSail = ((SAIL_BASE*)EntityManager::GetEntityPointer(ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
 	}
@@ -204,21 +217,21 @@ uint32_t _DeleteOneSailHole(VS_STACK * pS)
 	int holeArraySize = 0;
 	int holeIdx[20];
 	uint32_t holeMask = _holeData;
-	for(int i=0; holeMask>0; i++,holeMask>>=1)
-		if(holeMask&1)
+	for (int i = 0; holeMask > 0; i++, holeMask >>= 1)
+		if (holeMask & 1)
 			holeIdx[holeArraySize++] = i;
 
 	holeMask = _holeData;
-	while(holeArraySize>0 && _delHoleQ>0)
+	while (holeArraySize > 0 && _delHoleQ > 0)
 	{
-		int i = rand()%holeArraySize;
-		holeMask &= ~(1<<holeIdx[i]);
+		int i = rand() % holeArraySize;
+		holeMask &= ~(1 << holeIdx[i]);
 		holeArraySize--;
 		_delHoleQ--;
 		holeIdx[i] = holeIdx[holeArraySize];
 	}
 
-	if(pSail!= nullptr && holeMask!=_holeData)
+	if (pSail != nullptr && holeMask != _holeData)
 	{
 		pSail->SetAllHole(holeMask);
 		pSail->CalculateMirrorSailIndex();

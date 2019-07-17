@@ -19,9 +19,8 @@ class VDX9RENDER;
 
 #define LFX_SPLASHES_SECT	16
 
-class LocationEffects : public Entity  
+class LocationEffects : public Entity
 {
-
 #pragma pack(push, 1)
 
 	struct Vertex
@@ -54,7 +53,7 @@ class LocationEffects : public Entity
 	};
 
 	struct ChrSplash
-	{		
+	{
 		float time;
 		float kTime;
 		CVECTOR pos;
@@ -78,35 +77,38 @@ class LocationEffects : public Entity
 
 	struct ParticleSG : public Particle
 	{
-		CVECTOR spd;		
-		float dang;		
+		CVECTOR spd;
+		float dang;
 		float time;
 		float ktime;
 	};
 
-//--------------------------------------------------------------------------------------------
-//Конструирование, деструктурирование
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Конструирование, деструктурирование
+	//--------------------------------------------------------------------------------------------
 public:
 	LocationEffects();
 	virtual ~LocationEffects();
 
 
 	//Инициализация
-	bool Init();
+	bool Init() override;
 	//Исполнение
 	void Execute(uint32_t delta_time);
 	void Realize(uint32_t delta_time);
 	//Сообщения
-	uint64_t ProcessMessage(MESSAGE & message);
+	uint64_t ProcessMessage(MESSAGE& message) override;
+
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)
 		{
 		case Stage::execute:
-			Execute(delta); break;
+			Execute(delta);
+			break;
 		case Stage::realize:
-			Realize(delta); break;
+			Realize(delta);
+			break;
 			/*case Stage::lost_render:
 				LostRender(delta); break;
 			case Stage::restore_render:
@@ -115,21 +117,22 @@ public:
 	}
 
 
-//--------------------------------------------------------------------------------------------
-//Инкапсуляция
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Инкапсуляция
+	//--------------------------------------------------------------------------------------------
 private:
-	void DrawParticles(void * prts, long num, long size, long texture, const char * tech, bool isEx = false, long numU = 0);
+	void DrawParticles(void* prts, long num, long size, long texture, const char* tech, bool isEx = false,
+	                   long numU = 0);
 
 
 private:
-	VDX9RENDER * rs;
+	VDX9RENDER* rs;
 
 
 	//---------------------------------------------------
 	//Брызги от персонажа
 	//---------------------------------------------------
-	void CreateSplash(const CVECTOR & pos, float power);
+	void CreateSplash(const CVECTOR& pos, float power);
 	void ProcessedChrSplash(float dltTime);
 
 	ChrSplash chrSplash[4];
@@ -140,7 +143,7 @@ private:
 	//Мухи у фанарей
 	//---------------------------------------------------
 
-	void AddLampFlys(CVECTOR & pos);
+	void AddLampFlys(CVECTOR& pos);
 	void ProcessedFlys(float dltTime);
 
 	std::vector<LampFlys> flys;
@@ -155,9 +158,9 @@ private:
 	//---------------------------------------------------
 	void SGInited();
 	void SGRelease();
-	void SGEnvPrt(const CVECTOR & pos, const CVECTOR & ndir);
-	void SGBldPrt(const CVECTOR & pos, const CVECTOR & ndir);
-	void SGFirePrt(const CVECTOR & pos, const CVECTOR & ndir);
+	void SGEnvPrt(const CVECTOR& pos, const CVECTOR& ndir);
+	void SGBldPrt(const CVECTOR& pos, const CVECTOR& ndir);
+	void SGFirePrt(const CVECTOR& pos, const CVECTOR& ndir);
 	void ProcessedShotgun(float dltTime);
 
 	ParticleSG smoke[64];
@@ -172,8 +175,7 @@ private:
 	long texBlood;
 	long texHor;
 
-	Vertex buffer[256*6];
+	Vertex buffer[256 * 6];
 };
 
 #endif
-

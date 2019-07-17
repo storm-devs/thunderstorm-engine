@@ -8,8 +8,8 @@ CREATE_CLASS(SINKEFFECT)
 
 //--------------------------------------------------------------------
 SINKEFFECT::SINKEFFECT()
-	:sea(nullptr)
-	,renderer(nullptr)
+	: renderer(nullptr)
+	  , sea(nullptr)
 {
 }
 
@@ -26,9 +26,9 @@ bool SINKEFFECT::Init()
 {
 	//GUARD(SINKEFFECT::Init)
 
-	sea = (SEA_BASE*) EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
+	sea = (SEA_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
 
-	renderer = (VDX9RENDER *) api->CreateService("dx9render");
+	renderer = (VDX9RENDER *)api->CreateService("dx9render");
 
 	InitializeSinks();
 
@@ -37,7 +37,7 @@ bool SINKEFFECT::Init()
 }
 
 //--------------------------------------------------------------------
-uint64_t SINKEFFECT::ProcessMessage(MESSAGE & message)
+uint64_t SINKEFFECT::ProcessMessage(MESSAGE& message)
 {
 	//GUARD(SINKEFFECT::ProcessMessage)
 
@@ -48,11 +48,12 @@ uint64_t SINKEFFECT::ProcessMessage(MESSAGE & message)
 	{
 	case MSG_SHIP_DELETE:
 		{
-			ATTRIBUTES *attrs = message.AttributePointer();
+			ATTRIBUTES* attrs = message.AttributePointer();
 			if (attrs)
 			{
 				auto& entities = EntityManager::GetEntityIdVector("ship");
-				for (auto ent : entities) {
+				for (auto ent : entities)
+				{
 					/*
 					shipBase = (SHIP_BASE *) EntityManager::GetEntityPointer(shipID);
 					if (shipBase->GetACharacter() == attrs)
@@ -67,9 +68,9 @@ uint64_t SINKEFFECT::ProcessMessage(MESSAGE & message)
 						TryToAddSink(shipBase->GetPos(), shipBase->GetBoxsize().z / 2.0f);
 						return outValue;
 					}
-				}//if (FindClass)
-			}//if (attrs)
-		}//case
+				} //if (FindClass)
+			} //if (attrs)
+		} //case
 		break;
 	}
 
@@ -92,28 +93,28 @@ void SINKEFFECT::Realize(uint32_t _dTime)
 void SINKEFFECT::Execute(uint32_t _dTime)
 {
 	//GUARD(SINKEFFECT::Execute)
-/*
-	if (GetAsyncKeyState('X'))
-	{
-		if (renderer && sea)
+	/*
+		if (GetAsyncKeyState('X'))
 		{
-			static CVECTOR pos, ang, nose, head;
-			static CMatrix view;
-			//CVECTOR dir(randCentered(2.0f), -1.0f, randCentered(2.0f));
-			CVECTOR dir(0.0f, -1.0f, 0.0f);
-
-			renderer->GetTransform(D3DTS_VIEW, view);
-			view.Transposition();
-			nose = view.Vz();
-			//head = view.Vy();
-			pos = view.Pos();
-
-			pos += 10.0f * !nose;
-			pos.y = sea->WaveXZ(pos.x, pos.y);
-			TSink *sinks= TryToAddSink(pos, 10.0f);
+			if (renderer && sea)
+			{
+				static CVECTOR pos, ang, nose, head;
+				static CMatrix view;
+				//CVECTOR dir(randCentered(2.0f), -1.0f, randCentered(2.0f));
+				CVECTOR dir(0.0f, -1.0f, 0.0f);
+	
+				renderer->GetTransform(D3DTS_VIEW, view);
+				view.Transposition();
+				nose = view.Vz();
+				//head = view.Vy();
+				pos = view.Pos();
+	
+				pos += 10.0f * !nose;
+				pos.y = sea->WaveXZ(pos.x, pos.y);
+				TSink *sinks= TryToAddSink(pos, 10.0f);
+			}
 		}
-	}
-*/
+	*/
 	for (int i = 0; i < MAX_SINKS; ++i)
 		sinks[i].Process(_dTime);
 
@@ -123,7 +124,7 @@ void SINKEFFECT::Execute(uint32_t _dTime)
 //--------------------------------------------------------------------
 void SINKEFFECT::InitializeSinks()
 {
-	INIFILE *psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
+	INIFILE* psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
 
 	for (int i = 0; i < MAX_SINKS; ++i)
 	{
@@ -135,7 +136,7 @@ void SINKEFFECT::InitializeSinks()
 }
 
 //--------------------------------------------------------------------
-TSink *SINKEFFECT::TryToAddSink(const CVECTOR &_pos, float _r)
+TSink* SINKEFFECT::TryToAddSink(const CVECTOR& _pos, float _r)
 {
 	for (int i = 0; i < MAX_SINKS; ++i)
 	{

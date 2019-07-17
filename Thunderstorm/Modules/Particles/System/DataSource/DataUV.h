@@ -17,27 +17,25 @@ class DataUV
 
 public:
 
-//конструктор/деструктор
-	DataUV ();
-	virtual ~DataUV ();
+	//конструктор/деструктор
+	DataUV();
+	virtual ~DataUV();
 
 	//Получить значение   [ x,y = UV1; z,w = UV2 ]
-	const Vector4 &GetValue (uint32_t FrameNum);
+	const Vector4& GetValue(uint32_t FrameNum);
 
 	//Установить значения
-	void SetValues (const Vector4* _Frames, uint32_t FramesCount);
+	void SetValues(const Vector4* _Frames, uint32_t FramesCount);
 
 	//Получить кол-во кадров
-	uint32_t GetFrameCount ();
+	uint32_t GetFrameCount();
 
 
-	void Load (MemFile* File);
-	void Write (MemFile* File);
+	void Load(MemFile* File);
+	void Write(MemFile* File);
 
-	void SetName (const char* szName);
-	const char* GetName ();
-
-
+	void SetName(const char* szName);
+	const char* GetName();
 };
 
 

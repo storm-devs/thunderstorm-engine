@@ -11,37 +11,38 @@ class BIImageRender;
 class BIImageMaterial
 {
 public:
-	BIImageMaterial( VDX9RENDER* pRS, BIImageRender* pImgRender );
+	BIImageMaterial(VDX9RENDER* pRS, BIImageRender* pImgRender);
 	~BIImageMaterial();
 
 	void Render(long nBegPrior, long nEndPrior);
 
-	bool IsUseTexture( const char* pcTextureName ) {return (m_sTextureName==pcTextureName);}
-	bool IsUseTechnique( const char* pcTechniqueName ) {return (m_sTechniqueName==pcTechniqueName);}
+	bool IsUseTexture(const char* pcTextureName) { return (m_sTextureName == pcTextureName); }
+	bool IsUseTechnique(const char* pcTechniqueName) { return (m_sTechniqueName == pcTechniqueName); }
 
-	const BIImage* CreateImage( BIImageType type, uint32_t color, FRECT& uv, long nLeft,long nTop, long nRight,long nBottom, long nPrior );
-	void DeleteImage( const BIImage* pImg );
+	const BIImage* CreateImage(BIImageType type, uint32_t color, FRECT& uv, long nLeft, long nTop, long nRight,
+	                           long nBottom, long nPrior);
+	void DeleteImage(const BIImage* pImg);
 
-	void SetTexture( const char* pcTextureName );
-	void SetTechnique( const char* pcTechniqueName ) {if(pcTechniqueName) m_sTechniqueName = pcTechniqueName;}
+	void SetTexture(const char* pcTextureName);
+	void SetTechnique(const char* pcTechniqueName) { if (pcTechniqueName) m_sTechniqueName = pcTechniqueName; }
 
-	void UpdateFlagOn() {m_bMakeBufferUpdate=true;}
+	void UpdateFlagOn() { m_bMakeBufferUpdate = true; }
 
-	long GetImageQuantity() {return m_apImage.size();}
+	long GetImageQuantity() { return m_apImage.size(); }
 	void ReleaseAllImages();
 
-	long GetMinPrioritet() {return m_nMinPrioritet;}
-	long GetMaxPrioritet() {return m_nMaxPrioritet;}
+	long GetMinPrioritet() { return m_nMinPrioritet; }
+	long GetMaxPrioritet() { return m_nMaxPrioritet; }
 
-	BIImageRender* GetImgRender() {return m_pImageRender;}
+	BIImageRender* GetImgRender() { return m_pImageRender; }
 
 protected:
 	void Release();
-	void UpdateImageBuffers( long nStartIdx, long nEndIdx );
+	void UpdateImageBuffers(long nStartIdx, long nEndIdx);
 	void RemakeBuffers();
-	bool GetOutputRangeByPrioritet(long nBegPrior,long nEndPrior, long &nStartIndex,long &nTriangleQuantity);
+	bool GetOutputRangeByPrioritet(long nBegPrior, long nEndPrior, long& nStartIndex, long& nTriangleQuantity);
 	void RecalculatePrioritetRange();
-	void InsertImageToList( BIImage* pImg );
+	void InsertImageToList(BIImage* pImg);
 
 	VDX9RENDER* m_pRS;
 	BIImageRender* m_pImageRender;

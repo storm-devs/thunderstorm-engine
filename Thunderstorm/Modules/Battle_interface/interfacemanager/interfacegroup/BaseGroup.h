@@ -11,16 +11,21 @@ class BI_ManagerBase;
 class BI_BaseGroup
 {
 public:
-	BI_BaseGroup( BI_ManagerBase* pManager );
+	BI_BaseGroup(BI_ManagerBase* pManager);
 	virtual ~BI_BaseGroup();
 
-	virtual void Init(){}
-	virtual void Update(){}
+	virtual void Init()
+	{
+	}
 
-	virtual long Event(const char* pcEventName) {return 0;}
+	virtual void Update()
+	{
+	}
 
-	BI_ManagerBase* Manager() {return m_pManager;}
-	const std::vector<BI_ManagerNodeBase*> & Nodes() {return m_aNodes;}
+	virtual long Event(const char* pcEventName) { return 0; }
+
+	BI_ManagerBase* Manager() { return m_pManager; }
+	const std::vector<BI_ManagerNodeBase*>& Nodes() { return m_aNodes; }
 
 protected:
 	BI_ManagerBase* m_pManager;

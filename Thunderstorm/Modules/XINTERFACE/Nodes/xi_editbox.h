@@ -10,55 +10,56 @@ public:
 	CXI_EDITBOX();
 	~CXI_EDITBOX();
 
-	void	Draw(bool bSelected,uint32_t Delta_Time);
-	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
-	void	ReleaseAll();
-	int		CommandExecute(int wActCode);
-	bool	IsClick(int buttonID,long xPos,long yPos);
-	void	MouseThis(float fX, float fY);
-	void	ChangePosition( XYRECT &rNewPos );
-	void	SaveParametersToIni();
+	void Draw(bool bSelected, uint32_t Delta_Time) override;
+	bool Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+	          XYPOINT& ScreenSize) override;
+	void ReleaseAll() override;
+	int CommandExecute(int wActCode) override;
+	bool IsClick(int buttonID, long xPos, long yPos) override;
+	void MouseThis(float fX, float fY) override;
+	void ChangePosition(XYRECT& rNewPos) override;
+	void SaveParametersToIni() override;
 
 protected:
-	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
-	void	SetNewCurSymbol(int h, int v);
+	void LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2) override;
+	void SetNewCurSymbol(int h, int v);
 
 protected:
-	char	m_alpha[512];
-	int		m_nAlphaQuantity;
-	int		m_nCurAlphaNum;
-	int		m_nFirstChar;
-	int		m_nHorz, m_nVert;
-	int		m_nMaxSize;
-	int		m_bUpChrRegistrOffset;
+	char m_alpha[512];
+	int m_nAlphaQuantity;
+	int m_nCurAlphaNum;
+	int m_nFirstChar;
+	int m_nHorz, m_nVert;
+	int m_nMaxSize;
+	int m_bUpChrRegistrOffset;
 
-	FXYRECT	m_frNormTex;
-	FXYRECT	m_frSelTex;
+	FXYRECT m_frNormTex;
+	FXYRECT m_frSelTex;
 
-	long	m_idBtnTex;
-	uint32_t	m_dwEditBoxColor;
-	uint32_t	m_dwBorderColor;
+	long m_idBtnTex;
+	uint32_t m_dwEditBoxColor;
+	uint32_t m_dwBorderColor;
 
-	int		m_nTopStringPos;
-	int		m_nTopOffset;
-	int		m_nLeftOffset;
+	int m_nTopStringPos;
+	int m_nTopOffset;
+	int m_nLeftOffset;
 
-	long	m_nChrFontNum;
-	long	m_nStrFontNum;
-	float	m_fChrScale;
-	float	m_fStrScale;
-	float	m_fChrTopOffset;
+	long m_nChrFontNum;
+	long m_nStrFontNum;
+	float m_fChrScale;
+	float m_fStrScale;
+	float m_fChrTopOffset;
 
-	bool	m_bOldSelected;
+	bool m_bOldSelected;
 
-	long	m_idVBRect;
-	long	m_idVB;
-	long	m_idIB;
-	long	m_nVQ;
-	long	m_nIQ;
+	long m_idVBRect;
+	long m_idVB;
+	long m_idIB;
+	long m_nVQ;
+	long m_nIQ;
 
-	float	m_fVAdd;
-	float	m_fHAdd;
+	float m_fVAdd;
+	float m_fHAdd;
 };
 
 #endif

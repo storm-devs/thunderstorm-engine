@@ -13,11 +13,11 @@
 
 #include "WdmShip.h"
 
-class WdmPlayerShip : public WdmShip  
+class WdmPlayerShip : public WdmShip
 {
-//--------------------------------------------------------------------------------------------
-//Конструирование, деструктурирование
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Конструирование, деструктурирование
+	//--------------------------------------------------------------------------------------------
 public:
 	WdmPlayerShip();
 	virtual ~WdmPlayerShip();
@@ -27,8 +27,8 @@ public:
 	void SetActionRadius(float radius);
 
 	//Расчёты
-	virtual void Update(float dltTime);
-	virtual void LRender(VDX9RENDER * rs);
+	void Update(float dltTime) override;
+	void LRender(VDX9RENDER* rs) override;
 
 	//Проверка при выходе из карты
 	bool ExitFromMap();
@@ -43,14 +43,14 @@ protected:
 	//Переместить кораблик
 	virtual void Move(float dltTime);
 
-	virtual void Collide();
+	void Collide() override;
 
-//--------------------------------------------------------------------------------------------
-//Инкапсуляция
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Инкапсуляция
+	//--------------------------------------------------------------------------------------------
 private:
 	bool goForward;
-	float actionRadius;	
+	float actionRadius;
 	float stormEventTime;
 };
 
@@ -60,4 +60,3 @@ inline float WdmPlayerShip::GetAy()
 }
 
 #endif
-

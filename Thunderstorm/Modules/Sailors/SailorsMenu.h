@@ -1,10 +1,9 @@
-
 #include "Sailors.h"
 #include <string>
 
 
-class Menu{
-
+class Menu
+{
 public:
 	std::string line[10];
 	int selected;
@@ -17,7 +16,7 @@ public:
 	bool keyPressed;
 	int key, shiftKey;
 
-	Sailors * sailrs;
+	Sailors* sailrs;
 	std::string _fileName_save;
 	std::string _fileName_load;
 
@@ -29,16 +28,13 @@ public:
 		keyPressed = false;
 	};
 
-	void Draw(VDX9RENDER * rs, SailorsPoints &sailorsPoints);
-	void OnKeyPress(SailorsPoints &sailorsPoints);
-	void ChangeControl(int key, SailorsPoints &sailorsPoints);
+	void Draw(VDX9RENDER* rs, SailorsPoints& sailorsPoints);
+	void OnKeyPress(SailorsPoints& sailorsPoints);
+	void ChangeControl(int key, SailorsPoints& sailorsPoints);
 
-	void ChangeControl1(int key, SailorsPoints &sailorsPoints);
-	void ChangeControl2(int key, SailorsPoints &sailorsPoints);
-	void ChangeControl3(int key, SailorsPoints &sailorsPoints);
+	void ChangeControl1(int key, SailorsPoints& sailorsPoints);
+	void ChangeControl2(int key, SailorsPoints& sailorsPoints);
+	void ChangeControl3(int key, SailorsPoints& sailorsPoints);
 
-	void Update(SailorsPoints &sailorsPoints);
+	void Update(SailorsPoints& sailorsPoints);
 };
-
-
-

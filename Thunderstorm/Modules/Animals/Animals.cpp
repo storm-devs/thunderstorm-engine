@@ -6,10 +6,10 @@
 CREATE_CLASS(ANIMALS)
 
 ANIMALS::ANIMALS()
-	:seagulls(nullptr)
-	,fishSchools(nullptr)
-	,butterflies(nullptr)
-{	
+	: seagulls(nullptr)
+	  , fishSchools(nullptr)
+	  , butterflies(nullptr)
+{
 	seagulls = new TSeagulls();
 	fishSchools = new TFishSchools();
 	butterflies = new TButterflies();
@@ -24,8 +24,8 @@ ANIMALS::~ANIMALS()
 
 bool ANIMALS::Init()
 {
-	EntityManager::AddToLayer(REALIZE,GetId(),77);
-	EntityManager::AddToLayer(EXECUTE, GetId(),77);
+	EntityManager::AddToLayer(REALIZE, GetId(), 77);
+	EntityManager::AddToLayer(EXECUTE, GetId(), 77);
 
 	seagulls->Init();
 	fishSchools->Init();
@@ -34,7 +34,7 @@ bool ANIMALS::Init()
 	return true;
 }
 
-uint64_t ANIMALS::ProcessMessage(MESSAGE & message)
+uint64_t ANIMALS::ProcessMessage(MESSAGE& message)
 {
 	long code = message.Long();
 	uint32_t outValue = 0;
@@ -74,7 +74,7 @@ void ANIMALS::Execute(uint32_t _dTime)
 	butterflies->Execute(_dTime);
 }
 
-uint32_t ANIMALS::AttributeChanged(ATTRIBUTES * _pA)
+uint32_t ANIMALS::AttributeChanged(ATTRIBUTES* _pA)
 {
 	if (*_pA == "midY")
 	{

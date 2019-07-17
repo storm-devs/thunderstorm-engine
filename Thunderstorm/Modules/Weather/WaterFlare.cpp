@@ -27,9 +27,9 @@ bool WATERFLARE::Init()
 {
 	//GUARD(bool WATERFLARE::Init())
 
-	EntityManager::AddToLayer(REALIZE,GetId(),-1);
-	EntityManager::AddToLayer(EXECUTE,GetId(),-1);
-	
+	EntityManager::AddToLayer(REALIZE, GetId(), -1);
+	EntityManager::AddToLayer(EXECUTE, GetId(), -1);
+
 	SetDevice();
 
 	//UNGUARD
@@ -43,21 +43,21 @@ void WATERFLARE::SetDevice()
 	RS = (VDX9RENDER *)api->CreateService("dx9render");
 	if (!RS) throw std::exception("No service: dx9render");
 
-	entid_t	ent;
+	entid_t ent;
 	if (!(ent = EntityManager::GetEntityId("weather"))) throw std::exception("No found WEATHER entity!");
 	pWeather = (WEATHER_BASE*)EntityManager::GetEntityPointer(ent);
 
 	//UNGUARD
 }
 
-bool WATERFLARE::CreateState(ENTITY_STATE_GEN * state_gen)
+bool WATERFLARE::CreateState(ENTITY_STATE_GEN* state_gen)
 {
 	//GUARD(bool WATERFLARE::CreateState(ENTITY_STATE_GEN * state_gen))
 	//UNGUARD
 	return true;
 }
 
-bool WATERFLARE::LoadState(ENTITY_STATE * state)
+bool WATERFLARE::LoadState(ENTITY_STATE* state)
 {
 	//GUARD(bool WATERFLARE::LoadState(ENTITY_STATE * state))
 	//UNGUARD
@@ -83,13 +83,13 @@ void WATERFLARE::Execute(uint32_t Delta_Time)
 
 void WATERFLARE::GenerateFlares()
 {
-	iFlaresNum = 1024 + (rand()%64);
+	iFlaresNum = 1024 + (rand() % 64);
 	pRSRect = (RS_RECT*)new RS_RECT[iFlaresNum];
 	pfAlpha = (float*)new float[iFlaresNum];
-	for (long i=0;i<iFlaresNum;i++)
+	for (long i = 0; i < iFlaresNum; i++)
 	{
 		pfAlpha[i] = FRAND(-40.0f);
-		pRSRect[i].vPos = CVECTOR(FRAND(1000.0f),0.0f,FRAND(1000.0f));
+		pRSRect[i].vPos = CVECTOR(FRAND(1000.0f), 0.0f,FRAND(1000.0f));
 		pRSRect[i].fAngle = 0.0f;
 		pRSRect[i].dwSubTexture = 0;
 		pRSRect[i].fSize = 0.5f;
@@ -100,26 +100,26 @@ void WATERFLARE::Realize(uint32_t Delta_Time)
 {
 	//GUARD(void WATERFLARE::Realize(uint32_t Delta_Time))
 
-	for (long i=0;i<iFlaresNum;i++)
+	for (long i = 0; i < iFlaresNum; i++)
 	{
 		float fDeltaTime = float(Delta_Time) * 0.001f;
 		pfAlpha[i] += fDeltaTime;
-		if (pfAlpha[i]>2.0f)
+		if (pfAlpha[i] > 2.0f)
 		{
 			pfAlpha[i] = 0.0f;
-			pRSRect[i].vPos = CVECTOR(FRAND(200.0f),0.0f,FRAND(200.0f));
+			pRSRect[i].vPos = CVECTOR(FRAND(200.0f), 0.0f,FRAND(200.0f));
 		}
-		auto dwAlpha = uint32_t(255.0f * ((pfAlpha[i]>1.0f) ? 2.0f - pfAlpha[i] : pfAlpha[i]));
-		pRSRect[i].dwColor = RGB(dwAlpha,dwAlpha,dwAlpha);
+		auto dwAlpha = uint32_t(255.0f * ((pfAlpha[i] > 1.0f) ? 2.0f - pfAlpha[i] : pfAlpha[i]));
+		pRSRect[i].dwColor = RGB(dwAlpha, dwAlpha, dwAlpha);
 	}
 
-	RS->TextureSet(0,iFlareTex);
-	RS->DrawRects(pRSRect,iFlaresNum,"waterflare");
+	RS->TextureSet(0, iFlareTex);
+	RS->DrawRects(pRSRect, iFlaresNum, "waterflare");
 
 	//UNGUARD
 }
 
-void WATERFLARE::ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam)
+void WATERFLARE::ProcessMessage(uint32_t iMsg, uint32_t wParam, uint32_t lParam)
 {
 	//GUARD(void WATERFLARE::ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam))
 	//UNGUARD

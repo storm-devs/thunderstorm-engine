@@ -7,37 +7,37 @@
 //Партикл
 struct ParticleBillboard
 {
-	Vector	vPos;
-	float		fSizeX, fSizeY;
-	float		fAngle;
-	uint32_t		dwColor;
-	float		DistanceToCamera;
-	bool		Visible;
+	Vector vPos;
+	float fSizeX, fSizeY;
+	float fAngle;
+	uint32_t dwColor;
+	float DistanceToCamera;
+	bool Visible;
 
 
-//Для первого кадра------------------------------------
+	//Для первого кадра------------------------------------
 	//Верхний левый угол в UV
-	float		U11;
-	float		V11;
+	float U11;
+	float V11;
 
 	//Нижний правый угол в UV
-	float		U12;
-	float		V12;
+	float U12;
+	float V12;
 
-//Для второго кадра------------------------------------
+	//Для второго кадра------------------------------------
 	//Верхний левый угол в UV
-	float		U21;
-	float		V21;
+	float U21;
+	float V21;
 
 	//Нижний правый угол в UV
-	float		U22;
-	float		V22;
+	float U22;
+	float V22;
 
-//Коэфицент блендинга между первым и вторым кадром
+	//Коэфицент блендинга между первым и вторым кадром
 	float BlendK;
 
 
-//Конструктор-------------------------------------------
+	//Конструктор-------------------------------------------
 	ParticleBillboard()
 	{
 		DistanceToCamera = 0.0f;

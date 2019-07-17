@@ -7,14 +7,23 @@
 
 struct ButtonDescribe
 {
-	ButtonDescribe() { pImg= nullptr; bSetPos=false; }
-	~ButtonDescribe() { STORM_DELETE( pImg ); }
+	ButtonDescribe()
+	{
+		pImg = nullptr;
+		bSetPos = false;
+	}
+
+	~ButtonDescribe()
+	{
+		STORM_DELETE(pImg);
+	}
 
 	struct StrDescribe
 	{
 		std::string str;
 		float fX;
 	};
+
 	std::vector<StrDescribe> aStr;
 	bool bChoose;
 	bool bDisable;
@@ -32,33 +41,38 @@ public:
 	CXI_CHECKBUTTONS();
 	~CXI_CHECKBUTTONS();
 
-	void	Draw(bool bSelected,uint32_t Delta_Time);
-	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
-	void	ReleaseAll();
-	int		CommandExecute(int wActCode);
-	bool	IsClick(int buttonID,long xPos,long yPos);
-	void	MouseThis(float fX, float fY) {}
-	void	ChangePosition( XYRECT &rNewPos );
-	void	SaveParametersToIni();
-	uint32_t MessageProc(long msgcode, MESSAGE & message);
+	void Draw(bool bSelected, uint32_t Delta_Time) override;
+	bool Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+	          XYPOINT& ScreenSize) override;
+	void ReleaseAll() override;
+	int CommandExecute(int wActCode) override;
+	bool IsClick(int buttonID, long xPos, long yPos) override;
 
-	virtual bool GetInternalNameList( std::vector<std::string>& aStr );
-	virtual void SetInternalName(std::string& sName );
+	void MouseThis(float fX, float fY) override
+	{
+	}
+
+	void ChangePosition(XYRECT& rNewPos) override;
+	void SaveParametersToIni() override;
+	uint32_t MessageProc(long msgcode, MESSAGE& message) override;
+
+	bool GetInternalNameList(std::vector<std::string>& aStr) override;
+	void SetInternalName(std::string& sName) override;
 
 protected:
-	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
-	void	AddButton( const char* pcText, bool bDisable, bool bSelect );
-	void	ChangeText( long nButtonNum, const char* pcText );
+	void LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2) override;
+	void AddButton(const char* pcText, bool bDisable, bool bSelect);
+	void ChangeText(long nButtonNum, const char* pcText);
 
-	void	CheckMouseClick( const FXYPOINT & pntMouse );
-	void	SetButtonOn( long nButtonNum );
-	void	SetButtonOff( long nButtonNum );
-	void	SetAllButtonsToOff();
-	void	SetCheckToButton( long nButtonNum, bool bCheck );
+	void CheckMouseClick(const FXYPOINT& pntMouse);
+	void SetButtonOn(long nButtonNum);
+	void SetButtonOff(long nButtonNum);
+	void SetAllButtonsToOff();
+	void SetCheckToButton(long nButtonNum, bool bCheck);
 
-	void	UpdateAllTextInfo();
-	void	UpdateTextInfo( long nButtonNum );
-	void	WriteToAttributeButtonState( long nButtonIndex );
+	void UpdateAllTextInfo();
+	void UpdateTextInfo(long nButtonNum);
+	void WriteToAttributeButtonState(long nButtonIndex);
 
 	bool m_bExclusiveChoose;
 

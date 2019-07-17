@@ -20,7 +20,8 @@ Blood::Blood()
 
 Blood::~Blood()
 {
-	if( texID!=-1 ) pRS->TextureRelease(texID); texID = -1;
+	if (texID != -1) pRS->TextureRelease(texID);
+	texID = -1;
 }
 
 
@@ -42,19 +43,20 @@ bool Blood::Init()
 //Работа
 void Blood::Execute(uint32_t delta_time)
 {
-	if( nUsedTQ < ON_LIVETIME_BLOOD_TRIANGLES ) return;
+	if (nUsedTQ < ON_LIVETIME_BLOOD_TRIANGLES) return;
 
 	float fDeltaTime = delta_time * 0.001f;
-	for(long n=0; n<aBlood.size(); n++)
+	for (long n = 0; n < aBlood.size(); n++)
 	{
 		aBlood[n].fLiveTime -= fDeltaTime;
-		if( aBlood[n].fLiveTime <= 0.f )
+		if (aBlood[n].fLiveTime <= 0.f)
 		{
-			if( aBlood[n].nStartIdx == nStartT )
-			{ // удаляем кровь
+			if (aBlood[n].nStartIdx == nStartT)
+			{
+				// удаляем кровь
 				nStartT += aBlood[n].nIdxQ;
 				nUsedTQ -= aBlood[n].nIdxQ;
-				if( nStartT >= MAX_BLOOD_TRIANGLES )
+				if (nStartT >= MAX_BLOOD_TRIANGLES)
 					nStartT -= MAX_BLOOD_TRIANGLES;
 				aBlood.erase(aBlood.begin() + n);
 				n--;
@@ -62,82 +64,90 @@ void Blood::Execute(uint32_t delta_time)
 			}
 			aBlood[n].fLiveTime = 0.f;
 		}
-		if( aBlood[n].fLiveTime < BLOOD_BLENDOUT_TIME )
+		if (aBlood[n].fLiveTime < BLOOD_BLENDOUT_TIME)
 		{
-			auto dwCol = (uint32_t)(255.f/BLOOD_BLENDOUT_TIME * aBlood[n].fLiveTime);
-			if( dwCol > 255 ) dwCol = 255;
-			dwCol = (dwCol<<24) | 0xFFFFFF;
-			for(long i=0,m=aBlood[n].nStartIdx; i<aBlood[n].nIdxQ; i++,m++)
+			auto dwCol = (uint32_t)(255.f / BLOOD_BLENDOUT_TIME * aBlood[n].fLiveTime);
+			if (dwCol > 255) dwCol = 255;
+			dwCol = (dwCol << 24) | 0xFFFFFF;
+			for (long i = 0, m = aBlood[n].nStartIdx; i < aBlood[n].nIdxQ; i++, m++)
 			{
-				if( m >= MAX_BLOOD_TRIANGLES ) m -= MAX_BLOOD_TRIANGLES;
+				if (m >= MAX_BLOOD_TRIANGLES) m -= MAX_BLOOD_TRIANGLES;
 				pvBloodT[m].v[0].dwCol = dwCol;
 				pvBloodT[m].v[1].dwCol = dwCol;
 				pvBloodT[m].v[2].dwCol = dwCol;
 			}
-		} else break;
+		}
+		else break;
 	}
 }
 
 void Blood::Realize(uint32_t delta_time)
 {
-	if( nUsedTQ>0 )
+	if (nUsedTQ > 0)
 	{
-		uint32_t dwOldTF,dwAmbient;
+		uint32_t dwOldTF, dwAmbient;
 
-		pRS->GetRenderState(D3DRS_TEXTUREFACTOR,&dwOldTF);
-		pRS->GetRenderState(D3DRS_AMBIENT,&dwAmbient);
-		pRS->SetRenderState(D3DRS_TEXTUREFACTOR,dwAmbient);
+		pRS->GetRenderState(D3DRS_TEXTUREFACTOR, &dwOldTF);
+		pRS->GetRenderState(D3DRS_AMBIENT, &dwAmbient);
+		pRS->SetRenderState(D3DRS_TEXTUREFACTOR, dwAmbient);
 
-		pRS->TextureSet(0,texID);
+		pRS->TextureSet(0, texID);
 		CMatrix mtx;
 		mtx.SetIdentity();
 		pRS->SetWorld(mtx);
 
-		if( nStartT + nUsedTQ <= MAX_BLOOD_TRIANGLES )
+		if (nStartT + nUsedTQ <= MAX_BLOOD_TRIANGLES)
 		{
-			pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, nUsedTQ, (void*)&pvBloodT[nStartT], sizeof(BloodVertex), "Blood");
-		} else {
-			pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, MAX_BLOOD_TRIANGLES-nStartT, (void*)&pvBloodT[nStartT], sizeof(BloodVertex), "Blood");
-			pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, nStartT + nUsedTQ - MAX_BLOOD_TRIANGLES, (void*)pvBloodT, sizeof(BloodVertex), "Blood");
+			pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, nUsedTQ,
+			                     (void*)&pvBloodT[nStartT], sizeof(BloodVertex), "Blood");
+		}
+		else
+		{
+			pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1,
+			                     MAX_BLOOD_TRIANGLES - nStartT, (void*)&pvBloodT[nStartT], sizeof(BloodVertex),
+			                     "Blood");
+			pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1,
+			                     nStartT + nUsedTQ - MAX_BLOOD_TRIANGLES, (void*)pvBloodT, sizeof(BloodVertex),
+			                     "Blood");
 		}
 
-		pRS->SetRenderState(D3DRS_TEXTUREFACTOR,dwOldTF);
+		pRS->SetRenderState(D3DRS_TEXTUREFACTOR, dwOldTF);
 	}
 }
 
-uint64_t Blood::ProcessMessage(MESSAGE &message)
+uint64_t Blood::ProcessMessage(MESSAGE& message)
 {
 	entid_t eid;
 	CVECTOR cv;
 
-	switch( message.Long() )
+	switch (message.Long())
 	{
 	case 1: // Add model
 		eid = message.EntityID();
 		aModels.push_back(eid);
-	break;
+		break;
 	case 2: // add blood
 		cv.x = message.Float();
 		cv.y = message.Float();
 		cv.z = message.Float();
 		AddBlood(cv);
-	break;
+		break;
 	}
 
 	return 0;
 }
 
-bool Blood::AddClipPoligon(const CVECTOR * v, long nv)
+bool Blood::AddClipPoligon(const CVECTOR* v, long nv)
 {
-	if(nClipTQ >= MAX_CLIPPING_TRIANGLES) return false;
-	if(nv < 3) return true;
-	for(long i = 2; i < nv; i++)
+	if (nClipTQ >= MAX_CLIPPING_TRIANGLES) return false;
+	if (nv < 3) return true;
+	for (long i = 2; i < nv; i++)
 	{
 		clipT[nClipTQ].v[0] = v[0];
-		clipT[nClipTQ].v[1] = v[i-1];
+		clipT[nClipTQ].v[1] = v[i - 1];
 		clipT[nClipTQ].v[2] = v[i];
 		nClipTQ++;
-		if(nClipTQ >= MAX_CLIPPING_TRIANGLES) return false;
+		if (nClipTQ >= MAX_CLIPPING_TRIANGLES) return false;
 	}
 	return true;
 }
@@ -145,68 +155,94 @@ bool Blood::AddClipPoligon(const CVECTOR * v, long nv)
 void Blood::AddBlood(const CVECTOR& pos)
 {
 	nClipTQ = 0;
-	normal = CVECTOR(0.f,1.f,0.f);
+	normal = CVECTOR(0.f, 1.f, 0.f);
 
 	CVECTOR cpos = pos;
 
 	const auto its = EntityManager::GetEntityIdIterators(BLOOD);
 
-	CVECTOR src = pos; src.y += 1.f;
-	CVECTOR dst = pos; dst.y -= 10.f;
-	float fTrace = pCol->Trace(its,src,dst,nullptr,0);
-	if( fTrace <=1.f )
-		cpos.y = src.y + (dst.y-src.y)*fTrace;
+	CVECTOR src = pos;
+	src.y += 1.f;
+	CVECTOR dst = pos;
+	dst.y -= 10.f;
+	float fTrace = pCol->Trace(its, src, dst, nullptr, 0);
+	if (fTrace <= 1.f)
+		cpos.y = src.y + (dst.y - src.y) * fTrace;
 
-	long nThisBloodQ = CheckBloodQuantityInRadius(cpos,BLOOD_RADIUS,4);
-	if( nThisBloodQ>=4 ) { // уже много крови в этом месте
+	long nThisBloodQ = CheckBloodQuantityInRadius(cpos,BLOOD_RADIUS, 4);
+	if (nThisBloodQ >= 4)
+	{
+		// уже много крови в этом месте
 		return;
 	}
-	if( nThisBloodQ>0 ) {
+	if (nThisBloodQ > 0)
+	{
 		// разброс крови случайно, если уже есть тут кровь
 		cpos.x += FRAND(BLOOD_RANDOM_DIST*2.f) - BLOOD_RANDOM_DIST;
 		cpos.z += FRAND(BLOOD_RANDOM_DIST*2.f) - BLOOD_RANDOM_DIST;
 
-		src = cpos; src.y += 1.5f;
-		dst = cpos; dst.y -= 10.f;
-		fTrace = pCol->Trace(its,src,dst,nullptr,0);
-		if( fTrace <=1.f )
-			cpos.y = src.y + (dst.y-src.y)*fTrace;
+		src = cpos;
+		src.y += 1.5f;
+		dst = cpos;
+		dst.y -= 10.f;
+		fTrace = pCol->Trace(its, src, dst, nullptr, 0);
+		if (fTrace <= 1.f)
+			cpos.y = src.y + (dst.y - src.y) * fTrace;
 	}
 
 	//Описываюищй ящик
 	static PLANE p[6];
-	p[0].Nx = 0.0f; p[0].Ny = 1.0f; p[0].Nz = 0.0f; p[0].D = (cpos.y + BLOOD_RADIUS);
-	p[1].Nx = 0.0f; p[1].Ny = -1.0f; p[1].Nz = 0.0f; p[1].D = -(cpos.y - BLOOD_RADIUS);
-	p[2].Nx = 0.0f; p[2].Ny = 0.0f; p[2].Nz = 1.0f; p[2].D = (cpos.z + BLOOD_RADIUS);
-	p[3].Nx = 0.0f; p[3].Ny = 0.0f; p[3].Nz = -1.0f; p[3].D = -(cpos.z - BLOOD_RADIUS);
-	p[4].Nx = 1.0f; p[4].Ny = 0.0f; p[4].Nz = 0.0f; p[4].D = (cpos.x + BLOOD_RADIUS);
-	p[5].Nx = -1.0f; p[5].Ny = 0.0f; p[5].Nz = 0.0f; p[5].D = -(cpos.x - BLOOD_RADIUS);
+	p[0].Nx = 0.0f;
+	p[0].Ny = 1.0f;
+	p[0].Nz = 0.0f;
+	p[0].D = (cpos.y + BLOOD_RADIUS);
+	p[1].Nx = 0.0f;
+	p[1].Ny = -1.0f;
+	p[1].Nz = 0.0f;
+	p[1].D = -(cpos.y - BLOOD_RADIUS);
+	p[2].Nx = 0.0f;
+	p[2].Ny = 0.0f;
+	p[2].Nz = 1.0f;
+	p[2].D = (cpos.z + BLOOD_RADIUS);
+	p[3].Nx = 0.0f;
+	p[3].Ny = 0.0f;
+	p[3].Nz = -1.0f;
+	p[3].D = -(cpos.z - BLOOD_RADIUS);
+	p[4].Nx = 1.0f;
+	p[4].Ny = 0.0f;
+	p[4].Nz = 0.0f;
+	p[4].D = (cpos.x + BLOOD_RADIUS);
+	p[5].Nx = -1.0f;
+	p[5].Ny = 0.0f;
+	p[5].Nz = 0.0f;
+	p[5].D = -(cpos.x - BLOOD_RADIUS);
 
 	// бегаем по лееру
-	for (auto it = its.first; it != its.second; ++it) {
+	for (auto it = its.first; it != its.second; ++it)
+	{
 		auto* m = (MODEL *)EntityManager::GetEntityPointer(it->second);
-		if(!m) continue;
-		NODE * root = m->GetNode(0);
+		if (!m) continue;
+		NODE* root = m->GetNode(0);
 		m->Clip(p, 6, cpos, BLOOD_RADIUS, AddClipPoligon);
 	}
 
 	// бегаем по массиву моделек
-	for(long n=0; n<aModels.size(); n++)
+	for (long n = 0; n < aModels.size(); n++)
 	{
 		auto* m = (MODEL *)EntityManager::GetEntityPointer(aModels[n]);
-		if(!m) continue;
-		NODE * root = m->GetNode(0);
+		if (!m) continue;
+		NODE* root = m->GetNode(0);
 		m->Clip(p, 6, cpos, BLOOD_RADIUS, AddClipPoligon);
 	}
 
-	if( nClipTQ<=0 ) return;
+	if (nClipTQ <= 0) return;
 
 	BuildBloodDataByCollision(cpos);
 }
 
 void Blood::BuildBloodDataByCollision(const CVECTOR& cpos)
 {
-	if( nClipTQ<=0 ) return;
+	if (nClipTQ <= 0) return;
 
 	BloodInfo curBlood;
 	curBlood.fLiveTime = BLOOD_LIVE_TIME;
@@ -214,12 +250,13 @@ void Blood::BuildBloodDataByCollision(const CVECTOR& cpos)
 	curBlood.cpos = cpos;
 
 	// ищем свободное место для треугольников
-	if( nClipTQ + nUsedTQ <= MAX_BLOOD_TRIANGLES )
+	if (nClipTQ + nUsedTQ <= MAX_BLOOD_TRIANGLES)
 	{
 		curBlood.nStartIdx = nStartT + nUsedTQ;
-		if( curBlood.nStartIdx >= MAX_BLOOD_TRIANGLES )
+		if (curBlood.nStartIdx >= MAX_BLOOD_TRIANGLES)
 			curBlood.nStartIdx -= MAX_BLOOD_TRIANGLES;
-	} else
+	}
+	else
 	{
 		api->Trace("Blood::BuildData() : can`t blood add - insufficient buffer space");
 		return;
@@ -228,24 +265,40 @@ void Blood::BuildBloodDataByCollision(const CVECTOR& cpos)
 	aBlood.push_back(curBlood);
 
 	// заполняем буффер
-	float fU0,fV0;
-	switch(rand()%8)
+	float fU0, fV0;
+	switch (rand() % 8)
 	{
-	case 0: fU0=0.f; fV0=0.f; break;
-	case 1: fU0=0.25f; fV0=0.f; break;
-	case 2: fU0=0.5f; fV0=0.f; break;
-	case 3: fU0=0.75f; fV0=0.f; break;
-	case 4: fU0=0.f; fV0=0.5f; break;
-	case 5: fU0=0.25f; fV0=0.5f; break;
-	case 6: fU0=0.5f; fV0=0.5f; break;
-	case 7: fU0=0.75f; fV0=0.5f; break;
+	case 0: fU0 = 0.f;
+		fV0 = 0.f;
+		break;
+	case 1: fU0 = 0.25f;
+		fV0 = 0.f;
+		break;
+	case 2: fU0 = 0.5f;
+		fV0 = 0.f;
+		break;
+	case 3: fU0 = 0.75f;
+		fV0 = 0.f;
+		break;
+	case 4: fU0 = 0.f;
+		fV0 = 0.5f;
+		break;
+	case 5: fU0 = 0.25f;
+		fV0 = 0.5f;
+		break;
+	case 6: fU0 = 0.5f;
+		fV0 = 0.5f;
+		break;
+	case 7: fU0 = 0.75f;
+		fV0 = 0.5f;
+		break;
 	}
-	for(long i=0, n=curBlood.nStartIdx; i<nClipTQ; i++,n++)
+	for (long i = 0, n = curBlood.nStartIdx; i < nClipTQ; i++, n++)
 	{
-		if( n>=MAX_BLOOD_TRIANGLES ) n -= MAX_BLOOD_TRIANGLES;
-		SetVertexByPos(pvBloodT[n].v[0], clipT[i].v[0], cpos, fU0,fV0);
-		SetVertexByPos(pvBloodT[n].v[1], clipT[i].v[1], cpos, fU0,fV0);
-		SetVertexByPos(pvBloodT[n].v[2], clipT[i].v[2], cpos, fU0,fV0);
+		if (n >= MAX_BLOOD_TRIANGLES) n -= MAX_BLOOD_TRIANGLES;
+		SetVertexByPos(pvBloodT[n].v[0], clipT[i].v[0], cpos, fU0, fV0);
+		SetVertexByPos(pvBloodT[n].v[1], clipT[i].v[1], cpos, fU0, fV0);
+		SetVertexByPos(pvBloodT[n].v[2], clipT[i].v[2], cpos, fU0, fV0);
 	}
 }
 
@@ -256,25 +309,25 @@ void Blood::SetVertexByPos(BloodVertex& v, const CVECTOR& pos, const CVECTOR& vc
 	v.dwCol = 0xFFFFFFFF;
 
 	v.u = 0.125f + (pos.x - vc.x) * .125f / BLOOD_RADIUS;
-	if( v.u<0.f ) v.u = 0.f;
-	if( v.u>0.25f ) v.u = 0.25f;
+	if (v.u < 0.f) v.u = 0.f;
+	if (v.u > 0.25f) v.u = 0.25f;
 	v.u += fU0;
 
 	v.v = 0.25f + (pos.z - vc.z) * .25f / BLOOD_RADIUS;
-	if( v.v<0.f ) v.v = 0.f;
-	if( v.v>0.5f ) v.v = 0.5f;
+	if (v.v < 0.f) v.v = 0.f;
+	if (v.v > 0.5f) v.v = 0.5f;
 	v.v += fV0;
 }
 
 long Blood::CheckBloodQuantityInRadius(const CVECTOR& cpos, float fDist, long nLimitQ)
 {
-	float fDistPow2 = fDist*fDist;
+	float fDistPow2 = fDist * fDist;
 	long nCurQ = 0;
-	for(long n=0; n<aBlood.size(); n++)
+	for (long n = 0; n < aBlood.size(); n++)
 	{
-		if( (~(aBlood[n].cpos - cpos)) > fDistPow2 ) continue;
+		if ((~(aBlood[n].cpos - cpos)) > fDistPow2) continue;
 		nCurQ++;
-		if( nCurQ>=nLimitQ ) return nCurQ;
+		if (nCurQ >= nLimitQ) return nCurQ;
 	}
 	return nCurQ;
 }

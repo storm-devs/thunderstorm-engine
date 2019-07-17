@@ -3,24 +3,24 @@
 
 
 //конструктор/деструктор
-DataUV::DataUV ()
+DataUV::DataUV()
 {
 }
 
-DataUV::~DataUV ()
+DataUV::~DataUV()
 {
 }
 
-	//Получить значение   [ x,y = UV1; z,w = UV2 ]
-const Vector4 &DataUV::GetValue (uint32_t FrameNum)
+//Получить значение   [ x,y = UV1; z,w = UV2 ]
+const Vector4& DataUV::GetValue(uint32_t FrameNum)
 {
 	uint32_t TotalFrames = Frames.size();
 	FrameNum = FrameNum % TotalFrames;
 	return Frames[FrameNum];
 }
 
-	//Установить значения
-void DataUV::SetValues (const Vector4* _Frames, uint32_t FramesCount)
+//Установить значения
+void DataUV::SetValues(const Vector4* _Frames, uint32_t FramesCount)
 {
 	Frames.clear();
 
@@ -30,13 +30,13 @@ void DataUV::SetValues (const Vector4* _Frames, uint32_t FramesCount)
 	}
 }
 
-	//Получить кол-во кадров
-uint32_t DataUV::GetFrameCount ()
+//Получить кол-во кадров
+uint32_t DataUV::GetFrameCount()
 {
 	return Frames.size();
 }
 
-void DataUV::Load (MemFile* File)
+void DataUV::Load(MemFile* File)
 {
 	uint32_t ElementCount = 0;
 	File->ReadType(ElementCount);
@@ -58,31 +58,31 @@ void DataUV::Load (MemFile* File)
 	static char AttribueName[128];
 	uint32_t NameLength = 0;
 	File->ReadType(NameLength);
-	Assert (NameLength < 128);
+	Assert(NameLength < 128);
 	File->Read(AttribueName, NameLength);
 
-	SetName (AttribueName);
+	SetName(AttribueName);
 }
 
-void DataUV::SetName (const char* szName)
+void DataUV::SetName(const char* szName)
 {
 	//api->Trace("DataUV::SetName - '%s'", szName);
 	Name = szName;
 }
 
-const char* DataUV::GetName ()
+const char* DataUV::GetName()
 {
 	return Name.c_str();
 }
 
-void DataUV::Write (MemFile* File)
+void DataUV::Write(MemFile* File)
 {
 	uint32_t ElementCount = GetFrameCount();
 	File->WriteType(ElementCount);
 	for (uint32_t n = 0; n < ElementCount; n++)
 	{
-		float w = Frames[n].z-Frames[n].x;
-		float h = Frames[n].w-Frames[n].y;
+		float w = Frames[n].z - Frames[n].x;
+		float h = Frames[n].w - Frames[n].y;
 		File->WriteType(Frames[n].x);
 		File->WriteType(Frames[n].y);
 		File->WriteType(w);
@@ -91,9 +91,9 @@ void DataUV::Write (MemFile* File)
 
 	//save name
 	uint32_t NameLength = Name.size();
-	uint32_t NameLengthPlusZero = NameLength+1;
+	uint32_t NameLengthPlusZero = NameLength + 1;
 	File->WriteType(NameLengthPlusZero);
-	Assert (NameLength < 128);
+	Assert(NameLength < 128);
 	File->Write(Name.c_str(), NameLength);
 	File->WriteZeroByte();
 }

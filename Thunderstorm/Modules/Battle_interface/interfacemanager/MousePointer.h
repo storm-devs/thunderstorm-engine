@@ -12,10 +12,10 @@ class IBIImage;
 class MousePointer : public BI_MousePointerBase
 {
 public:
-	MousePointer(BI_ManagerBase* pManager,ATTRIBUTES* pARoot);
+	MousePointer(BI_ManagerBase* pManager, ATTRIBUTES* pARoot);
 	~MousePointer();
 
-	virtual void Update();
+	void Update() override;
 
 protected:
 	BI_ManagerBase* m_pManager;
@@ -32,6 +32,7 @@ protected:
 		std::string texture;
 		FRECT uv;
 	};
+
 	MouseCursorInfo m_aCursors[BI_CURSORS_QUANTITY];
 	long m_nCurrentCursor;
 	POINT m_cursorsize;

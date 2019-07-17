@@ -5,25 +5,28 @@
 #include "dx9render.h"
 #include "defines.h"
 
-class	ActivePerkShower : public Entity
+class ActivePerkShower : public Entity
 {
-	VDX9RENDER *rs;
+	VDX9RENDER* rs;
 
 public:
 	ActivePerkShower();
 	~ActivePerkShower();
-	bool Init();
+	bool Init() override;
 	void Execute(uint32_t delta_time);
 	void Realize(uint32_t delta_time);
-    uint64_t ProcessMessage(MESSAGE & message);
+	uint64_t ProcessMessage(MESSAGE& message) override;
+
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)
 		{
 		case Stage::execute:
-			Execute(delta); break;
+			Execute(delta);
+			break;
 		case Stage::realize:
-			Realize(delta); break;
+			Realize(delta);
+			break;
 			/*case Stage::lost_render:
 				LostRender(delta); break;
 			case Stage::restore_render:
@@ -33,15 +36,17 @@ public:
 
 
 protected:
-	void	ReleaseAll();
+	void ReleaseAll();
 
-	long	m_idVBuf;
-	long	m_idIBuf;
-	void	FillVIBuffers();
-	void	FillRectData(void * vbuf,FRECT & rectPos,FRECT & rectTex);
+	long m_idVBuf;
+	long m_idIBuf;
+	void FillVIBuffers();
+	void FillRectData(void* vbuf, FRECT& rectPos, FRECT& rectTex);
 
-	int		m_nTextureQ;
-	struct _TEXTURE_DESCR {
+	int m_nTextureQ;
+
+	struct _TEXTURE_DESCR
+	{
 		long m_idTexture;
 		long m_nCol;
 		long m_nRow;
@@ -49,28 +54,32 @@ protected:
 		long m_nPicsQ;
 		long m_nVertStart;
 		long m_nIndxStart;
-	} *m_pTexDescr;
-	bool CreateTextures(ATTRIBUTES * pATextureRoot);
+	}* m_pTexDescr;
+
+	bool CreateTextures(ATTRIBUTES* pATextureRoot);
 	FRECT GetTextureRect(int textIdx, int picIdx);
 
-	int		m_nIconWidth;
-	int		m_nIconHeight;
-	int		m_nSpaceHorz;
-	int		m_nSpaceVert;
+	int m_nIconWidth;
+	int m_nIconHeight;
+	int m_nSpaceHorz;
+	int m_nSpaceVert;
 
-	int		m_nShowPlaceQ;
+	int m_nShowPlaceQ;
 	typedef FRECT _SHOW_PLACE;
-	_SHOW_PLACE *m_pShowPlaces;
-	bool CreateShowPlaces(ATTRIBUTES * pAPlacesRoot);
+	_SHOW_PLACE* m_pShowPlaces;
+	bool CreateShowPlaces(ATTRIBUTES* pAPlacesRoot);
 
-	int		m_nIShowQ;
-	struct	_PICTURE_DESCR {
+	int m_nIShowQ;
+
+	struct _PICTURE_DESCR
+	{
 		long m_nPicNum;
 		long m_nPicTexIdx;
-	} * m_pIconsList;
-	bool InitIconsList(ATTRIBUTES * pAIconsRoot);
-	void AddIconToList(ATTRIBUTES * pAIconDescr);
-	void DelIconFromList(ATTRIBUTES * pAIconDescr);
+	}* m_pIconsList;
+
+	bool InitIconsList(ATTRIBUTES* pAIconsRoot);
+	void AddIconToList(ATTRIBUTES* pAIconDescr);
+	void DelIconFromList(ATTRIBUTES* pAIconDescr);
 
 	bool InitCommonBuffers();
 };

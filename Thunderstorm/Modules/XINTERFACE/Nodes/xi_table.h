@@ -20,18 +20,32 @@ class XI_TableCellDescribe
 	{
 		CXI_IMAGE* pImage;
 		POINT offset;
-		ImgDescribe() {pImage=nullptr; offset.x=offset.y=0;}
-		~ImgDescribe() {STORM_DELETE(pImage);}
+
+		ImgDescribe()
+		{
+			pImage = nullptr;
+			offset.x = offset.y = 0;
+		}
+
+		~ImgDescribe()
+		{
+			STORM_DELETE(pImage);
+		}
 	};
 
 public:
 	XI_TableCellDescribe(CXI_TABLE* pTable, XI_TableLineDescribe* pLine);
 	~XI_TableCellDescribe();
-	void SetOwners( CXI_TABLE* pTable, XI_TableLineDescribe* pLine ) {m_pTable=pTable; m_pLine=pLine;}
 
-	void Draw( float fLeft, float fTop );
-	void SetData( long nColIndex, ATTRIBUTES* pAttr, bool bHeader );
-	void LoadImageParam(ImgDescribe* pImg,ATTRIBUTES* pA);
+	void SetOwners(CXI_TABLE* pTable, XI_TableLineDescribe* pLine)
+	{
+		m_pTable = pTable;
+		m_pLine = pLine;
+	}
+
+	void Draw(float fLeft, float fTop);
+	void SetData(long nColIndex, ATTRIBUTES* pAttr, bool bHeader);
+	void LoadImageParam(ImgDescribe* pImg, ATTRIBUTES* pA);
 
 protected:
 	CXI_TABLE* m_pTable;
@@ -60,14 +74,14 @@ class XI_TableLineDescribe
 public:
 	XI_TableLineDescribe(CXI_TABLE* pTable);
 	~XI_TableLineDescribe();
-	void SetOwners( CXI_TABLE* pTable ) {m_pTable=pTable;}
+	void SetOwners(CXI_TABLE* pTable) { m_pTable = pTable; }
 
-	void Draw( float fTop );
-	void DrawSpecColor( float fTop );
-	void SetData( long nRowIndex, ATTRIBUTES* pLA, bool bHeader );
+	void Draw(float fTop);
+	void DrawSpecColor(float fTop);
+	void SetData(long nRowIndex, ATTRIBUTES* pLA, bool bHeader);
 
 	long GetLineHeight();
-	void SetLineHeight(long nHeight) {m_nHeight = nHeight;}
+	void SetLineHeight(long nHeight) { m_nHeight = nHeight; }
 
 protected:
 	CXI_TABLE* m_pTable;
@@ -90,41 +104,52 @@ public:
 	CXI_TABLE();
 	~CXI_TABLE();
 
-	void	Draw(bool bSelected,uint32_t Delta_Time);
-	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
-	void	ReleaseAll();
-	int		CommandExecute(int wActCode);
-	bool	IsClick(int buttonID,long xPos,long yPos);
-	void	MouseThis(float fX, float fY) {}
-	void	ChangePosition( XYRECT &rNewPos );
-	void	SaveParametersToIni();
-	uint32_t MessageProc(long msgcode, MESSAGE & message);
+	void Draw(bool bSelected, uint32_t Delta_Time) override;
+	bool Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+	          XYPOINT& ScreenSize) override;
+	void ReleaseAll() override;
+	int CommandExecute(int wActCode) override;
+	bool IsClick(int buttonID, long xPos, long yPos) override;
 
-	virtual bool GetInternalNameList( std::vector<std::string>& aStr );
-	virtual void SetInternalName(std::string& sName );
+	void MouseThis(float fX, float fY) override
+	{
+	}
 
-	void	ScrollerChanged( float fRelativeScrollPos );
-	float	GetLineStep() {if(m_nLineQuantity<=0) return 0.f; if(m_nLineQuantity>1) return 1.f/(float)(m_nLineQuantity-1); return 1.f;}
+	void ChangePosition(XYRECT& rNewPos) override;
+	void SaveParametersToIni() override;
+	uint32_t MessageProc(long msgcode, MESSAGE& message) override;
+
+	bool GetInternalNameList(std::vector<std::string>& aStr) override;
+	void SetInternalName(std::string& sName) override;
+
+	void ScrollerChanged(float fRelativeScrollPos);
+
+	float GetLineStep()
+	{
+		if (m_nLineQuantity <= 0) return 0.f;
+		if (m_nLineQuantity > 1) return 1.f / (float)(m_nLineQuantity - 1);
+		return 1.f;
+	}
 
 protected:
-	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
-	void	UpdateBorders();
-	void	WriteSquare( XI_ONETEX_VERTEX* pV, long nImgID, uint32_t dwCol, long nX, long nY, long nW, long nH );
-	void	UpdateTableCells();
-	long	GetLineByPoint( FXYPOINT& pnt );
-	long	GetColByX( long x );
-	void	SelectRow( long nRowNum );
-	void	SelectRow( long nRowNum, long nColNum );
-	void	SelectLine( long nLineNum );
-	void	SelectCol( long nColNum );
-	long	GetRowTop( long nRow );
-	long	GetColLeft( long nCol );
-	void	SetTopIndexForSelect( long nSelIndex );
-	void	UpdateSelectImage();
-	void	UpdateLineQuantity();
-	void	SetTopIndex( long nTopIndex );
-	void	UpdateScroller();
-	void	RecalculateLineHeights();
+	void LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2) override;
+	void UpdateBorders();
+	void WriteSquare(XI_ONETEX_VERTEX* pV, long nImgID, uint32_t dwCol, long nX, long nY, long nW, long nH);
+	void UpdateTableCells();
+	long GetLineByPoint(FXYPOINT& pnt);
+	long GetColByX(long x);
+	void SelectRow(long nRowNum);
+	void SelectRow(long nRowNum, long nColNum);
+	void SelectLine(long nLineNum);
+	void SelectCol(long nColNum);
+	long GetRowTop(long nRow);
+	long GetColLeft(long nCol);
+	void SetTopIndexForSelect(long nSelIndex);
+	void UpdateSelectImage();
+	void UpdateLineQuantity();
+	void SetTopIndex(long nTopIndex);
+	void UpdateScroller();
+	void RecalculateLineHeights();
 
 	bool m_bFirstFrame;
 
@@ -192,6 +217,7 @@ protected:
 		bool bColsEditable;
 		long nEditableIndex;
 	};
+
 	EditModeDescribe m_EditData;
 
 	long m_nTopIndex;

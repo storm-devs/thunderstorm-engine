@@ -6,13 +6,13 @@
 ///////////////////////////////////////////////////////////////////
 //#define TRACE_INFORMATION
 #ifndef _XBOX
-	#define FIO(a) fio->_##a
+#define FIO(a) fio->_##a
 #else
 	#define FIO(a) a  
 #endif
 
 #ifndef _XBOX
-	#define MAX_CACHED_DATA      (4*1024*1024)
+#define MAX_CACHED_DATA      (4*1024*1024)
 #else
 	#define MAX_CACHED_DATA      (2*1024*1024)
 #endif
@@ -48,18 +48,26 @@ extern long lg[100];
 #define SCHEME_MIN_DELAY    0
 #define SCHEME_MAX_DELAY    0x7FFFFFFF
 
-enum eSoundType {PCM_3D     = 1, 
-				 MP3_STEREO = 2, 
-				 MP3_3D     = 3,
-				 PCM_STEREO = 4};
-enum eVolumeType {VOLUME_FX     = 1,
-	              VOLUME_MUSIC  = 2,
-	              VOLUME_SPEECH = 3};
+enum eSoundType
+{
+	PCM_3D = 1,
+	MP3_STEREO = 2,
+	MP3_3D = 3,
+	PCM_STEREO = 4
+};
+
+enum eVolumeType
+{
+	VOLUME_FX = 1,
+	VOLUME_MUSIC = 2,
+	VOLUME_SPEECH = 3
+};
+
 enum eSoundMessage
 {
 	SM_MAX_DISTANCE = 1,
 	SM_MIN_DISTANCE = 2,
-	SM_POSITION     = 3,
+	SM_POSITION = 3,
 	/*
 	SM_CONE_ANGELS,
 	SM_CONE_OUTSIDE_VOLUME,
@@ -83,8 +91,8 @@ enum eSoundMessage
 // DEFINES
 ///////////////////////////////////////////////////////////////////
 #ifndef TRACE_INFORMATION
-	#define SOUND_TRACE(a)    true
-	#define SOUND_TRACE2(a,b) true
+#define SOUND_TRACE(a)    true
+#define SOUND_TRACE2(a,b) true
 #else
 	#define SOUND_TRACE(a)    _VSYSTEM_API->Trace(a);
 	#define SOUND_TRACE2(a,b) _VSYSTEM_API->Trace(a,b);
@@ -93,6 +101,6 @@ enum eSoundMessage
 #define THROW_STRING(s, p) { static char _tmpString[2048]; sprintf_s(_tmpString, s, p); throw _tmpString; }
 
 class SoundService;
-extern SoundService *soundService;
+extern SoundService* soundService;
 
 #endif

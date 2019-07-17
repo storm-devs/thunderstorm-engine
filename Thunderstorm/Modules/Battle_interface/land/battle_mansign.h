@@ -12,29 +12,30 @@ class BIManCommandList;
 class BIManSign
 {
 public:
-	BIManSign( entid_t BIEntityID, VDX9RENDER* pRS );
+	BIManSign(entid_t BIEntityID, VDX9RENDER* pRS);
 	~BIManSign();
 
 	void Draw();
-	void Init( ATTRIBUTES* pRoot, ATTRIBUTES* pA );
+	void Init(ATTRIBUTES* pRoot, ATTRIBUTES* pA);
 
-	long AddTexture( const char* pcTextureName, long nCols, long nRows );
+	long AddTexture(const char* pcTextureName, long nCols, long nRows);
 
 	void Recollect();
-	void SetUpdate() {m_bMakeUpdate=true;}
+	void SetUpdate() { m_bMakeUpdate = true; }
 	bool IsActive();
 	void SetActive(bool bActive);
 	void MakeControl();
-	void ExecuteCommand( long command );
+	void ExecuteCommand(long command);
 
 protected:
 	void Release();
 	long CalculateManQuantity();
-	void UpdateBuffers( long nShipQ );
+	void UpdateBuffers(long nShipQ);
 	void FillIndexBuffer();
 	void FillVertexBuffer();
-	long WriteSquareToVBuff( BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size );
-	long WriteSquareToVBuffWithProgress( BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size, float fClampUp, float fClampDown, float fClampLeft, float fClampRight );
+	long WriteSquareToVBuff(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size);
+	long WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size,
+	                                    float fClampUp, float fClampDown, float fClampLeft, float fClampRight);
 	void UpdateCommandList();
 
 	long GetCurrentCommandTopLine();
@@ -50,12 +51,12 @@ protected:
 
 	void CheckDataChange();
 
-	bool LongACompare(ATTRIBUTES* pA, const char* attrName, long & nCompareVal);
-	bool FloatACompare(ATTRIBUTES* pA, const char* attrName, float & fCompareVal);
-	bool StringACompare(ATTRIBUTES* pA, const char* attrName, std::string & sCompareVal);
-	bool FRectACompare(ATTRIBUTES* pA, const char* attrName, FRECT & rCompareVal);
-	bool BoolACompare(ATTRIBUTES* pA, const char* attrName, bool & bCompareVal);
-	uint32_t GetColorByFactor(uint32_t dwLowColor,uint32_t dwHighColor, float fFactor);
+	bool LongACompare(ATTRIBUTES* pA, const char* attrName, long& nCompareVal);
+	bool FloatACompare(ATTRIBUTES* pA, const char* attrName, float& fCompareVal);
+	bool StringACompare(ATTRIBUTES* pA, const char* attrName, std::string& sCompareVal);
+	bool FRectACompare(ATTRIBUTES* pA, const char* attrName, FRECT& rCompareVal);
+	bool BoolACompare(ATTRIBUTES* pA, const char* attrName, bool& bCompareVal);
+	uint32_t GetColorByFactor(uint32_t dwLowColor, uint32_t dwHighColor, float fFactor);
 
 	VDX9RENDER* m_pRS;
 	ATTRIBUTES* m_pARoot;
@@ -129,6 +130,7 @@ protected:
 		long nShootMax;
 		long nShootCurrent;
 	} m_Man[MAX_MAN_QUANTITY];
+
 	long m_nManQuantity;
 	long m_nCurrentManIndex;
 	long m_nCommandListVerticalOffset;
@@ -138,68 +140,71 @@ protected:
 	bool m_bActive;
 };
 
-inline bool BIManSign::LongACompare(ATTRIBUTES* pA, const char* attrName, long & nCompareVal)
+inline bool BIManSign::LongACompare(ATTRIBUTES* pA, const char* attrName, long& nCompareVal)
 {
 	long tmp = nCompareVal;
 	nCompareVal = pA->GetAttributeAsDword(attrName);
 	return (nCompareVal != tmp);
 }
 
-inline bool BIManSign::FloatACompare(ATTRIBUTES* pA, const char* attrName, float & fCompareVal)
+inline bool BIManSign::FloatACompare(ATTRIBUTES* pA, const char* attrName, float& fCompareVal)
 {
 	float tmp = fCompareVal;
 	fCompareVal = pA->GetAttributeAsFloat(attrName);
 	return (fCompareVal != tmp);
 }
 
-inline bool BIManSign::StringACompare(ATTRIBUTES* pA, const char* attrName, std::string & sCompareVal)
+inline bool BIManSign::StringACompare(ATTRIBUTES* pA, const char* attrName, std::string& sCompareVal)
 {
 	char* pVal = pA->GetAttribute(attrName);
-	if( sCompareVal == pVal ) return false;
+	if (sCompareVal == pVal) return false;
 	sCompareVal = pVal;
 	return true;
 }
 
-inline bool BIManSign::FRectACompare(ATTRIBUTES* pA, const char* attrName, FRECT & rCompareVal)
+inline bool BIManSign::FRectACompare(ATTRIBUTES* pA, const char* attrName, FRECT& rCompareVal)
 {
 	char* pVal = pA->GetAttribute(attrName);
-	if( !pVal ) return false;
+	if (!pVal) return false;
 	FRECT rTmp;
-	rTmp.left = rCompareVal.left;	rTmp.top = rCompareVal.top;
-	rTmp.right = rCompareVal.right;	rTmp.bottom = rCompareVal.bottom;
-	sscanf( pVal, "%f,%f,%f,%f", &rCompareVal.left, &rCompareVal.top, &rCompareVal.right, &rCompareVal.bottom );
-	if( rCompareVal.left == rTmp.left &&
+	rTmp.left = rCompareVal.left;
+	rTmp.top = rCompareVal.top;
+	rTmp.right = rCompareVal.right;
+	rTmp.bottom = rCompareVal.bottom;
+	sscanf(pVal, "%f,%f,%f,%f", &rCompareVal.left, &rCompareVal.top, &rCompareVal.right, &rCompareVal.bottom);
+	if (rCompareVal.left == rTmp.left &&
 		rCompareVal.top == rTmp.top &&
 		rCompareVal.right == rTmp.right &&
-		rCompareVal.bottom == rTmp.bottom ) return false;
+		rCompareVal.bottom == rTmp.bottom)
+		return false;
 	return true;
 }
 
-inline bool BIManSign::BoolACompare(ATTRIBUTES* pA, const char* attrName, bool & bCompareVal)
+inline bool BIManSign::BoolACompare(ATTRIBUTES* pA, const char* attrName, bool& bCompareVal)
 {
 	bool tmp = bCompareVal;
-	bCompareVal = pA->GetAttributeAsDword(attrName,bCompareVal?1:0)!=0;
+	bCompareVal = pA->GetAttributeAsDword(attrName, bCompareVal ? 1 : 0) != 0;
 	return (bCompareVal != tmp);
 }
 
-inline uint32_t BIManSign::GetColorByFactor(uint32_t dwLowColor,uint32_t dwHighColor, float fFactor)
+inline uint32_t BIManSign::GetColorByFactor(uint32_t dwLowColor, uint32_t dwHighColor, float fFactor)
 {
-	long asrc = (dwLowColor>>24) & 0xFF;
-	long rsrc = (dwLowColor>>16) & 0xFF;
-	long gsrc = (dwLowColor>>8) & 0xFF;
+	long asrc = (dwLowColor >> 24) & 0xFF;
+	long rsrc = (dwLowColor >> 16) & 0xFF;
+	long gsrc = (dwLowColor >> 8) & 0xFF;
 	long bsrc = dwLowColor & 0xFF;
 	//
-	long adst = (dwHighColor>>24) & 0xFF;
-	long rdst = (dwHighColor>>16) & 0xFF;
-	long gdst = (dwHighColor>>8) & 0xFF;
+	long adst = (dwHighColor >> 24) & 0xFF;
+	long rdst = (dwHighColor >> 16) & 0xFF;
+	long gdst = (dwHighColor >> 8) & 0xFF;
 	long bdst = dwHighColor & 0xFF;
 	//
-	asrc += ((long)((adst-asrc)*fFactor)) & 0xFF;
-	rsrc += ((long)((rdst-rsrc)*fFactor)) & 0xFF;
-	gsrc += ((long)((gdst-gsrc)*fFactor)) & 0xFF;
-	bsrc += ((long)((bdst-bsrc)*fFactor)) & 0xFF;
+	asrc += ((long)((adst - asrc) * fFactor)) & 0xFF;
+	rsrc += ((long)((rdst - rsrc) * fFactor)) & 0xFF;
+	gsrc += ((long)((gdst - gsrc) * fFactor)) & 0xFF;
+	bsrc += ((long)((bdst - bsrc) * fFactor)) & 0xFF;
 	//
-	return ARGB(asrc,rsrc,gsrc,bsrc);
+	return ARGB(asrc, rsrc, gsrc, bsrc);
 }
 
 #endif

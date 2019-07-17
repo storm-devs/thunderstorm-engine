@@ -30,18 +30,18 @@ Lighter::~Lighter()
 bool Lighter::Init()
 {
 	//Проверяем, будем ли работать
-	INIFILE * ini = fio->OpenIniFile("resource\\ini\\loclighter.ini");
-	if(!ini) return false;
-	long isLoading = ini->GetLong(nullptr, "loading", 0);	
+	INIFILE* ini = fio->OpenIniFile("resource\\ini\\loclighter.ini");
+	if (!ini) return false;
+	long isLoading = ini->GetLong(nullptr, "loading", 0);
 	autoTrace = ini->GetLong(nullptr, "autotrace", 0) != 0;
 	autoSmooth = ini->GetLong(nullptr, "autosmooth", 0) != 0;
 	window.isSmallSlider = ini->GetLong(nullptr, "smallslider", 0) != 0;
 	geometry.useColor = ini->GetLong(nullptr, "usecolor", 0) != 0;
 	delete ini;
-	if(!isLoading) return false;
+	if (!isLoading) return false;
 	//DX9 render
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs) throw std::exception("No service: dx9render");
+	if (!rs) throw std::exception("No service: dx9render");
 	//
 	EntityManager::SetLayerType(LIGHTER_EXECUTE, EntityManager::Layer::Type::execute);
 	EntityManager::AddToLayer(LIGHTER_EXECUTE, GetId(), 1000);
@@ -50,7 +50,7 @@ bool Lighter::Init()
 	//
 	lightProcessor.SetParams(&geometry, &window, &lights, &octTree, rs);
 	//оконная система
-	if(!window.Init(rs)) return false;
+	if (!window.Init(rs)) return false;
 
 	return true;
 }
@@ -58,39 +58,43 @@ bool Lighter::Init()
 //Исполнение
 void Lighter::Execute(uint32_t delta_time)
 {
-	float dltTime = delta_time*0.001f;
-	if(window.isSaveLight)
+	float dltTime = delta_time * 0.001f;
+	if (window.isSaveLight)
 	{
 		window.isSaveLight = false;
-		if(geometry.Save())
+		if (geometry.Save())
 		{
 			window.isSuccessful = 1.0f;
-		}else{
+		}
+		else
+		{
 			window.isFailed = 10.0f;
 		}
 	}
 	lightProcessor.Process();
-	if(window.isNeedInit)
+	if (window.isNeedInit)
 	{
 		window.isNeedInit = false;
 		window.Reset(true);
 		PreparingData();
 	}
-	if(waitChange <= 0.0f)
+	if (waitChange <= 0.0f)
 	{
-		if(GetAsyncKeyState(VK_NUMPAD0) < 0)
+		if (GetAsyncKeyState(VK_NUMPAD0) < 0)
 		{
 			waitChange = 0.5f;
-			if(isInited)
+			if (isInited)
 			{
 				window.Reset(!window.isVisible);
-			}else{
+			}
+			else
+			{
 				window.isNeedInit = true;
 				isInited = true;
 			}
 		}
-	}else waitChange -= dltTime;
-
+	}
+	else waitChange -= dltTime;
 }
 
 void Lighter::PreparingData()
@@ -100,26 +104,27 @@ void Lighter::PreparingData()
 	uint32_t amb = 0xff404040;
 	rs->GetRenderState(D3DRS_AMBIENT, &amb);
 	CVECTOR clr;
-	clr.x = ((amb >> 16) & 0xff)/255.0f;
-	clr.y = ((amb >> 8) & 0xff)/255.0f;
-	clr.z = ((amb >> 0) & 0xff)/255.0f;
+	clr.x = ((amb >> 16) & 0xff) / 255.0f;
+	clr.y = ((amb >> 8) & 0xff) / 255.0f;
+	clr.z = ((amb >> 0) & 0xff) / 255.0f;
 	float mx = clr.x > clr.y ? clr.x : clr.y;
 	mx = mx > clr.z ? mx : clr.z;
-	if(mx > 0.0f) clr *= 1.0f/mx; else clr = 1.0f;
+	if (mx > 0.0f) clr *= 1.0f / mx;
+	else clr = 1.0f;
 	lights.AddAmbient(clr);
 	//Солнце
-	if(rs)
+	if (rs)
 	{
 		BOOL isLight = FALSE;
 		rs->GetLightEnable(0, &isLight);
 		D3DLIGHT9 lit;
-		if(isLight && rs->GetLight(0, &lit))
+		if (isLight && rs->GetLight(0, &lit))
 		{
 			CVECTOR clr, dir = !CVECTOR(1.0f, 1.0f, 1.0f);
 			clr.x = lit.Diffuse.r;
 			clr.y = lit.Diffuse.g;
 			clr.z = lit.Diffuse.b;
-			if(lit.Type == D3DLIGHT_DIRECTIONAL)
+			if (lit.Type == D3DLIGHT_DIRECTIONAL)
 			{
 				dir.x = -lit.Direction.x;
 				dir.y = -lit.Direction.y;
@@ -127,13 +132,14 @@ void Lighter::PreparingData()
 			}
 			float mx = dir.x > dir.y ? dir.x : dir.y;
 			mx = mx > dir.z ? mx : dir.z;
-			if(mx > 0.0f) dir *= 1.0f/mx; else dir = 1.0f;
+			if (mx > 0.0f) dir *= 1.0f / mx;
+			else dir = 1.0f;
 			lights.AddWeaterLights(clr, dir);
 		}
 	}
 	lights.PostInit();
 	//Геометрия
-	if(!geometry.Process(rs, lights.Num()))
+	if (!geometry.Process(rs, lights.Num()))
 	{
 		window.isFailedInit = true;
 		return;
@@ -149,39 +155,40 @@ void Lighter::PreparingData()
 
 void Lighter::Realize(uint32_t delta_time)
 {
-	if(GetAsyncKeyState(VK_DECIMAL) < 0)
+	if (GetAsyncKeyState(VK_DECIMAL) < 0)
 	{
 		window.isNoPrepared = !isInited;
 		geometry.DrawNormals(rs);
-	}else window.isNoPrepared = false;
-	window.Draw(delta_time*0.001f);
+	}
+	else window.isNoPrepared = false;
+	window.Draw(delta_time * 0.001f);
 }
 
 //Сообщения
-uint64_t Lighter::ProcessMessage(MESSAGE & message)
+uint64_t Lighter::ProcessMessage(MESSAGE& message)
 {
 	char command[32];
 	message.String(31, command);
 	command[31] = 0;
-	if(_stricmp(command, "AddModel") == 0)
+	if (_stricmp(command, "AddModel") == 0)
 	{
 		//Добавляем модельку
 		MsgAddModel(message);
 		return true;
-	}else
-	if(_stricmp(command, "ModelsPath") == 0)
+	}
+	if (_stricmp(command, "ModelsPath") == 0)
 	{
 		//Добавляем модельку
 		MsgModelsPath(message);
 		return true;
-	}else
-	if(_stricmp(command, "LightPath") == 0)
+	}
+	if (_stricmp(command, "LightPath") == 0)
 	{
 		//Добавляем модельку
 		MsgLightPath(message);
 		return true;
-	}else
-	if(_stricmp(command, "AddLight") == 0)
+	}
+	else if (_stricmp(command, "AddLight") == 0)
 	{
 		//Добавляем модельку
 		MsgAddLight(message);
@@ -190,12 +197,12 @@ uint64_t Lighter::ProcessMessage(MESSAGE & message)
 	return false;
 }
 
-void Lighter::MsgAddModel(MESSAGE & message)
+void Lighter::MsgAddModel(MESSAGE& message)
 {
 	char name[512];
 	message.String(511, name);
 	name[511] = 0;
-	if(!name[0])
+	if (!name[0])
 	{
 		api->Trace("Location lighter: no model name, skip it!");
 		return;
@@ -204,23 +211,23 @@ void Lighter::MsgAddModel(MESSAGE & message)
 	geometry.AddObject(name, model);
 }
 
-void Lighter::MsgModelsPath(MESSAGE & message)
+void Lighter::MsgModelsPath(MESSAGE& message)
 {
 	char name[512];
 	message.String(511, name);
-	name[511] = 0;	
+	name[511] = 0;
 	geometry.SetModelsPath(name);
 }
 
-void Lighter::MsgLightPath(MESSAGE & message)
+void Lighter::MsgLightPath(MESSAGE& message)
 {
 	char name[512];
 	message.String(511, name);
-	name[511] = 0;	
+	name[511] = 0;
 	geometry.SetLightPath(name);
 }
 
-void Lighter::MsgAddLight(MESSAGE & message)
+void Lighter::MsgAddLight(MESSAGE& message)
 {
 	CVECTOR pos, clr;
 	//Позиция
@@ -244,7 +251,3 @@ void Lighter::MsgAddLight(MESSAGE & message)
 	//Добавляем источник
 	lights.AddPointLight(clr, pos, att0, att1, att2, range, group);
 }
-
-
-
-

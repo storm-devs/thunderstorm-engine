@@ -14,24 +14,23 @@ class DataString
 
 public:
 
-//конструктор/деструктор
-	DataString ();
-	virtual ~DataString ();
+	//конструктор/деструктор
+	DataString();
+	virtual ~DataString();
 
-//Получить значение
-	const char* GetValue ();
+	//Получить значение
+	const char* GetValue();
 
-//Установить значение
-	void SetValue (const char* val);
-
-
-	void Load (MemFile* File);
-	void Write (MemFile* File);
+	//Установить значение
+	void SetValue(const char* val);
 
 
-	void SetName (const char* szName);
-	const char* GetName ();
+	void Load(MemFile* File);
+	void Write(MemFile* File);
 
+
+	void SetName(const char* szName);
+	const char* GetName();
 };
 
 

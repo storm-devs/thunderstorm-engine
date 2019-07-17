@@ -14,7 +14,7 @@ void ControlKeyBuffer::Reset()
 	m_nBufLen = 0;
 }
 
-void ControlKeyBuffer::AddKey( long nKeyCode, UINT uScanCode, bool bSystem )
+void ControlKeyBuffer::AddKey(long nKeyCode, UINT uScanCode, bool bSystem)
 {
 	m_pcBuffer[m_nBufLen].bSystem = bSystem;
 	m_pcBuffer[m_nBufLen].ucVKey = (UCHAR)((uint32_t)nKeyCode & 0xFF);

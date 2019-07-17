@@ -6,11 +6,11 @@
 class BIManCommandList : public BICommandList
 {
 public:
-	BIManCommandList( entid_t eid, ATTRIBUTES* pA, VDX9RENDER* rs );
+	BIManCommandList(entid_t eid, ATTRIBUTES* pA, VDX9RENDER* rs);
 	virtual ~BIManCommandList();
 
-	virtual void FillIcons();
-	virtual void Init();
+	void FillIcons() override;
+	void Init() override;
 
 protected:
 	void Release();

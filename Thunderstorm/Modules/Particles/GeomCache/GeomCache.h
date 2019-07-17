@@ -11,7 +11,6 @@ class IGMXScene;
 
 class GeomCache
 {
-	
 	VGEOMETRY* pGS;
 
 	struct CachedGeometry
@@ -24,22 +23,21 @@ class GeomCache
 
 public:
 
-//Конструктор/деструктор
-	GeomCache ();
-	~GeomCache ();
+	//Конструктор/деструктор
+	GeomCache();
+	~GeomCache();
 
-//Положить модель в кэш
-	void CacheModel (const char* FileName);
+	//Положить модель в кэш
+	void CacheModel(const char* FileName);
 
-//Сбросить кэш
-	void ResetCache ();
+	//Сбросить кэш
+	void ResetCache();
 
-//Взять модель из кэша
-	GEOS* GetModel (const char* FileName);
+	//Взять модель из кэша
+	GEOS* GetModel(const char* FileName);
 
-//Проверить существует ли такая модель в кэше
-	bool ValidatePointer (GEOS* pModel);
-
+	//Проверить существует ли такая модель в кэше
+	bool ValidatePointer(GEOS* pModel);
 };
 
 

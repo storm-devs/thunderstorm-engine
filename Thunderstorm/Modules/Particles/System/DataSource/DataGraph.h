@@ -13,10 +13,10 @@ class DataGraph
 	std::string Name;
 
 
-//С какого времени последний раз забирали значение
+	//С какого времени последний раз забирали значение
 	float MaxCachedTime;
 	float MinCachedTime;
-//Какой был индекс у этого времени
+	//Какой был индекс у этого времени
 	uint32_t MaxCachedIndex;
 	uint32_t MinCachedIndex;
 
@@ -24,80 +24,77 @@ class DataGraph
 	std::vector<GraphVertex> MaxGraph;
 
 
-	void ResetCachedTime ();
+	void ResetCachedTime();
 
-	float GetMinAtTime (float Time, float LifeTime);
-	float GetMaxAtTime (float Time, float LifeTime);
+	float GetMinAtTime(float Time, float LifeTime);
+	float GetMaxAtTime(float Time, float LifeTime);
 
 
 	bool bRelative;
 	bool bNegative;
-	
+
 
 public:
 
-//конструктор/деструктор
-	DataGraph ();
-	virtual ~DataGraph ();
+	//конструктор/деструктор
+	DataGraph();
+	virtual ~DataGraph();
 
 
 	//Установить/получить могут быть отрицательные значения в графике или нет...
-	void SetNegative (bool _bNegative);
-	bool GetNegative ();
+	void SetNegative(bool _bNegative);
+	bool GetNegative();
 
 	//Установить/получить относительный график или нет...
-	void SetRelative (bool _bRelative);
-	bool GetRelative ();
+	void SetRelative(bool _bRelative);
+	bool GetRelative();
 
 
-//Получить значение (Текущее время, Коэфицент рандома[0..1])
-	float GetValue (float Time, float LifeTime, float K_rand);
-	float GetRandomValue (float Time, float LifeTime);
+	//Получить значение (Текущее время, Коэфицент рандома[0..1])
+	float GetValue(float Time, float LifeTime, float K_rand);
+	float GetRandomValue(float Time, float LifeTime);
 
 
-//Установить значения...
-	void SetValues (const GraphVertex* MinValues, uint32_t MinValuesSize, const GraphVertex* MaxValues, uint32_t MaxValuesSize);
+	//Установить значения...
+	void SetValues(const GraphVertex* MinValues, uint32_t MinValuesSize, const GraphVertex* MaxValues,
+	               uint32_t MaxValuesSize);
 
 	//Устанавливает "значение по умолчанию"
-	void SetDefaultValue (float MaxValue, float MinValue);
+	void SetDefaultValue(float MaxValue, float MinValue);
 
 
-//Получить кол-во в графике минимума
-	uint32_t GetMinCount ();
+	//Получить кол-во в графике минимума
+	uint32_t GetMinCount();
 
-//Получить кол-во в графике максимума
-	uint32_t GetMaxCount ();
+	//Получить кол-во в графике максимума
+	uint32_t GetMaxCount();
 
-//Получить значение по индексу из графика минимума
-	const GraphVertex& GetMinVertex (uint32_t Index);
+	//Получить значение по индексу из графика минимума
+	const GraphVertex& GetMinVertex(uint32_t Index);
 
-//Получить значение по индексу из графика максимума
-	const GraphVertex& GetMaxVertex (uint32_t Index);
-
-
-	void Load (MemFile* File);
-	void Write (MemFile* File);
-	
-	void SetName (const char* szName);
-	const char* GetName ();
+	//Получить значение по индексу из графика максимума
+	const GraphVertex& GetMaxVertex(uint32_t Index);
 
 
-	float GetMaxTime ();
+	void Load(MemFile* File);
+	void Write(MemFile* File);
+
+	void SetName(const char* szName);
+	const char* GetName();
 
 
-	void ConvertRadToDeg ();
-	void ConvertDegToRad ();
-	void MultiplyBy (float Val);
-	void Clamp (float MinValue, float MaxValue);
-	void Reverse ();  //Graphs = 1.0f - Graph
-	void NormalToPercent ();
-	void PercentToNormal ();
-	void NormalToAlpha ();
-	void AlphaToNormal ();
+	float GetMaxTime();
 
 
-
-
+	void ConvertRadToDeg();
+	void ConvertDegToRad();
+	void MultiplyBy(float Val);
+	void Clamp(float MinValue, float MaxValue);
+	void Reverse(); //Graphs = 1.0f - Graph
+	void NormalToPercent();
+	void PercentToNormal();
+	void NormalToAlpha();
+	void AlphaToNormal();
 };
 
 

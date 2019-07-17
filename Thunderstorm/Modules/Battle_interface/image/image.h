@@ -9,30 +9,30 @@ class BIImageMaterial;
 class BIImage : public IBIImage
 {
 public:
-	BIImage( VDX9RENDER* rs, BIImageMaterial* pMaterial );
+	BIImage(VDX9RENDER* rs, BIImageMaterial* pMaterial);
 	~BIImage();
 
-	long GetVertexQuantity() {return m_nVertexQuantity;}
-	long GetTriangleQuantity() {return m_nTriangleQuantity;}
-	void FillBuffers( BI_IMAGE_VERTEX* pV, uint16_t* pT, long& nV,long& nT );
+	long GetVertexQuantity() { return m_nVertexQuantity; }
+	long GetTriangleQuantity() { return m_nTriangleQuantity; }
+	void FillBuffers(BI_IMAGE_VERTEX* pV, uint16_t* pT, long& nV, long& nT);
 
-	void SetColor( uint32_t color );
-	void SetPosition( long nLeft, long nTop, long nRight, long nBottom );
-	void Set3DPosition( const CVECTOR& vPos, float fWidth, float fHeight );
-	void SetUV( const FRECT& uv );
-	void SetType( BIImageType type );
+	void SetColor(uint32_t color) override;
+	void SetPosition(long nLeft, long nTop, long nRight, long nBottom) override;
+	void Set3DPosition(const CVECTOR& vPos, float fWidth, float fHeight) override;
+	void SetUV(const FRECT& uv) override;
+	void SetType(BIImageType type);
 
-	void CutSide( float fleft, float fright, float ftop, float fbottom );
-	void CutClock( float fBegin, float fEnd, float fFactor );
-	FPOINT& GetClockPoint( float fAng, FPOINT &fp );
-	float GetNextClockCorner( float fAng );
-	float GetPrevClockCorner( float fAng );
+	void CutSide(float fleft, float fright, float ftop, float fbottom) override;
+	void CutClock(float fBegin, float fEnd, float fFactor) override;
+	FPOINT& GetClockPoint(float fAng, FPOINT& fp);
+	float GetNextClockCorner(float fAng);
+	float GetPrevClockCorner(float fAng);
 
-	long GetPrioritet() {return m_nPrioritet;}
-	void SetPrioritet(long nPrior) {m_nPrioritet=nPrior;}
+	long GetPrioritet() { return m_nPrioritet; }
+	void SetPrioritet(long nPrior) { m_nPrioritet = nPrior; }
 
 protected:
-	float CalculateMidPos( float fMin, float fMax, float fK ) {return fMin + fK * (fMax - fMin);}
+	float CalculateMidPos(float fMin, float fMax, float fK) { return fMin + fK * (fMax - fMin); }
 	void Release();
 
 	VDX9RENDER* m_pRS;

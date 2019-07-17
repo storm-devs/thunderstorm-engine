@@ -23,23 +23,23 @@ public:
 	LocLife();
 	virtual ~LocLife();
 
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
 public:
-	bool Init(Location * loc);
+	bool Init(Location* loc);
 	void Update(float dltTime);
 
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
 protected:
-	virtual const char * GetModelName() = 0;
-	virtual const char * GetAniName() = 0;
-	virtual bool PostInit(Animation * ani) = 0;
+	virtual const char* GetModelName() = 0;
+	virtual const char* GetAniName() = 0;
+	virtual bool PostInit(Animation* ani) = 0;
 
-	virtual void IdleProcess(Animation * ani, float dltTime) = 0;
-	virtual void MoveProcess(Animation * ani, float dltTime) = 0;
-	virtual void IsStartMove(Animation * ani) = 0;
-	virtual void IsStopMove(Animation * ani) = 0;
+	virtual void IdleProcess(Animation* ani, float dltTime) = 0;
+	virtual void MoveProcess(Animation* ani, float dltTime) = 0;
+	virtual void IsStartMove(Animation* ani) = 0;
+	virtual void IsStopMove(Animation* ani) = 0;
 
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
 protected:
 	void StartMove();
 	void StopMove();
@@ -47,22 +47,20 @@ protected:
 
 private:
 	long FindPos();
-	long FindRandomPos(CVECTOR & pos);
+	long FindRandomPos(CVECTOR& pos);
 
 
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
 protected:
 	float kSpeed;
 	float speed;
 private:
-	Location * location;
+	Location* location;
 	entid_t model;
 	long node;
 	float ay;
 	CVECTOR pos;
 	CVECTOR npos;
-
 };
 
 #endif
-

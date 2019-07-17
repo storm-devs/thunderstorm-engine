@@ -37,8 +37,6 @@
 #define NPC_FIGHT_FIRE_DIST	25.0f	//Дистанция до персонажа, при которой можно стрелять
 
 
-
-
 //============================================================================================
 //Конструирование, деструктурирование
 //============================================================================================
@@ -52,7 +50,7 @@ NPCharacter::NPCharacter()
 	//Система боя
 	fightLevel = 0.0f;
 	//Атаки
-	attackCur = 0.5f;// k3 fix 0.05f;
+	attackCur = 0.5f; // k3 fix 0.05f;
 	attackPrbFast = 0.2f;
 	attackPrbForce = 0.5f;
 	attackPrbRound = 0.1f;
@@ -94,55 +92,55 @@ bool NPCharacter::PostInit()
 	charactersGroups = EntityManager::GetEntityId("CharactersGroups");
 	float tmp;
 	long tmpBool;
-	VDATA * vd;
+	VDATA* vd;
 	//Параметры аттаки
 	vd = api->Event("NPC_Event_GetAttackActive", "i", GetId());
 	tmp = attackCur;
-	if(vd && vd->Get(tmp)) attackCur = tmp;
+	if (vd && vd->Get(tmp)) attackCur = tmp;
 	vd = api->Event("NPC_Event_GetAttackWeightFast", "i", GetId());
 	tmp = attackPrbFast;
-	if(vd && vd->Get(tmp)) attackPrbFast = tmp;
+	if (vd && vd->Get(tmp)) attackPrbFast = tmp;
 	vd = api->Event("NPC_Event_GetAttackWeightForce", "i", GetId());
 	tmp = attackPrbForce;
-	if(vd && vd->Get(tmp)) attackPrbForce = tmp;
+	if (vd && vd->Get(tmp)) attackPrbForce = tmp;
 	vd = api->Event("NPC_Event_GetAttackWeightRound", "i", GetId());
 	tmp = attackPrbRound;
-	if(vd && vd->Get(tmp)) attackPrbRound = tmp;
+	if (vd && vd->Get(tmp)) attackPrbRound = tmp;
 	vd = api->Event("NPC_Event_GetAttackWeightBreak", "i", GetId());
 	tmp = attackPrbBreak;
-	if(vd && vd->Get(tmp)) attackPrbBreak = tmp;
+	if (vd && vd->Get(tmp)) attackPrbBreak = tmp;
 	vd = api->Event("NPC_Event_GetAttackWeightFeint", "i", GetId());
 	tmp = attackPrbFeint;
-	if(vd && vd->Get(tmp)) attackPrbFeint = tmp;
+	if (vd && vd->Get(tmp)) attackPrbFeint = tmp;
 	//Прараметры защиты
 	vd = api->Event("NPC_Event_GetDefenceActive", "i", GetId());
 	tmp = defenceCur;
-	if(vd && vd->Get(tmp)) defenceCur = tmp;
+	if (vd && vd->Get(tmp)) defenceCur = tmp;
 	vd = api->Event("NPC_Event_GetDefenceWeightBlock", "i", GetId());
 	tmp = defencePrbBlock;
-	if(vd && vd->Get(tmp)) defencePrbBlock = tmp;
+	if (vd && vd->Get(tmp)) defencePrbBlock = tmp;
 	vd = api->Event("NPC_Event_GetDefenceWeightParry", "i", GetId());
 	tmp = defencePrbParry;
-	if(vd && vd->Get(tmp)) defencePrbParry = tmp;
+	if (vd && vd->Get(tmp)) defencePrbParry = tmp;
 	vd = api->Event("NPC_Event_EnableRecoil", "i", GetId());
 	tmpBool = isRecoilEnable;
-	if(vd && vd->Get(tmpBool)) isRecoilEnable = tmpBool != 0;
+	if (vd && vd->Get(tmpBool)) isRecoilEnable = tmpBool != 0;
 	//Параметры стрельбы
 	vd = api->Event("NPC_Event_GetFireActive", "i", GetId());
 	tmp = fireCur;
-	if(vd && vd->Get(tmp)) fireCur = tmp;
+	if (vd && vd->Get(tmp)) fireCur = tmp;
 	vd = api->Event("NPC_Event_EnableFire", "i", GetId());
 	tmpBool = isFireEnable;
-	if(vd && vd->Get(tmpBool)) isFireEnable = tmpBool != 0;
+	if (vd && vd->Get(tmpBool)) isFireEnable = tmpBool != 0;
 	//Пормализация параметров
-	if(attackCur < 0.0f) attackCur = 0.0f;
-	if(attackCur > 1000.0f) attackCur = 1000.0f;
-	if(defenceCur < 0.0f) defenceCur = 0.0f;
-	if(defenceCur > 1000.0f) defenceCur = 1000.0f;
+	if (attackCur < 0.0f) attackCur = 0.0f;
+	if (attackCur > 1000.0f) attackCur = 1000.0f;
+	if (defenceCur < 0.0f) defenceCur = 0.0f;
+	if (defenceCur > 1000.0f) defenceCur = 1000.0f;
 	float p = attackPrbFast + attackPrbForce + attackPrbRound + attackPrbBreak + attackPrbFeint;
-	if(p > 0.0f)
+	if (p > 0.0f)
 	{
-		p = 1.0f/p;
+		p = 1.0f / p;
 		attackPrbFast *= p;
 		attackPrbForce *= p;
 		attackPrbRound *= p;
@@ -150,9 +148,9 @@ bool NPCharacter::PostInit()
 		attackPrbFeint *= p;
 	}
 	p = defencePrbBlock + defencePrbParry;
-	if(p > 0.0f)
+	if (p > 0.0f)
 	{
-		p = 1.0f/p;
+		p = 1.0f / p;
 		defencePrbBlock *= p;
 		defencePrbParry *= p;
 	}
@@ -160,30 +158,30 @@ bool NPCharacter::PostInit()
 }
 
 
-uint32_t NPCharacter::ChlProcessMessage(long messageID, MESSAGE & message)
+uint32_t NPCharacter::ChlProcessMessage(long messageID, MESSAGE& message)
 {
 	char buf[128];
-	switch(messageID)
+	switch (messageID)
 	{
 	case MSG_NPCHARACTER_SETTASK:
 		message.String(sizeof(buf) - 1, buf);
 		buf[sizeof(buf) - 1] = 0;
 		return SetNewTask(GetTaskID(buf), message);
 	case MSG_NPCHARACTER_PUSHTASK:
- 		return PushTask();
+		return PushTask();
 	case MSG_NPCHARACTER_POPTASK:
 		return PopTask();
 	case MSG_CHARACTER_SETFTGLEVEL:
 		fightLevel = message.Float();
-		if(fightLevel < 0.0f) fightLevel = 0.0f;
-		if(fightLevel > 1.0f) fightLevel = 1.0f;
+		if (fightLevel < 0.0f) fightLevel = 0.0f;
+		if (fightLevel > 1.0f) fightLevel = 1.0f;
 		return 1;
 	case MSG_NPCHARACTER_GETTASK:
-		VDATA * v = message.ScriptVariablePointer();
-		if(!v) return 0;
+		VDATA* v = message.ScriptVariablePointer();
+		if (!v) return 0;
 		v->Set((char *)GetTaskName(task.task));
 		return 1;
-	};
+	}
 	return 0;
 }
 
@@ -191,7 +189,7 @@ uint32_t NPCharacter::ChlProcessMessage(long messageID, MESSAGE & message)
 void NPCharacter::Move(float dltTime)
 {
 	//Процесируем задачу
-	switch(task.task)
+	switch (task.task)
 	{
 	case npct_none:
 		break;
@@ -207,7 +205,7 @@ void NPCharacter::Move(float dltTime)
 		break;
 	case npct_dead:
 		break;
-	};
+	}
 	AICharacter::Move(dltTime);
 }
 
@@ -225,7 +223,7 @@ void NPCharacter::Update(float dltTime)
 	fMusketerCheckFireTime -= dltTime;
 	if (fMusketerFireTime <= 0.0f) fMusketerFireTime = 0.0f;
 
-	switch(task.task)
+	switch (task.task)
 	{
 	case npct_none:
 		break;
@@ -245,70 +243,85 @@ void NPCharacter::Update(float dltTime)
 		break;
 	case npct_dead:
 		break;
-	};
+	}
 	AICharacter::Update(dltTime);
 	const auto location = GetLocation();
 	//Напишем отладочную информацию
-	if(location->IsDebugView())
+	if (location->IsDebugView())
 	{
 		bool isDebugEx = location->IsExDebugView();
 		//if(AttributesPointer && AttributesPointer->GetAttributeAsDword("hideInfo", 0)) return;
 		const float rad = 25.0f;
-		const char * id = nullptr;
-		if(AttributesPointer) id = AttributesPointer->GetAttribute("id");
-		if(!id) id = "<none>";
-		const char * fid = nullptr;
+		const char* id = nullptr;
+		if (AttributesPointer) id = AttributesPointer->GetAttribute("id");
+		if (!id) id = "<none>";
+		const char* fid = nullptr;
 		auto* chr = (Character *)EntityManager::GetEntityPointer(task.target);
-		if(chr)
+		if (chr)
 		{
-			if(chr->AttributesPointer) fid = chr->AttributesPointer->GetAttribute("id");
+			if (chr->AttributesPointer) fid = chr->AttributesPointer->GetAttribute("id");
 		}
-		if(!fid) fid = "<none>";
+		if (!fid) fid = "<none>";
 		location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, 3, 1.0f, 0xffffff, 0.5f, "id(%s)", id);
-		location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, 2, 1.0f, 0xffffff, 0.5f, "task(%s<-%s)", GetTaskName(task.task), GetTaskName(lastSetTask));
-		if(isDebugEx) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, 1, 1.0f, 0xffffff, 0.5f, "target(%s)", fid);
-		if(isDebugEx) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, 0, 1.0f, 0xffffff, 0.5f, "cmd(%s)", GetCommandName(command.cmd));
-		if(isDebugEx) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, -1, 1.0f, 0xffffff, 0.5f, "pos(%.2f, %.2f, %.2f)", curPos.x, curPos.y, curPos.z);
-		if(isDebugEx) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, -2, 1.0f, 0xffffff, 0.5f, "isJump = %s", isJump ? "true" : "false");
+		location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, 2, 1.0f, 0xffffff, 0.5f, "task(%s<-%s)",
+		                GetTaskName(task.task), GetTaskName(lastSetTask));
+		if (isDebugEx) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, 1, 1.0f, 0xffffff, 0.5f, "target(%s)",
+		                               fid);
+		if (isDebugEx) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, 0, 1.0f, 0xffffff, 0.5f, "cmd(%s)",
+		                               GetCommandName(command.cmd));
+		if (isDebugEx) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, -1, 1.0f, 0xffffff, 0.5f,
+		                               "pos(%.2f, %.2f, %.2f)", curPos.x, curPos.y, curPos.z);
+		if (isDebugEx) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, -2, 1.0f, 0xffffff, 0.5f,
+		                               "isJump = %s", isJump ? "true" : "false");
 		long line = 4;
-		if(isDebugEx && command.cmd == aicmd_gotopoint) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f, "goto(%.2f, %.2f, %.2f)", command.pnt.x, command.pnt.y, command.pnt.z);
-		if(isDebugEx && AttributesPointer)
+		if (isDebugEx && command.cmd == aicmd_gotopoint) location->Print(
+			curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f, "goto(%.2f, %.2f, %.2f)",
+			command.pnt.x, command.pnt.y, command.pnt.z);
+		if (isDebugEx && AttributesPointer)
 		{
-			ATTRIBUTES * atr = AttributesPointer->FindAClass(AttributesPointer, "chr_ai.tmpl");
-			if(atr)
+			ATTRIBUTES* atr = AttributesPointer->FindAClass(AttributesPointer, "chr_ai.tmpl");
+			if (atr)
 			{
-				for(long i = atr->GetAttributesNum() - 1; i >= 0; i--)
+				for (long i = atr->GetAttributesNum() - 1; i >= 0; i--)
 				{
 					fid = atr->GetAttributeName(i);
 					id = atr->GetAttribute(i);
-					if(fid && id) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f, "tmpl.%s(%s)", fid, id);
+					if (fid && id) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff,
+					                               0.5f, "tmpl.%s(%s)", fid, id);
 				}
 				id = atr->GetThisAttr();
-				if(id) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f, "tmpl(%s)", id);
+				if (id) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f,
+				                        "tmpl(%s)", id);
 			}
 			atr = AttributesPointer->FindAClass(AttributesPointer, "chr_ai.type");
-			if(atr)
+			if (atr)
 			{
-				for(long i = atr->GetAttributesNum() - 1; i >= 0; i--)
+				for (long i = atr->GetAttributesNum() - 1; i >= 0; i--)
 				{
 					fid = atr->GetAttributeName(i);
 					id = atr->GetAttribute(i);
-					if(fid && id) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f, "type.%s(%s)", fid, id);
+					if (fid && id) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff,
+					                               0.5f, "type.%s(%s)", fid, id);
 				}
 				id = atr->GetThisAttr();
-				if(id) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f, "type(%s)", id);
+				if (id) location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f,
+				                        "type(%s)", id);
 			}
 			atr = AttributesPointer->FindAClass(AttributesPointer, "chr_ai.group");
-			if(atr)
+			if (atr)
 			{
 				id = atr->GetThisAttr();
-				if(!id) id = "";
-				location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f, "group(\"%s\")", id);
+				if (!id) id = "";
+				location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f,
+				                "group(\"%s\")", id);
 			}
 		}
-		location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f, "wantToAttack = %s", wantToAttack ? "true" : "false");
-		location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f, "wantToDefence = %s", wantToDefence ? "true" : "false");
-		location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f, "wantToFire = %s)", wantToFire ? "true" : "false");
+		location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f, "wantToAttack = %s",
+		                wantToAttack ? "true" : "false");
+		location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f, "wantToDefence = %s",
+		                wantToDefence ? "true" : "false");
+		location->Print(curPos + CVECTOR(0.0f, height, 0.0f), rad, line++, 1.0f, 0xffffff, 0.5f, "wantToFire = %s)",
+		                wantToFire ? "true" : "false");
 	}
 }
 
@@ -317,7 +330,7 @@ void NPCharacter::Update(float dltTime)
 //============================================================================================
 
 
-void NPCharacter::SetEscapeTask(Character * c)
+void NPCharacter::SetEscapeTask(Character* c)
 {
 	if (bMusketerNoMove) return;
 	if (task.task == npct_runtopoint) return;
@@ -339,14 +352,14 @@ void NPCharacter::SetEscapeTask(Character * c)
 
 	SetFightMode(false);
 	SetRunMode(true);
-	for (long i=0; i<32; i++)
+	for (long i = 0; i < 32; i++)
 	{
 		CMatrix mRot;
 		mRot.BuildRotateY(float(i / 32.0f) * PIm2);
 		CVECTOR vDir1 = mRot * vDir;
 
 		task.to = vPos + vDir1 * (fMusketerDistance * 0.8f);
-		if (CmdGotoPoint(task.to.x, task.to.y, task.to.z, NPC_STOP_GOTODIST*2.0f)) break;
+		if (CmdGotoPoint(task.to.x, task.to.y, task.to.z, NPC_STOP_GOTODIST * 2.0f)) break;
 	}
 	/*task.to.x = vPos.x;
 	task.to.y = vPos.y;
@@ -354,7 +367,7 @@ void NPCharacter::SetEscapeTask(Character * c)
 }
 
 //Установить новую задачу
-bool NPCharacter::SetNewTask(NPCTask tsk, MESSAGE & message)
+bool NPCharacter::SetNewTask(NPCTask tsk, MESSAGE& message)
 {
 	if (bMusketerNoMove)
 	{
@@ -366,7 +379,7 @@ bool NPCharacter::SetNewTask(NPCTask tsk, MESSAGE & message)
 	task.task = tsk;
 	lastSetTask = tsk;
 	memset(&task.target, 0, sizeof(task.target));
-	switch(tsk)
+	switch (tsk)
 	{
 	case npct_none:
 		//SetRunMode(false);
@@ -389,7 +402,7 @@ bool NPCharacter::SetNewTask(NPCTask tsk, MESSAGE & message)
 		task.to.x = message.Float();
 		task.to.y = message.Float();
 		task.to.z = message.Float();
-		return CmdGotoPoint(task.to.x, task.to.y, task.to.z, NPC_STOP_GOTODIST*2.0f);
+		return CmdGotoPoint(task.to.x, task.to.y, task.to.z, NPC_STOP_GOTODIST * 2.0f);
 	case npct_followcharacter:
 		SetFightMode(false);
 		task.target = message.EntityID();
@@ -407,23 +420,23 @@ bool NPCharacter::SetNewTask(NPCTask tsk, MESSAGE & message)
 		CmdStay();
 		Dead();
 		return true;
-	};
+	}
 	return false;
 }
 
-bool NPCharacter::InitFollowChartacter(entid_t  eid)
+bool NPCharacter::InitFollowChartacter(entid_t eid)
 {
 	task.target = eid;
-	Character * c = (Character *)EntityManager::GetEntityPointer(eid);
-	if(c)
+	Character* c = (Character *)EntityManager::GetEntityPointer(eid);
+	if (c)
 	{
-		const char * id = c->AttributesPointer->GetAttribute("id");
+		const char* id = c->AttributesPointer->GetAttribute("id");
 	}
 	task.isFollowInit = 0;
 	return true;
 }
 
-bool NPCharacter::InitFightChartacter(entid_t  eid)
+bool NPCharacter::InitFightChartacter(entid_t eid)
 {
 	enemyFgtType = fgt_none;
 	isFgtChanged = false;
@@ -442,7 +455,7 @@ void NPCharacter::UpdateFollowCharacter(float dltTime)
 {
 	//Цель
 	auto* c = (NPCharacter *)EntityManager::GetEntityPointer(task.target);
-	if(!c || c->deadName != nullptr || c->liveValue < 0)
+	if (!c || c->deadName != nullptr || c->liveValue < 0)
 	{
 		NPCTask tsk = task.task;
 		task.task = npct_none;
@@ -452,22 +465,24 @@ void NPCharacter::UpdateFollowCharacter(float dltTime)
 	}
 	//Проверим растояние до цели
 	float dst = ~(c->curPos - curPos);
-	if(task.isFollowInit == 0)
+	if (task.isFollowInit == 0)
 	{
 		task.isFollowInit = 1;
-		if(dst <= NPC_START_DIST_NPC*NPC_START_DIST_NPC) EndGotoCommand();
+		if (dst <= NPC_START_DIST_NPC * NPC_START_DIST_NPC) EndGotoCommand();
 	}
-	if(command.cmd != aicmd_gotopoint)
+	if (command.cmd != aicmd_gotopoint)
 	{
 		SetRunMode(false);
-		if(dst > NPC_START_DIST_NPC*NPC_START_DIST_NPC)
+		if (dst > NPC_START_DIST_NPC * NPC_START_DIST_NPC)
 		{
 			CmdGotoPoint(c->curPos.x, c->curPos.y, c->curPos.z, NPC_STOP_DIST_NPC, c->currentNode, false);
 			api->Event("Location_CharacterFollowGo", "si", GetTaskName(npct_followcharacter), GetId());
 		}
-	}else{
-		if(dst > NPC_RUN_DIST_NPC*NPC_RUN_DIST_NPC) SetRunMode(true);
-		if(dst < NPC_WALK_DIST_NPC*NPC_WALK_DIST_NPC) SetRunMode(false);
+	}
+	else
+	{
+		if (dst > NPC_RUN_DIST_NPC * NPC_RUN_DIST_NPC) SetRunMode(true);
+		if (dst < NPC_WALK_DIST_NPC * NPC_WALK_DIST_NPC) SetRunMode(false);
 		CmdGotoPoint(c->curPos.x, c->curPos.y, c->curPos.z, NPC_STOP_DIST_NPC, c->currentNode, false);
 	}
 	SetExCharacter(c);
@@ -478,7 +493,7 @@ void NPCharacter::UpdateEscapeCharacter(float dltTime)
 {
 	//Персонаж от которого убегаем
 	auto* c = (NPCharacter *)EntityManager::GetEntityPointer(task.target);
-	if(!c || c->deadName != nullptr || c->liveValue < 0)
+	if (!c || c->deadName != nullptr || c->liveValue < 0)
 	{
 		NPCTask tsk = task.task;
 		task.task = npct_none;
@@ -489,7 +504,7 @@ void NPCharacter::UpdateEscapeCharacter(float dltTime)
 	//Уходим по радиальной линии
 	float fDist = (bMusketer) ? fMusketerDistance * 0.7f : NPC_STOP_ESCAPE;
 	CmdEscape(c->curPos.x, c->curPos.y, c->curPos.z, fDist);
-	if(isSlide)
+	if (isSlide)
 	{
 		NPCTask tsk = task.task;
 		task.task = npct_none;
@@ -507,7 +522,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 	SetFightMode(true);
 	//Цель
 	auto* c = (NPCharacter *)EntityManager::GetEntityPointer(task.target);
-	if(!c || c->deadName != nullptr || c->liveValue < 0 || c == this)
+	if (!c || c->deadName != nullptr || c->liveValue < 0 || c == this)
 	{
 		NPCTask tsk = task.task;
 		task.task = npct_none;
@@ -517,7 +532,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 	}
 	//Решаем что будем делать
 	fightTick -= dltTime;
-	if(fightTick <= 0.0f)
+	if (fightTick <= 0.0f)
 	{
 		fightTick = 0.2f; // k3 fix 0.5f;
 		FightTick();
@@ -525,26 +540,26 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 	//Проверим растояние до цели
 	float dst = ~(c->curPos - curPos);
 	//Переход в режим боя
-	if(dst > NPC_FIGHT_RUN_DIST*NPC_FIGHT_RUN_DIST)
+	if (dst > NPC_FIGHT_RUN_DIST * NPC_FIGHT_RUN_DIST)
 	{
 		SetRunMode(true);
-	}else
-	if(dst < NPC_FIGHT_WALK_DIST*NPC_FIGHT_WALK_DIST)
+	}
+	else if (dst < NPC_FIGHT_WALK_DIST * NPC_FIGHT_WALK_DIST)
 	{
 		SetRunMode(false);
 	}
-	if(task.isFollowInit == 0)
+	if (task.isFollowInit == 0)
 	{
 		task.isFollowInit = 1;
-		if(dst < NPC_STOP_DIST_NPC*NPC_STOP_DIST_NPC) EndGotoCommand();
+		if (dst < NPC_STOP_DIST_NPC * NPC_STOP_DIST_NPC) EndGotoCommand();
 	}
 	//Навигация
 	bool isProcessWait = false;
 
 	bool bCurrentActionIsFire = false;
-	if(fgtCurType == fgt_none && priorityAction.name && shot.name)
+	if (fgtCurType == fgt_none && priorityAction.name && shot.name)
 	{
-		if(_stricmp(priorityAction.name, shot.name) == 0)
+		if (_stricmp(priorityAction.name, shot.name) == 0)
 		{
 			bCurrentActionIsFire = true;
 		}
@@ -565,14 +580,14 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 			SetEscapeTask(c);
 		}
 		//else
-			//CmdStay();
+		//CmdStay();
 	}
 
 	float kdst;
 
 	bool bVisTarget = VisibleTest(c);
 	bool bFarTarget = dst > NPC_FIGHT_FIRE_DIST * NPC_FIGHT_FIRE_DIST;
-	Character * target = FindGunTarget(kdst, true);
+	Character* target = FindGunTarget(kdst, true);
 
 	if (bVisTarget && !bFarTarget) // если таргет видимый, то пытаемся застрелить его
 		bTryAnyTarget = false;
@@ -601,14 +616,14 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 
 			SetFightMode(false);
 			SetRunMode(true);
-			for (long i=1; i<9; i++)
+			for (long i = 1; i < 9; i++)
 			{
 				CMatrix mRot;
 				mRot.BuildRotateY(float(i / 9.0f) * PIm2);
 				CVECTOR vDir1 = mRot * vDir;
 
 				task.to = vPos + vDir1 * fCurDist;
-				if (CmdGotoPoint(task.to.x, task.to.y, task.to.z, NPC_STOP_GOTODIST*2.0f)) break;
+				if (CmdGotoPoint(task.to.x, task.to.y, task.to.z, NPC_STOP_GOTODIST * 2.0f)) break;
 			}
 		}
 		else // если таргет есть, но лругой - то будем пытаться выстрелить внего
@@ -619,111 +634,117 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 
 	//if (bTryFire)
 	{
-		if(command.cmd != aicmd_gotopoint && !bCurrentActionIsFire)
+		if (command.cmd != aicmd_gotopoint && !bCurrentActionIsFire)
 		{
 			float fDist = (bMusketer && !bMusketerNoMove) ? fMusketerDistance * 0.9f : NPC_FIGHT_GO_DIST;
 			float fDistTo = (bMusketer && !bMusketerNoMove) ? fMusketerDistance * 0.7f : NPC_FIGHT_GO_DIST;
-			if(dst > fDist * fDist)
+			if (dst > fDist * fDist)
 			{
 				//Надо подойти ближе
 				CmdGotoPoint(c->curPos.x, c->curPos.y, c->curPos.z, fDistTo, c->currentNode, false);
 				api->Event("Location_CharacterFightGo", "si", GetTaskName(npct_followcharacter), GetId());
-			}//else{
-				//Воюем
+			} //else{
+			//Воюем
 			//}
-		}//else
+		} //else
 		//{
-			//Уточним место положения цели
-			//CmdGotoPoint(c->curPos.x, c->curPos.y, c->curPos.z, NPC_FIGHT_STOP_DIST, c->currentNode, false);
-			//Проверим возможность выстрела
+		//Уточним место положения цели
+		//CmdGotoPoint(c->curPos.x, c->curPos.y, c->curPos.z, NPC_FIGHT_STOP_DIST, c->currentNode, false);
+		//Проверим возможность выстрела
 
-			double dx = c->curPos.x - curPos.x;
-			double dz = c->curPos.z - curPos.z;
-			double l = dx*dx + dz*dz;
+		double dx = c->curPos.x - curPos.x;
+		double dz = c->curPos.z - curPos.z;
+		double l = dx * dx + dz * dz;
 
-			// аытаемся отбежать
-			/*if (bMusketer && fMusketerTime <= 0.0f && fMusketerDistance >= 0.0f && sqrt(l) < fMusketerDistance * 0.6f)
+		// аытаемся отбежать
+		/*if (bMusketer && fMusketerTime <= 0.0f && fMusketerDistance >= 0.0f && sqrt(l) < fMusketerDistance * 0.6f)
+		{
+			bTryFire = false;
+			fMusketerTime = 3.0f;
+			SetEscapeTask(c);
+		}*/
+		bool bFired = false;
+		if (bTryFire && wantToFire && isFireEnable)
+		{
+			if (dst < NPC_FIGHT_FIRE_DIST * NPC_FIGHT_FIRE_DIST &&
+				(dst > NPC_FIGHT_GO_DIST * NPC_FIGHT_GO_DIST || fightLevel > 0.6f))
 			{
-				bTryFire = false;
-				fMusketerTime = 3.0f;
-				SetEscapeTask(c);
-			}*/
-			bool bFired = false;
-			if(bTryFire && wantToFire && isFireEnable)
-			{
-				if(dst < NPC_FIGHT_FIRE_DIST*NPC_FIGHT_FIRE_DIST &&
-					(dst > NPC_FIGHT_GO_DIST*NPC_FIGHT_GO_DIST || fightLevel > 0.6f))
+				if (IsGunLoad())
 				{
-					if(IsGunLoad())
+					if (l > 0.3)
 					{
-						if(l > 0.3)
+						l = 1.0 / sqrt(l);
+						dx *= l;
+						dz *= l;
+						auto ang = float(acos(dz));
+						if (dx < 0) ang = -ang;
+						if (dx * sinf(ay) + dz * cosf(ay) > 0.65f)
 						{
-							l = 1.0/sqrt(l);
-							dx *= l; dz *= l;
-							auto ang = float(acos(dz));
-							if(dx < 0) ang = -ang;
-							if(dx*sinf(ay) + dz*cosf(ay) > 0.65f)
+							//Определяем текущую цель
+							float _ay = ay;
+							ay = ang;
+							float kdst;
+							Character* target = FindGunTarget(kdst);
+							//Character * target = FindGunTarget(kdst, true);
+							ay = _ay;
+							//if((target == c) || (target && bTryAnyTarget))
+							if (target)
 							{
-								//Определяем текущую цель
-								float _ay = ay;
-								ay = ang;
-								float kdst;
-								Character * target = FindGunTarget(kdst);
-								//Character * target = FindGunTarget(kdst, true);
-								ay = _ay;
-								//if((target == c) || (target && bTryAnyTarget))
-								if (target)
-								{
-									Turn(ang);
-									Fire();
-									bFired = true;
-									fMusketerFireTime = 1.5f;
-								}
+								Turn(ang);
+								Fire();
+								bFired = true;
+								fMusketerFireTime = 1.5f;
 							}
 						}
 					}
 				}
 			}
+		}
 
-			if(!bFired && dst <= NPC_FIGHT_GO_DIST * NPC_FIGHT_GO_DIST)
-			{
-				if (fgtCurType == fgt_none && priorityAction.name && shot.name)
-					;
-				else
-					DoFightAction(dltTime, c);
-			}
+		if (!bFired && dst <= NPC_FIGHT_GO_DIST * NPC_FIGHT_GO_DIST)
+		{
+			if (fgtCurType == fgt_none && priorityAction.name && shot.name);
+			else
+				DoFightAction(dltTime, c);
+		}
 
-			if (bMusketer && command.cmd == aicmd_stay)
-			{
-				Turn(c->curPos.x - curPos.x, c->curPos.z - curPos.z);
-			}
+		if (bMusketer && command.cmd == aicmd_stay)
+		{
+			Turn(c->curPos.x - curPos.x, c->curPos.z - curPos.z);
+		}
 		//}
 	}
 	SetExCharacter(c);
-	if(fgtCurType == fgt_none && priorityAction.name && shot.name)
+	if (fgtCurType == fgt_none && priorityAction.name && shot.name)
 	{
-		if(_stricmp(priorityAction.name, shot.name) == 0)
+		if (_stricmp(priorityAction.name, shot.name) == 0)
 		{
 			float kdst;
-			NPCharacter * target = (NPCharacter *)FindGunTarget(kdst, true);
-			if(target)
+			NPCharacter* target = (NPCharacter *)FindGunTarget(kdst, true);
+			if (target)
 			{
-				if(target != c)
+				if (target != c)
 				{
 					float tdx = curPos.x - target->curPos.x;
 					float tdz = curPos.z - target->curPos.z;
 					float edx = curPos.x - c->curPos.x;
 					float edz = curPos.z - c->curPos.z;
-					if(edz*tdx + edx*tdz < 0.0f)
+					if (edz * tdx + edx * tdz < 0.0f)
 					{
 						Turn(ay - 0.1f);
-					}else{
+					}
+					else
+					{
 						Turn(ay + 0.1f);
 					}
-				}else{
+				}
+				else
+				{
 					Turn(c->curPos.x - curPos.x, c->curPos.z - curPos.z);
 				}
-			}else{
+			}
+			else
+			{
 				Turn(c->curPos.x - curPos.x, c->curPos.z - curPos.z);
 			}
 		}
@@ -737,22 +758,22 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 
 
 //Поведение в бою
-void NPCharacter::DoFightAction(float dltTime, NPCharacter * enemy)
+void NPCharacter::DoFightAction(float dltTime, NPCharacter* enemy)
 {
 	//Анализируем смену действий противника
-	if(enemy->fgtCurType != enemyFgtType)
+	if (enemy->fgtCurType != enemyFgtType)
 	{
 		enemyFgtType = enemy->fgtCurType;
 		isFgtChanged = true;
 	}
 	//Смотрим на текущее действие
-	if(blockTime > 0.0f)
+	if (blockTime > 0.0f)
 	{
 		Block();
 		blockTime -= dltTime;
 		return;
 	}
-	switch(fgtCurType)
+	switch (fgtCurType)
 	{
 	case fgt_none:
 		//Свободны
@@ -765,23 +786,23 @@ void NPCharacter::DoFightAction(float dltTime, NPCharacter * enemy)
 }
 
 //Поведение в бою - idle
-void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
+void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter* enemy)
 {
-	if(!enemy) return;
+	if (!enemy) return;
 	//Смотрим на свои желания
 	bool wishAttact = wantToAttack;
 	bool wishDefence = wantToDefence;
 	//Если ничего не желаем - экономим ресурсы и ничего больше не делаем
-	if(!(wishAttact | wishDefence)) return;
+	if (!(wishAttact | wishDefence)) return;
 	//Получаем режим выбора цели для атаки
 	long isAdaptive = true;
-	VDATA * vd = api->Event("NPC_Event_AdaptiveTargetSelect", "i", GetId());
-	if(vd) vd->Get(isAdaptive);
+	VDATA* vd = api->Event("NPC_Event_AdaptiveTargetSelect", "i", GetId());
+	if (vd) vd->Get(isAdaptive);
 	//Коректируем с учётом наличия групп
-	CharactersGroups * chrGroup = (CharactersGroups *)EntityManager::GetEntityPointer(charactersGroups);
-	if(!chrGroup) isAdaptive = false;
+	CharactersGroups* chrGroup = (CharactersGroups *)EntityManager::GetEntityPointer(charactersGroups);
+	if (!chrGroup) isAdaptive = false;
 	//Если хотим бить и режим не адаптивный, то просто бьём
-	if(wishAttact && !isAdaptive)
+	if (wishAttact && !isAdaptive)
 	{
 		DoFightAttack(enemy, 1, false);
 		return;
@@ -790,8 +811,9 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	static long num = 0;
 	const auto location = GetLocation();
-	if(!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_ATTACK_DIST, 0.0f, 0.01f, 0.0f, false)) return;
-	if(!num) return;
+	if (!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_ATTACK_DIST, 0.0f, 0.01f, 0.0f, false))
+		return;
+	if (!num) return;
 	//Наша группа
 	long grpIndex = chrGroup->FindGroupIndex(group);
 	//Таблица врагов
@@ -801,140 +823,149 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
 	CVECTOR dir(sinf(ay), 0.0f, cosf(ay));
 	//Вычисляем врагов
 	bool isFreeBack = isRecoilEnable;
-	static const float backAng = -cosf(45.0f*(3.1415926535f/180.0f));
-	for(long i = 0; i < num; i++)
+	static const float backAng = -cosf(45.0f * (3.1415926535f / 180.0f));
+	for (long i = 0; i < num; i++)
 	{
 		//Персонаж
-		Supervisor::FindCharacter & fc = fndCharacter[i];
-		NPCharacter * chr = (NPCharacter *)fc.c;
-		if(chr->liveValue < 0 || chr->deadName || fc.d2 <= 0.0f || chr == this) continue;
+		Supervisor::FindCharacter& fc = fndCharacter[i];
+		NPCharacter* chr = (NPCharacter *)fc.c;
+		if (chr->liveValue < 0 || chr->deadName || fc.d2 <= 0.0f || chr == this) continue;
 		fc.d2 = sqrtf(fc.d2);
-		if(isFreeBack)
+		if (isFreeBack)
 		{
-			float cs = dir.x*fc.dx + dir.z*fc.dz;
-			if(cs < 0.0f)
+			float cs = dir.x * fc.dx + dir.z * fc.dz;
+			if (cs < 0.0f)
 			{
-				if(-cs >= backAng*fc.d2)
+				if (-cs >= backAng * fc.d2)
 				{
 					isFreeBack = false;
 				}
 			}
 		}
-//		if(!chr->isFight) continue;
+		//		if(!chr->isFight) continue;
 		//Группа воюющего
 		long grp = chrGroup->FindGroupIndex(chr->group);
 		//Отношение его группы к нашей
-		if(chrGroup->FindRelation(grpIndex, grp).curState != CharactersGroups::rs_enemy) continue;
+		if (chrGroup->FindRelation(grpIndex, grp).curState != CharactersGroups::rs_enemy) continue;
 		//Это враг
 		enemies[enemyCounter].chr = chr;
 		//Куда смотрит враг и расположение относительно нас
-		if(fc.d2 > 0.0f)
+		if (fc.d2 > 0.0f)
 		{
-			enemies[enemyCounter].look = -(sinf(chr->ay)*fc.dx + cosf(chr->ay)*fc.dz)/fc.d2;
-			enemies[enemyCounter].dir = (dir.x*fc.dx + dir.z*fc.dz)/fc.d2;
-		}else{
+			enemies[enemyCounter].look = -(sinf(chr->ay) * fc.dx + cosf(chr->ay) * fc.dz) / fc.d2;
+			enemies[enemyCounter].dir = (dir.x * fc.dx + dir.z * fc.dz) / fc.d2;
+		}
+		else
+		{
 			enemies[enemyCounter].look = 0.0f;
 			enemies[enemyCounter].dir = 0.0f;
 		}
 		//Если надо, то анализируем цель
-		if(wishAttact)
+		if (wishAttact)
 		{
 			float hp = 1.0f;
 			vd = api->Event("NpcEvtHP", "i", chr->GetId());
-			if(vd) vd->Get(hp);
-			if(hp < 0.0f) hp = 0.0f;
-			if(hp > 1.0f) hp = 1.0f;
+			if (vd) vd->Get(hp);
+			if (hp < 0.0f) hp = 0.0f;
+			if (hp > 1.0f) hp = 1.0f;
 			float energy = 1.0f;
 			vd = api->Event("NpcEvtEgy", "i", chr->GetId());
-			if(vd) vd->Get(energy);
-			if(energy < 0.0f) energy = 0.0f;
-			if(energy > 1.0f) energy = 1.0f;
-			enemies[enemyCounter].state = 0.1f/(hp + 0.05f) + 0.2f/(energy + 0.5f);
+			if (vd) vd->Get(energy);
+			if (energy < 0.0f) energy = 0.0f;
+			if (energy > 1.0f) energy = 1.0f;
+			enemies[enemyCounter].state = 0.1f / (hp + 0.05f) + 0.2f / (energy + 0.5f);
 		}
 		enemyCounter++;
 	}
 	//Если никого вредоносного нет - ничего не делаем
-	if(!enemyCounter) return;
+	if (!enemyCounter) return;
 	//Если атакуем, то выбираем подходящую цель для атаки
-	if(wishAttact)
+	if (wishAttact)
 	{
 		float kSel;
 		long counter = 0;
-		Character * enemy = nullptr;
-		for(long i = 0, j = -1; i < enemyCounter; i++)
+		Character* enemy = nullptr;
+		for (long i = 0, j = -1; i < enemyCounter; i++)
 		{
-			EnemyState & es = enemies[i];
-			float k = es.state*1.0f + (es.dir + 1.0f)*0.5f;
-			if(enemy)
+			EnemyState& es = enemies[i];
+			float k = es.state * 1.0f + (es.dir + 1.0f) * 0.5f;
+			if (enemy)
 			{
-				if(kSel < k)
+				if (kSel < k)
 				{
 					kSel = k;
 					enemy = es.chr;
 				}
-			}else{
+			}
+			else
+			{
 				kSel = k;
 				enemy = es.chr;
 			}
-			static const float dangerAng = cosf(0.7f*CHARACTER_ATTACK_ANG*(3.1415926535f/180.0f));
-			if(es.look > dangerAng) counter++;
+			static const float dangerAng = cosf(0.7f * CHARACTER_ATTACK_ANG * (3.1415926535f / 180.0f));
+			if (es.look > dangerAng) counter++;
 		}
 		DoFightAttack(enemy, counter, wishDefence);
 		return;
 	}
-	if(!wishDefence) return;
+	if (!wishDefence) return;
 	//Решаем нужно ли защищатся
 	bool isBreakAttack = false;
 	long attacked = 0;
-	static const float attackAng = cosf(0.5f*CHARACTER_ATTACK_ANG*(3.1415926535f/180.0f));
-	for(long i = 0; i < enemyCounter; i++)
+	static const float attackAng = cosf(0.5f * CHARACTER_ATTACK_ANG * (3.1415926535f / 180.0f));
+	for (long i = 0; i < enemyCounter; i++)
 	{
-		if(enemies[i].look >= attackAng)
+		if (enemies[i].look >= attackAng)
 		{
-			NPCharacter * chr = (NPCharacter *)enemies[i].chr;
-			if(chr->fgtCurType >= fgt_attack_fast && chr->fgtCurType <= fgt_attack_feintc)
+			NPCharacter* chr = (NPCharacter *)enemies[i].chr;
+			if (chr->fgtCurType >= fgt_attack_fast && chr->fgtCurType <= fgt_attack_feintc)
 			{
-				if(chr->fgtCurType == fgt_attack_break) isBreakAttack = true;
+				if (chr->fgtCurType == fgt_attack_break) isBreakAttack = true;
 				attacked++;
 			}
 		}
 	}
 	//Проверим полную возможность отскока
 	CVECTOR p = curPos;
-	if(location->GetPtcData().Move(currentNode, curPos + dir*2.0f, p) >= 0)
+	if (location->GetPtcData().Move(currentNode, curPos + dir * 2.0f, p) >= 0)
 	{
-		p -= curPos; p.y = 0.0f;
-		if(~p < 1.8f)
+		p -= curPos;
+		p.y = 0.0f;
+		if (~p < 1.8f)
 		{
 			isFreeBack = false;
 		}
 	}
 	//Если бьющих нет, то отскочим или оценим нашу тупость сделать блок
-	if(!attacked)
+	if (!attacked)
 	{
 		return;
 	}
 	//Оценим вероятность того, что пропустим удар
-	if(!wantToDefence)
+	if (!wantToDefence)
 	{
 		return;
 	}
 	//Если удар пробивающий
-	if(isBreakAttack)
+	if (isBreakAttack)
 	{
 		//Вероятность распознания пробивающей атаки
-		float prbDetect = fightLevel*fightLevel*0.9f;
-		if(PrTest(prbDetect))
+		float prbDetect = fightLevel * fightLevel * 0.9f;
+		if (PrTest(prbDetect))
 		{
-			if(!isFreeBack)
+			if (!isFreeBack)
 			{
 				DoFightBlock(true);
-			}else{
+			}
+			else
+			{
 				//Есть выбор - парирование или отскок
-				if(PrTest(0.4f + enemyCounter*(0.1f + fightLevel*0.1f)))
+				if (PrTest(0.4f + enemyCounter * (0.1f + fightLevel * 0.1f)))
 				{
 					Recoil();
-				}else{
+				}
+				else
+				{
 					DoFightBlock(true);
 				}
 			}
@@ -942,11 +973,11 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
 		}
 	}
 	//Решаем как защититься
-	if(isFreeBack)
+	if (isFreeBack)
 	{
-		float reciolPrb = attacked*attacked*0.1f*(fightLevel + 0.3f);
-		if(reciolPrb > 0.9f) reciolPrb = 0.9f;
-		if(PrTest(reciolPrb))
+		float reciolPrb = attacked * attacked * 0.1f * (fightLevel + 0.3f);
+		if (reciolPrb > 0.9f) reciolPrb = 0.9f;
+		if (PrTest(reciolPrb))
 		{
 			Recoil();
 			return;
@@ -956,7 +987,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter * enemy)
 }
 
 //Поведение в бою - attack
-void NPCharacter::DoFightAttack(Character * enemy, long enemyCounter, bool wishDefence)
+void NPCharacter::DoFightAttack(Character* enemy, long enemyCounter, bool wishDefence)
 {
 	wantToAttack = false;
 	//enemy - кого бить
@@ -969,54 +1000,54 @@ void NPCharacter::DoFightAttack(Character * enemy, long enemyCounter, bool wishD
 	};
 	AttackAction attack[5];
 	long count = 0;
-	if(attackPrbFast > 0.0f)
+	if (attackPrbFast > 0.0f)
 	{
 		attack[count].prb = attackPrbFast;
 		attack[count].action = fgt_attack_fast;
 		count++;
 	}
-	if(attackPrbForce > 0.0f)
+	if (attackPrbForce > 0.0f)
 	{
 		attack[count].prb = attackPrbForce;
 		attack[count].action = fgt_attack_force;
 		count++;
 	}
-	if(attackPrbRound > 0.0f)
+	if (attackPrbRound > 0.0f)
 	{
-		if(enemyCounter > 3 - (wishDefence ? 1 : 0))
+		if (enemyCounter > 3 - (wishDefence ? 1 : 0))
 		{
 			attack[count].prb = attackPrbRound;
 			attack[count].action = fgt_attack_round;
 			count++;
 		}
 	}
-	if(attackPrbBreak > 0.0f)
+	if (attackPrbBreak > 0.0f)
 	{
 		attack[count].prb = attackPrbBreak;
 		attack[count].action = fgt_attack_break;
 		count++;
 	}
-	if(attackPrbFeint > 0.0f)
+	if (attackPrbFeint > 0.0f)
 	{
 		attack[count].prb = attackPrbFeint;
 		attack[count].action = fgt_attack_feint;
 		count++;
 	}
 	float max = 0.0f;
-	for(long i = 0; i < count; i++)
+	for (long i = 0; i < count; i++)
 	{
 		max += attack[i].prb;
 	}
-	if(count == 0 || max <= 0.0f) return;
-	float r = rand()*(max/RAND_MAX);
+	if (count == 0 || max <= 0.0f) return;
+	float r = rand() * (max / RAND_MAX);
 	float p = 0.0f;
 	long i;
-	for(i = 0; i < count; i++)
+	for (i = 0; i < count; i++)
 	{
 		p += attack[i].prb;
-		if(r <= p) break;
+		if (r <= p) break;
 	}
-	if(i >= count) i = 0;
+	if (i >= count) i = 0;
 	Attack(enemy, attack[i].action);
 }
 
@@ -1025,32 +1056,34 @@ void NPCharacter::DoFightBlock(bool needParry)
 {
 	wantToDefence = false;
 	float sum = defencePrbBlock + defencePrbParry;
-	if(sum <= 0.0f) return;
+	if (sum <= 0.0f) return;
 	float parryEnergy = GetActEnergy("parry");
 	float used = GetEnergy() - parryEnergy;
-	float minTime = 0.8f + (1.0f - fightLevel)*0.8f;
-	float maxTime = minTime + (1.1f - fightLevel)*2.5f;
-	blockTime = minTime + rand()*(1.0f/RAND_MAX)*(maxTime - minTime);
-	if(used < 0.0f)
+	float minTime = 0.8f + (1.0f - fightLevel) * 0.8f;
+	float maxTime = minTime + (1.1f - fightLevel) * 2.5f;
+	blockTime = minTime + rand() * (1.0f / RAND_MAX) * (maxTime - minTime);
+	if (used < 0.0f)
 	{
 		Block();
 		return;
 	}
-	if(needParry)
+	if (needParry)
 	{
 		Parry();
 		return;
 	}
-	float noParryThreshold = (fightLevel*0.3f + rand()*(0.3f/RAND_MAX));
-	if(used < noParryThreshold)
+	float noParryThreshold = (fightLevel * 0.3f + rand() * (0.3f / RAND_MAX));
+	if (used < noParryThreshold)
 	{
 		Block();
 		return;
 	}
-	if(rand()*sum*(1.0f/RAND_MAX) <= defencePrbBlock)
+	if (rand() * sum * (1.0f / RAND_MAX) <= defencePrbBlock)
 	{
 		Block();
-	}else{
+	}
+	else
+	{
 		Parry();
 	}
 }
@@ -1059,32 +1092,31 @@ void NPCharacter::DoFightBlock(bool needParry)
 float NPCharacter::GetEnergy()
 {
 	float energy = 1.0f;
-	VDATA * vd = api->Event("NpcEvtEgy", "i", GetId());
-	if(vd) vd->Get(energy);
-	if(energy < 0.0f) energy = 0.0f;
-	if(energy > 1.0f) energy = 1.0f;
+	VDATA* vd = api->Event("NpcEvtEgy", "i", GetId());
+	if (vd) vd->Get(energy);
+	if (energy < 0.0f) energy = 0.0f;
+	if (energy > 1.0f) energy = 1.0f;
 	return energy;
 }
 
 //Получить энергию для действия
-float NPCharacter::GetActEnergy(const char * act)
+float NPCharacter::GetActEnergy(const char* act)
 {
-	VDATA * vd = api->Event("NPC_Event_GetActionEnergy", "is", GetId(), act);
+	VDATA* vd = api->Event("NPC_Event_GetActionEnergy", "is", GetId(), act);
 	float energy;
-	if(vd && vd->Get(energy)) return energy;
+	if (vd && vd->Get(energy)) return energy;
 	return 0.1f;
 }
 
 void NPCharacter::HitChild(bool isInBlock)
 {
-	if(isInBlock)
+	if (isInBlock)
 	{
-		blockTime -= fightLevel*0.01f;
+		blockTime -= fightLevel * 0.01f;
 	}
 }
 
 //============================================================================================
-
 
 
 //Невозможно дальнейшее выполнение команды
@@ -1096,7 +1128,7 @@ void NPCharacter::FailureCommand()
 //Персонаж прибыл в точку
 void NPCharacter::EndGotoCommand()
 {
-	switch(task.task)
+	switch (task.task)
 	{
 	case npct_gotopoint:
 		task.task = npct_none;
@@ -1117,7 +1149,6 @@ void NPCharacter::EndGotoCommand()
 	case npct_fight:
 		CmdStay();
 		api->Event("Location_CharacterFightStay", "si", GetTaskName(npct_followcharacter), GetId());
-		return;
 	}
 }
 
@@ -1139,7 +1170,7 @@ void NPCharacter::CollisionThreshold()
 //Сохранить задачу в стеке
 bool NPCharacter::PushTask()
 {
-	if(stackPointer >= sizeof(taskstack)/sizeof(Task)) return false;
+	if (stackPointer >= sizeof(taskstack) / sizeof(Task)) return false;
 	task.isRun = IsRun();
 	task.isFight = IsFight();
 	taskstack[stackPointer++] = task;
@@ -1149,9 +1180,9 @@ bool NPCharacter::PushTask()
 //Востоновить задачу из стека
 bool NPCharacter::PopTask()
 {
-	if(stackPointer <= 0) return false;
+	if (stackPointer <= 0) return false;
 	task = taskstack[--stackPointer];
-	switch(task.task)
+	switch (task.task)
 	{
 	case npct_none:
 		return CmdNone();
@@ -1174,7 +1205,7 @@ bool NPCharacter::PopTask()
 		CmdStay();
 		Dead();
 		break;
-	};
+	}
 	SetRunMode(task.isRun != 0);
 	SetFightMode(task.isFight != 0);
 	return true;
@@ -1192,39 +1223,39 @@ void NPCharacter::FailureCommand(NPCTask task)
 }
 
 //Получить тип задачи по имени
-NPCharacter::NPCTask NPCharacter::GetTaskID(const char * taskName)
+NPCharacter::NPCTask NPCharacter::GetTaskID(const char* taskName)
 {
-	if(!taskName || !taskName[0]) return npct_unknow;
-	for(long i = 0; i < npct_max; i++)
+	if (!taskName || !taskName[0]) return npct_unknow;
+	for (long i = 0; i < npct_max; i++)
 	{
-		const char * task = GetTaskName(NPCTask(i));
-		if(_stricmp(task, taskName) == 0) return NPCTask(i);
+		const char* task = GetTaskName(NPCTask(i));
+		if (_stricmp(task, taskName) == 0) return NPCTask(i);
 	}
 	return npct_unknow;
 }
 
 //Получить имя задачи по типу
-const char * NPCharacter::GetTaskName(NPCTask t)
+const char* NPCharacter::GetTaskName(NPCTask t)
 {
-	switch(t)
+	switch (t)
 	{
-	case npct_none:				//Нет задачи, персонаж контролируется извне
+	case npct_none: //Нет задачи, персонаж контролируется извне
 		return "None";
-	case npct_stay:				//Стоять на месте
+	case npct_stay: //Стоять на месте
 		return "Stay";
-	case npct_gotopoint:		//Идти в точку
+	case npct_gotopoint: //Идти в точку
 		return "Goto point";
-	case npct_runtopoint:		//Бежать в точку
+	case npct_runtopoint: //Бежать в точку
 		return "Runto point";
-	case npct_followcharacter:	//Идти за перcонажем
+	case npct_followcharacter: //Идти за перcонажем
 		return "Follow character";
-	case npct_fight:			//Сражаться с другим персонажем
+	case npct_fight: //Сражаться с другим персонажем
 		return "Fight";
-	case npct_escape:			//Уходить от персонажа
+	case npct_escape: //Уходить от персонажа
 		return "Escape";
-	case npct_dead:				//Смерть персонажа
+	case npct_dead: //Смерть персонажа
 		return "Dead";
-	};
+	}
 	return "Unknow task";
 }
 

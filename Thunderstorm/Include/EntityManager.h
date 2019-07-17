@@ -8,7 +8,8 @@
 #include "vmodule_api.h"
 #include "../../Shared/layers.h"
 
-class EntityManager final {
+class EntityManager final
+{
 	/* typedefs */
 	using entid_index_t = uint32_t; /* 16 bits are enough tho' */
 	using entid_stamp_t = uint32_t;
@@ -21,7 +22,8 @@ class EntityManager final {
 
 public: // TODO: this is a workaround. i need to implement specific iterator returning only id
 	/* entity structure */
-	struct EntityInternalData {
+	struct EntityInternalData
+	{
 		using layer_mask_t = uint32_t;
 
 		bool deleted;
@@ -38,7 +40,8 @@ public:
 	/* layer structure */
 	struct Layer
 	{
-		enum Type : uint8_t {
+		enum Type : uint8_t
+		{
 			common,
 			execute,
 			realize
@@ -62,20 +65,24 @@ private:
 
 public:
 	using EntityVector = const std::vector<entid_t>;
-	using LayerIterators = std::pair<decltype(Layer::entities)::const_iterator, decltype(Layer::entities)::const_iterator>;
-	using AllEntIterators = std::pair<decltype(entities_.first)::const_iterator, decltype(entities_.first)::const_iterator>;
+	using LayerIterators = std::pair<decltype(Layer::entities)::const_iterator, decltype(Layer::entities)::
+	                                 const_iterator>;
+	using AllEntIterators = std::pair<decltype(entities_.first)::const_iterator, decltype(entities_.first)::
+	                                  const_iterator>;
 
 	/* fully static constexpr class */
 	EntityManager() = delete;
 
-	static auto GetClassCode(const entid_t id) {
+	static auto GetClassCode(const entid_t id)
+	{
 		const auto& entData = GetEntityData(id);
 
 		return entData.hash;
 	}
 
 	/* layer functioning is fully static constexpr */
-	static void AddToLayer(const layer_index_t index, const entid_t id, const priority_t priority) {
+	static void AddToLayer(const layer_index_t index, const entid_t id, const priority_t priority)
+	{
 		assert(index < max_layers_num); // valid index
 		//assert(entities_.first[static_cast<entid_index_t>(id)].mask & (1 << index)); // mask shall be set
 
@@ -96,26 +103,34 @@ public:
 
 		// TODO: investigate if duplicate check is needed
 
-		const auto targetIdx = std::upper_bound(std::begin(arr), std::begin(arr) + size, std::pair<priority_t, entid_t>{ priority, {} },
-			[](auto& lhs, auto& rhs) { return lhs.first < rhs.first; }) - std::begin(arr);
+		const auto targetIdx = std::upper_bound(std::begin(arr), std::begin(arr) + size,
+		                                        std::pair<priority_t, entid_t>{priority, {}},
+		                                        [](auto& lhs, auto& rhs)
+		                                        {
+			                                        return lhs.first < rhs.first;
+		                                        }) - std::begin(arr);
 
 		// if this is not last element
-		if (targetIdx != size) {
+		if (targetIdx != size)
+		{
 			// shift array
-			for (auto i = size; i > targetIdx; --i) {
+			for (auto i = size; i > targetIdx; --i)
+			{
 				arr[i] = arr[i - 1];
 			}
 		}
 
-		arr[targetIdx] = { priority, id };
+		arr[targetIdx] = {priority, id};
 		++size;
 	}
 
-	static void RemoveFromLayer(const layer_index_t index, const entid_t id) {
+	static void RemoveFromLayer(const layer_index_t index, const entid_t id)
+	{
 		return RemoveFromLayer(index, GetEntityData(id));
 	}
 
-	static void RemoveFromLayer(const layer_index_t index, EntityInternalData& data) {
+	static void RemoveFromLayer(const layer_index_t index, EntityInternalData& data)
+	{
 		assert(index < max_layers_num);
 
 		auto& mask = data.mask;
@@ -133,15 +148,22 @@ public:
 		// clear layer flag
 		mask &= ~(1 << index);
 
-		const auto lowerIdx = std::lower_bound(std::begin(arr), std::begin(arr) + size,  std::pair<priority_t, entid_t>{ priority, {} },
-			[](auto& lhs, auto& rhs) { return lhs.first < rhs.first; }) - std::begin(arr);
+		const auto lowerIdx = std::lower_bound(std::begin(arr), std::begin(arr) + size,
+		                                       std::pair<priority_t, entid_t>{priority, {}},
+		                                       [](auto& lhs, auto& rhs)
+		                                       {
+			                                       return lhs.first < rhs.first;
+		                                       }) - std::begin(arr);
 
 		assert(lowerIdx < size); // is this ok?
 
-		for (auto i = lowerIdx; i < size && arr[i].first == priority; ++i) {
-			if (arr[i].second == id) {
+		for (auto i = lowerIdx; i < size && arr[i].first == priority; ++i)
+		{
+			if (arr[i].second == id)
+			{
 				// found. shift array and decrement size
-				for (auto j = i; j < size; ++j) {
+				for (auto j = i; j < size; ++j)
+				{
 					arr[j] = arr[j + 1];
 				}
 				--size;
@@ -154,23 +176,28 @@ public:
 	{
 		/* FIND VMA */
 		const auto hash = MakeHashValue(name);
-		if (hash == 0) {
+		if (hash == 0)
+		{
 			throw std::exception("null hash");
 		}
 		VMA* pClass = nullptr;
-		for (const auto &c : _pModuleClassRoot) {
-			if (c->GetHash() == hash && _stricmp(name, c->GetName()) == 0) {
+		for (const auto& c : _pModuleClassRoot)
+		{
+			if (c->GetHash() == hash && _stricmp(name, c->GetName()) == 0)
+			{
 				pClass = c;
 				break;
 			}
 		}
-		if (pClass == nullptr) {
+		if (pClass == nullptr)
+		{
 			throw std::exception("invalid entity name");
 		}
 
 		/* CREATE Entity */
 		auto* ptr = static_cast<Entity*>(pClass->CreateClass());
-		if (ptr == nullptr)	{
+		if (ptr == nullptr)
+		{
 			throw std::exception("CreateClass returned nullptr");
 		}
 
@@ -181,7 +208,8 @@ public:
 		ptr->AttributesPointer = attr;
 
 		// then init
-		if (!ptr->Init()) {
+		if (!ptr->Init())
+		{
 			// mark as deleted if fail 
 			const auto index = static_cast<entid_index_t>(id);
 			auto& entityData = entities_.first[index];
@@ -193,52 +221,62 @@ public:
 		return id;
 	}
 
-	static void _erase(EntityInternalData & data) {
+	static void _erase(EntityInternalData& data)
+	{
 		auto& mask = data.mask;
 
 		// remove from layers
-		for(unsigned i = 0; i < sizeof(mask) * 8; ++i) {
+		for (unsigned i = 0; i < sizeof(mask) * 8; ++i)
+		{
 			RemoveFromLayer(i, data);
 		}
 
 		delete data.ptr;
 	}
 
-	static void EraseEntity(const entid_t entity) {
-		const auto & entData = GetEntityData(entity);
+	static void EraseEntity(const entid_t entity)
+	{
+		const auto& entData = GetEntityData(entity);
 		if (entData.ptr == nullptr)
 			return;
-	
+
 		// validate 
-		if (entData.ptr->GetId() != entity) 
+		if (entData.ptr->GetId() != entity)
 			return; /* already replaced by another entity */
 
 		const auto index = static_cast<entid_index_t>(entity);
 		entities_.first[index].deleted = true;
 	}
 
-	static constexpr void EraseAll()	{
+	static constexpr void EraseAll()
+	{
 		auto& arr = entities_.first;
 		const auto size = entities_.second;
-		for(auto it = std::begin(arr); it != std::begin(arr) + size; ++it) {
+		for (auto it = std::begin(arr); it != std::begin(arr) + size; ++it)
+		{
 			it->deleted = true;
 		}
 	}
 
-	static entptr_t GetEntityPointer(const entid_t entity) {
-		const auto &entData = GetEntityData(entity);
+	static entptr_t GetEntityPointer(const entid_t entity)
+	{
+		const auto& entData = GetEntityData(entity);
 		return entData.deleted ? nullptr : entData.ptr;
 	}
 
-	static auto GetEntityIdVector(const Layer::Type type) -> EntityVector {
-		std::vector<entid_t> result; // should be vector of layer iterators actually... special iterator would be cool here too.
+	static auto GetEntityIdVector(const Layer::Type type) -> EntityVector
+	{
+		std::vector<entid_t> result;
+		// should be vector of layer iterators actually... special iterator would be cool here too.
 		result.reserve(max_ent_num); // TODO: investigate memory consumption
 
-		for (auto it = std::begin(layers_); it != std::end(layers_); ++it) {
+		for (auto it = std::begin(layers_); it != std::end(layers_); ++it)
+		{
 			if (it->frozen)
 				continue;
 
-			if (it->type == type) {
+			if (it->type == type)
+			{
 				const auto end = std::begin(it->entities) + it->actual_size;
 				for (auto ent_it = std::begin(it->entities); ent_it != end; ++ent_it)
 					result.push_back(ent_it->second);
@@ -249,19 +287,23 @@ public:
 	}
 
 	// TODO: hash...
-	static auto GetEntityIdVector(const char * name) -> EntityVector {
+	static auto GetEntityIdVector(const char* name) -> EntityVector
+	{
 		return GetEntityIdVector(MakeHashValue(name));
 	}
 
-	static auto GetEntityIdVector(const uint32_t hash) -> EntityVector {
+	static auto GetEntityIdVector(const uint32_t hash) -> EntityVector
+	{
 		std::vector<entid_t> result;
 		result.reserve(max_ent_num); // TODO: investigate memory consumption
 
 		const auto& arr = entities_.first;
 		const auto size = entities_.second;
 
-		for (auto it = std::begin(arr); it != std::begin(arr) + size; ++it) {
-			if (it->hash == hash && !it->deleted) {
+		for (auto it = std::begin(arr); it != std::begin(arr) + size; ++it)
+		{
+			if (it->hash == hash && !it->deleted)
+			{
 				result.push_back(it->id);
 			}
 		}
@@ -269,29 +311,35 @@ public:
 		return result;
 	}
 
-	static constexpr auto GetEntityIdIterators(const layer_index_t index) -> LayerIterators {
+	static constexpr auto GetEntityIdIterators(const layer_index_t index) -> LayerIterators
+	{
 		assert(index < max_layers_num);
 
 		auto& layer = layers_[index];
 
-		return std::pair { std::begin(layer.entities), std::begin(layer.entities) + layer.actual_size };
+		return std::pair{std::begin(layer.entities), std::begin(layer.entities) + layer.actual_size};
 	}
 
 	/* this is (temporary) workaround solution */
-	static constexpr auto GetEntityIdIterators() -> AllEntIterators{
-		return std::pair{ std::begin(entities_.first), std::begin(entities_.first) + entities_.second };
+	static constexpr auto GetEntityIdIterators() -> AllEntIterators
+	{
+		return std::pair{std::begin(entities_.first), std::begin(entities_.first) + entities_.second};
 	}
 
-	static constexpr auto GetEntityId(const char * name) -> entid_t {
+	static constexpr auto GetEntityId(const char* name) -> entid_t
+	{
 		return GetEntityId(MakeHashValue(name));
 	}
 
-	static constexpr auto GetEntityId(const uint32_t hash) -> entid_t {
+	static constexpr auto GetEntityId(const uint32_t hash) -> entid_t
+	{
 		const auto& arr = entities_.first;
 		const auto size = entities_.second;
 
-		for (auto it = std::begin(arr); it != std::begin(arr) + size; ++it) {
-			if (it->hash == hash && !it->deleted) {
+		for (auto it = std::begin(arr); it != std::begin(arr) + size; ++it)
+		{
+			if (it->hash == hash && !it->deleted)
+			{
 				return it->id;
 			}
 		}
@@ -313,22 +361,25 @@ public:
 		layers_[index].type = type;
 	}
 
-	static constexpr void SetLayerFrozen(const layer_index_t index, const bool freeze) {
+	static constexpr void SetLayerFrozen(const layer_index_t index, const bool freeze)
+	{
 		assert(index < max_layers_num);
 
 		layers_[index].frozen = freeze;
 	}
 
-	static constexpr bool IsLayerFrozen(const layer_index_t index) {
+	static constexpr bool IsLayerFrozen(const layer_index_t index)
+	{
 		assert(index < max_layers_num);
 
 		return layers_[index].frozen;
 	}
 
-	static constexpr void PushFreeIndex(entity_index_t index) {
- 		auto& stack = freeIndices_.first;
+	static constexpr void PushFreeIndex(entity_index_t index)
+	{
+		auto& stack = freeIndices_.first;
 		auto& top = freeIndices_.second;
-		
+
 		assert(top < max_ent_num);
 
 		stack[top++] = index;
@@ -339,7 +390,8 @@ public:
 	{
 		auto& arr = entities_.first;
 		const auto size = entities_.second;
-		for (auto it = std::begin(arr); it != std::begin(arr) + size; ++it) {
+		for (auto it = std::begin(arr); it != std::begin(arr) + size; ++it)
+		{
 			if (it->deleted && it->id)
 			{
 				const auto index = static_cast<entid_index_t>(it->id);
@@ -351,10 +403,10 @@ public:
 				PushFreeIndex(index); // push free index to stack instead of shifting
 			}
 		}
-
 	}
 
-	static EntityInternalData& GetEntityData(const entid_t entity) {
+	static EntityInternalData& GetEntityData(const entid_t entity)
+	{
 		static EntityInternalData null;
 
 		const auto index = static_cast<entid_index_t>(entity);
@@ -362,21 +414,23 @@ public:
 		if (index >= entities_.second) /* calm down it's ok... */
 			return null;
 
-		auto & data = entities_.first[index];
+		auto& data = entities_.first[index];
 
 		if (data.ptr == nullptr)
 			return null; /* THIS IS ALSO FUCKING OK */
 
 		/* check if valid */
 		const auto entid = data.ptr->GetId();
-		if (entity != entid) {
+		if (entity != entid)
+		{
 			return null;
 		}
 
 		return data;
 	}
 
-	static constexpr entid_t PushEntity(entptr_t ptr, hash_t hash) {
+	static constexpr entid_t PushEntity(entptr_t ptr, hash_t hash)
+	{
 		auto& arr = entities_.first;
 		auto& size = entities_.second;
 
@@ -389,16 +443,17 @@ public:
 		const entid_index_t idx = top != 0 ? stack[--top] : size;
 
 		/* calculate stamp */
-		const auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+		const auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+			std::chrono::system_clock::now().time_since_epoch());
 
 		/* assemble entity id */
 		const entid_stamp_t stamp = ms.count();
 		const entid_t id = static_cast<entid_t>(stamp) << 32 | idx;
 
 		/* push entity data */
-		arr[idx] = { {}, {}, {}, ptr, id, hash };
+		arr[idx] = {{}, {}, {}, ptr, id, hash};
 		++size;
-		
+
 		return id;
 	}
 

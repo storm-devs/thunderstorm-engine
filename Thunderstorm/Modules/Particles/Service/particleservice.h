@@ -31,23 +31,22 @@ class ParticleService : public IParticleService
 
 public:
 
-//Конструктор / деструктор
-	ParticleService ();
-	virtual ~ParticleService ();
+	//Конструктор / деструктор
+	ParticleService();
+	virtual ~ParticleService();
 
 
-	virtual bool Init ();
+	bool Init() override;
 
-//Создать менеджер партиклов
-	virtual IParticleManager* CreateManagerEx (const char* ProjectName, const char* File, int Line);
+	//Создать менеджер партиклов
+	IParticleManager* CreateManagerEx(const char* ProjectName, const char* File, int Line) override;
 
-	virtual void RemoveManagerFromList (IParticleManager* pManager);
+	virtual void RemoveManagerFromList(IParticleManager* pManager);
 
-	virtual uint32_t GetManagersCount ();
-	virtual IParticleManager* GetManagerByIndex (uint32_t Index);
+	uint32_t GetManagersCount() override;
+	IParticleManager* GetManagerByIndex(uint32_t Index) override;
 
-	virtual IParticleManager* DefManager ();
-
+	IParticleManager* DefManager() override;
 };
 
 

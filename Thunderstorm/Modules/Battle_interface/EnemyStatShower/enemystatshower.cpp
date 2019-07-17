@@ -14,7 +14,7 @@ EnemyStatShower::~EnemyStatShower()
 
 bool EnemyStatShower::Init()
 {
-	if( !ReadAndCreate() ) return false;
+	if (!ReadAndCreate()) return false;
 	return true;
 }
 
@@ -22,17 +22,17 @@ void EnemyStatShower::Realize(uint32_t delta_time)
 {
 }
 
-uint64_t EnemyStatShower::ProcessMessage(MESSAGE & message)
+uint64_t EnemyStatShower::ProcessMessage(MESSAGE& message)
 {
 	long nMsgCod = message.Long();
-	switch( nMsgCod )
+	switch (nMsgCod)
 	{
 	case 0: // add character for shower
 		{
 			//entid_t mdlEID = GetModelEIDFromCharacterEID( message.EntityID() );
 		}
-	break;
-}
+		break;
+	}
 	return -1;
 }
 
@@ -54,8 +54,9 @@ entid_t EnemyStatShower::GetModelEIDFromCharacterEID(entid_t chrEID)
 {
 	entid_t eid;
 	auto* pvdat = (VDATA*)api->GetScriptVariable("g_TmpModelVariable");
-	if( pvdat ) {
-		api->Send_Message( chrEID, "le", MSG_CHARACTER_GETMODEL, pvdat );
+	if (pvdat)
+	{
+		api->Send_Message(chrEID, "le", MSG_CHARACTER_GETMODEL, pvdat);
 		eid = pvdat->GetEntityID();
 	}
 	return eid;

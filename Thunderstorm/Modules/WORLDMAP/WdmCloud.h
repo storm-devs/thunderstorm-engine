@@ -18,8 +18,8 @@
 
 class WdmCloud : public WdmRenderObject
 {
-	static IDirect3DVertexDeclaration9 * vertexDecl_;
-	void CreateVertexDeclaration(VDX9RENDER * rs);
+	static IDirect3DVertexDeclaration9* vertexDecl_;
+	void CreateVertexDeclaration(VDX9RENDER* rs);
 
 	struct MoveInfo
 	{
@@ -49,31 +49,31 @@ class WdmCloud : public WdmRenderObject
 		float u, v;
 	};
 
-//--------------------------------------------------------------------------------------------
-//Конструирование, деструктурирование
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Конструирование, деструктурирование
+	//--------------------------------------------------------------------------------------------
 public:
 	WdmCloud();
 	virtual ~WdmCloud();
 
 	//Расчёты
-	virtual void Update(float dltTime);
+	void Update(float dltTime) override;
 	//Отрисовка
-	virtual void PRender(VDX9RENDER * rs);
-	virtual void LRender(VDX9RENDER * rs);
+	void PRender(VDX9RENDER* rs) override;
+	void LRender(VDX9RENDER* rs) override;
 
 	virtual void Move(float dltTime);
 
-	long FillRain(RS_RECT * rainRect, long rcnt);
+	long FillRain(RS_RECT* rainRect, long rcnt);
 
-	CVECTOR pos;		//Позиция облака
-	CVECTOR dir;		//Направление перемещения облака
-	float globalAlpha;	//Текущая прозрачность
-	float constAlpha;	//Текущая прозрачность
+	CVECTOR pos; //Позиция облака
+	CVECTOR dir; //Направление перемещения облака
+	float globalAlpha; //Текущая прозрачность
+	float constAlpha; //Текущая прозрачность
 
-//--------------------------------------------------------------------------------------------
-//Инкапсуляция
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Инкапсуляция
+	//--------------------------------------------------------------------------------------------
 protected:
 	virtual void BuildCloud(long n);
 	RS_RECT rect[8];
@@ -97,12 +97,9 @@ protected:
 	float rainBurnTime;
 
 private:
-	void Render(VDX9RENDER * rs);
-	void FindPartPos(CVECTOR & v);
+	void Render(VDX9RENDER* rs);
+	void FindPartPos(CVECTOR& v);
 	float Rnd();
-	
-	
 };
 
 #endif
-

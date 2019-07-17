@@ -1,4 +1,3 @@
-
 #include "dx9render.h"
 #include "Matrix.h"
 #include <vector>
@@ -6,20 +5,23 @@
 #include "defines.h"
 
 
-const int MAX_POINTS= 100;
+const int MAX_POINTS = 100;
 
-enum PointType { PT_TYPE_NORMAL, PT_TYPE_CANNON_L,
-								 PT_TYPE_CANNON_R,
-								 PT_TYPE_CANNON_F,
-								 PT_TYPE_CANNON_B,
+enum PointType
+{
+	PT_TYPE_NORMAL,
+	PT_TYPE_CANNON_L,
+	PT_TYPE_CANNON_R,
+	PT_TYPE_CANNON_F,
+	PT_TYPE_CANNON_B,
 
-								 PT_TYPE_MAST_1,
-								 PT_TYPE_MAST_2,
-								 PT_TYPE_MAST_3,
-								 PT_TYPE_MAST_4,
-								 PT_TYPE_MAST_5, PT_TYPE_NOT_TARGETPOINT };
-
-
+	PT_TYPE_MAST_1,
+	PT_TYPE_MAST_2,
+	PT_TYPE_MAST_3,
+	PT_TYPE_MAST_4,
+	PT_TYPE_MAST_5,
+	PT_TYPE_NOT_TARGETPOINT
+};
 
 
 #define COLOR_SHADOW           D3DCOLOR_ARGB(150,0,0,0);
@@ -27,26 +29,29 @@ enum PointType { PT_TYPE_NORMAL, PT_TYPE_CANNON_L,
 #define COLOR_POINT            D3DCOLOR_ARGB(255,200,200,0);
 #define COLOR_GRAY             D3DCOLOR_ARGB(200, 200,200,200);
 #define COLOR_SELECTED         0xFFFFFFFF;
+
 //-----------------------------------------------------------------------------------------------
-struct Path{
-  uint8_t  length;                                            // Длина цепочки (кол-во элементов)
-  float   min;                                             // Значение пути
-  uint8_t  point[MAX_POINTS];                                 // Последовательность обхода
-  int currentPointPosition;								   // Текущее положение в пути
+struct Path
+{
+	uint8_t length; // Длина цепочки (кол-во элементов)
+	float min; // Значение пути
+	uint8_t point[MAX_POINTS]; // Последовательность обхода
+	int currentPointPosition; // Текущее положение в пути
 
-  Path(){
-	length= 0;
-	min= -1;
-	currentPointPosition= -1;
-  };
-
-
+	Path()
+	{
+		length = 0;
+		min = -1;
+		currentPointPosition = -1;
+	};
 };
 
 //-----------------------------------------------------------------------------------------------
-struct Link{
-	int first,next;
+struct Link
+{
+	int first, next;
 };
+
 //-----------------------------------------------------------------------------------------------
 
 class Links
@@ -59,35 +64,37 @@ public:
 	void Add();
 	void Delete(int Index);
 
-	Links() {
-		selected= -1;
-		count= 0;
+	Links()
+	{
+		selected = -1;
+		count = 0;
 	};
 };
+
 //-----------------------------------------------------------------------------------------------
 
 
-struct Point{
+struct Point
+{
+	float x, y, z;
+	PointType pointType;
 
-	float		x,y,z;
-	PointType   pointType;
-
-	bool  buisy;
-	bool  disabled;
-	bool  cannonReloaded;
+	bool buisy;
+	bool disabled;
+	bool cannonReloaded;
 
 	int climbPosition; //Если на мачте более одного человека
 
-	Point(){
-
-		pointType= PT_TYPE_NORMAL;
-		buisy= false;
-		disabled= false;
-		cannonReloaded= true;
-		climbPosition= 0;
-		x= 0;
-		y= 8;
-		z= 0;
+	Point()
+	{
+		pointType = PT_TYPE_NORMAL;
+		buisy = false;
+		disabled = false;
+		cannonReloaded = true;
+		climbPosition = 0;
+		x = 0;
+		y = 8;
+		z = 0;
 	};
 
 	bool IsMast();
@@ -109,7 +116,11 @@ struct Points
 	void Add();
 	void Delete(int Index);
 
-	Points() { count= 0; selected= -1; }
+	Points()
+	{
+		count = 0;
+		selected = -1;
+	}
 };
 
 //-----------------------------------------------------------------------------------------------
@@ -118,20 +129,20 @@ struct Points
 class SailorsPoints
 {
 private:
-	bool  PointsPassed[MAX_POINTS];            //tmp отметка пройденных точек(для поиска пути)
-	float matrix[MAX_POINTS][MAX_POINTS];		// Матрица для быстрого поиска пути
+	bool PointsPassed[MAX_POINTS]; //tmp отметка пройденных точек(для поиска пути)
+	float matrix[MAX_POINTS][MAX_POINTS]; // Матрица для быстрого поиска пути
 
-	Path getPath(int src, int dst, int l);   // Поиск пути
+	Path getPath(int src, int dst, int l); // Поиск пути
 
 public:
 	Points points;
-	Links  links;
+	Links links;
 
-	void Draw(VDX9RENDER * rs, bool pointmode);
-	void Draw_(VDX9RENDER * rs, bool pointmode);
-	void DrawLinks(VDX9RENDER * rs);
+	void Draw(VDX9RENDER* rs, bool pointmode);
+	void Draw_(VDX9RENDER* rs, bool pointmode);
+	void DrawLinks(VDX9RENDER* rs);
 
-    Path findPath(Path &path, int from, int to); // Посчитать путь
+	Path findPath(Path& path, int from, int to); // Посчитать путь
 
 
 	void UpdateLinks(); //Обновить матрицу поиска пути
@@ -144,26 +155,25 @@ public:
 //-------------------------------------------------------------------------------------
 
 
-
-inline float Dest( const CVECTOR &_v1, const CVECTOR &_v2){
-
-	return float(sqrt( (_v2.x- _v1.x)*(_v2.x- _v1.x)+ (_v2.y- _v1.y)*(_v2.y- _v1.y)+ (_v2.z- _v1.z)*(_v2.z- _v1.z)));
-};
-
-
-inline bool Dest( const CVECTOR &_v1, const CVECTOR &_v2, float d){
-
-
-	return (fabs(_v2.x- _v1.x)< d && fabs(_v2.y- _v1.y)< d && fabs(_v2.z- _v1.z)< d);
-};
-
-
-inline float Vector2Angle(const CVECTOR &_v)
+inline float Dest(const CVECTOR& _v1, const CVECTOR& _v2)
 {
-	auto result= (float) atan2(_v.x, _v.z);
+	return float(sqrt(
+		(_v2.x - _v1.x) * (_v2.x - _v1.x) + (_v2.y - _v1.y) * (_v2.y - _v1.y) + (_v2.z - _v1.z) * (_v2.z - _v1.z)));
+};
 
-	while (result>= PI*2) result-= PI*2;
-	while (result<  0)    result+= PI*2;
+
+inline bool Dest(const CVECTOR& _v1, const CVECTOR& _v2, float d)
+{
+	return (fabs(_v2.x - _v1.x) < d && fabs(_v2.y - _v1.y) < d && fabs(_v2.z - _v1.z) < d);
+};
+
+
+inline float Vector2Angle(const CVECTOR& _v)
+{
+	auto result = (float)atan2(_v.x, _v.z);
+
+	while (result >= PI * 2) result -= PI * 2;
+	while (result < 0) result += PI * 2;
 
 	return result;
 }

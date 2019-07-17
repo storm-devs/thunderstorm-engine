@@ -13,78 +13,76 @@
 #define VERSION "v3.5"
 
 
-
-
 BEGIN_DATA_DESC(PointEmitterDesc)
-	DATA_STRING (EMITTER_NAME);
-	DATA_FLOAT (EMITTER_LIFETIME);
-	DATA_POSITION (EMITTER_POSITION);
-	DATA_GRAPH (EMISSION_DIR_X);
-	DATA_GRAPH (EMISSION_DIR_Y);
-	DATA_GRAPH (EMISSION_DIR_Z);
-	DATA_BOOL (EMITTER_LOOPING);
+		DATA_STRING(EMITTER_NAME);
+		DATA_FLOAT(EMITTER_LIFETIME);
+		DATA_POSITION(EMITTER_POSITION);
+		DATA_GRAPH(EMISSION_DIR_X);
+		DATA_GRAPH(EMISSION_DIR_Y);
+		DATA_GRAPH(EMISSION_DIR_Z);
+		DATA_BOOL(EMITTER_LOOPING);
 END_DATA_DESC(PointEmitterDesc)
 
 BEGIN_DATA_DESC(BillboardParticleDesc)
-	DATA_STRING(PARTICLE_NAME);
-	DATA_GRAPH (PARTICLE_EMISSION_RATE);
-	DATA_FLOAT (PARTICLE_MAX_COUNT);
-	DATA_GRAPH (PARTICLE_TRACK_X);
-	DATA_GRAPH (PARTICLE_TRACK_Y);
-	DATA_GRAPH (PARTICLE_TRACK_Z);
-	DATA_GRAPH (PARTICLE_LIFE_TIME);
-	DATA_GRAPH (PARTICLE_MASS);
-	DATA_GRAPH (PARTICLE_SPIN);
-	DATA_GRAPH (PARTICLE_VELOCITY_POWER);
-	DATA_GRAPH (PARTICLE_SPIN_DRAG);
-	DATA_GRAPH (PARTICLE_SIZE);
-	DATA_GRAPH (PARTICLE_ANIMFRAME);
-	DATA_COLOR (PARTICLE_COLOR);
-	DATA_UV (PARTICLE_FRAMES);
-	DATA_GRAPH (PARTICLE_TRANSPARENCY);
-	DATA_GRAPH (PARTICLE_DRAG);
-	DATA_GRAPH (PARTICLE_PHYSIC_BLEND);
-	DATA_STRING (ATTACHEDEMITTER_NAME);
-	DATA_GRAPH (PARTICLE_GRAVITATION_K);
-	DATA_BOOL (PARTICLE_DIR_ORIENT);
-	DATA_GRAPH (PARTICLE_ADDPOWER);
+		DATA_STRING(PARTICLE_NAME);
+		DATA_GRAPH(PARTICLE_EMISSION_RATE);
+		DATA_FLOAT(PARTICLE_MAX_COUNT);
+		DATA_GRAPH(PARTICLE_TRACK_X);
+		DATA_GRAPH(PARTICLE_TRACK_Y);
+		DATA_GRAPH(PARTICLE_TRACK_Z);
+		DATA_GRAPH(PARTICLE_LIFE_TIME);
+		DATA_GRAPH(PARTICLE_MASS);
+		DATA_GRAPH(PARTICLE_SPIN);
+		DATA_GRAPH(PARTICLE_VELOCITY_POWER);
+		DATA_GRAPH(PARTICLE_SPIN_DRAG);
+		DATA_GRAPH(PARTICLE_SIZE);
+		DATA_GRAPH(PARTICLE_ANIMFRAME);
+		DATA_COLOR(PARTICLE_COLOR);
+		DATA_UV(PARTICLE_FRAMES);
+		DATA_GRAPH(PARTICLE_TRANSPARENCY);
+		DATA_GRAPH(PARTICLE_DRAG);
+		DATA_GRAPH(PARTICLE_PHYSIC_BLEND);
+		DATA_STRING(ATTACHEDEMITTER_NAME);
+		DATA_GRAPH(PARTICLE_GRAVITATION_K);
+		DATA_BOOL(PARTICLE_DIR_ORIENT);
+		DATA_GRAPH(PARTICLE_ADDPOWER);
 END_DATA_DESC(BillboardParticleDesc)
 
 BEGIN_DATA_DESC(ModelParticleDesc)
-	DATA_STRING(PARTICLE_NAME);
-	DATA_GRAPH (PARTICLE_EMISSION_RATE);
-	DATA_FLOAT (PARTICLE_MAX_COUNT);
-	DATA_GRAPH (PARTICLE_TRACK_X);
-	DATA_GRAPH (PARTICLE_TRACK_Y);
-	DATA_GRAPH (PARTICLE_TRACK_Z);
-	DATA_GRAPH (PARTICLE_LIFE_TIME);
-	DATA_GRAPH (PARTICLE_MASS);
-	DATA_GRAPH (PARTICLE_SPIN_X);
-	DATA_GRAPH (PARTICLE_SPIN_Y);
-	DATA_GRAPH (PARTICLE_SPIN_Z);
-	DATA_GRAPH (PARTICLE_VELOCITY_POWER);
-	DATA_GRAPH (PARTICLE_SPIN_DRAGX);
-	DATA_GRAPH (PARTICLE_SPIN_DRAGY);
-	DATA_GRAPH (PARTICLE_SPIN_DRAGZ);
-	DATA_GRAPH (PARTICLE_DRAG);
-	DATA_GRAPH (PARTICLE_PHYSIC_BLEND);
-	DATA_STRING (ATTACHEDEMITTER_NAME);
-	DATA_GRAPH (PARTICLE_GRAVITATION_K);
-	DATA_STRING (PARTICLE_GEOM_NAMES);
+		DATA_STRING(PARTICLE_NAME);
+		DATA_GRAPH(PARTICLE_EMISSION_RATE);
+		DATA_FLOAT(PARTICLE_MAX_COUNT);
+		DATA_GRAPH(PARTICLE_TRACK_X);
+		DATA_GRAPH(PARTICLE_TRACK_Y);
+		DATA_GRAPH(PARTICLE_TRACK_Z);
+		DATA_GRAPH(PARTICLE_LIFE_TIME);
+		DATA_GRAPH(PARTICLE_MASS);
+		DATA_GRAPH(PARTICLE_SPIN_X);
+		DATA_GRAPH(PARTICLE_SPIN_Y);
+		DATA_GRAPH(PARTICLE_SPIN_Z);
+		DATA_GRAPH(PARTICLE_VELOCITY_POWER);
+		DATA_GRAPH(PARTICLE_SPIN_DRAGX);
+		DATA_GRAPH(PARTICLE_SPIN_DRAGY);
+		DATA_GRAPH(PARTICLE_SPIN_DRAGZ);
+		DATA_GRAPH(PARTICLE_DRAG);
+		DATA_GRAPH(PARTICLE_PHYSIC_BLEND);
+		DATA_STRING(ATTACHEDEMITTER_NAME);
+		DATA_GRAPH(PARTICLE_GRAVITATION_K);
+		DATA_STRING(PARTICLE_GEOM_NAMES);
 END_DATA_DESC(ModelParticleDesc)
 
 
 //---------- Создание/удаление --------------------
-DataSource::DataSource (IParticleManager* Master)
+DataSource::DataSource(IParticleManager* Master)
 {
 }
 
-DataSource::~DataSource ()
+DataSource::~DataSource()
 {
-	Destroy ();
+	Destroy();
 }
- 
-bool DataSource::Release ()
+
+bool DataSource::Release()
 {
 	delete this;
 	return true;
@@ -92,8 +90,8 @@ bool DataSource::Release ()
 
 
 // ========================= Load & Save =======================================
-	//Сохранить/восстановить из файла
-void DataSource::Write (MemFile* pMemFile)
+//Сохранить/восстановить из файла
+void DataSource::Write(MemFile* pMemFile)
 {
 	pMemFile->Write(HEADER, 4);
 	pMemFile->Write(VERSION, 4);
@@ -115,15 +113,15 @@ void DataSource::Write (MemFile* pMemFile)
 	}
 }
 
-void DataSource::Load (MemFile* pMemFile)
+void DataSource::Load(MemFile* pMemFile)
 {
 	//Проверяем ID
 	char Id[5];
 	Id[4] = 0;
 	pMemFile->Read(Id, 4);
-	if (strcmp (Id, HEADER) != 0)
+	if (strcmp(Id, HEADER) != 0)
 	{
-		api->Trace ("Particles: Incorrect file type");
+		api->Trace("Particles: Incorrect file type");
 		return;
 	}
 
@@ -132,10 +130,10 @@ void DataSource::Load (MemFile* pMemFile)
 	Ver[4] = 0;
 	pMemFile->Read(Ver, 4);
 
-/* // show warnings
-	if (strcmp (Ver, VERSION) != 0)	
-          api->Trace ("Particles: Warning !!! Incorrect file version %s, must be %s", Ver, VERSION);
-*/          
+	/* // show warnings
+		if (strcmp (Ver, VERSION) != 0)	
+	          api->Trace ("Particles: Warning !!! Incorrect file version %s, must be %s", Ver, VERSION);
+	*/
 
 	//Кол-во эмиттеров...
 	uint32_t EmiterCount = 0;
@@ -148,14 +146,14 @@ void DataSource::Load (MemFile* pMemFile)
 
 		switch (emType)
 		{
-			case POINT_EMITTER:
+		case POINT_EMITTER:
 			{
-//				api->Trace ("Particles info: Point emitter");
-				CreatePointEmitter (pMemFile);
+				//				api->Trace ("Particles info: Point emitter");
+				CreatePointEmitter(pMemFile);
 				break;
 			}
 
-			default:
+		default:
 			{
 				throw std::exception("Particles: Unknown emitter type !");
 			}
@@ -164,7 +162,7 @@ void DataSource::Load (MemFile* pMemFile)
 }
 
 
-void DataSource::CreatePointEmitter (MemFile* pMemFile)
+void DataSource::CreatePointEmitter(MemFile* pMemFile)
 {
 	//api->Trace ("Particles info: Point emitter");
 	Emitters.push_back(EmitterDesc{});
@@ -172,7 +170,7 @@ void DataSource::CreatePointEmitter (MemFile* pMemFile)
 	//EmitterDesc* PointEmitter = &Emitters[Emitters.Add()];
 	PointEmitter->Fields.Load(pMemFile);
 
-	PointEmitter->Fields.Convert (&PointEmitterDesc);
+	PointEmitter->Fields.Convert(&PointEmitterDesc);
 	PointEmitter->Type = POINT_EMITTER;
 
 	uint32_t ParticlesCount = 0;
@@ -183,21 +181,21 @@ void DataSource::CreatePointEmitter (MemFile* pMemFile)
 		ParticleType ptType = UNKNOWN_PARTICLE;
 		pMemFile->ReadType(ptType);
 
-		switch(ptType) 
+		switch (ptType)
 		{
-			case BILLBOARD_PARTICLE:
-			{	
+		case BILLBOARD_PARTICLE:
+			{
 				//api->Trace ("Particles info: Billboard particle");
-				CreateBillBoardParticle (PointEmitter->Particles, pMemFile);
+				CreateBillBoardParticle(PointEmitter->Particles, pMemFile);
 				break;
 			}
-			case MODEL_PARTICLE:
-			{	
+		case MODEL_PARTICLE:
+			{
 				//api->Trace ("Particles info: Model particle");
-				CreateModelParticle (PointEmitter->Particles, pMemFile);
+				CreateModelParticle(PointEmitter->Particles, pMemFile);
 				break;
 			}
-			default:
+		default:
 			{
 				throw std::exception("Particles: Unknown particle type !!!!");
 			}
@@ -206,7 +204,7 @@ void DataSource::CreatePointEmitter (MemFile* pMemFile)
 }
 
 //Создает BillBoard парикл
-void DataSource::CreateBillBoardParticle (std::vector<ParticleDesc> &Particles, MemFile* pMemFile)
+void DataSource::CreateBillBoardParticle(std::vector<ParticleDesc>& Particles, MemFile* pMemFile)
 {
 	//ParticleDesc *pDesc = &Particles[Particles.Add()];
 	ParticleDesc desc;
@@ -217,7 +215,7 @@ void DataSource::CreateBillBoardParticle (std::vector<ParticleDesc> &Particles, 
 }
 
 //Создает Model парикл
-void DataSource::CreateModelParticle (std::vector<ParticleDesc> &Particles, MemFile* pMemFile)
+void DataSource::CreateModelParticle(std::vector<ParticleDesc>& Particles, MemFile* pMemFile)
 {
 	//ParticleDesc *pDesc = &Particles[Particles.Add()];
 	ParticleDesc desc;
@@ -243,22 +241,22 @@ void DataSource::Destroy()
 }
 
 
-int DataSource::GetEmitterCount ()
+int DataSource::GetEmitterCount()
 {
 	return Emitters.size();
 }
 
-DataSource::EmitterDesc* DataSource::GetEmitterDesc (int Index)
+DataSource::EmitterDesc* DataSource::GetEmitterDesc(int Index)
 {
 	return &Emitters[Index];
 }
 
-FieldList* DataSource::CreateEmptyPointEmitter (const char* EmitterName)
+FieldList* DataSource::CreateEmptyPointEmitter(const char* EmitterName)
 {
 	Emitters.push_back(EmitterDesc{});
 	//EmitterDesc* PointEmitter = &Emitters[Emitters.Add()];
 	EmitterDesc* PointEmitter = &Emitters.back();
-	PointEmitter->Fields.Convert (&PointEmitterDesc);
+	PointEmitter->Fields.Convert(&PointEmitterDesc);
 	PointEmitter->Type = POINT_EMITTER;
 
 	DataString* pEmitterName = PointEmitter->Fields.FindString(EMITTER_NAME);
@@ -277,24 +275,24 @@ FieldList* DataSource::CreateEmptyPointEmitter (const char* EmitterName)
 
 	DataGraph* pAngleX = PointEmitter->Fields.FindGraph(EMISSION_DIR_X);
 	if (pAngleX) pAngleX->SetNegative(true);
-	
+
 	DataGraph* pAngleY = PointEmitter->Fields.FindGraph(EMISSION_DIR_Y);
 	if (pAngleY) pAngleY->SetNegative(true);
-	
+
 	DataGraph* pAngleZ = PointEmitter->Fields.FindGraph(EMISSION_DIR_Z);
 	if (pAngleZ) pAngleZ->SetNegative(true);
 
 	return &PointEmitter->Fields;
 }
 
-int DataSource::FindEmitter (const char* Name)
+int DataSource::FindEmitter(const char* Name)
 {
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		DataString* pString = Emitters[n].Fields.FindString(EMITTER_NAME);
 		if (pString)
 		{
-			if (_stricmp (pString->GetValue(), Name) == 0)
+			if (_stricmp(pString->GetValue(), Name) == 0)
 			{
 				return n;
 			}
@@ -304,14 +302,14 @@ int DataSource::FindEmitter (const char* Name)
 	return -1;
 }
 
-FieldList* DataSource::CreateBillBoardParticle (const char* ParticleName, const char* EmitterName)
+FieldList* DataSource::CreateBillBoardParticle(const char* ParticleName, const char* EmitterName)
 {
 	int EmitterIndex = FindEmitter(EmitterName);
 	if (EmitterIndex == -1) return nullptr;
 
 	Emitters[EmitterIndex].Particles.push_back(ParticleDesc{});
 	//ParticleDesc *pDesc = &Emitters[EmitterIndex].Particles[Emitters[EmitterIndex].Particles.Add()];
-	ParticleDesc *pDesc = &Emitters[EmitterIndex].Particles.back();
+	ParticleDesc* pDesc = &Emitters[EmitterIndex].Particles.back();
 	pDesc->Type = BILLBOARD_PARTICLE;
 	pDesc->Fields.Convert(&BillboardParticleDesc);
 
@@ -362,14 +360,14 @@ FieldList* DataSource::CreateBillBoardParticle (const char* ParticleName, const 
 	return &pDesc->Fields;
 }
 
-FieldList* DataSource::CreateModelParticle (const char* ParticleName, const char* EmitterName)
+FieldList* DataSource::CreateModelParticle(const char* ParticleName, const char* EmitterName)
 {
 	int EmitterIndex = FindEmitter(EmitterName);
 	if (EmitterIndex == -1) return nullptr;
 
 	Emitters[EmitterIndex].Particles.push_back(ParticleDesc{});
 	//ParticleDesc *pDesc = &Emitters[EmitterIndex].Particles[Emitters[EmitterIndex].Particles.Add()];
-	ParticleDesc *pDesc = &Emitters[EmitterIndex].Particles.back();
+	ParticleDesc* pDesc = &Emitters[EmitterIndex].Particles.back();
 	pDesc->Type = MODEL_PARTICLE;
 	pDesc->Fields.Convert(&ModelParticleDesc);
 
@@ -420,7 +418,7 @@ FieldList* DataSource::CreateModelParticle (const char* ParticleName, const char
 }
 
 
-void DataSource::DeletePointEmitter (FieldList* pEmitter)
+void DataSource::DeletePointEmitter(FieldList* pEmitter)
 {
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
@@ -435,7 +433,7 @@ void DataSource::DeletePointEmitter (FieldList* pEmitter)
 	}
 }
 
-void DataSource::DeleteBillboard (FieldList* pEmitter, FieldList* pParticles)
+void DataSource::DeleteBillboard(FieldList* pEmitter, FieldList* pParticles)
 {
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
@@ -455,7 +453,7 @@ void DataSource::DeleteBillboard (FieldList* pEmitter, FieldList* pParticles)
 	}
 }
 
-void DataSource::DeleteModel (FieldList* pEmitter, FieldList* pParticles)
+void DataSource::DeleteModel(FieldList* pEmitter, FieldList* pParticles)
 {
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{

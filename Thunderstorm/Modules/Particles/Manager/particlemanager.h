@@ -49,7 +49,7 @@ class ParticleManager : public IParticleManager
 	ModelProcessor* MDL_Processor;
 
 	//Процессор для партиклов плашек
-	BillBoardProcessor* BB_Processor; 
+	BillBoardProcessor* BB_Processor;
 
 	long pProjectTexture;
 	long pProjectTextureNormalMap;
@@ -62,9 +62,9 @@ class ParticleManager : public IParticleManager
 	//Сервис который родил систему
 	ParticleService* pService;
 
-  VDX9RENDER* pRS;
+	VDX9RENDER* pRS;
 
-	void DeleteAllSystems ();
+	void DeleteAllSystems();
 
 	float TimeFromLastStatUpdate;
 	uint64_t nowTickTime;
@@ -80,102 +80,100 @@ class ParticleManager : public IParticleManager
 
 protected:
 
- virtual ~ParticleManager ();
+	virtual ~ParticleManager();
 
 
- ParticleSystem* CreateParticleSystemFromDataSource (DataSource* pDataSource);
+	ParticleSystem* CreateParticleSystemFromDataSource(DataSource* pDataSource);
 
- uint32_t IteratorIndex;
- std::vector<std::string> EnumUsedGeom;
+	uint32_t IteratorIndex;
+	std::vector<std::string> EnumUsedGeom;
 
- bool FindInEnumUsedGeom (const char* GeomName);
+	bool FindInEnumUsedGeom(const char* GeomName);
 
 public:
 
-//Создание/удаление 
- ParticleManager (ParticleService* service);
- virtual bool Release ();
+	//Создание/удаление 
+	ParticleManager(ParticleService* service);
+	bool Release() override;
 
-//Получить указатель на Render/FileService 
- virtual VDX9RENDER* Render ();
+	//Получить указатель на Render/FileService 
+	VDX9RENDER* Render() override;
 
-//Открыть проект 
- virtual bool OpenProject (const char* FileName);
-//Закрыть проект 
- virtual void CloseProject ();
- 
-//Удалить из списка ресурсов (системная)
- virtual void RemoveResource (IParticleSystem* pResource);
+	//Открыть проект 
+	bool OpenProject(const char* FileName) override;
+	//Закрыть проект 
+	void CloseProject() override;
 
-//Исполнить партиклы 
- virtual void Execute (float DeltaTime);
+	//Удалить из списка ресурсов (системная)
+	void RemoveResource(IParticleSystem* pResource) override;
 
-//Узнать доступна система или нет 
- virtual bool IsSystemAvailable (const char* FileName);
+	//Исполнить партиклы 
+	void Execute(float DeltaTime) override;
 
-//Получить глобальную текстуру проекта 
- virtual long GetProjectTexture ();
-//Установить текстуру проекта
- virtual void SetProjectTexture (const char* FileName = nullptr);
- 
- 
+	//Узнать доступна система или нет 
+	bool IsSystemAvailable(const char* FileName) override;
 
-//Получить имя проекта 
- virtual const char* GetProjectFileName ();
- 
- //Создать партикловую систему из файла (файл должен быть в проекте!!!!!)
- virtual IParticleSystem* CreateParticleSystemEx (const char* FileName, const char* File, int Line);
-
- //Создать пустую партикловую систему, для редактора...
- virtual IParticleSystem* CreateEmptyParticleSystemEx  (const char* FileName, int Line);
-
- BillBoardProcessor * GetBBProcessor ();
- ModelProcessor* GetMDLProcessor ();
-
- virtual bool ValidateSystem (IParticleSystem* pSystem);
-
- GEOS* GetModel (const char* FileName);
-
- uint32_t GetCreatedSystemCount ();
- ParticleSystem* GetCreatedSystemByIndex (uint32_t Index);
-
- bool ReadyForUse ();
-
- void DefferedDelete (ParticleSystem* pSys);
-
- virtual const char* GetProjectTextureName ();
-
- virtual void Editor_UpdateCachedData ();
-
- virtual uint32_t GetProjectSystemCount ();
- virtual const char* GetProjectSystemName (uint32_t Index);
-
- virtual const char* GetFirstGeomName (const char* FileName);
- virtual const char* GetNextGeomName ();
-
- virtual void CreateGeomCache ();
+	//Получить глобальную текстуру проекта 
+	long GetProjectTexture() override;
+	//Установить текстуру проекта
+	void SetProjectTexture(const char* FileName = nullptr) override;
 
 
- virtual void WriteSystemCache (const char* FileName);
- virtual void WriteSystemCache (const char* FileName, MemFile* pMemFile);
- virtual void WriteSystemCacheAs (const char* FileName, const char* NewName);
- 
- virtual void LoadSystemCache (const char* FileName, MemFile* pMemFile);
- virtual void CacheReloaded ();
+	//Получить имя проекта 
+	const char* GetProjectFileName() override;
 
- virtual FieldList* Editor_CreatePointEmitter (const char* SystemName, const char* EmitterName);
- virtual FieldList* Editor_CreateBillBoardParticle (const char* SystemName, const char*EmitterName, const char* ParticleName);
- virtual FieldList* Editor_CreateModelParticle (const char* SystemName, const char*EmitterName, const char* ParticleName);
+	//Создать партикловую систему из файла (файл должен быть в проекте!!!!!)
+	IParticleSystem* CreateParticleSystemEx(const char* FileName, const char* File, int Line) override;
 
- virtual void DeletePointEmitter (const char* SystemName, IEmitter* pEmitter);
- virtual void DeleteBillboard (const char* SystemName, IEmitter* pEmitter, FieldList* pParticles);
- virtual void DeleteModel (const char* SystemName, IEmitter* pEmitter, FieldList* pParticles);
+	//Создать пустую партикловую систему, для редактора...
+	IParticleSystem* CreateEmptyParticleSystemEx(const char* FileName, int Line) override;
+
+	BillBoardProcessor* GetBBProcessor();
+	ModelProcessor* GetMDLProcessor();
+
+	bool ValidateSystem(IParticleSystem* pSystem) override;
+
+	GEOS* GetModel(const char* FileName);
+
+	uint32_t GetCreatedSystemCount();
+	ParticleSystem* GetCreatedSystemByIndex(uint32_t Index);
+
+	bool ReadyForUse() override;
+
+	void DefferedDelete(ParticleSystem* pSys);
+
+	const char* GetProjectTextureName() override;
+
+	void Editor_UpdateCachedData() override;
+
+	virtual uint32_t GetProjectSystemCount();
+	virtual const char* GetProjectSystemName(uint32_t Index);
+
+	const char* GetFirstGeomName(const char* FileName) override;
+	const char* GetNextGeomName() override;
+
+	virtual void CreateGeomCache();
 
 
- virtual void OpenDefaultProject ();
+	void WriteSystemCache(const char* FileName) override;
+	virtual void WriteSystemCache(const char* FileName, MemFile* pMemFile);
+	virtual void WriteSystemCacheAs(const char* FileName, const char* NewName);
 
- 
-	
+	virtual void LoadSystemCache(const char* FileName, MemFile* pMemFile);
+	virtual void CacheReloaded();
+
+	virtual FieldList* Editor_CreatePointEmitter(const char* SystemName, const char* EmitterName);
+	virtual FieldList* Editor_CreateBillBoardParticle(const char* SystemName, const char* EmitterName,
+	                                                  const char* ParticleName);
+	virtual FieldList* Editor_CreateModelParticle(const char* SystemName, const char* EmitterName,
+	                                              const char* ParticleName);
+
+	virtual void DeletePointEmitter(const char* SystemName, IEmitter* pEmitter);
+	virtual void DeleteBillboard(const char* SystemName, IEmitter* pEmitter, FieldList* pParticles);
+	virtual void DeleteModel(const char* SystemName, IEmitter* pEmitter, FieldList* pParticles);
+
+
+	void OpenDefaultProject() override;
 };
 
 

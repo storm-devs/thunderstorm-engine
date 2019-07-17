@@ -13,11 +13,11 @@
 
 #include "WdmEnemyShip.h"
 
-class WdmMerchantShip : public WdmEnemyShip  
+class WdmMerchantShip : public WdmEnemyShip
 {
-//--------------------------------------------------------------------------------------------
-//Конструирование, деструктурирование
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Конструирование, деструктурирование
+	//--------------------------------------------------------------------------------------------
 public:
 	WdmMerchantShip();
 	virtual ~WdmMerchantShip();
@@ -28,22 +28,22 @@ public:
 
 protected:
 	//Найти силу притягивающую в нужном направлении
-	virtual void FindMoveForce();
+	void FindMoveForce() override;
 	//Проверка на завершение
-	virtual bool KillTest();
+	bool KillTest() override;
 
 	//Обновление сохраняемых данных
-	virtual void UpdateSaveData();
+	void UpdateSaveData() override;
 	//Установка параметров
-	virtual void SetSaveAttribute(ATTRIBUTES * save);
+	void SetSaveAttribute(ATTRIBUTES* save) override;
 
 	//Установка параметров
-	virtual bool Load(const char * modelName);
+	bool Load(const char* modelName) override;
 
 
-//--------------------------------------------------------------------------------------------
-//Инкапсуляция
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Инкапсуляция
+	//--------------------------------------------------------------------------------------------
 private:
 	CVECTOR gotoPos;
 	float gotoRad;
@@ -51,4 +51,3 @@ private:
 };
 
 #endif
-

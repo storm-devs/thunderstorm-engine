@@ -16,11 +16,8 @@
 
 LObject::LObject()
 {
-
 }
 
 LObject::~LObject()
 {
-
 }
-

@@ -8,8 +8,8 @@ CREATE_CLASS(BALLSPLASH)
 
 //--------------------------------------------------------------------
 BALLSPLASH::BALLSPLASH()
-	:sea(nullptr)
-	,renderer(nullptr)
+	: renderer(nullptr)
+	  , sea(nullptr)
 {
 }
 
@@ -26,9 +26,9 @@ bool BALLSPLASH::Init()
 {
 	//GUARD(BALLSPLASH::Init)
 
-	sea = (SEA_BASE*) EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
+	sea = (SEA_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
 
-	renderer = (VDX9RENDER *) api->CreateService("dx9render");
+	renderer = (VDX9RENDER *)api->CreateService("dx9render");
 
 	//EntityManager::CreateEntity(&arrowModel,"MODELR");
 	//api->Send_Message(arrowModel,"ls",MSG_MODEL_LOAD_GEO, "fish01");
@@ -39,7 +39,7 @@ bool BALLSPLASH::Init()
 }
 
 //--------------------------------------------------------------------
-uint64_t BALLSPLASH::ProcessMessage(MESSAGE & message)
+uint64_t BALLSPLASH::ProcessMessage(MESSAGE& message)
 {
 	//GUARD(BALLSPLASH::ProcessMessage)
 
@@ -50,7 +50,7 @@ uint64_t BALLSPLASH::ProcessMessage(MESSAGE & message)
 	{
 	case MSG_BALLSPLASH_ADD:
 		{
-			CVECTOR pos,dir;
+			CVECTOR pos, dir;
 			pos.x = message.Float();
 			pos.y = message.Float();
 			pos.z = message.Float();
@@ -81,16 +81,16 @@ void BALLSPLASH::Realize(uint32_t _dTime)
 	uint64_t ticks;
 	RDTSC_B(ticks);
 
-	TSplash::lockTicks    = 0;
-	TSplash::fillTicks    = 0;
-	TSplash::unlockTicks  = 0;
+	TSplash::lockTicks = 0;
+	TSplash::fillTicks = 0;
+	TSplash::unlockTicks = 0;
 	TSplash::realizeTicks = 0;
 	TSplash::processCount = 0;
 
 	// draw bottom part
 	TSplash::startRender = true;
-	TSplash::topIndex    = 0;
-	int lastProcessed    = -1;
+	TSplash::topIndex = 0;
+	int lastProcessed = -1;
 	for (int i = 0; i < MAX_SPLASHES; ++i)
 		if (splashes[i].Process(_dTime))
 			lastProcessed = i;
@@ -101,8 +101,8 @@ void BALLSPLASH::Realize(uint32_t _dTime)
 	// draw top part
 	bool techniqueStarted = renderer->TechniqueExecuteStart("splash2");
 	TSplash::startRender = true;
-	TSplash::topIndex    = 0;
-	lastProcessed		 = -1;
+	TSplash::topIndex = 0;
+	lastProcessed = -1;
 	for (int i = 0; i < MAX_SPLASHES; ++i)
 	{
 		if (splashes[i].Process2(_dTime))
@@ -110,9 +110,8 @@ void BALLSPLASH::Realize(uint32_t _dTime)
 	}
 	splashes[lastProcessed].PostProcess2();
 	splashes[lastProcessed].Realize2(_dTime);
-	if(techniqueStarted)
-		while (renderer->TechniqueExecuteNext())
-			;
+	if (techniqueStarted)
+		while (renderer->TechniqueExecuteNext());
 
 	RDTSC_E(ticks);
 	/*
@@ -142,7 +141,7 @@ void BALLSPLASH::Execute(uint32_t dTime)
 //--------------------------------------------------------------------
 void BALLSPLASH::InitializeSplashes()
 {
-	INIFILE *psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
+	INIFILE* psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
 
 	for (int i = 0; i < MAX_SPLASHES; ++i)
 	{
@@ -154,7 +153,7 @@ void BALLSPLASH::InitializeSplashes()
 }
 
 //--------------------------------------------------------------------
-TSplash *BALLSPLASH::TryToAddSplash(const CVECTOR &_pos, const CVECTOR &_dir)
+TSplash* BALLSPLASH::TryToAddSplash(const CVECTOR& _pos, const CVECTOR& _dir)
 {
 	CVECTOR backDir = !_dir;
 	backDir.y = -backDir.y;

@@ -19,27 +19,27 @@ class LocationCamera;
 
 class Player : public NPCharacter
 {
-//--------------------------------------------------------------------------------------------
-//Конструирование, деструктурирование
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Конструирование, деструктурирование
+	//--------------------------------------------------------------------------------------------
 public:
 	Player();
 	virtual ~Player();
 
-	virtual bool PostInit();
+	bool PostInit() override;
 
-	virtual void Reset();
+	void Reset() override;
 
 	//Перемещаем персонажа в желаемую позицию
-	virtual void Move(float dltTime);
-	virtual void Update(float dltTime);
+	void Move(float dltTime) override;
+	void Update(float dltTime) override;
 
 	//Сохранить параметры
-	virtual void SetSaveData(ATTRIBUTES * sdata);
+	void SetSaveData(ATTRIBUTES* sdata) override;
 	//Востанавить параметры
-	virtual void GetSaveData(ATTRIBUTES * sdata);
+	void GetSaveData(ATTRIBUTES* sdata) override;
 
-	virtual bool IsPlayer() {return true;}
+	bool IsPlayer() override { return true; }
 
 
 	void Rotate(float dltTime);
@@ -60,14 +60,14 @@ public:
 	bool IsChangeFightMode();
 
 	//Найти атакующего противника
-	Player * FindAttackCharacter();
+	Player* FindAttackCharacter();
 
-//--------------------------------------------------------------------------------------------
-//Инкапсуляция
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Инкапсуляция
+	//--------------------------------------------------------------------------------------------
 private:
 	void FireFromShootgun();
-	void ShootParticles(const CVECTOR & pos, const CVECTOR & ndir, float size, uint32_t color, long num);
+	void ShootParticles(const CVECTOR& pos, const CVECTOR& ndir, float size, uint32_t color, long num);
 
 	float GetRotateH();
 
@@ -80,7 +80,7 @@ private:
 #ifndef _XBOX
 	bool shootgunMode;
 	float kSMReload;
-	LocationCamera * locCam;
+	LocationCamera* locCam;
 #endif
 };
 

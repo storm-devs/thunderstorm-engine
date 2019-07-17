@@ -1,10 +1,15 @@
 #include "script_libriary.h"
 
-class ScriptLocationLibrary  : public SCRIPT_LIBRIARY
+class ScriptLocationLibrary : public SCRIPT_LIBRIARY
 {
 public:
-	ScriptLocationLibrary(){};
-	~ScriptLocationLibrary(){};
+	ScriptLocationLibrary()
+	{
+	};
 
-	virtual bool Init();
+	~ScriptLocationLibrary()
+	{
+	};
+
+	bool Init() override;
 };

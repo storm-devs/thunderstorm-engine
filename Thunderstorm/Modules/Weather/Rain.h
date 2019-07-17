@@ -14,119 +14,122 @@
 
 typedef struct
 {
-	CVECTOR		vPos;
-	uint32_t		dwColor;
+	CVECTOR vPos;
+	uint32_t dwColor;
 } RAINVERTEX;
 
 struct SEADROPVERTEX
 {
-	CVECTOR		vPos;
-	uint32_t		dwColor;
-	float		tu, tv;
+	CVECTOR vPos;
+	uint32_t dwColor;
+	float tu, tv;
 };
 
 typedef struct
 {
-	float		fWindFlaw,fWindSpeedJitter;
-	uint32_t		dwTime;
-	CVECTOR		vPos;
-	CVECTOR		vAng;
+	float fWindFlaw, fWindSpeedJitter;
+	uint32_t dwTime;
+	CVECTOR vPos;
+	CVECTOR vAng;
 } rainblock_t;
 
 class RAIN : public Entity
 {
-struct ship_t
-{
-	entid_t	eid;
-	SHIP_BASE	* pShip;
-};
+	struct ship_t
+	{
+		entid_t eid;
+		SHIP_BASE* pShip;
+	};
 
-struct seadrop_t
-{
-	CVECTOR vPos;
-	float	fTime;
-	float	fLifeTime;
-};
+	struct seadrop_t
+	{
+		CVECTOR vPos;
+		float fTime;
+		float fLifeTime;
+	};
 
-struct drop_t
-{
-	CVECTOR vPos;
-	float	fLifeTime;
-	long	iShip;
-	//SHIP_BASE * pShip;
-};
+	struct drop_t
+	{
+		CVECTOR vPos;
+		float fLifeTime;
+		long iShip;
+		//SHIP_BASE * pShip;
+	};
 
 private:
-	long				iRainDropsTexture;
-	float				fDropsDeltaTime;
-	std::vector<RS_RECT>		aRects;
-	std::vector<drop_t>		aDrops;
-	std::vector<seadrop_t>	aSeaDrops;
-	std::vector<ship_t>		aShips;
+	long iRainDropsTexture;
+	float fDropsDeltaTime;
+	std::vector<RS_RECT> aRects;
+	std::vector<drop_t> aDrops;
+	std::vector<seadrop_t> aSeaDrops;
+	std::vector<ship_t> aShips;
 
-	bool				bShow;
+	bool bShow;
 
-	WEATHER_BASE	* pWeather;
+	WEATHER_BASE* pWeather;
 
-	uint32_t		dwRainMaxBlend, dwRainColor, dwRainR, dwRainG, dwRainB;
-	float		fDropLength, fRainWindSpeed, fRainSpeed, fWindPower, fWindAngle,
-				fRainJitter, fRainWindSpeedJitter;
-	
-	bool		bRainbowEnable;
-	long		iRainbowTex;
-	std::string		sRainbowTexture;
+	uint32_t dwRainMaxBlend, dwRainColor, dwRainR, dwRainG, dwRainB;
+	float fDropLength, fRainWindSpeed, fRainSpeed, fWindPower, fWindAngle,
+	      fRainJitter, fRainWindSpeedJitter;
 
-	uint32_t		dwRainTimeBlend;
-	uint32_t		dwNumRainBlocks;
-	rainblock_t	*pRainBlocks;
+	bool bRainbowEnable;
+	long iRainbowTex;
+	std::string sRainbowTexture;
 
-	CVECTOR		vCamPos,vCamAng;
+	uint32_t dwRainTimeBlend;
+	uint32_t dwNumRainBlocks;
+	rainblock_t* pRainBlocks;
 
-	float		fRainHeight,fRainRadius;
-	uint32_t		dwNumDrops;
+	CVECTOR vCamPos, vCamAng;
 
-	long		iVertexBuffer;
+	float fRainHeight, fRainRadius;
+	uint32_t dwNumDrops;
 
-	uint32_t		dwDropsColor;
-	uint32_t		dwDropsNearNum, dwDropsFarNum;
-	float		fDropsNearRadius, fDropsFarRadius;
-	float		fDropsLifeTime;
-	float		fDropsSize;
-	std::string		sDropsTexture, sSeaDropsTexture;
+	long iVertexBuffer;
 
-	long		iSeaDropTex;
-	long		iIBSeaDrops;
-	long		iVBSeaDrops;
+	uint32_t dwDropsColor;
+	uint32_t dwDropsNearNum, dwDropsFarNum;
+	float fDropsNearRadius, fDropsFarRadius;
+	float fDropsLifeTime;
+	float fDropsSize;
+	std::string sDropsTexture, sSeaDropsTexture;
+
+	long iSeaDropTex;
+	long iIBSeaDrops;
+	long iVBSeaDrops;
 
 	VDX9RENDER* rs;
 	COLLIDE* cs;
 
-	void	GenerateRandomDrop(CVECTOR *vPos);
-	void	GenerateRain();
-	void	InitialSomeBlockParameters(long iIdx);
-	void	Release();
-	void	RealizeDrops(uint32_t Delta_Time);
+	void GenerateRandomDrop(CVECTOR* vPos);
+	void GenerateRain();
+	void InitialSomeBlockParameters(long iIdx);
+	void Release();
+	void RealizeDrops(uint32_t Delta_Time);
 
 public:
 	RAIN();
 	~RAIN();
 
-	void	SetDevice();
-	bool	Init();
-	void	Realize(uint32_t Delta_Time);
-	void	Execute(uint32_t Delta_Time);
-	bool	CreateState(ENTITY_STATE_GEN * state_gen);
-	bool	LoadState(ENTITY_STATE * state);
-	uint64_t ProcessMessage(MESSAGE & message);
-	uint32_t	AttributeChanged(ATTRIBUTES * pAttribute);
+	void SetDevice();
+	bool Init() override;
+	void Realize(uint32_t Delta_Time);
+	void Execute(uint32_t Delta_Time);
+	bool CreateState(ENTITY_STATE_GEN* state_gen);
+	bool LoadState(ENTITY_STATE* state);
+	uint64_t ProcessMessage(MESSAGE& message) override;
+	uint32_t AttributeChanged(ATTRIBUTES* pAttribute) override;
+
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)
 		{
 		case Stage::execute:
-			Execute(delta); break;
+			Execute(delta);
+			break;
 		case Stage::realize:
-			Realize(delta); break;
+			Realize(delta);
+			break;
 			/*case Stage::lost_render:
 				LostRender(delta); break;
 			case Stage::restore_render:

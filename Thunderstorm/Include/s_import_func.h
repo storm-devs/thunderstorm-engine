@@ -9,7 +9,7 @@
 #include <cstdint>
 
 class VS_STACK;
-typedef uint32_t (*SIMPORTFUNC)(VS_STACK *);
+typedef uint32_t (*SIMPORTFUNC)(VS_STACK*);
 
 struct IFUNCINFO
 {
@@ -22,12 +22,12 @@ struct IFUNCINFO
 		nDeclLine = 0;
 	}
 	;
-	char * pFuncName;
-	char * pReturnValueName;
-	uint32_t  nArguments;
+	char* pFuncName;
+	char* pReturnValueName;
+	uint32_t nArguments;
 	SIMPORTFUNC pFuncAddress;
-	char * pDeclFileName;
-	uint32_t  nDeclLine;
+	char* pDeclFileName;
+	uint32_t nDeclLine;
 };
 
 #endif

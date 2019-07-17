@@ -7,31 +7,34 @@
 class Astronomy : public Entity
 {
 public:
-	static VDX9RENDER * pRS;
-	static VGEOMETRY * pGS;
+	static VDX9RENDER* pRS;
+	static VGEOMETRY* pGS;
 
 	Astronomy();
 	~Astronomy();
 
-	bool	Init();
-	void	SetDevice();
-	void	Realize(uint32_t Delta_Time);
-	uint32_t	AttributeChanged(ATTRIBUTES * pAttribute);
+	bool Init() override;
+	void SetDevice();
+	void Realize(uint32_t Delta_Time);
+	uint32_t AttributeChanged(ATTRIBUTES* pAttribute) override;
+
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)
 		{
-		//case Stage::execute:
-		//	Execute(delta); break;
+			//case Stage::execute:
+			//	Execute(delta); break;
 		case Stage::realize:
-			Realize(delta); break;
+			Realize(delta);
+			break;
 			/*case Stage::lost_render:
 				LostRender(delta); break;
 			case Stage::restore_render:
 				RestoreRender(delta); break;*/
 		}
 	}
-	ATTRIBUTES * GetRoot(ATTRIBUTES * pA);
+
+	ATTRIBUTES* GetRoot(ATTRIBUTES* pA);
 
 private:
 	class PLANETS
@@ -39,19 +42,19 @@ private:
 	public:
 		struct Planet
 		{
-			GEOS	* pGeo;
+			GEOS* pGeo;
 			CVECTOR vPos;
-			long	iTexture;
-			float	fDistance, fRealDistance;
-			float	fSpeed;
-			float	fInclination;
-			float	fDiameter;
-			float	fScale, fFakeScale, fAngle;
-			float	fMagMax, fMagMin;
+			long iTexture;
+			float fDistance, fRealDistance;
+			float fSpeed;
+			float fInclination;
+			float fDiameter;
+			float fScale, fFakeScale, fAngle;
+			float fMagMax, fMagMin;
 		};
 
-		std::vector<Planet>	aPlanets;
-		float			fPlanetScale;
+		std::vector<Planet> aPlanets;
+		float fPlanetScale;
 
 		float fPlanetFade;
 		float fFadeTimeStart;
@@ -62,10 +65,10 @@ private:
 
 		void ReleasePlanets();
 
-		void Init(ATTRIBUTES * pAP);
+		void Init(ATTRIBUTES* pAP);
 		void Execute(double dDeltaTime, double dHour);
 		void Realize(double dDeltaTime, double dHour);
-		void TimeUpdate(ATTRIBUTES * pAP);
+		void TimeUpdate(ATTRIBUTES* pAP);
 	};
 
 	class STARS
@@ -74,14 +77,14 @@ private:
 		STARS();
 		~STARS();
 
-		void Init(ATTRIBUTES * pAP);
+		void Init(ATTRIBUTES* pAP);
 		void Execute(double dDeltaTime, double dHour);
 		void Realize(double dDeltaTime, double dHour);
 
-		uint32_t AttributeChanged(ATTRIBUTES * pAttribute);
-		void TimeUpdate(ATTRIBUTES * pAP);
+		uint32_t AttributeChanged(ATTRIBUTES* pAttribute);
+		void TimeUpdate(ATTRIBUTES* pAP);
 
-		inline bool IsEnable() { return bEnable; };
+		bool IsEnable() { return bEnable; };
 
 	private:
 		const char *sCatalog, *sTexture;
@@ -90,7 +93,7 @@ private:
 		long iTexture;
 		bool bEnable;
 		long iVertexBuffer, iVertexBufferColors;
-		IDirect3DVertexDeclaration9 *pDecl;
+		IDirect3DVertexDeclaration9* pDecl;
 		float fPrevFov;
 
 		struct Star
@@ -116,7 +119,6 @@ private:
 	double dHour, dTimeScale;
 	STARS Stars;
 	PLANETS Planets;
-
 };
 
 #endif

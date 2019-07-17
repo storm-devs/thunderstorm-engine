@@ -7,11 +7,17 @@
 
 INTERFACE_FUNCTION
 CREATE_CLASS(WEATHER)
+
 CREATE_CLASS(RAIN)
+
 CREATE_CLASS(SUNGLOW)
+
 CREATE_CLASS(LIGHTNING)
+
 CREATE_CLASS(SKY)
+
 CREATE_CLASS(WATERFLARE)
+
 CREATE_CLASS(Astronomy)
 
 WEATHER::WEATHER()
@@ -25,7 +31,8 @@ WEATHER::~WEATHER()
 
 void WEATHER::SetDevice()
 {
-	pRS = (VDX9RENDER *)api->CreateService("dx9render"); Assert(pRS);
+	pRS = (VDX9RENDER *)api->CreateService("dx9render");
+	Assert(pRS);
 
 	//LoadWeatherIni();
 }
@@ -45,14 +52,14 @@ void WEATHER::SetBeginData()
 
 	// sun moving data
 	bSunPresent = false;
-	fSunHeight = 3.f/4.f * PId2;
+	fSunHeight = 3.f / 4.f * PId2;
 	fSunBegAngle = 0.f;
 	fSunBegTime = 5.f;
 	fSunEndAngle = PI;
 	fSunEndTime = 23.f;
 	// moon moving data
 	bMoonPresent = false;
-	fMoonHeight = 5.f/4.f * PId2;
+	fMoonHeight = 5.f / 4.f * PId2;
 	fMoonBegAngle = PId2;
 	fMoonBegTime = 23.5f;
 	fMoonEndAngle = -PId2;
@@ -69,33 +76,33 @@ void WEATHER::Realize(uint32_t Delta_Time)
 
 void WEATHER::Execute(uint32_t Delta_Time)
 {
-/*	if (dwFrames) SetLong(whi_weather_update,0);
-
-	WIN32_FIND_DATA	wfd;
-	HANDLE h = fio->_FindFirstFile(WHT_INI_FILE,&wfd);
-	if (INVALID_HANDLE_VALUE != h)
-	{
-		FILETIME ft_new = wfd.ftLastWriteTime;
-		fio->_FindClose(h);
-
-		if (CompareFileTime(&ft_old,&ft_new)!=0) LoadWeatherIni();
-	}
-
-	dwFrames--;
-*/
-	if( fFloats[whf_time_speed]!=0.f )
+	/*	if (dwFrames) SetLong(whi_weather_update,0);
+	
+		WIN32_FIND_DATA	wfd;
+		HANDLE h = fio->_FindFirstFile(WHT_INI_FILE,&wfd);
+		if (INVALID_HANDLE_VALUE != h)
+		{
+			FILETIME ft_new = wfd.ftLastWriteTime;
+			fio->_FindClose(h);
+	
+			if (CompareFileTime(&ft_old,&ft_new)!=0) LoadWeatherIni();
+		}
+	
+		dwFrames--;
+	*/
+	if (fFloats[whf_time_speed] != 0.f)
 	{
 		float fOldTimer = fFloats[whf_time_counter];
 		fFloats[whf_time_counter] += api->GetDeltaTime() * fFloats[whf_time_speed];
 		// смена дня
-		if( fFloats[whf_time_counter] > 24.f )
+		if (fFloats[whf_time_counter] > 24.f)
 			fFloats[whf_time_counter] -= 24.f;
 
 		UpdateSunMoonPos();
 
-		if( (long)(fFloats[whf_time_counter]*fUpdateFrequence) != (long)(fOldTimer*fUpdateFrequence) )
+		if ((long)(fFloats[whf_time_counter] * fUpdateFrequence) != (long)(fOldTimer * fUpdateFrequence))
 		{
-			api->Event("WeatherTimeUpdate","f",fFloats[whf_time_counter]);
+			api->Event("WeatherTimeUpdate", "f", fFloats[whf_time_counter]);
 		}
 		// обновление даты в скриптах
 		//if( fFloats[whf_time_counter] fOldTimer
@@ -106,36 +113,39 @@ void WEATHER::UpdateSunMoonPos()
 {
 	// sun
 	float fK = (fFloats[whf_time_counter] - fSunBegTime) / (fSunEndTime - fSunBegTime);
-	if( fK < 0.f || fK > 1.f )
+	if (fK < 0.f || fK > 1.f)
 	{
 		bSunPresent = false;
 		fFloats[whf_sun_height_angle] = -PId2;
 		fFloats[whf_sun_azimuth_angle] = 0.f;
 
-		vVectors[whv_sun_pos] = CVECTOR(0,-5000.f,0);
+		vVectors[whv_sun_pos] = CVECTOR(0, -5000.f, 0);
 	}
 	else
 	{
 		bSunPresent = true;
-		fFloats[whf_sun_height_angle] = (fSunHeight + 0.2f) * sinf(fK*PI) - 0.2f;
-		fFloats[whf_sun_azimuth_angle] = fSunBegAngle + fK*(fSunEndAngle-fSunBegAngle);
+		fFloats[whf_sun_height_angle] = (fSunHeight + 0.2f) * sinf(fK * PI) - 0.2f;
+		fFloats[whf_sun_azimuth_angle] = fSunBegAngle + fK * (fSunEndAngle - fSunBegAngle);
 
-		CVECTOR		vSun;
-		vSun.x = 5000.0f; vSun.y = 0.0f; vSun.z = 0.0f;
-		RotateAroundY(vSun.x, vSun.y, cosf(-fFloats[whf_sun_height_angle]),sinf(-fFloats[whf_sun_height_angle]));
-		RotateAroundY(vSun.x, vSun.z, cosf(fFloats[whf_sun_azimuth_angle]),sinf(fFloats[whf_sun_azimuth_angle]));
+		CVECTOR vSun;
+		vSun.x = 5000.0f;
+		vSun.y = 0.0f;
+		vSun.z = 0.0f;
+		RotateAroundY(vSun.x, vSun.y, cosf(-fFloats[whf_sun_height_angle]), sinf(-fFloats[whf_sun_height_angle]));
+		RotateAroundY(vSun.x, vSun.z, cosf(fFloats[whf_sun_azimuth_angle]), sinf(fFloats[whf_sun_azimuth_angle]));
 		vVectors[whv_sun_pos] = vSun;
 	}
 
 	// moon
-	if( fMoonBegTime<fMoonEndTime )
+	if (fMoonBegTime < fMoonEndTime)
 		fK = (fFloats[whf_time_counter] - fMoonBegTime) / (fMoonEndTime - fMoonBegTime);
-	else {
+	else
+	{
 		fK = (fFloats[whf_time_counter] - fMoonBegTime);
-		if( fK < 0.f ) fK += 24.f;
+		if (fK < 0.f) fK += 24.f;
 		fK /= 24.f + fMoonEndTime - fMoonBegTime;
 	}
-	if( fK < 0.f || fK > 1.f )
+	if (fK < 0.f || fK > 1.f)
 	{
 		bMoonPresent = false;
 		/*fFloats[whf_sun_height_angle] = -PId2;
@@ -146,24 +156,25 @@ void WEATHER::UpdateSunMoonPos()
 	else
 	{
 		bMoonPresent = true;
-		fFloats[whf_sun_height_angle] = (fK<0.5f) ? (fMoonHeight * fK * 2.f) : (fMoonHeight * (1.f-fK) * 2.f);
-		fFloats[whf_sun_azimuth_angle] = fMoonBegAngle + fK*(fMoonEndAngle-fMoonBegAngle);
+		fFloats[whf_sun_height_angle] = (fK < 0.5f) ? (fMoonHeight * fK * 2.f) : (fMoonHeight * (1.f - fK) * 2.f);
+		fFloats[whf_sun_azimuth_angle] = fMoonBegAngle + fK * (fMoonEndAngle - fMoonBegAngle);
 
-		CVECTOR		vMoon;
-		vMoon.x = 5000.0f; vMoon.y = 0.0f;
-		RotateAroundY(vMoon.x, vMoon.y, cosf(-fFloats[whf_sun_height_angle]),sinf(-fFloats[whf_sun_height_angle]));
+		CVECTOR vMoon;
+		vMoon.x = 5000.0f;
+		vMoon.y = 0.0f;
+		RotateAroundY(vMoon.x, vMoon.y, cosf(-fFloats[whf_sun_height_angle]), sinf(-fFloats[whf_sun_height_angle]));
 		vMoon.z = 0.0f;
-		RotateAroundY(vMoon.x, vMoon.z, cosf(fFloats[whf_sun_azimuth_angle]),sinf(fFloats[whf_sun_azimuth_angle]));
+		RotateAroundY(vMoon.x, vMoon.z, cosf(fFloats[whf_sun_azimuth_angle]), sinf(fFloats[whf_sun_azimuth_angle]));
 		vVectors[whv_sun_pos] = vMoon;
 	}
 }
 
-bool WEATHER::CreateState(ENTITY_STATE_GEN * state_gen)
+bool WEATHER::CreateState(ENTITY_STATE_GEN* state_gen)
 {
 	return true;
 }
 
-bool WEATHER::LoadState(ENTITY_STATE * state)
+bool WEATHER::LoadState(ENTITY_STATE* state)
 {
 	return true;
 }
@@ -270,16 +281,17 @@ void WEATHER::SetCommonStates()
 	// setup sun light
 	float fSunHeightAngle = GetFloat(whf_sun_height_angle);
 	float fSunAzimuthAngle = GetFloat(whf_sun_azimuth_angle);
-	CVECTOR		vSun, vSunColor, vSunLight;
-	D3DLIGHT9	sun;
+	CVECTOR vSun, vSunColor, vSunLight;
+	D3DLIGHT9 sun;
 
-	if( fFloats[whf_time_speed]==0.f )
+	if (fFloats[whf_time_speed] == 0.f)
 	{
-		vSun.x = 5000.0f; vSun.y = 0.0f;
-		RotateAroundY(vSun.x, vSun.y, cosf(-fSunHeightAngle),sinf(-fSunHeightAngle));
+		vSun.x = 5000.0f;
+		vSun.y = 0.0f;
+		RotateAroundY(vSun.x, vSun.y, cosf(-fSunHeightAngle), sinf(-fSunHeightAngle));
 
 		vSun.z = 0.0f;
-		RotateAroundY(vSun.x, vSun.z, cosf(fSunAzimuthAngle),sinf(fSunAzimuthAngle));
+		RotateAroundY(vSun.x, vSun.z, cosf(fSunAzimuthAngle), sinf(fSunAzimuthAngle));
 
 		vVectors[whv_sun_pos] = vSun;
 	}
@@ -292,13 +304,23 @@ void WEATHER::SetCommonStates()
 	GetColor(whc_sun_color, &vSunColor);
 
 	sun.Type = D3DLIGHT_DIRECTIONAL;
-	sun.Diffuse.r = vSunColor.x;	sun.Diffuse.g = vSunColor.y;	sun.Diffuse.b = vSunColor.z;	sun.Diffuse.a = 1.0f;
-	sun.Specular.r = vSunColor.x;	sun.Specular.g = vSunColor.y;	sun.Specular.b = vSunColor.z;	sun.Specular.a = 1.0f;
+	sun.Diffuse.r = vSunColor.x;
+	sun.Diffuse.g = vSunColor.y;
+	sun.Diffuse.b = vSunColor.z;
+	sun.Diffuse.a = 1.0f;
+	sun.Specular.r = vSunColor.x;
+	sun.Specular.g = vSunColor.y;
+	sun.Specular.b = vSunColor.z;
+	sun.Specular.a = 1.0f;
 	sun.Ambient.r = sun.Ambient.g = sun.Ambient.b = sun.Ambient.a = 0.0f;
 	vSunLight = -(!(CVECTOR(vSun.x, vSun.y, vSun.z)));
-	sun.Direction.x = vSunLight.x;	sun.Direction.y = vSunLight.y;	sun.Direction.z = vSunLight.z;
+	sun.Direction.x = vSunLight.x;
+	sun.Direction.y = vSunLight.y;
+	sun.Direction.z = vSunLight.z;
 	sun.Range = 100000;
-	sun.Attenuation0 = 1;	sun.Attenuation1 = 0;	sun.Attenuation2 = 0;
+	sun.Attenuation0 = 1;
+	sun.Attenuation1 = 0;
+	sun.Attenuation2 = 0;
 	sun.Falloff = 0;
 	sun.Theta = 1;
 	sun.Phi = 1;
@@ -330,11 +352,11 @@ long WEATHER::GetLong(uint32_t dwCode)
 	return iLongs[dwCode];
 }
 
-uint32_t WEATHER::GetColor(uint32_t dwCode, CVECTOR * vOut)
+uint32_t WEATHER::GetColor(uint32_t dwCode, CVECTOR* vOut)
 {
-	vOut->x = float((dwColors[dwCode] >> 0x10)&0xFF) / 255.0f;
-	vOut->y = float((dwColors[dwCode] >> 0x8)&0xFF) / 255.0f;
-	vOut->z = float((dwColors[dwCode])&0xFF) / 255.0f;
+	vOut->x = float((dwColors[dwCode] >> 0x10) & 0xFF) / 255.0f;
+	vOut->y = float((dwColors[dwCode] >> 0x8) & 0xFF) / 255.0f;
+	vOut->z = float((dwColors[dwCode]) & 0xFF) / 255.0f;
 	return dwColors[dwCode];
 }
 
@@ -353,55 +375,144 @@ void WEATHER::GetVector(uint32_t dwCode, CVECTOR* vOut)
 	*vOut = vVectors[dwCode];
 }
 
-uint32_t WEATHER::AttributeChanged(ATTRIBUTES * pAttribute)
+uint32_t WEATHER::AttributeChanged(ATTRIBUTES* pAttribute)
 {
-	ATTRIBUTES * pParent = pAttribute->GetParent(); // if (*pAttribute == "Hour")
+	ATTRIBUTES* pParent = pAttribute->GetParent(); // if (*pAttribute == "Hour")
 	if (*pParent == "fog")
 	{
-		if (*pAttribute == "Enable")		{ iLongs[whi_fog_enable] = pAttribute->GetAttributeAsDword(); return 0; }
-		if (*pAttribute == "Start")			{ fFloats[whf_fog_start] = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "Density")		{ fFloats[whf_fog_density] = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "Color")			{ dwColors[whc_fog_color] = pAttribute->GetAttributeAsDword(); return 0; }
+		if (*pAttribute == "Enable")
+		{
+			iLongs[whi_fog_enable] = pAttribute->GetAttributeAsDword();
+			return 0;
+		}
+		if (*pAttribute == "Start")
+		{
+			fFloats[whf_fog_start] = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "Density")
+		{
+			fFloats[whf_fog_density] = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "Color")
+		{
+			dwColors[whc_fog_color] = pAttribute->GetAttributeAsDword();
+			return 0;
+		}
 	}
 	if (*pParent == "wind")
 	{
-		if (*pAttribute == "Angle")			{ fFloats[whf_wind_angle] = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "Speed")			{ fFloats[whf_wind_speed] = pAttribute->GetAttributeAsFloat(); return 0; }
+		if (*pAttribute == "Angle")
+		{
+			fFloats[whf_wind_angle] = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "Speed")
+		{
+			fFloats[whf_wind_speed] = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
 		return 0;
 	}
 	if (*pParent == "sun")
 	{
-		if (*pAttribute == "Height")		{ fSunHeight = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "BegAngle")		{ fSunBegAngle = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "BegTime")		{ fSunBegTime = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "EndAngle")		{ fSunEndAngle = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "EndTime")		{ fSunEndTime = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "Color")			{ dwColors[whc_sun_color] = pAttribute->GetAttributeAsDword(); return 0; }
-		if (*pAttribute == "Ambient")		{ dwColors[whc_sun_ambient] = pAttribute->GetAttributeAsDword(); return 0; }
-		if( fFloats[whf_time_speed] == 0.f )
+		if (*pAttribute == "Height")
 		{
-			if (*pAttribute == "HeightAngle")	{ fFloats[whf_sun_height_angle] = pAttribute->GetAttributeAsFloat(); return 0; }
-			if (*pAttribute == "AzimuthAngle")	{ fFloats[whf_sun_azimuth_angle] = pAttribute->GetAttributeAsFloat(); return 0; }
+			fSunHeight = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "BegAngle")
+		{
+			fSunBegAngle = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "BegTime")
+		{
+			fSunBegTime = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "EndAngle")
+		{
+			fSunEndAngle = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "EndTime")
+		{
+			fSunEndTime = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "Color")
+		{
+			dwColors[whc_sun_color] = pAttribute->GetAttributeAsDword();
+			return 0;
+		}
+		if (*pAttribute == "Ambient")
+		{
+			dwColors[whc_sun_ambient] = pAttribute->GetAttributeAsDword();
+			return 0;
+		}
+		if (fFloats[whf_time_speed] == 0.f)
+		{
+			if (*pAttribute == "HeightAngle")
+			{
+				fFloats[whf_sun_height_angle] = pAttribute->GetAttributeAsFloat();
+				return 0;
+			}
+			if (*pAttribute == "AzimuthAngle")
+			{
+				fFloats[whf_sun_azimuth_angle] = pAttribute->GetAttributeAsFloat();
+				return 0;
+			}
 		}
 	}
 	if (*pParent == "moon")
 	{
-		if (*pAttribute == "Height") { fMoonHeight = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "BegAngle") { fMoonBegAngle = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "BegTime") { fMoonBegTime = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "EndAngle") { fMoonEndAngle = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "EndTime") { fMoonEndTime = pAttribute->GetAttributeAsFloat(); return 0; }
+		if (*pAttribute == "Height")
+		{
+			fMoonHeight = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "BegAngle")
+		{
+			fMoonBegAngle = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "BegTime")
+		{
+			fMoonBegTime = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "EndAngle")
+		{
+			fMoonEndAngle = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "EndTime")
+		{
+			fMoonEndTime = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
 	}
 	if (*pParent == "time")
 	{
-		if (*pAttribute == "time")			{ fFloats[whf_time_counter] = pAttribute->GetAttributeAsFloat(); return 0; }
-		if (*pAttribute == "speed")			{
+		if (*pAttribute == "time")
+		{
+			fFloats[whf_time_counter] = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
+		if (*pAttribute == "speed")
+		{
 			fFloats[whf_time_speed] = pAttribute->GetAttributeAsFloat();
-			if( fFloats[whf_time_speed] != 0.f )
+			if (fFloats[whf_time_speed] != 0.f)
 				fFloats[whf_time_speed] = 0.001f / fFloats[whf_time_speed];
 			return 0;
 		}
-		if (*pAttribute == "updatefrequence")	{ fUpdateFrequence = pAttribute->GetAttributeAsFloat(); return 0; }
+		if (*pAttribute == "updatefrequence")
+		{
+			fUpdateFrequence = pAttribute->GetAttributeAsFloat();
+			return 0;
+		}
 	}
 	if (*pAttribute == "isDone")
 	{
@@ -409,4 +520,3 @@ uint32_t WEATHER::AttributeChanged(ATTRIBUTES * pAttribute)
 	}
 	return 0;
 }
-

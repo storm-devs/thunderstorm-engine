@@ -3,10 +3,10 @@
 #include "object.h"
 
 class SAIL_BASE : public COLLISION_OBJECT
-	{
-	public:
+{
+public:
 	virtual ENTITY_ID GetShipID() = 0;
-	};
+};
 
 
 #endif

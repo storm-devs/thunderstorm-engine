@@ -13,8 +13,6 @@
 #include "Character.h"
 
 
-
-
 //============================================================================================
 
 //#define LFC_DEBUG
@@ -48,10 +46,9 @@ CameraFollow::CameraFollow()
 
 CameraFollow::~CameraFollow()
 {
-
 }
 
-void CameraFollow::SetLocationCamera(LocationCamera * locCamera)
+void CameraFollow::SetLocationCamera(LocationCamera* locCamera)
 {
 	lc = locCamera;
 	camradius = lc->radius;
@@ -64,12 +61,14 @@ void CameraFollow::Update(float dltTime)
 {
 	CVECTOR oldPos(camPos);
 	//Если дальше допустимого рождаемся заново
-	if(~(lc->pos - oldPos) >= lc->teleport_dist*lc->teleport_dist) isBrn = true;
+	if (~(lc->pos - oldPos) >= lc->teleport_dist * lc->teleport_dist) isBrn = true;
 	//Расчитываем новую позицию
-	if(!isBrn)
+	if (!isBrn)
 	{
 		MoveCamera(dltTime);
-	}else{
+	}
+	else
+	{
 		BornCamera();
 		isBrn = false;
 		oldPos = camPos;
@@ -89,9 +88,7 @@ void CameraFollow::Update(float dltTime)
 	lc->camPos = camPos;
 	lc->lookTo = lookTo;
 	//Ограничим по высоте
-	if(lc->camPos.y < lc->pos.y + lc->lheight*0.5f) lc->camPos.y = lc->pos.y + lc->lheight*0.5f;
-
-
+	if (lc->camPos.y < lc->pos.y + lc->lheight * 0.5f) lc->camPos.y = lc->pos.y + lc->lheight * 0.5f;
 
 
 	/*
@@ -126,39 +123,39 @@ void CameraFollow::Update(float dltTime)
 			lc->camPos.y = clipH;
 		}
 	}*/
-	
 }
 
 //Найти текущую позицию камеры
 void CameraFollow::MoveCamera(float dltTime)
 {
-	if(dltTime <= 0.0f) return;
+	if (dltTime <= 0.0f) return;
 	//Куда смотрим
 	float likeCamay = lc->chay;
-	if(lc->isSpecialMode)
+	if (lc->isSpecialMode)
 	{
 		likeCamay = camay + lc->dAy;
 	}
-	lookTo = lc->pos; lookTo.y += lc->lheight;
+	lookTo = lc->pos;
+	lookTo.y += lc->lheight;
 	//Решим, что делать
 	const float pi = 3.14159265359f;
-	float chay = likeCamay - long(likeCamay/pi)*2.0f*pi;
-	float cay = camay - long(camay/pi)*2.0f*pi;
-	if(cay - chay > pi) chay += 2*pi;
-	if(cay - chay < -pi) chay -= 2*pi;
-	float dAng = chay - cay;	
+	float chay = likeCamay - long(likeCamay / pi) * 2.0f * pi;
+	float cay = camay - long(camay / pi) * 2.0f * pi;
+	if (cay - chay > pi) chay += 2 * pi;
+	if (cay - chay < -pi) chay -= 2 * pi;
+	float dAng = chay - cay;
 	//Расчитываем текущий радиус
-	kRadInert = fabsf(dAng)/0.05f;
-	if(kRadInert > 1.0f) kRadInert = 1.0f;
+	kRadInert = fabsf(dAng) / 0.05f;
+	if (kRadInert > 1.0f) kRadInert = 1.0f;
 	kRadInert = powf(kRadInert, 5.0f);
-	if(fabsf(dAng) > 0.001f)
+	if (fabsf(dAng) > 0.001f)
 	{
 		//Камера вращается вокруг персонажа
-		float k = dltTime*lc->rotInertia;
-		if(k > 1.0f) k = 1.0f;
-		camay = cay + dAng*k;
+		float k = dltTime * lc->rotInertia;
+		if (k > 1.0f) k = 1.0f;
+		camay = cay + dAng * k;
 		lc->character->LockRotate(true);
-	}	
+	}
 	ChangeRadius(dltTime, FindRadius(camay));
 	CalcPosition(camay, camradius, 0.0f, camPos);
 }
@@ -170,23 +167,24 @@ void CameraFollow::BornCamera()
 	camay = lc->chay;
 	camradius = lc->radius;
 	//Куда смотрим
-	lookTo = lc->pos; lookTo.y += lc->lheight;
+	lookTo = lc->pos;
+	lookTo.y += lc->lheight;
 	//Откуда смотрим
 	CalcPosition(camay, camradius, 0.0f, camPos);
 	//Проверяем на пересечение луч
 	float kp = 2.0f;
 	lc->Trace(lookTo, camPos);
-	if(kp < 1.0f) camPos = lookTo + (camPos - lookTo)*(kp*0.9f);
+	if (kp < 1.0f) camPos = lookTo + (camPos - lookTo) * (kp * 0.9f);
 }
 
 //Вычислить позицию камеры для данного угла
-void CameraFollow::CalcPosition(float ang, float radius, float dax, CVECTOR & pos)
+void CameraFollow::CalcPosition(float ang, float radius, float dax, CVECTOR& pos)
 {
 	//Откуда смотрим
 	float ax = -lc->ax + dax;
-	pos.x = lc->pos.x - radius*cosf(ax)*sinf(ang);
-	pos.y = lc->pos.y + lc->lheight - radius*sinf(ax);
-	pos.z = lc->pos.z - radius*cosf(ax)*cosf(ang);
+	pos.x = lc->pos.x - radius * cosf(ax) * sinf(ang);
+	pos.y = lc->pos.y + lc->lheight - radius * sinf(ax);
+	pos.z = lc->pos.z - radius * cosf(ax) * cosf(ang);
 }
 
 #ifdef LFC_DEBUG
@@ -241,8 +239,8 @@ void CameraFollow::DrawDebug()
 float CameraFollow::FindRadius(float curAng)
 {
 	static const float pi = 3.14159265359f;
-	static const float day = pi*0.25f;		//Отклонение по вертикали
-	static const float dax = pi*0.16f;		//Отклонение по вертикали
+	static const float day = pi * 0.25f; //Отклонение по вертикали
+	static const float dax = pi * 0.16f; //Отклонение по вертикали
 
 #ifdef LFC_DEBUG
 	struct Vrt
@@ -308,45 +306,48 @@ float CameraFollow::FindRadius(float curAng)
 	//Начальные значения поиска
 	fndRadius = lc->radius + LCF_RADIUS;
 	fndMaxRadius = lc->radius + LCF_RADIUS;
-	fndCamDir = CVECTOR(-cosf(ax)*sinf(curAng), -sinf(ax), -cosf(ax)*cosf(curAng));
-	fndCamDirXZ = fndCamDir; fndCamDirXZ.y = 0.0f;
+	fndCamDir = CVECTOR(-cosf(ax) * sinf(curAng), -sinf(ax), -cosf(ax) * cosf(curAng));
+	fndCamDirXZ = fndCamDir;
+	fndCamDirXZ.y = 0.0f;
 	float l = sqrtf(~fndCamDirXZ);
-	if(l > 0.0f) fndCamDirXZ *= 1.0f/l;
-	fndCamDirY = fndCamDir; fndCamDirY.x = l; fndCamDirY.z = 0.0f;
+	if (l > 0.0f) fndCamDirXZ *= 1.0f / l;
+	fndCamDirY = fndCamDir;
+	fndCamDirY.x = l;
+	fndCamDirY.z = 0.0f;
 	l = ~fndCamDirY;
-	if(l > 0.0f) fndCamDirY *= 1.0f/sqrtf(l);
+	if (l > 0.0f) fndCamDirY *= 1.0f / sqrtf(l);
 	fndCamPos = pos;
 	fndcsAx = cosf(dax);
-	fndkAx = 1.0f/(1.0f - fndcsAx);
+	fndkAx = 1.0f / (1.0f - fndcsAx);
 	fndcsAy = cosf(day);
-	fndkAy = 1.0f/(1.0f - fndcsAy);
+	fndkAy = 1.0f / (1.0f - fndcsAy);
 	//Строим ограничивающий объём
 	static PLANE p[5];
 	//Левая плоскость
 	p[0].Nx = -cosf(curAng + day);
 	p[0].Ny = 0.0f;
 	p[0].Nz = sinf(curAng + day);
-	p[0].D = pos.x*p[0].Nx + pos.z*p[0].Nz;
+	p[0].D = pos.x * p[0].Nx + pos.z * p[0].Nz;
 	//Правая плоскость
 	p[1].Nx = cosf(curAng - day);
 	p[1].Ny = 0.0f;
 	p[1].Nz = -sinf(curAng - day);
-	p[1].D = pos.x*p[1].Nx + pos.z*p[1].Nz;
+	p[1].D = pos.x * p[1].Nx + pos.z * p[1].Nz;
 	//Нижняя плоскость
-	p[2].Nx = sinf(ax + dax)*sinf(curAng);
+	p[2].Nx = sinf(ax + dax) * sinf(curAng);
 	p[2].Ny = -cosf(ax + dax);
-	p[2].Nz = sinf(ax + dax)*cosf(curAng);
-	p[2].D = pos.x*p[2].Nx + pos.y*p[2].Ny + pos.z*p[2].Nz;
+	p[2].Nz = sinf(ax + dax) * cosf(curAng);
+	p[2].D = pos.x * p[2].Nx + pos.y * p[2].Ny + pos.z * p[2].Nz;
 	//Верхняя плоскость
-	p[3].Nx = -sinf(ax - dax)*sinf(curAng);
+	p[3].Nx = -sinf(ax - dax) * sinf(curAng);
 	p[3].Ny = cosf(ax - dax);
-	p[3].Nz = -sinf(ax - dax)*cosf(curAng);
-	p[3].D = pos.x*p[3].Nx + pos.y*p[3].Ny + pos.z*p[3].Nz;
+	p[3].Nz = -sinf(ax - dax) * cosf(curAng);
+	p[3].D = pos.x * p[3].Nx + pos.y * p[3].Ny + pos.z * p[3].Nz;
 	//Задняя стенка
 	p[4].Nx = fndCamDir.x;
 	p[4].Ny = fndCamDir.y;
 	p[4].Nz = fndCamDir.z;
-	p[4].D = fndCamDir | (pos + fndCamDir*lc->radius);
+	p[4].D = fndCamDir | (pos + fndCamDir * lc->radius);
 
 #ifdef LFC_DEBUG
 	numPoly1 = 0;
@@ -364,8 +365,8 @@ float CameraFollow::FindRadius(float curAng)
 		numU = 0;
 	}
 #endif
-	
-	
+
+
 	//Ишем радиус
 	lc->Clip(p, 5, pos, lc->radius, ApplyPoly);
 
@@ -409,214 +410,219 @@ float CameraFollow::FindRadius(float curAng)
 #endif
 
 	fndRadius -= LCF_RADIUS;
-	if(fndRadius < 0.1f) fndRadius = 0.1f;
+	if (fndRadius < 0.1f) fndRadius = 0.1f;
 	return fndRadius;
 }
 
 //Учесть полигон в поиске радиуса
-bool CameraFollow::ApplyPoly(const CVECTOR * v, long n)
+bool CameraFollow::ApplyPoly(const CVECTOR* v, long n)
 {
 #ifdef LFC_DEBUG
 	numPoly1++;
 #endif
-	if(n < 3) return true;
+	if (n < 3) return true;
 	//Нормаль плоскости
-	CVECTOR norm = (v[0] - v[1])^(v[0] - v[2]);
+	CVECTOR norm = (v[0] - v[1]) ^ (v[0] - v[2]);
 	float dist = ~norm;
-	if(dist <= 1e-10f) return true;
-	norm *= 1.0f/sqrtf(dist);
+	if (dist <= 1e-10f) return true;
+	norm *= 1.0f / sqrtf(dist);
 	//Дистанция
 	dist = v[0] | norm;
 	//Дистанция до плоскости полигона
 	float d = (fndCamPos | norm) - dist;
 	//Если плоскость дальше чем текущий радиус, пропустим её
-	if(fabs(d) >= fndRadius) return true;
+	if (fabs(d) >= fndRadius) return true;
 	//Заполняем параметры плоскостей, проходящих через рёбра
 	static EdgeInfo edge[32];
-	if(n > 32) n = 32;
-	for(long i = 0; i < n; i++)
+	if (n > 32) n = 32;
+	for (long i = 0; i < n; i++)
 	{
 		//Ребро
 		long j = i + 1;
-		if(j >= n) j = 0;
+		if (j >= n) j = 0;
 		//Нормаль плоскости проходящей через ребро
 		edge[i].n = (v[i] - v[j]) ^ norm;
 		float d = ~edge[i].n;
-		if(d == 0.0f) continue;
-		edge[i].n *= 1.0f/sqrtf(d);
+		if (d == 0.0f) continue;
+		edge[i].n *= 1.0f / sqrtf(d);
 		//Дистанция
 		edge[i].d = v[i] | edge[i].n;
 		edge[i].s = v[i];
 		edge[i].e = v[j];
 	}
 	//Ищем ближайшию точку к позиции куда смотрит камера
-	CVECTOR pos1 = fndCamPos - norm*d;
+	CVECTOR pos1 = fndCamPos - norm * d;
 	//Ищем ближайшию точку к точке пересечения луча направления на камеру
 	float cs = norm | fndCamDir;
-	if(cs != 0.0f)
+	if (cs != 0.0f)
 	{
 		d /= -cs;
-		if(d >= 0.0f)
+		if (d >= 0.0f)
 		{
-			CVECTOR pos2 = fndCamPos + fndCamDir*d;
+			CVECTOR pos2 = fndCamPos + fndCamDir * d;
 			CVECTOR dlt = pos2 - pos1;
-			float step = sqrtf(~dlt)*3.0f;
-			if(step > 0.0f)
+			float step = sqrtf(~dlt) * 3.0f;
+			if (step > 0.0f)
 			{
-				if(step > 10.0f) step = 10.0f;
+				if (step > 10.0f) step = 10.0f;
 				step = float(int(step));
-				if(step < 1.0f) step = 1.0f;
+				if (step < 1.0f) step = 1.0f;
 #ifdef LFC_DEBUG
 				if(camSteps < int(step)) camSteps = int(step);
 #endif
-				step = 1.0f/step;
-				for(float k = 0.0f; k <= 1.0f; k += step)
+				step = 1.0f / step;
+				for (float k = 0.0f; k <= 1.0f; k += step)
 				{
-					ApplyPolyFindNearest(edge, n, pos1 + dlt*k);
-				}				
-			}else ApplyPolyFindNearest(edge, n, pos1);
-		}else ApplyPolyFindNearest(edge, n, pos1);
-	}else ApplyPolyFindNearest(edge, n, pos1);
+					ApplyPolyFindNearest(edge, n, pos1 + dlt * k);
+				}
+			}
+			else ApplyPolyFindNearest(edge, n, pos1);
+		}
+		else ApplyPolyFindNearest(edge, n, pos1);
+	}
+	else ApplyPolyFindNearest(edge, n, pos1);
 	return true;
 }
 
-void CameraFollow::ApplyPolyFindNearest(EdgeInfo * e, long ne, const CVECTOR & pos)
+void CameraFollow::ApplyPolyFindNearest(EdgeInfo* e, long ne, const CVECTOR& pos)
 {
 	//Тестируем с рёбрами, определяя близжайшее растояние
 	CVECTOR pnt;
 	float minDist = -1.0f;
-	for(long i = 0; i < ne; i++)
+	for (long i = 0; i < ne; i++)
 	{
 		//Дистанция до плоскости от точки
 		float d = (pos | e[i].n) - e[i].d;
-		if(d >= 0.0f) continue;
+		if (d >= 0.0f) continue;
 		//Точка на прямой
-		CVECTOR p = pos - e[i].n*d;
+		CVECTOR p = pos - e[i].n * d;
 		//Точка на ребре
-		if(((e[i].s - e[i].e) | (e[i].s - p)) < 0.0f) p = e[i].s;
-			else
-				if(((e[i].s - e[i].e) | (p - e[i].e)) < 0.0f) p = e[i].e;
+		if (((e[i].s - e[i].e) | (e[i].s - p)) < 0.0f) p = e[i].s;
+		else
+			if (((e[i].s - e[i].e) | (p - e[i].e)) < 0.0f) p = e[i].e;
 		//Дистанция
 		d = ~(p - pos);
-		if(minDist >= 0.0f)
+		if (minDist >= 0.0f)
 		{
-			if(minDist > d)
+			if (minDist > d)
 			{
 				minDist = d;
 				pnt = p;
 			}
-		}else{
+		}
+		else
+		{
 			minDist = d;
 			pnt = p;
 		}
 	}
 	//Вектор направления на ближайшую точку
-	if(minDist < 0.0f) pnt = pos - fndCamPos; else pnt = pnt - fndCamPos;
+	if (minDist < 0.0f) pnt = pos - fndCamPos;
+	else pnt = pnt - fndCamPos;
 	//Длинна
 	float dist = ~pnt;
-	if(dist >= fndRadius*fndRadius) return;
+	if (dist >= fndRadius * fndRadius) return;
 	//Коэфициент ослабления
 	//XZ
-	float d = sqrtf(pnt.x*pnt.x + pnt.z*pnt.z);
+	float d = sqrtf(pnt.x * pnt.x + pnt.z * pnt.z);
 	float kxz = 1.0f;
-	if(d > 0.0f)
+	if (d > 0.0f)
 	{
-		kxz = (pnt | fndCamDirXZ)/d;
-		kxz = (kxz - fndcsAy)*fndkAy;
-		if(kxz <= 0.0f) return;
+		kxz = (pnt | fndCamDirXZ) / d;
+		kxz = (kxz - fndcsAy) * fndkAy;
+		if (kxz <= 0.0f) return;
 	}
 	//Y
 	CVECTOR norm = pnt;
-	pnt.x = d; pnt.z = 0.0f;
-	d = sqrtf(pnt.x*pnt.x + pnt.y*pnt.y);
+	pnt.x = d;
+	pnt.z = 0.0f;
+	d = sqrtf(pnt.x * pnt.x + pnt.y * pnt.y);
 	float ky = 1.0f;
-	if(d > 0.0f)
+	if (d > 0.0f)
 	{
-		ky = (pnt | fndCamDirY)/d;
-		ky = (ky - fndcsAx)*fndkAx;
-		if(ky <= 0.0f) return;
+		ky = (pnt | fndCamDirY) / d;
+		ky = (ky - fndcsAx) * fndkAx;
+		if (ky <= 0.0f) return;
 	}
 	//Дистанция с учётом коэфициентов поправки
 	float oldDist = dist;
-	dist = fndMaxRadius + (sqrtf(dist) - fndMaxRadius)*float(1.0 - powf(fabsf(1.0f - kxz*ky), 1.5f));
+	dist = fndMaxRadius + (sqrtf(dist) - fndMaxRadius) * float(1.0 - powf(fabsf(1.0f - kxz * ky), 1.5f));
 	Assert(dist >= 0.0f);
-	if(dist < fndRadius) fndRadius = dist;
+	if (dist < fndRadius) fndRadius = dist;
 }
 
 
 //Изменить радиус
 void CameraFollow::ChangeRadius(float dltTime, float radius)
 {
-	if(radius < 0.0f) radius = 0.0f;
-	if(radius > lc->radius) radius = lc->radius;
-	float k = dltTime*10.0f;
-	if(k > 0.99f) k = 0.99f;
+	if (radius < 0.0f) radius = 0.0f;
+	if (radius > lc->radius) radius = lc->radius;
+	float k = dltTime * 10.0f;
+	if (k > 0.99f) k = 0.99f;
 	//kRadInertCur = kRadInert + (kRadInertCur - kRadInert)*k;
 	//k = dltTime*lc->radInertia*(0.1f + kRadInertCur*10.0f);
-	if(radius > camradius) k *= 0.7f;
-	if(k < 0.0f) k = 0.0f;
-	if(k > 1.0f) k = 1.0f;
-	camradius += (radius - camradius)*k;
-//	lc->location->GetRS()->Print(10, 70, "fndRadius = %f, camradius = %f", fndRadius, camradius);
+	if (radius > camradius) k *= 0.7f;
+	if (k < 0.0f) k = 0.0f;
+	if (k > 1.0f) k = 1.0f;
+	camradius += (radius - camradius) * k;
+	//	lc->location->GetRS()->Print(10, 70, "fndRadius = %f, camradius = %f", fndRadius, camradius);
 }
 
 //Найти ускорение остановки камеры при угловом столкновении с патчем, dir +-1
 void CameraFollow::FindRotAccelCam()
 {
 	rotAcc = 0.0f;
-	if(rotSpd > 0.0f) rotAcc = -3.0f;
-	if(rotSpd < 0.0f) rotAcc = 3.0f;	
+	if (rotSpd > 0.0f) rotAcc = -3.0f;
+	if (rotSpd < 0.0f) rotAcc = 3.0f;
 }
 
 //Протянуть луч с учётом cull и размера камеры
-float CameraFollow::Trace(const CVECTOR & src, const CVECTOR & dst)
+float CameraFollow::Trace(const CVECTOR& src, const CVECTOR& dst)
 {
 	//Направление на камеру
 	CVECTOR dir = dst - src;
 	float dist = ~dir;
-	if(dist <= 0.0f) return 2.0f;
-	dist = sqrtf(dist); dir *= (dist + LCF_RADIUS)/dist;
+	if (dist <= 0.0f) return 2.0f;
+	dist = sqrtf(dist);
+	dir *= (dist + LCF_RADIUS) / dist;
 	//Проверка центрального луча
 	float k[5];
 	k[0] = SubTrace(src, src + dir);
 	//Строим базис
 	CVECTOR left = dir ^ CVECTOR(0.0f, 1.0f, 0.0f);
 	float l = ~left;
-	if(l <= 0.0f) return k[0];	
-	left *= 1.0f/sqrtf(l);
+	if (l <= 0.0f) return k[0];
+	left *= 1.0f / sqrtf(l);
 	CVECTOR up = dir ^ left;
 	//Ищем ближайшию дистанцию
 	CVECTOR s;
-	s = src + left*LCF_RADIUS;
+	s = src + left * LCF_RADIUS;
 	k[1] = SubTrace(s, s + dir);
-	s = src - left*LCF_RADIUS;
+	s = src - left * LCF_RADIUS;
 	k[2] = SubTrace(s, s + dir);
-	s = src + up*LCF_RADIUS;
+	s = src + up * LCF_RADIUS;
 	k[3] = SubTrace(s, s + dir);
-	s = src - up*LCF_RADIUS;
+	s = src - up * LCF_RADIUS;
 	k[4] = SubTrace(s, s + dir);
 	float kRes = 2.0f;
-	for(long i = 0; i < 5; i++) if(kRes > k[i]) kRes = k[i];
+	for (long i = 0; i < 5; i++) if (kRes > k[i]) kRes = k[i];
 	return kRes;
-	
 }
 
 //Протянуть луч с учётом cull
-inline float CameraFollow::SubTrace(const CVECTOR & src, const CVECTOR & dst)
+inline float CameraFollow::SubTrace(const CVECTOR& src, const CVECTOR& dst)
 {
 	TRIANGLE trg;
 	float k = lc->Trace(src, dst);
-	if(k > 1.0f || !lc->GetCollideTriangle(trg)) return 2.0f;
+	if (k > 1.0f || !lc->GetCollideTriangle(trg)) return 2.0f;
 	//Определяем нормаль
 	CVECTOR n = (trg.vrt[0] - trg.vrt[1]) ^ (trg.vrt[1] - trg.vrt[2]);
 	float l = ~n;
-	if(l > 0.0f)
+	if (l > 0.0f)
 	{
 		//Оперделим с какой стороны проходим через треугольник
-		n *= 1.0f/sqrtf(l);
-		if((n | src) > (n | trg.vrt[0])) return k;
+		n *= 1.0f / sqrtf(l);
+		if ((n | src) > (n | trg.vrt[0])) return k;
 	}
 	return 2.0f;
 }
-
-

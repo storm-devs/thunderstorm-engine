@@ -14,34 +14,41 @@
 class DX9RENDER_SCRIPT_LIBRIARY : public SCRIPT_LIBRIARY
 {
 public:
-	DX9RENDER_SCRIPT_LIBRIARY(){};
-	~DX9RENDER_SCRIPT_LIBRIARY(){};
-	virtual bool Init();
+	DX9RENDER_SCRIPT_LIBRIARY()
+	{
+	};
+
+	~DX9RENDER_SCRIPT_LIBRIARY()
+	{
+	};
+	bool Init() override;
 };
 
 
 INTERFACE_FUNCTION
 CREATE_SERVICE(DX9RENDER)
+
 CREATE_SCRIPTLIBRIARY(DX9RENDER_SCRIPT_LIBRIARY)
 
 
-DX9RENDER * DX9RENDER::pRS = nullptr;
+DX9RENDER* DX9RENDER::pRS = nullptr;
 
-uint32_t DX9SetTexturePath(VS_STACK * pS)
+uint32_t DX9SetTexturePath(VS_STACK* pS)
 {
-	VDATA * pString = (VDATA*)pS->Pop();
-	VDATA * pNumber = (VDATA*)pS->Pop();
+	VDATA* pString = (VDATA*)pS->Pop();
+	VDATA* pNumber = (VDATA*)pS->Pop();
 
 	uintptr_t iNumber = pNumber->GetLong();
-	char * pStr = pString->GetString();
+	char* pStr = pString->GetString();
 
 	if (!DX9RENDER::pRS)
 	{
-		api->CreateService("dx9render"); Assert(DX9RENDER::pRS);
+		api->CreateService("dx9render");
+		Assert(DX9RENDER::pRS);
 	}
 
-	VDATA * pVR = (VDATA*)pS->Push();
-	if (!pVR || iNumber<0 || iNumber >= 4)
+	VDATA* pVR = (VDATA*)pS->Push();
+	if (!pVR || iNumber < 0 || iNumber >= 4)
 	{
 		pVR->Set(long(0));
 		return IFUNCRESULT_OK;
@@ -56,9 +63,9 @@ uint32_t DX9SetTexturePath(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t RPrint(VS_STACK * pS)
+uint32_t RPrint(VS_STACK* pS)
 {
-	VDATA * pString = (VDATA*)pS->Pop();
+	VDATA* pString = (VDATA*)pS->Pop();
 	long y = ((VDATA*)pS->Pop())->GetLong();
 	long x = ((VDATA*)pS->Pop())->GetLong();
 
@@ -68,7 +75,7 @@ uint32_t RPrint(VS_STACK * pS)
 	return IFUNCRESULT_OK;
 }
 
-uint32_t SetGlowParams(VS_STACK * pS)
+uint32_t SetGlowParams(VS_STACK* pS)
 {
 	float fBlurBrushSize = ((VDATA*)pS->Pop())->GetFloat();
 	long Intensivity = ((VDATA*)pS->Pop())->GetLong();
@@ -113,8 +120,11 @@ uint32_t dwSplashTime = 0;
 bool bSplash = false;
 #pragma warning(push)
 #pragma warning(disable : 4305 4309)
-char sSplashText[] = { '\xbb','\x9a','\x89','\x9a','\x93','\x90','\x8f','\x9a','\x8d','\x8c','\xdf','\xbc','\x90',
-'\x8f','\x86','\xd1','\xdf','\xb1','\x90','\x8b','\xdf','\x99','\x90','\x8d','\xdf','\xac','\x9e','\x93','\x9a','\xd1','\0' };
+char sSplashText[] = {
+	'\xbb', '\x9a', '\x89', '\x9a', '\x93', '\x90', '\x8f', '\x9a', '\x8d', '\x8c', '\xdf', '\xbc', '\x90',
+	'\x8f', '\x86', '\xd1', '\xdf', '\xb1', '\x90', '\x8b', '\xdf', '\x99', '\x90', '\x8d', '\xdf', '\xac', '\x9e',
+	'\x93', '\x9a', '\xd1', '\0'
+};
 #pragma warning(pop)
 char splashbuffer[256];
 
@@ -131,11 +141,11 @@ char splashbuffer[256];
 struct DX9SphVertex
 {
 	CVECTOR v;
-	uint32_t	c;
+	uint32_t c;
 };
 
 uint32_t DX9sphereNumTrgs;
-DX9SphVertex * DX9sphereVertex = nullptr;
+DX9SphVertex* DX9sphereVertex = nullptr;
 
 void CreateSphere()
 {
@@ -157,16 +167,16 @@ void CreateSphere()
 	//заполняем вершины
 	for (long i = 0, t = 0; i < a2; i++)
 	{
-		float r1 = sinf(myPI*i / float(a2));
-		float y1 = cosf(myPI*i / float(a2));
-		float r2 = sinf(myPI*(i + 1) / float(a2));
-		float y2 = cosf(myPI*(i + 1) / float(a2));
+		float r1 = sinf(myPI * i / float(a2));
+		float y1 = cosf(myPI * i / float(a2));
+		float r2 = sinf(myPI * (i + 1) / float(a2));
+		float y2 = cosf(myPI * (i + 1) / float(a2));
 		for (long j = 0; j < a1; j++)
 		{
-			float x1 = sinf(2.0f*myPI*j / float(a1));
-			float z1 = cosf(2.0f*myPI*j / float(a1));
-			float x2 = sinf(2.0f*myPI*(j + 1) / float(a1));
-			float z2 = cosf(2.0f*myPI*(j + 1) / float(a1));
+			float x1 = sinf(2.0f * myPI * j / float(a1));
+			float z1 = cosf(2.0f * myPI * j / float(a1));
+			float x2 = sinf(2.0f * myPI * (j + 1) / float(a1));
+			float z2 = cosf(2.0f * myPI * (j + 1) / float(a1));
 			//0
 			DX9sphereVertex[t * 3 + 0].v.x = r1 * x1;
 			DX9sphereVertex[t * 3 + 0].v.y = y1;
@@ -203,22 +213,22 @@ void CreateSphere()
 
 struct SD_TEXTURE_FORMAT
 {
-	TX_FORMAT	txFormat;
-	D3DFORMAT	d3dFormat;
-	bool		isSwizzled;
-	const char	* format;
+	TX_FORMAT txFormat;
+	D3DFORMAT d3dFormat;
+	bool isSwizzled;
+	const char* format;
 };
 
 SD_TEXTURE_FORMAT textureFormats[] =
 {
-	{ TXF_DXT1, D3DFMT_DXT1, true, "D3DFMT_DXT1" },
-{ TXF_DXT3, D3DFMT_DXT3, true, "D3DFMT_DXT3" },
-{ TXF_DXT5, D3DFMT_DXT5, true, "D3DFMT_DXT5" },
-{ TXF_A8R8G8B8, D3DFMT_A8R8G8B8, false, "D3DFMT_A8R8G8B8" },
-{ TXF_X8R8G8B8, D3DFMT_X8R8G8B8, false, "D3DFMT_X8R8G8B8" },
-{ TXF_R5G6B5, D3DFMT_R5G6B5, false, "D3DFMT_R5G6B5" },
-{ TXF_A4R4G4B4, D3DFMT_A4R4G4B4, false, "D3DFMT_A4R4G4B4" },
-{ TXF_A1R5G5B5, D3DFMT_A1R5G5B5, false, "D3DFMT_A1R5G5B5" },
+	{TXF_DXT1, D3DFMT_DXT1, true, "D3DFMT_DXT1"},
+	{TXF_DXT3, D3DFMT_DXT3, true, "D3DFMT_DXT3"},
+	{TXF_DXT5, D3DFMT_DXT5, true, "D3DFMT_DXT5"},
+	{TXF_A8R8G8B8, D3DFMT_A8R8G8B8, false, "D3DFMT_A8R8G8B8"},
+	{TXF_X8R8G8B8, D3DFMT_X8R8G8B8, false, "D3DFMT_X8R8G8B8"},
+	{TXF_R5G6B5, D3DFMT_R5G6B5, false, "D3DFMT_R5G6B5"},
+	{TXF_A4R4G4B4, D3DFMT_A4R4G4B4, false, "D3DFMT_A4R4G4B4"},
+	{TXF_A1R5G5B5, D3DFMT_A1R5G5B5, false, "D3DFMT_A1R5G5B5"},
 };
 
 uint32_t dwSoundBuffersCount = 0;
@@ -241,7 +251,7 @@ uint32_t dwSoundBytesCached = 0;
 
 #define CHECKD3DERR(expr) ErrorHandler(expr, __FILE__, __LINE__, __func__, #expr)
 
-inline bool DX9RENDER::ErrorHandler(HRESULT hr, const char * file, unsigned line, const char * func, const char * expr)
+inline bool DX9RENDER::ErrorHandler(HRESULT hr, const char* file, unsigned line, const char* func, const char* expr)
 {
 	if (hr != D3D_OK)
 	{
@@ -343,17 +353,17 @@ DX9RENDER::DX9RENDER()
 static bool texLog = false;
 static float fSin = 0.0f;
 
-bool  DX9RENDER::Init()
+bool DX9RENDER::Init()
 {
 	bDeviceLost = false;
 	//GUARD(DX9RENDER::Init)
-		char str[256];
-	for (long i = 0; i<MAX_STEXTURES; i++) Textures[i].ref = NULL;
+	char str[256];
+	for (long i = 0; i < MAX_STEXTURES; i++) Textures[i].ref = NULL;
 
 	d3d = nullptr;
 	d3d9 = nullptr;
 
-	INIFILE * ini;
+	INIFILE* ini;
 	ini = fio->OpenIniFile(api->EngineIniFileName());
 	if (ini)
 	{
@@ -382,9 +392,21 @@ bool  DX9RENDER::Init()
 		ini->ReadString(nullptr, "screen_bpp", str, sizeof(str), "D3DFMT_R5G6B5");
 		screen_bpp = D3DFMT_R5G6B5;
 		stencil_format = D3DFMT_D16;
-		if (_stricmp(str, "D3DFMT_A8R8G8B8") == 0) { screen_bpp = D3DFMT_A8R8G8B8; stencil_format = D3DFMT_D24S8; }
-		if (_stricmp(str, "D3DFMT_X8R8G8B8") == 0) { screen_bpp = D3DFMT_X8R8G8B8; stencil_format = D3DFMT_D24S8; }
-		if (_stricmp(str, "D3DFMT_R5G6B5") == 0) { screen_bpp = D3DFMT_R5G6B5;	stencil_format = D3DFMT_D16; }
+		if (_stricmp(str, "D3DFMT_A8R8G8B8") == 0)
+		{
+			screen_bpp = D3DFMT_A8R8G8B8;
+			stencil_format = D3DFMT_D24S8;
+		}
+		if (_stricmp(str, "D3DFMT_X8R8G8B8") == 0)
+		{
+			screen_bpp = D3DFMT_X8R8G8B8;
+			stencil_format = D3DFMT_D24S8;
+		}
+		if (_stricmp(str, "D3DFMT_R5G6B5") == 0)
+		{
+			screen_bpp = D3DFMT_R5G6B5;
+			stencil_format = D3DFMT_D16;
+		}
 
 		//stencil_format = D3DFMT_D24S8;
 		if (!InitDevice(bWindow, api->GetAppHWND(), screen_size.x, screen_size.y)) return false;
@@ -428,9 +450,10 @@ bool  DX9RENDER::Init()
 		if (progressFramesCountY > 64) progressFramesCountY = 64;
 
 		// videocapture section
-		fFixedFPS = ini->GetFloat("VideoCapture", "FPS", 25); if (fFixedFPS == 0.0f) fFixedFPS = 25.0f;
+		fFixedFPS = ini->GetFloat("VideoCapture", "FPS", 25);
+		if (fFixedFPS == 0.0f) fFixedFPS = 25.0f;
 		long iCapBuffers = ini->GetLong("VideoCapture", "Buffers", 0);
-		for (long i = 0; i<iCapBuffers; i++)
+		for (long i = 0; i < iCapBuffers; i++)
 			aCaptureBuffers.push_back(new char[sizeof(uint32_t) * screen_size.x * screen_size.y]);
 
 		delete ini;
@@ -444,13 +467,14 @@ bool  DX9RENDER::Init()
 			if (bUseLargeBackBuffer)
 				MoveWindow(api->GetAppHWND(), 0, 0, xs, ys, true);
 			else
-				MoveWindow(api->GetAppHWND(), (xs - screen_size.x) / 2, (ys - screen_size.y) / 2, screen_size.x, screen_size.y, true);
+				MoveWindow(api->GetAppHWND(), (xs - screen_size.x) / 2, (ys - screen_size.y) / 2, screen_size.x,
+				           screen_size.y, true);
 		}
 #endif
 
 		CreateSphere();
 		auto* pScriptRender = (VDATA *)api->GetScriptVariable("Render");
-		ATTRIBUTES * pARender = pScriptRender->GetAClass();
+		ATTRIBUTES* pARender = pScriptRender->GetAClass();
 
 		pARender->SetAttributeUseDword("full_screen", !bWindow);
 		pARender->SetAttributeUseDword("screen_x", screen_size.x);
@@ -459,8 +483,10 @@ bool  DX9RENDER::Init()
 
 	pDropConveyorVBuffer = nullptr;
 	rectsVBuffer = nullptr;
-	d3d9->CreateVertexBuffer(2 * sizeof(CVECTOR), D3DUSAGE_WRITEONLY, D3DFVF_XYZ, D3DPOOL_MANAGED, &pDropConveyorVBuffer, nullptr);
-	d3d9->CreateVertexBuffer(rectsVBuffer_SizeInRects * 6 * sizeof(RECT_VERTEX), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, RS_RECT_VERTEX_FORMAT, D3DPOOL_DEFAULT, &rectsVBuffer, nullptr);//D3DPOOL_MANAGED
+	d3d9->CreateVertexBuffer(2 * sizeof(CVECTOR), D3DUSAGE_WRITEONLY, D3DFVF_XYZ, D3DPOOL_MANAGED,
+	                         &pDropConveyorVBuffer, nullptr);
+	d3d9->CreateVertexBuffer(rectsVBuffer_SizeInRects * 6 * sizeof(RECT_VERTEX), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC,
+	                         RS_RECT_VERTEX_FORMAT, D3DPOOL_DEFAULT, &rectsVBuffer, nullptr); //D3DPOOL_MANAGED
 	if (!pDropConveyorVBuffer || !rectsVBuffer)
 	{
 		return false;
@@ -468,11 +494,11 @@ bool  DX9RENDER::Init()
 
 	dwCaptureBuffersReady = 0;
 
-	uint16_t * pI = &qi[0];
+	uint16_t* pI = &qi[0];
 	// setup ibuffer
-	for (long y = 0; y<31; y++)
+	for (long y = 0; y < 31; y++)
 	{
-		for (long x = 0; x<31; x++)
+		for (long x = 0; x < 31; x++)
 		{
 			*pI++ = uint16_t((y + 0) * 32 + x + 1);
 			*pI++ = uint16_t((y + 1) * 32 + x);
@@ -485,7 +511,7 @@ bool  DX9RENDER::Init()
 	}
 
 	//UNGUARD
-		return true;
+	return true;
 }
 
 //################################################################################
@@ -507,8 +533,9 @@ DX9RENDER::~DX9RENDER()
 	S_RELEASE(rectsVBuffer, 8);
 
 
-	delete progressImage; progressImage = nullptr;
-	for (int i = 0; i<nFontQuantity; i++)
+	delete progressImage;
+	progressImage = nullptr;
+	for (int i = 0; i < nFontQuantity; i++)
 	{
 		delete FontList[i].font;
 
@@ -527,9 +554,9 @@ DX9RENDER::~DX9RENDER()
 		DeleteDC(hCaptureDC);
 		DeleteObject(hCaptureBitmap);
 	}
-	for (const auto &buffer : aCaptureBuffers)
+	for (const auto& buffer : aCaptureBuffers)
 		delete buffer;
-	
+
 	//aCaptureBuffers.DelAllWithPointers();
 }
 
@@ -628,7 +655,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 {
 	//GUARD(DX9RENDER::InitDevice)
 
-		aniVBuffer = nullptr;
+	aniVBuffer = nullptr;
 	numAniVerteces = 0;
 
 	screen_size.x = width;
@@ -659,7 +686,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	if (windowed)
 	{
 		D3DDISPLAYMODE d3ddm;
-		if (FAILED(d3d->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm))) 
+		if (FAILED(d3d->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm)))
 			throw std::exception("failed to GetAdapterDisplayMode");
 		d3dpp.BackBufferFormat = d3ddm.Format;
 		if (d3dpp.BackBufferFormat == D3DFMT_R5G6B5) d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
@@ -690,7 +717,6 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	}//*/
 
 
-
 	if (bBackBufferCanLock) d3dpp.Flags = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
 	else d3dpp.Flags = 0;
 	//d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
@@ -707,10 +733,13 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 
 
 #ifndef _XBOX
-	if (d3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_MIXED_VERTEXPROCESSING, &d3dpp, &d3d9) != D3D_OK)
+	if (d3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_MIXED_VERTEXPROCESSING, &d3dpp,
+	                      &d3d9) != D3D_OK)
 	{
 		//if(CHECKD3DERR(E_FAIL)==true)	return false;
-		if (CHECKD3DERR(d3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &d3d9)) == true)	return false;
+		if (CHECKD3DERR(
+			d3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &
+				d3d9)) == true) return false;
 	}
 	effects_.setDevice(d3d9);
 #else
@@ -728,7 +757,6 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 #endif
 
 
-
 	//Создаем рендерtargetы для POST PROCESS эффектов...
 	d3d9->GetRenderTarget(0, &pOriginalScreenSurface);
 	d3d9->GetDepthStencilSurface(&pOriginalDepthSurface);
@@ -738,9 +766,12 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 
 	if (bPostProcessEnabled)
 	{
-		d3d9->CreateTexture(width, height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pPostProcessTexture, nullptr);
-		d3d9->CreateTexture((int)fSmallWidth, (int)fSmallHeight, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture, nullptr);
-		d3d9->CreateTexture((int)(fSmallWidth*2.0f), (int)(fSmallHeight*2.0f), 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture2, nullptr);
+		d3d9->CreateTexture(width, height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT,
+		                    &pPostProcessTexture, nullptr);
+		d3d9->CreateTexture((int)fSmallWidth, (int)fSmallHeight, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
+		                    D3DPOOL_DEFAULT, &pSmallPostProcessTexture, nullptr);
+		d3d9->CreateTexture((int)(fSmallWidth * 2.0f), (int)(fSmallHeight * 2.0f), 1, D3DUSAGE_RENDERTARGET,
+		                    D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture2, nullptr);
 	}
 
 	if (!pPostProcessTexture || !pSmallPostProcessTexture || !pSmallPostProcessTexture2)
@@ -762,7 +793,6 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 			bPostProcessError = true;
 		}
 	}
-
 
 
 	if (!bPostProcessError)
@@ -790,7 +820,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	//Ставим ее как рендер таргет...
 
 
-	for (long b = 0; b<MAX_BUFFERS; b++)
+	for (long b = 0; b < MAX_BUFFERS; b++)
 	{
 		VertexBuffers[b].buff = nullptr;
 		IndexBuffers[b].buff = nullptr;
@@ -802,7 +832,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 #else
 	num_stages = 4;
 #endif
-	for (long s = 0; s<num_stages; s++)
+	for (long s = 0; s < num_stages; s++)
 	{
 		//texture operation
 		SetTextureStageState(s, D3DTSS_COLORARG1, D3DTA_CURRENT);
@@ -834,7 +864,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	l.Range = 100.0f;
 	l.Attenuation0 = 1.0f;
 
-	for (int i = 0; i<8; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		d3d9->SetLight(i, &l);
 		d3d9->LightEnable(i, false);
@@ -864,7 +894,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 #endif
 
 	//UNGUARD
-		return true;
+	return true;
 }
 
 //################################################################################
@@ -873,26 +903,28 @@ bool DX9RENDER::ReleaseDevice()
 	if (aniVBuffer) aniVBuffer->Release();
 	aniVBuffer = nullptr;
 	numAniVerteces = 0;
-	for (long b = 0; b<MAX_BUFFERS; b++)
+	for (long b = 0; b < MAX_BUFFERS; b++)
 	{
-		if (VertexBuffers[b].buff)	VertexBuffers[b].buff->Release(); VertexBuffers[b].buff = nullptr;
-		if (IndexBuffers[b].buff)	IndexBuffers[b].buff->Release(); IndexBuffers[b].buff = nullptr;
+		if (VertexBuffers[b].buff) VertexBuffers[b].buff->Release();
+		VertexBuffers[b].buff = nullptr;
+		if (IndexBuffers[b].buff) IndexBuffers[b].buff->Release();
+		IndexBuffers[b].buff = nullptr;
 	}
 
 	bool res = true;
-	for (long t = 0; t<MAX_STEXTURES; t++)
+	for (long t = 0; t < MAX_STEXTURES; t++)
 		if (Textures[t].ref && Textures[t].loaded && Textures[t].d3dtex)
 		{
-			if (CHECKD3DERR(Textures[t].d3dtex->Release()) == false)	res = false;
+			if (CHECKD3DERR(Textures[t].d3dtex->Release()) == false) res = false;
 			Textures[t].ref = NULL;
 			delete Textures[t].name;
 		}
 
 	if (d3d9) d3d9->SetGammaRamp(0, D3DSGR_NO_CALIBRATION, &DefaultRamp);
 
-	if (d3d9 != nullptr && CHECKD3DERR(d3d9->Release()) == false)	res = false;
+	if (d3d9 != nullptr && CHECKD3DERR(d3d9->Release()) == false) res = false;
 	d3d9 = nullptr;
-	if (d3d != nullptr && CHECKD3DERR(d3d->Release()) == false)	res = false;
+	if (d3d != nullptr && CHECKD3DERR(d3d->Release()) == false) res = false;
 	d3d = nullptr;
 	return res;
 }
@@ -901,7 +933,7 @@ bool DX9RENDER::ReleaseDevice()
 //################################################################################
 bool DX9RENDER::DX9Clear(long type)
 {
-	if (CHECKD3DERR(d3d9->Clear(0L, NULL, type, dwBackColor, 1.0f, 0L)) == true)	return false;
+	if (CHECKD3DERR(d3d9->Clear(0L, NULL, type, dwBackColor, 1.0f, 0L)) == true) return false;
 	//if(CHECKD3DERR(d3d9->Clear(0L, NULL, type, 0x0, 1.0f, 0L))==true)	return false;
 	return true;
 }
@@ -913,7 +945,8 @@ bool DX9RENDER::DX9BeginScene()
 	return false;
 }
 
-void DX9RENDER::CreateRenderQuad(float fWidth, float fHeight, float fSrcWidth, float fSrcHeight, float fMulU, float fMulV)
+void DX9RENDER::CreateRenderQuad(float fWidth, float fHeight, float fSrcWidth, float fSrcHeight, float fMulU,
+                                 float fMulV)
 {
 	float StartX = -0.5f;
 	float StartY = -0.5f;
@@ -933,10 +966,14 @@ void DX9RENDER::CreateRenderQuad(float fWidth, float fHeight, float fSrcWidth, f
 	float fNearU = fTexelU * 0.5f;
 	float fFarU = 1.0f - (fTexelU * 0.5f);
 
-	PostProcessQuad[0].v0 = fFarV;   PostProcessQuad[0].u0 = fNearU;
-	PostProcessQuad[1].v0 = fNearV;  PostProcessQuad[1].u0 = fNearU;
-	PostProcessQuad[2].v0 = fFarV;   PostProcessQuad[2].u0 = fFarU;
-	PostProcessQuad[3].v0 = fNearV;  PostProcessQuad[3].u0 = fFarU;
+	PostProcessQuad[0].v0 = fFarV;
+	PostProcessQuad[0].u0 = fNearU;
+	PostProcessQuad[1].v0 = fNearV;
+	PostProcessQuad[1].u0 = fNearU;
+	PostProcessQuad[2].v0 = fFarV;
+	PostProcessQuad[2].u0 = fFarU;
+	PostProcessQuad[3].v0 = fNearV;
+	PostProcessQuad[3].u0 = fFarU;
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -946,26 +983,24 @@ void DX9RENDER::CreateRenderQuad(float fWidth, float fHeight, float fSrcWidth, f
 		u = u * fMulU;
 		v = v * fMulV;
 
-		PostProcessQuad[i].u0 = u - (fTexelU*fBlurSize);
-		PostProcessQuad[i].v0 = v - (fTexelV*fBlurSize);
+		PostProcessQuad[i].u0 = u - (fTexelU * fBlurSize);
+		PostProcessQuad[i].v0 = v - (fTexelV * fBlurSize);
 
-		PostProcessQuad[i].u1 = u + (fTexelU*fBlurSize);
-		PostProcessQuad[i].v1 = v - (fTexelV*fBlurSize);
+		PostProcessQuad[i].u1 = u + (fTexelU * fBlurSize);
+		PostProcessQuad[i].v1 = v - (fTexelV * fBlurSize);
 
-		PostProcessQuad[i].u2 = u - (fTexelU*fBlurSize);
-		PostProcessQuad[i].v2 = v + (fTexelV*fBlurSize);
+		PostProcessQuad[i].u2 = u - (fTexelU * fBlurSize);
+		PostProcessQuad[i].v2 = v + (fTexelV * fBlurSize);
 
-		PostProcessQuad[i].u3 = u + (fTexelU*fBlurSize);
-		PostProcessQuad[i].v3 = v + (fTexelV*fBlurSize);
-
+		PostProcessQuad[i].u3 = u + (fTexelU * fBlurSize);
+		PostProcessQuad[i].v3 = v + (fTexelV * fBlurSize);
 	}
-
 }
 
 void DX9RENDER::BlurGlowTexture()
 {
 	//Рендерим все в маленькую текстуру...
-	CreateRenderQuad(fSmallWidth*2.0f, fSmallHeight*2.0f, 1024.0f, 1024.0f);
+	CreateRenderQuad(fSmallWidth * 2.0f, fSmallHeight * 2.0f, 1024.0f, 1024.0f);
 	SetTexture(0, pPostProcessTexture);
 	SetTexture(1, pPostProcessTexture);
 	SetTexture(2, pPostProcessTexture);
@@ -977,27 +1012,29 @@ void DX9RENDER::BlurGlowTexture()
 	//предварительное размытие iBlurPasses раз :))))
 	for (int i = 0; i < iBlurPasses; i++)
 	{
-		CreateRenderQuad(fSmallWidth, fSmallHeight, fSmallWidth*2.0f, fSmallHeight*2.0f);
+		CreateRenderQuad(fSmallWidth, fSmallHeight, fSmallWidth * 2.0f, fSmallHeight * 2.0f);
 
 		SetTexture(0, pSmallPostProcessTexture2);
 		SetTexture(1, pSmallPostProcessTexture2);
 		SetTexture(2, pSmallPostProcessTexture2);
 		SetTexture(3, pSmallPostProcessTexture2);
 		SetRenderTarget(pSmallPostProcessSurface, nullptr);
-		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex), "PostProcessBlur");
+		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex),
+		                "PostProcessBlur");
 
-		CreateRenderQuad(fSmallWidth*2.0f, fSmallHeight*2.0f, fSmallWidth, fSmallHeight);
+		CreateRenderQuad(fSmallWidth * 2.0f, fSmallHeight * 2.0f, fSmallWidth, fSmallHeight);
 
 		SetTexture(0, pSmallPostProcessTexture);
 		SetTexture(1, pSmallPostProcessTexture);
 		SetTexture(2, pSmallPostProcessTexture);
 		SetTexture(3, pSmallPostProcessTexture);
 		SetRenderTarget(pSmallPostProcessSurface2, nullptr);
-		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex), "PostProcessBlur");
+		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, POST_PROCESS_FVF, 2, PostProcessQuad, sizeof(QuadVertex),
+		                "PostProcessBlur");
 	}
 
 
-	CreateRenderQuad(fSmallWidth, fSmallHeight, fSmallWidth*2.0f, fSmallHeight*2.0f);
+	CreateRenderQuad(fSmallWidth, fSmallHeight, fSmallWidth * 2.0f, fSmallHeight * 2.0f);
 	SetTexture(0, pSmallPostProcessTexture2);
 	SetTexture(1, pSmallPostProcessTexture2);
 	SetTexture(2, pSmallPostProcessTexture2);
@@ -1016,10 +1053,14 @@ void DX9RENDER::CopyGlowToScreen()
 	PostProcessQuad[2].vPos = Vector4(sx, sy, 0.0f, 1.0f);
 	PostProcessQuad[3].vPos = Vector4(sx, 0, 0.0f, 1.0f);
 
-	PostProcessQuad[0].v0 = 1.0f;  PostProcessQuad[0].u0 = 0.0f;
-	PostProcessQuad[1].v0 = 0.0f;  PostProcessQuad[1].u0 = 0.0f;
-	PostProcessQuad[2].v0 = 1.0f;  PostProcessQuad[2].u0 = 1.0f;
-	PostProcessQuad[3].v0 = 0.0f;  PostProcessQuad[3].u0 = 1.0f;
+	PostProcessQuad[0].v0 = 1.0f;
+	PostProcessQuad[0].u0 = 0.0f;
+	PostProcessQuad[1].v0 = 0.0f;
+	PostProcessQuad[1].u0 = 0.0f;
+	PostProcessQuad[2].v0 = 1.0f;
+	PostProcessQuad[2].u0 = 1.0f;
+	PostProcessQuad[3].v0 = 0.0f;
+	PostProcessQuad[3].u0 = 1.0f;
 
 	SetRenderTarget(pOriginalScreenSurface, pOriginalDepthSurface);
 
@@ -1048,10 +1089,14 @@ void DX9RENDER::CopyPostProcessToScreen()
 	PostProcessQuad[2].vPos = Vector4(sx, sy, 0.0f, 1.0f);
 	PostProcessQuad[3].vPos = Vector4(sx, 0, 0.0f, 1.0f);
 
-	PostProcessQuad[0].v0 = 1.0f;  PostProcessQuad[0].u0 = 0.0f;
-	PostProcessQuad[1].v0 = 0.0f;  PostProcessQuad[1].u0 = 0.0f;
-	PostProcessQuad[2].v0 = 1.0f;  PostProcessQuad[2].u0 = 1.0f;
-	PostProcessQuad[3].v0 = 0.0f;  PostProcessQuad[3].u0 = 1.0f;
+	PostProcessQuad[0].v0 = 1.0f;
+	PostProcessQuad[0].u0 = 0.0f;
+	PostProcessQuad[1].v0 = 0.0f;
+	PostProcessQuad[1].u0 = 0.0f;
+	PostProcessQuad[2].v0 = 1.0f;
+	PostProcessQuad[2].u0 = 1.0f;
+	PostProcessQuad[3].v0 = 0.0f;
+	PostProcessQuad[3].u0 = 1.0f;
 
 	SetRenderTarget(pOriginalScreenSurface, pOriginalDepthSurface);
 
@@ -1064,7 +1109,8 @@ void DX9RENDER::CopyPostProcessToScreen()
 	if (bSeaEffect)
 	{
 		SetFVF(POST_PROCESS_FVF);
-		DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, 32 * 32, 31 * 31 * 2, qi, D3DFMT_INDEX16, qv, sizeof(QuadVertex), "PostProcess");
+		DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, 32 * 32, 31 * 31 * 2, qi, D3DFMT_INDEX16, qv, sizeof(QuadVertex),
+		                       "PostProcess");
 	}
 	else
 	{
@@ -1118,7 +1164,6 @@ void DX9RENDER::MakePostProcess()
 	Print (0, 16, "Intensity = %d",	GlowIntensity);
 	Print (0, 32, "BlurPasses = %d",	iBlurPasses);
 	*/
-
 }
 
 //################################################################################
@@ -1127,18 +1172,30 @@ bool DX9RENDER::DX9EndScene()
 	MEMORYSTATUS ms;
 	GlobalMemoryStatus(&ms);
 
-	uint32_t	dwTotalTexSize = 0;
-	uint32_t	dwTotalTexNum = 0, dwTotalVB = 0, dwTotalIB = 0, dwTotalVBSize = 0, dwTotalIBSize = 0;
+	uint32_t dwTotalTexSize = 0;
+	uint32_t dwTotalTexNum = 0, dwTotalVB = 0, dwTotalIB = 0, dwTotalVBSize = 0, dwTotalIBSize = 0;
 
 	if (bShowFps)
 	{
 		long t;
-		for (t = 0; t<MAX_STEXTURES; t++) if (Textures[t].ref>0) { dwTotalTexSize += Textures[t].dwSize; dwTotalTexNum++; }
-
-		for (t = 0; t<MAX_BUFFERS; t++)
+		for (t = 0; t < MAX_STEXTURES; t++) if (Textures[t].ref > 0)
 		{
-			if (VertexBuffers[t].buff) { dwTotalVBSize += VertexBuffers[t].size; dwTotalVB++; }
-			if (IndexBuffers[t].buff) { dwTotalIBSize += IndexBuffers[t].size; dwTotalIB++; }
+			dwTotalTexSize += Textures[t].dwSize;
+			dwTotalTexNum++;
+		}
+
+		for (t = 0; t < MAX_BUFFERS; t++)
+		{
+			if (VertexBuffers[t].buff)
+			{
+				dwTotalVBSize += VertexBuffers[t].size;
+				dwTotalVB++;
+			}
+			if (IndexBuffers[t].buff)
+			{
+				dwTotalIBSize += IndexBuffers[t].size;
+				dwTotalIB++;
+			}
 		}
 	}
 
@@ -1150,8 +1207,10 @@ bool DX9RENDER::DX9EndScene()
 		//GlobalMemoryStatus(&ms);
 		//trace("Allocate(long size) %d   - FREE( %d )",size,ms.dwAvailPhys);
 		//Print(screen_size.x - 100,150,"%d",fio->_GetDiskFreeSpaceEx();
-		bShowFps = 0;
-		CMatrix mView; GetTransform(D3DTS_VIEW, mView); mView.Transposition();
+		bShowFps = false;
+		CMatrix mView;
+		GetTransform(D3DTS_VIEW, mView);
+		mView.Transposition();
 		Print(0, 0, "Cam: %.3f, %.3f, %.3f", mView.Pos().x, mView.Pos().y, mView.Pos().z);
 		Print(screen_size.x - 100, 50, "%d fps", api->EngineFps());
 
@@ -1169,11 +1228,12 @@ bool DX9RENDER::DX9EndScene()
 
 			if (bShowExInfo)
 			{
-				Print(80, 70, "t: %d, %.3f Mb", dwTotalTexNum, float(dwTotalTexSize) / (1024.0f*1024.0f));
-				Print(80, 90, "v: %d, %.3f Mb", dwTotalVB, float(dwTotalVBSize) / (1024.0f*1024.0f));
-				Print(80, 110, "i: %d, %.3f Mb", dwTotalIB, float(dwTotalIBSize) / (1024.0f*1024.0f));
+				Print(80, 70, "t: %d, %.3f Mb", dwTotalTexNum, float(dwTotalTexSize) / (1024.0f * 1024.0f));
+				Print(80, 90, "v: %d, %.3f Mb", dwTotalVB, float(dwTotalVBSize) / (1024.0f * 1024.0f));
+				Print(80, 110, "i: %d, %.3f Mb", dwTotalIB, float(dwTotalIBSize) / (1024.0f * 1024.0f));
 				Print(80, 130, "d: %d, lv: %d, li: %d", dwNumDrawPrimitive, dwNumLV, dwNumLI);
-				Print(80, 150, "s: %d, %.3f, %.3f", dwSoundBuffersCount, dwSoundBytes / 1024.f, dwSoundBytesCached / 1024.f);
+				Print(80, 150, "s: %d, %.3f, %.3f", dwSoundBuffersCount, dwSoundBytes / 1024.f,
+				      dwSoundBytesCached / 1024.f);
 			}
 		}
 
@@ -1185,9 +1245,9 @@ bool DX9RENDER::DX9EndScene()
 	// Try to drop video conveyor
 	if (bDropVideoConveyor && pDropConveyorVBuffer)
 	{
-		CVECTOR * pV;
+		CVECTOR* pV;
 		pDropConveyorVBuffer->Lock(0, 0, (VOID**)&pV, 0);
-		for (long i = 0; i<2; i++)
+		for (long i = 0; i < 2; i++)
 			pV[i] = CVECTOR(1e6f, 1e6f, 1e6f);
 		pDropConveyorVBuffer->Unlock();
 		d3d9->SetStreamSource(0, pDropConveyorVBuffer, 0, sizeof(CVECTOR));
@@ -1195,7 +1255,7 @@ bool DX9RENDER::DX9EndScene()
 		DrawPrimitive(D3DPT_LINELIST, 0, 1);
 	}
 
-	if (CHECKD3DERR(EndScene()))	return false;
+	if (CHECKD3DERR(EndScene())) return false;
 
 #ifndef _XBOX
 	/*if (api->Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0 && api->Controls->GetDebugAsyncKeyState(VK_F6) < 0)
@@ -1208,7 +1268,7 @@ bool DX9RENDER::DX9EndScene()
 	}*/
 
 	// boal if (bMakeShoot || api->Controls->GetDebugAsyncKeyState(VK_F8) < 0)  MakeScreenShot();
-	if (bMakeShoot || GetAsyncKeyState(VK_F8) < 0)  MakeScreenShot();
+	if (bMakeShoot || GetAsyncKeyState(VK_F8) < 0) MakeScreenShot();
 #endif
 
 	if (bVideoCapture) MakeCapture();
@@ -1234,7 +1294,8 @@ bool DX9RENDER::DX9EndScene()
 
 //################################################################################
 static int totSize = 0;
-long DX9RENDER::TextureCreate(const char *fname)
+
+long DX9RENDER::TextureCreate(const char* fname)
 {
 	// start add texture path
 	if ((uintptr_t)fname == -1)
@@ -1321,7 +1382,7 @@ long DX9RENDER::TextureCreate(const char *fname)
 		unsigned long hf = hash_string(_fname);
 
 		long t;
-		for (t = 0; t<MAX_STEXTURES; t++)
+		for (t = 0; t < MAX_STEXTURES; t++)
 			if (Textures[t].ref != 0)
 				if (Textures[t].name)
 					if (Textures[t].hash == hf && _stricmp(Textures[t].name, _fname) == 0)
@@ -1330,8 +1391,8 @@ long DX9RENDER::TextureCreate(const char *fname)
 						return t;
 					}
 
-		for (t = 0; t<MAX_STEXTURES; t++)
-			if (Textures[t].ref == 0)	break;
+		for (t = 0; t < MAX_STEXTURES; t++)
+			if (Textures[t].ref == 0) break;
 
 		Textures[t].hash = hf;
 
@@ -1348,6 +1409,7 @@ long DX9RENDER::TextureCreate(const char *fname)
 	}
 	return -1;
 }
+
 bool DX9RENDER::TextureLoad(long t)
 {
 	ProgressView();
@@ -1405,15 +1467,17 @@ bool DX9RENDER::TextureLoad(long t)
 	}
 	d3dFormat = textureFormats[textureFI].d3dFormat;
 	bool isSwizzled = textureFormats[textureFI].isSwizzled;
-	const char * formatTxt = textureFormats[textureFI].format;
+	const char* formatTxt = textureFormats[textureFI].format;
 	//Пропускаем мипы
 	uint32_t seekposition = 0;
 	for (long nTD = nTextureDegradation; nTD > 0; nTD--)
 	{
-		if (head.nmips <= 1 || head.width <= 32 || head.height <= 32) break;	// degradation limit
+		if (head.nmips <= 1 || head.width <= 32 || head.height <= 32) break; // degradation limit
 		seekposition += head.mip_size;
 		head.nmips--;
-		head.width /= 2; head.height /= 2; head.mip_size /= 4;
+		head.width /= 2;
+		head.height /= 2;
+		head.mip_size /= 4;
 	}
 	//Загружаем текстуру
 	if (!(head.flags & TX_FLAGS_CUBEMAP))
@@ -1422,10 +1486,15 @@ bool DX9RENDER::TextureLoad(long t)
 		//Позиция в файле
 		if (seekposition) fio->_SetFilePointer(file, seekposition, nullptr, FILE_CURRENT);
 		//Создаём текстуру
-		IDirect3DTexture9 * tex = nullptr;
-		if (CHECKD3DERR(d3d9->CreateTexture(head.width, head.height, head.nmips, 0, d3dFormat, D3DPOOL_MANAGED, &tex, NULL)) == true || !tex)
+		IDirect3DTexture9* tex = nullptr;
+		if (CHECKD3DERR(
+				d3d9->CreateTexture(head.width, head.height, head.nmips, 0, d3dFormat, D3DPOOL_MANAGED, &tex, NULL)) ==
+			true
+			|| !tex)
 		{
-			if (bTrace) api->Trace("Texture %s is not created (width: %i, height: %i, num mips: %i, format: %s), not loading it.", fn, head.width, head.height, head.nmips, formatTxt);
+			if (bTrace) api->Trace(
+				"Texture %s is not created (width: %i, height: %i, num mips: %i, format: %s), not loading it.", fn,
+				head.width, head.height, head.nmips, formatTxt);
 			delete Textures[t].name;
 			Textures[t].name = nullptr;
 			fio->_CloseHandle(file);
@@ -1438,12 +1507,13 @@ bool DX9RENDER::TextureLoad(long t)
 			Textures[t].dwSize += head.mip_size;
 			//Получаем поверхность мипа
 			bool isError = false;
-			IDirect3DSurface9 * surface = nullptr;
+			IDirect3DSurface9* surface = nullptr;
 			if (CHECKD3DERR(tex->GetSurfaceLevel(m, &surface)) == true || !surface)
 			{
 				isError = true;
 			}
-			else {
+			else
+			{
 				//Зачитываем мип
 				isError = !LoadTextureSurface(file, surface, head.mip_size, head.width, head.height, isSwizzled);
 			}
@@ -1452,7 +1522,9 @@ bool DX9RENDER::TextureLoad(long t)
 			//Если была ошибка, то прерываем загрузку
 			if (isError)
 			{
-				if (bTrace) api->Trace("Can't loading mip %i, texture %s is not created (width: %i, height: %i, num mips: %i, format: %s), not loading it.", m, fn, head.width, head.height, head.nmips, formatTxt);
+				if (bTrace) api->Trace(
+					"Can't loading mip %i, texture %s is not created (width: %i, height: %i, num mips: %i, format: %s), not loading it.",
+					m, fn, head.width, head.height, head.nmips, formatTxt);
 				delete Textures[t].name;
 				Textures[t].name = nullptr;
 				fio->_CloseHandle(file);
@@ -1467,7 +1539,8 @@ bool DX9RENDER::TextureLoad(long t)
 		Textures[t].d3dtex = tex;
 		Textures[t].isCubeMap = false;
 	}
-	else {
+	else
+	{
 		//Загрузка cubemap
 		if (head.width != head.height)
 		{
@@ -1481,7 +1554,9 @@ bool DX9RENDER::TextureLoad(long t)
 		D3DCAPS9 devcaps;
 		if (CHECKD3DERR(d3d9->GetDeviceCaps(&devcaps)))
 		{
-			if (bTrace) api->Trace("Cube map texture %s is not created (size: %i, num mips: %i, format: %s), not loading it.", fn, head.width, head.nmips, formatTxt);
+			if (bTrace) api->Trace(
+				"Cube map texture %s is not created (size: %i, num mips: %i, format: %s), not loading it.", fn,
+				head.width, head.nmips, formatTxt);
 			delete Textures[t].name;
 			Textures[t].name = nullptr;
 			fio->_CloseHandle(file);
@@ -1489,10 +1564,13 @@ bool DX9RENDER::TextureLoad(long t)
 		}
 		if (!(devcaps.TextureCaps & D3DPTEXTURECAPS_MIPCUBEMAP)) head.nmips = 1;
 		//Создаём текстуру
-		IDirect3DCubeTexture9 * tex = nullptr;
-		if (CHECKD3DERR(d3d9->CreateCubeTexture(head.width, head.nmips, 0, d3dFormat, D3DPOOL_MANAGED, &tex, NULL)) == true || !tex)
+		IDirect3DCubeTexture9* tex = nullptr;
+		if (CHECKD3DERR(d3d9->CreateCubeTexture(head.width, head.nmips, 0, d3dFormat, D3DPOOL_MANAGED, &tex, NULL)) ==
+			true || !tex)
 		{
-			if (bTrace) api->Trace("Cube map texture %s is not created (size: %i, num mips: %i, format: %s), not loading it.", fn, head.width, head.nmips, formatTxt);
+			if (bTrace) api->Trace(
+				"Cube map texture %s is not created (size: %i, num mips: %i, format: %s), not loading it.", fn,
+				head.width, head.nmips, formatTxt);
 			delete Textures[t].name;
 			Textures[t].name = nullptr;
 			fio->_CloseHandle(file);
@@ -1501,32 +1579,38 @@ bool DX9RENDER::TextureLoad(long t)
 		//Загружаем сторны
 		bool isError = false;
 		if (seekposition) fio->_SetFilePointer(file, seekposition, nullptr, FILE_CURRENT);
-		uint32_t sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_POSITIVE_Z, head.nmips, head.mip_size, head.width, isSwizzled);
+		uint32_t sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_POSITIVE_Z, head.nmips, head.mip_size, head.width,
+		                             isSwizzled);
 		if (sz)
 		{
 			Textures[t].dwSize += sz;
 			if (seekposition) fio->_SetFilePointer(file, seekposition, nullptr, FILE_CURRENT);
-			sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_POSITIVE_X, head.nmips, head.mip_size, head.width, isSwizzled);
+			sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_POSITIVE_X, head.nmips, head.mip_size, head.width,
+			                    isSwizzled);
 			if (sz)
 			{
 				Textures[t].dwSize += sz;
 				if (seekposition) fio->_SetFilePointer(file, seekposition, nullptr, FILE_CURRENT);
-				sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_NEGATIVE_Z, head.nmips, head.mip_size, head.width, isSwizzled);
+				sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_NEGATIVE_Z, head.nmips, head.mip_size, head.width,
+				                    isSwizzled);
 				if (sz)
 				{
 					Textures[t].dwSize += sz;
 					if (seekposition) fio->_SetFilePointer(file, seekposition, nullptr, FILE_CURRENT);
-					sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_NEGATIVE_X, head.nmips, head.mip_size, head.width, isSwizzled);
+					sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_NEGATIVE_X, head.nmips, head.mip_size, head.width,
+					                    isSwizzled);
 					if (sz)
 					{
 						Textures[t].dwSize += sz;
 						if (seekposition) fio->_SetFilePointer(file, seekposition, nullptr, FILE_CURRENT);
-						sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_POSITIVE_Y, head.nmips, head.mip_size, head.width, isSwizzled);
+						sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_POSITIVE_Y, head.nmips, head.mip_size,
+						                    head.width, isSwizzled);
 						if (sz)
 						{
 							Textures[t].dwSize += sz;
 							if (seekposition) fio->_SetFilePointer(file, seekposition, nullptr, FILE_CURRENT);
-							sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_NEGATIVE_Y, head.nmips, head.mip_size, head.width, isSwizzled);
+							sz = LoadCubmapSide(file, tex, D3DCUBEMAP_FACE_NEGATIVE_Y, head.nmips, head.mip_size,
+							                    head.width, isSwizzled);
 							if (!sz) isError = true;
 							Textures[t].dwSize += sz;
 						}
@@ -1541,7 +1625,9 @@ bool DX9RENDER::TextureLoad(long t)
 		else isError = true;
 		if (isError)
 		{
-			if (bTrace) api->Trace("Cube map texture %s can't loading (size: %i, num mips: %i, format: %s), not loading it.", fn, head.width, head.nmips, formatTxt);
+			if (bTrace) api->Trace(
+				"Cube map texture %s can't loading (size: %i, num mips: %i, format: %s), not loading it.", fn,
+				head.width, head.nmips, formatTxt);
 			delete Textures[t].name;
 			Textures[t].name = nullptr;
 			fio->_CloseHandle(file);
@@ -1563,11 +1649,11 @@ bool DX9RENDER::TextureLoad(long t)
 		HANDLE fh = fio->_CreateFile("texLoad.txt", GENERIC_WRITE, FILE_SHARE_WRITE, OPEN_ALWAYS);
 		fio->_SetFilePointer(fh, 0, nullptr, FILE_END);
 		totSize += Textures[t].dwSize;
-		sprintf_s(s, "%.2f, size: %d, %d * %d, %s\n", totSize / 1024.0f / 1024.0f, Textures[t].dwSize, head.width, head.height, Textures[t].name);
+		sprintf_s(s, "%.2f, size: %d, %d * %d, %s\n", totSize / 1024.0f / 1024.0f, Textures[t].dwSize, head.width,
+		          head.height, Textures[t].name);
 		fio->_WriteFile(fh, s, strlen(s), nullptr);
 		fio->_FlushFileBuffers(fh);
 		fio->_CloseHandle(fh);
-
 	}
 	//#endif
 	dwTotalSize += Textures[t].dwSize;
@@ -1578,12 +1664,13 @@ bool DX9RENDER::TextureLoad(long t)
 	return true;
 }
 
-IDirect3DBaseTexture9 * DX9RENDER::GetBaseTexture(long iTexture)
+IDirect3DBaseTexture9* DX9RENDER::GetBaseTexture(long iTexture)
 {
 	return (iTexture >= 0) ? Textures[iTexture].d3dtex : nullptr;
 }
 
-uint32_t DX9RENDER::LoadCubmapSide(HANDLE file, IDirect3DCubeTexture9 * tex, D3DCUBEMAP_FACES face, uint32_t numMips, uint32_t mipSize, uint32_t size, bool isSwizzled)
+uint32_t DX9RENDER::LoadCubmapSide(HANDLE file, IDirect3DCubeTexture9* tex, D3DCUBEMAP_FACES face, uint32_t numMips,
+                                   uint32_t mipSize, uint32_t size, bool isSwizzled)
 {
 	uint32_t texsize = 0;
 	//Заполняем уровни
@@ -1593,12 +1680,13 @@ uint32_t DX9RENDER::LoadCubmapSide(HANDLE file, IDirect3DCubeTexture9 * tex, D3D
 		texsize += mipSize;
 		//Получаем поверхность мипа
 		bool isError = false;
-		IDirect3DSurface9 * surface = nullptr;
+		IDirect3DSurface9* surface = nullptr;
 		if (CHECKD3DERR(tex->GetCubeMapSurface(face, m, &surface)) == true || !surface)
 		{
 			isError = true;
 		}
-		else {
+		else
+		{
 			//Зачитываем мип
 			isError = !LoadTextureSurface(file, surface, mipSize, size, size, isSwizzled);
 		}
@@ -1617,7 +1705,8 @@ uint32_t DX9RENDER::LoadCubmapSide(HANDLE file, IDirect3DCubeTexture9 * tex, D3D
 	return texsize;
 }
 
-bool DX9RENDER::LoadTextureSurface(HANDLE file, IDirect3DSurface9 * suface, uint32_t mipSize, uint32_t width, uint32_t height, bool isSwizzled)
+bool DX9RENDER::LoadTextureSurface(HANDLE file, IDirect3DSurface9* suface, uint32_t mipSize, uint32_t width,
+                                   uint32_t height, bool isSwizzled)
 {
 #ifndef _XBOX
 	//------------------------------------------------------------------------------------------
@@ -1676,13 +1765,12 @@ bool DX9RENDER::LoadTextureSurface(HANDLE file, IDirect3DSurface9 * suface, uint
 }
 
 
-
 //################################################################################
 bool DX9RENDER::TextureSet(long stage, long texid)
 {
 	if (texid == -1)
 	{
-		if (CHECKD3DERR(d3d9->SetTexture(stage, NULL)) == true)	return false;
+		if (CHECKD3DERR(d3d9->SetTexture(stage, NULL)) == true) return false;
 		return true;
 	}
 
@@ -1713,37 +1801,34 @@ bool DX9RENDER::TextureSet(long stage, long texid)
 	}
 	*/
 
-	if (CHECKD3DERR(d3d9->SetTexture(stage, Textures[texid].d3dtex)) == true)	return false;
+	if (CHECKD3DERR(d3d9->SetTexture(stage, Textures[texid].d3dtex)) == true) return false;
 	return true;
 }
 
 //################################################################################
 bool DX9RENDER::TextureRelease(long texid)
 {
-	if (texid == -1)	return true;
+	if (texid == -1) return true;
 	Textures[texid].ref--;
 	if (Textures[texid].ref != 0) return false;
 	if (Textures[texid].name != nullptr)
 	{
-
 		//#ifndef _XBOX
 		if (texLog)
 		{
-
-
 			HANDLE fh = fio->_CreateFile("texLoad.txt", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, OPEN_ALWAYS);
 
 			totSize -= Textures[texid].dwSize;
 			int bytes = fio->_GetFileSize(fh, nullptr);
-			char *buf = new char[bytes + 1];
+			char* buf = new char[bytes + 1];
 			fio->_ReadFile(fh, buf, bytes, nullptr);
 			buf[bytes] = 0;
 
-			char *str = strstr(buf, Textures[texid].name);
+			char* str = strstr(buf, Textures[texid].name);
 			if (str != nullptr)
 			{
 				fio->_SetFilePointer(fh, str - buf, nullptr, FILE_BEGIN);
-				const char *s = "*";
+				const char* s = "*";
 				fio->_WriteFile(fh, s, 1, nullptr);
 			}
 			delete[] buf;
@@ -1774,10 +1859,10 @@ bool DX9RENDER::TextureRelease(long texid)
 		delete Textures[texid].name;
 		Textures[texid].name = nullptr;
 	}
-	if (Textures[texid].loaded == false)	return false;
+	if (Textures[texid].loaded == false) return false;
 
 	if (Textures[texid].d3dtex)
-		if (CHECKD3DERR(Textures[texid].d3dtex->Release()) == true)	return false;
+		if (CHECKD3DERR(Textures[texid].d3dtex->Release()) == true) return false;
 	Textures[texid].d3dtex = nullptr;
 	dwTotalSize -= Textures[texid].dwSize;
 
@@ -1786,7 +1871,7 @@ bool DX9RENDER::TextureRelease(long texid)
 
 
 //################################################################################
-bool DX9RENDER::SetCamera(CVECTOR *pos, CVECTOR *ang, float fov)
+bool DX9RENDER::SetCamera(CVECTOR* pos, CVECTOR* ang, float fov)
 {
 	if (!SetCamera(pos, ang)) return false;
 	if (!SetPerspective(fov, aspectRatio)) return false;
@@ -1795,7 +1880,7 @@ bool DX9RENDER::SetCamera(CVECTOR *pos, CVECTOR *ang, float fov)
 	return true;
 }
 
-bool DX9RENDER::SetCamera(CVECTOR *pos, CVECTOR *ang)
+bool DX9RENDER::SetCamera(CVECTOR* pos, CVECTOR* ang)
 {
 	CMatrix mtx;
 	CVECTOR vOldWordRelationPos = vWordRelationPos;
@@ -1810,7 +1895,8 @@ bool DX9RENDER::SetCamera(CVECTOR *pos, CVECTOR *ang)
 			Pos = *pos;
 			vWordRelationPos = -Pos;
 		}
-		else {
+		else
+		{
 			//CVECTOR p;
 			//mtx.MulToInvNorm(mtx.Pos(), p);
 			mtx.BuildMatrix(*ang);
@@ -1819,7 +1905,8 @@ bool DX9RENDER::SetCamera(CVECTOR *pos, CVECTOR *ang)
 			Ang = *ang;
 		}
 	}
-	else {
+	else
+	{
 		mtx.BuildMatrix(*ang);
 		mtx.Transposition3X3();
 		//mtx.SetInversePosition(pos->x, pos->y, pos->z);
@@ -1852,7 +1939,7 @@ bool DX9RENDER::SetCamera(CVECTOR lookFrom, CVECTOR lookTo, CVECTOR up)
 	//Ang = 0.0f;
 	CVECTOR vNorm = !(lookTo - lookFrom);
 	Ang.y = atan2f(vNorm.x, vNorm.z);
-	Ang.x = atan2f(-vNorm.y, sqrtf(vNorm.x*vNorm.x + vNorm.z*vNorm.z));
+	Ang.x = atan2f(-vNorm.y, sqrtf(vNorm.x * vNorm.x + vNorm.z * vNorm.z));
 	Ang.z = 0.f;
 
 	FindPlanes(d3d9);
@@ -1860,12 +1947,12 @@ bool DX9RENDER::SetCamera(CVECTOR lookFrom, CVECTOR lookTo, CVECTOR up)
 	return true;
 }
 
-void DX9RENDER::ProcessScriptPosAng(CVECTOR & vPos, CVECTOR & vAng)
+void DX9RENDER::ProcessScriptPosAng(CVECTOR& vPos, CVECTOR& vAng)
 {
 	api->Event("CameraPosAng", "ffffff", vPos.x, vPos.y, vPos.z, vAng.x, vAng.y, vAng.z);
 }
 
-void DX9RENDER::GetNearFarPlane(float & fNear, float & fFar)
+void DX9RENDER::GetNearFarPlane(float& fNear, float& fFar)
 {
 	fNear = fNearClipPlane;
 	fFar = fFarClipPlane;
@@ -1882,17 +1969,17 @@ void DX9RENDER::SetNearFarPlane(float fNear, float fFar)
 bool DX9RENDER::SetPerspective(float perspective, float fAspectRatio)
 {
 	float near_plane = fNearClipPlane; // Distance to near clipping
-	float far_plane = fFarClipPlane;  // Distance to far clipping
-	float fov_horiz = perspective;  // Horizontal field of view  angle, in radians
-	if (fAspectRatio<0)
+	float far_plane = fFarClipPlane; // Distance to far clipping
+	float fov_horiz = perspective; // Horizontal field of view  angle, in radians
+	if (fAspectRatio < 0)
 	{
 		fAspectRatio = float(screen_size.y) / screen_size.x;
 	}
 	aspectRatio = fAspectRatio;
-	float fov_vert = perspective * fAspectRatio;   // Vertical field of view  angle, in radians
+	float fov_vert = perspective * fAspectRatio; // Vertical field of view  angle, in radians
 
-	float w = 1.0f / tanf(fov_horiz*0.5f);
-	float h = 1.0f / tanf(fov_vert*0.5f);
+	float w = 1.0f / tanf(fov_horiz * 0.5f);
+	float h = 1.0f / tanf(fov_vert * 0.5f);
 	float Q = far_plane / (far_plane - near_plane);
 
 	D3DXMATRIX mtx;
@@ -1904,26 +1991,27 @@ bool DX9RENDER::SetPerspective(float perspective, float fAspectRatio)
 	mtx._43 = -Q * near_plane;
 	mtx._34 = 1.0f;
 
-	if (CHECKD3DERR(d3d9->SetTransform(D3DTS_PROJECTION, &mtx)) == true)	return false;
+	if (CHECKD3DERR(d3d9->SetTransform(D3DTS_PROJECTION, &mtx)) == true) return false;
 	Fov = perspective;
 	FindPlanes(d3d9);
 	return true;
 }
 
 //################################################################################
-bool DX9RENDER::SetCurrentMatrix(D3DMATRIX *mtx)
+bool DX9RENDER::SetCurrentMatrix(D3DMATRIX* mtx)
 {
 	//return CHECKD3DERR(SetTransform(D3DTS_WORLD, mtx)) == D3D_OK;
 	SetTransform(D3DTS_WORLD, mtx);
 	return true;
 }
 
-bool DX9RENDER::SetMaterial(D3DMATERIAL9 &m)
+bool DX9RENDER::SetMaterial(D3DMATERIAL9& m)
 {
 	if (CHECKD3DERR(d3d9->SetMaterial(&m))) return false;
 	return true;
 }
-bool DX9RENDER::SetLight(uint32_t dwIndex, const D3DLIGHT9 * pLight)
+
+bool DX9RENDER::SetLight(uint32_t dwIndex, const D3DLIGHT9* pLight)
 {
 	// Set the property information for the first light.
 	D3DLIGHT9 tmpLight = *pLight;
@@ -1940,13 +2028,13 @@ bool DX9RENDER::LightEnable(uint32_t dwIndex, bool bOn)
 	return true;
 }
 
-bool DX9RENDER::GetLightEnable(uint32_t dwIndex, BOOL * pEnable)
+bool DX9RENDER::GetLightEnable(uint32_t dwIndex, BOOL* pEnable)
 {
 	if (CHECKD3DERR(d3d9->GetLightEnable(dwIndex, pEnable))) return false;
 	return true;
 }
 
-bool DX9RENDER::GetLight(uint32_t dwIndex, D3DLIGHT9 * pLight)
+bool DX9RENDER::GetLight(uint32_t dwIndex, D3DLIGHT9* pLight)
 {
 	if (CHECKD3DERR(d3d9->GetLight(dwIndex, pLight)))
 		return false;
@@ -1961,18 +2049,18 @@ bool DX9RENDER::GetLight(uint32_t dwIndex, D3DLIGHT9 * pLight)
 
 long DX9RENDER::CreateVertexBuffer(long type, long size, uint32_t dwUsage)
 {
-	if (size <= 0) 
+	if (size <= 0)
 		return -1; // fix
 
 	long b;
-	for (b = 0; b<MAX_BUFFERS; b++)
-		if (VertexBuffers[b].buff == nullptr)	
+	for (b = 0; b < MAX_BUFFERS; b++)
+		if (VertexBuffers[b].buff == nullptr)
 			break;
 
-	if (b == MAX_BUFFERS)	
+	if (b == MAX_BUFFERS)
 		return -1;
 
-	if (CHECKD3DERR(d3d9->CreateVertexBuffer(size, dwUsage,	type, D3DPOOL_DEFAULT, &VertexBuffers[b].buff, NULL)))
+	if (CHECKD3DERR(d3d9->CreateVertexBuffer(size, dwUsage, type, D3DPOOL_DEFAULT, &VertexBuffers[b].buff, NULL)))
 		return -1;
 
 	VertexBuffers[b].type = type;
@@ -1982,7 +2070,7 @@ long DX9RENDER::CreateVertexBuffer(long type, long size, uint32_t dwUsage)
 	return b;
 }
 
-IDirect3DVertexBuffer9 * DX9RENDER::GetVertexBuffer(long id)
+IDirect3DVertexBuffer9* DX9RENDER::GetVertexBuffer(long id)
 {
 	if (id < 0 || id >= MAX_BUFFERS) return nullptr;
 	return VertexBuffers[id].buff;
@@ -1998,14 +2086,15 @@ long DX9RENDER::GetVertexBufferFVF(long id)
 long DX9RENDER::CreateIndexBuffer(long size, uint32_t dwUsage)
 {
 	long b;
-	for (b = 0; b<MAX_BUFFERS; b++)
-		if (IndexBuffers[b].buff == nullptr)	break;
+	for (b = 0; b < MAX_BUFFERS; b++)
+		if (IndexBuffers[b].buff == nullptr) break;
 
-	if (b == MAX_BUFFERS)	
+	if (b == MAX_BUFFERS)
 		return -1;
 
 	//d3d9->CreateIndexBuffer(size, D3DUSAGE_WRITEONLY, D3DFMT_INDEX16,
-	if (CHECKD3DERR(d3d9->CreateIndexBuffer(size, dwUsage, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &IndexBuffers[b].buff, NULL)))	
+	if (CHECKD3DERR(
+		d3d9->CreateIndexBuffer(size, dwUsage, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &IndexBuffers[b].buff, NULL)))
 		return -1;
 
 	IndexBuffers[b].size = size;
@@ -2013,18 +2102,19 @@ long DX9RENDER::CreateIndexBuffer(long size, uint32_t dwUsage)
 
 	return b;
 }
+
 //################################################################################
 void DX9RENDER::DrawBuffer(long vbuff, long stride, long ibuff, long minv,
-	long numv, long startidx, long numtrg, const char *cBlockName)
+                           long numv, long startidx, long numtrg, const char* cBlockName)
 {
 	bool bDraw = true;
 
 	if (vbuff >= 0)
-		if (CHECKD3DERR(SetFVF(VertexBuffers[vbuff].type)))	
+		if (CHECKD3DERR(SetFVF(VertexBuffers[vbuff].type)))
 			return;
 	//else VertexBuffer already set
 
-	if (CHECKD3DERR(d3d9->SetIndices(IndexBuffers[ibuff].buff)))	
+	if (CHECKD3DERR(d3d9->SetIndices(IndexBuffers[ibuff].buff)))
 		return;
 
 	if (vbuff >= 0)
@@ -2032,84 +2122,105 @@ void DX9RENDER::DrawBuffer(long vbuff, long stride, long ibuff, long minv,
 			return;
 	//else VertexBuffer already set
 
-	if (cBlockName && cBlockName[0]) 
+	if (cBlockName && cBlockName[0])
 		bDraw = TechniqueExecuteStart(cBlockName);
 
-	if (bDraw) do
-	{
-		dwNumDrawPrimitive++;
-		CHECKD3DERR(d3d9->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, minv, 0, numv, startidx, numtrg));
-	} while (cBlockName && cBlockName[0] && TechniqueExecuteNext());
+	if (bDraw)
+		do
+		{
+			dwNumDrawPrimitive++;
+			CHECKD3DERR(d3d9->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, minv, 0, numv, startidx, numtrg));
+		}
+		while (cBlockName && cBlockName[0] && TechniqueExecuteNext());
 }
 
-void DX9RENDER::DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff, long iMinV,
-	long iNumV, long iStartIdx, long iNumTrg, const char *cBlockName)
+void DX9RENDER::DrawIndexedPrimitiveNoVShader(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iIBuff,
+                                              long iMinV,
+                                              long iNumV, long iStartIdx, long iNumTrg, const char* cBlockName)
 {
 	bool bDraw = true;
 
 	if (CHECKD3DERR(
 		d3d9->SetIndices(IndexBuffers[iIBuff].buff)
-	) == true)	return;
+	) == true)
+		return;
 
 	if (iVBuff >= 0)
 	{
 		if (CHECKD3DERR(
 			d3d9->SetStreamSource(0, VertexBuffers[iVBuff].buff, 0, iStride)
-		) == true)	return;
+		) == true)
+			return;
 	}
 
 	if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
-	if (bDraw) do
-	{
-		dwNumDrawPrimitive++;
-		CHECKD3DERR(d3d9->DrawIndexedPrimitive(dwPrimitiveType, iMinV, 0, iNumV, iStartIdx, iNumTrg));
-	} while (cBlockName && TechniqueExecuteNext());
+	if (bDraw)
+		do
+		{
+			dwNumDrawPrimitive++;
+			CHECKD3DERR(d3d9->DrawIndexedPrimitive(dwPrimitiveType, iMinV, 0, iNumV, iStartIdx, iNumTrg));
+		}
+		while (cBlockName && TechniqueExecuteNext());
 }
 
-void DX9RENDER::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwMinIndex, uint32_t dwNumVertices, uint32_t dwPrimitiveCount, const void *pIndexData, D3DFORMAT IndexDataFormat, const void *pVertexData, uint32_t dwVertexStride, const char *cBlockName)
+void DX9RENDER::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwMinIndex, uint32_t dwNumVertices,
+                                       uint32_t dwPrimitiveCount, const void* pIndexData, D3DFORMAT IndexDataFormat,
+                                       const void* pVertexData, uint32_t dwVertexStride, const char* cBlockName)
 {
 	bool bDraw = true;
 	if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
-	if (bDraw) do
-	{
-		dwNumDrawPrimitive++;
-		CHECKD3DERR(d3d9->DrawIndexedPrimitiveUP(dwPrimitiveType, dwMinIndex, dwNumVertices, dwPrimitiveCount, pIndexData, IndexDataFormat, pVertexData, dwVertexStride));
-	} while (cBlockName && TechniqueExecuteNext());
+	if (bDraw)
+		do
+		{
+			dwNumDrawPrimitive++;
+			CHECKD3DERR(
+				d3d9->DrawIndexedPrimitiveUP(dwPrimitiveType, dwMinIndex, dwNumVertices, dwPrimitiveCount, pIndexData,
+					IndexDataFormat, pVertexData, dwVertexStride));
+		}
+		while (cBlockName && TechniqueExecuteNext());
 }
 
-void DX9RENDER::DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwVertexBufferFormat, uint32_t dwNumPT, void *pVerts, uint32_t dwStride, const char *cBlockName)
+void DX9RENDER::DrawPrimitiveUP(D3DPRIMITIVETYPE dwPrimitiveType, uint32_t dwVertexBufferFormat, uint32_t dwNumPT,
+                                void* pVerts, uint32_t dwStride, const char* cBlockName)
 {
 	bool bDraw = true;
 
-	if (CHECKD3DERR(SetFVF(dwVertexBufferFormat)) == true)	return;
+	if (CHECKD3DERR(SetFVF(dwVertexBufferFormat)) == true) return;
 
 	if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
-	if (bDraw) do
-	{
-		dwNumDrawPrimitive++;
-		CHECKD3DERR(d3d9->DrawPrimitiveUP(dwPrimitiveType, dwNumPT, pVerts, dwStride));
-	} while (cBlockName && TechniqueExecuteNext());
+	if (bDraw)
+		do
+		{
+			dwNumDrawPrimitive++;
+			CHECKD3DERR(d3d9->DrawPrimitiveUP(dwPrimitiveType, dwNumPT, pVerts, dwStride));
+		}
+		while (cBlockName && TechniqueExecuteNext());
 }
 
-void DX9RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iStartV, long iNumPT, const char *cBlockName)
+void DX9RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, long iVBuff, long iStride, long iStartV, long iNumPT,
+                              const char* cBlockName)
 {
 	bool bDraw = true;
 
-	if (CHECKD3DERR(SetFVF(VertexBuffers[iVBuff].type)) == true)	return;
+	if (CHECKD3DERR(SetFVF(VertexBuffers[iVBuff].type)) == true) return;
 
 	if (CHECKD3DERR(d3d9->SetStreamSource(0, VertexBuffers[iVBuff].buff, 0, iStride)
-	) == true)	return;
+	) == true)
+		return;
 
 	if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
-	if (bDraw) do
-	{
-		dwNumDrawPrimitive++;
-		CHECKD3DERR(d3d9->DrawPrimitive(dwPrimitiveType, iStartV, iNumPT));
-	} while (cBlockName && TechniqueExecuteNext());
+	if (bDraw)
+		do
+		{
+			dwNumDrawPrimitive++;
+			CHECKD3DERR(d3d9->DrawPrimitive(dwPrimitiveType, iStartV, iNumPT));
+		}
+		while (cBlockName && TechniqueExecuteNext());
 }
 
 //################################################################################
-void DX9RENDER::RenderAnimation(long ib, void * src, long numVrts, long minv, long numv, long startidx, long numtrg, bool isUpdateVB)
+void DX9RENDER::RenderAnimation(long ib, void* src, long numVrts, long minv, long numv, long startidx, long numtrg,
+                                bool isUpdateVB)
 {
 	if (numVrts <= 0 || !src || ib < 0) return;
 	uint32_t type = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;
@@ -2126,27 +2237,31 @@ void DX9RENDER::RenderAnimation(long ib, void * src, long numVrts, long minv, lo
 				D3DUSAGE_WRITEONLY,
 				type,
 				D3DPOOL_MANAGED,
-				&aniVBuffer, NULL)) == true) return;
+				&aniVBuffer, NULL)) == true)
+				return;
 			numAniVerteces = numVrts;
 		}
 		//Copy verteces
-		uint8_t *ptr;
+		uint8_t* ptr;
 		RDTSC_B(_rdtsc);
 		if (CHECKD3DERR(aniVBuffer->Lock(0, size, (VOID**)&ptr, 0)
-		) == true) return;
+		) == true)
+			return;
 		dwNumLV++;
 		RDTSC_E(_rdtsc);
 		memcpy(ptr, src, size);
 		CHECKD3DERR(aniVBuffer->Unlock());
 	}
 	//Render
-	if (CHECKD3DERR(SetFVF(type)) == true)	return;
+	if (CHECKD3DERR(SetFVF(type)) == true) return;
 
 	if (CHECKD3DERR(d3d9->SetIndices(IndexBuffers[ib].buff)
-	) == true)	return;
+	) == true)
+		return;
 
 	if (CHECKD3DERR(d3d9->SetStreamSource(0, aniVBuffer, 0, sizeof(FVF_VERTEX))
-	) == true)	return;
+	) == true)
+		return;
 
 	CHECKD3DERR(d3d9->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, minv, 0, numv, startidx, numtrg));
 
@@ -2154,35 +2269,37 @@ void DX9RENDER::RenderAnimation(long ib, void * src, long numVrts, long minv, lo
 }
 
 //################################################################################
-void * DX9RENDER::LockVertexBuffer(long id, uint32_t dwFlags)
+void* DX9RENDER::LockVertexBuffer(long id, uint32_t dwFlags)
 {
 	if (bDeviceLost)
 		return nullptr;
 
-	uint8_t * ptr;
+	uint8_t* ptr;
 	VertexBuffers[id].dwNumLocks++;
-	if (CHECKD3DERR(VertexBuffers[id].buff->Lock(0, VertexBuffers[id].size, (VOID**)&ptr, dwFlags)))	
+	if (CHECKD3DERR(VertexBuffers[id].buff->Lock(0, VertexBuffers[id].size, (VOID**)&ptr, dwFlags)))
 		return nullptr;
 
 	dwNumLV++;
 	return ptr;
 }
+
 //################################################################################
 void DX9RENDER::UnLockVertexBuffer(long id)
 {
 	VertexBuffers[id].dwNumLocks--;
 	CHECKD3DERR(VertexBuffers[id].buff->Unlock());
 }
+
 long DX9RENDER::GetVertexBufferSize(long id) { return VertexBuffers[id].size; }
 
-void * DX9RENDER::LockIndexBuffer(long id, uint32_t dwFlags)
+void* DX9RENDER::LockIndexBuffer(long id, uint32_t dwFlags)
 {
 	if (bDeviceLost)
 		return nullptr;
 
-	uint8_t * ptr = nullptr;
+	uint8_t* ptr = nullptr;
 	IndexBuffers[id].dwNumLocks++;
-	if (CHECKD3DERR(IndexBuffers[id].buff->Lock(0, IndexBuffers[id].size, (VOID**)&ptr, dwFlags)))	
+	if (CHECKD3DERR(IndexBuffers[id].buff->Lock(0, IndexBuffers[id].size, (VOID**)&ptr, dwFlags)))
 		return nullptr;
 
 	dwNumLI++;
@@ -2194,26 +2311,28 @@ void DX9RENDER::UnLockIndexBuffer(long id)
 	IndexBuffers[id].dwNumLocks--;
 	CHECKD3DERR(IndexBuffers[id].buff->Unlock());
 }
+
 //################################################################################
 void DX9RENDER::ReleaseVertexBuffer(long id)
 {
-	if (VertexBuffers[id].buff == nullptr)	return;
+	if (VertexBuffers[id].buff == nullptr) return;
 	CHECKD3DERR(
 		VertexBuffers[id].buff->Release());
 	VertexBuffers[id].buff = nullptr;
 	VertexBuffers[id].dwNumLocks = 0;
 }
+
 //################################################################################
 void DX9RENDER::ReleaseIndexBuffer(long id)
 {
-	if (IndexBuffers[id].buff == nullptr)	return;
+	if (IndexBuffers[id].buff == nullptr) return;
 	CHECKD3DERR(
 		IndexBuffers[id].buff->Release());
 	IndexBuffers[id].buff = nullptr;
 	IndexBuffers[id].dwNumLocks = 0;
 }
 
-void DX9RENDER::SetTransform(long type, D3DMATRIX *mtx)
+void DX9RENDER::SetTransform(long type, D3DMATRIX* mtx)
 {
 	CMatrix m = *(CMatrix*)mtx;
 	if (type == D3DTS_VIEW)
@@ -2240,7 +2359,7 @@ void DX9RENDER::SetTransform(long type, D3DMATRIX *mtx)
 	CHECKD3DERR(d3d9->SetTransform((D3DTRANSFORMSTATETYPE)type, (D3DMATRIX*)&m));
 }
 
-void DX9RENDER::GetTransform(long type, D3DMATRIX *mtx)
+void DX9RENDER::GetTransform(long type, D3DMATRIX* mtx)
 {
 	CHECKD3DERR(d3d9->GetTransform((D3DTRANSFORMSTATETYPE)type, mtx));
 
@@ -2258,24 +2377,23 @@ void DX9RENDER::GetTransform(long type, D3DMATRIX *mtx)
 	}
 }
 
-bool DX9RENDER::CreateState(ENTITY_STATE_GEN * state_gen)
+bool DX9RENDER::CreateState(ENTITY_STATE_GEN* state_gen)
 {
 	//state_gen->SetState("vm",sizeof(screen_size),screen_size,sizeof(bool),&window);
 	return true;
 }
 
-bool DX9RENDER::LoadState(ENTITY_STATE * state)
+bool DX9RENDER::LoadState(ENTITY_STATE* state)
 {
 	//GUARD(DX9RENDER::Init)
-		//for(long t=0; t<MAX_STEXTURES; t++)	Textures[t].d3dtex = NULL;
-		//d3d = NULL;
-		//d3d9 = NULL;
-		//state->Struct(sizeof(screen_size),(char *)&screen_size);
-		//state->MemoryBlock(sizeof(bool),(char *)&window);
-		//InitDevice(window,api->GetAppHWND(),screen_size.x,screen_size.y);
-		//UNGUARD
-		return true;
-
+	//for(long t=0; t<MAX_STEXTURES; t++)	Textures[t].d3dtex = NULL;
+	//d3d = NULL;
+	//d3d9 = NULL;
+	//state->Struct(sizeof(screen_size),(char *)&screen_size);
+	//state->MemoryBlock(sizeof(bool),(char *)&window);
+	//InitDevice(window,api->GetAppHWND(),screen_size.x,screen_size.y);
+	//UNGUARD
+	return true;
 }
 
 void DX9RENDER::LostRender()
@@ -2283,7 +2401,7 @@ void DX9RENDER::LostRender()
 	Release(pOriginalScreenSurface);
 	Release(pOriginalDepthSurface);
 	Release(rectsVBuffer);
-	for (long b = 0; b<MAX_BUFFERS; b++)
+	for (long b = 0; b < MAX_BUFFERS; b++)
 	{
 		if (VertexBuffers[b].buff)
 			if (VertexBuffers[b].buff->Release() > 0)
@@ -2302,9 +2420,12 @@ void DX9RENDER::RestoreRender()
 	fSmallHeight = 128;
 	if (bPostProcessEnabled)
 	{
-		d3d9->CreateTexture(screen_size.x, screen_size.y, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pPostProcessTexture, nullptr);
-		d3d9->CreateTexture((int)fSmallWidth, (int)fSmallHeight, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture, nullptr);
-		d3d9->CreateTexture((int)(fSmallWidth*2.0f), (int)(fSmallHeight*2.0f), 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture2, nullptr);
+		d3d9->CreateTexture(screen_size.x, screen_size.y, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT,
+		                    &pPostProcessTexture, nullptr);
+		d3d9->CreateTexture((int)fSmallWidth, (int)fSmallHeight, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
+		                    D3DPOOL_DEFAULT, &pSmallPostProcessTexture, nullptr);
+		d3d9->CreateTexture((int)(fSmallWidth * 2.0f), (int)(fSmallHeight * 2.0f), 1, D3DUSAGE_RENDERTARGET,
+		                    D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &pSmallPostProcessTexture2, nullptr);
 	}
 	if (!pPostProcessTexture || !pSmallPostProcessTexture || !pSmallPostProcessTexture2)
 	{
@@ -2330,8 +2451,9 @@ void DX9RENDER::RestoreRender()
 		ClearPostProcessSurface(pSmallPostProcessSurface2);
 	}
 	ClearPostProcessSurface(pOriginalScreenSurface);
-	d3d9->CreateVertexBuffer(rectsVBuffer_SizeInRects * 6 * sizeof(RECT_VERTEX), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, RS_RECT_VERTEX_FORMAT, D3DPOOL_DEFAULT, &rectsVBuffer, nullptr);
-	for (long b = 0; b<MAX_BUFFERS; b++)
+	d3d9->CreateVertexBuffer(rectsVBuffer_SizeInRects * 6 * sizeof(RECT_VERTEX), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC,
+	                         RS_RECT_VERTEX_FORMAT, D3DPOOL_DEFAULT, &rectsVBuffer, nullptr);
+	for (long b = 0; b < MAX_BUFFERS; b++)
 	{
 		if (VertexBuffers[b].buff)
 		{
@@ -2342,7 +2464,6 @@ void DX9RENDER::RestoreRender()
 		{
 			CHECKD3DERR(d3d9->CreateIndexBuffer(IndexBuffers[b].size, IndexBuffers[b].dwUsage, D3DFMT_INDEX16,
 				D3DPOOL_DEFAULT, &IndexBuffers[b].buff, NULL));
-
 		}
 	}
 	long num_stages;
@@ -2351,7 +2472,7 @@ void DX9RENDER::RestoreRender()
 #else
 	num_stages = 4;
 #endif
-	for (long s = 0; s<num_stages; s++)
+	for (long s = 0; s < num_stages; s++)
 	{
 		//texture operation
 		SetTextureStageState(s, D3DTSS_COLORARG1, D3DTA_CURRENT);
@@ -2374,7 +2495,7 @@ void DX9RENDER::RestoreRender()
 	l.Type = D3DLIGHT_POINT;
 	l.Range = 100.0f;
 	l.Attenuation0 = 1.0f;
-	for (int i = 0; i<8; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		CHECKD3DERR(d3d9->SetLight(i, &l));
 		CHECKD3DERR(d3d9->LightEnable(i, false));
@@ -2388,7 +2509,8 @@ void DX9RENDER::RecompileEffects()
 	effects_.release();
 
 	for (auto& p : fs::recursive_directory_iterator("resource/techniques"))
-		if (fs::is_regular_file(p) && p.path().extension() == ".fx") {
+		if (is_regular_file(p) && p.path().extension() == ".fx")
+		{
 			auto s = p.path().string(); // hug microsoft 
 			effects_.compile(s.c_str());
 		}
@@ -2397,8 +2519,10 @@ void DX9RENDER::RecompileEffects()
 bool DX9RENDER::ResetDevice()
 {
 	const auto its = EntityManager::GetEntityIdIterators();
-	for (auto it = its.first; it != its.second; ++it) {
-		if (!it->deleted && it->ptr != nullptr) {
+	for (auto it = its.first; it != its.second; ++it)
+	{
+		if (!it->deleted && it->ptr != nullptr)
+		{
 			static_cast<Entity*>(it->ptr)->ProcessStage(Entity::Stage::lost_render);
 		}
 	}
@@ -2408,8 +2532,10 @@ bool DX9RENDER::ResetDevice()
 		return false;
 
 	RestoreRender();
-	for (auto it = its.first; it != its.second; ++it) {
-		if (!it->deleted && it->ptr != nullptr) {
+	for (auto it = its.first; it != its.second; ++it)
+	{
+		if (!it->deleted && it->ptr != nullptr)
+		{
 			static_cast<Entity*>(it->ptr)->ProcessStage(Entity::Stage::restore_render);
 		}
 	}
@@ -2429,7 +2555,7 @@ void DX9RENDER::RunStart()
 	bDeviceLost = true;
 
 	auto* pScriptRender = (VDATA *)api->GetScriptVariable("Render");
-	ATTRIBUTES * pARender = pScriptRender->GetAClass();
+	ATTRIBUTES* pARender = pScriptRender->GetAClass();
 
 	bSeaEffect = pARender->GetAttributeAsDword("SeaEffect", 0) != 0;
 	fSeaEffectSize = pARender->GetAttributeAsFloat("SeaEffectSize", 0.0f);
@@ -2449,15 +2575,16 @@ void DX9RENDER::RunStart()
 		float sx2 = sx + fDX * 2.0f;
 		float sy2 = sy + fDY * 2.0f;
 
-		for (long y = 0; y<32; y++)
+		for (long y = 0; y < 32; y++)
 		{
-			for (long x = 0; x<32; x++)
+			for (long x = 0; x < 32; x++)
 			{
 				qv[x + y * 32].vPos = Vector4(sx * float(x) / 31.0f, sy * float(y) / 31.0f, 0.0f, 1.0f);
 
-				qv[x + y * 32].u0 = (sx * float(x) / 31.0f + sinf(fSin + float(x) / 31.0f * PI * 16.0f) * fDX + fDX) / sx2;
-				qv[x + y * 32].v0 = (sy * float(y) / 31.0f + sinf(fSin + float(y) / 31.0f * PI * 16.0f) * fDY + fDY) / sy2;
-
+				qv[x + y * 32].u0 = (sx * float(x) / 31.0f + sinf(fSin + float(x) / 31.0f * PI * 16.0f) * fDX + fDX) /
+					sx2;
+				qv[x + y * 32].v0 = (sy * float(y) / 31.0f + sinf(fSin + float(y) / 31.0f * PI * 16.0f) * fDY + fDY) /
+					sy2;
 			}
 		}
 	}
@@ -2539,10 +2666,10 @@ void DX9RENDER::RunEnd()
 
 char Buff_4k[4096];
 
-long DX9RENDER::Print(long x, long y, char * format, ...)
+long DX9RENDER::Print(long x, long y, char* format, ...)
 {
 	//GUARD(DX9RENDER::Print)
-		if (idFontCurrent<0 || idFontCurrent >= nFontQuantity) return 0;
+	if (idFontCurrent < 0 || idFontCurrent >= nFontQuantity) return 0;
 	if (FontList[idFontCurrent].font == nullptr || FontList[idFontCurrent].ref == 0) return 0;
 
 	va_list args;
@@ -2554,10 +2681,10 @@ long DX9RENDER::Print(long x, long y, char * format, ...)
 	//UNGUARD
 }
 
-long DX9RENDER::Print(long nFontNum, uint32_t color, long x, long y, char * format, ...)
+long DX9RENDER::Print(long nFontNum, uint32_t color, long x, long y, char* format, ...)
 {
 	//GUARD(DX9RENDER::Print)
-		if (nFontNum<0 || nFontNum >= nFontQuantity) return 0;
+	if (nFontNum < 0 || nFontNum >= nFontQuantity) return 0;
 	if (FontList[nFontNum].font == nullptr || FontList[nFontNum].ref == 0) return 0;
 
 	va_list args;
@@ -2573,17 +2700,17 @@ long DX9RENDER::Print(long nFontNum, uint32_t color, long x, long y, char * form
 	//UNGUARD
 }
 
-long DX9RENDER::StringWidth(char * string, long nFontNum, float fScale, long scrWidth)
+long DX9RENDER::StringWidth(char* string, long nFontNum, float fScale, long scrWidth)
 {
-	if (nFontNum<0 || nFontNum >= nFontQuantity) return 0;
-	FONT * pFont = FontList[nFontNum].font;
+	if (nFontNum < 0 || nFontNum >= nFontQuantity) return 0;
+	FONT* pFont = FontList[nFontNum].font;
 	if (FontList[nFontNum].ref == 0 || pFont == nullptr) return 0;
 
 	pFont->StoreFontParameters();
 
 	long xs = screen_size.x;
 	if (scrWidth == 0) scrWidth = xs;
-	if (xs != scrWidth)	fScale *= (float)xs / scrWidth;
+	if (xs != scrWidth) fScale *= (float)xs / scrWidth;
 	pFont->SetScale(fScale);
 
 	long retVal = pFont->GetStringWidth(string);
@@ -2594,26 +2721,27 @@ long DX9RENDER::StringWidth(char * string, long nFontNum, float fScale, long scr
 long DX9RENDER::CharWidth(char ch, long nFontNum, float fScale, long scrWidth)
 {
 	char str[2];
-	str[0] = ch; str[1] = 0;
+	str[0] = ch;
+	str[1] = 0;
 	return StringWidth(str, nFontNum, fScale, scrWidth);
 }
 
 long DX9RENDER::CharHeight(long fontID)
 {
-	if (fontID<0 || fontID >= nFontQuantity) return 0;
+	if (fontID < 0 || fontID >= nFontQuantity) return 0;
 	if (FontList[fontID].ref == 0 || FontList[fontID].font == nullptr) return 0;
 
 	return FontList[fontID].font->GetHeight();
 }
 
 long DX9RENDER::ExtPrint(long nFontNum, uint32_t foreColor, uint32_t backColor, int wAlign,
-	bool bShadow, float fScale, long scrWidth, long scrHeight,
-	long x, long y, char * format, ...)
+                         bool bShadow, float fScale, long scrWidth, long scrHeight,
+                         long x, long y, char* format, ...)
 {
 	//GUARD(DX9RENDER::ExtPrint)
 
-		if (nFontNum<0 || nFontNum >= nFontQuantity) return 0;
-	FONT * pFont = FontList[nFontNum].font;
+	if (nFontNum < 0 || nFontNum >= nFontQuantity) return 0;
+	FONT* pFont = FontList[nFontNum].font;
 	if (FontList[nFontNum].ref == 0 || pFont == nullptr) return 0;
 
 	va_list args;
@@ -2623,7 +2751,7 @@ long DX9RENDER::ExtPrint(long nFontNum, uint32_t foreColor, uint32_t backColor, 
 
 	pFont->StoreFontParameters();
 
-	IDirect3DSurface9 * pRenderTarget;
+	IDirect3DSurface9* pRenderTarget;
 	GetRenderTarget(&pRenderTarget);
 	D3DSURFACE_DESC dscrSurface;
 	pRenderTarget->GetDesc(&dscrSurface);
@@ -2635,11 +2763,11 @@ long DX9RENDER::ExtPrint(long nFontNum, uint32_t foreColor, uint32_t backColor, 
 	if (xs != scrWidth)
 	{
 		float fHorzScale = (float)xs / scrWidth;
-		x = long(x*fHorzScale);
+		x = long(x * fHorzScale);
 		fScale *= fHorzScale;
 	}
 	if (ys != scrHeight)
-		y = long(y*((float)ys / scrHeight));
+		y = long(y * ((float)ys / scrHeight));
 
 	switch (wAlign)
 	{
@@ -2647,7 +2775,7 @@ long DX9RENDER::ExtPrint(long nFontNum, uint32_t foreColor, uint32_t backColor, 
 		x -= long((pFont->GetStringWidth(Buff_4k) + 1L) / 2L * fScale);
 		break;
 	case PR_ALIGN_RIGHT:
-		x -= long(pFont->GetStringWidth(Buff_4k)*fScale);
+		x -= long(pFont->GetStringWidth(Buff_4k) * fScale);
 		break;
 	}
 
@@ -2661,11 +2789,11 @@ long DX9RENDER::ExtPrint(long nFontNum, uint32_t foreColor, uint32_t backColor, 
 	//UNGUARD
 }
 
-long DX9RENDER::LoadFont(char * fontName)
+long DX9RENDER::LoadFont(char* fontName)
 {
 	if (fontName == nullptr) return -1L;
 	char sDup[256];
-	if (strlen(fontName)<sizeof(sDup) - 1) strcpy_s(sDup, fontName);
+	if (strlen(fontName) < sizeof(sDup) - 1) strcpy_s(sDup, fontName);
 	else
 	{
 		strncpy_s(sDup, fontName, sizeof(sDup) - 1);
@@ -2675,10 +2803,10 @@ long DX9RENDER::LoadFont(char * fontName)
 	unsigned long hashVal = hash_string(fontName);
 
 	long i;
-	for (i = 0; i<nFontQuantity; i++)
+	for (i = 0; i < nFontQuantity; i++)
 		if (FontList[i].hash == hashVal && _stricmp(FontList[i].name, fontName) == 0)
 		{
-			if (FontList[i].ref>0)
+			if (FontList[i].ref > 0)
 				FontList[i].ref++;
 			else
 			{
@@ -2707,14 +2835,14 @@ long DX9RENDER::LoadFont(char * fontName)
 	}
 	else
 		throw std::exception("maximal font quantity exceeded");
-		return i;
+	return i;
 }
 
-bool DX9RENDER::UnloadFont(char * fontName)
+bool DX9RENDER::UnloadFont(char* fontName)
 {
 	if (fontName == nullptr) return false;
 	char sDup[256];
-	if (strlen(fontName)<sizeof(sDup) - 1) strcpy_s(sDup, fontName);
+	if (strlen(fontName) < sizeof(sDup) - 1) strcpy_s(sDup, fontName);
 	else
 	{
 		strncpy_s(sDup, fontName, sizeof(sDup) - 1);
@@ -2723,17 +2851,18 @@ bool DX9RENDER::UnloadFont(char * fontName)
 	fontName = _strupr(sDup);
 	unsigned long hashVal = hash_string(fontName);
 
-	for (int i = 0; i<nFontQuantity; i++)
+	for (int i = 0; i < nFontQuantity; i++)
 		if (FontList[i].hash == hashVal && _stricmp(FontList[i].name, fontName) == 0)
 			return UnloadFont(i);
 	api->Trace("Font name \"%s\" is not containing", fontName);
 	return false;
 }
+
 bool DX9RENDER::UnloadFont(long fontID)
 {
-	if (fontID<0 || fontID >= nFontQuantity) return false;
+	if (fontID < 0 || fontID >= nFontQuantity) return false;
 
-	if (FontList[fontID].ref>0)
+	if (FontList[fontID].ref > 0)
 	{
 		FontList[fontID].ref--;
 		if (FontList[fontID].ref == 0)
@@ -2748,11 +2877,11 @@ bool DX9RENDER::UnloadFont(long fontID)
 	return true;
 }
 
-bool DX9RENDER::SetCurFont(char * fontName)
+bool DX9RENDER::SetCurFont(char* fontName)
 {
 	if (fontName == nullptr) return false;
 	char sDup[256];
-	if (strlen(fontName)<sizeof(sDup) - 1) strcpy_s(sDup, fontName);
+	if (strlen(fontName) < sizeof(sDup) - 1) strcpy_s(sDup, fontName);
 	else
 	{
 		strncpy_s(sDup, fontName, sizeof(sDup) - 1);
@@ -2761,7 +2890,7 @@ bool DX9RENDER::SetCurFont(char * fontName)
 	fontName = _strupr(sDup);
 	unsigned long hashVal = hash_string(fontName);
 
-	for (int i = 0; i<nFontQuantity; i++)
+	for (int i = 0; i < nFontQuantity; i++)
 		if (FontList[i].hash == hashVal)
 		{
 			idFontCurrent = i;
@@ -2770,25 +2899,27 @@ bool DX9RENDER::SetCurFont(char * fontName)
 	api->Trace("Font name \"%s\" is not containing", fontName);
 	return false;
 }
+
 bool DX9RENDER::SetCurFont(long fontID)
 {
-	if (fontID<0 || fontID >= nFontQuantity) return false;
+	if (fontID < 0 || fontID >= nFontQuantity) return false;
 	idFontCurrent = fontID;
 	return true;
 }
 
 long DX9RENDER::GetCurFont()
 {
-	if (idFontCurrent >= 0 && idFontCurrent<nFontQuantity)
+	if (idFontCurrent >= 0 && idFontCurrent < nFontQuantity)
 		return idFontCurrent;
-	else return -1L;
+	return -1L;
 }
 
-char * DX9RENDER::GetFontIniFileName()
+char* DX9RENDER::GetFontIniFileName()
 {
 	return fontIniFileName;
 }
-bool DX9RENDER::SetFontIniFileName(char * iniName)
+
+bool DX9RENDER::SetFontIniFileName(char* iniName)
 {
 	if (fontIniFileName != nullptr && iniName != nullptr && _stricmp(fontIniFileName, iniName) == 0) return true;
 
@@ -2798,21 +2929,18 @@ bool DX9RENDER::SetFontIniFileName(char * iniName)
 		fontIniFileName = nullptr;
 		return false;
 	}
-	else
-	{
-		const auto len = strlen(iniName) + 1;
-		if ((fontIniFileName = new char[len]) == nullptr)
-			throw std::exception("allocate memory error");
-			strcpy_s(fontIniFileName, len, iniName);
-	}
+	const auto len = strlen(iniName) + 1;
+	if ((fontIniFileName = new char[len]) == nullptr)
+		throw std::exception("allocate memory error");
+	strcpy_s(fontIniFileName, len, iniName);
 
-	for (int n = 0; n<nFontQuantity; n++)
+	for (int n = 0; n < nFontQuantity; n++)
 	{
 		delete FontList[n].font;
 
 		if ((FontList[n].font = new FONT) == nullptr)
 			throw std::exception("allocate memory error");
-			FontList[n].font->Init(FontList[n].name, fontIniFileName, d3d9, this);
+		FontList[n].font->Init(FontList[n].name, fontIniFileName, d3d9, this);
 		if (FontList[n].ref == 0) FontList[n].font->TempUnload();
 	}
 
@@ -2880,17 +3008,17 @@ void DX9RENDER::SetCommonStates()
 
 	//lighting effects
 	SetRenderState(D3DRS_AMBIENT, 0x404040);
-	SetRenderState(D3DRS_LIGHTING, FALSE);//TRUE);
+	SetRenderState(D3DRS_LIGHTING, FALSE); //TRUE);
 	SetRenderState(D3DRS_COLORVERTEX, TRUE);
-	SetRenderState(D3DRS_SPECULARENABLE, FALSE);//TRUE);
+	SetRenderState(D3DRS_SPECULARENABLE, FALSE); //TRUE);
 }
 
-HRESULT DX9RENDER::GetViewport(D3DVIEWPORT9 * pViewport)
+HRESULT DX9RENDER::GetViewport(D3DVIEWPORT9* pViewport)
 {
 	return CHECKD3DERR(d3d9->GetViewport(pViewport));
 }
 
-HRESULT DX9RENDER::SetViewport(const D3DVIEWPORT9 * pViewport)
+HRESULT DX9RENDER::SetViewport(const D3DVIEWPORT9* pViewport)
 {
 	return CHECKD3DERR(d3d9->SetViewport(pViewport));
 }
@@ -2900,17 +3028,17 @@ uint32_t DX9RENDER::SetRenderState(uint32_t State, uint32_t Value)
 	return CHECKD3DERR(d3d9->SetRenderState((D3DRENDERSTATETYPE)State, Value));
 }
 
-uint32_t DX9RENDER::GetRenderState(uint32_t State, uint32_t * pValue)
+uint32_t DX9RENDER::GetRenderState(uint32_t State, uint32_t* pValue)
 {
 	return CHECKD3DERR(d3d9->GetRenderState((D3DRENDERSTATETYPE)State, (DWORD *)pValue));
 }
 
-uint32_t DX9RENDER::GetSamplerState(uint32_t Sampler, D3DSAMPLERSTATETYPE  Type, uint32_t * pValue)
+uint32_t DX9RENDER::GetSamplerState(uint32_t Sampler, D3DSAMPLERSTATETYPE Type, uint32_t* pValue)
 {
 	return CHECKD3DERR(d3d9->GetSamplerState(Sampler, Type, (DWORD *)pValue));
 }
 
-uint32_t  DX9RENDER::SetSamplerState(uint32_t Sampler, D3DSAMPLERSTATETYPE Type, uint32_t Value)
+uint32_t DX9RENDER::SetSamplerState(uint32_t Sampler, D3DSAMPLERSTATETYPE Type, uint32_t Value)
 {
 	return CHECKD3DERR(d3d9->SetSamplerState(Sampler, Type, Value));
 }
@@ -2932,7 +3060,8 @@ void DX9RENDER::GetCamera(CVECTOR& pos, CVECTOR& ang, float& perspective)
 	perspective = Fov;
 }
 
-typedef struct tagTGA_H {
+typedef struct tagTGA_H
+{
 	uint8_t byte1; // = 0
 	uint8_t byte2; // = 0
 	uint8_t type;
@@ -2944,7 +3073,7 @@ typedef struct tagTGA_H {
 	uint8_t rez : 1;
 	uint8_t origin : 1;
 	uint8_t storage : 2;
-}TGA_H;
+} TGA_H;
 
 //WORD Temp[1600*4];
 
@@ -2956,16 +3085,16 @@ void DX9RENDER::SaveShoot()
 void DX9RENDER::MakeScreenShot()
 {
 	//GUARD(DX9RENDER::MakeScreenShot)
-		static long file_number = 0;
-	static TGA_H Dhdr = { 0,0,2,0,0,0,0,0,0,0,0,0,0,0,32 };
+	static long file_number = 0;
+	static TGA_H Dhdr = {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32};
 	char file_name[_MAX_PATH];
 	long i;
 	HANDLE fh;
-	uint32_t * Surface;
+	uint32_t* Surface;
 	RECT r;
 	D3DLOCKED_RECT lr;
 	POINT p;
-	IDirect3DSurface9 * renderTarget, *surface;
+	IDirect3DSurface9 *renderTarget, *surface;
 
 	bMakeShoot = false;
 
@@ -2975,8 +3104,10 @@ void DX9RENDER::MakeScreenShot()
 		return;
 	}
 
-	r.left = 0; r.right = screen_size.x;
-	r.top = 0; r.bottom = screen_size.y;
+	r.left = 0;
+	r.right = screen_size.x;
+	r.top = 0;
+	r.bottom = screen_size.y;
 	p.x = p.y = 0;
 	renderTarget = nullptr;
 	surface = nullptr;
@@ -3012,7 +3143,8 @@ void DX9RENDER::MakeScreenShot()
 		if (_access(file_name, 0) == -1) break;
 	}
 	//Сохраняем картинку
-	Dhdr.width = (unsigned short)screen_size.x; Dhdr.height = (unsigned short)screen_size.y;
+	Dhdr.width = (unsigned short)screen_size.x;
+	Dhdr.height = (unsigned short)screen_size.y;
 	fh = fio->_CreateFile(file_name, GENERIC_WRITE, FILE_SHARE_READ, CREATE_ALWAYS);
 	if (fh == INVALID_HANDLE_VALUE)
 	{
@@ -3024,8 +3156,8 @@ void DX9RENDER::MakeScreenShot()
 	fio->_WriteFile(fh, &Dhdr, sizeof(TGA_H), nullptr);
 
 	Surface = (uint32_t*)lr.pBits;
-	Surface += lr.Pitch*screen_size.y >> 2;
-	for (i = 0; i<screen_size.y; i++)
+	Surface += lr.Pitch * screen_size.y >> 2;
+	for (i = 0; i < screen_size.y; i++)
 	{
 		Surface -= lr.Pitch >> 2;
 		fio->_WriteFile(fh, Surface, screen_size.x * 4, nullptr);
@@ -3037,25 +3169,33 @@ void DX9RENDER::MakeScreenShot()
 	//UNGUARD
 }
 
-PLANE * DX9RENDER::GetPlanes()
+PLANE* DX9RENDER::GetPlanes()
 {
 	FindPlanes(d3d9);
 	return viewplane;
 }
 
-void DX9RENDER::FindPlanes(IDirect3DDevice9 * d3dDevice)
+void DX9RENDER::FindPlanes(IDirect3DDevice9* d3dDevice)
 {
 	D3DMATRIX m;
 	CVECTOR v[4];
 	GetTransform(D3DTS_PROJECTION, (D3DMATRIX *)&m);
 	//left
-	v[0].x = m.m[0][0]; v[0].y = 0.0f; v[0].z = 1.0f;
+	v[0].x = m.m[0][0];
+	v[0].y = 0.0f;
+	v[0].z = 1.0f;
 	//right
-	v[1].x = -m.m[0][0]; v[1].y = 0.0f; v[1].z = 1.0f;
+	v[1].x = -m.m[0][0];
+	v[1].y = 0.0f;
+	v[1].z = 1.0f;
 	//top
-	v[2].x = 0.0f; v[2].y = -m.m[1][1]; v[2].z = 1.0f;
+	v[2].x = 0.0f;
+	v[2].y = -m.m[1][1];
+	v[2].z = 1.0f;
 	//bottom
-	v[3].x = 0.0f; v[3].y = m.m[1][1]; v[3].z = 1.0f;
+	v[3].x = 0.0f;
+	v[3].y = m.m[1][1];
+	v[3].z = 1.0f;
 	v[0] = !v[0];
 	v[1] = !v[1];
 	v[2] = !v[2];
@@ -3064,33 +3204,33 @@ void DX9RENDER::FindPlanes(IDirect3DDevice9 * d3dDevice)
 	GetTransform(D3DTS_VIEW, (D3DMATRIX *)&m);
 	CVECTOR pos;
 
-	pos.x = -m._41*m._11 - m._42*m._12 - m._43*m._13;
-	pos.y = -m._41*m._21 - m._42*m._22 - m._43*m._23;
-	pos.z = -m._41*m._31 - m._42*m._32 - m._43*m._33;
+	pos.x = -m._41 * m._11 - m._42 * m._12 - m._43 * m._13;
+	pos.y = -m._41 * m._21 - m._42 * m._22 - m._43 * m._23;
+	pos.z = -m._41 * m._31 - m._42 * m._32 - m._43 * m._33;
 
-	viewplane[0].Nx = v[0].x*m._11 + v[0].y*m._12 + v[0].z*m._13;
-	viewplane[0].Ny = v[0].x*m._21 + v[0].y*m._22 + v[0].z*m._23;
-	viewplane[0].Nz = v[0].x*m._31 + v[0].y*m._32 + v[0].z*m._33;
+	viewplane[0].Nx = v[0].x * m._11 + v[0].y * m._12 + v[0].z * m._13;
+	viewplane[0].Ny = v[0].x * m._21 + v[0].y * m._22 + v[0].z * m._23;
+	viewplane[0].Nz = v[0].x * m._31 + v[0].y * m._32 + v[0].z * m._33;
 
-	viewplane[1].Nx = v[1].x*m._11 + v[1].y*m._12 + v[1].z*m._13;
-	viewplane[1].Ny = v[1].x*m._21 + v[1].y*m._22 + v[1].z*m._23;
-	viewplane[1].Nz = v[1].x*m._31 + v[1].y*m._32 + v[1].z*m._33;
+	viewplane[1].Nx = v[1].x * m._11 + v[1].y * m._12 + v[1].z * m._13;
+	viewplane[1].Ny = v[1].x * m._21 + v[1].y * m._22 + v[1].z * m._23;
+	viewplane[1].Nz = v[1].x * m._31 + v[1].y * m._32 + v[1].z * m._33;
 
-	viewplane[2].Nx = v[2].x*m._11 + v[2].y*m._12 + v[2].z*m._13;
-	viewplane[2].Ny = v[2].x*m._21 + v[2].y*m._22 + v[2].z*m._23;
-	viewplane[2].Nz = v[2].x*m._31 + v[2].y*m._32 + v[2].z*m._33;
+	viewplane[2].Nx = v[2].x * m._11 + v[2].y * m._12 + v[2].z * m._13;
+	viewplane[2].Ny = v[2].x * m._21 + v[2].y * m._22 + v[2].z * m._23;
+	viewplane[2].Nz = v[2].x * m._31 + v[2].y * m._32 + v[2].z * m._33;
 
-	viewplane[3].Nx = v[3].x*m._11 + v[3].y*m._12 + v[3].z*m._13;
-	viewplane[3].Ny = v[3].x*m._21 + v[3].y*m._22 + v[3].z*m._23;
-	viewplane[3].Nz = v[3].x*m._31 + v[3].y*m._32 + v[3].z*m._33;
+	viewplane[3].Nx = v[3].x * m._11 + v[3].y * m._12 + v[3].z * m._13;
+	viewplane[3].Ny = v[3].x * m._21 + v[3].y * m._22 + v[3].z * m._23;
+	viewplane[3].Nz = v[3].x * m._31 + v[3].y * m._32 + v[3].z * m._33;
 
-	viewplane[0].D = (pos.x*viewplane[0].Nx + pos.y*viewplane[0].Ny + pos.z*viewplane[0].Nz);
-	viewplane[1].D = (pos.x*viewplane[1].Nx + pos.y*viewplane[1].Ny + pos.z*viewplane[1].Nz);
-	viewplane[2].D = (pos.x*viewplane[2].Nx + pos.y*viewplane[2].Ny + pos.z*viewplane[2].Nz);
-	viewplane[3].D = (pos.x*viewplane[3].Nx + pos.y*viewplane[3].Ny + pos.z*viewplane[3].Nz);
+	viewplane[0].D = (pos.x * viewplane[0].Nx + pos.y * viewplane[0].Ny + pos.z * viewplane[0].Nz);
+	viewplane[1].D = (pos.x * viewplane[1].Nx + pos.y * viewplane[1].Ny + pos.z * viewplane[1].Nz);
+	viewplane[2].D = (pos.x * viewplane[2].Nx + pos.y * viewplane[2].Ny + pos.z * viewplane[2].Nz);
+	viewplane[3].D = (pos.x * viewplane[3].Nx + pos.y * viewplane[3].Ny + pos.z * viewplane[3].Nz);
 }
 
-bool DX9RENDER::TechniqueExecuteStart(const char *cBlockName)
+bool DX9RENDER::TechniqueExecuteStart(const char* cBlockName)
 {
 	if (!cBlockName) return false;
 	return effects_.begin(cBlockName);
@@ -3101,13 +3241,14 @@ bool DX9RENDER::TechniqueExecuteNext()
 	return effects_.next();
 }
 
-void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlockName, uint32_t dwSubTexturesX, uint32_t dwSubTexturesY, float fScaleX, float fScaleY)
+void DX9RENDER::DrawRects(RS_RECT* pRSR, uint32_t dwRectsNum, const char* cBlockName, uint32_t dwSubTexturesX,
+                          uint32_t dwSubTexturesY, float fScaleX, float fScaleY)
 {
 	if (!pRSR || dwRectsNum == 0 || !rectsVBuffer) return;
 
-	bool		bDraw = true;
+	bool bDraw = true;
 
-	static CMatrix		camMtx, IMatrix;
+	static CMatrix camMtx, IMatrix;
 	d3d9->GetTransform(D3DTS_VIEW, camMtx);
 
 	fScaleY *= GetHeightDeformator();
@@ -3119,7 +3260,8 @@ void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlock
 		bUseSubTextures = true;
 		du = 1.0f / dwSubTexturesX;
 	}
-	else {
+	else
+	{
 		dwSubTexturesX = 1;
 		du = 1.0f;
 	}
@@ -3128,7 +3270,8 @@ void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlock
 		bUseSubTextures = true;
 		dv = 1.0f / dwSubTexturesY;
 	}
-	else {
+	else
+	{
 		dwSubTexturesY = 1;
 		dv = 1.0f;
 	}
@@ -3136,24 +3279,25 @@ void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlock
 	d3d9->SetTransform(D3DTS_VIEW, IMatrix);
 	d3d9->SetTransform(D3DTS_WORLD, IMatrix);
 
-	for (uint32_t cnt = 0; cnt < dwRectsNum; )
+	for (uint32_t cnt = 0; cnt < dwRectsNum;)
 	{
 		//Количество рисуемых прямоугольников за раз
 		uint32_t drawCount = dwRectsNum;
 		if (drawCount > rectsVBuffer_SizeInRects) drawCount = rectsVBuffer_SizeInRects;
 		//Буфер
-		RECT_VERTEX * data = nullptr;
-		if (rectsVBuffer->Lock(0, drawCount * 6 * sizeof(RECT_VERTEX), (VOID**)&data, D3DLOCK_DISCARD) != D3D_OK) return;
+		RECT_VERTEX* data = nullptr;
+		if (rectsVBuffer->Lock(0, drawCount * 6 * sizeof(RECT_VERTEX), (VOID**)&data, D3DLOCK_DISCARD) != D3D_OK)
+			return;
 		if (!data) return;
 		//Заполняем буфер
 		for (uint32_t i = 0; i < drawCount && cnt < dwRectsNum; i++)
 		{
 			//Локальный массив партикла
-			RECT_VERTEX * buffer = &data[i * 6];
-			RS_RECT & rect = pRSR[cnt++];
+			RECT_VERTEX* buffer = &data[i * 6];
+			RS_RECT& rect = pRSR[cnt++];
 			CVECTOR pos = camMtx * (rect.vPos + vWordRelationPos);
-			float sizex = rect.fSize*fScaleX;
-			float sizey = rect.fSize*fScaleY;
+			float sizex = rect.fSize * fScaleX;
+			float sizey = rect.fSize * fScaleY;
 			float sn = sinf(rect.fAngle);
 			float cs = cosf(rect.fAngle);
 			long color = rect.dwColor;
@@ -3163,22 +3307,23 @@ void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlock
 				v1 = u1 = 0.0f;
 				v2 = u2 = 1.0f;
 			}
-			else {
-				u1 = (rect.dwSubTexture % dwSubTexturesX)*du;
-				v1 = ((rect.dwSubTexture / dwSubTexturesX) % dwSubTexturesY)*dv;
+			else
+			{
+				u1 = (rect.dwSubTexture % dwSubTexturesX) * du;
+				v1 = ((rect.dwSubTexture / dwSubTexturesX) % dwSubTexturesY) * dv;
 				u2 = u1 + du;
 				v2 = v1 + dv;
 			}
 			//Заполняем буфер для партикла
-			buffer[0].pos = pos + CVECTOR(sizex*(-cs - sn), sizey*(sn - cs), 0.0f);
+			buffer[0].pos = pos + CVECTOR(sizex * (-cs - sn), sizey * (sn - cs), 0.0f);
 			buffer[0].color = color;
 			buffer[0].u = u1;
 			buffer[0].v = v2;
-			buffer[1].pos = pos + CVECTOR(sizex*(-cs + sn), sizey*(sn + cs), 0.0f);
+			buffer[1].pos = pos + CVECTOR(sizex * (-cs + sn), sizey * (sn + cs), 0.0f);
 			buffer[1].color = color;
 			buffer[1].u = u1;
 			buffer[1].v = v1;
-			buffer[2].pos = pos + CVECTOR(sizex*(cs + sn), sizey*(-sn + cs), 0.0f);
+			buffer[2].pos = pos + CVECTOR(sizex * (cs + sn), sizey * (-sn + cs), 0.0f);
 			buffer[2].color = color;
 			buffer[2].u = u2;
 			buffer[2].v = v1;
@@ -3190,7 +3335,7 @@ void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlock
 			buffer[4].color = color;
 			buffer[4].u = u2;
 			buffer[4].v = v1;
-			buffer[5].pos = pos + CVECTOR(sizex*(cs - sn), sizey*(-sn - cs), 0.0f);
+			buffer[5].pos = pos + CVECTOR(sizex * (cs - sn), sizey * (-sn - cs), 0.0f);
 			buffer[5].color = color;
 			buffer[5].u = u2;
 			buffer[5].v = v2;
@@ -3199,89 +3344,104 @@ void DX9RENDER::DrawRects(RS_RECT *pRSR, uint32_t dwRectsNum, const char *cBlock
 		rectsVBuffer->Unlock();
 		CHECKD3DERR(SetFVF(RS_RECT_VERTEX_FORMAT));
 		if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
-		if (bDraw) do
-		{
-			CHECKD3DERR(SetStreamSource(0, rectsVBuffer, sizeof(RECT_VERTEX)));
-			CHECKD3DERR(DrawPrimitive(D3DPT_TRIANGLELIST, 0, drawCount * 2));
-		} while (cBlockName && TechniqueExecuteNext());
+		if (bDraw)
+			do
+			{
+				CHECKD3DERR(SetStreamSource(0, rectsVBuffer, sizeof(RECT_VERTEX)));
+				CHECKD3DERR(DrawPrimitive(D3DPT_TRIANGLELIST, 0, drawCount * 2));
+			}
+			while (cBlockName && TechniqueExecuteNext());
 	}
 
 	d3d9->SetTransform(D3DTS_VIEW, camMtx);
 }
 
-void DX9RENDER::DrawSprites(RS_SPRITE * pRSS, uint32_t dwSpritesNum, const char * cBlockName)
+void DX9RENDER::DrawSprites(RS_SPRITE* pRSS, uint32_t dwSpritesNum, const char* cBlockName)
 {
-	uint32_t	i;
+	uint32_t i;
 #define RS_SPRITE_VERTEX_FORMAT	(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 	if (dwSpritesNum == 0) return;
 
 	auto* pIndices = new uint16_t[dwSpritesNum * 6];
 
-	for (i = 0; i<dwSpritesNum; i++)
+	for (i = 0; i < dwSpritesNum; i++)
 	{
-		pIndices[i * 6 + 0] = uint16_t(i * 4 + 0); pIndices[i * 6 + 1] = uint16_t(i * 4 + 3); pIndices[i * 6 + 2] = uint16_t(i * 4 + 2);
-		pIndices[i * 6 + 3] = uint16_t(i * 4 + 0); pIndices[i * 6 + 4] = uint16_t(i * 4 + 2); pIndices[i * 6 + 5] = uint16_t(i * 4 + 1);
+		pIndices[i * 6 + 0] = uint16_t(i * 4 + 0);
+		pIndices[i * 6 + 1] = uint16_t(i * 4 + 3);
+		pIndices[i * 6 + 2] = uint16_t(i * 4 + 2);
+		pIndices[i * 6 + 3] = uint16_t(i * 4 + 0);
+		pIndices[i * 6 + 4] = uint16_t(i * 4 + 2);
+		pIndices[i * 6 + 5] = uint16_t(i * 4 + 1);
 	}
 
 	SetFVF(RS_SPRITE_VERTEX_FORMAT);
 
 	bool bDraw = true;
 	if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
-	if (bDraw) do
-	{
+	if (bDraw)
+		do
+		{
 #ifndef _XBOX
-		DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, dwSpritesNum * 4, dwSpritesNum * 2, pIndices, D3DFMT_INDEX16, pRSS, sizeof(RS_SPRITE));
+			DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, dwSpritesNum * 4, dwSpritesNum * 2, pIndices, D3DFMT_INDEX16,
+			                       pRSS, sizeof(RS_SPRITE));
 #else
 		DrawPrimitiveUP(D3DPT_QUADLIST, RS_SPRITE_VERTEX_FORMAT, dwSpritesNum, pRSS, sizeof(RS_SPRITE));
 #endif
-	} while (cBlockName && TechniqueExecuteNext());
+		}
+		while (cBlockName && TechniqueExecuteNext());
 	delete[] pIndices;
 }
 
-void DX9RENDER::DrawLines(RS_LINE *pRSL, uint32_t dwLinesNum, const char *cBlockName)
+void DX9RENDER::DrawLines(RS_LINE* pRSL, uint32_t dwLinesNum, const char* cBlockName)
 {
 	if (!pRSL || dwLinesNum == 0) return;
 
 #define RS_LINE_VERTEX_FORMAT	(D3DFVF_XYZ|D3DFVF_DIFFUSE)
 
-	bool		bDraw = true;
+	bool bDraw = true;
 
 	if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
-	if (bDraw) do
-	{
-		DrawPrimitiveUP(D3DPT_LINELIST, RS_LINE_VERTEX_FORMAT, dwLinesNum, pRSL, sizeof(RS_LINE));
-	} while (cBlockName && TechniqueExecuteNext());
+	if (bDraw)
+		do
+		{
+			DrawPrimitiveUP(D3DPT_LINELIST, RS_LINE_VERTEX_FORMAT, dwLinesNum, pRSL, sizeof(RS_LINE));
+		}
+		while (cBlockName && TechniqueExecuteNext());
 }
 
-void DX9RENDER::DrawLines2D(RS_LINE2D *pRSL2D, uint32_t dwLinesNum, const char *cBlockName)
+void DX9RENDER::DrawLines2D(RS_LINE2D* pRSL2D, uint32_t dwLinesNum, const char* cBlockName)
 {
 	if (!pRSL2D || dwLinesNum == 0) return;
 
 #define RS_LINE2D_VERTEX_FORMAT	(D3DFVF_XYZRHW|D3DFVF_DIFFUSE)
 
-	bool		bDraw = true;
+	bool bDraw = true;
 
 	if (cBlockName && cBlockName[0]) bDraw = TechniqueExecuteStart(cBlockName);
-	if (bDraw) do
-	{
-		DrawPrimitiveUP(D3DPT_LINELIST, RS_LINE2D_VERTEX_FORMAT, dwLinesNum, pRSL2D, sizeof(RS_LINE2D));
-	} while (cBlockName && TechniqueExecuteNext());
+	if (bDraw)
+		do
+		{
+			DrawPrimitiveUP(D3DPT_LINELIST, RS_LINE2D_VERTEX_FORMAT, dwLinesNum, pRSL2D, sizeof(RS_LINE2D));
+		}
+		while (cBlockName && TechniqueExecuteNext());
 }
 
 
 //-----------------------
-HRESULT DX9RENDER::CreateVertexBuffer(UINT Length, uint32_t Usage, uint32_t FVF, D3DPOOL Pool, IDirect3DVertexBuffer9** ppVertexBuffer)
+HRESULT DX9RENDER::CreateVertexBuffer(UINT Length, uint32_t Usage, uint32_t FVF, D3DPOOL Pool,
+                                      IDirect3DVertexBuffer9** ppVertexBuffer)
 {
 	return CHECKD3DERR(d3d9->CreateVertexBuffer(Length, Usage, FVF, Pool, ppVertexBuffer, NULL));
 }
 
-HRESULT DX9RENDER::VBLock(IDirect3DVertexBuffer9 * pVB, UINT OffsetToLock, UINT SizeToLock, uint8_t** ppbData, uint32_t Flags)
+HRESULT DX9RENDER::VBLock(IDirect3DVertexBuffer9* pVB, UINT OffsetToLock, UINT SizeToLock, uint8_t** ppbData,
+                          uint32_t Flags)
 {
 	dwNumLV++;
 	return CHECKD3DERR(pVB->Lock(OffsetToLock, SizeToLock, (VOID**)ppbData, Flags));
 }
 
-void DX9RENDER::VBUnlock(IDirect3DVertexBuffer9 * pVB)
+void DX9RENDER::VBUnlock(IDirect3DVertexBuffer9* pVB)
 {
 	CHECKD3DERR(pVB->Unlock());
 }
@@ -3289,15 +3449,15 @@ void DX9RENDER::VBUnlock(IDirect3DVertexBuffer9 * pVB)
 HRESULT DX9RENDER::SetFVF(uint32_t handle)
 {
 	return CHECKD3DERR(d3d9->SetVertexShader(NULL)) ||
-		CHECKD3DERR(d3d9->SetFVF(handle));;
+		CHECKD3DERR(d3d9->SetFVF(handle));
 }
 
-HRESULT DX9RENDER::SetStreamSource(UINT StreamNumber, void * pStreamData, UINT Stride)
+HRESULT DX9RENDER::SetStreamSource(UINT StreamNumber, void* pStreamData, UINT Stride)
 {
 	return CHECKD3DERR(d3d9->SetStreamSource(StreamNumber, (IDirect3DVertexBuffer9*)pStreamData, 0, Stride));
 }
 
-HRESULT DX9RENDER::SetIndices(void * pIndexData)
+HRESULT DX9RENDER::SetIndices(void* pIndexData)
 {
 	return CHECKD3DERR(d3d9->SetIndices((IDirect3DIndexBuffer9*)pIndexData));
 }
@@ -3308,9 +3468,9 @@ HRESULT DX9RENDER::DrawPrimitive(D3DPRIMITIVETYPE dwPrimitiveType, UINT StartVer
 	return CHECKD3DERR(d3d9->DrawPrimitive(dwPrimitiveType, StartVertex, PrimitiveCount));
 }
 
-HRESULT DX9RENDER::Release(IUnknown *pObject)
+HRESULT DX9RENDER::Release(IUnknown* pObject)
 {
-	if (pObject) 
+	if (pObject)
 		return pObject->Release();
 
 	return D3D_OK;
@@ -3326,7 +3486,8 @@ HRESULT DX9RENDER::GetDepthStencilSurface(IDirect3DSurface9** ppZStencilSurface)
 	return CHECKD3DERR(d3d9->GetDepthStencilSurface(ppZStencilSurface));
 }
 
-HRESULT DX9RENDER::GetCubeMapSurface(IDirect3DCubeTexture9* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, IDirect3DSurface9** ppCubeMapSurface)
+HRESULT DX9RENDER::GetCubeMapSurface(IDirect3DCubeTexture9* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level,
+                                     IDirect3DSurface9** ppCubeMapSurface)
 {
 	return ppCubeTexture->GetCubeMapSurface(FaceType, Level, ppCubeMapSurface);
 }
@@ -3339,12 +3500,14 @@ HRESULT DX9RENDER::SetRenderTarget(IDirect3DSurface9* pRenderTarget, IDirect3DSu
 	return hr;
 }
 
-HRESULT DX9RENDER::Clear(uint32_t Count, CONST D3DRECT* pRects, uint32_t Flags, D3DCOLOR Color, float Z, uint32_t Stencil)
+HRESULT DX9RENDER::Clear(uint32_t Count, CONST D3DRECT* pRects, uint32_t Flags, D3DCOLOR Color, float Z,
+                         uint32_t Stencil)
 {
 	return CHECKD3DERR(d3d9->Clear(Count, pRects, Flags, Color, Z, Stencil));
 }
 
 static bool isInScene = false;
+
 HRESULT DX9RENDER::BeginScene()
 {
 	if (!isInScene)
@@ -3373,44 +3536,48 @@ HRESULT DX9RENDER::SetClipPlane(uint32_t Index, CONST float* pPlane)
 	return D3D_OK;
 }
 
-HRESULT DX9RENDER::CreateTexture(UINT Width, UINT Height, UINT  Levels, uint32_t Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DTexture9** ppTexture)
+HRESULT DX9RENDER::CreateTexture(UINT Width, UINT Height, UINT Levels, uint32_t Usage, D3DFORMAT Format, D3DPOOL Pool,
+                                 IDirect3DTexture9** ppTexture)
 {
 	return CHECKD3DERR(d3d9->CreateTexture(Width, Height, Levels, Usage, Format, Pool, ppTexture, NULL));
 }
 
-HRESULT DX9RENDER::CreateCubeTexture(UINT EdgeLength, UINT Levels, uint32_t Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DCubeTexture9** ppCubeTexture)
+HRESULT DX9RENDER::CreateCubeTexture(UINT EdgeLength, UINT Levels, uint32_t Usage, D3DFORMAT Format, D3DPOOL Pool,
+                                     IDirect3DCubeTexture9** ppCubeTexture)
 {
 	return CHECKD3DERR(d3d9->CreateCubeTexture(EdgeLength, Levels, Usage, Format, Pool, ppCubeTexture, NULL));
 }
 
-HRESULT DX9RENDER::CreateOffscreenPlainSurface(UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface9 ** ppSurface)
+HRESULT DX9RENDER::CreateOffscreenPlainSurface(UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface9** ppSurface)
 {
-  	return CHECKD3DERR(d3d9->CreateOffscreenPlainSurface(Width, Height, Format, D3DPOOL_SYSTEMMEM, ppSurface, NULL));
+	return CHECKD3DERR(d3d9->CreateOffscreenPlainSurface(Width, Height, Format, D3DPOOL_SYSTEMMEM, ppSurface, NULL));
 	//~!~D3DERR_OUTOFVIDEOMEMORY
 	//GetAvailableTextureMem
 }
 
-HRESULT DX9RENDER::CreateDepthStencilSurface(UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, IDirect3DSurface9 ** ppSurface)
+HRESULT DX9RENDER::CreateDepthStencilSurface(UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample,
+                                             IDirect3DSurface9** ppSurface)
 {
 	return CHECKD3DERR(d3d9->CreateDepthStencilSurface(Width, Height, Format, MultiSample, 0, TRUE, ppSurface, NULL));
 }
 
-HRESULT DX9RENDER::CreateVertexDeclaration(CONST D3DVERTEXELEMENT9 * pVertexElements, IDirect3DVertexDeclaration9 ** ppDecl)
+HRESULT DX9RENDER::CreateVertexDeclaration(CONST D3DVERTEXELEMENT9* pVertexElements,
+                                           IDirect3DVertexDeclaration9** ppDecl)
 {
 	return CHECKD3DERR(d3d9->CreateVertexDeclaration(pVertexElements, ppDecl));
 }
 
-HRESULT DX9RENDER::SetVertexDeclaration(IDirect3DVertexDeclaration9 *pDecl)
+HRESULT DX9RENDER::SetVertexDeclaration(IDirect3DVertexDeclaration9* pDecl)
 {
 	return CHECKD3DERR(d3d9->SetVertexDeclaration(pDecl));
 }
 
-HRESULT DX9RENDER::CreateVertexShader(CONST uint32_t * pFunction, IDirect3DVertexShader9 ** ppShader)
+HRESULT DX9RENDER::CreateVertexShader(CONST uint32_t* pFunction, IDirect3DVertexShader9** ppShader)
 {
 	return CHECKD3DERR(d3d9->CreateVertexShader((const DWORD *)pFunction, ppShader));
 }
 
-HRESULT DX9RENDER::CreatePixelShader(CONST uint32_t * pFunction, IDirect3DPixelShader9 ** ppShader)
+HRESULT DX9RENDER::CreatePixelShader(CONST uint32_t* pFunction, IDirect3DPixelShader9** ppShader)
 {
 	return CHECKD3DERR(d3d9->CreatePixelShader((const DWORD *)pFunction, ppShader));
 }
@@ -3425,7 +3592,7 @@ HRESULT DX9RENDER::GetPixelShader(IDirect3DPixelShader9** ppShader)
 	return CHECKD3DERR(d3d9->GetPixelShader(ppShader));
 }
 
-ID3DXEffect * DX9RENDER::GetEffectPointer(const char * techniqueName)
+ID3DXEffect* DX9RENDER::GetEffectPointer(const char* techniqueName)
 {
 	return effects_.getEffectPointer(techniqueName);
 }
@@ -3445,22 +3612,24 @@ HRESULT DX9RENDER::GetLevelDesc(IDirect3DCubeTexture9* ppCubeTexture, UINT Level
 	return CHECKD3DERR(ppCubeTexture->GetLevelDesc(Level, pDesc));
 }
 
-HRESULT DX9RENDER::LockRect(IDirect3DCubeTexture9* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, uint32_t Flags)
+HRESULT DX9RENDER::LockRect(IDirect3DCubeTexture9* ppCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level,
+                            D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, uint32_t Flags)
 {
 	return CHECKD3DERR(ppCubeTexture->LockRect(FaceType, Level, pLockedRect, pRect, Flags));
 }
 
-HRESULT DX9RENDER::LockRect(IDirect3DTexture9* ppTexture, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, uint32_t Flags)
+HRESULT DX9RENDER::LockRect(IDirect3DTexture9* ppTexture, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect,
+                            uint32_t Flags)
 {
 	return CHECKD3DERR(ppTexture->LockRect(Level, pLockedRect, pRect, Flags));
 }
 
-HRESULT DX9RENDER::UnlockRect(IDirect3DCubeTexture9 *pCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level)
+HRESULT DX9RENDER::UnlockRect(IDirect3DCubeTexture9* pCubeTexture, D3DCUBEMAP_FACES FaceType, UINT Level)
 {
 	return CHECKD3DERR(pCubeTexture->UnlockRect(FaceType, Level));
 }
 
-HRESULT DX9RENDER::UnlockRect(IDirect3DTexture9 *pTexture, UINT Level)
+HRESULT DX9RENDER::UnlockRect(IDirect3DTexture9* pTexture, UINT Level)
 {
 	return CHECKD3DERR(pTexture->UnlockRect(Level));
 }
@@ -3470,42 +3639,44 @@ HRESULT DX9RENDER::GetSurfaceLevel(IDirect3DTexture9* ppTexture, UINT Level, IDi
 	return CHECKD3DERR(ppTexture->GetSurfaceLevel(Level, ppSurfaceLevel));
 }
 
-HRESULT DX9RENDER::UpdateSurface(IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray)
+HRESULT DX9RENDER::UpdateSurface(IDirect3DSurface9* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects,
+                                 IDirect3DSurface9* pDestinationSurface, CONST POINT* pDestPointsArray)
 {
 	return CHECKD3DERR(d3d9->UpdateSurface(pSourceSurface, pSourceRectsArray, pDestinationSurface, pDestPointsArray));
 }
 
-HRESULT DX9RENDER::StretchRect(IDirect3DSurface9 *pSourceSurface, const RECT *pSourceRect, IDirect3DSurface9 *pDestSurface, const RECT *pDestRect, D3DTEXTUREFILTERTYPE Filter)
+HRESULT DX9RENDER::StretchRect(IDirect3DSurface9* pSourceSurface, const RECT* pSourceRect,
+                               IDirect3DSurface9* pDestSurface, const RECT* pDestRect, D3DTEXTUREFILTERTYPE Filter)
 {
 	return CHECKD3DERR(d3d9->StretchRect(pSourceSurface, pSourceRect, pDestSurface, pDestRect, Filter));
 }
 
-HRESULT DX9RENDER::GetRenderTargetData(IDirect3DSurface9 * pRenderTarget, IDirect3DSurface9 * pDestSurface)
+HRESULT DX9RENDER::GetRenderTargetData(IDirect3DSurface9* pRenderTarget, IDirect3DSurface9* pDestSurface)
 {
 	return CHECKD3DERR(d3d9->GetRenderTargetData(pRenderTarget, pDestSurface));
 }
 
-HRESULT DX9RENDER::SetVertexShader(IDirect3DVertexShader9 * pShader)
+HRESULT DX9RENDER::SetVertexShader(IDirect3DVertexShader9* pShader)
 {
 	return CHECKD3DERR(d3d9->SetVertexShader(pShader));
 }
 
-HRESULT DX9RENDER::SetPixelShader(IDirect3DPixelShader9 * pShader)
+HRESULT DX9RENDER::SetPixelShader(IDirect3DPixelShader9* pShader)
 {
 	return CHECKD3DERR(d3d9->SetPixelShader(pShader));
 }
 
-HRESULT DX9RENDER::SetVertexShaderConstantF(UINT StartRegister, CONST float * pConstantData, UINT Vector4iCount)
+HRESULT DX9RENDER::SetVertexShaderConstantF(UINT StartRegister, CONST float* pConstantData, UINT Vector4iCount)
 {
 	return CHECKD3DERR(d3d9->SetVertexShaderConstantF(StartRegister, pConstantData, Vector4iCount));
 }
 
-HRESULT DX9RENDER::SetPixelShaderConstantF(UINT StartRegister, CONST float * pConstantData, UINT Vector4iCount)
+HRESULT DX9RENDER::SetPixelShaderConstantF(UINT StartRegister, CONST float* pConstantData, UINT Vector4iCount)
 {
 	return CHECKD3DERR(d3d9->SetPixelShaderConstantF(StartRegister, pConstantData, Vector4iCount));
 }
 
-HRESULT DX9RENDER::GetDeviceCaps(D3DCAPS9 * pCaps)
+HRESULT DX9RENDER::GetDeviceCaps(D3DCAPS9* pCaps)
 {
 	return CHECKD3DERR(d3d9->GetDeviceCaps(pCaps));
 }
@@ -3513,8 +3684,8 @@ HRESULT DX9RENDER::GetDeviceCaps(D3DCAPS9 * pCaps)
 CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 {
 	if (sVideoName == nullptr) return nullptr;
-	CVideoTexture *retVal = nullptr;
-	VideoTextureEntity *pVTLcur = pVTL;
+	CVideoTexture* retVal = nullptr;
+	VideoTextureEntity* pVTLcur = pVTL;
 
 	// check already loaded
 	unsigned long newHash = hash_string(sVideoName);
@@ -3527,7 +3698,7 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 				pVTLcur->ref++;
 				return pVTLcur->VideoTexture;
 			}
-			VideoTextureEntity *pVTmp = pVTLcur;
+			VideoTextureEntity* pVTmp = pVTLcur;
 			pVTLcur = pVTLcur->next;
 			delete pVTmp->name;
 			delete pVTmp;
@@ -3553,11 +3724,13 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 	if (pVTLcur->VideoTexture != nullptr)
 	{
 		pVTLcur->videoTexture_id = ei;
-		if (pVTLcur->VideoTexture->Initialize(this, sVideoName, true) == nullptr) {
+		if (pVTLcur->VideoTexture->Initialize(this, sVideoName, true) == nullptr)
+		{
 			delete pVTLcur;
 			EntityManager::EraseEntity(ei);
 		}
-		else {
+		else
+		{
 			pVTL = pVTLcur;
 			retVal = pVTLcur->VideoTexture;
 		}
@@ -3573,31 +3746,33 @@ CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
 
 void DX9RENDER::ReleaseVideoTexture(CVideoTexture* pVTexture)
 {
-	VideoTextureEntity *cur = pVTL;
-	VideoTextureEntity *prev = nullptr;
+	VideoTextureEntity* cur = pVTL;
+	VideoTextureEntity* prev = nullptr;
 
-	if (cur != nullptr) do
-	{
-		if (cur->VideoTexture == pVTexture)
+	if (cur != nullptr)
+		do
 		{
-			cur->ref--;
-			if (cur->ref>0) return;
-			if (prev == nullptr)
-				pVTL = cur->next;
-			else
-				prev->next = cur->next;
-			EntityManager::EraseEntity(cur->videoTexture_id);
-			delete cur->name;
-			delete cur;
-			break;
+			if (cur->VideoTexture == pVTexture)
+			{
+				cur->ref--;
+				if (cur->ref > 0) return;
+				if (prev == nullptr)
+					pVTL = cur->next;
+				else
+					prev->next = cur->next;
+				EntityManager::EraseEntity(cur->videoTexture_id);
+				delete cur->name;
+				delete cur;
+				break;
+			}
+			prev = cur;
 		}
-		prev = cur;
-	} while ((cur = cur->next) != nullptr);
+		while ((cur = cur->next) != nullptr);
 }
 
 void DX9RENDER::PlayToTexture()
 {
-	VideoTextureEntity *cur = pVTL;
+	VideoTextureEntity* cur = pVTL;
 	while (cur != nullptr)
 	{
 		if (EntityManager::GetEntityPointer(pVTL->videoTexture_id))
@@ -3609,7 +3784,7 @@ void DX9RENDER::PlayToTexture()
 		{
 			api->Trace("ERROR: void DX9RENDER::PlayToTexture()");
 			delete cur->name;
-			VideoTextureEntity * pcur = cur;
+			VideoTextureEntity* pcur = cur;
 			cur = cur->next;
 			if (pVTL == pcur) pVTL = cur;
 			delete pcur;
@@ -3617,7 +3792,7 @@ void DX9RENDER::PlayToTexture()
 	}
 }
 
-HRESULT DX9RENDER::ImageBlt(long TextureID, RECT * pDstRect, RECT * pSrcRect)
+HRESULT DX9RENDER::ImageBlt(long TextureID, RECT* pDstRect, RECT* pSrcRect)
 {
 	struct F3DVERTEX
 	{
@@ -3640,47 +3815,60 @@ HRESULT DX9RENDER::ImageBlt(long TextureID, RECT * pDstRect, RECT * pSrcRect)
 		dr.bottom = screen_size.y - 1;
 	}
 
-	for (uint32_t n = 0; n<6; n++)
+	for (uint32_t n = 0; n < 6; n++)
 	{
 		v[n].rhw = 1.0f;
 		v[n].z = 0.5f;
 	}
 
-	v[0].x = (float)dr.left;	v[0].y = (float)dr.top;
-	v[0].tu = 0.0f;				v[0].tv = 0.0f;
+	v[0].x = (float)dr.left;
+	v[0].y = (float)dr.top;
+	v[0].tu = 0.0f;
+	v[0].tv = 0.0f;
 
-	v[1].x = (float)dr.left;	v[1].y = (float)dr.bottom;
-	v[1].tu = 0.0f;				v[1].tv = 1.0f;
+	v[1].x = (float)dr.left;
+	v[1].y = (float)dr.bottom;
+	v[1].tu = 0.0f;
+	v[1].tv = 1.0f;
 
-	v[2].x = (float)dr.right;	v[2].y = (float)dr.top;
-	v[2].tu = 1.0f;				v[2].tv = 0.0f;
+	v[2].x = (float)dr.right;
+	v[2].y = (float)dr.top;
+	v[2].tu = 1.0f;
+	v[2].tv = 0.0f;
 
-	v[3].x = (float)dr.right;	v[3].y = (float)dr.top;
-	v[3].tu = 1.0f;				v[3].tv = 0.0f;
+	v[3].x = (float)dr.right;
+	v[3].y = (float)dr.top;
+	v[3].tu = 1.0f;
+	v[3].tv = 0.0f;
 
-	v[4].x = (float)dr.left;	v[4].y = (float)dr.bottom;
-	v[4].tu = 0.0f;				v[4].tv = 1.0f;
+	v[4].x = (float)dr.left;
+	v[4].y = (float)dr.bottom;
+	v[4].tu = 0.0f;
+	v[4].tv = 1.0f;
 
-	v[5].x = (float)dr.right;	v[5].y = (float)dr.bottom;
-	v[5].tu = 1.0f;				v[5].tv = 1.0f;
+	v[5].x = (float)dr.right;
+	v[5].y = (float)dr.bottom;
+	v[5].tu = 1.0f;
+	v[5].tv = 1.0f;
 
 
 	TextureSet(0, TextureID);
 
 	bool bDraw = TechniqueExecuteStart("texturedialogfon");
-	if (bDraw) do
-	{
-		SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1 | D3DFVF_TEXTUREFORMAT2);
-		hRes = d3d9->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, &v, sizeof(F3DVERTEX));
-		dwNumDrawPrimitive++;
-	} while (TechniqueExecuteNext());
+	if (bDraw)
+		do
+		{
+			SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1 | D3DFVF_TEXTUREFORMAT2);
+			hRes = d3d9->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, &v, sizeof(F3DVERTEX));
+			dwNumDrawPrimitive++;
+		}
+		while (TechniqueExecuteNext());
 
 	return hRes;
-
 }
 
 
-HRESULT DX9RENDER::ImageBlt(const char * pName, RECT * pDstRect, RECT * pSrcRect)
+HRESULT DX9RENDER::ImageBlt(const char* pName, RECT* pDstRect, RECT* pSrcRect)
 {
 	long TextureID;
 	TextureID = TextureCreate(pName);
@@ -3690,7 +3878,7 @@ HRESULT DX9RENDER::ImageBlt(const char * pName, RECT * pDstRect, RECT * pSrcRect
 	return hRes;
 }
 
-void DX9RENDER::SetProgressImage(const char * image)
+void DX9RENDER::SetProgressImage(const char* image)
 {
 	if (!image || !image[0])
 	{
@@ -3707,7 +3895,7 @@ void DX9RENDER::SetProgressImage(const char * image)
 	strcpy_s(progressImage, s, image);
 }
 
-void DX9RENDER::SetTipsImage(const char * image)
+void DX9RENDER::SetTipsImage(const char* image)
 {
 	if (!image || !image[0])
 	{
@@ -3724,7 +3912,7 @@ void DX9RENDER::SetTipsImage(const char * image)
 	memcpy(progressTipsImage, image, s);
 }
 
-char * DX9RENDER::GetTipsImage()
+char* DX9RENDER::GetTipsImage()
 {
 	return progressTipsImage;
 }
@@ -3756,7 +3944,8 @@ void DX9RENDER::StartProgressView()
 		backTexture = TextureCreate(progressImage);
 		isInPViewProcess = false;
 	}
-	else {
+	else
+	{
 		backTexture = -1;
 	}
 	//Загружаем типсы
@@ -3801,45 +3990,65 @@ void DX9RENDER::ProgressView()
 	//Вычисляем прямоугольник в котором будем рисовать
 	D3DVIEWPORT9 vp;
 	GetViewport(&vp);
-	v[0].x = 0.0f; v[0].y = 0.0f;
-	v[1].x = float(vp.Width); v[1].y = 0.0f;
-	v[2].x = 0.0f; v[2].y = float(vp.Height);
-	v[3].x = float(vp.Width); v[3].y = float(vp.Height);
-	v[0].u = 0.0f; v[0].v = 0.0f;
-	v[1].u = 1.0f; v[1].v = 0.0f;
-	v[2].u = 0.0f; v[2].v = 1.0f;
-	v[3].u = 1.0f; v[3].v = 1.0f;
+	v[0].x = 0.0f;
+	v[0].y = 0.0f;
+	v[1].x = float(vp.Width);
+	v[1].y = 0.0f;
+	v[2].x = 0.0f;
+	v[2].y = float(vp.Height);
+	v[3].x = float(vp.Width);
+	v[3].y = float(vp.Height);
+	v[0].u = 0.0f;
+	v[0].v = 0.0f;
+	v[1].u = 1.0f;
+	v[1].v = 0.0f;
+	v[2].u = 0.0f;
+	v[2].v = 1.0f;
+	v[3].u = 1.0f;
+	v[3].v = 1.0f;
 	TextureSet(0, backTexture);
 	if (backTexture < 0) for (long i = 0; i < 4; i++) v[i].color = 0;
 	if (backTexture >= 0 && progressTipsTexture >= 0)
 	{
 		TextureSet(1, progressTipsTexture);
-		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1, 2, v, sizeof(v[0]), "ProgressBackTechWithTips");
+		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1, 2, v, sizeof(v[0]),
+		                "ProgressBackTechWithTips");
 	}
-	else {
-		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1, 2, v, sizeof(v[0]), "ProgressBackTech");
+	else
+	{
+		DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1, 2, v, sizeof(v[0]),
+		                "ProgressBackTech");
 	}
 	if (backTexture < 0) for (long i = 0; i < 4; i++) v[i].color = 0xffffffff;
 	//Анимированный объект
-	CVECTOR pos(vp.Width*progressFramesPosX, vp.Height*progressFramesPosY, 0.0f);
-	CVECTOR size(vp.Width*progressFramesWidth, vp.Width*progressFramesHeight*m_fHeightDeformator, 0.0f);
-	v[0].x = pos.x; v[0].y = pos.y;
-	v[1].x = pos.x + size.x + 0.5f; v[1].y = pos.y;
-	v[2].x = pos.x; v[2].y = pos.y + size.y + 0.5f;
-	v[3].x = pos.x + size.x + 0.5f; v[3].y = pos.y + size.y + 0.5f;
+	CVECTOR pos(vp.Width * progressFramesPosX, vp.Height * progressFramesPosY, 0.0f);
+	CVECTOR size(vp.Width * progressFramesWidth, vp.Width * progressFramesHeight * m_fHeightDeformator, 0.0f);
+	v[0].x = pos.x;
+	v[0].y = pos.y;
+	v[1].x = pos.x + size.x + 0.5f;
+	v[1].y = pos.y;
+	v[2].x = pos.x;
+	v[2].y = pos.y + size.y + 0.5f;
+	v[3].x = pos.x + size.x + 0.5f;
+	v[3].y = pos.y + size.y + 0.5f;
 	//Размер сетки кадров
 	long sizeX = progressFramesCountX;
 	long sizeY = progressFramesCountY;
 	//Позиция текущего кадра
 	long fx = loadFrame % sizeX;
 	long fy = loadFrame / sizeY;
-	v[0].u = fx / float(sizeX); v[0].v = fy / float(sizeY);
-	v[1].u = (fx + 1.0f) / float(sizeX); v[1].v = fy / float(sizeY);
-	v[2].u = fx / float(sizeX); v[2].v = (fy + 1.0f) / float(sizeY);
-	v[3].u = (fx + 1.0f) / float(sizeX); v[3].v = (fy + 1.0f) / float(sizeY);
+	v[0].u = fx / float(sizeX);
+	v[0].v = fy / float(sizeY);
+	v[1].u = (fx + 1.0f) / float(sizeX);
+	v[1].v = fy / float(sizeY);
+	v[2].u = fx / float(sizeX);
+	v[2].v = (fy + 1.0f) / float(sizeY);
+	v[3].u = (fx + 1.0f) / float(sizeX);
+	v[3].v = (fy + 1.0f) / float(sizeY);
 	//Рисуем
 	TextureSet(0, progressTexture);
-	DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1, 2, v, sizeof(v[0]), "ProgressTech");
+	DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1, 2, v, sizeof(v[0]),
+	                "ProgressTech");
 	EndScene();
 	d3d9->Present(nullptr, nullptr, nullptr, nullptr);
 	BeginScene();
@@ -3867,7 +4076,7 @@ void DX9RENDER::SetColorParameters(float fGamma, float fBrightness, float fContr
 {
 	D3DGAMMARAMP ramp;
 
-	for (uint32_t i = 0; i<256; i++)
+	for (uint32_t i = 0; i < 256; i++)
 	{
 		float fRamp = fContrast * 255.0f * 256.0f * powf(float(i / 255.0f), 1.0f / fGamma) + fBrightness * 256.0f;
 		if (fRamp < 0.0f) fRamp = 0.0f;
@@ -3885,14 +4094,15 @@ void DX9RENDER::SetColorParameters(float fGamma, float fBrightness, float fContr
 	d3d9->SetGammaRamp(0, D3DSGR_NO_CALIBRATION, &ramp);
 }
 
-void DX9RENDER::MakeDrawVector(RS_LINE * pLines, uint32_t dwNumSubLines, const CMatrix & mMatrix, CVECTOR vUp, CVECTOR v1, CVECTOR v2, float fScale, uint32_t dwColor)
+void DX9RENDER::MakeDrawVector(RS_LINE* pLines, uint32_t dwNumSubLines, const CMatrix& mMatrix, CVECTOR vUp, CVECTOR v1,
+                               CVECTOR v2, float fScale, uint32_t dwColor)
 {
 	uint32_t i;
 	uint32_t k;
 
 	//for (i=0; i<dwNumSubLines * 2 + 2; i++) pLines[i].dwColor = dwColor;
 	k = dwNumSubLines * 2 + 2; // boal оптимизация, если фор крутит вычисления каждый проход.
-	for (i = 0; i<k; i++)
+	for (i = 0; i < k; i++)
 	{
 		pLines[i].dwColor = dwColor;
 	}
@@ -3902,7 +4112,7 @@ void DX9RENDER::MakeDrawVector(RS_LINE * pLines, uint32_t dwNumSubLines, const C
 	float fRadius = 0.03f * fScale;
 	float fDist = 0.85f * fScale * sqrtf(~v2);
 
-	for (i = 0; i<dwNumSubLines; i++)
+	for (i = 0; i < dwNumSubLines; i++)
 	{
 		float fAng = PIm2 * float(i) / float(dwNumSubLines);
 
@@ -3920,10 +4130,10 @@ void DX9RENDER::MakeDrawVector(RS_LINE * pLines, uint32_t dwNumSubLines, const C
 	}
 }
 
-void DX9RENDER::DrawVector(const CVECTOR & v1, const CVECTOR & v2, uint32_t dwColor, const char * pTechniqueName)
+void DX9RENDER::DrawVector(const CVECTOR& v1, const CVECTOR& v2, uint32_t dwColor, const char* pTechniqueName)
 {
 	RS_LINE lines[51 * 2];
-	CMatrix	mView;
+	CMatrix mView;
 
 	float fScale = sqrtf(~(v2 - v1));
 	if (!mView.BuildViewMatrix(v1, v2, CVECTOR(0.0f, 1.0f, 0.0f)))
@@ -3940,7 +4150,7 @@ void DX9RENDER::DrawVector(const CVECTOR & v1, const CVECTOR & v2, uint32_t dwCo
 	SetTransform(D3DTS_WORLD, mWorldSave);
 }
 
-void DX9RENDER::DrawSphere(const CVECTOR & vPos, float fRadius, uint32_t dwColor)
+void DX9RENDER::DrawSphere(const CVECTOR& vPos, float fRadius, uint32_t dwColor)
 {
 	CMatrix m;
 	m.BuildPosition(vPos.x, vPos.y, vPos.z);
@@ -3950,7 +4160,8 @@ void DX9RENDER::DrawSphere(const CVECTOR & vPos, float fRadius, uint32_t dwColor
 
 	SetRenderState(D3DRS_TEXTUREFACTOR, dwColor);
 	SetTransform(D3DTS_WORLD, m);
-	DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, DX9sphereNumTrgs, DX9sphereVertex, sizeof(DX9SphVertex), "DX9Sphere");
+	DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, DX9sphereNumTrgs, DX9sphereVertex,
+	                sizeof(DX9SphVertex), "DX9Sphere");
 }
 
 void DX9RENDER::SetLoadTextureEnable(bool bEnable)
@@ -3958,28 +4169,31 @@ void DX9RENDER::SetLoadTextureEnable(bool bEnable)
 	bLoadTextureEnabled = bEnable;
 }
 
-IDirect3DBaseTexture9 * DX9RENDER::CreateTextureFromFileInMemory(const char * pFile, uint32_t dwSize)
+IDirect3DBaseTexture9* DX9RENDER::CreateTextureFromFileInMemory(const char* pFile, uint32_t dwSize)
 {
 	if (!pFile || !dwSize) return nullptr;
 
-	IDirect3DTexture9 * pTexture = nullptr;
+	IDirect3DTexture9* pTexture = nullptr;
 	auto* pTga = (TGA_H *)pFile;
 	D3DFORMAT d3dFormat = (pTga->bpp == 16) ? D3DFMT_DXT1 : D3DFMT_DXT3;
-	D3DXCreateTextureFromFileInMemoryEx((LPDIRECT3DDEVICE9)GetD3DDevice(), pFile, dwSize, D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, d3dFormat, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, nullptr, nullptr, &pTexture);
+	D3DXCreateTextureFromFileInMemoryEx((LPDIRECT3DDEVICE9)GetD3DDevice(), pFile, dwSize, D3DX_DEFAULT, D3DX_DEFAULT, 1,
+	                                    0, d3dFormat, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, nullptr, nullptr,
+	                                    &pTexture);
 
 	return pTexture;
 }
 
-IDirect3DVolumeTexture9 * DX9RENDER::CreateVolumeTexture(uint32_t Width, uint32_t Height, uint32_t Depth, uint32_t Levels, uint32_t Usage, D3DFORMAT Format, D3DPOOL Pool)
+IDirect3DVolumeTexture9* DX9RENDER::CreateVolumeTexture(uint32_t Width, uint32_t Height, uint32_t Depth,
+                                                        uint32_t Levels, uint32_t Usage, D3DFORMAT Format, D3DPOOL Pool)
 {
-	IDirect3DVolumeTexture9 * pVolumeTexture = nullptr;
+	IDirect3DVolumeTexture9* pVolumeTexture = nullptr;
 	CHECKD3DERR(d3d9->CreateVolumeTexture(Width, Height, Depth, Levels, Usage, Format, Pool, &pVolumeTexture, NULL));
 	return pVolumeTexture;
 }
 
 bool DX9RENDER::PushRenderTarget()
 {
-	RenderTarget renderTarget{ };
+	RenderTarget renderTarget{};
 	GetRenderTarget(&renderTarget.pRenderTarget);
 	CHECKD3DERR(d3d9->GetDepthStencilSurface(&renderTarget.pDepthSurface));
 	GetViewport(&renderTarget.ViewPort);
@@ -4006,32 +4220,33 @@ bool DX9RENDER::PopRenderTarget()
 	return true;
 }
 
-bool DX9RENDER::SetRenderTarget(IDirect3DCubeTexture9 * pRenderTarget, uint32_t FaceType, uint32_t dwLevel, IDirect3DSurface9 * pZStencil)
+bool DX9RENDER::SetRenderTarget(IDirect3DCubeTexture9* pRenderTarget, uint32_t FaceType, uint32_t dwLevel,
+                                IDirect3DSurface9* pZStencil)
 {
-	IDirect3DSurface9 * pSurface;
+	IDirect3DSurface9* pSurface;
 	pRenderTarget->GetCubeMapSurface((D3DCUBEMAP_FACES)FaceType, dwLevel, &pSurface);
 	bool bSuccess = D3D_OK == SetRenderTarget(pSurface, pZStencil);
 	Release(pSurface);
 	return bSuccess;
 }
 
-void DX9RENDER::SetView(const CMatrix & mView) { SetTransform(D3DTS_VIEW, mView); }
-void DX9RENDER::SetWorld(const CMatrix & mWorld) { SetTransform(D3DTS_WORLD, mWorld); }
-void DX9RENDER::SetProjection(const CMatrix & mProjection) { SetTransform(D3DTS_PROJECTION, mProjection); }
+void DX9RENDER::SetView(const CMatrix& mView) { SetTransform(D3DTS_VIEW, mView); }
+void DX9RENDER::SetWorld(const CMatrix& mWorld) { SetTransform(D3DTS_WORLD, mWorld); }
+void DX9RENDER::SetProjection(const CMatrix& mProjection) { SetTransform(D3DTS_PROJECTION, mProjection); }
 
-const CMatrix & DX9RENDER::GetView()
+const CMatrix& DX9RENDER::GetView()
 {
 	GetTransform(D3DTS_VIEW, mView);
 	return mView;
 }
 
-const CMatrix & DX9RENDER::GetWorld()
+const CMatrix& DX9RENDER::GetWorld()
 {
 	GetTransform(D3DTS_WORLD, mWorld);
 	return mWorld;
 }
 
-const CMatrix & DX9RENDER::GetProjection()
+const CMatrix& DX9RENDER::GetProjection()
 {
 	GetTransform(D3DTS_PROJECTION, mProjection);
 	return mProjection;
@@ -4039,6 +4254,6 @@ const CMatrix & DX9RENDER::GetProjection()
 
 IDirect3DBaseTexture9* DX9RENDER::GetTextureFromID(long nTextureID)
 {
-	if (nTextureID<0) return nullptr;
+	if (nTextureID < 0) return nullptr;
 	return Textures[nTextureID].d3dtex;
 }

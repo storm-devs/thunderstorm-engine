@@ -9,21 +9,25 @@ class BIImageRender;
 class BIString : public IBIString
 {
 public:
-	BIString( BIImageRender* pImgRender, VDX9RENDER* rs );
+	BIString(BIImageRender* pImgRender, VDX9RENDER* rs);
 	~BIString();
 
-	long GetPrioritet() {return m_nPrioritet;}
-	void SetPrioritet(long nPrior) {m_nPrioritet=nPrior;}
+	long GetPrioritet() { return m_nPrioritet; }
+	void SetPrioritet(long nPrior) { m_nPrioritet = nPrior; }
 
 	void Render();
-	void RenderPrioritetRange(long nBegPrior,long nEndPrior) {if(m_nPrioritet>=nBegPrior && m_nPrioritet<=nEndPrior) Render();}
 
-	virtual void SetColor( uint32_t color ) {m_dwColor=color;}
-	virtual void SetScale( float fScale ) {m_fScale=fScale;}
-	virtual void SetFont( const char* pcFontName );
-	virtual void SetAlign( long nHorzAlign, long nVertAlign );
-	virtual void SetPosition( long nLeft, long nTop, long nRight, long nBottom );
-	virtual void SetString( const char* pcStr );
+	void RenderPrioritetRange(long nBegPrior, long nEndPrior)
+	{
+		if (m_nPrioritet >= nBegPrior && m_nPrioritet <= nEndPrior) Render();
+	}
+
+	void SetColor(uint32_t color) override { m_dwColor = color; }
+	void SetScale(float fScale) override { m_fScale = fScale; }
+	void SetFont(const char* pcFontName) override;
+	void SetAlign(long nHorzAlign, long nVertAlign) override;
+	void SetPosition(long nLeft, long nTop, long nRight, long nBottom) override;
+	void SetString(const char* pcStr) override;
 
 protected:
 	void Release();

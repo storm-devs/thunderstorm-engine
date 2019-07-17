@@ -13,11 +13,11 @@ struct SII_VERTEX
 class ShipInfoImages
 {
 public:
-	ShipInfoImages(VDX9RENDER* rs,ATTRIBUTES* pAttr);
+	ShipInfoImages(VDX9RENDER* rs, ATTRIBUTES* pAttr);
 	~ShipInfoImages();
 
 	void Draw();
-	void SetVisible(bool bVisible) {m_bVisible = bVisible;}
+	void SetVisible(bool bVisible) { m_bVisible = bVisible; }
 
 protected:
 	void Release();
@@ -33,10 +33,11 @@ protected:
 	float GetProgressCrew(SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD);
 
 	void CalculateDirectingVectors(const CVECTOR& pos);
-	void WriteSquareVertex(SII_VERTEX* pV,const CVECTOR& center,const CVECTOR& offset,const FPOINT& size,const FRECT& uv, float fProgress);
+	void WriteSquareVertex(SII_VERTEX* pV, const CVECTOR& center, const CVECTOR& offset, const FPOINT& size,
+	                       const FRECT& uv, float fProgress);
 
 protected:
-	VDX9RENDER *pRS;
+	VDX9RENDER* pRS;
 	bool m_bVisible;
 
 	long m_idRelationTexture;

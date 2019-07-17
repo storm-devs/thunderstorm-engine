@@ -9,36 +9,37 @@
 // Contain base virtual functions 
 // ============================================================================
 class AIShip;
+
 class AIShipSpeedController
 {
 private:
-	AIShip			* pOurAIShip;	// our AI ship pointer
+	AIShip* pOurAIShip; // our AI ship pointer
 
-	uint32_t			dwSpeedNum;
-	float			fSpeedSmooth, fSpeed, fSpeedTime, fTopSpeed;
-	float			fGlobalMultiply;
+	uint32_t dwSpeedNum;
+	float fSpeedSmooth, fSpeed, fSpeedTime, fTopSpeed;
+	float fGlobalMultiply;
 
 public:
 
-	void	TopSpeed(float _fSpeed);
-	void	MulSpeed(float _fSpeed);
-	void	AddSpeed(float _fSpeed);
-	void	SetGlobalMultiply(float _fGlobalMul);
+	void TopSpeed(float _fSpeed);
+	void MulSpeed(float _fSpeed);
+	void AddSpeed(float _fSpeed);
+	void SetGlobalMultiply(float _fGlobalMul);
 
 	// init/execute/realize section
-	virtual	bool	Init();
-	virtual void	Execute(float);
-	virtual void	Realize(float);
+	virtual bool Init();
+	virtual void Execute(float);
+	virtual void Realize(float);
 
 	// set our ship pointer
-	void	SetAIShip(AIShip *pShip) { pOurAIShip = pShip; }
-	AIShip	*GetAIShip() { return pOurAIShip; }
+	void SetAIShip(AIShip* pShip) { pOurAIShip = pShip; }
+	AIShip* GetAIShip() { return pOurAIShip; }
 
-	AIShipSpeedController(AIShip *pShip);
+	AIShipSpeedController(AIShip* pShip);
 	virtual ~AIShipSpeedController();
 
-	void Save(CSaveLoad * pSL);
-	void Load(CSaveLoad * pSL);
+	void Save(CSaveLoad* pSL);
+	void Load(CSaveLoad* pSL);
 };
 
 #endif

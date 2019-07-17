@@ -1,7 +1,8 @@
 #ifndef TGA_HPP
 #define TGA_HPP
 
-typedef struct tagTGA_H{
+typedef struct tagTGA_H
+{
 	uint8_t byte1; // = 0
 	uint8_t byte2; // = 0
 	uint8_t type;
@@ -12,6 +13,7 @@ typedef struct tagTGA_H{
 	union
 	{
 		uint8_t attr8;
+
 		struct
 		{
 			uint8_t attr:4;
@@ -20,6 +22,6 @@ typedef struct tagTGA_H{
 			uint8_t storage:2;
 		};
 	};
-}TGA_H;
+} TGA_H;
 
 #endif

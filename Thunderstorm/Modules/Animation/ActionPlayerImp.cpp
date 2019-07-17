@@ -33,11 +33,10 @@ ActionPlayerImp::ActionPlayerImp()
 
 ActionPlayerImp::~ActionPlayerImp()
 {
-
 }
 
 //Установить указатель на менеджер анимации
-void ActionPlayerImp::SetAnimation(AnimationImp * animation, long index)
+void ActionPlayerImp::SetAnimation(AnimationImp* animation, long index)
 {
 	Assert(!ani);
 	ani = animation;
@@ -49,28 +48,29 @@ void ActionPlayerImp::SetAnimation(AnimationImp * animation, long index)
 //--------------------------------------------------------------------------------------------
 
 //Установить текущие действие
-bool ActionPlayerImp::SetAction(const char * actionName)
+bool ActionPlayerImp::SetAction(const char* actionName)
 {
-	if(actionName && action && _stricmp(action->GetName(), actionName) == 0) return true;
+	if (actionName && action && _stricmp(action->GetName(), actionName) == 0) return true;
 	action = nullptr;
 	isPlay = isPause = false;
 	isAutostop = true;
 	kBlendTimer = 1.0f;
 	ResetPosition();
-	if(!actionName || actionName[0] == 0)
+	if (!actionName || actionName[0] == 0)
 	{
 		ani->ApeSetnewaction(playerIndex);
 		return false;
 	}
 	action = ani->GetActionInfo(actionName);
-	if(action == nullptr)
+	if (action == nullptr)
 	{
 		ani->ApeSetnewaction(playerIndex);
 		return false;
 	}
 	//Зачитываем параметры
-	if(action->startFrame != action->endFrame) speed = 0.001f*ani->GetFPS()/(action->endFrame - action->startFrame);
-		else speed = 0.0f;
+	if (action->startFrame != action->endFrame) speed = 0.001f * ani->GetFPS() / (action->endFrame - action->startFrame
+	);
+	else speed = 0.0f;
 	kspeed = action->kRate;
 	anitype = action->type;
 	isLoop = action->isLoop;
@@ -81,28 +81,29 @@ bool ActionPlayerImp::SetAction(const char * actionName)
 	return true;
 }
 
-const char * ActionPlayerImp::GetAction() const
+const char* ActionPlayerImp::GetAction() const
 {
-	if(action) return action->GetName();
+	if (action) return action->GetName();
 	return nullptr;
 }
 
 //Управление проигрыванием
 bool ActionPlayerImp::Play()
 {
-	if(!action) return false;
-	if(isPlay && !isPause) return true;
+	if (!action) return false;
+	if (isPlay && !isPause) return true;
 	isPlay = true;
-	bool p = isPause;	
-	if(!isPause)
+	bool p = isPause;
+	if (!isPause)
 	{
 		ani->ApePlay(playerIndex);
 		ani->ApeStart(playerIndex);
-	}else ani->ApePauseOff(playerIndex);
+	}
+	else ani->ApePauseOff(playerIndex);
 	isPause = false;
 	return true;
 }
-									
+
 void ActionPlayerImp::Pause()
 {
 	isPause = true;
@@ -119,12 +120,12 @@ void ActionPlayerImp::Stop()
 
 void ActionPlayerImp::SysStop()
 {
-	if(isPause) return;
+	if (isPause) return;
 	isPlay = false;
 	isPause = false;
 	ani->ApeStop(playerIndex);
-	if(position < 0.0f) position = 0.0f;
-	if(position > 1.0f) position = 1.0f;	
+	if (position < 0.0f) position = 0.0f;
+	if (position > 1.0f) position = 1.0f;
 	ResetEventsMask();
 }
 
@@ -156,8 +157,8 @@ bool ActionPlayerImp::IsAutoStop() const
 float ActionPlayerImp::SetPosition(float position)
 {
 	float pos = this->position;
-	if(position < 0.0f) position = 0.0f;
-	if(position > 1.0f) position = 1.0f;
+	if (position < 0.0f) position = 0.0f;
+	if (position > 1.0f) position = 1.0f;
 	this->position = position;
 	return pos;
 }
@@ -181,8 +182,8 @@ AnimationType ActionPlayerImp::GetType() const
 //Коэфициент скорости проигрывания
 float ActionPlayerImp::SetSpeed(float kSpeed)
 {
-	if(kSpeed < 0.0f) kSpeed = 0.0f;
-	if(kSpeed > 10.0f) kSpeed = 10.0f;
+	if (kSpeed < 0.0f) kSpeed = 0.0f;
+	if (kSpeed > 10.0f) kSpeed = 10.0f;
 	float ks = kspeed;
 	kspeed = kSpeed;
 	return ks;
@@ -195,22 +196,22 @@ float ActionPlayerImp::GetSpeed() const
 
 float ActionPlayerImp::GetDefSpeed() const
 {
-	if(action) return action->kRate;
+	if (action) return action->kRate;
 	return 0.0f;
 }
 
 //Получить длительность действия в миллисекундах
 long ActionPlayerImp::GetFrames() const
 {
-	if(action) return action->GetFrames();
+	if (action) return action->GetFrames();
 	return 0;
 }
 
 //Установить коэфициент блендинга 0..1
 void ActionPlayerImp::SetBlend(float k)
 {
-	if(k < 0.0f) k = 0.0f;
-	if(k > 1.0f) k = 1.0f;
+	if (k < 0.0f) k = 0.0f;
+	if (k > 1.0f) k = 1.0f;
 	kBlend = k;
 }
 
@@ -221,13 +222,13 @@ float ActionPlayerImp::GetBlend()
 }
 
 //Получить пользовательские данные для этого действия
-const char * ActionPlayerImp::GetData(const char * dataName) const
+const char* ActionPlayerImp::GetData(const char* dataName) const
 {
-	if(!action) 
+	if (!action)
 		return nullptr;
- 	const auto & userData = action->GetUserData();
+	const auto& userData = action->GetUserData();
 	const auto it = userData.find(dataName);
-	return it != userData.end() ? it->second.c_str(): nullptr;
+	return it != userData.end() ? it->second.c_str() : nullptr;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -238,19 +239,24 @@ const char * ActionPlayerImp::GetData(const char * dataName) const
 void ActionPlayerImp::Execute(long dltTime)
 {
 	kBlendTimer = 1.0f;
-	if(!action || !isPlay || isPause || anitype == at_static) return;
-	float dlt = dltTime*speed*kspeed;
-	switch(anitype)
+	if (!action || !isPlay || isPause || anitype == at_static) return;
+	float dlt = dltTime * speed * kspeed;
+	switch (anitype)
 	{
 	case at_static: break;
-	case at_normal: MoveNormal(dlt); break;
-	case at_reverse: MoveReverse(dlt); break;
-	case at_pingpong: MovePingpong(dlt); break;
-	case at_rpingpong: MoveRPingpong(dlt); break;
+	case at_normal: MoveNormal(dlt);
+		break;
+	case at_reverse: MoveReverse(dlt);
+		break;
+	case at_pingpong: MovePingpong(dlt);
+		break;
+	case at_rpingpong: MoveRPingpong(dlt);
+		break;
 	default:
 		throw "ActionPlayerImp::Execute -> anknow animation type";
 	}
-	if(isPlay) CheckEvents(); else ResetPosition();
+	if (isPlay) CheckEvents();
+	else ResetPosition();
 }
 
 //Установить позицию в самое начало	
@@ -258,7 +264,7 @@ void ActionPlayerImp::ResetPosition()
 {
 	position = 0.0f;
 	dir = true;
-	if(action && (anitype == at_reverse || anitype == at_rpingpong))
+	if (action && (anitype == at_reverse || anitype == at_rpingpong))
 	{
 		position = 1.0f;
 		dir = false;
@@ -269,12 +275,12 @@ void ActionPlayerImp::ResetPosition()
 //Получить текущее время
 float ActionPlayerImp::GetCurrentFrame()
 {
-	if(!action) return 0;
-	return action->startFrame + position*(action->endFrame - action->startFrame);
+	if (!action) return 0;
+	return action->startFrame + position * (action->endFrame - action->startFrame);
 }
 
 //Копировать состояние другого плеера
-void ActionPlayerImp::CopyState(ActionPlayerImp & from)
+void ActionPlayerImp::CopyState(ActionPlayerImp& from)
 {
 	//Информация о текущем действие
 	action = from.action;
@@ -296,14 +302,13 @@ void ActionPlayerImp::CopyState(ActionPlayerImp & from)
 	//Проигрывать зацикленно
 	isLoop = from.isLoop;
 	//Маска для свершившихся событий
-	for(long i = 0; i < ACTIONPLAYEREVENTFLAGS; i++)
+	for (long i = 0; i < ACTIONPLAYEREVENTFLAGS; i++)
 		eventsMask[i] = from.eventsMask[i];
 	//Коэфициент блендинга
 	kBlend = from.kBlend;
 	//Скалирующий коэфициент блендинга для таймера
 	kBlendTimer = from.kBlendTimer;
 }
-
 
 
 //--------------------------------------------------------------------------------------------
@@ -314,71 +319,76 @@ void ActionPlayerImp::CopyState(ActionPlayerImp & from)
 void ActionPlayerImp::MoveNormal(float dlt)
 {
 	position += dlt;
-	if(position >= 1.0f)
+	if (position >= 1.0f)
 	{
 		ani->ApeEnd(playerIndex);
-		if(isLoop)
+		if (isLoop)
 		{
 			ResetEventsMask();
 			position -= float(long(position));
 			ani->ApeStart(playerIndex);
-		}else SysStop();
+		}
+		else SysStop();
 	}
 }
 
 void ActionPlayerImp::MoveReverse(float dlt)
 {
 	position -= dlt;
-	if(position <= 0.0f)
-	{		
+	if (position <= 0.0f)
+	{
 		ani->ApeEnd(playerIndex);
-		if(isLoop)
+		if (isLoop)
 		{
 			ResetEventsMask();
 			position -= long(position) - 1.0f;
 			ani->ApeStart(playerIndex);
-		}else SysStop();
+		}
+		else SysStop();
 	}
 }
 
 void ActionPlayerImp::MovePingpong(float dlt)
 {
-	if(dir)
+	if (dir)
 	{
 		//Прямое движение
 		position += dlt;
-		if(position >= 1.0f)
+		if (position >= 1.0f)
 		{
 			//Сменим направление
 			position = 1.0f - (position - float(long(position)));
 			dir = false;
 			ani->ApeChange(playerIndex);
 		}
-	}else{
+	}
+	else
+	{
 		//Обратное движение
 		position -= dlt;
-		if(position < 0.0f)
-		{			
+		if (position < 0.0f)
+		{
 			ani->ApeEnd(playerIndex);
-			if(isLoop)
+			if (isLoop)
 			{
 				//Сменим направление
 				ResetEventsMask();
 				position = -(position - long(position));
 				dir = true;
 				ani->ApeStart(playerIndex);
-			}else SysStop();
+			}
+			else SysStop();
 		}
 	}
 }
 
 void ActionPlayerImp::MoveRPingpong(float dlt)
 {
-	if(!dir)
+	if (!dir)
 	{
 		//Обратное движение
 		position -= dlt;
-		if(position < 0.0f)
+		if (position < 0.0f)
 		{
 			ResetEventsMask();
 			//Сменим направление
@@ -386,20 +396,23 @@ void ActionPlayerImp::MoveRPingpong(float dlt)
 			dir = true;
 			ani->ApeChange(playerIndex);
 		}
-	}else{
+	}
+	else
+	{
 		//Прямое движение
 		position += dlt;
-		if(position >= 1.0f)
+		if (position >= 1.0f)
 		{
 			ani->ApeEnd(playerIndex);
-			if(isLoop)
+			if (isLoop)
 			{
 				ResetEventsMask();
 				//Сменим направление
 				position = 1.0f - (position - float(long(position)));
 				dir = false;
 				ani->ApeStart(playerIndex);
-			}else SysStop();
+			}
+			else SysStop();
 		}
 	}
 }
@@ -407,13 +420,13 @@ void ActionPlayerImp::MoveRPingpong(float dlt)
 //Проверить события и если надо инициировать
 void ActionPlayerImp::CheckEvents()
 {
-	if(!action) return;
+	if (!action) return;
 	long num = action->GetNumEvents();
-	for(long i = 0; i < num; i++)
+	for (long i = 0; i < num; i++)
 	{
 		long mask = 1 << (i & 31);
-		if(eventsMask[i >> 5] & mask) continue;
-		if(action->CheckEvent(i, position, dir))
+		if (eventsMask[i >> 5] & mask) continue;
+		if (action->CheckEvent(i, position, dir))
 		{
 			eventsMask[i >> 5] |= mask;
 			//Шлём пользовательское событие
@@ -425,6 +438,5 @@ void ActionPlayerImp::CheckEvents()
 //Сброс флажков произошедших событий
 void ActionPlayerImp::ResetEventsMask()
 {
-	for(long i = 0; i < ACTIONPLAYEREVENTFLAGS; i++) eventsMask[i] = 0;
+	for (long i = 0; i < ACTIONPLAYEREVENTFLAGS; i++) eventsMask[i] = 0;
 }
-

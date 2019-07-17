@@ -28,7 +28,8 @@
 
 #ifndef _XBOX
 
-#define API_MODULE_START(a)	extern VAPI * _CORE_API; extern VSYSTEM_API * _VSYSTEM_API; class MODULE_API : public VMODULE_API { public: long Build_Version(){return MODULE_API_VERSION;}; char * Description() {return a;} void * CreateClass(long code,bool get_class_name, VSYSTEM_API * sysapi_PTR) { _VSYSTEM_API = sysapi_PTR; switch(code){
+#define API_MODULE_START(a
+)	extern VAPI * _CORE_API; extern VSYSTEM_API * _VSYSTEM_API; class MODULE_API : public VMODULE_API { public: long Build_Version(){return MODULE_API_VERSION;}; char * Description() {return a;} void * CreateClass(long code,bool get_class_name, VSYSTEM_API * sysapi_PTR) { _VSYSTEM_API = sysapi_PTR; switch(code){
 #define API_MODULE_END		default: return null; } } }; DLL_MODULE_API_FUNCTION DMAInterface();
 #define CREATE_CLASS(a,b)	case a:	if(get_class_name) return (void*)TEXT(#b); else return new b;
 #define INTERFACE_FUNCTION	VAPI * _CORE_API; VSYSTEM_API * _VSYSTEM_API; void * _SERVICE_PTR = null; extern "C" DLL_MODULE_API_FUNCTION DMAInterface(VAPI * api_PTR){_CORE_API = api_PTR; return new MODULE_API;} void * operator new(size_t size) {return _CORE_API->MemAllocate(size);} void operator STORM_DELETE(void * block_ptr) { _CORE_API->MemFree(block_ptr); } void * resize(void * block_ptr,size_t size){ return _CORE_API->MemReallocate(block_ptr,size);}
@@ -58,13 +59,15 @@
 //
 // class_id must be within 1..N range with no "holes" (simular to entities classes declaration)
 
-extern VAPI * _CORE_API;
+extern VAPI* _CORE_API;
 
 #ifndef _XBOX
 
-#define API_SERVICE_START(a)		extern VSYSTEM_API * _VSYSTEM_API; extern void * _SERVICE_PTR; class MODULE_API : public VMODULE_API { public: long Build_Version(){return MODULE_API_VERSION;}; char * Description() {return a;} bool Service() {return true;}; void * CreateClass(long code,bool get_class_name, VSYSTEM_API * sysapi_PTR) { _VSYSTEM_API = sysapi_PTR; if(get_class_name) { switch(code){
-#define API_SERVICE_END(a)			default: return null; }} if(_SERVICE_PTR == null) {_SERVICE_PTR = new a;} return _SERVICE_PTR; } }; DLL_MODULE_API_FUNCTION DMAInterface();
-#define DECLARE_MAIN_SERVICE(a)		case 0:	return (void*)TEXT(#a);	
+#define API_SERVICE_START(a
+)		extern VSYSTEM_API * _VSYSTEM_API; extern void * _SERVICE_PTR; class MODULE_API : public VMODULE_API { public: long Build_Version(){return MODULE_API_VERSION;}; char * Description() {return a;} bool Service() {return true;}; void * CreateClass(long code,bool get_class_name, VSYSTEM_API * sysapi_PTR) { _VSYSTEM_API = sysapi_PTR; if(get_class_name) { switch(code){
+#define API_SERVICE_END(a
+)			default: return null; }} if(_SERVICE_PTR == null) {_SERVICE_PTR = new a;} return _SERVICE_PTR; } }; DLL_MODULE_API_FUNCTION DMAInterface();
+#define DECLARE_MAIN_SERVICE(a)		case 0:	return (void*)TEXT(#a);
 #define DECLARE_BASE_SERVICE(a,b)	case a:	return (void*)TEXT(#b);
 
 #else

@@ -1,6 +1,6 @@
 #include "AIShip.h"
 
-AIShipSpeedController::AIShipSpeedController(AIShip *pShip)
+AIShipSpeedController::AIShipSpeedController(AIShip* pShip)
 {
 	fSpeed = 0.0f;
 	dwSpeedNum = 0;
@@ -27,7 +27,7 @@ void AIShipSpeedController::Execute(float fDeltaTime)
 	fSpeedTime += fDeltaTime;
 	dwSpeedNum++;
 	fSpeedSmooth += fSpeed;
-	if (fSpeedTime>=2.0f)
+	if (fSpeedTime >= 2.0f)
 	{
 		fSpeedSmooth = Clamp(fSpeedSmooth / float(dwSpeedNum));
 		if (fSpeedSmooth > fTopSpeed) fSpeedSmooth = fTopSpeed;
@@ -67,7 +67,7 @@ void AIShipSpeedController::SetGlobalMultiply(float _fGlobalMultiply)
 		fGlobalMultiply = _fGlobalMultiply;
 }
 
-void AIShipSpeedController::Save(CSaveLoad * pSL)
+void AIShipSpeedController::Save(CSaveLoad* pSL)
 {
 	pSL->SaveDword(dwSpeedNum);
 	pSL->SaveFloat(fSpeedSmooth);
@@ -77,7 +77,7 @@ void AIShipSpeedController::Save(CSaveLoad * pSL)
 	pSL->SaveFloat(fGlobalMultiply);
 }
 
-void AIShipSpeedController::Load(CSaveLoad * pSL)
+void AIShipSpeedController::Load(CSaveLoad* pSL)
 {
 	dwSpeedNum = pSL->LoadDword();
 	fSpeedSmooth = pSL->LoadFloat();

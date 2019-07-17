@@ -25,13 +25,13 @@ void DX9RENDER::SaveCaptureBuffers()
 	char cFileName[256];
 
 	long fi;
-	for (fi=iCaptureFrameIndex; fi<iCaptureFrameIndex + 10000; fi++)
+	for (fi = iCaptureFrameIndex; fi < iCaptureFrameIndex + 10000; fi++)
 	{
 		sprintf_s(cFileName, "k3cap_%04d.tga", fi);
 		if (_access(cFileName, 0) == -1) break;
 	}
 
-	for (uint32_t i=0; i<dwCaptureBuffersReady; i++)
+	for (uint32_t i = 0; i < dwCaptureBuffersReady; i++)
 	{
 		TGA_H TgaHead = {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32};
 		TgaHead.width = (uint16_t)screen_size.x;
@@ -39,7 +39,8 @@ void DX9RENDER::SaveCaptureBuffers()
 		sprintf_s(cFileName, "k3cap_%04d.tga", fi + i);
 		HANDLE hFile = fio->_CreateFile(cFileName, GENERIC_WRITE, FILE_SHARE_READ, CREATE_ALWAYS);
 		WriteFile(hFile, &TgaHead, sizeof(TGA_H), (LPDWORD)&Written, nullptr);
-		WriteFile(hFile, aCaptureBuffers[i], screen_size.x * screen_size.y * sizeof(uint32_t), (LPDWORD)&Written, nullptr);
+		WriteFile(hFile, aCaptureBuffers[i], screen_size.x * screen_size.y * sizeof(uint32_t), (LPDWORD)&Written,
+		          nullptr);
 		CloseHandle(hFile);
 	}
 
@@ -66,8 +67,8 @@ bool DX9RENDER::MakeCapture()
 	auto OldBmp = (HBITMAP)SelectObject(hCaptureDC, hCaptureBitmap);
 	BitBlt(hCaptureDC, 0, 0, screen_size.x, screen_size.y, hDesktopDC, 0, 0, SRCCOPY);
 	SelectObject(hCaptureDC, OldBmp);
-	GetDIBits(hCaptureDC, hCaptureBitmap, 0, screen_size.y, aCaptureBuffers[dwCaptureBuffersReady], lpbi, DIB_RGB_COLORS);
+	GetDIBits(hCaptureDC, hCaptureBitmap, 0, screen_size.y, aCaptureBuffers[dwCaptureBuffersReady], lpbi,
+	          DIB_RGB_COLORS);
 	dwCaptureBuffersReady++;
 	return true;
 }
-

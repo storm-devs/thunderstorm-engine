@@ -3,7 +3,8 @@
 
 namespace TOREMOVE
 {
-	inline void trim(std::string &str) {
+	inline void trim(std::string& str)
+	{
 		while (true)
 		{
 			const auto it = str.begin();
@@ -14,7 +15,8 @@ namespace TOREMOVE
 	}
 
 	// trim right
-	inline void rtrim(std::string &str) {
+	inline void rtrim(std::string& str)
+	{
 		while (true)
 		{
 			const auto it = str.rbegin();

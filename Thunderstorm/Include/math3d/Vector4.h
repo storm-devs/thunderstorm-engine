@@ -31,15 +31,18 @@ public:
 					///Компонента по Z
 					float z;
 				};
+
 				struct
 				{
 					///Представление в виде вектора
 					Vector v;
 				};
 			};
+
 			///Весовая компонента
 			float w;
 		};
+
 		struct
 		{
 			///Представление в виде массива
@@ -47,9 +50,9 @@ public:
 		};
 	};
 
-//-----------------------------------------------------------
-//Конструкторы
-//-----------------------------------------------------------
+	//-----------------------------------------------------------
+	//Конструкторы
+	//-----------------------------------------------------------
 public:
 	///Пустой конструктор
 	Vector4();
@@ -66,36 +69,35 @@ public:
 	///Заполнить 3 компоненты, 1
 	Vector4(const double d[3]);
 	///Заполнить 3 компоненты, 1
-	Vector4(const Vector & v);
+	Vector4(const Vector& v);
 	///Конструктор копирования
-	Vector4(const Vector4 & v);
+	Vector4(const Vector4& v);
 
-//-----------------------------------------------------------
-//Операторы
-//-----------------------------------------------------------
+	//-----------------------------------------------------------
+	//Операторы
+	//-----------------------------------------------------------
 public:
 	///Найти квадрат длинны вектора
-	float operator ~ () const;
+	float operator ~() const;
 
 	///Получить отрицательный вектор
-	Vector4 operator - () const;
+	Vector4 operator -() const;
 
 	///Присвоить
-	Vector4 & operator = (float f);
+	Vector4& operator =(float f);
 	///Присвоить
-	Vector4 & operator = (double d);
+	Vector4& operator =(double d);
 	///Присвоить
-	Vector4 & operator = (const Vector & v);
+	Vector4& operator =(const Vector& v);
 	///Присвоить
-	Vector4 & operator = (const Vector4 & v);
+	Vector4& operator =(const Vector4& v);
 
-//-----------------------------------------------------------
-//Преобразование
-//-----------------------------------------------------------
+	//-----------------------------------------------------------
+	//Преобразование
+	//-----------------------------------------------------------
 public:
 	///Нормализовать w компаненту
 	void Normalize();
-
 };
 
 //===========================================================
@@ -103,7 +105,9 @@ public:
 //===========================================================
 
 //Пустой конструктор
-inline Vector4::Vector4(){}
+inline Vector4::Vector4()
+{
+}
 
 //Заполнить числом
 inline Vector4::Vector4(float f) : v(f)
@@ -120,7 +124,7 @@ inline Vector4::Vector4(double d)
 //Заполнить 3 компоненты, 1
 inline Vector4::Vector4(float x, float y, float z) : v(x, y, z)
 {
-	w = 1.0f;	
+	w = 1.0f;
 }
 
 //Заполнить все компоненты
@@ -142,13 +146,13 @@ inline Vector4::Vector4(const double d[3]) : v(float(d[0]), float(d[1]), float(d
 }
 
 //Заполнить 3 компоненты, 1
-inline Vector4::Vector4(const Vector & vc) : v(vc)
+inline Vector4::Vector4(const Vector& vc) : v(vc)
 {
-	w = 1.0f;	
+	w = 1.0f;
 }
 
 //Конструктор копирования
-inline Vector4::Vector4(const Vector4 & v)
+inline Vector4::Vector4(const Vector4& v)
 {
 	x = v.x;
 	y = v.y;
@@ -161,13 +165,13 @@ inline Vector4::Vector4(const Vector4 & v)
 //===========================================================
 
 ///Найти квадрат длинны вектора
-inline float Vector4::operator ~ () const
+inline float Vector4::operator ~() const
 {
-	return x*x + y*y + z*z + w*w;
+	return x * x + y * y + z * z + w * w;
 }
 
 ///Получить отрицательный вектор
-inline Vector4 Vector4::operator - () const
+inline Vector4 Vector4::operator -() const
 {
 	Vector4 v(*this);
 	v.x = -v.x;
@@ -178,7 +182,7 @@ inline Vector4 Vector4::operator - () const
 }
 
 ///Присвоить
-inline Vector4 & Vector4::operator = (float f)
+inline Vector4& Vector4::operator =(float f)
 {
 	v = f;
 	w = 1.0f;
@@ -186,7 +190,7 @@ inline Vector4 & Vector4::operator = (float f)
 }
 
 ///Присвоить
-inline Vector4 & Vector4::operator = (double d)
+inline Vector4& Vector4::operator =(double d)
 {
 	v = d;
 	w = 1.0f;
@@ -194,7 +198,7 @@ inline Vector4 & Vector4::operator = (double d)
 }
 
 ///Присвоить
-inline Vector4 & Vector4::operator = (const Vector & v)
+inline Vector4& Vector4::operator =(const Vector& v)
 {
 	this->v = v;
 	w = 1.0f;
@@ -202,7 +206,7 @@ inline Vector4 & Vector4::operator = (const Vector & v)
 }
 
 ///Присвоить
-inline Vector4 & Vector4::operator = (const Vector4 & v)
+inline Vector4& Vector4::operator =(const Vector4& v)
 {
 	x = v.x;
 	y = v.y;
@@ -219,10 +223,10 @@ inline Vector4 & Vector4::operator = (const Vector4 & v)
 //Нормализовать w компаненту
 inline void Vector4::Normalize()
 {
-	double k = 1.0/w;
-	x = float(k*x);
-	y = float(k*y);
-	z = float(k*z);
+	double k = 1.0 / w;
+	x = float(k * x);
+	y = float(k * y);
+	z = float(k * z);
 	w = 1.0f;
 }
 

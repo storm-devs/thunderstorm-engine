@@ -10,6 +10,7 @@
 
 INTERFACE_FUNCTION
 CREATE_CLASS(ISLAND)
+
 CREATE_CLASS(CoastFoam)
 
 #define TGA_DATA_CHUNK		0xC001F00D
@@ -44,12 +45,12 @@ ISLAND::~ISLAND()
 
 void ISLAND::Uninit()
 {
-	for (uint32_t i=0; i<aSpheres.size(); i++) EntityManager::EraseEntity(aSpheres[i]);
+	for (uint32_t i = 0; i < aSpheres.size(); i++) EntityManager::EraseEntity(aSpheres[i]);
 	aSpheres.clear();
 	STORM_DELETE(pDepthMap);
 	STORM_DELETE(pShadowMap);
 
-	if (!bForeignModels) 
+	if (!bForeignModels)
 	{
 		EntityManager::EraseEntity(model_id);
 		EntityManager::EraseEntity(seabed_id);
@@ -62,29 +63,32 @@ bool ISLAND::Init()
 	SetDevice();
 
 	// calc optimization
-	for (uint32_t i=0; i<256; i++)
+	for (uint32_t i = 0; i < 256; i++)
 	{
-		fDepthHeight[i] = float(HMAP_MAXHEIGHT / HMAP_NUMBERS * (float(i) - HMAP_START) );
+		fDepthHeight[i] = float(HMAP_MAXHEIGHT / HMAP_NUMBERS * (float(i) - HMAP_START));
 		if (i == HMAP_EMPTY) fDepthHeight[i] = HMAP_MAXHEIGHT;
 	}
 
 	return true;
 }
- 
+
 void ISLAND::SetDevice()
 {
 	//api->LayerCreate("island_trace", true, false);
 
-	pCollide = (COLLIDE*)api->CreateService("COLL"); Assert(pCollide);
-	pRS = (VDX9RENDER*)api->CreateService("dx9render"); Assert(pRS);
-	pGS = (VGEOMETRY *)api->CreateService("geometry"); Assert(pGS);
+	pCollide = (COLLIDE*)api->CreateService("COLL");
+	Assert(pCollide);
+	pRS = (VDX9RENDER*)api->CreateService("dx9render");
+	Assert(pRS);
+	pGS = (VGEOMETRY *)api->CreateService("geometry");
+	Assert(pGS);
 }
 
 bool bView = false;
 
 void ISLAND::Realize(uint32_t Delta_Time)
 {
-	uint32_t	dwAmbient, dwAmbientOld;
+	uint32_t dwAmbient, dwAmbientOld;
 
 #ifndef _XBOX
 	// update foam
@@ -101,7 +105,8 @@ void ISLAND::Realize(uint32_t Delta_Time)
 
 	if (bForeignModels) return;
 
-	auto* pModel = (MODEL*)EntityManager::GetEntityPointer(model_id); Assert(pModel);
+	auto* pModel = (MODEL*)EntityManager::GetEntityPointer(model_id);
+	Assert(pModel);
 
 	uint32_t bFogEnable;
 	uint32_t bLighting;
@@ -111,7 +116,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 
 	pRS->SetRenderState(D3DRS_LIGHTING, false);
 	dwAmbient = dwAmbientOld & 0xFF;
-	
+
 	CVECTOR vCamPos, vCamAng;
 	float fOldNear, fOldFar, fPerspective;
 	pRS->GetCamera(vCamPos, vCamAng, fPerspective);
@@ -130,7 +135,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 	pModel->mtx = mIslandOld * mTemp;
 
 	float fOldFogDensity;
-	float fIslandFogDensity; 
+	float fIslandFogDensity;
 
 	fIslandFogDensity = AttributesPointer->GetAttributeAsFloat("FogDensity", 0.0f);
 
@@ -142,30 +147,40 @@ void ISLAND::Realize(uint32_t Delta_Time)
 	pRS->GetRenderState(D3DRS_FOGDENSITY, (uint32_t*)&fOldFogDensity);
 	pRS->SetRenderState(D3DRS_FOGDENSITY, F2DW(fIslandFogDensity));
 	long j;
-	for (j=long(fMaxDistance / fOldFar); j>=0; j--)
+	for (j = long(fMaxDistance / fOldFar); j >= 0; j--)
 	{
 		if (j != 0) pRS->SetRenderState(D3DRS_ZWRITEENABLE, false);
-		pRS->SetNearFarPlane((j==0) ? fOldNear : fOldFar * float(j), fOldFar * float(j + 1));
-		pModel->ProcessStage(Entity::Stage::realize, Delta_Time);
+		pRS->SetNearFarPlane((j == 0) ? fOldNear : fOldFar * float(j), fOldFar * float(j + 1));
+		pModel->ProcessStage(Stage::realize, Delta_Time);
 		pRS->SetRenderState(D3DRS_LIGHTING, true);
-		D3DLIGHT9 lt, ltold; ZERO(lt);
+		D3DLIGHT9 lt, ltold;
+		ZERO(lt);
 		lt.Type = D3DLIGHT_POINT;
-		lt.Diffuse.a = 0.0f;	lt.Diffuse.r = 1.0f;	lt.Diffuse.g = 1.0f;	lt.Diffuse.b = 1.0;
-		lt.Ambient.r  = 1.0f;	lt.Ambient.g  = 1.0f;	lt.Ambient.b  = 1.0f;
-		lt.Specular.r = 1.0f;	lt.Specular.g = 1.0f;	lt.Specular.b = 1.0f;
-		lt.Position.x = 0.0f;	lt.Position.y = 0.0f;	lt.Position.z = 0.0f; 
+		lt.Diffuse.a = 0.0f;
+		lt.Diffuse.r = 1.0f;
+		lt.Diffuse.g = 1.0f;
+		lt.Diffuse.b = 1.0;
+		lt.Ambient.r = 1.0f;
+		lt.Ambient.g = 1.0f;
+		lt.Ambient.b = 1.0f;
+		lt.Specular.r = 1.0f;
+		lt.Specular.g = 1.0f;
+		lt.Specular.b = 1.0f;
+		lt.Position.x = 0.0f;
+		lt.Position.y = 0.0f;
+		lt.Position.z = 0.0f;
 		lt.Attenuation0 = 1.0f;
 		lt.Range = 1e9f;
 		pRS->GetLight(0, &ltold);
 		pRS->SetLight(0, &lt);
-		for (uint32_t k=0; k<aForts.size(); k++)
+		for (uint32_t k = 0; k < aForts.size(); k++)
 		{
 			const auto ent = EntityManager::GetEntityPointer(aForts[k]);
 			CMatrix mOld = ((MODEL*)ent)->mtx;
 			((MODEL*)ent)->mtx = mOld * mTemp;
 
 			api->Send_Message(AIFortEID, "li", AI_MESSAGE_FORT_SET_LIGHTS, aForts[k]);
-			((Entity*)ent)->ProcessStage(Entity::Stage::realize, Delta_Time);
+			((Entity*)ent)->ProcessStage(Stage::realize, Delta_Time);
 			api->Send_Message(AIFortEID, "li", AI_MESSAGE_FORT_UNSET_LIGHTS, aForts[k]);
 
 			((MODEL*)ent)->mtx = mOld;
@@ -176,15 +191,15 @@ void ISLAND::Realize(uint32_t Delta_Time)
 	}
 	pRS->SetRenderState(D3DRS_FOGDENSITY, F2DW(fOldFogDensity));
 
-	pRS->SetNearFarPlane(fOldNear , fOldFar / 2.0f);
+	pRS->SetNearFarPlane(fOldNear, fOldFar / 2.0f);
 	if (!bDrawReflections)
 	{
 		pRS->SetRenderState(D3DRS_FOGENABLE, false);
 		//pRS->SetRenderState(D3DRS_AMBIENT, RGB(dwAmbient/4,dwAmbient/4,dwAmbient/4));
 
-		MODEL * pSeaBed = (MODEL*)EntityManager::GetEntityPointer(seabed_id);
+		MODEL* pSeaBed = (MODEL*)EntityManager::GetEntityPointer(seabed_id);
 		if (pSeaBed)
-			pSeaBed->ProcessStage(Entity::Stage::realize, Delta_Time);
+			pSeaBed->ProcessStage(Stage::realize, Delta_Time);
 	}
 
 	pRS->SetNearFarPlane(fOldNear, fOldFar);
@@ -195,12 +210,12 @@ void ISLAND::Realize(uint32_t Delta_Time)
 	pRS->SetRenderState(D3DRS_LIGHTING, bLighting);
 
 	uint32_t i;
-	for (i=0; i<aSpheres.size(); i++)
+	for (i = 0; i < aSpheres.size(); i++)
 	{
-		MODEL * pModel = (MODEL*)EntityManager::GetEntityPointer(aSpheres[i]);
+		MODEL* pModel = (MODEL*)EntityManager::GetEntityPointer(aSpheres[i]);
 		CVECTOR vPos = AIPath.GetPointPos(i);
 		if (pModel)
-			pModel->mtx.BuildPosition(vPos.x,5.0f,vPos.z);
+			pModel->mtx.BuildPosition(vPos.x, 5.0f, vPos.z);
 	}
 
 #ifndef _XBOX
@@ -208,58 +223,58 @@ void ISLAND::Realize(uint32_t Delta_Time)
 	if (bView)
 	{
 		std::vector<RS_LINE> aLines;
-		for (i=0;i<AIPath.GetNumEdges();i++)
+		for (i = 0; i < AIPath.GetNumEdges(); i++)
 		{
-			AIFlowGraph::edge_t * pE = AIPath.GetEdge(i);
-			aLines.push_back(RS_LINE{ AIPath.GetPointPos(pE->dw1), 0xFFFFFF });
-			aLines.push_back(RS_LINE{ AIPath.GetPointPos(pE->dw2), 0xFFFFFF });
+			AIFlowGraph::edge_t* pE = AIPath.GetEdge(i);
+			aLines.push_back(RS_LINE{AIPath.GetPointPos(pE->dw1), 0xFFFFFF});
+			aLines.push_back(RS_LINE{AIPath.GetPointPos(pE->dw2), 0xFFFFFF});
 		}
 		CMatrix m;
-		pRS->SetTransform(D3DTS_WORLD,m);
+		pRS->SetTransform(D3DTS_WORLD, m);
 		pRS->DrawLines(&aLines[0], aLines.size() / 2, "Line");
 	}
 #endif
 }
 
-bool ISLAND::GetDepth(FRECT * pRect, float * fMinH, float * fMaxH)
+bool ISLAND::GetDepth(FRECT* pRect, float* fMinH, float* fMaxH)
 {
 	return false;
 }
 
-uint64_t ISLAND::ProcessMessage(MESSAGE & message)
+uint64_t ISLAND::ProcessMessage(MESSAGE& message)
 {
-	entid_t	eID;
-	char		str[256], idstr[256];
+	entid_t eID;
+	char str[256], idstr[256];
 	switch (message.Long())
 	{
-		case MSG_ISLAND_ADD_FORT:
-			aForts.push_back(message.EntityID());
+	case MSG_ISLAND_ADD_FORT:
+		aForts.push_back(message.EntityID());
 		break;
-		case MSG_LOCATION_ADD_MODEL:
-			eID = message.EntityID();
-			message.String(sizeof(idstr)-1, idstr);
-			message.String(sizeof(str)-1, str);
-			AddLocationModel(eID, idstr, str);
+	case MSG_LOCATION_ADD_MODEL:
+		eID = message.EntityID();
+		message.String(sizeof(idstr) - 1, idstr);
+		message.String(sizeof(str) - 1, str);
+		AddLocationModel(eID, idstr, str);
 		break;
-		case MSG_ISLAND_LOAD_GEO:							// from sea
-			message.String(sizeof(cFoamDir)-1, cFoamDir);
-			message.String(sizeof(cModelsDir)-1, cModelsDir);
-			message.String(sizeof(cModelsID)-1, cModelsID);
-			Mount(cModelsID, cModelsDir, nullptr);
-			CreateHeightMap(cFoamDir, cModelsID);
-			//CreateShadowMap(cModelsDir, cModelsID);
+	case MSG_ISLAND_LOAD_GEO: // from sea
+		message.String(sizeof(cFoamDir) - 1, cFoamDir);
+		message.String(sizeof(cModelsDir) - 1, cModelsDir);
+		message.String(sizeof(cModelsID) - 1, cModelsID);
+		Mount(cModelsID, cModelsDir, nullptr);
+		CreateHeightMap(cFoamDir, cModelsID);
+		//CreateShadowMap(cModelsDir, cModelsID);
 		break;
-		case MSG_ISLAND_START:								// from location
-			CreateHeightMap(cModelsDir, cModelsID);
-			//CreateShadowMap(cModelsDir, cModelsID);
+	case MSG_ISLAND_START: // from location
+		CreateHeightMap(cModelsDir, cModelsID);
+		//CreateShadowMap(cModelsDir, cModelsID);
 		break;
-		case MSG_SEA_REFLECTION_DRAW:
-			bDrawReflections = true;
-			Realize(0);
-			bDrawReflections = false;
+	case MSG_SEA_REFLECTION_DRAW:
+		bDrawReflections = true;
+		Realize(0);
+		bDrawReflections = false;
 		break;
-		case MSG_MODEL_SET_MAX_VIEW_DIST:
-			api->Send_Message(model_id, "lf", MSG_MODEL_SET_MAX_VIEW_DIST, message.Float());
+	case MSG_MODEL_SET_MAX_VIEW_DIST:
+		api->Send_Message(model_id, "lf", MSG_MODEL_SET_MAX_VIEW_DIST, message.Float());
 		break;
 	}
 	return 1;
@@ -267,22 +282,22 @@ uint64_t ISLAND::ProcessMessage(MESSAGE & message)
 
 inline float ISLAND::GetShadowTemp(long iX, long iZ)
 {
-	if (iX >= 0 && iX < DMAP_SIZE && iZ >= 0 && iZ < DMAP_SIZE) 
-		return float(mzShadow.Get(iX,iZ)) / 255.0f;
+	if (iX >= 0 && iX < DMAP_SIZE && iZ >= 0 && iZ < DMAP_SIZE)
+		return float(mzShadow.Get(iX, iZ)) / 255.0f;
 	return 1.0f;
 }
 
-bool ISLAND::GetShadow(float x, float z, float * fRes)
+bool ISLAND::GetShadow(float x, float z, float* fRes)
 {
-	float fX = (x - vBoxCenter.x) / fShadowMapStep; 
+	float fX = (x - vBoxCenter.x) / fShadowMapStep;
 	float fZ = (z - vBoxCenter.z) / fShadowMapStep;
 
 	*fRes = GetShadowTemp(ftoi(fX) + mzShadow.GetSizeX() / 2, ftoi(fZ) + mzShadow.GetSizeX() / 2);
-	
+
 	return true;
 }
 
-void ISLAND::AddLocationModel(entid_t  eid, char * pIDStr, char * pDir)
+void ISLAND::AddLocationModel(entid_t eid, char* pIDStr, char* pDir)
 {
 	Assert(pDir && pIDStr);
 	bForeignModels = true;
@@ -300,7 +315,7 @@ inline float ISLAND::GetDepthNoCheck(uint32_t iX, uint32_t iZ)
 	float fHeight = float(HMAP_MAXHEIGHT / HMAP_NUMBERS * (float(byHeight) - HMAP_START) );
 	return fHeight;*/
 
-	return fDepthHeight[mzDepth.Get(iX,iZ)];
+	return fDepthHeight[mzDepth.Get(iX, iZ)];
 }
 
 inline float ISLAND::GetDepthCheck(uint32_t iX, uint32_t iZ)
@@ -319,44 +334,44 @@ bool ISLAND::Check2DBoxDepth(CVECTOR vPos, CVECTOR vSize, float fAngY, float fMi
 		for (float x = -vSize.x / 2.0f; x < vSize.x / 2.0f; x += fStepDX)
 		{
 			float fDepth, xx = x, zz = z;
-			RotateAroundY(xx,zz,fCos,fSin);
-			GetDepthFast(vPos.x + xx,vPos.z + zz,&fDepth);
+			RotateAroundY(xx, zz, fCos, fSin);
+			GetDepthFast(vPos.x + xx, vPos.z + zz, &fDepth);
 			if (fDepth > fMinDepth) return true;
 		}
 	return false;
 }
 
-bool ISLAND::GetDepthFast(float x, float z, float * fRes)
+bool ISLAND::GetDepthFast(float x, float z, float* fRes)
 {
 	//if (!mzDepth.isLoaded()) { if (fRes) *fRes = -50.0f; return false; }
 	x -= vBoxCenter.x;
 	z -= vBoxCenter.z;
-	if (fabsf(x) >= vRealBoxSize.x || fabsf(z) >= vRealBoxSize.z) 
-	//if (x < -vRealBoxSize.x || z < -vRealBoxSize.z || x > vRealBoxSize.x || z > vRealBoxSize.z) 
+	if (fabsf(x) >= vRealBoxSize.x || fabsf(z) >= vRealBoxSize.z)
+		//if (x < -vRealBoxSize.x || z < -vRealBoxSize.z || x > vRealBoxSize.x || z > vRealBoxSize.z) 
 	{
 		*fRes = -50.0f;
 		return false;
 	}
-	
-	float fX = (x * fStep1divDX) + float(iDMapSize >> 1); 
+
+	float fX = (x * fStep1divDX) + float(iDMapSize >> 1);
 	float fZ = (z * fStep1divDZ) + float(iDMapSize >> 1);
 
 	*fRes = GetDepthNoCheck(ftoi(fX), ftoi(fZ));
 	return true;
 }
 
-bool ISLAND::GetDepth(float x, float z, float * fRes)
+bool ISLAND::GetDepth(float x, float z, float* fRes)
 {
 	//if (!mzDepth.isLoaded()) {if (fRes) *fRes = -50.0f;	return false; }
 	x -= vBoxCenter.x;
 	z -= vBoxCenter.z;
-	if (fabsf(x) >= vRealBoxSize.x || fabsf(z) >= vRealBoxSize.z) 
-	//if (x < -vRealBoxSize.x || z < -vRealBoxSize.z || x > vRealBoxSize.x || z > vRealBoxSize.z) 
+	if (fabsf(x) >= vRealBoxSize.x || fabsf(z) >= vRealBoxSize.z)
+		//if (x < -vRealBoxSize.x || z < -vRealBoxSize.z || x > vRealBoxSize.x || z > vRealBoxSize.z) 
 	{
 		*fRes = -50.0f;
 		return false;
 	}
-	
+
 	float fX = (x * fStep1divDX) + float(iDMapSize >> 1);
 	float fZ = (z * fStep1divDZ) + float(iDMapSize >> 1);
 
@@ -365,42 +380,45 @@ bool ISLAND::GetDepth(float x, float z, float * fRes)
 	return true;
 }
 
-bool ISLAND::ActivateCamomileTrace(CVECTOR & vSrc)
+bool ISLAND::ActivateCamomileTrace(CVECTOR& vSrc)
 {
-	float	fRadius = 100.0f;
-	long	iNumPetal = 8;
-	long	iNumInner = 0;
+	float fRadius = 100.0f;
+	long iNumPetal = 8;
+	long iNumInner = 0;
 
-	for (long i=0;i<iNumPetal;i++)
+	for (long i = 0; i < iNumPetal; i++)
 	{
-		TRIANGLE	trg;
-		CVECTOR		vDst,vCross;
-		float		fAng,fCos,fSin,fRes;
-		
+		TRIANGLE trg;
+		CVECTOR vDst, vCross;
+		float fAng, fCos, fSin, fRes;
+
 		fAng = float(i) / float(iNumPetal) * PIm2;
-		fCos = cosf(fAng); fSin = sinf(fAng);
+		fCos = cosf(fAng);
+		fSin = sinf(fAng);
 
 		vDst = vSrc + CVECTOR(fCos * fRadius, 0.0f, fSin * fRadius);
 		fRes = Trace(vSrc, vDst);
 		if (fRes > 1.0f) continue;
-		auto* pEnt = (MODEL*)EntityManager::GetEntityPointer(pCollide->GetObjectID()); Assert(pEnt);
+		auto* pEnt = (MODEL*)EntityManager::GetEntityPointer(pCollide->GetObjectID());
+		Assert(pEnt);
 		pEnt->GetCollideTriangle(trg);
 		vCross = !((trg.vrt[1] - trg.vrt[0]) ^ (trg.vrt[2] - trg.vrt[0]));
 		fRes = vCross | (!(vDst - vSrc));
 		if (fRes > 0.0f) iNumInner++;
-		if (iNumInner>1) return true;
+		if (iNumInner > 1) return true;
 	}
 
 	return false;
 }
 
-void ISLAND::CalcBoxParameters(CVECTOR & _vBoxCenter, CVECTOR & _vBoxSize)
+void ISLAND::CalcBoxParameters(CVECTOR& _vBoxCenter, CVECTOR& _vBoxSize)
 {
-	GEOS::INFO	ginfo;
-	float		x1 = 1e+8f, x2 = -1e+8f, z1 = 1e+8f, z2 = -1e+8f;
+	GEOS::INFO ginfo;
+	float x1 = 1e+8f, x2 = -1e+8f, z1 = 1e+8f, z2 = -1e+8f;
 
 	auto its = EntityManager::GetEntityIdIterators(ISLAND_TRACE);
-	for(auto it = its.first; it!= its.second; ++it) {
+	for (auto it = its.first; it != its.second; ++it)
+	{
 		MODEL* pM = (MODEL*)EntityManager::GetEntityPointer(it->second);
 		if (pM == nullptr)
 			continue;
@@ -408,7 +426,8 @@ void ISLAND::CalcBoxParameters(CVECTOR & _vBoxCenter, CVECTOR & _vBoxSize)
 		uint32_t i = 0;
 		while (true)
 		{
-			NODE* pN = pM->GetNode(i); i++;
+			NODE* pN = pM->GetNode(i);
+			i++;
 			if (!pN) break;
 			pN->geo->GetInfo(ginfo);
 			CVECTOR vGlobPos = pN->glob_mtx.Pos();
@@ -419,13 +438,12 @@ void ISLAND::CalcBoxParameters(CVECTOR & _vBoxCenter, CVECTOR & _vBoxSize)
 			if (vBC.z - vBS.z < z1) z1 = vBC.z - vBS.z;
 			if (vBC.z + vBS.z > z2) z2 = vBC.z + vBS.z;
 		}
-
 	}
-	_vBoxCenter	= CVECTOR((x1 + x2) / 2.0f, 0.0f, (z1 + z2) / 2.0f);
-	_vBoxSize	= CVECTOR(x2 - x1, 0.0f, z2 - z1);
+	_vBoxCenter = CVECTOR((x1 + x2) / 2.0f, 0.0f, (z1 + z2) / 2.0f);
+	_vBoxSize = CVECTOR(x2 - x1, 0.0f, z2 - z1);
 }
 
-void ISLAND::CreateDirectories(char * pDir)
+void ISLAND::CreateDirectories(char* pDir)
 {
 #ifndef _XBOX
 	char sCurDir[256], sTemp[256];
@@ -433,26 +451,28 @@ void ISLAND::CreateDirectories(char * pDir)
 	fio->_GetCurrentDirectory(sizeof(sCurDir), sCurDir);
 	if (strlen(sCurDir) && sCurDir[strlen(sCurDir) - 1] != '\\') strcat_s(sCurDir, "\\");
 
-	char * pLast, * pStr;
+	char *pLast, *pStr;
 
 	pLast = pStr = pDir;
 	while (true)
 	{
 		pStr = strchr(pStr, '\\');
 		if (!pStr) break;
-		strncpy_s(sTemp, pLast, pStr - pLast); sTemp[pStr - pLast] = '\0';
+		strncpy_s(sTemp, pLast, pStr - pLast);
+		sTemp[pStr - pLast] = '\0';
 		pLast = ++pStr;
-		strcat_s(sCurDir, sTemp); strcat_s(sCurDir, "\\");
+		strcat_s(sCurDir, sTemp);
+		strcat_s(sCurDir, "\\");
 		BOOL bOk = fio->_CreateDirectory(sCurDir, nullptr);
 	}
 #endif
 }
 
-bool ISLAND::CreateShadowMap(char * pDir, char * pName)
+bool ISLAND::CreateShadowMap(char* pDir, char* pName)
 {
-	std::string	sDir;
+	std::string sDir;
 	const auto pWeather = (WEATHER_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("Weather"));
-	if(pWeather == nullptr)
+	if (pWeather == nullptr)
 		throw std::exception("No found WEATHER entity!");
 
 	fs::path path = fs::path() / "resource" / "foam" / pDir / AttributesPointer->GetAttribute("LightingPath");
@@ -467,12 +487,12 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 	fShadowMapStep = fShadowMapSize / DMAP_SIZE;
 
 	if (mzShadow.Load(fileName + ".zap")) return true;
-	
+
 	// try to load tga file
 	HANDLE hFile = fio->_CreateFile(fileName.c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
-		TGA_H	tga_head;
+		TGA_H tga_head;
 
 		fio->_ReadFile(hFile, &tga_head, sizeof(tga_head), nullptr);
 		uint32_t dwSize = tga_head.width;
@@ -488,8 +508,8 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 
 	pShadowMap = new uint8_t[DMAP_SIZE * DMAP_SIZE];
 
-	float	fX, fZ;
-	uint32_t	x, z;
+	float fX, fZ;
+	uint32_t x, z;
 	CVECTOR vSun;
 	pWeather->GetVector(whv_sun_pos, &vSun); // CVECTOR(15000.0f, 2000.0f, 15000.0f);
 	vSun = 100000.0f * !vSun;
@@ -531,11 +551,11 @@ bool ISLAND::CreateShadowMap(char * pDir, char * pName)
 	return true;
 }
 
-void ISLAND::Blur8(uint8_t * * pBuffer, uint32_t dwSize)
+void ISLAND::Blur8(uint8_t* * pBuffer, uint32_t dwSize)
 {
-	uint32_t	x, z; 
-	uint8_t	* pNewBuffer = new uint8_t[dwSize * dwSize];
-	uint32_t	dwMask = dwSize - 1;
+	uint32_t x, z;
+	uint8_t* pNewBuffer = new uint8_t[dwSize * dwSize];
+	uint32_t dwMask = dwSize - 1;
 	// do blur for shadow map
 	for (z = 0; z < dwSize; z++)
 		for (x = 0; x < dwSize; x++)
@@ -551,19 +571,19 @@ void ISLAND::Blur8(uint8_t * * pBuffer, uint32_t dwSize)
 			dwRes += (*pBuffer)[((z - 1) & dwMask) * dwSize + ((x + 1) & dwMask)];
 			dwRes /= 9;
 
-			pNewBuffer[z * dwSize + x] = uint8_t(dwRes); 
+			pNewBuffer[z * dwSize + x] = uint8_t(dwRes);
 		}
 
 	STORM_DELETE(*pBuffer);
 	*pBuffer = pNewBuffer;
 }
 
-bool ISLAND::CreateHeightMap(char * pDir, char * pName)
+bool ISLAND::CreateHeightMap(char* pDir, char* pName)
 {
-	TGA_H	tga_head;
-	std::string	sDir; 
-	char	str_tmp[256];
-	HANDLE	hFile;
+	TGA_H tga_head;
+	std::string sDir;
+	char str_tmp[256];
+	HANDLE hFile;
 
 	fs::path path = fs::path() / "resource" / "foam" / pDir / pName;
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
@@ -579,8 +599,10 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	CalcBoxParameters(vBoxCenter, vRealBoxSize);
 	vBoxSize = vRealBoxSize + CVECTOR(50.0f, 0.0f, 50.0f);
 
-	rIsland.x1 = vBoxCenter.x - vBoxSize.x / 2.0f;	rIsland.y1 = vBoxCenter.z - vBoxSize.z / 2.0f;
-	rIsland.x2 = vBoxCenter.x + vBoxSize.x / 2.0f;	rIsland.y2 = vBoxCenter.z + vBoxSize.z / 2.0f;
+	rIsland.x1 = vBoxCenter.x - vBoxSize.x / 2.0f;
+	rIsland.y1 = vBoxCenter.z - vBoxSize.z / 2.0f;
+	rIsland.x2 = vBoxCenter.x + vBoxSize.x / 2.0f;
+	rIsland.y2 = vBoxCenter.z + vBoxSize.z / 2.0f;
 
 	bool bLoad = mzDepth.Load(fileName + ".zap");
 
@@ -605,7 +627,8 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	if (bLoad)
 	{
 		iDMapSize = mzDepth.GetSizeX();
-		for (iDMapSizeShift=0; iDMapSizeShift<30; iDMapSizeShift++) if (uint32_t(1<<iDMapSizeShift) == iDMapSize) break;
+		for (iDMapSizeShift = 0; iDMapSizeShift < 30; iDMapSizeShift++) if (uint32_t(1 << iDMapSizeShift) == iDMapSize)
+			break;
 		fStepDX = vBoxSize.x / float(iDMapSize);
 		fStepDZ = vBoxSize.z / float(iDMapSize);
 
@@ -614,20 +637,22 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 
 		vBoxSize /= 2.0f;
 		vRealBoxSize /= 2.0f;
-		
-		INIFILE * pI = fio->OpenIniFile(iniName.c_str());	Assert(pI);
+
+		INIFILE* pI = fio->OpenIniFile(iniName.c_str());
+		Assert(pI);
 
 		CVECTOR vTmpBoxCenter, vTmpBoxSize;
-		pI->ReadString("Main", "vBoxCenter", str_tmp, sizeof(str_tmp)-1, "1.0,1.0,1.0");
+		pI->ReadString("Main", "vBoxCenter", str_tmp, sizeof(str_tmp) - 1, "1.0,1.0,1.0");
 		sscanf(str_tmp, "%f,%f,%f", &vTmpBoxCenter.x, &vTmpBoxCenter.y, &vTmpBoxCenter.z);
-		pI->ReadString("Main", "vBoxSize", str_tmp, sizeof(str_tmp)-1, "1.0,1.0,1.0");
+		pI->ReadString("Main", "vBoxSize", str_tmp, sizeof(str_tmp) - 1, "1.0,1.0,1.0");
 		sscanf(str_tmp, "%f,%f,%f", &vTmpBoxSize.x, &vTmpBoxSize.y, &vTmpBoxSize.z);
-		if (~(vTmpBoxCenter - vBoxCenter) > 0.1f) 
+		if (~(vTmpBoxCenter - vBoxCenter) > 0.1f)
 		{
-			api->Trace("Island: vBoxCenter not equal, foam error: %s, distance = %.3f", iniName.c_str(), sqrtf(~(vTmpBoxCenter - vBoxCenter)));
+			api->Trace("Island: vBoxCenter not equal, foam error: %s, distance = %.3f", iniName.c_str(),
+			           sqrtf(~(vTmpBoxCenter - vBoxCenter)));
 			api->Trace("vBoxCenter = %f,%f,%f", vBoxCenter.x, vBoxCenter.y, vBoxCenter.z);
 		}
-		if (~(vTmpBoxSize - vBoxSize) > 0.1f) 
+		if (~(vTmpBoxSize - vBoxSize) > 0.1f)
 		{
 			api->Trace("Island: vBoxSize not equal, foam error: %s", iniName.c_str());
 			api->Trace("vBoxSize = %f,%f,%f", vBoxSize.x, vBoxSize.y, vBoxSize.z);
@@ -668,7 +693,7 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	// fixed maximum depth map to 1024 size!!!!!!!
 	iDMapSizeShift = 11;
 	//for (iDMapSizeShift=0;iDMapSizeShift<10;iDMapSizeShift++) if ((1<<iDMapSizeShift) >= iTestSize) break;
-	iDMapSize = (1<<iDMapSizeShift);
+	iDMapSize = (1 << iDMapSizeShift);
 
 	fStepDX = vBoxSize.x / float(iDMapSize);
 	fStepDZ = vBoxSize.z / float(iDMapSize);
@@ -678,26 +703,27 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 
 	pDepthMap = new uint8_t[iDMapSize * iDMapSize];
 
-	float	fEarthPercent = 0.0f;
-	float	fX,fZ;
+	float fEarthPercent = 0.0f;
+	float fX, fZ;
 
-	for (fZ=0; fZ<float(iDMapSize); fZ+=1.0f)
+	for (fZ = 0; fZ < float(iDMapSize); fZ += 1.0f)
 	{
 		if ((long(fZ) & 127) == 127) api->Trace("Z = %.0f", fZ);
-		for (fX=0; fX<float(iDMapSize); fX+=1.0f)
+		for (fX = 0; fX < float(iDMapSize); fX += 1.0f)
 		{
 			long iIdx = long(fX) + long(fZ) * iDMapSize;
 			pDepthMap[iIdx] = 255;
-			float fXX = (fX - float(iDMapSize)/2.0f) * fStepDX;
-			float fZZ = (fZ - float(iDMapSize)/2.0f) * fStepDZ;
+			float fXX = (fX - float(iDMapSize) / 2.0f) * fStepDX;
+			float fZZ = (fZ - float(iDMapSize) / 2.0f) * fStepDZ;
 			CVECTOR vSrc(fXX, 0.0f, fZZ), vDst(fXX, -500.0f, fZZ + 0.001f);
-			vSrc += vBoxCenter; vDst += vBoxCenter;
+			vSrc += vBoxCenter;
+			vDst += vBoxCenter;
 			float fRes = Trace(vSrc, vDst);
 			Assert(_isnan(fRes) == false);
-			if (fRes<=1.0f)	// island ocean floor exist
+			if (fRes <= 1.0f) // island ocean floor exist
 			{
 				float fHeight = sqrtf(~(fRes * (vDst - vSrc)));
-				if (fHeight>-HMAP_MAXHEIGHT) 
+				if (fHeight > -HMAP_MAXHEIGHT)
 				{
 					fHeight = -HMAP_MAXHEIGHT;
 				}
@@ -707,13 +733,14 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 				else
 					pDepthMap[iIdx] = (unsigned char)(HMAP_START + float(HMAP_NUMBERS) * fHeight / -HMAP_MAXHEIGHT);
 			}
-			else	// check for up direction
+			else // check for up direction
 			{
 				vSrc = CVECTOR(fXX, 0.0f, fZZ);
 				vDst = CVECTOR(fXX, 1500.0f, fZZ + 0.001f);
-				vSrc += vBoxCenter; vDst += vBoxCenter;
-				float fRes = Trace(vSrc,vDst);
-				if (fRes<=1.0f || ActivateCamomileTrace(vSrc))
+				vSrc += vBoxCenter;
+				vDst += vBoxCenter;
+				float fRes = Trace(vSrc, vDst);
+				if (fRes <= 1.0f || ActivateCamomileTrace(vSrc))
 				{
 					pDepthMap[iIdx] = uint8_t(HMAP_START);
 				}
@@ -731,14 +758,14 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	mzDepth.Save(fileName + ".zap");
 	STORM_DELETE(pDepthMap);
 
-	INIFILE * pI = fio->OpenIniFile(iniName.c_str()); 
+	INIFILE* pI = fio->OpenIniFile(iniName.c_str());
 	if (!pI)
 	{
-		pI = fio->CreateIniFile(iniName.c_str(),false);
+		pI = fio->CreateIniFile(iniName.c_str(), false);
 		Assert(pI);
 	}
 	char str[512];
-	pI->WriteString("Main", "DepthFile", (char*) fileName.c_str());
+	pI->WriteString("Main", "DepthFile", (char*)fileName.c_str());
 	sprintf_s(str, "%f,%f,%f", vBoxCenter.x, vBoxCenter.y, vBoxCenter.z);
 	pI->WriteString("Main", "vBoxCenter", str);
 	sprintf_s(str, "%f,%f,%f", vBoxSize.x, vBoxSize.y, vBoxSize.z);
@@ -748,10 +775,10 @@ bool ISLAND::CreateHeightMap(char * pDir, char * pName)
 	return true;
 }
 
-bool ISLAND::SaveTga8(char * fname, uint8_t * pBuffer, uint32_t dwSizeX, uint32_t dwSizeY)
+bool ISLAND::SaveTga8(char* fname, uint8_t* pBuffer, uint32_t dwSizeX, uint32_t dwSizeY)
 {
 	TGA_H tga_head;
-	
+
 	ZERO(tga_head);
 
 	tga_head.type = 3;
@@ -769,14 +796,14 @@ bool ISLAND::SaveTga8(char * fname, uint8_t * pBuffer, uint32_t dwSizeX, uint32_
 	fio->_WriteFile(hFile, &tga_head, sizeof(tga_head), nullptr);
 	fio->_WriteFile(hFile, pBuffer, dwSizeX * dwSizeY, nullptr);
 	fio->_CloseHandle(hFile);
-	
+
 	return true;
 }
 
-bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
+bool ISLAND::Mount(char* fname, char* fdir, entid_t* eID)
 {
 	//std::string		sRealFileName;
-	std::string		sModelPath, sLightPath;
+	std::string sModelPath, sLightPath;
 
 	Uninit();
 
@@ -786,17 +813,17 @@ bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
 	std::string pathStr = path.string();
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//sRealFileName.Format("%s\\%s", fdir, fname); sRealFileName.CheckPath();
-	
+
 	model_id = EntityManager::CreateEntity("MODELR");
 	api->Send_Message(model_id, "ls", MSG_MODEL_SET_LIGHT_PATH, AttributesPointer->GetAttribute("LightingPath"));
 	api->Send_Message(model_id, "ls", MSG_MODEL_LOAD_GEO, (char*)pathStr.c_str());
 
 	// extract subobject(sea_bed) to another model
 	auto* pModel = (MODEL*)EntityManager::GetEntityPointer(model_id);
-	NODE * pNode = pModel->FindNode(SEA_BED_NODE_NAME);
+	NODE* pNode = pModel->FindNode(SEA_BED_NODE_NAME);
 	if (pNode)
 		seabed_id = pNode->Unlink2Model();
-	else 
+	else
 		api->Trace("Island: island %s has no sea bed, check me!", fname);
 
 	EntityManager::AddToLayer(ISLAND_TRACE, model_id, 10);
@@ -808,7 +835,7 @@ bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
 	mIslandOld = pModel->mtx;
 	if (pSeaBedModel) mSeaBedOld = pSeaBedModel->mtx;
 
-	
+
 	/*sModelPath.Format("islands\\%s\\", fname); sModelPath.CheckPath();
 	api->Send_Message(lighter_id, "ss", "ModelsPath", (char*)sModelPath);
 	sLightPath.Format("%s", AttributesPointer->GetAttribute("LightingPath")); sLightPath.CheckPath();
@@ -841,40 +868,40 @@ bool ISLAND::Mount(char * fname, char * fdir, entid_t * eID)
 	return true;
 }
 
-float ISLAND::Cannon_Trace(long iBallOwner, const CVECTOR & vSrc, const CVECTOR & vDst)
+float ISLAND::Cannon_Trace(long iBallOwner, const CVECTOR& vSrc, const CVECTOR& vDst)
 {
-	float fRes = Trace(vSrc,vDst);
-	if (fRes<=1.0f)
+	float fRes = Trace(vSrc, vDst);
+	if (fRes <= 1.0f)
 	{
 		CVECTOR vTemp = vSrc + fRes * (vDst - vSrc);
-		api->Event(BALL_ISLAND_HIT,"lfff",iBallOwner,vTemp.x,vTemp.y,vTemp.z);
+		api->Event(BALL_ISLAND_HIT, "lfff", iBallOwner, vTemp.x, vTemp.y, vTemp.z);
 	}
-	return fRes; 
+	return fRes;
 }
 
-float ISLAND::Trace(const CVECTOR & vSrc, const CVECTOR & vDst)
+float ISLAND::Trace(const CVECTOR& vSrc, const CVECTOR& vDst)
 {
 	return pCollide->Trace(EntityManager::GetEntityIdIterators(ISLAND_TRACE), vSrc, vDst, nullptr, 0);
 }
 
 // Path section
-bool ISLAND::GetMovePoint(CVECTOR & vSrc, CVECTOR & vDst, CVECTOR & vRes)
+bool ISLAND::GetMovePoint(CVECTOR& vSrc, CVECTOR& vDst, CVECTOR& vRes)
 {
 	// check for one side 
-	uint32_t	i,j;
+	uint32_t i, j;
 	vRes = vDst;
 	vSrc.y = vDst.y = 0.1f;
 
-	if ((vSrc.x <= rIsland.x1 && vDst.x <= rIsland.x1) || (vSrc.x >= rIsland.x2 && vDst.x >= rIsland.x2) || 
+	if ((vSrc.x <= rIsland.x1 && vDst.x <= rIsland.x1) || (vSrc.x >= rIsland.x2 && vDst.x >= rIsland.x2) ||
 		(vSrc.z <= rIsland.y1 && vDst.z <= rIsland.y1) || (vSrc.z >= rIsland.y2 && vDst.z >= rIsland.y2))
-			return false;
+		return false;
 
 	// one simple trace vSrc - vDst
-	if (Trace(vSrc,vDst)>=1.0f) return false;
+	if (Trace(vSrc, vDst) >= 1.0f) return false;
 
 	CVECTOR vDir = !(vDst - vSrc);
 
-	std::vector<AIFlowGraph::npoint_t>	* PointsSrc, * PointsDst;
+	std::vector<AIFlowGraph::npoint_t> *PointsSrc, *PointsDst;
 
 	PointsSrc = AIPath.GetNearestPoints(vSrc);
 	PointsDst = AIPath.GetNearestPoints(vDst);
@@ -882,34 +909,36 @@ bool ISLAND::GetMovePoint(CVECTOR & vSrc, CVECTOR & vDst, CVECTOR & vRes)
 	uint32_t dwSizeSrc = ((*PointsSrc).size() > 8) ? 8 : (*PointsSrc).size();
 	uint32_t dwSizeDst = ((*PointsDst).size() > 8) ? 8 : (*PointsDst).size();
 
-	for (i=0;i<dwSizeDst;i++)
-		(*PointsDst)[i].fTemp = Trace(vDst,AIPath.GetPointPos((*PointsDst)[i].dwPnt));
+	for (i = 0; i < dwSizeDst; i++)
+		(*PointsDst)[i].fTemp = Trace(vDst, AIPath.GetPointPos((*PointsDst)[i].dwPnt));
 
-	float	fMaxDistance = 1e9f;
-	uint32_t	dwI = INVALID_ARRAY_INDEX,dwJ;
-	for (i=0; i<dwSizeSrc; i++)
+	float fMaxDistance = 1e9f;
+	uint32_t dwI = INVALID_ARRAY_INDEX, dwJ;
+	for (i = 0; i < dwSizeSrc; i++)
 	{
-		if (Trace(vSrc,AIPath.GetPointPos((*PointsSrc)[i].dwPnt)) < 1.0f) continue;
+		if (Trace(vSrc, AIPath.GetPointPos((*PointsSrc)[i].dwPnt)) < 1.0f) continue;
 		float fDist1 = sqrtf(~(vSrc - AIPath.GetPointPos((*PointsSrc)[i].dwPnt)));
 		if (fDist1 < 80.0f) continue;
-		for (j=0; j<dwSizeDst; j++) if ((*PointsDst)[j].fTemp > 1.0f)
-		{
-			//if (Trace(vDst,AIPath.GetPointPos((*PointsDst)[j].dwPnt)) < 1.0f) continue;
-			float fDist2 = sqrtf(~(vDst - AIPath.GetPointPos((*PointsDst)[j].dwPnt)));
-			float fDistance = AIPath.GetPathDistance((*PointsSrc)[i].dwPnt,(*PointsDst)[j].dwPnt);
-			float fTotalDist = fDistance + fDist1 + fDist2;
-			if (fTotalDist < fMaxDistance && fTotalDist > 0.0f)
+		for (j = 0; j < dwSizeDst; j++)
+			if ((*PointsDst)[j].fTemp > 1.0f)
 			{
-				fMaxDistance = fTotalDist;
-				dwI = i;
-				dwJ = j;
+				//if (Trace(vDst,AIPath.GetPointPos((*PointsDst)[j].dwPnt)) < 1.0f) continue;
+				float fDist2 = sqrtf(~(vDst - AIPath.GetPointPos((*PointsDst)[j].dwPnt)));
+				float fDistance = AIPath.GetPathDistance((*PointsSrc)[i].dwPnt, (*PointsDst)[j].dwPnt);
+				float fTotalDist = fDistance + fDist1 + fDist2;
+				if (fTotalDist < fMaxDistance && fTotalDist > 0.0f)
+				{
+					fMaxDistance = fTotalDist;
+					dwI = i;
+					dwJ = j;
+				}
 			}
-		}
 	}
 
 	if (INVALID_ARRAY_INDEX != dwI) vRes = AIPath.GetPointPos((*PointsSrc)[dwI].dwPnt);
 
-	STORM_DELETE(PointsSrc); STORM_DELETE(PointsDst);
+	STORM_DELETE(PointsSrc);
+	STORM_DELETE(PointsDst);
 
 	return true;
 }

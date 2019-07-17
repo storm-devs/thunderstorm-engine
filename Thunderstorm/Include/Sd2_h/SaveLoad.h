@@ -7,12 +7,12 @@
 class CSaveLoad
 {
 private:
-	char	* pSaveBuffer;
-	uint32_t	dwCurSize, dwMaxSize;
-	bool	bSave, bLoad;
+	char* pSaveBuffer;
+	uint32_t dwCurSize, dwMaxSize;
+	bool bSave, bLoad;
 
 public:
-	CSaveLoad() 
+	CSaveLoad()
 	{
 		dwCurSize = 0;
 		dwMaxSize = 0;
@@ -20,7 +20,7 @@ public:
 		pSaveBuffer = nullptr;
 	}
 
-	~CSaveLoad() 
+	~CSaveLoad()
 	{
 		Close();
 	}
@@ -32,10 +32,10 @@ public:
 			const auto size = dwCurSize * 2 + 8 + 1;
 			auto pFFSave = new char[size];
 			sprintf_s(pFFSave, size, "%.8x", dwCurSize);
-			for (uint32_t i=0; i<dwCurSize; i++)
+			for (uint32_t i = 0; i < dwCurSize; i++)
 				sprintf_s(&pFFSave[8 + i * 2], 3, "%.2x", uint8_t(pSaveBuffer[i]));
 
-			VDATA * pV = api->Event("SeaLoad_GetPointer", "sl", "seasave", -1);
+			VDATA* pV = api->Event("SeaLoad_GetPointer", "sl", "seasave", -1);
 			if (pV)
 				pV->GetAClass()->SetAttribute("save", pFFSave);
 
@@ -59,24 +59,25 @@ public:
 		bLoad = true;
 		dwCurSize = 0;
 
-		VDATA * pV = api->Event("SeaLoad_GetPointer", "sl", "seasave", -1);
-		char * pSave = pV->GetAClass()->GetAttribute("save");
+		VDATA* pV = api->Event("SeaLoad_GetPointer", "sl", "seasave", -1);
+		char* pSave = pV->GetAClass()->GetAttribute("save");
 		uint32_t dwSize;
 		char str[256];
 		strncpy_s(str, pSave, 8);
 		str[8] = 0;
 		sscanf(str, "%x", &dwSize);
 		pSaveBuffer = (char*)malloc(dwSize);
-		for (uint32_t i=0; i<dwSize; i++)
+		for (uint32_t i = 0; i < dwSize; i++)
 		{
-			strncpy_s(str, &pSave[8 + i * 2], 2); str[2] = 0;
+			strncpy_s(str, &pSave[8 + i * 2], 2);
+			str[2] = 0;
 			uint32_t dwValue;
 			sscanf(str, "%x", &dwValue);
 			pSaveBuffer[i] = char(dwValue);
 		}
 	}
 
-	void Write(const void * pBuffer, uint32_t dwSize)
+	void Write(const void* pBuffer, uint32_t dwSize)
 	{
 		if (dwMaxSize <= dwCurSize + dwSize)
 		{
@@ -87,15 +88,15 @@ public:
 		dwCurSize += dwSize;
 	}
 
-	void Read(void * pBuffer, uint32_t dwSize)
+	void Read(void* pBuffer, uint32_t dwSize)
 	{
 		memcpy(pBuffer, &pSaveBuffer[dwCurSize], dwSize);
 		dwCurSize += dwSize;
 	}
 
-// =======================================================================================
-// Save functions
-// =======================================================================================
+	// =======================================================================================
+	// Save functions
+	// =======================================================================================
 
 	void SaveDword(uint32_t dwValue)
 	{
@@ -117,7 +118,7 @@ public:
 		Write(&iValue, sizeof(iValue));
 	}
 
-	void SaveString(std::string & str)
+	void SaveString(std::string& str)
 	{
 		if (str.size())
 		{
@@ -132,18 +133,18 @@ public:
 		}
 	}
 
-	void SaveVector(const CVECTOR & vVector)
+	void SaveVector(const CVECTOR& vVector)
 	{
 		Write((void*)&vVector, sizeof(vVector));
 	}
 
-	void SaveBuffer(const char * pBuffer, uint32_t dwSize)
+	void SaveBuffer(const char* pBuffer, uint32_t dwSize)
 	{
 		SaveDword(dwSize);
 		Write((void*)pBuffer, dwSize);
 	}
 
-	void SaveAPointer(const char * pStr, ATTRIBUTES * pAttribute)
+	void SaveAPointer(const char* pStr, ATTRIBUTES* pAttribute)
 	{
 		long iIndex = -1;
 		if (pAttribute)
@@ -154,9 +155,9 @@ public:
 		SaveString(std::string(pStr));
 	}
 
-// =======================================================================================
-// Load functions
-// =======================================================================================
+	// =======================================================================================
+	// Load functions
+	// =======================================================================================
 
 	uint32_t LoadDword()
 	{
@@ -192,7 +193,7 @@ public:
 		uint32_t dwLen;
 		Read(&dwLen, sizeof(dwLen));
 		if (dwLen == 0) return std::string();
-		char * pBuffer = new char[dwLen];
+		char* pBuffer = new char[dwLen];
 		Read(pBuffer, dwLen);
 		str = pBuffer;
 		delete[] pBuffer;
@@ -206,7 +207,7 @@ public:
 		return v;
 	}
 
-	void LoadBuffer(char * * pBuffer)
+	void LoadBuffer(char* * pBuffer)
 	{
 		uint32_t dwSize;
 		Read(&dwSize, sizeof(dwSize));
@@ -214,19 +215,19 @@ public:
 		Read(*pBuffer, dwSize);
 	}
 
-	void Load2Buffer(char * pBuffer)
+	void Load2Buffer(char* pBuffer)
 	{
 		uint32_t dwSize;
 		Read(&dwSize, sizeof(dwSize));
 		Read(pBuffer, dwSize);
 	}
 
-	ATTRIBUTES * LoadAPointer(const char * pStr)
+	ATTRIBUTES* LoadAPointer(const char* pStr)
 	{
 		long iIndex = LoadLong();
 		std::string str = LoadString();
 		if (str == "character" && iIndex < 0) return nullptr;
-		VDATA * pV = api->Event("SeaLoad_GetPointer", "sl", pStr, iIndex);
+		VDATA* pV = api->Event("SeaLoad_GetPointer", "sl", pStr, iIndex);
 		return (pV) ? pV->GetAClass() : nullptr;
 	}
 };

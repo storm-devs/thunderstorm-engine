@@ -28,27 +28,31 @@ class Grass : public Entity
 {
 #pragma pack(push, 1)
 
-	static IDirect3DVertexDeclaration9 * vertexDecl_;
+	static IDirect3DVertexDeclaration9* vertexDecl_;
 
 	struct Vertex
 	{
 		float x, y, z;
 		uint32_t data;
 		uint32_t offset;
-		float wx, wz;		
+		float wx, wz;
 		float alpha;
 	};
 
 	struct VSConstant
 	{
-		inline VSConstant()
+		VSConstant()
 		{
 			x = y = z = 0.0f;
 			w = 1.0f;
 		};
-		inline VSConstant(float _x, float _y, float _z, float _w)
+
+		VSConstant(float _x, float _y, float _z, float _w)
 		{
-			x = _x; y = _y; z = _z; w = _w;
+			x = _x;
+			y = _y;
+			z = _z;
+			w = _w;
 		};
 		float x, y, z, w;
 	};
@@ -57,22 +61,23 @@ class Grass : public Entity
 
 	struct AngleInfo
 	{
-		float dx, dz;			//Направление
-		float cs;				//Косинус угла между направлением и источником
+		float dx, dz; //Направление
+		float cs; //Косинус угла между направлением и источником
 	};
 
 	struct GRSMapElementEx
 	{
-		float x, y, z;			//Позиция травинки в мире
+		float x, y, z; //Позиция травинки в мире
 		union
 		{
 			struct
-			{				
-				uint8_t frame;		//Кадр
-				uint8_t h;			//Высота
-				uint8_t w;			//Ширина
-				uint8_t ang;		//Угол поворота
+			{
+				uint8_t frame; //Кадр
+				uint8_t h; //Высота
+				uint8_t w; //Ширина
+				uint8_t ang; //Угол поворота
 			};
+
 			uint32_t data;
 		};
 	};
@@ -89,34 +94,37 @@ class Grass : public Entity
 public:
 	struct CharacterPos
 	{
-		CVECTOR pos;			//Текущая позиция
-		CVECTOR lastPos;		//Инерционная позиция
-		Character * chr;		//Указатель на персонажа
-		long useCounter;		//Счётчик влияний на траву
+		CVECTOR pos; //Текущая позиция
+		CVECTOR lastPos; //Инерционная позиция
+		Character* chr; //Указатель на персонажа
+		long useCounter; //Счётчик влияний на траву
 	};
 
-//--------------------------------------------------------------------------------------------
-//Конструирование, деструктурирование
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Конструирование, деструктурирование
+	//--------------------------------------------------------------------------------------------
 public:
 	Grass();
 	virtual ~Grass();
 
 	//Инициализация
-	bool Init();
+	bool Init() override;
 	//Работа
 	void Execute(uint32_t delta_time);
 	void Realize(uint32_t delta_time);
 	//
-	uint64_t ProcessMessage(MESSAGE &message);
+	uint64_t ProcessMessage(MESSAGE& message) override;
+
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)
 		{
 		case Stage::execute:
-			Execute(delta); break;
+			Execute(delta);
+			break;
 		case Stage::realize:
-			Realize(delta); break;
+			Realize(delta);
+			break;
 			/*case Stage::lost_render:
 				LostRender(delta); break;
 			case Stage::restore_render:
@@ -125,23 +133,23 @@ public:
 	}
 
 	//Загрузить данные для травы
-	bool LoadData(const char * patchName);
+	bool LoadData(const char* patchName);
 	//Установить текстуру
-	void SetTexture(const char * texName);
+	void SetTexture(const char* texName);
 
 	CharacterPos characters[MAX_CHARACTERS];
 	long numCharacters;
 
-//--------------------------------------------------------------------------------------------
-//Инкапсуляция
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Инкапсуляция
+	//--------------------------------------------------------------------------------------------
 private:
 	//Рендер блока
-	void RenderBlock(const CVECTOR & camPos, PLANE * plane, long numPlanes, long mx, long mz);
+	void RenderBlock(const CVECTOR& camPos, PLANE* plane, long numPlanes, long mx, long mz);
 	//Проверка на видимость бокса
-	bool VisibleTest(const PLANE * plane, long numPlanes, const CVECTOR & min, const CVECTOR & max);
+	bool VisibleTest(const PLANE* plane, long numPlanes, const CVECTOR& min, const CVECTOR& max);
 	//Рендер блока
-	void RenderBlock(GRSMiniMapElement & mme, float kLod);
+	void RenderBlock(GRSMiniMapElement& mme, float kLod);
 	//Нарисовать содержимое буфера
 	void DrawBuffer();
 	//Получить цвет
@@ -151,7 +159,7 @@ private:
 
 private:
 	//Сервис рендера
-	VDX9RENDER * rs;
+	VDX9RENDER* rs;
 	//Буфера
 	long vb, ib;
 	long numPoints;
@@ -159,33 +167,33 @@ private:
 	long texture;
 
 	//Миникарта
-	GRSMiniMapElement * miniMap;
+	GRSMiniMapElement* miniMap;
 	//Размеры миникарты
 	long miniX, miniZ;
 	//Начальная позиция карты
 	float startX, startZ;
 	//Блоки с высотами
-	GRSMapElementEx * block;
+	GRSMapElementEx* block;
 	long numElements;
 	//Текущие параметры для поворотов травы
 	AngleInfo angInfo[16];
 	//Текущие фазы качания
 	float phase[7];
 	//Параметры текущего источника освещения
-	CVECTOR lDir;		//Направление источника
-	CVECTOR lColor;		//Цвет источника
-	CVECTOR aColor;		//Цвет расеяного освещения
+	CVECTOR lDir; //Направление источника
+	CVECTOR lColor; //Цвет источника
+	CVECTOR aColor; //Цвет расеяного освещения
 
-	long blockChrs[32];	//Индексы персонажей обрабатываемых блоком
-	long numBlockChr;	//Количество персонажей обрабатываемых блоком
+	long blockChrs[32]; //Индексы персонажей обрабатываемых блоком
+	long numBlockChr; //Количество персонажей обрабатываемых блоком
 
-	float lodSelect;	//Коэфициент дальности выбора лода (kLod = kLod^lodSelect)
-	float winForce;		//Коэфициент скорости ветра 0..1
-	CVECTOR winDir;		//Нормализованное напрвавление ветра
-	
-	Vertex * vbuffer;	//Залоченый буфер	
+	float lodSelect; //Коэфициент дальности выбора лода (kLod = kLod^lodSelect)
+	float winForce; //Коэфициент скорости ветра 0..1
+	CVECTOR winDir; //Нормализованное напрвавление ветра
 
-	RenderQuality quality;	//Качество отрисовки
+	Vertex* vbuffer; //Залоченый буфер	
+
+	RenderQuality quality; //Качество отрисовки
 
 	float cosPh1, sinPh2, sinPh5, sinPh6, winPow, winF10, kAmpWF, kDirWF, kLitWF;
 	float windAng;
@@ -201,7 +209,7 @@ private:
 	float m_fMinVisibleDist;
 	float m_fMaxVisibleDist;
 	float m_fMinGrassLod;
-	
+
 	// boal параметры травы
 	long isGrassLightsOn;
 };

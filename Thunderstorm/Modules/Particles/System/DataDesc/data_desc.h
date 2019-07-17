@@ -7,7 +7,6 @@
 
 class DataDescripion
 {
-
 	struct DescItem
 	{
 		FieldType Type;
@@ -18,23 +17,20 @@ class DataDescripion
 	DescItem Fields[MAX_DESC_COUNT];
 
 public:
- 
- DataDescripion ();
- ~DataDescripion ();
- 
- void AddField (FieldType Type, const char* Name);
- 
- const char* GetFieldName (uint32_t Index);
- FieldType GetFieldType (uint32_t Index);
- int GetFieldCount ();
 
- void Clear ();
+	DataDescripion();
+	~DataDescripion();
 
- virtual void CreateFields () = 0;
+	void AddField(FieldType Type, const char* Name);
+
+	const char* GetFieldName(uint32_t Index);
+	FieldType GetFieldType(uint32_t Index);
+	int GetFieldCount();
+
+	void Clear();
+
+	virtual void CreateFields() = 0;
 };
-
-
-
 
 
 #define BEGIN_DATA_DESC(Name)													\
@@ -43,8 +39,7 @@ class DataDescripion__##Name : public DataDescripion  \
 public:																								\
 	virtual void CreateFields ()												\
 	{																										\
-		Clear ();																					\
-
+		Clear ();
 
 
 #define END_DATA_DESC(Name)														\
@@ -54,9 +49,7 @@ public:																								\
 		CreateFields ();																	\
 	}																										\
 };																										\
-DataDescripion__##Name  Name;													\
-
-
+DataDescripion__##Name  Name;
 
 
 #define DATA_COLOR(name)			AddField(FIELD_COLOR, name);

@@ -10,52 +10,57 @@ public:
 	CXI_BUTTON();
 	~CXI_BUTTON();
 
-	void	Draw(bool bSelected,uint32_t Delta_Time);
-	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
-	void	ReleaseAll();
-	int		CommandExecute(int wActCode);
-	bool	IsClick(int buttonID,long xPos,long yPos);
-	void	MouseThis(float fX, float fY) {}
-	void	ChangePosition( XYRECT &rNewPos );
-	void	SaveParametersToIni();
-	void	NotUsingTime(uint32_t Delta_Time) {nPressedDelay=0;}
-	void	SetUsing(bool bUsing);
-	uint32_t MessageProc(long msgcode, MESSAGE & message);
+	void Draw(bool bSelected, uint32_t Delta_Time) override;
+	bool Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+	          XYPOINT& ScreenSize) override;
+	void ReleaseAll() override;
+	int CommandExecute(int wActCode) override;
+	bool IsClick(int buttonID, long xPos, long yPos) override;
+
+	void MouseThis(float fX, float fY) override
+	{
+	}
+
+	void ChangePosition(XYRECT& rNewPos) override;
+	void SaveParametersToIni() override;
+	void NotUsingTime(uint32_t Delta_Time) { nPressedDelay = 0; }
+	void SetUsing(bool bUsing) override;
+	uint32_t MessageProc(long msgcode, MESSAGE& message) override;
 
 protected:
-	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
+	void LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2) override;
 
 protected:
-	char    *m_sGroupName;
-	long	m_idTex; // texture identity
-	CVideoTexture *m_pTex;
+	char* m_sGroupName;
+	long m_idTex; // texture identity
+	CVideoTexture* m_pTex;
 
 	FXYRECT m_tRect;
 
-	uint32_t	m_argbDisableColor;
-	uint32_t   m_dwShadowColor;
-	uint32_t   m_dwFaceColor;
-	uint32_t	m_dwFontColor;
-	uint32_t   m_dwLightColor;
-	uint32_t   m_dwDarkColor;
-	float	m_fBlindSpeed;
-	float	m_fCurBlind;
-	bool	m_bUpBlind;
+	uint32_t m_argbDisableColor;
+	uint32_t m_dwShadowColor;
+	uint32_t m_dwFaceColor;
+	uint32_t m_dwFontColor;
+	uint32_t m_dwLightColor;
+	uint32_t m_dwDarkColor;
+	float m_fBlindSpeed;
+	float m_fCurBlind;
+	bool m_bUpBlind;
 
-	float   fXShadow;
-	float   fYShadow;
-	float   fXShadowPress;
-	float   fYShadowPress;
+	float fXShadow;
+	float fYShadow;
+	float fXShadowPress;
+	float fYShadowPress;
 
-	float   fXDeltaPress;
-	float   fYDeltaPress;
+	float fXDeltaPress;
+	float fYDeltaPress;
 
-	int		nPressedDelay;
-	int     nMaxDelay;
+	int nPressedDelay;
+	int nMaxDelay;
 
-	int		m_nFontNum;
-	long	m_idString;
-	int		m_dwStrOffset;
+	int m_nFontNum;
+	long m_idString;
+	int m_dwStrOffset;
 };
 
 #endif

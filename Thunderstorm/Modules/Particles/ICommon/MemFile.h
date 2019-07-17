@@ -22,7 +22,7 @@ class MemFile
 
 public:
 
-	MemFile::MemFile ()
+	MemFile::MemFile()
 	{
 		DataIsMy = false;
 		Data = nullptr;
@@ -31,14 +31,14 @@ public:
 		BiggestWritePos = 0;
 	}
 
-	MemFile::~MemFile ()
+	MemFile::~MemFile()
 	{
-		Close ();
+		Close();
 	}
 
-	inline bool Compare (MemFile* pMemfile)
+	bool Compare(MemFile* pMemfile)
 	{
-		if (GetLength () != pMemfile->GetLength()) return false;
+		if (GetLength() != pMemfile->GetLength()) return false;
 
 		for (uint32_t i = 0; i < GetLength(); i++)
 		{
@@ -51,7 +51,7 @@ public:
 		return true;
 	}
 
-	inline void OpenRead (void* Data, uint32_t DataSize)
+	void OpenRead(void* Data, uint32_t DataSize)
 	{
 		DataIsMy = false;
 		this->Data = (uint8_t*)Data;
@@ -59,28 +59,28 @@ public:
 		CurPos = 0;
 	}
 
-	inline void OpenWrite (uint32_t MaxSize)
+	void OpenWrite(uint32_t MaxSize)
 	{
 		DataIsMy = true;
 		Data = new uint8_t[MaxSize];
-		memset (Data, 0, MaxSize);
+		memset(Data, 0, MaxSize);
 		MaxLen = MaxSize;
 		CurPos = 0;
 	}
 
 
-	inline uint32_t MemFile::Tell ()
+	uint32_t MemFile::Tell()
 	{
 		return CurPos;
 	}
 
-	inline uint32_t MemFile::GetLength ()
+	uint32_t MemFile::GetLength()
 	{
 		if (DataIsMy) return BiggestWritePos;
 		return MaxLen;
 	}
 
-	inline void MemFile::Seek (int NewPos, uint32_t flags)
+	void MemFile::Seek(int NewPos, uint32_t flags)
 	{
 		switch (flags)
 		{
@@ -88,7 +88,7 @@ public:
 			CurPos = NewPos;
 			break;
 		case VFSEEK_CURRENT:
-			CurPos +=	NewPos;
+			CurPos += NewPos;
 			break;
 		case VFSEEK_END:
 			CurPos = GetLength() + NewPos;
@@ -96,7 +96,7 @@ public:
 		}
 	}
 
-	inline void MemFile::Close ()
+	void MemFile::Close()
 	{
 		if (DataIsMy)
 		{
@@ -106,63 +106,57 @@ public:
 	}
 
 
-	inline uint32_t MemFile::Read (void* Buffer, uint32_t size)
+	uint32_t MemFile::Read(void* Buffer, uint32_t size)
 	{
 		if (!Data) return 0;
-		uint32_t real_size = CurPos+size;
-		if (real_size > MaxLen)	size = size - (real_size - MaxLen);
+		uint32_t real_size = CurPos + size;
+		if (real_size > MaxLen) size = size - (real_size - MaxLen);
 		if (size <= 0) return 0;
-		memcpy (Buffer, (Data + CurPos), size);
-		CurPos+=size;
+		memcpy(Buffer, (Data + CurPos), size);
+		CurPos += size;
 		return size;
 	}
 
-	inline uint32_t MemFile::WriteZeroByte ()
+	uint32_t MemFile::WriteZeroByte()
 	{
 		uint8_t Zero = 0;
-		return Write (&Zero, 1);
+		return Write(&Zero, 1);
 	}
 
 
-	inline uint32_t MemFile::Write (const void* Buffer, uint32_t size)
+	uint32_t MemFile::Write(const void* Buffer, uint32_t size)
 	{
 		if (!DataIsMy) return 0;
 		if (!Data) return 0;
 
-		uint32_t real_size = CurPos+size;
-		if (real_size > MaxLen)	size = size - (real_size - MaxLen);
+		uint32_t real_size = CurPos + size;
+		if (real_size > MaxLen) size = size - (real_size - MaxLen);
 		if (size <= 0) return 0;
 
-		memcpy ((Data + CurPos), Buffer, size);
-		CurPos+=size;
+		memcpy((Data + CurPos), Buffer, size);
+		CurPos += size;
 		if (CurPos > BiggestWritePos) BiggestWritePos = CurPos;
 		return size;
 	}
 
 
 	template <class TYPE>
-	inline uint32_t WriteType(TYPE &Val)
+	uint32_t WriteType(TYPE& Val)
 	{
 		return Write(&Val, sizeof(TYPE));
 	}
 
 	template <class TYPE>
-	inline uint32_t ReadType(TYPE &Val)
+	uint32_t ReadType(TYPE& Val)
 	{
 		return Read(&Val, sizeof(TYPE));
 	}
 
-	inline void* GetBuffer ()
+	void* GetBuffer()
 	{
 		return Data;
 	}
- 
 };
-
-
-
-
-
 
 
 #endif

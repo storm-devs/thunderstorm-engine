@@ -5,43 +5,46 @@
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SEA_CAMERAS)
+
 CREATE_CLASS(FREE_CAMERA)
+
 CREATE_CLASS(SHIP_CAMERA)
+
 CREATE_CLASS(DECK_CAMERA)
 
 SEA_CAMERAS::SEA_CAMERAS()
 {
 	bActive = true;
-//	ShowCursor(false);
+	//	ShowCursor(false);
 }
 
 SEA_CAMERAS::~SEA_CAMERAS()
 {
-//	ShowCursor(true);
+	//	ShowCursor(true);
 }
 
-void SEA_CAMERAS::ProcessMessage(uint32_t iMsg,uint32_t wParam,uint32_t lParam)
+void SEA_CAMERAS::ProcessMessage(uint32_t iMsg, uint32_t wParam, uint32_t lParam)
 {
-/*	//GUARD(SEA_CAMERAS::ProcessMessage(uint32_t,uint32_t,uint32_t))
-	switch(iMsg)
-	{
-		case WM_ACTIVATE: 
+	/*	//GUARD(SEA_CAMERAS::ProcessMessage(uint32_t,uint32_t,uint32_t))
+		switch(iMsg)
 		{
-			WORD wActive = LOWORD(wParam);           
-			bActive = (wActive == WA_CLICKACTIVE || wActive == WA_ACTIVE);
-			for (uint32_t i=0;i<CamerasArray.size();i++) CamerasArray[i]->SetActive(bActive);
+			case WM_ACTIVATE: 
+			{
+				WORD wActive = LOWORD(wParam);           
+				bActive = (wActive == WA_CLICKACTIVE || wActive == WA_ACTIVE);
+				for (uint32_t i=0;i<CamerasArray.size();i++) CamerasArray[i]->SetActive(bActive);
+			}
+			break;
 		}
-		break;
-	}
-	//UNGUARD*/
+		//UNGUARD*/
 }
 
-uint64_t SEA_CAMERAS::ProcessMessage(MESSAGE & message)
+uint64_t SEA_CAMERAS::ProcessMessage(MESSAGE& message)
 {
 	uint32_t i;
 	switch (message.Long())
 	{
-		case AI_CAMERAS_ADD_CAMERA:
+	case AI_CAMERAS_ADD_CAMERA:
 		{
 			entid_t eidCamera = message.EntityID();
 			auto* pCamera = (COMMON_CAMERA*)EntityManager::GetEntityPointer(eidCamera);
@@ -53,31 +56,31 @@ uint64_t SEA_CAMERAS::ProcessMessage(MESSAGE & message)
 			pCamera->SetActive(bActive);
 		}
 		break;
-		case AI_CAMERAS_SET_CAMERA:
+	case AI_CAMERAS_SET_CAMERA:
 		{
 			entid_t eidCamera = message.EntityID();
-			ATTRIBUTES * pACharacter = message.AttributePointer();
+			ATTRIBUTES* pACharacter = message.AttributePointer();
 			auto* pCamera = (COMMON_CAMERA*)EntityManager::GetEntityPointer(eidCamera);
 			//if (CamerasArray.Find(pCamera) == INVALID_ARRAY_INDEX) CamerasArray.Add(pCamera);
 			const auto it = std::find(CamerasArray.begin(), CamerasArray.end(), pCamera);
 			if (it == CamerasArray.end())
 				CamerasArray.push_back(pCamera);
-			for (i=0;i<CamerasArray.size();i++) CamerasArray[i]->SetOn(false);
+			for (i = 0; i < CamerasArray.size(); i++) CamerasArray[i]->SetOn(false);
 			pCamera->SetOn(true);
 			pCamera->SetActive(bActive);
 			pCamera->SetCharacter(pACharacter);
 		}
 		break;
-		case AI_MESSAGE_SEASAVE:
+	case AI_MESSAGE_SEASAVE:
 		{
 			auto* pSL = (CSaveLoad*)message.Pointer();
-			for (i=0; i<CamerasArray.size();i++) CamerasArray[i]->Save(pSL);
+			for (i = 0; i < CamerasArray.size(); i++) CamerasArray[i]->Save(pSL);
 		}
 		break;
-		case AI_MESSAGE_SEALOAD:
+	case AI_MESSAGE_SEALOAD:
 		{
 			auto* pSL = (CSaveLoad*)message.Pointer();
-			for (i=0; i<CamerasArray.size();i++) CamerasArray[i]->Load(pSL);
+			for (i = 0; i < CamerasArray.size(); i++) CamerasArray[i]->Load(pSL);
 		}
 		break;
 	}

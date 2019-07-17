@@ -12,20 +12,25 @@ class VAI_INNEROBJ;
 
 class AITask
 {
-	bool			bActive;
+	bool bActive;
 
 public:
-	AITask() : bActive(false) { dwTaskType = AITASK_NONE; pATaskCharacter = nullptr; vTaskPnt = 0.0f; };
+	AITask() : bActive(false)
+	{
+		dwTaskType = AITASK_NONE;
+		pATaskCharacter = nullptr;
+		vTaskPnt = 0.0f;
+	};
 
-	uint32_t			dwTaskType;
+	uint32_t dwTaskType;
 
-	ATTRIBUTES		* pATaskCharacter;
-	CVECTOR			vTaskPnt;
+	ATTRIBUTES* pATaskCharacter;
+	CVECTOR vTaskPnt;
 
-	void	SetActive(bool _bActive) { bActive = _bActive; };
-	bool	isActive() { return bActive; };
+	void SetActive(bool _bActive) { bActive = _bActive; };
+	bool isActive() { return bActive; };
 
-	void Save(CSaveLoad * pSL)
+	void Save(CSaveLoad* pSL)
 	{
 		pSL->SaveDword(bActive);
 		pSL->SaveDword(dwTaskType);
@@ -33,7 +38,7 @@ public:
 		pSL->SaveVector(vTaskPnt);
 	}
 
-	void Load(CSaveLoad * pSL)
+	void Load(CSaveLoad* pSL)
 	{
 		bActive = pSL->LoadDword() != 0;
 		dwTaskType = pSL->LoadDword();
@@ -45,16 +50,16 @@ public:
 class AIShipTaskController
 {
 private:
-	float			fZapasDistance;
+	float fZapasDistance;
 
-	AITask			Primary,Secondary;
+	AITask Primary, Secondary;
 
-	AITask			* GetTask(uint32_t dwPriority) { return (dwPriority==PRIMARY_TASK) ? &Primary : &Secondary; };
-	VAI_INNEROBJ	* GetCurrentTaskAIObj() { return AIHelper::FindAIInnerObj(GetCurrentTask()->pATaskCharacter); };
-	bool			isCurrentTaskSecondary() { return Secondary.isActive(); };
-	bool			isCurrentTaskPrimary() { return !Secondary.isActive(); };
-	
-	AIShip			* pOurAIShip;	// our AI ship pointer
+	AITask* GetTask(uint32_t dwPriority) { return (dwPriority == PRIMARY_TASK) ? &Primary : &Secondary; };
+	VAI_INNEROBJ* GetCurrentTaskAIObj() { return AIHelper::FindAIInnerObj(GetCurrentTask()->pATaskCharacter); };
+	bool isCurrentTaskSecondary() { return Secondary.isActive(); };
+	bool isCurrentTaskPrimary() { return !Secondary.isActive(); };
+
+	AIShip* pOurAIShip; // our AI ship pointer
 
 	void DoAttackRotate();
 	void DoTask(float fDeltaTime);
@@ -64,27 +69,27 @@ private:
 
 public:
 
-	bool isAttack(ATTRIBUTES * pAOtherCharacter);
+	bool isAttack(ATTRIBUTES* pAOtherCharacter);
 
 	bool Init() { return true; };
 
-	AITask	* GetCurrentTask() { return (Secondary.isActive()) ? &Secondary : &Primary; };
+	AITask* GetCurrentTask() { return (Secondary.isActive()) ? &Secondary : &Primary; };
 
-	void SetNewTask(uint32_t dwPriority, uint32_t dwNewTaskType, CVECTOR & vPnt);
-	void SetNewTask(uint32_t dwPriority, uint32_t dwNewTaskType, ATTRIBUTES * _pATaskCharacter);
+	void SetNewTask(uint32_t dwPriority, uint32_t dwNewTaskType, CVECTOR& vPnt);
+	void SetNewTask(uint32_t dwPriority, uint32_t dwNewTaskType, ATTRIBUTES* _pATaskCharacter);
 
 	// controller execute 
-	void	Execute(float);
+	void Execute(float);
 
 	// set our ship pointer
-	void	SetAIShip(AIShip *pShip) { pOurAIShip = pShip; };
-	AIShip	* GetAIShip() { return pOurAIShip; };
+	void SetAIShip(AIShip* pShip) { pOurAIShip = pShip; };
+	AIShip* GetAIShip() { return pOurAIShip; };
 
-	AIShipTaskController(AIShip *pShip);
+	AIShipTaskController(AIShip* pShip);
 	virtual ~AIShipTaskController();
 
-	void Save(CSaveLoad * pSL);
-	void Load(CSaveLoad * pSL);
+	void Save(CSaveLoad* pSL);
+	void Load(CSaveLoad* pSL);
 };
 
 #endif

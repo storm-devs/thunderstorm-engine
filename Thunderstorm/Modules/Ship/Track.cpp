@@ -3,8 +3,8 @@
 #include "inlines.h"
 #include "EntityManager.h"
 
-VDX9RENDER * ShipTracks::ShipTrack::pRS = nullptr;
-SEA_BASE * ShipTracks::ShipTrack::pSea = nullptr;
+VDX9RENDER* ShipTracks::ShipTrack::pRS = nullptr;
+SEA_BASE* ShipTracks::ShipTrack::pSea = nullptr;
 long ShipTracks::ShipTrack::iRefCount = 0;
 uint32_t ShipTracks::ShipTrack::dwMaxBufferSize1 = 0, ShipTracks::ShipTrack::dwMaxBufferSize2 = 0;
 long ShipTracks::ShipTrack::iVTmpBuffer1 = -1, ShipTracks::ShipTrack::iVTmpBuffer2 = -1;
@@ -12,7 +12,7 @@ long ShipTracks::ShipTrack::iITmpBuffer1 = -1, ShipTracks::ShipTrack::iITmpBuffe
 
 ShipTracks::~ShipTracks()
 {
-	for (const auto &ship : aShips)
+	for (const auto& ship : aShips)
 		delete ship;
 	//aShips.DelAllWithPointers();
 }
@@ -21,40 +21,42 @@ bool ShipTracks::Init()
 {
 	entid_t sea_id;
 
-	ShipTrack::pRS = (VDX9RENDER *)api->CreateService("dx9render");	Assert(ShipTrack::pRS);
+	ShipTrack::pRS = (VDX9RENDER *)api->CreateService("dx9render");
+	Assert(ShipTrack::pRS);
 	if (sea_id = EntityManager::GetEntityId("sea"))
 		ShipTrack::pSea = (SEA_BASE*)EntityManager::GetEntityPointer(sea_id);
 	return true;
 }
 
-void ShipTracks::ResetTrack(SHIP_BASE * pShip)
+void ShipTracks::ResetTrack(SHIP_BASE* pShip)
 {
-	for (long i=0; i<aShips.size(); i++) if (aShips[i]->pShip == pShip)
-	{
-		aShips[i]->Reset();
-		break;
-	}
+	for (long i = 0; i < aShips.size(); i++)
+		if (aShips[i]->pShip == pShip)
+		{
+			aShips[i]->Reset();
+			break;
+		}
 }
 
-void ShipTracks::AddShip(SHIP_BASE * pShip)
+void ShipTracks::AddShip(SHIP_BASE* pShip)
 {
 	auto* pST = new ShipTrack;
-	
+
 	if (pST->Update(pShip))
 		aShips.push_back(pST);
 	else
 		delete pST;
 }
 
-void ShipTracks::DelShip(SHIP_BASE * pShip)
+void ShipTracks::DelShip(SHIP_BASE* pShip)
 {
-	for (long i=0; i<aShips.size(); i++) 
+	for (long i = 0; i < aShips.size(); i++)
 		if (aShips[i]->pShip == pShip)
-	{
-		STORM_DELETE(aShips[i]);
-		aShips.erase(aShips.begin() + i);
-		break;
-	}
+		{
+			STORM_DELETE(aShips[i]);
+			aShips.erase(aShips.begin() + i);
+			break;
+		}
 }
 
 void ShipTracks::Execute(uint32_t dwDeltaTime)
@@ -63,7 +65,7 @@ void ShipTracks::Execute(uint32_t dwDeltaTime)
 
 void ShipTracks::Realize(uint32_t dwDeltaTime)
 {
-	for (long i=0; i<aShips.size(); i++)
+	for (long i = 0; i < aShips.size(); i++)
 	{
 		aShips[i]->Execute(float(dwDeltaTime) * 0.001f);
 		aShips[i]->Realize(float(dwDeltaTime) * 0.001f);
@@ -85,26 +87,33 @@ ShipTracks::ShipTrack::~ShipTrack()
 	{
 		iRefCount = 0;
 
-		pRS->ReleaseVertexBuffer(iVTmpBuffer1); iVTmpBuffer1 = -1;
-		pRS->ReleaseVertexBuffer(iVTmpBuffer2); iVTmpBuffer2 = -1;
+		pRS->ReleaseVertexBuffer(iVTmpBuffer1);
+		iVTmpBuffer1 = -1;
+		pRS->ReleaseVertexBuffer(iVTmpBuffer2);
+		iVTmpBuffer2 = -1;
 
-		pRS->ReleaseIndexBuffer(iITmpBuffer1);	iITmpBuffer1 = -1;
-		pRS->ReleaseIndexBuffer(iITmpBuffer2);	iITmpBuffer2 = -1;
+		pRS->ReleaseIndexBuffer(iITmpBuffer1);
+		iITmpBuffer1 = -1;
+		pRS->ReleaseIndexBuffer(iITmpBuffer2);
+		iITmpBuffer2 = -1;
 
 		dwMaxBufferSize1 = 0;
 		dwMaxBufferSize2 = 0;
 	}
 
-	pRS->TextureRelease(iTrackTexture1); iTrackTexture1 = -1;
-	pRS->TextureRelease(iTrackTexture2); iTrackTexture2 = -1;
+	pRS->TextureRelease(iTrackTexture1);
+	iTrackTexture1 = -1;
+	pRS->TextureRelease(iTrackTexture2);
+	iTrackTexture2 = -1;
 }
 
-bool ShipTracks::ShipTrack::Update(SHIP_BASE * pShip)
+bool ShipTracks::ShipTrack::Update(SHIP_BASE* pShip)
 {
-	ATTRIBUTES * pAChar = pShip->GetACharacter(); Assert(pAChar);
-	ATTRIBUTES * pATrack = pAChar->FindAClass(pAChar, "Ship.Track");
-	ATTRIBUTES * pATrack1 = pAChar->FindAClass(pAChar, "Ship.Track1");
-	ATTRIBUTES * pATrack2 = pAChar->FindAClass(pAChar, "Ship.Track2");
+	ATTRIBUTES* pAChar = pShip->GetACharacter();
+	Assert(pAChar);
+	ATTRIBUTES* pATrack = pAChar->FindAClass(pAChar, "Ship.Track");
+	ATTRIBUTES* pATrack1 = pAChar->FindAClass(pAChar, "Ship.Track1");
+	ATTRIBUTES* pATrack2 = pAChar->FindAClass(pAChar, "Ship.Track2");
 
 	if (!pATrack || !pATrack1 || !pATrack2) return false;
 	if (!pATrack->GetAttributeAsDword("Enable", 0)) return false;
@@ -130,10 +139,12 @@ bool ShipTracks::ShipTrack::Update(SHIP_BASE * pShip)
 	dwTrackStep1 = long(fTrackStep1);
 	dwTrackStep2 = long(fTrackStep2);
 
-	pRS->TextureRelease(iTrackTexture1); iTrackTexture1 = -1;
-	pRS->TextureRelease(iTrackTexture2); iTrackTexture2 = -1;
+	pRS->TextureRelease(iTrackTexture1);
+	iTrackTexture1 = -1;
+	pRS->TextureRelease(iTrackTexture2);
+	iTrackTexture2 = -1;
 
-	this->pShip = pShip; 
+	this->pShip = pShip;
 	this->fTrackDistance = fTrackDistance; //~!~
 
 	if (this->pShip)
@@ -160,23 +171,30 @@ bool ShipTracks::ShipTrack::Reserve1(uint32_t dwSize)
 
 	dwMaxBufferSize1 = dwNewSize;
 
-	pRS->ReleaseVertexBuffer(iVTmpBuffer1); iVTmpBuffer1 = -1;
-	pRS->ReleaseIndexBuffer(iITmpBuffer1);	iITmpBuffer1 = -1;
+	pRS->ReleaseVertexBuffer(iVTmpBuffer1);
+	iVTmpBuffer1 = -1;
+	pRS->ReleaseIndexBuffer(iITmpBuffer1);
+	iITmpBuffer1 = -1;
 
-	iVTmpBuffer1 = pRS->CreateVertexBuffer(D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1, dwMaxBufferSize1 * dwTrackStep1 * sizeof(TrackVertex), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
-	iITmpBuffer1 = pRS->CreateIndexBuffer(dwMaxBufferSize1 * dwTrackStep1 * 6 * sizeof(uint16_t), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
+	iVTmpBuffer1 = pRS->CreateVertexBuffer(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1,
+	                                       dwMaxBufferSize1 * dwTrackStep1 * sizeof(TrackVertex),
+	                                       D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
+	iITmpBuffer1 = pRS->CreateIndexBuffer(dwMaxBufferSize1 * dwTrackStep1 * 6 * sizeof(uint16_t),
+	                                      D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
 
-	if (iVTmpBuffer1==-1 || iITmpBuffer1==-1)
+	if (iVTmpBuffer1 == -1 || iITmpBuffer1 == -1)
 	{
 		dwMaxBufferSize1 = 0;
-		pRS->ReleaseVertexBuffer(iVTmpBuffer1); iVTmpBuffer1 = -1;
-		pRS->ReleaseIndexBuffer(iITmpBuffer1);	iITmpBuffer1 = -1;
+		pRS->ReleaseVertexBuffer(iVTmpBuffer1);
+		iVTmpBuffer1 = -1;
+		pRS->ReleaseIndexBuffer(iITmpBuffer1);
+		iITmpBuffer1 = -1;
 		return false;
 	}
 
 	auto* pI = (uint16_t*)pRS->LockIndexBuffer(iITmpBuffer1);
-	for (uint32_t y=0; y<dwNewSize; y++)
-		for (uint32_t x=0; x<dwTrackStep1 - 1; x++)
+	for (uint32_t y = 0; y < dwNewSize; y++)
+		for (uint32_t x = 0; x < dwTrackStep1 - 1; x++)
 		{
 			*pI++ = uint16_t((y + 0) * dwTrackStep1 + x);
 			*pI++ = uint16_t((y + 1) * dwTrackStep1 + x);
@@ -199,23 +217,29 @@ bool ShipTracks::ShipTrack::Reserve2(uint32_t dwSize)
 
 	dwMaxBufferSize2 = dwNewSize;
 
-	pRS->ReleaseVertexBuffer(iVTmpBuffer2); iVTmpBuffer2 = -1;
-	pRS->ReleaseIndexBuffer(iITmpBuffer2);	iITmpBuffer2 = -1;
+	pRS->ReleaseVertexBuffer(iVTmpBuffer2);
+	iVTmpBuffer2 = -1;
+	pRS->ReleaseIndexBuffer(iITmpBuffer2);
+	iITmpBuffer2 = -1;
 
-	iVTmpBuffer2 = pRS->CreateVertexBuffer(D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1, dwMaxBufferSize2 * dwTrackStep2 * sizeof(TrackVertex), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
+	iVTmpBuffer2 = pRS->CreateVertexBuffer(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1,
+	                                       dwMaxBufferSize2 * dwTrackStep2 * sizeof(TrackVertex),
+	                                       D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
 	iITmpBuffer2 = pRS->CreateIndexBuffer(dwMaxBufferSize2 * dwTrackStep2 * 6 * sizeof(uint16_t), D3DUSAGE_WRITEONLY);
 
 	if (iVTmpBuffer2 == -1 || iITmpBuffer2 == -1)
 	{
 		dwMaxBufferSize2 = 0;
-		pRS->ReleaseVertexBuffer(iVTmpBuffer2); iVTmpBuffer2 = -1;
-		pRS->ReleaseIndexBuffer(iITmpBuffer2);	iITmpBuffer2 = -1;
+		pRS->ReleaseVertexBuffer(iVTmpBuffer2);
+		iVTmpBuffer2 = -1;
+		pRS->ReleaseIndexBuffer(iITmpBuffer2);
+		iITmpBuffer2 = -1;
 		return false;
 	}
 
 	auto* pI = (uint16_t*)pRS->LockIndexBuffer(iITmpBuffer2);
-	for (uint32_t y=0; y<dwNewSize; y++)
-		for (uint32_t x=0; x<dwTrackStep2 - 1; x++)
+	for (uint32_t y = 0; y < dwNewSize; y++)
+		for (uint32_t x = 0; x < dwTrackStep2 - 1; x++)
 		{
 			*pI++ = uint16_t((y + 0) * dwTrackStep2 + x);
 			*pI++ = uint16_t((y + 1) * dwTrackStep2 + x);
@@ -225,9 +249,9 @@ bool ShipTracks::ShipTrack::Reserve2(uint32_t dwSize)
 			*pI++ = uint16_t((y + 1) * dwTrackStep2 + x + 1);
 			*pI++ = uint16_t((y + 0) * dwTrackStep2 + x + 1);
 		}
-		pRS->UnLockIndexBuffer(iITmpBuffer2);
+	pRS->UnLockIndexBuffer(iITmpBuffer2);
 
-		return true;
+	return true;
 }
 
 void ShipTracks::ShipTrack::Execute(float fDeltaTime)
@@ -253,7 +277,8 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 
 	CVECTOR vBoxSize = pShip->GetBoxsize();
 
-	CVECTOR vDist = vCurPos - vLastPos; vDist.y = 0.0;
+	CVECTOR vDist = vCurPos - vLastPos;
+	vDist.y = 0.0;
 	float fCurrentDistance = sqrtf(~vDist);
 	if (fCurrentDistance > 100.0f)
 	{
@@ -266,13 +291,15 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 	if (fCurrentDistance > fTrackDistance)
 	{
 		float fSpeed = Min(1.0f, pShip->GetCurrentSpeed() / 20.0f);
-		for (long i=0; i<long(fCurrentDistance / fTrackDistance); i++)
+		for (long i = 0; i < long(fCurrentDistance / fTrackDistance); i++)
 		{
 			float fDistance = (i + 1) * fTrackDistance;
 
 			// ~!~ optimize?
 			aTrack1.insert(aTrack1.begin(), Track{});
-			CVECTOR vDir = (vCurPos - vLastPos); vDir.y = 0.0f;	vDir = !vDir;
+			CVECTOR vDir = (vCurPos - vLastPos);
+			vDir.y = 0.0f;
+			vDir = !vDir;
 			aTrack1[0].vPos = vLastPos + vDir * (vBoxSize.z * fZStart1 + fDistance);
 			aTrack1[0].fCos = cosf(vCurAng.y);
 			aTrack1[0].fSin = sinf(vCurAng.y);
@@ -298,9 +325,9 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 		vLastAng = vCurAng;
 	}
 
-	for (long i=0; i<aTrack1.size(); i++)
+	for (long i = 0; i < aTrack1.size(); i++)
 	{
-		Track & T = aTrack1[i];
+		Track& T = aTrack1[i];
 
 		T.fTime += fDeltaTime;
 		T.fAlpha = T.fInitialAlpha * Clamp(1.0f - T.fTime / fLifeTime1); //22.0f);
@@ -310,27 +337,27 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 		{
 			aTrack1.erase(aTrack1.begin() + i);
 			i--;
-			continue;
 		}
 	}
 
 	if (Reserve1(aTrack1.size()))
-		if (aTrack1.size() > 1) 
+		if (aTrack1.size() > 1)
 		{
 			auto* pV = (TrackVertex *)pRS->LockVertexBuffer(iVTmpBuffer1, D3DLOCK_DISCARD);
-			for (long i=0; i<aTrack1.size(); i++)
+			for (long i = 0; i < aTrack1.size(); i++)
 			{
-				Track & T = aTrack1[i];
+				Track& T = aTrack1[i];
 				long xxx = 0;
-				for (float xx=0; xx<fTrackStep1; xx++)
+				for (float xx = 0; xx < fTrackStep1; xx++)
 				{
 					float k = xx / (fTrackStep1 - 1.0f);
 					float x = T.fWidth * (k - 0.5f);
 					float z = 0.0f;
 					RotateAroundY(x, z, T.fCos, T.fSin);
-					x += T.vPos.x; z += T.vPos.z;
+					x += T.vPos.x;
+					z += T.vPos.z;
 					CVECTOR vPos = CVECTOR(x, fWaveUP * (1.4f - fabsf((k * 2.0f) - 1.0f)) + pSea->WaveXZ(x, z), z);
-					pV[i * dwTrackStep1 + xxx].vPos = vPos-vCurPos;
+					pV[i * dwTrackStep1 + xxx].vPos = vPos - vCurPos;
 					pV[i * dwTrackStep1 + xxx].tu = xx / (fTrackStep1 - 1.0f);
 					pV[i * dwTrackStep1 + xxx].tv = T.fTV;
 					pV[i * dwTrackStep1 + xxx].dwColor = ARGB(T.fAlpha * 255.0f, 0, 0, 0);
@@ -340,9 +367,9 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 			pRS->UnLockVertexBuffer(iVTmpBuffer1);
 		}
 
-	for (long i=0; i<aTrack2.size(); i++)
+	for (long i = 0; i < aTrack2.size(); i++)
 	{
-		Track & T = aTrack2[i];
+		Track& T = aTrack2[i];
 
 		T.fTime += fDeltaTime;
 		T.fAlpha = T.fInitialAlpha * Clamp(1.0f - T.fTime / fLifeTime2); // 10.0f);
@@ -352,7 +379,6 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 		{
 			aTrack2.erase(aTrack2.begin() + i);
 			i--;
-			continue;
 		}
 	}
 
@@ -360,19 +386,20 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 		if (aTrack2.size() > 1)
 		{
 			auto* pV = (TrackVertex *)pRS->LockVertexBuffer(iVTmpBuffer2, D3DLOCK_DISCARD);
-			for (long i=0; i<aTrack2.size(); i++)
+			for (long i = 0; i < aTrack2.size(); i++)
 			{
-				Track & T = aTrack2[i];
+				Track& T = aTrack2[i];
 				long xxx = 0;
-				for (float xx=0; xx<fTrackStep2; xx++)
+				for (float xx = 0; xx < fTrackStep2; xx++)
 				{
 					float k = xx / (fTrackStep2 - 1.0f);
 					float x = T.fWidth * (k - 0.5f);
 					float z = 0.0f;
 					RotateAroundY(x, z, T.fCos, T.fSin);
-					x += T.vPos.x; z += T.vPos.z;
+					x += T.vPos.x;
+					z += T.vPos.z;
 					CVECTOR vPos = CVECTOR(x, fWaveUP + pSea->WaveXZ(x, z), z);
-					pV[i * dwTrackStep2 + xxx].vPos = vPos-vCurPos;
+					pV[i * dwTrackStep2 + xxx].vPos = vPos - vCurPos;
 					pV[i * dwTrackStep2 + xxx].tu = float(xx) / (fTrackStep2 - 1.0f);
 					pV[i * dwTrackStep2 + xxx].tv = T.fTV * 6.0f;
 					pV[i * dwTrackStep2 + xxx].dwColor = ARGB(T.fAlpha * 255.0f, 0, 0, 0);
@@ -391,11 +418,11 @@ void ShipTracks::ShipTrack::Reset()
 	aTrack2.clear();
 }
 
-uint32_t ShipTracks::AttributeChanged(ATTRIBUTES * pA)
+uint32_t ShipTracks::AttributeChanged(ATTRIBUTES* pA)
 {
 	if (*pA == "ResetTracks")
 	{
-		for (long i=0; i<aShips.size(); i++) { aShips[i]->Reset();	}
+		for (long i = 0; i < aShips.size(); i++) { aShips[i]->Reset(); }
 	}
 	return 0;
 }
@@ -409,18 +436,17 @@ void ShipTracks::ShipTrack::Realize(float fDeltaTime)
 	m.Pos() = pShip->GetPos();
 	pRS->SetTransform(D3DTS_WORLD, m);
 
-	if (aTrack1.size() > 1) 
+	if (aTrack1.size() > 1)
 	{
 		pRS->TextureSet(0, iTrackTexture1);
-		pRS->DrawBuffer(iVTmpBuffer1, sizeof(TrackVertex), iITmpBuffer1, 0, aTrack1.size() * dwTrackStep1, 0, (dwTrackStep1 - 1) * (aTrack1.size() - 1) * 2, "ShipTrack");
+		pRS->DrawBuffer(iVTmpBuffer1, sizeof(TrackVertex), iITmpBuffer1, 0, aTrack1.size() * dwTrackStep1, 0,
+		                (dwTrackStep1 - 1) * (aTrack1.size() - 1) * 2, "ShipTrack");
 	}
 
 	if (aTrack2.size() > 1)
 	{
 		pRS->TextureSet(0, iTrackTexture2);
-		pRS->DrawBuffer(iVTmpBuffer2, sizeof(TrackVertex), iITmpBuffer2, 0, aTrack2.size() * dwTrackStep2, 0, (dwTrackStep2 - 1) * (aTrack2.size() - 1) * 2, "ShipTrack");
+		pRS->DrawBuffer(iVTmpBuffer2, sizeof(TrackVertex), iITmpBuffer2, 0, aTrack2.size() * dwTrackStep2, 0,
+		                (dwTrackStep2 - 1) * (aTrack2.size() - 1) * 2, "ShipTrack");
 	}
 }
-
-
-

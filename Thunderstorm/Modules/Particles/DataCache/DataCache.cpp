@@ -5,18 +5,18 @@
 bool ReadingAlreadyComplete;
 
 //Конструктор/деструктор
-DataCache::DataCache (IParticleManager* pManager)
+DataCache::DataCache(IParticleManager* pManager)
 {
 	Master = pManager;
 }
 
-DataCache::~DataCache ()
+DataCache::~DataCache()
 {
-	ResetCache ();
+	ResetCache();
 }
 
 //Положить в кэш данные для системы
-void DataCache::CacheSystem (const char* FileName)
+void DataCache::CacheSystem(const char* FileName)
 {
 	//NameWithExt.AddExtention(".xps");
 	//NameWithExt.Lower();
@@ -29,7 +29,7 @@ void DataCache::CacheSystem (const char* FileName)
 	if (_stricmp(pathStr.c_str(), ".xps") != 0)
 		path += ".xps";
 	pathStr = path.string();
-	std::transform(pathStr.begin(), pathStr.end(), pathStr.begin(), ::tolower);
+	std::transform(pathStr.begin(), pathStr.end(), pathStr.begin(), tolower);
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 
 	HANDLE pSysFile = fio->_CreateFile(pathStr.c_str());
@@ -46,7 +46,7 @@ void DataCache::CacheSystem (const char* FileName)
 	fio->_ReadFile(pSysFile, pMemBuffer, FileSize, nullptr);
 
 	//Создаем данные из файла...
-	CreateDataSource (pMemBuffer, FileSize, pathStr.c_str());
+	CreateDataSource(pMemBuffer, FileSize, pathStr.c_str());
 
 
 	delete[] pMemBuffer;
@@ -55,7 +55,7 @@ void DataCache::CacheSystem (const char* FileName)
 }
 
 //Сбросить кэш
-void DataCache::ResetCache ()
+void DataCache::ResetCache()
 {
 	for (int n = 0; n < Cache.size(); n++)
 	{
@@ -66,7 +66,7 @@ void DataCache::ResetCache ()
 }
 
 //Получить указатель на данные для системы партиклов
-DataSource* DataCache::GetParticleSystemDataSource (const char* FileName)
+DataSource* DataCache::GetParticleSystemDataSource(const char* FileName)
 {
 	//std::string NameWithExt = FileName;
 	//NameWithExt.AddExtention(".xps");
@@ -76,7 +76,7 @@ DataSource* DataCache::GetParticleSystemDataSource (const char* FileName)
 	if (_stricmp(pathStr.c_str(), ".xps") != 0)
 		path += ".xps";
 	pathStr = path.string();
-	std::transform(pathStr.begin(), pathStr.end(), pathStr.begin(), ::tolower);
+	std::transform(pathStr.begin(), pathStr.end(), pathStr.begin(), tolower);
 
 	for (int n = 0; n < Cache.size(); n++)
 	{
@@ -87,7 +87,7 @@ DataSource* DataCache::GetParticleSystemDataSource (const char* FileName)
 }
 
 //Проверить указатель на валидность
-bool DataCache::ValidatePointer (DataSource* pData)
+bool DataCache::ValidatePointer(DataSource* pData)
 {
 	for (int n = 0; n < Cache.size(); n++)
 		if (Cache[n].pData == pData) //fix
@@ -97,15 +97,14 @@ bool DataCache::ValidatePointer (DataSource* pData)
 }
 
 
-
-void DataCache::CreateDataSource (void* pBuffer, uint32_t BufferSize, const char* SourceFileName)
+void DataCache::CreateDataSource(void* pBuffer, uint32_t BufferSize, const char* SourceFileName)
 {
 	LoadedDataSource NewDataSource;
 	NewDataSource.FileName = SourceFileName;
 	NewDataSource.pData = new DataSource(Master);
 	Cache.push_back(NewDataSource);
 
-  //api->Trace("\nCreate data source for file %s", SourceFileName);
+	//api->Trace("\nCreate data source for file %s", SourceFileName);
 
 	auto* ReadFile = new MemFile;
 	ReadFile->OpenRead(pBuffer, BufferSize);
@@ -114,12 +113,12 @@ void DataCache::CreateDataSource (void* pBuffer, uint32_t BufferSize, const char
 	delete ReadFile;
 }
 
-uint32_t DataCache::GetCachedCount ()
+uint32_t DataCache::GetCachedCount()
 {
 	return Cache.size();
 }
 
-const char* DataCache::GetCachedNameByIndex (uint32_t Index)
+const char* DataCache::GetCachedNameByIndex(uint32_t Index)
 {
 	return Cache[Index].FileName.c_str();
 }

@@ -32,52 +32,58 @@ COMMANDDESCR pCommandsList[COMMAND_QUANTITY] =
 int FindCommand(const char* comName)
 {
 	int i;
-	for(i=0; i<COMMAND_QUANTITY; i++)
-		if( !_stricmp(comName,pCommandsList[i].sName) ) break;
-	if(i==COMMAND_QUANTITY) return -1;
-	else return i;
+	for (i = 0; i < COMMAND_QUANTITY; i++)
+		if (!_stricmp(comName, pCommandsList[i].sName)) break;
+	if (i == COMMAND_QUANTITY) return -1;
+	return i;
 }
 
 int FindCommand(int comID)
 {
 	int i;
-	for(i=0; i<COMMAND_QUANTITY; i++)
-		if( pCommandsList[i].code==comID ) break;
-	if(i==COMMAND_QUANTITY) return -1;
-	else return i;
+	for (i = 0; i < COMMAND_QUANTITY; i++)
+		if (pCommandsList[i].code == comID) break;
+	if (i == COMMAND_QUANTITY) return -1;
+	return i;
 }
 
-uint32_t ColorInterpolate(uint32_t sCol,uint32_t dCol,float m)
+uint32_t ColorInterpolate(uint32_t sCol, uint32_t dCol, float m)
 {
-	int a,r,g,b;
-	a=ALPHA(sCol); r=RED(sCol); g=GREEN(sCol); b=GREEN(sCol);
-	int ad,rd,gd,bd;
-	ad=ALPHA(dCol);  rd=RED(dCol); gd=GREEN(dCol); bd=BLUE(dCol);
+	int a, r, g, b;
+	a = ALPHA(sCol);
+	r = RED(sCol);
+	g = GREEN(sCol);
+	b = GREEN(sCol);
+	int ad, rd, gd, bd;
+	ad = ALPHA(dCol);
+	rd = RED(dCol);
+	gd = GREEN(dCol);
+	bd = BLUE(dCol);
 
-	a += int((ad-a)*m);
-	r += int((rd-r)*m);
-	g += int((gd-g)*m);
-	b += int((bd-b)*m);
-/*	a = a>ad ? int(a-(a-ad)*m) : int(ad-(ad-a)*m);
-	r = r>rd ? int(r-(r-rd)*m) : int(rd-(rd-r)*m);
-	g = g>gd ? int(g-(g-gd)*m) : int(gd-(gd-g)*m);
-	b = b>bd ? int(b-(b-bd)*m) : int(bd-(bd-b)*m);*/
-	return ARGB(a,r,g,b);
+	a += int((ad - a) * m);
+	r += int((rd - r) * m);
+	g += int((gd - g) * m);
+	b += int((bd - b) * m);
+	/*	a = a>ad ? int(a-(a-ad)*m) : int(ad-(ad-a)*m);
+		r = r>rd ? int(r-(r-rd)*m) : int(rd-(rd-r)*m);
+		g = g>gd ? int(g-(g-gd)*m) : int(gd-(gd-g)*m);
+		b = b>bd ? int(b-(b-bd)*m) : int(bd-(bd-b)*m);*/
+	return ARGB(a, r, g, b);
 }
 
-void DublicateString( char* &pDstStr, const char* pSrcStr )
+void DublicateString(char* & pDstStr, const char* pSrcStr)
 {
-    if (!pSrcStr || pSrcStr[0] == 0)  // boal fix
+	if (!pSrcStr || pSrcStr[0] == 0) // boal fix
 	{
 		pDstStr = nullptr;
 	}
 	else
 	{
 		delete pDstStr;
-		const auto len = strlen(pSrcStr)+1;
-	    pDstStr = new char[len];
+		const auto len = strlen(pSrcStr) + 1;
+		pDstStr = new char[len];
 		Assert(pDstStr);
-		memcpy(pDstStr,pSrcStr,len);
+		memcpy(pDstStr, pSrcStr, len);
 	}
 	/*
 	if( pSrcStr )

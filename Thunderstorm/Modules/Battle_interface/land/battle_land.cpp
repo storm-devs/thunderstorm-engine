@@ -16,8 +16,9 @@ BATTLE_LAND_INTERFACE::~BATTLE_LAND_INTERFACE()
 
 bool BATTLE_LAND_INTERFACE::Init()
 {
-	m_pRS=(VDX9RENDER *)api->CreateService("dx9render");
-	if( !m_pRS ) {
+	m_pRS = (VDX9RENDER *)api->CreateService("dx9render");
+	if (!m_pRS)
+	{
 		throw std::exception("Can`t create render service");
 	}
 
@@ -29,14 +30,14 @@ void BATTLE_LAND_INTERFACE::Execute(uint32_t delta_time)
 {
 	CONTROL_STATE cs;
 
-	if( m_bShowCommandos && m_pManSign )
+	if (m_bShowCommandos && m_pManSign)
 	{
-		if( !m_pManSign->IsActive() )
+		if (!m_pManSign->IsActive())
 		{
-			api->Controls->GetControlState(BI_COMMANDS_ACTIVATE_LAND,cs);
-			if( cs.state == CST_ACTIVATED )
+			api->Controls->GetControlState(BI_COMMANDS_ACTIVATE_LAND, cs);
+			if (cs.state == CST_ACTIVATED)
 			{
-				m_pManSign->SetActive( true );
+				m_pManSign->SetActive(true);
 			}
 		}
 		else
@@ -48,69 +49,72 @@ void BATTLE_LAND_INTERFACE::Execute(uint32_t delta_time)
 
 void BATTLE_LAND_INTERFACE::Realize(uint32_t delta_time)
 {
-	if( m_bShowCommandos ) {
+	if (m_bShowCommandos)
+	{
 		m_pRS->MakePostProcess();
-		if( m_pManSign )
+		if (m_pManSign)
 			m_pManSign->Draw();
 
 		m_Images.Draw();
-		BIUtils::PrintTextInfoArray( m_TextInfo );
+		BIUtils::PrintTextInfoArray(m_TextInfo);
 	}
 }
 
-uint64_t BATTLE_LAND_INTERFACE::ProcessMessage(MESSAGE & message)
+uint64_t BATTLE_LAND_INTERFACE::ProcessMessage(MESSAGE& message)
 {
 	switch (message.Long())
 	{
 	case MSG_BATTLE_LAND_START:
-		if( m_pManSign ) m_pManSign->SetUpdate();
-	break;
+		if (m_pManSign) m_pManSign->SetUpdate();
+		break;
 
 	case MSG_BATTLE_LAND_END:
 		EndShow();
-	break;
+		break;
 
 	case BI_IN_SET_COMMAND_MODE:
-		if(m_bShowCommandos && m_pManSign)
+		if (m_bShowCommandos && m_pManSign)
 		{
 			long comMode = message.Long();
 			long startTextureNumber = message.Long();
 			long startPictureNumber = message.Long();
 			long characterNum = message.Long();
 		}
-	break;
+		break;
 
 	case MSG_BATTLE_LAND_SET_SHOW:
-		m_bShowCommandos = (message.Long()!=0);
-	break;
+		m_bShowCommandos = (message.Long() != 0);
+		break;
 
 	case MSG_BATTLE_LAND_SET_MSGICONS:
 		EnableMessageIcons(message.ScriptVariablePointer());
-	break;
+		break;
 
 	case BI_MSG_ADD_NEWTEXTURE:
 		{
-			char param[256];	message.String(sizeof(param)-1,param);
+			char param[256];
+			message.String(sizeof(param) - 1, param);
 			int hQ = message.Long();
 			int vQ = message.Long();
-			if(m_pManSign) return m_pManSign->AddTexture( param, hQ, vQ );
+			if (m_pManSign) return m_pManSign->AddTexture(param, hQ, vQ);
 			return -1;
 		}
-	break;
+		break;
 
 	case MSG_BATTLE_LAND_MAKE_COMMAND:
 		{
 			char param[256];
-			message.String( sizeof(param)-1, param );
-			if( _stricmp(param,"cancel")==0 ) {
-				if( m_pManSign ) m_pManSign->ExecuteCommand( BI_MSG_COMMAND_DEACTIVATE );
+			message.String(sizeof(param) - 1, param);
+			if (_stricmp(param, "cancel") == 0)
+			{
+				if (m_pManSign) m_pManSign->ExecuteCommand(BI_MSG_COMMAND_DEACTIVATE);
 			}
 		}
-	break;
+		break;
 
 	case BI_MSG_CARE_COMMANDLIST_UPDATE:
 		m_pManSign->SetUpdate();
-	break;
+		break;
 	}
 	return 0;
 }
@@ -124,7 +128,7 @@ void BATTLE_LAND_INTERFACE::SetParameters()
 void BATTLE_LAND_INTERFACE::Release()
 {
 	m_pRS = nullptr;
-	STORM_DELETE( m_pManSign );
+	STORM_DELETE(m_pManSign);
 
 	m_TextInfo.clear();
 }
@@ -135,30 +139,32 @@ void BATTLE_LAND_INTERFACE::EndShow()
 
 void BATTLE_LAND_INTERFACE::SetShowParameters()
 {
-	ATTRIBUTES * pA = AttributesPointer ? AttributesPointer->GetAttributeClass("Parameters") : nullptr;
-	m_bShowCommandos = 0!=BIUtils::GetLongFromAttr(pA, "DoShowCommandos", true);
+	ATTRIBUTES* pA = AttributesPointer ? AttributesPointer->GetAttributeClass("Parameters") : nullptr;
+	m_bShowCommandos = 0 != BIUtils::GetLongFromAttr(pA, "DoShowCommandos", true);
 
-	m_pManSign = new BIManSign( GetId(), m_pRS );
+	m_pManSign = new BIManSign(GetId(), m_pRS);
 	Assert(m_pManSign);
-	m_pManSign->Init( AttributesPointer, (AttributesPointer?AttributesPointer->GetAttributeClass("ManSign"):nullptr) );
+	m_pManSign->Init(AttributesPointer,
+	                 (AttributesPointer ? AttributesPointer->GetAttributeClass("ManSign") : nullptr));
 
-	BIUtils::FillTextInfoArray( m_pRS, AttributesPointer?AttributesPointer->GetAttributeClass("textinfo"):nullptr, m_TextInfo );
+	BIUtils::FillTextInfoArray(m_pRS, AttributesPointer ? AttributesPointer->GetAttributeClass("textinfo") : nullptr,
+	                           m_TextInfo);
 
-	m_Images.Init( m_pRS, AttributesPointer?AttributesPointer->GetAttributeClass("imageslist"):nullptr );
+	m_Images.Init(m_pRS, AttributesPointer ? AttributesPointer->GetAttributeClass("imageslist") : nullptr);
 }
 
 void BATTLE_LAND_INTERFACE::UpdateCommandos()
 {
-	ATTRIBUTES * pA = AttributesPointer ? AttributesPointer->GetAttributeClass("data") : nullptr;
-	if( pA ) pA = pA->GetAttributeClass("icons");
-	if( !pA ) return;
+	ATTRIBUTES* pA = AttributesPointer ? AttributesPointer->GetAttributeClass("data") : nullptr;
+	if (pA) pA = pA->GetAttributeClass("icons");
+	if (!pA) return;
 }
 
 void BATTLE_LAND_INTERFACE::UpdateAlarm()
 {
 }
 
-void BATTLE_LAND_INTERFACE::EnableMessageIcons(VDATA * pvdat)
+void BATTLE_LAND_INTERFACE::EnableMessageIcons(VDATA* pvdat)
 {
 }
 

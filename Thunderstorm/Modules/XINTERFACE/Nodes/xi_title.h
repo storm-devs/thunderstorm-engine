@@ -8,38 +8,43 @@ class CXI_TITLE : public CINODE
 public:
 	CXI_TITLE();
 	~CXI_TITLE();
-	void	Draw(bool bSelected,uint32_t Delta_Time);
-	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
-	void	ReleaseAll();
-	int		CommandExecute(int wActCode);
-	bool	IsClick(int buttonID,long xPos,long yPos);
-	void	MouseThis(float fX, float fY) {}
-	void	ChangePosition( XYRECT &rNewPos );
-	void	SaveParametersToIni();
+	void Draw(bool bSelected, uint32_t Delta_Time) override;
+	bool Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+	          XYPOINT& ScreenSize) override;
+	void ReleaseAll() override;
+	int CommandExecute(int wActCode) override;
+	bool IsClick(int buttonID, long xPos, long yPos) override;
+
+	void MouseThis(float fX, float fY) override
+	{
+	}
+
+	void ChangePosition(XYRECT& rNewPos) override;
+	void SaveParametersToIni() override;
 
 protected:
-	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
-	void	FillVertexBuffer();
+	void LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2) override;
+	void FillVertexBuffer();
 
 protected:
-	char    *m_sGroupName;
-	long	m_idTex; // texture identity
+	char* m_sGroupName;
+	long m_idTex; // texture identity
 
-	long	m_idString;
+	long m_idString;
 	XYPOINT m_StringCenter;
-	uint32_t	m_fontColor;
-	uint32_t	m_backColor;
-	float	m_fontScale;
-	long    m_fontID;
+	uint32_t m_fontColor;
+	uint32_t m_backColor;
+	float m_fontScale;
+	long m_fontID;
 
-	long	m_idVBuf;		// vertex buffer identificator
-	long	m_idIBuf;		// index buffer identificator
-	long	m_nVert;		// vertex quantity
-	long	m_nIndx;		// index quantity
+	long m_idVBuf; // vertex buffer identificator
+	long m_idIBuf; // index buffer identificator
+	long m_nVert; // vertex quantity
+	long m_nIndx; // index quantity
 
-	long	m_nStringWidth;
-	XYRECT  m_mRect, m_tRect;
-	long	m_nTiledQuantity;
+	long m_nStringWidth;
+	XYRECT m_mRect, m_tRect;
+	long m_nTiledQuantity;
 };
 
 #endif

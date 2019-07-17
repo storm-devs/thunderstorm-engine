@@ -13,7 +13,7 @@
 
 #include "WdmRenderObject.h"
 
-class WdmSea : public WdmRenderObject  
+class WdmSea : public WdmRenderObject
 {
 #pragma pack(push, 1)
 
@@ -43,35 +43,35 @@ class WdmSea : public WdmRenderObject
 
 	struct Flare
 	{
-		long index;		//Индекс используемого ректа
-		float time;		//Время жизни от 0 до 1
-		float k;		//Скорость течения времени
-		float phase;	//Фаза, задающая направление вращения
+		long index; //Индекс используемого ректа
+		float time; //Время жизни от 0 до 1
+		float k; //Скорость течения времени
+		float phase; //Фаза, задающая направление вращения
 	};
 
 #pragma pack(pop)
 
-//--------------------------------------------------------------------------------------------
-//Конструирование, деструктурирование
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Конструирование, деструктурирование
+	//--------------------------------------------------------------------------------------------
 public:
 	WdmSea();
 	virtual ~WdmSea();
 
-	void Update(float dltTime);
+	void Update(float dltTime) override;
 
-	virtual void PRender(VDX9RENDER * rs);
-	virtual void LRender(VDX9RENDER * rs);
+	void PRender(VDX9RENDER* rs) override;
+	void LRender(VDX9RENDER* rs) override;
 
 
-//--------------------------------------------------------------------------------------------
-//Инкапсуляция
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Инкапсуляция
+	//--------------------------------------------------------------------------------------------
 private:
 	//Нарисовать
-	void Render(VDX9RENDER * rs, const char * tech = nullptr);
+	void Render(VDX9RENDER* rs, const char* tech = nullptr);
 	//Настроить преобразования текстурных координат
-	void PresetMain(VDX9RENDER * rs);
+	void PresetMain(VDX9RENDER* rs);
 
 private:
 	//Буфера для геометрии
@@ -95,4 +95,3 @@ private:
 };
 
 #endif
-

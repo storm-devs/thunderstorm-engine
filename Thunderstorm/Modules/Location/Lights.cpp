@@ -24,19 +24,23 @@ Lights::Lights()
 	maxTypes = 0;
 	numLights = 0;
 	maxLights = 0;
-	for(long i = 0; i < 8; i++) {lt[i].light = -1; lt[i].set = false;}
+	for (long i = 0; i < 8; i++)
+	{
+		lt[i].light = -1;
+		lt[i].set = false;
+	}
 	numLampModels = 0;
 }
 
 Lights::~Lights()
 {
 	aMovingLight.clear();
-	for(long i = 0; i < numTypes; i++)
+	for (long i = 0; i < numTypes; i++)
 	{
-		if(types[i].corona >= 0 && rs) rs->TextureRelease(types[i].corona);
+		if (types[i].corona >= 0 && rs) rs->TextureRelease(types[i].corona);
 		delete types[i].name;
 	}
-	if(rs) for(long i = 1; i < 8; i++) rs->LightEnable(i, false);
+	if (rs) for (long i = 1; i < 8; i++) rs->LightEnable(i, false);
 }
 
 //Инициализация
@@ -44,33 +48,33 @@ bool Lights::Init()
 {
 	//DX9 render
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!rs) throw std::exception("No service: dx9render");
+	if (!rs) throw std::exception("No service: dx9render");
 	collide = (COLLIDE *)api->CreateService("COLL");
 	//Зачитаем параметры
-	INIFILE * ini = fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
-	if(!ini)
+	INIFILE* ini = fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
+	if (!ini)
 	{
 		api->Trace("Location lights not inited -> RESOURCES\\Ini\\lights.ini not found");
 		return false;
 	}
 	char lName[256];
 	bool res = ini->GetSectionName(lName, sizeof(lName) - 1);
-	while(res)
+	while (res)
 	{
 		lName[sizeof(lName) - 1] = 0;
 		long i;
-		for(i = 0; i < numTypes; i++)
+		for (i = 0; i < numTypes; i++)
 		{
-			if(_stricmp(lName, types[i].name) == 0)
+			if (_stricmp(lName, types[i].name) == 0)
 			{
 				api->Trace("Location lights redefinition light: %s", lName);
 				break;
 			}
 		}
-		if(i == numTypes)
+		if (i == numTypes)
 		{
 			//Добавляем новый источник
-			if(numTypes >= maxTypes)
+			if (numTypes >= maxTypes)
 			{
 				maxTypes += 16;
 				types.resize(maxTypes);
@@ -99,33 +103,33 @@ bool Lights::Init()
 			types[numTypes].corona = -1;
 			types[numTypes].coronaRange = ini->GetFloat(lName, "coronaRange", 20.0f);
 			types[numTypes].coronaSize = ini->GetFloat(lName, "coronaSize", 1.0f);
-			if(types[numTypes].coronaRange > 0.0f && types[numTypes].coronaSize > 0.0f)
+			if (types[numTypes].coronaRange > 0.0f && types[numTypes].coronaSize > 0.0f)
 			{
-				types[numTypes].invCoronaRange = 1.0f/types[numTypes].coronaRange;
+				types[numTypes].invCoronaRange = 1.0f / types[numTypes].coronaRange;
 				char texture[256];
-				if(ini->ReadString(lName, "corona", texture, sizeof(texture), ""))
+				if (ini->ReadString(lName, "corona", texture, sizeof(texture), ""))
 				{
-					if(texture[0])
+					if (texture[0])
 					{
 						types[numTypes].corona = rs->TextureCreate(texture);
 					}
 				}
 			}
-			types[numTypes].coronaRange2 = types[numTypes].coronaRange*types[numTypes].coronaRange;
-			if(types[numTypes].flicker <= 0.0f) types[numTypes].freq = 0.0f;
-			if(types[numTypes].flicker > 1.0f) types[numTypes].flicker = 1.0f;
-			if(types[numTypes].freq <= 0.0f) types[numTypes].flicker = 0.0f;
-			if(types[numTypes].freq > 0.0f) types[numTypes].p = 1.0f/types[numTypes].freq;
-			if(types[numTypes].flickerSlow <= 0.0f) types[numTypes].freqSlow = 0.0f;
-			if(types[numTypes].flickerSlow > 1.0f) types[numTypes].flickerSlow = 1.0f;
-			if(types[numTypes].freqSlow <= 0.0f) types[numTypes].flickerSlow = 0.0f;
-			if(types[numTypes].freqSlow > 0.0f) types[numTypes].pSlow = 1.0f/types[numTypes].freqSlow;
+			types[numTypes].coronaRange2 = types[numTypes].coronaRange * types[numTypes].coronaRange;
+			if (types[numTypes].flicker <= 0.0f) types[numTypes].freq = 0.0f;
+			if (types[numTypes].flicker > 1.0f) types[numTypes].flicker = 1.0f;
+			if (types[numTypes].freq <= 0.0f) types[numTypes].flicker = 0.0f;
+			if (types[numTypes].freq > 0.0f) types[numTypes].p = 1.0f / types[numTypes].freq;
+			if (types[numTypes].flickerSlow <= 0.0f) types[numTypes].freqSlow = 0.0f;
+			if (types[numTypes].flickerSlow > 1.0f) types[numTypes].flickerSlow = 1.0f;
+			if (types[numTypes].freqSlow <= 0.0f) types[numTypes].flickerSlow = 0.0f;
+			if (types[numTypes].freqSlow > 0.0f) types[numTypes].pSlow = 1.0f / types[numTypes].freqSlow;
 			numTypes++;
 		}
 		res = ini->GetSectionNameNext(lName, sizeof(lName) - 1);
 	}
 	delete ini;
-	if(numTypes == 0)
+	if (numTypes == 0)
 	{
 		api->Trace("Location lights not inited -> 0 light types");
 		return false;
@@ -143,44 +147,44 @@ void Lights::Execute(uint32_t delta_time)
 {
 #ifndef _XBOX
 #ifdef LIGHTS_DEBUG
-	if(api->Controls->GetDebugAsyncKeyState(VK_F11) < 0)
+	if (api->Controls->GetDebugAsyncKeyState(VK_F11) < 0)
 	{
-		for(long i = 0; i < numTypes; i++) UpdateLightTypes(i);
+		for (long i = 0; i < numTypes; i++) UpdateLightTypes(i);
 	}
 #endif
 #endif
-	for(long i = 0; i < numLights; i++)
+	for (long i = 0; i < numLights; i++)
 	{
 		//Смотрим что есть
-		LightType & l = types[lights[i].type];
-		if(l.flicker == 0.0f && l.flickerSlow == 0.0f) continue;
+		LightType& l = types[lights[i].type];
+		if (l.flicker == 0.0f && l.flickerSlow == 0.0f) continue;
 		//Обновляем состояние
-		Light & ls = lights[i];
+		Light& ls = lights[i];
 		//Частые мерцания
-		ls.time += delta_time*0.001f;
-		if(ls.time > l.p)
+		ls.time += delta_time * 0.001f;
+		if (ls.time > l.p)
 		{
 			ls.time -= l.p;
-			ls.itens = (1.0f - rand()*2.0f/RAND_MAX)*l.flicker;
+			ls.itens = (1.0f - rand() * 2.0f / RAND_MAX) * l.flicker;
 		}
 		//Плавные мерцания
-		ls.timeSlow += delta_time*0.001f;
-		float k = ls.timeSlow*l.freqSlow;
-		if(k < 0.0f) k = 0.0f;
-		if(k >= 1.0f)
+		ls.timeSlow += delta_time * 0.001f;
+		float k = ls.timeSlow * l.freqSlow;
+		if (k < 0.0f) k = 0.0f;
+		if (k >= 1.0f)
 		{
 			k = 0.0f;
 			ls.timeSlow -= l.pSlow;
 			ls.itensDlt = ls.itensSlow;
-			ls.itensSlow = (1.0f - rand()*2.0f/RAND_MAX)*l.flickerSlow;
+			ls.itensSlow = (1.0f - rand() * 2.0f / RAND_MAX) * l.flickerSlow;
 			ls.itensDlt = ls.itensSlow - ls.itensDlt;
 		}
-		ls.i = ls.itensSlow - ls.itensDlt + k*ls.itensDlt + ls.itens;
+		ls.i = ls.itensSlow - ls.itensDlt + k * ls.itensDlt + ls.itens;
 		k = 1.0f + ls.i;
-		if(k < 0.0f) k = 0.0f;
-		lights[i].color.b = k*l.color.b;
-		lights[i].color.g = k*l.color.g;
-		lights[i].color.r = k*l.color.r;
+		if (k < 0.0f) k = 0.0f;
+		lights[i].color.b = k * l.color.b;
+		lights[i].color.g = k * l.color.g;
+		lights[i].color.r = k * l.color.r;
 	}
 }
 
@@ -192,126 +196,142 @@ void Lights::Realize(uint32_t delta_time)
 	rs->GetCamera(pos, ang, ang.x);
 	CMatrix camMtx;
 	rs->GetTransform(D3DTS_VIEW, camMtx);
-	rs->SetTransform(D3DTS_VIEW,CMatrix());
-	rs->SetTransform(D3DTS_WORLD,CMatrix());
-	float camPDist = -(pos.x*camMtx.Vx().z + pos.y*camMtx.Vy().z + pos.z*camMtx.Vz().z);
-	for(long i = 0, n = 0; i < numLights; i++)
+	rs->SetTransform(D3DTS_VIEW, CMatrix());
+	rs->SetTransform(D3DTS_WORLD, CMatrix());
+	float camPDist = -(pos.x * camMtx.Vx().z + pos.y * camMtx.Vy().z + pos.z * camMtx.Vz().z);
+	for (long i = 0, n = 0; i < numLights; i++)
 	{
 		//Источник
-		Light & ls = lights[i];
-		LightType & l = types[ls.type];
-		if(l.corona < 0) continue;
+		Light& ls = lights[i];
+		LightType& l = types[ls.type];
+		if (l.corona < 0) continue;
 		//Поподание в передний план
-		float dist = ls.pos.x*camMtx.Vx().z + ls.pos.y*camMtx.Vy().z + ls.pos.z*camMtx.Vz().z + camPDist;
-		if(dist < -2.0f*l.coronaSize) continue;
+		float dist = ls.pos.x * camMtx.Vx().z + ls.pos.y * camMtx.Vy().z + ls.pos.z * camMtx.Vz().z + camPDist;
+		if (dist < -2.0f * l.coronaSize) continue;
 		//Дистанция
 		float dx = ls.pos.x - pos.x;
 		float dy = ls.pos.y - pos.y;
 		float dz = ls.pos.z - pos.z;
-		float d = dx*dx + dy*dy + dz*dz;
+		float d = dx * dx + dy * dy + dz * dz;
 		bool isVisible = d < l.coronaRange2;
-		if(!isVisible) continue;
+		if (!isVisible) continue;
 		//Видимость
-		if(collide)
+		if (collide)
 		{
-			float dist = collide->Trace(EntityManager::GetEntityIdIterators(SUN_TRACE), pos, CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z), lampModels, numLampModels);
+			float dist = collide->Trace(EntityManager::GetEntityIdIterators(SUN_TRACE), pos,
+			                            CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z), lampModels, numLampModels);
 			isVisible = dist > 1.0f;
 		}
-		ls.corona += isVisible ? 0.008f*delta_time : -0.008f*delta_time;
-		if(ls.corona <= 0.0f){ ls.corona = 0.0f; continue; }
-		if(ls.corona > 1.0f) ls.corona = 1.0f;
+		ls.corona += isVisible ? 0.008f * delta_time : -0.008f * delta_time;
+		if (ls.corona <= 0.0f)
+		{
+			ls.corona = 0.0f;
+			continue;
+		}
+		if (ls.corona > 1.0f) ls.corona = 1.0f;
 		//Дистанция
 		dist = sqrtf(d);
-		d = dist*l.invCoronaRange;
-		if(d > 1.0f) d = 1.0f;
+		d = dist * l.invCoronaRange;
+		if (d > 1.0f) d = 1.0f;
 		float alpha = 1.0f;
-		if(d < 0.3f) alpha *= 0.2f + 0.8f*d/0.3f;
-		if(d > 0.4f){ alpha *= 1.0f - (d - 0.4f)/0.6f; alpha *= alpha; }
-		alpha *= ls.corona*255.0f;
+		if (d < 0.3f) alpha *= 0.2f + 0.8f * d / 0.3f;
+		if (d > 0.4f)
+		{
+			alpha *= 1.0f - (d - 0.4f) / 0.6f;
+			alpha *= alpha;
+		}
+		alpha *= ls.corona * 255.0f;
 		//Коэфициент отклонения
-		d = ls.i*0.4f;
-		if(d < -0.1f) d = -0.1f;
-		if(d > 0.1f) d = 0.1f;
+		d = ls.i * 0.4f;
+		if (d < -0.1f) d = -0.1f;
+		if (d > 0.1f) d = 0.1f;
 		d += 1.0f;
 		//Текущий размер
-		float size = d*l.coronaSize;
+		float size = d * l.coronaSize;
 		//Прозрачность
 		alpha *= d;
-		if(alpha < 0.0f) alpha = 0.0f;
-		if(alpha > 255.0f) alpha = 255.0f;
+		if (alpha < 0.0f) alpha = 0.0f;
+		if (alpha > 255.0f) alpha = 255.0f;
 		//Позиция
-		CVECTOR pos = camMtx*CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z);
+		CVECTOR pos = camMtx * CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z);
 		//Цвет
-		auto c = uint32_t(alpha); c |= (c << 24) | (c << 16) | (c << 8);
+		auto c = uint32_t(alpha);
+		c |= (c << 24) | (c << 16) | (c << 8);
 		//Угол поворота
 		float cs, sn;
-		if(dist > 0.0f)
+		if (dist > 0.0f)
 		{
-			float _cs = (dx*camMtx.Vx().z + dz*camMtx.Vz().z);
-			float _sn = (dx*camMtx.Vz().z - dz*camMtx.Vx().z);
-			float kn = _cs*_cs + _sn*_sn;
-			if(kn > 0.0f)
+			float _cs = (dx * camMtx.Vx().z + dz * camMtx.Vz().z);
+			float _sn = (dx * camMtx.Vz().z - dz * camMtx.Vx().z);
+			float kn = _cs * _cs + _sn * _sn;
+			if (kn > 0.0f)
 			{
-				kn = 1.0f/sqrtf(kn);
-				_cs *= kn; _sn *= kn;
-				cs = (_cs*_cs - _sn*_sn);
-				sn = 2.0f*_cs*_sn;
-			}else{
+				kn = 1.0f / sqrtf(kn);
+				_cs *= kn;
+				_sn *= kn;
+				cs = (_cs * _cs - _sn * _sn);
+				sn = 2.0f * _cs * _sn;
+			}
+			else
+			{
 				cs = 1.0f;
 				sn = 0.0f;
 			}
-		}else{
+		}
+		else
+		{
 			cs = 1.0f;
 			sn = 0.0f;
 		}
 		//Заполняем
-		buf[n*6 + 0].pos = pos + CVECTOR(size*(-cs + sn), size*(sn + cs), 0.0f);
-		buf[n*6 + 0].color = c;
-		buf[n*6 + 0].u = 0.0f;
-		buf[n*6 + 0].v = 0.0f;
-		buf[n*6 + 1].pos = pos + CVECTOR(size*(-cs - sn), size*(sn - cs), 0.0f);
-		buf[n*6 + 1].color = c;
-		buf[n*6 + 1].u = 0.0f;
-		buf[n*6 + 1].v = 1.0f;
-		buf[n*6 + 2].pos = pos + CVECTOR(size*(cs + sn), size*(-sn + cs), 0.0f);
-		buf[n*6 + 2].color = c;
-		buf[n*6 + 2].u = 1.0f;
-		buf[n*6 + 2].v = 0.0f;
-		buf[n*6 + 3].pos = buf[n*6 + 2].pos;
-		buf[n*6 + 3].color = c;
-		buf[n*6 + 3].u = 1.0f;
-		buf[n*6 + 3].v = 0.0f;
-		buf[n*6 + 4].pos = buf[n*6 + 1].pos;
-		buf[n*6 + 4].color = c;
-		buf[n*6 + 4].u = 0.0f;
-		buf[n*6 + 4].v = 1.0f;
-		buf[n*6 + 5].pos = pos + CVECTOR(size*(cs - sn), size*(-sn - cs), 0.0f);
-		buf[n*6 + 5].color = c;
-		buf[n*6 + 5].u = 1.0f;
-		buf[n*6 + 5].v = 1.0f;
+		buf[n * 6 + 0].pos = pos + CVECTOR(size * (-cs + sn), size * (sn + cs), 0.0f);
+		buf[n * 6 + 0].color = c;
+		buf[n * 6 + 0].u = 0.0f;
+		buf[n * 6 + 0].v = 0.0f;
+		buf[n * 6 + 1].pos = pos + CVECTOR(size * (-cs - sn), size * (sn - cs), 0.0f);
+		buf[n * 6 + 1].color = c;
+		buf[n * 6 + 1].u = 0.0f;
+		buf[n * 6 + 1].v = 1.0f;
+		buf[n * 6 + 2].pos = pos + CVECTOR(size * (cs + sn), size * (-sn + cs), 0.0f);
+		buf[n * 6 + 2].color = c;
+		buf[n * 6 + 2].u = 1.0f;
+		buf[n * 6 + 2].v = 0.0f;
+		buf[n * 6 + 3].pos = buf[n * 6 + 2].pos;
+		buf[n * 6 + 3].color = c;
+		buf[n * 6 + 3].u = 1.0f;
+		buf[n * 6 + 3].v = 0.0f;
+		buf[n * 6 + 4].pos = buf[n * 6 + 1].pos;
+		buf[n * 6 + 4].color = c;
+		buf[n * 6 + 4].u = 0.0f;
+		buf[n * 6 + 4].v = 1.0f;
+		buf[n * 6 + 5].pos = pos + CVECTOR(size * (cs - sn), size * (-sn - cs), 0.0f);
+		buf[n * 6 + 5].color = c;
+		buf[n * 6 + 5].u = 1.0f;
+		buf[n * 6 + 5].v = 1.0f;
 		n++;
 		rs->TextureSet(0, l.corona);
-		rs->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, n*2, buf, sizeof(Vertex), "Coronas");
+		rs->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, n * 2, buf, sizeof(Vertex),
+		                    "Coronas");
 		n = 0;
 	}
 	rs->SetTransform(D3DTS_VIEW, camMtx);
 }
 
 //Найти индекс источника
-long Lights::FindLight(const char * name)
+long Lights::FindLight(const char* name)
 {
-	if(!name || !name[0]) return -1;
-	for(long i = 0; i < numTypes; i++)
-		if(_stricmp(name, types[i].name) == 0) return i;
+	if (!name || !name[0]) return -1;
+	for (long i = 0; i < numTypes; i++)
+		if (_stricmp(name, types[i].name) == 0) return i;
 	return -1;
 }
 
 //Добавить источник в локацию
-void Lights::AddLight(long index, const CVECTOR & pos)
+void Lights::AddLight(long index, const CVECTOR& pos)
 {
-	if(index == -1) return;
+	if (index == -1) return;
 	Assert(index >= 0 && index < numTypes);
-	if(numLights >= maxLights)
+	if (numLights >= maxLights)
 	{
 		maxLights += 32;
 		lights.resize(maxLights);
@@ -329,21 +349,21 @@ void Lights::AddLight(long index, const CVECTOR & pos)
 
 #ifndef _XBOX
 	//Отправим сообщение лайтеру
-	
-	if(const auto eid = EntityManager::GetEntityId("Lighter"))
+
+	if (const auto eid = EntityManager::GetEntityId("Lighter"))
 	{
 		api->Send_Message(eid, "sffffffffffs", "AddLight",
-			pos.x,
-			pos.y,
-			pos.z,
-			types[index].color.r,
-			types[index].color.g,
-			types[index].color.b,
-			types[index].dxLight.Attenuation0,
-			types[index].dxLight.Attenuation1,
-			types[index].dxLight.Attenuation2,
-			types[index].dxLight.Range,
-			types[index].name);
+		                  pos.x,
+		                  pos.y,
+		                  pos.z,
+		                  types[index].color.r,
+		                  types[index].color.g,
+		                  types[index].color.b,
+		                  types[index].dxLight.Attenuation0,
+		                  types[index].dxLight.Attenuation1,
+		                  types[index].dxLight.Attenuation2,
+		                  types[index].dxLight.Range,
+		                  types[index].name);
 	}
 #endif
 
@@ -351,9 +371,9 @@ void Lights::AddLight(long index, const CVECTOR & pos)
 }
 
 //Добавить модельку фонарей
-bool Lights::AddLampModel(const entid_t  lampModel)
+bool Lights::AddLampModel(const entid_t lampModel)
 {
-	if(numLampModels >= sizeof(lampModels)/sizeof(entid_t)) return false;
+	if (numLampModels >= sizeof(lampModels) / sizeof(entid_t)) return false;
 	lampModels[numLampModels++] = lampModel;
 	return true;
 }
@@ -368,17 +388,17 @@ void Lights::DelAllLights()
 long Lights::AddMovingLight(const char* type, const CVECTOR& pos)
 {
 	long idx;
-	for(idx = 0; idx<1000; idx++)
+	for (idx = 0; idx < 1000; idx++)
 	{
 		long n;
-		for(n=0; n<aMovingLight.size(); n++)
-			if( aMovingLight[n].id == idx ) break;
-		if( n==aMovingLight.size() ) break;
+		for (n = 0; n < aMovingLight.size(); n++)
+			if (aMovingLight[n].id == idx) break;
+		if (n == aMovingLight.size()) break;
 	}
-	if( idx==1000 ) return -1;
+	if (idx == 1000) return -1;
 
 	long nType = FindLight(type);
-	if( nType<0 ) return -1;
+	if (nType < 0) return -1;
 
 	MovingLight movingLight;
 	movingLight.id = idx;
@@ -387,18 +407,18 @@ long Lights::AddMovingLight(const char* type, const CVECTOR& pos)
 	//long i = aMovingLight.Add();
 	//aMovingLight[i].id = idx;
 	//aMovingLight[i].light = numLights;
-	AddLight(nType,pos);
+	AddLight(nType, pos);
 	return idx;
 }
 
 //Поставить переносной источник в новую позицию
 void Lights::UpdateMovingLight(long id, const CVECTOR& pos)
 {
-	for(long n=0; n<aMovingLight.size(); n++)
-		if( aMovingLight[n].id == id )
+	for (long n = 0; n < aMovingLight.size(); n++)
+		if (aMovingLight[n].id == id)
 		{
 			long i = aMovingLight[n].light;
-			if( i>=0 && i<numLights )
+			if (i >= 0 && i < numLights)
 				lights[i].pos = *(D3DVECTOR*)&pos;
 			return;
 		}
@@ -407,22 +427,23 @@ void Lights::UpdateMovingLight(long id, const CVECTOR& pos)
 //Удалить переносной источник
 void Lights::DelMovingLight(long id)
 {
-	for(long n=0; n<aMovingLight.size(); n++)
-		if( aMovingLight[n].id == id )
+	for (long n = 0; n < aMovingLight.size(); n++)
+		if (aMovingLight[n].id == id)
 		{
 			numLights--;
-			for( long i=aMovingLight[n].light; i<numLights; i++ )
-				lights[i] = lights[i+1];
+			for (long i = aMovingLight[n].light; i < numLights; i++)
+				lights[i] = lights[i + 1];
 			aMovingLight.erase(aMovingLight.begin() + n);
 			return;
 		}
 }
 
 //Установить для персонажа источники освещения
-void Lights::SetCharacterLights(const CVECTOR * const pos)
+void Lights::SetCharacterLights(const CVECTOR* const pos)
 {
 	//Заполняем исходный массив
-	long i; long n;
+	long i;
+	long n;
 	if (pos)
 	{
 		std::vector<long> aLightsSort;
@@ -431,7 +452,7 @@ void Lights::SetCharacterLights(const CVECTOR * const pos)
 		for (i = 0; i < aMovingLight.size(); i++)
 		{
 			const auto it = std::find(aLightsSort.begin(), aLightsSort.end(), aMovingLight[i].light);
-			if(it != aLightsSort.end())
+			if (it != aLightsSort.end())
 				aLightsSort.erase(it);
 			aLightsSort.insert(aLightsSort.begin(), aMovingLight[i].light);
 		}
@@ -458,7 +479,7 @@ void Lights::SetCharacterLights(const CVECTOR * const pos)
 						break;
 				}
 
-				lt_elem le = { i, dst };
+				lt_elem le = {i, dst};
 				if (j == aLightsDstSort.size())
 					aLightsDstSort.push_back(le);
 				else
@@ -475,7 +496,7 @@ void Lights::SetCharacterLights(const CVECTOR * const pos)
 		i = aLightsDstSort[n].idx;
 
 		//Устанавливаем источник
-		LightType & l = types[lights[i].type];
+		LightType& l = types[lights[i].type];
 		l.dxLight.Diffuse = lights[i].color;
 		l.dxLight.Position = lights[i].pos;
 		rs->SetLight(n + 1, &l.dxLight);
@@ -495,9 +516,9 @@ void Lights::SetCharacterLights(const CVECTOR * const pos)
 //Запретить установленные для персонажа источники освещения
 void Lights::DelCharacterLights()
 {
-	for(long i = 1; i < 8; i++)
+	for (long i = 1; i < 8; i++)
 	{
-		if(!lt[i].set) continue;
+		if (!lt[i].set) continue;
 		lt[i].set = false;
 		rs->LightEnable(i, false);
 	}
@@ -506,10 +527,10 @@ void Lights::DelCharacterLights()
 //Обновить типы источников
 void Lights::UpdateLightTypes(long i)
 {
-	INIFILE * ini = fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
-	if(!ini) return;
+	INIFILE* ini = fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
+	if (!ini) return;
 	//Имя источника
-	char * lName = types[i].name;
+	char* lName = types[i].name;
 	//Зачитываем параметры
 	types[i].color.b = ini->GetFloat(lName, "b", 1.0f);
 	types[i].color.g = ini->GetFloat(lName, "g", 1.0f);
@@ -528,31 +549,31 @@ void Lights::UpdateLightTypes(long i)
 	types[i].corona = -1;
 	types[i].coronaRange = ini->GetFloat(lName, "coronaRange", 20.0f);
 	types[i].coronaSize = ini->GetFloat(lName, "coronaSize", 1.0f);
-	if(types[i].coronaRange > 0.0f && types[i].coronaSize > 0.0f)
+	if (types[i].coronaRange > 0.0f && types[i].coronaSize > 0.0f)
 	{
-		types[i].invCoronaRange = 1.0f/types[i].coronaRange;
+		types[i].invCoronaRange = 1.0f / types[i].coronaRange;
 		char texture[256];
-		if(ini->ReadString(lName, "corona", texture, sizeof(texture), ""))
+		if (ini->ReadString(lName, "corona", texture, sizeof(texture), ""))
 		{
-			if(texture[0])
+			if (texture[0])
 			{
 				types[i].corona = rs->TextureCreate(texture);
 			}
 		}
 	}
-	types[i].coronaRange2 = types[i].coronaRange*types[i].coronaRange;
-	if(types[i].flicker <= 0.0f) types[i].freq = 0.0f;
-	if(types[i].flicker > 1.0f) types[i].flicker = 1.0f;
-	if(types[i].freq <= 0.0f) types[i].flicker = 0.0f;
-	if(types[i].freq > 0.0f) types[i].p = 1.0f/types[i].freq;
-	if(types[i].flickerSlow <= 0.0f) types[i].freqSlow = 0.0f;
-	if(types[i].flickerSlow > 1.0f) types[i].flickerSlow = 1.0f;
-	if(types[i].freqSlow <= 0.0f) types[i].flickerSlow = 0.0f;
-	if(types[i].freqSlow > 0.0f) types[i].pSlow = 1.0f/types[i].freqSlow;
+	types[i].coronaRange2 = types[i].coronaRange * types[i].coronaRange;
+	if (types[i].flicker <= 0.0f) types[i].freq = 0.0f;
+	if (types[i].flicker > 1.0f) types[i].flicker = 1.0f;
+	if (types[i].freq <= 0.0f) types[i].flicker = 0.0f;
+	if (types[i].freq > 0.0f) types[i].p = 1.0f / types[i].freq;
+	if (types[i].flickerSlow <= 0.0f) types[i].freqSlow = 0.0f;
+	if (types[i].flickerSlow > 1.0f) types[i].flickerSlow = 1.0f;
+	if (types[i].freqSlow <= 0.0f) types[i].flickerSlow = 0.0f;
+	if (types[i].freqSlow > 0.0f) types[i].pSlow = 1.0f / types[i].freqSlow;
 	delete ini;
-	for(long c = 0; c < numLights; c++)
+	for (long c = 0; c < numLights; c++)
 	{
-		if(lights[c].type != i) continue;
+		if (lights[c].type != i) continue;
 		lights[c].color = types[i].color;
 	}
 }

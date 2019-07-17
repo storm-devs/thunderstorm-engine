@@ -18,11 +18,11 @@
 
 //============================================================================================
 
-class AnimationPlayer;			//Проигрыватель действий
-class AnimationTimer;			//Класс управляющий блендингом анимации
-class Animation;				//Класс управляющий анимациями одной модели
-class AnimationEventListener;	//Класс принимающий внутреннии события анимации
-class AnimationService;			//Сервис анимации
+class AnimationPlayer; //Проигрыватель действий
+class AnimationTimer; //Класс управляющий блендингом анимации
+class Animation; //Класс управляющий анимациями одной модели
+class AnimationEventListener; //Класс принимающий внутреннии события анимации
+class AnimationService; //Сервис анимации
 
 
 //============================================================================================
@@ -32,31 +32,46 @@ class AnimationService;			//Сервис анимации
 //Возможные способы проигрывания анимации действий
 enum AnimationType
 {
-	at_static,					//Не изменяются кадры
-	at_normal,					//От старта до конца
-	at_reverse,					//От конца до старта
-	at_pingpong,				//От старта до конца, обратно
-	at_rpingpong,				//От конца до старта, обратно
+	at_static,
+	//Не изменяются кадры
+	at_normal,
+	//От старта до конца
+	at_reverse,
+	//От конца до старта
+	at_pingpong,
+	//От старта до конца, обратно
+	at_rpingpong,
+	//От конца до старта, обратно
 };
 
 //События устанавливаемые из кода, помогающие управлять анимацией
 enum AnimationEvent
 {
 	//Внутренние события AnimationPlayer
-	ae_setnewaction,			//Плееру установили новое действие
-	ae_play,					//Включено проигрывание действия
-	ae_pauseon,					//Приостановленно проигрывание действия
-	ae_pauseoff,				//Продолжено проигрывание действия
-	ae_stop,					//Остановить проигрывание действия
-	ae_start,					//При начале действия
-	ae_end,						//При окончнии действия
-	ae_change,					//При изменении направления проигрывания (pingpong)
+	ae_setnewaction,
+	//Плееру установили новое действие
+	ae_play,
+	//Включено проигрывание действия
+	ae_pauseon,
+	//Приостановленно проигрывание действия
+	ae_pauseoff,
+	//Продолжено проигрывание действия
+	ae_stop,
+	//Остановить проигрывание действия
+	ae_start,
+	//При начале действия
+	ae_end,
+	//При окончнии действия
+	ae_change,
+	//При изменении направления проигрывания (pingpong)
 	//AnimationTimer
-	ae_timerstop,				//Таймер закончил работу или был остановлен
+	ae_timerstop,
+	//Таймер закончил работу или был остановлен
 
 
 	//Внутренние
-	ae_numevents,				//Количество событий
+	ae_numevents,
+	//Количество событий
 };
 
 
@@ -76,10 +91,13 @@ enum AnimationEvent
 class ActionPlayer
 {
 public:
-	~ActionPlayer(){}
+	~ActionPlayer()
+	{
+	}
+
 	//Установить текущие действие
-	virtual bool SetAction(const char * actionName) = 0;
-	virtual const char * GetAction() const = 0;
+	virtual bool SetAction(const char* actionName) = 0;
+	virtual const char* GetAction() const = 0;
 	//Управление проигрыванием
 	virtual bool Play() = 0;
 	virtual void Pause() = 0;
@@ -106,7 +124,7 @@ public:
 	//Получить коэфициент блендинга 0..1
 	virtual float GetBlend() = 0;
 	//Получить пользовательские данные для этого действия
-	virtual const char * GetData(const char * dataName) const = 0;
+	virtual const char* GetData(const char* dataName) const = 0;
 };
 
 //============================================================================================
@@ -121,7 +139,10 @@ public:
 class AnimationTimer
 {
 public:
-	virtual ~AnimationTimer(){}
+	virtual ~AnimationTimer()
+	{
+	}
+
 	//Запустить таймер (время в секундах)
 	virtual void Start(float time, float startTime = 0.0f) = 0;
 	//Остановить таймер
@@ -138,7 +159,7 @@ public:
 	virtual void SetPlayer(long playerIndex, bool isInverse = false) = 0;
 	virtual void ResetPlayer(long playerIndex) = 0;
 	//Узнать, используется ли ActionPlayer
-	virtual bool IsUsedPlayer(long playerIndex, bool * isInverse = nullptr) = 0;
+	virtual bool IsUsedPlayer(long playerIndex, bool* isInverse = nullptr) = 0;
 	//Получить велечину блендинга для плеера (если не используется то 1.0f)
 	virtual float GetPlayerValue(long playerIndex) = 0;
 };
@@ -153,26 +174,28 @@ public:
 class Animation
 {
 public:
-	virtual ~Animation(){};
+	virtual ~Animation()
+	{
+	};
 	//Доступиться к проигрывателю действий
-	virtual ActionPlayer & Player(long index) = 0;
+	virtual ActionPlayer& Player(long index) = 0;
 	//Доступиться к таймеру анимации
-	virtual AnimationTimer & Timer(long index) = 0;
+	virtual AnimationTimer& Timer(long index) = 0;
 	//События
 	//Установить обработчик внутреннего события
-	virtual long SetEvent(AnimationEvent event, long index, AnimationEventListener * ael) = 0;
+	virtual long SetEvent(AnimationEvent event, long index, AnimationEventListener* ael) = 0;
 	//Удалить обработчик внутреннего события
 	virtual void DelEvent(long eventID) = 0;
 	//Установить обработчик внешнего события
-	virtual void SetEventListener(AnimationEventListener * ael = nullptr) = 0;
+	virtual void SetEventListener(AnimationEventListener* ael = nullptr) = 0;
 	//Доступ к костям
 	//Получить количество костей в скелете
 	virtual long GetNumBones() const = 0;
 	//Получить матрицу анимации для кости
-	virtual CMatrix & GetAnimationMatrix(long iBone) const = 0;
+	virtual CMatrix& GetAnimationMatrix(long iBone) const = 0;
 	//Разное
 	//Получить пользовательские данные для анимации
-	virtual const char * GetData(const char * dataName) const = 0;
+	virtual const char* GetData(const char* dataName) const = 0;
 	//Копировать состояние одного плеера в другой
 	virtual void CopyPlayerState(long indexSrc, long indexDst, bool copyTimerState = false) = 0;
 	//Получить скорость исполнения анимации
@@ -193,11 +216,17 @@ public:
 class AnimationEventListener
 {
 public:
-	virtual ~AnimationEventListener(){};
+	virtual ~AnimationEventListener()
+	{
+	};
 	//Принять событие
-	virtual void Event(Animation * animation, long index, long eventID, AnimationEvent event){};
+	virtual void Event(Animation* animation, long index, long eventID, AnimationEvent event)
+	{
+	};
 	//Принять событие
-	virtual void Event(Animation * animation, long playerIndex, const char * eventName){};
+	virtual void Event(Animation* animation, long playerIndex, const char* eventName)
+	{
+	};
 };
 
 //============================================================================================
@@ -207,10 +236,12 @@ public:
 class AnimationService : public SERVICE
 {
 public:
-	virtual ~AnimationService(){}
-	//Создать анимацию для модели, удалять через delete
-	virtual Animation * CreateAnimation(const char * animationName) = 0;
+	virtual ~AnimationService()
+	{
+	}
 
+	//Создать анимацию для модели, удалять через delete
+	virtual Animation* CreateAnimation(const char* animationName) = 0;
 };
 
 

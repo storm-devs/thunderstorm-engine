@@ -18,21 +18,20 @@
 class ParticleSystem;
 
 
-
 class BillBoardProcessor
 {
-	static IDirect3DVertexDeclaration9 * vertexDecl_;
+	static IDirect3DVertexDeclaration9* vertexDecl_;
 	void CreateVertexDeclaration();
 
 	struct RECT_VERTEX
 	{
-		Vector	vRelativePos;
-		uint32_t	dwColor;
-		float	tu1, tv1;
-		float	tu2, tv2;
+		Vector vRelativePos;
+		uint32_t dwColor;
+		float tu1, tv1;
+		float tu2, tv2;
 		float angle;
 		float BlendK;
-		Vector	vParticlePos;
+		Vector vParticlePos;
 		float AddPowerK;
 	};
 
@@ -47,7 +46,7 @@ class BillBoardProcessor
 		BB_ParticleData pData;
 		bool Free;
 
-		MemArrayItem ()
+		MemArrayItem()
 		{
 			Free = true;
 		}
@@ -61,35 +60,34 @@ class BillBoardProcessor
 
 
 	//Считает расстояние до билбоардов
-	uint32_t CalcDistanceToCamera ();
+	uint32_t CalcDistanceToCamera();
 
 	//Функция сравнения при сортировке
-	static BOOL CompareFunction (BB_ParticleData* e1, BB_ParticleData* e2);
+	static BOOL CompareFunction(BB_ParticleData* e1, BB_ParticleData* e2);
 
 
-	BB_ParticleData* AllocParticle ();
-	void FreeParticle (BB_ParticleData* pItem);
+	BB_ParticleData* AllocParticle();
+	void FreeParticle(BB_ParticleData* pItem);
 
 
+public:
+
+	BillBoardProcessor();
+	~BillBoardProcessor();
+
+	void AddParticle(ParticleSystem* pSystem, const Vector& velocity_dir, const Vector& pos, const Matrix& matWorld,
+	                 float EmitterTime, float EmitterLifeTime, FieldList* pFields, uint32_t* pActiveCount,
+	                 uint32_t dwGUID);
+
+	void Process(float DeltaTime);
+	void Draw();
+
+	uint32_t GetCount();
+
+	void DeleteWithGUID(uint32_t dwGUID, uint32_t GUIDRange = GUIDSTEP);
 
 
- public:
-
-  BillBoardProcessor (); 
-  ~BillBoardProcessor (); 
-
-	void AddParticle (ParticleSystem* pSystem, const Vector& velocity_dir, const Vector& pos, const Matrix& matWorld, float EmitterTime, float EmitterLifeTime, FieldList* pFields, uint32_t* pActiveCount, uint32_t dwGUID);
-
-	void Process (float DeltaTime);
-	void Draw ();
-
-	uint32_t GetCount ();
-
-	void DeleteWithGUID (uint32_t dwGUID, uint32_t GUIDRange = GUIDSTEP);
-
-
-	void Clear ();
-
+	void Clear();
 };
 
 

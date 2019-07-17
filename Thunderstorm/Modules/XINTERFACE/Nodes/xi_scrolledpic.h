@@ -9,27 +9,32 @@ class CXI_SCROLLEDPICTURE : public CXI_PICTURE
 public:
 	CXI_SCROLLEDPICTURE();
 	~CXI_SCROLLEDPICTURE();
-	void	Draw(bool bSelected,uint32_t Delta_Time);
-	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
-	void	ReleaseAll();
-	int		CommandExecute(int wActCode);
-	bool	IsClick(int buttonID,long xPos,long yPos);
-	void	MouseThis(float fX, float fY) {}
-	void	ChangePosition( XYRECT &rNewPos );
-	void	SaveParametersToIni();
-	uint32_t MessageProc(long msgcode, MESSAGE & message);
-	void	MoveMouseOutScreen( float fX, float fY );
-	virtual void ChangeUV( FXYRECT &frNewUV );
+	void Draw(bool bSelected, uint32_t Delta_Time) override;
+	bool Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+	          XYPOINT& ScreenSize) override;
+	void ReleaseAll() override;
+	int CommandExecute(int wActCode) override;
+	bool IsClick(int buttonID, long xPos, long yPos) override;
+
+	void MouseThis(float fX, float fY) override
+	{
+	}
+
+	void ChangePosition(XYRECT& rNewPos) override;
+	void SaveParametersToIni() override;
+	uint32_t MessageProc(long msgcode, MESSAGE& message) override;
+	void MoveMouseOutScreen(float fX, float fY) override;
+	void ChangeUV(FXYRECT& frNewUV) override;
 
 protected:
-	void LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
-	void SetNewPicture(bool video, char * sNewTexName);
-	void SetNewPictureFromDir(char * dirName);
+	void LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2) override;
+	void SetNewPicture(bool video, char* sNewTexName);
+	void SetNewPictureFromDir(char* dirName);
 	void RecalculateTexPerPixel();
 	void UpdateBuildenImages();
-	void SetPosToCenter( float fX, float fY );
-	void SetScale( long nScaleIdx );
-	void SetScale( float fsx, float fsy );
+	void SetPosToCenter(float fX, float fY);
+	void SetScale(long nScaleIdx);
+	void SetScale(float fsx, float fsy);
 
 	float m_fUTexPerPixel;
 	float m_fVTexPerPixel;

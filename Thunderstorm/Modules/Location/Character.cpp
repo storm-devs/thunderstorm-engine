@@ -26,7 +26,6 @@
 #define CHARACTER_WAIT_AFTER_DEAD	6.0f	//
 
 
-
 #define CHARACTER_COS_STAIR			0.9f	//
 
 
@@ -67,50 +66,55 @@ uint8_t Character::fightTbl[fgt_max][fgt_max] =
 {
 	//Set type
 	//nn afs afr ard abk aft aftc fr hatk hft hpr hrd hfr bk bkh bbr pry rcl stl str  //Current type
-	{ 1, 1,  1,  1,  1,  1,  1,   1, 1,   1,  1,  1,  1,  1, 1,  1,  1,  1,  1,  1 }, //fgt_none Нет никакого боевого действия
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 1,   1,  1,  1,  1,  0, 0,  0,  0,  0,  0,  0 }, //fgt_attack_fast Быстрый удар
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 1,   1,  1,  1,  1,  0, 0,  0,  0,  0,  0,  0 }, //fgt_attack_force Сильный удар
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 1,   1,  1,  1,  1,  0, 0,  0,  0,  0,  0,  0 }, //fgt_attack_round Круговой удар
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 1,   1,  1,  1,  1,  0, 0,  0,  0,  0,  0,  0 }, //fgt_attack_break Пробивающий удар
-	{ 0, 0,  0,  0,  0,  0,  1,   0, 1,   0,  0,  0,  0,  0, 0,  0,  0,  0,  0,  0 }, //fgt_attack_feint Финт - спрециальный обманный удар
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 1,   1,  1,  1,  1,  0, 0,  0,  0,  0,  0,  0 }, //fgt_attack_feintc Продолжение финта в случае контратаки
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 0,   0,  0,  0,  0,  0, 0,  0,  0,  0,  0,  0 }, //fgt_fire Выстрел из пистолета
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 1,   0,  0,  0,  0,  0, 0,  0,  0,  0,  0,  0 }, //fgt_hit_attack Реакция попадания удара по персонажу вводящая его в stall
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 0,   0,  0,  0,  0,  0, 0,  0,  0,  0,  0,  0 }, //fgt_hit_feint Реакция от финта вводящая его в stall
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 0,   0,  0,  0,  0,  0, 0,  0,  0,  0,  0,  0 }, //fgt_hit_parry Реакция от парирования вводящая его в stall
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 0,   0,  0,  0,  0,  0, 0,  0,  0,  0,  0,  0 }, //fgt_hit_round Реакция отталкивание круговым ударом
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 0,   0,  0,  0,  0,  0, 0,  0,  0,  0,  0,  0 }, //fgt_hit_fire Реакция от выстрела вводящая его в stall
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 0,   0,  0,  0,  0,  0, 1,  1,  0,  0,  0,  0 }, //fgt_block Защита саблей
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 0,   0,  0,  0,  0,  0, 1,  1,  0,  0,  0,  0 }, //fgt_blockhit Защита саблей
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 0,   0,  0,  0,  0,  0, 0,  0,  0,  0,  0,  0 }, //fgt_blockbreak Пробивка блока
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 1,   1,  1,  1,  1,  0, 0,  0,  0,  0,  0,  0 }, //fgt_parry Парирование, защитное движение вводящее противника в stall
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 1,   0,  0,  1,  1,  0, 0,  0,  0,  0,  0,  0 }, //fgt_recoil Отскок назад
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 1,   0,  0,  1,  1,  0, 0,  0,  0,  0,  0,  0 }, //fgt_strafe_l Отскок влево
-	{ 0, 0,  0,  0,  0,  0,  0,   0, 1,   0,  0,  1,  1,  0, 0,  0,  0,  0,  0,  0 }, //fgt_strafe_r Отскок право
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, //fgt_none Нет никакого боевого действия
+	{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0}, //fgt_attack_fast Быстрый удар
+	{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0}, //fgt_attack_force Сильный удар
+	{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0}, //fgt_attack_round Круговой удар
+	{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0}, //fgt_attack_break Пробивающий удар
+	{0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //fgt_attack_feint Финт - спрециальный обманный удар
+	{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+	//fgt_attack_feintc Продолжение финта в случае контратаки
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //fgt_fire Выстрел из пистолета
+	{0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	//fgt_hit_attack Реакция попадания удара по персонажу вводящая его в stall
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //fgt_hit_feint Реакция от финта вводящая его в stall
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	//fgt_hit_parry Реакция от парирования вводящая его в stall
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //fgt_hit_round Реакция отталкивание круговым ударом
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	//fgt_hit_fire Реакция от выстрела вводящая его в stall
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0}, //fgt_block Защита саблей
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0}, //fgt_blockhit Защита саблей
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //fgt_blockbreak Пробивка блока
+	{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+	//fgt_parry Парирование, защитное движение вводящее противника в stall
+	{0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0}, //fgt_recoil Отскок назад
+	{0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0}, //fgt_strafe_l Отскок влево
+	{0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0}, //fgt_strafe_r Отскок право
 };
 
-char * Character::fightNamesTbl[fgt_max] =
+char* Character::fightNamesTbl[fgt_max] =
 {
-	"fgt_none",				//Нет никакого боевого действия
-	"fgt_attack_fast",		//Быстрый удар
-	"fgt_attack_force",		//Сильный удар
-	"fgt_attack_round",		//Круговой удар
-	"fgt_attack_break",		//Пробивающий удар
-	"fgt_attack_feint",		//Финт - спрециальный обманный удар
-	"fgt_attack_feintc",	//Продолжение финта в случае контратаки
-	"fgt_fire",				//Выстрел из пистолета
-	"fgt_hit_attack",		//Реакция попадания удара по персонажу вводящая его в stall
-	"fgt_hit_feint",		//Реакция от финта вводящая его в stall
-	"fgt_hit_parry",		//Реакция от парирования вводящая его в stall
-	"fgt_hit_round",		//Реакция отталкивание круговым ударом
-	"fgt_hit_fire",			//Реакция от выстрела вводящая его в stall
-	"fgt_block",			//Защита саблей
-	"fgt_blockhit",			//Защита саблей
-	"fgt_blockbreak",		//Пробивка блока
-	"fgt_parry",			//Парирование, защитное движение вводящее противника в stall
-	"fgt_recoil",			//Отскок назад
-	"fgt_strafe_l",			//Отскок влево
-	"fgt_strafe_r",			//Отскок право
+	"fgt_none", //Нет никакого боевого действия
+	"fgt_attack_fast", //Быстрый удар
+	"fgt_attack_force", //Сильный удар
+	"fgt_attack_round", //Круговой удар
+	"fgt_attack_break", //Пробивающий удар
+	"fgt_attack_feint", //Финт - спрециальный обманный удар
+	"fgt_attack_feintc", //Продолжение финта в случае контратаки
+	"fgt_fire", //Выстрел из пистолета
+	"fgt_hit_attack", //Реакция попадания удара по персонажу вводящая его в stall
+	"fgt_hit_feint", //Реакция от финта вводящая его в stall
+	"fgt_hit_parry", //Реакция от парирования вводящая его в stall
+	"fgt_hit_round", //Реакция отталкивание круговым ударом
+	"fgt_hit_fire", //Реакция от выстрела вводящая его в stall
+	"fgt_block", //Защита саблей
+	"fgt_blockhit", //Защита саблей
+	"fgt_blockbreak", //Пробивка блока
+	"fgt_parry", //Парирование, защитное движение вводящее противника в stall
+	"fgt_recoil", //Отскок назад
+	"fgt_strafe_l", //Отскок влево
+	"fgt_strafe_r", //Отскок право
 };
 
 
@@ -122,11 +126,11 @@ Character::ActionCharacter::ActionCharacter()
 	tblend = 0.0f;
 }
 
-void Character::ActionCharacter::SetName(const char * _name)
+void Character::ActionCharacter::SetName(const char* _name)
 {
 	delete name;
 	name = nullptr;
-	if(_name && _name[0])
+	if (_name && _name[0])
 	{
 		long l = strlen(_name) + 1;
 		name = new char[l];
@@ -134,9 +138,9 @@ void Character::ActionCharacter::SetName(const char * _name)
 	}
 }
 
-void Character::ActionCharacter::ChangeName(const char * _name)
+void Character::ActionCharacter::ChangeName(const char* _name)
 {
-	if(!_name) return;
+	if (!_name) return;
 	SetName(_name);
 }
 
@@ -175,11 +179,13 @@ void Character::Blender::Blend(float _old, float _new, float _time)
 {
 	old = _old;
 	dlt = _new - _old;
-	if(_time > 0.0f)
+	if (_time > 0.0f)
 	{
-		kTime = 1.0f/_time;
+		kTime = 1.0f / _time;
 		time = 0.0f;
-	}else{
+	}
+	else
+	{
 		kTime = 1.0f;
 		time = 1.0f;
 	}
@@ -187,9 +193,9 @@ void Character::Blender::Blend(float _old, float _new, float _time)
 
 bool Character::Blender::Update(float dltTime)
 {
-	if(kTime <= 0.0f) return false;
-	time += kTime*dltTime;
-	if(time > 1.0f)
+	if (kTime <= 0.0f) return false;
+	time += kTime * dltTime;
+	if (time > 1.0f)
 	{
 		time = 1.0f;
 		kTime = 0.0f;
@@ -199,10 +205,10 @@ bool Character::Blender::Update(float dltTime)
 
 float Character::Blender::Get()
 {
-	return old + powf(time, 0.1f)*dlt;
+	return old + powf(time, 0.1f) * dlt;
 }
 
-Character::Detector::Detector(LocatorArray * _la)
+Character::Detector::Detector(LocatorArray* _la)
 {
 	la = _la;
 	lastLocator = -1;
@@ -210,48 +216,55 @@ Character::Detector::Detector(LocatorArray * _la)
 	lastEventTime = 0.0f;
 }
 
-void Character::Detector::Check(float dltTime, Character * ch)
+void Character::Detector::Check(float dltTime, Character* ch)
 {
 	const auto location = ch->GetLocation();
 	float dist = 0.0f;
 	long lIndex = la->FindNearesLocatorCl(ch->curPos.x, ch->curPos.y, ch->curPos.z, 1.0f, dist);
-	if(lIndex >= 0)
+	if (lIndex >= 0)
 	{
-		if(lastLocator >= 0)
+		if (lastLocator >= 0)
 		{
 			timeInLocator += dltTime;
-			if(lastLocator == lIndex)
+			if (lastLocator == lIndex)
 			{
-				if(lastEventTime > 1.0f)
+				if (lastEventTime > 1.0f)
 				{
 					lastEventTime = 0.0f;
-					api->Event("Location_CharacterInLocator", "iissff", location->GetId(), ch->GetId(), la->GetGroupName(), la->Name(lastLocator), dist, timeInLocator);
-				}else lastEventTime += dltTime;
+					api->Event("Location_CharacterInLocator", "iissff", location->GetId(), ch->GetId(),
+					           la->GetGroupName(), la->Name(lastLocator), dist, timeInLocator);
+				}
+				else lastEventTime += dltTime;
 				return;
-			}else{
-				api->Event("Location_CharacterExitFromLocator", "iissff", location->GetId(), ch->GetId(), la->GetGroupName(), la->Name(lastLocator), dist, timeInLocator);
 			}
+			api->Event("Location_CharacterExitFromLocator", "iissff", location->GetId(), ch->GetId(),
+			           la->GetGroupName(), la->Name(lastLocator), dist, timeInLocator);
 		}
 		timeInLocator = 0.0f;
 		lastEventTime = 0.0f;
 		lastLocator = lIndex;
-		api->Event("Location_CharacterEntryToLocator", "iissf", location->GetId(), ch->GetId(), la->GetGroupName(), la->Name(lastLocator), dist);
-	}else{
-		if(lastLocator >= 0)
+		api->Event("Location_CharacterEntryToLocator", "iissf", location->GetId(), ch->GetId(), la->GetGroupName(),
+		           la->Name(lastLocator), dist);
+	}
+	else
+	{
+		if (lastLocator >= 0)
 		{
-			api->Event("Location_CharacterExitFromLocator", "iissf", location->GetId(), ch->GetId(), la->GetGroupName(), la->Name(lastLocator), timeInLocator + dltTime);
+			api->Event("Location_CharacterExitFromLocator", "iissf", location->GetId(), ch->GetId(), la->GetGroupName(),
+			           la->Name(lastLocator), timeInLocator + dltTime);
 			lastLocator = -1;
 		}
 	}
 }
 
-void Character::Detector::Exit(Character * ch)
+void Character::Detector::Exit(Character* ch)
 {
 	const auto location = ch->GetLocation();
 
-	if(lastLocator >= 0)
+	if (lastLocator >= 0)
 	{
-		api->Event("Location_CharacterExitFromLocator", "iissf", location->GetId(), ch->GetId(), la->GetGroupName(), la->Name(lastLocator), timeInLocator);
+		api->Event("Location_CharacterExitFromLocator", "iissf", location->GetId(), ch->GetId(), la->GetGroupName(),
+		           la->Name(lastLocator), timeInLocator);
 	}
 	timeInLocator = 0.0f;
 	lastEventTime = 0.0f;
@@ -268,86 +281,94 @@ Character::RTuner::RTuner()
 	isVisible = true;
 }
 
-void Character::RTuner::Set(MODEL * model, VDX9RENDER * rs)
+void Character::RTuner::Set(MODEL* model, VDX9RENDER* rs)
 {
-	NODE * n = model->GetNode(0);
-	if(!n) return;
-	if(n->GetTechnique()[0]) return;
-	if(alpha < 0.0f) alpha = 0.0f;
-	if(alpha > 1.0f) alpha = 1.0f;
-	if(chrAlpha < 0.0f) chrAlpha = 0.0f;
-	if(chrAlpha > 1.0f) chrAlpha = 1.0f;
-	if(camAlpha < 0.0f) camAlpha = 0.0f;
-	if(camAlpha > 1.0f) camAlpha = 1.0f;
-	float a = camAlpha*chrAlpha*alpha;
-	if(!isVisible) a = 0.0f;
-	if(a < 0.5f) rs->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-	if(a > 1.0f) a = 1.0f;
-	if(selected < 0.0f) selected = 0.0f;
-	if(selected > 1.0f) selected = 1.0f;
-	long r = long(0x40*selected);
-	long g = long(0x10*selected);
-	long b = long(0x10*selected);
-	rs->SetRenderState(D3DRS_TEXTUREFACTOR, (uint32_t(a*255.0f) << 24) | (r << 16) | (g << 8) | b);
-	if(selected > 0.0f)
+	NODE* n = model->GetNode(0);
+	if (!n) return;
+	if (n->GetTechnique()[0]) return;
+	if (alpha < 0.0f) alpha = 0.0f;
+	if (alpha > 1.0f) alpha = 1.0f;
+	if (chrAlpha < 0.0f) chrAlpha = 0.0f;
+	if (chrAlpha > 1.0f) chrAlpha = 1.0f;
+	if (camAlpha < 0.0f) camAlpha = 0.0f;
+	if (camAlpha > 1.0f) camAlpha = 1.0f;
+	float a = camAlpha * chrAlpha * alpha;
+	if (!isVisible) a = 0.0f;
+	if (a < 0.5f) rs->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	if (a > 1.0f) a = 1.0f;
+	if (selected < 0.0f) selected = 0.0f;
+	if (selected > 1.0f) selected = 1.0f;
+	long r = long(0x40 * selected);
+	long g = long(0x10 * selected);
+	long b = long(0x10 * selected);
+	rs->SetRenderState(D3DRS_TEXTUREFACTOR, (uint32_t(a * 255.0f) << 24) | (r << 16) | (g << 8) | b);
+	if (selected > 0.0f)
 	{
-		if(a >= 1.0f)
+		if (a >= 1.0f)
 		{
 			n->SetTechnique("AnimationSelected");
-		}else{
+		}
+		else
+		{
 			n->SetTechnique("AnimationSelectedBlend");
 		}
-	}else{
-		if(a >= 1.0f)
+	}
+	else
+	{
+		if (a >= 1.0f)
 		{
 			n->SetTechnique("Animation");
-		}else{
+		}
+		else
+		{
 			n->SetTechnique("AnimationBlend");
 		}
 	}
-	if (const auto location = character->GetLocation()) {
+	if (const auto location = character->GetLocation())
+	{
 		Lights* ls = location->GetLights();
 		if (ls)
 			ls->SetCharacterLights(&character->curPos);
 	}
 }
 
-void Character::RTuner::Restore(MODEL * model, VDX9RENDER * rs)
+void Character::RTuner::Restore(MODEL* model, VDX9RENDER* rs)
 {
-	if (const auto location = character->GetLocation()) {
+	if (const auto location = character->GetLocation())
+	{
 		Lights* ls = location->GetLights();
 		if (ls)
 			ls->DelCharacterLights();
 	}
-	NODE * n = model->GetNode(0);
-	if(!n) return;
-	const char * chr = n->GetTechnique();
-	if(*((uint32_t *)chr) != 'minA' || *((uint32_t *)(chr + 4)) != 'oita') return;
+	NODE* n = model->GetNode(0);
+	if (!n) return;
+	const char* chr = n->GetTechnique();
+	if (*((uint32_t *)chr) != 'minA' || *((uint32_t *)(chr + 4)) != 'oita') return;
 	n->SetTechnique("");
 	rs->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
 float Character::RTuner::GetAlpha()
 {
-	float a = camAlpha*chrAlpha*alpha;
-	if(a > 1.0f) a = 1.0f;
-	if(a < 0.0f) a = 0.0f;
+	float a = camAlpha * chrAlpha * alpha;
+	if (a > 1.0f) a = 1.0f;
+	if (a < 0.0f) a = 0.0f;
 	return a;
 }
 
 //Принять событие
-void Character::EventListener::Event(Animation * animation, long index, long eventID, AnimationEvent event)
+void Character::EventListener::Event(Animation* animation, long index, long eventID, AnimationEvent event)
 {
-	if(!animation || index != 0) return;
-	const char * c = animation->Player(0).GetAction();
-	if(!c) return;
+	if (!animation || index != 0) return;
+	const char* c = animation->Player(0).GetAction();
+	if (!c) return;
 	character->ActionEvent(c, animation, index, eventID, event);
 }
 
 //Принять событие
-void Character::EventListener::Event(Animation * animation, long playerIndex, const char * eventName)
+void Character::EventListener::Event(Animation* animation, long playerIndex, const char* eventName)
 {
-	if(!animation || !eventName || playerIndex != 0) return;
+	if (!animation || !eventName || playerIndex != 0) return;
 	character->ActionEvent(animation, playerIndex, eventName);
 }
 
@@ -455,10 +476,10 @@ Character::Character()
 	actionFightDead[1].SetName("death_2");
 	actionFightDead[2].SetName("death_2");
 	actionFightDead[3].SetName("death_2");
-	numActionFightDead =4;
+	numActionFightDead = 4;
 	//Атаки блоки финты парирование
 	char buf[64];
-	for(long i = 0; i < 4; i++)
+	for (long i = 0; i < 4; i++)
 	{
 		sprintf_s(buf, sizeof(buf) - 1, "attack_fast_%i", i + 1);
 		attackFast[i].SetName(buf);
@@ -518,7 +539,7 @@ Character::Character()
 	fatigue = 0.0f;
 	kSpd = 1.0f;
 	kSpdCur = 1.0f;
-	kSpdDlt = rand()*(0.1f/RAND_MAX) - 0.05f;
+	kSpdDlt = rand() * (0.1f / RAND_MAX) - 0.05f;
 	numDetectors = 0;
 	startColCharacter = 0;
 	numColCharacter = 0;
@@ -574,11 +595,14 @@ Character::Character()
 Character::~Character()
 {
 	auto* m = (MODEL*)EntityManager::GetEntityPointer(mdl);
-	if (m) {
+	if (m)
+	{
 		Animation* a = m->GetAnimation();
-		if (a) {
+		if (a)
+		{
 			a->SetEventListener(nullptr);
-			if (eventId) {
+			if (eventId)
+			{
 				a->DelEvent(eventId);
 			}
 		}
@@ -586,7 +610,7 @@ Character::~Character()
 
 	const auto location = GetLocation();
 	// удаляем источник в руке
-	if( m_nHandLightID >= 0 && location && !isDeleted )
+	if (m_nHandLightID >= 0 && location && !isDeleted)
 		location->GetLights()->DelMovingLight(m_nHandLightID);
 	m_nHandLightID = -1;
 
@@ -594,11 +618,11 @@ Character::~Character()
 	api->Send_Message(EntityManager::GetEntityId("CharactersGroups"), "si", "UnloadCharacter", GetId());
 
 	//Анализируем детекторы
-//	for(long i = 0; i < numDetectors; i++) detector[i]->Exit(this);
+	//	for(long i = 0; i < numDetectors; i++) detector[i]->Exit(this);
 	//Удаляем детекторы
-	for(long i = 0; i < numDetectors; i++) delete detector[i];
+	for (long i = 0; i < numDetectors; i++) delete detector[i];
 	//
-	if(location && !isDeleted) location->supervisor.DelCharacter(this);
+	if (location && !isDeleted) location->supervisor.DelCharacter(this);
 	EntityManager::EraseEntity(shadow);
 	EntityManager::EraseEntity(waterrings);
 	EntityManager::EraseEntity(mdl);
@@ -612,11 +636,11 @@ bool Character::Init()
 {
 	//Указатель на локацию
 	const auto location = GetLocation();
-	if(!location) return false;
+	if (!location) return false;
 	effects = EntityManager::GetEntityId("LocationEffects");
 	soundService = (VSoundService *)api->CreateService("SoundService");
 	//Регестрируем своё попадание в локацию
-	if(location->supervisor.numCharacters >= MAX_CHARACTERS)
+	if (location->supervisor.numCharacters >= MAX_CHARACTERS)
 	{
 		api->Trace("Many characters in location");
 		return false;
@@ -625,9 +649,9 @@ bool Character::Init()
 	//Море
 	sea = EntityManager::GetEntityId("sea");
 	//Сохраним идентификатор
-	const char * id = nullptr;
-	if(AttributesPointer) id = AttributesPointer->GetAttribute("id");
-	if(!id) id = "<none>";
+	const char* id = nullptr;
+	if (AttributesPointer) id = AttributesPointer->GetAttribute("id");
+	if (!id) id = "<none>";
 	long len = strlen(id) + 1;
 	characterID = new char[len];
 	strcpy_s(characterID, len, id);
@@ -639,22 +663,22 @@ bool Character::Init()
 }
 
 //Сообщения
-uint64_t Character::ProcessMessage(MESSAGE & message)
+uint64_t Character::ProcessMessage(MESSAGE& message)
 {
-	if(message.GetCurrentFormatType() == 's')
+	if (message.GetCurrentFormatType() == 's')
 	{
 		return zPlaySound(message);
 	}
 	long messageID = message.Long();
-	if(messageID == MSG_CHARACTER_EX_MSG)
+	if (messageID == MSG_CHARACTER_EX_MSG)
 	{
 		return zExMessage(message);
 	}
-	if(deadName)
+	if (deadName)
 	{
-		if(liveValue >= 0)
+		if (liveValue >= 0)
 		{
-			if(messageID == MSG_CHARACTER_EXIT_FROM_LOCATION)
+			if (messageID == MSG_CHARACTER_EXIT_FROM_LOCATION)
 			{
 				ExitFromLocation();
 				DelSavePosition(false);
@@ -663,7 +687,7 @@ uint64_t Character::ProcessMessage(MESSAGE & message)
 		}
 		return 0;
 	}
-	switch(messageID)
+	switch (messageID)
 	{
 	case MSG_CHARACTER_SETMODEL:
 		return zLoadModel(message);
@@ -708,11 +732,11 @@ uint64_t Character::ProcessMessage(MESSAGE & message)
 		Turn(message.Float());
 		return 1;
 	case MSG_CHARACTER_TURNPUSH:
-		if(ayStackPointer >= sizeof(ayStack)/sizeof(float)) return 0;
+		if (ayStackPointer >= sizeof(ayStack) / sizeof(float)) return 0;
 		ayStack[ayStackPointer++] = nay;
 		return 1;
 	case MSG_CHARACTER_TURNPOP:
-		if(ayStackPointer <= 0) return 0;
+		if (ayStackPointer <= 0) return 0;
 		Turn(ayStack[--ayStackPointer]);
 		return 1;
 	case MSG_CHARACTER_SETBLADE:
@@ -727,10 +751,13 @@ uint64_t Character::ProcessMessage(MESSAGE & message)
 	case MSG_CHARACTER_VISIBLE:
 		return CharactersVisibleTest(message);
 	case MSG_CHARACTER_BLADEHAND:
-		if(message.Long() == 0)	{
+		if (message.Long() == 0)
+		{
 			api->Send_Message(blade, "ll", MSG_BLADE_BELT, 0);
 			api->Send_Message(blade, "ll", MSG_BLADE_BELT, 1);
-		} else {
+		}
+		else
+		{
 			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 0);
 			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 1);
 		}
@@ -741,9 +768,9 @@ uint64_t Character::ProcessMessage(MESSAGE & message)
 			float hit = message.Float();
 			float chp = message.Float();
 			float mhp = message.Float();
-			if(hit < 0.0f) hit = 0.0f;
-			if(chp < 0.0f) chp = 0.0f;
-			if(mhp < 0.0f) mhp = 0.0f;
+			if (hit < 0.0f) hit = 0.0f;
+			if (chp < 0.0f) chp = 0.0f;
+			if (mhp < 0.0f) mhp = 0.0f;
 			location->AddDamageMessage(curPos + CVECTOR(0.0f, height, 0.0f), hit, chp, mhp);
 		}
 		return 1;
@@ -754,28 +781,28 @@ uint64_t Character::ProcessMessage(MESSAGE & message)
 }
 
 //Изменение атрибута
-uint32_t Character::AttributeChanged(ATTRIBUTES * apnt)
+uint32_t Character::AttributeChanged(ATTRIBUTES* apnt)
 {
-	if(deadName || liveValue < 0) return 0;
-	if(!apnt || !apnt->GetThisName()) return 0;
-	if(_stricmp(apnt->GetThisName(), "model") == 0)
+	if (deadName || liveValue < 0) return 0;
+	if (!apnt || !apnt->GetThisName()) return 0;
+	if (_stricmp(apnt->GetThisName(), "model") == 0)
 	{
 		SetSignModel();
-	}else
-	if(_stricmp(apnt->GetThisName(), "technique") == 0)
+	}
+	else if (_stricmp(apnt->GetThisName(), "technique") == 0)
 	{
 		SetSignTechnique();
-	}else
-	if(_stricmp(apnt->GetThisName(), "id") == 0 && apnt->GetParent() && !apnt->GetParent()->GetParent())
+	}
+	else if (_stricmp(apnt->GetThisName(), "id") == 0 && apnt->GetParent() && !apnt->GetParent()->GetParent())
 	{
-		const char * id = apnt->GetThisAttr();
-		if(!id) id = "<none>";
+		const char* id = apnt->GetThisAttr();
+		if (!id) id = "<none>";
 		delete characterID;
 		long len = strlen(id) + 1;
 		characterID = new char[len];
 		strcpy_s(characterID, len, id);
-	}else
-	if(_stricmp(apnt->GetThisName(), "actions") == 0 && apnt->GetParent() && !apnt->GetParent()->GetParent())
+	}
+	else if (_stricmp(apnt->GetThisName(), "actions") == 0 && apnt->GetParent() && !apnt->GetParent()->GetParent())
 	{
 		//Читаем действия перемещения
 		//Простые
@@ -797,34 +824,36 @@ uint32_t Character::AttributeChanged(ATTRIBUTES * apnt)
 		actionTurnL.ChangeName(apnt->GetAttribute("turnLeft"));
 		actionTurnR.ChangeName(apnt->GetAttribute("turnRight"));
 		//Читаем действия смерти
-		ATTRIBUTES * at = apnt->FindAClass(apnt, "dead");
-		if(at)
+		ATTRIBUTES* at = apnt->FindAClass(apnt, "dead");
+		if (at)
 		{
 			long num = at->GetAttributesNum();
 			long j = 0;
-			for(long i = 0; i < num && j < sizeof(actionDead)/sizeof(ActionDead); i++)
+			for (long i = 0; i < num && j < sizeof(actionDead) / sizeof(ActionDead); i++)
 			{
-				const char * iname = at->GetAttribute(i);
-				if(!iname || !iname[0]) continue;
-				if(j == 0) actionDead[j++].ChangeName(iname); else actionDead[j++].SetName(iname);
+				const char* iname = at->GetAttribute(i);
+				if (!iname || !iname[0]) continue;
+				if (j == 0) actionDead[j++].ChangeName(iname);
+				else actionDead[j++].SetName(iname);
 			}
-			if(j < 1) j = 1;
+			if (j < 1) j = 1;
 			numActionDead = j;
 		}
 		//Читаем действия простого стояния
 		at = apnt->FindAClass(apnt, "idle");
-		if(at)
+		if (at)
 		{
 			curIdleIndex = -1;
 			long num = at->GetAttributesNum();
 			long j = 0;
-			for(long i = 0; i < num && j < sizeof(actionIdle)/sizeof(ActionIdle); i++)
+			for (long i = 0; i < num && j < sizeof(actionIdle) / sizeof(ActionIdle); i++)
 			{
-				const char * iname = at->GetAttribute(i);
-				if(!iname || !iname[0]) continue;
-				if(j == 0) actionIdle[j++].ChangeName(iname); else actionIdle[j++].SetName(iname);
+				const char* iname = at->GetAttribute(i);
+				if (!iname || !iname[0]) continue;
+				if (j == 0) actionIdle[j++].ChangeName(iname);
+				else actionIdle[j++].SetName(iname);
 			}
-			if(j < 1) j = 1;
+			if (j < 1) j = 1;
 			numActionIdles = j;
 		}
 		//Читаем действия в режиме боя
@@ -861,32 +890,34 @@ uint32_t Character::AttributeChanged(ATTRIBUTES * apnt)
 		strafe_r.ChangeName(apnt->GetAttribute("straferight"));
 		//Читаем действия смерти
 		at = apnt->FindAClass(apnt, "fightdead");
-		if(at)
+		if (at)
 		{
 			long num = at->GetAttributesNum();
 			long j = 0;
-			for(long i = 0; i < num && j < sizeof(actionFightDead)/sizeof(ActionDead); i++)
+			for (long i = 0; i < num && j < sizeof(actionFightDead) / sizeof(ActionDead); i++)
 			{
-				const char * iname = at->GetAttribute(i);
-				if(!iname || !iname[0]) continue;
-				if(j == 0) actionFightDead[j++].ChangeName(iname); else actionFightDead[j++].SetName(iname);
+				const char* iname = at->GetAttribute(i);
+				if (!iname || !iname[0]) continue;
+				if (j == 0) actionFightDead[j++].ChangeName(iname);
+				else actionFightDead[j++].SetName(iname);
 			}
-			if(j < 1) j = 1;
+			if (j < 1) j = 1;
 			numActionFightDead = j;
 		}
 		//Стояния
 		at = apnt->FindAClass(apnt, "fightidle");
-		if(at)
+		if (at)
 		{
 			long num = at->GetAttributesNum();
 			long j = 0;
-			for(long i = 0; i < num && j < sizeof(actionFightIdle)/sizeof(ActionIdle); i++)
+			for (long i = 0; i < num && j < sizeof(actionFightIdle) / sizeof(ActionIdle); i++)
 			{
-				const char * iname = at->GetAttribute(i);
-				if(!iname || !iname[0]) continue;
-				if(j == 0) actionFightIdle[j++].ChangeName(iname); else actionFightIdle[j++].SetName(iname);
+				const char* iname = at->GetAttribute(i);
+				if (!iname || !iname[0]) continue;
+				if (j == 0) actionFightIdle[j++].ChangeName(iname);
+				else actionFightIdle[j++].SetName(iname);
 			}
-			if(j < 1) j = 1;
+			if (j < 1) j = 1;
 			numFightActionIdles = j;
 		}
 		//Обновляем параметры
@@ -899,51 +930,51 @@ uint32_t Character::AttributeChanged(ATTRIBUTES * apnt)
 
 void Character::SetSignModel()
 {
-	ATTRIBUTES * apnt = AttributesPointer->FindAClass(AttributesPointer, "quest.questflag.model");
-	const char * signModelName = "";
-	if(apnt)
+	ATTRIBUTES* apnt = AttributesPointer->FindAClass(AttributesPointer, "quest.questflag.model");
+	const char* signModelName = "";
+	if (apnt)
 	{
 		signModelName = apnt->GetThisAttr();
 	}
-	if(!signModelName) signModelName = "";
-	if(signName == signModelName)
+	if (!signModelName) signModelName = "";
+	if (signName == signModelName)
 	{
 		return;
 	}
 	signName = signModelName;
 	EntityManager::EraseEntity(sign);
-	if(!signModelName[0])
+	if (!signModelName[0])
 	{
 		return;
 	}
 	//Путь до текстур
-	VGEOMETRY * gs = (VGEOMETRY *)api->CreateService("geometry");
-	if(gs) gs->SetTexturePath("quest_signs\\");
+	VGEOMETRY* gs = (VGEOMETRY *)api->CreateService("geometry");
+	if (gs) gs->SetTexturePath("quest_signs\\");
 	//Путь до модельки
 	std::string path = "quest_signs\\";
 	path += signModelName;
 	//Создаём и загружаем модельку
-	if(!(sign = EntityManager::CreateEntity("modelr")))
+	if (!(sign = EntityManager::CreateEntity("modelr")))
 	{
-		if(gs) gs->SetTexturePath("");
+		if (gs) gs->SetTexturePath("");
 		return;
 	}
-	if(!api->Send_Message(sign,
-		"ls",
-		MSG_MODEL_LOAD_GEO,
-		path.c_str()))
+	if (!api->Send_Message(sign,
+	                       "ls",
+	                       MSG_MODEL_LOAD_GEO,
+	                       path.c_str()))
 	{
-		if(gs) gs->SetTexturePath("");
+		if (gs) gs->SetTexturePath("");
 		api->Trace("Quest sign model '%s' not loaded", path.c_str());
 		return;
 	}
 
-	if( !signTechniqueName.empty() )
+	if (!signTechniqueName.empty())
 	{
-		api->Send_Message(sign,"ls",MSG_MODEL_SET_TECHNIQUE,signTechniqueName.c_str());
+		api->Send_Message(sign, "ls",MSG_MODEL_SET_TECHNIQUE, signTechniqueName.c_str());
 	}
 
-	if(gs) gs->SetTexturePath("");
+	if (gs) gs->SetTexturePath("");
 	EntityManager::AddToLayer(REALIZE, sign, 20000);
 	EntityManager::AddToLayer(SUN_TRACE, sign, 10);
 }
@@ -951,49 +982,52 @@ void Character::SetSignModel()
 void Character::SetSignTechnique()
 {
 	// set technique
-	ATTRIBUTES * pATechnique = AttributesPointer->FindAClass(AttributesPointer, "quest.questflag.technique");
-	if( !pATechnique ) return;
+	ATTRIBUTES* pATechnique = AttributesPointer->FindAClass(AttributesPointer, "quest.questflag.technique");
+	if (!pATechnique) return;
 
 	char* pcTechniqueName = pATechnique->GetThisAttr();
-	if( !pcTechniqueName ) return;
+	if (!pcTechniqueName) return;
 
-	if( signTechniqueName==pcTechniqueName ) return;
+	if (signTechniqueName == pcTechniqueName) return;
 	signTechniqueName = pcTechniqueName;
 
-	api->Send_Message(sign,"ls",MSG_MODEL_SET_TECHNIQUE,pcTechniqueName);
+	api->Send_Message(sign, "ls",MSG_MODEL_SET_TECHNIQUE, pcTechniqueName);
 }
 
-void Character::ReadFightActions(ATTRIBUTES * at, ActionCharacter actions[4], long & counter)
+void Character::ReadFightActions(ATTRIBUTES* at, ActionCharacter actions[4], long& counter)
 {
-	if(at)
+	if (at)
 	{
 		long num = at->GetAttributesNum();
 		long j = 0;
-		for(long i = 0; i < num && j < 4; i++)
+		for (long i = 0; i < num && j < 4; i++)
 		{
-			const char * iname = at->GetAttribute(i);
-			if(!iname || !iname[0]) continue;
-			if(j == 0)
+			const char* iname = at->GetAttribute(i);
+			if (!iname || !iname[0]) continue;
+			if (j == 0)
 			{
 				actions[j++].ChangeName(iname);
-			}else{
+			}
+			else
+			{
 				actions[j++].SetName(iname);
 			}
 		}
-		if(j < 1) j = 1;
+		if (j < 1) j = 1;
 		counter = j;
-	}else{
+	}
+	else
+	{
 		counter = 1;
 	}
 }
-
 
 
 //============================================================================================
 //Character model
 //============================================================================================
 
-MODEL * Character::Model()
+MODEL* Character::Model()
 {
 	return (MODEL *)EntityManager::GetEntityPointer(mdl);
 }
@@ -1004,15 +1038,15 @@ bool Character::Teleport(float x, float y, float z)
 	const auto location = GetLocation();
 	//Модель
 	isJump = false;
-	MODEL * man = Model();
-	if(!man) return false;
+	MODEL* man = Model();
+	if (!man) return false;
 	//Новые координаты
 	man->mtx.SetPosition(x, y, z);
 	curPos = oldPos = grsPos = CVECTOR(x, y, z);
 	vy = 0.0f;
 	float bearingY;
 	currentNode = location->GetPtcData().FindNode(curPos, bearingY);
-	if(curPos.y < bearingY) curPos.y = bearingY;
+	if (curPos.y < bearingY) curPos.y = bearingY;
 	CharacterTeleport();
 	return true;
 }
@@ -1023,8 +1057,8 @@ bool Character::Teleport(float x, float y, float z, float ay)
 	const auto location = GetLocation();
 	//Модель
 	isJump = false;
-	MODEL * man = Model();
-	if(!man) return false;
+	MODEL* man = Model();
+	if (!man) return false;
 	//Новые координаты
 	man->mtx.BuildMatrix(0.0f, ay, 0.0f, x, y, z);
 	curPos = oldPos = grsPos = CVECTOR(x, y, z);
@@ -1033,67 +1067,68 @@ bool Character::Teleport(float x, float y, float z, float ay)
 	this->ay = nay;
 	float bearingY;
 	currentNode = location->GetPtcData().FindNode(curPos, bearingY);
-	if(curPos.y < bearingY) curPos.y = bearingY;
+	if (curPos.y < bearingY) curPos.y = bearingY;
 	CharacterTeleport();
 	return true;
 }
 
 //Переместить модельку в локатор
-bool Character::Teleport(const char * group, const char * locator)
+bool Character::Teleport(const char* group, const char* locator)
 {
 	const auto location = GetLocation();
- if(!group || !group[0] || !locator || !locator[0]) return false;
- LocatorArray * la = location->FindLocatorsGroup(group);
- if(!la) return false;
- long li = la->FindByName(locator);
- if(li < 0) return false;
- CMatrix mtx;
- if(!la->GetLocatorPos(li, mtx)) return false;
- //Ищем угл поворота по Y
- double vz = mtx.Vz().z;
- double vx = mtx.Vz().x;
- double l = vx*vx + vz*vz;
- if(l > 0.0000001)
- {
-  //Ищем углы
-  vz = acos(vz/sqrt(l));
- }else vz = l;
- if(vx < 0) vz = -vz;
+	if (!group || !group[0] || !locator || !locator[0]) return false;
+	LocatorArray* la = location->FindLocatorsGroup(group);
+	if (!la) return false;
+	long li = la->FindByName(locator);
+	if (li < 0) return false;
+	CMatrix mtx;
+	if (!la->GetLocatorPos(li, mtx)) return false;
+	//Ищем угл поворота по Y
+	double vz = mtx.Vz().z;
+	double vx = mtx.Vz().x;
+	double l = vx * vx + vz * vz;
+	if (l > 0.0000001)
+	{
+		//Ищем углы
+		vz = acos(vz / sqrt(l));
+	}
+	else vz = l;
+	if (vx < 0) vz = -vz;
 
- // смотрим можем ли мы поставить в этот локатор чела
- CVECTOR pos = mtx.Pos();
- if (location->supervisor.CheckPosition(pos.x, pos.y, pos.z, this))
-  return Teleport(pos.x, pos.y, pos.z, float(vz));
+	// смотрим можем ли мы поставить в этот локатор чела
+	CVECTOR pos = mtx.Pos();
+	if (location->supervisor.CheckPosition(pos.x, pos.y, pos.z, this))
+		return Teleport(pos.x, pos.y, pos.z, float(vz));
 
- // кто-то стоит рядом, пытаемся найти точку по небольшому радиусу
- float radius = 1.75f;
- for (long i=0; i<10; i++)
- {
-  float ang = float(i) / 9.0f * PIm2;
-  float x = radius * sinf(ang);
-  float z = radius * cosf(ang);
+	// кто-то стоит рядом, пытаемся найти точку по небольшому радиусу
+	float radius = 1.75f;
+	for (long i = 0; i < 10; i++)
+	{
+		float ang = float(i) / 9.0f * PIm2;
+		float x = radius * sinf(ang);
+		float z = radius * cosf(ang);
 
-  // проверяем есть ли тут патч
-  CVECTOR src = CVECTOR(pos.x + x, pos.y + 2.0f, pos.z + z);
-  CVECTOR dst = CVECTOR(pos.x + x, pos.y - 2.0f, pos.z + z);
-  float k = location->GetPtcData().Trace(src, dst);
-  // если нету патча - то следующая итерация
-  if (k > 1.0f) continue;
-  // если точка свободна - телепортимся туда
-  CVECTOR pnt = src + (dst - src) * k + CVECTOR(0.0f, 0.01f, 0.0f);
-  if (location->supervisor.CheckPosition(pnt.x, pnt.y, pnt.z, this))
-   return Teleport(pnt.x, pnt.y, pnt.z, float(vz));
- }
+		// проверяем есть ли тут патч
+		CVECTOR src = CVECTOR(pos.x + x, pos.y + 2.0f, pos.z + z);
+		CVECTOR dst = CVECTOR(pos.x + x, pos.y - 2.0f, pos.z + z);
+		float k = location->GetPtcData().Trace(src, dst);
+		// если нету патча - то следующая итерация
+		if (k > 1.0f) continue;
+		// если точка свободна - телепортимся туда
+		CVECTOR pnt = src + (dst - src) * k + CVECTOR(0.0f, 0.01f, 0.0f);
+		if (location->supervisor.CheckPosition(pnt.x, pnt.y, pnt.z, this))
+			return Teleport(pnt.x, pnt.y, pnt.z, float(vz));
+	}
 
- api->Trace("Character Teleport Error: Can't find free place near locator: %s, %s", group, locator);
- return Teleport(pos.x, pos.y, pos.z, float(vz));
+	api->Trace("Character Teleport Error: Can't find free place near locator: %s, %s", group, locator);
+	return Teleport(pos.x, pos.y, pos.z, float(vz));
 }
 
 //Установить позиции для загрузки
 void Character::SetSavePosition()
 {
-	if(!AttributesPointer) return;
-	ATTRIBUTES * at = AttributesPointer->CreateSubAClass(AttributesPointer, "saveposition");
+	if (!AttributesPointer) return;
+	ATTRIBUTES* at = AttributesPointer->CreateSubAClass(AttributesPointer, "saveposition");
 	at->SetAttributeUseFloat("x", curPos.x);
 	at->SetAttributeUseFloat("y", curPos.y);
 	at->SetAttributeUseFloat("z", curPos.z);
@@ -1105,19 +1140,19 @@ void Character::SetSavePosition()
 //Удалить позиции для загрузки
 void Character::DelSavePosition(bool isTeleport)
 {
-	if(!AttributesPointer) return;
+	if (!AttributesPointer) return;
 
-	ATTRIBUTES * aPosLocator = AttributesPointer->FindAClass(AttributesPointer, "location");
-	if( aPosLocator )
+	ATTRIBUTES* aPosLocator = AttributesPointer->FindAClass(AttributesPointer, "location");
+	if (aPosLocator)
 	{
 		const char* pcLocGroupName = aPosLocator->GetAttribute("group");
-		if( pcLocGroupName && _stricmp(pcLocGroupName,"sit")==0 ) isTeleport = false;
+		if (pcLocGroupName && _stricmp(pcLocGroupName, "sit") == 0) isTeleport = false;
 	}
 
-	ATTRIBUTES * at = AttributesPointer->FindAClass(AttributesPointer, "saveposition");
-	if(at)
+	ATTRIBUTES* at = AttributesPointer->FindAClass(AttributesPointer, "saveposition");
+	if (at)
 	{
-		if(isTeleport)
+		if (isTeleport)
 		{
 			curPos.x = at->GetAttributeAsFloat("x", curPos.x);
 			curPos.y = at->GetAttributeAsFloat("y", curPos.y);
@@ -1138,7 +1173,7 @@ void Character::DelSavePosition(bool isTeleport)
 //Пойти
 void Character::StartMove(bool isBack)
 {
-	if(priorityAction.name) return;
+	if (priorityAction.name) return;
 	isMove = true;
 	this->isBack = isBack;
 }
@@ -1146,7 +1181,7 @@ void Character::StartMove(bool isBack)
 //Остановиться
 void Character::StopMove()
 {
-	if(priorityAction.name) return;
+	if (priorityAction.name) return;
 	isMove = false;
 }
 
@@ -1156,32 +1191,33 @@ void Character::Turn(float dx, float dz)
 	//if(priorityAction.name) return;
 	double vx = dx;
 	double vz = dz;
-	double l = vx*vx + vz*vz;
-	if(l <= 0.0) return;
-	vz = acos(vz/sqrt(l));
-	if(vx < 0) vz = -vz;
+	double l = vx * vx + vz * vz;
+	if (l <= 0.0) return;
+	vz = acos(vz / sqrt(l));
+	if (vx < 0) vz = -vz;
 	Turn(float(vz));
 }
 
 //Направить персонажа по углу
 void Character::Turn(float _ay)
 {
-	if(isTurnLock) return;
+	if (isTurnLock) return;
 	const float pi = 3.14159265359f;
 	nay = _ay;
-	nay -= long(nay/pi)*2.0f*pi;
-	if(nay - ay > pi) ay += 2*pi;
-	if(nay - ay < -pi) ay -= 2*pi;
-	if(fabs(nay - ay) > 0.00001f)
+	nay -= long(nay / pi) * 2.0f * pi;
+	if (nay - ay > pi) ay += 2 * pi;
+	if (nay - ay < -pi) ay -= 2 * pi;
+	if (fabs(nay - ay) > 0.00001f)
 	{
-		if(ay < nay) turnDir = 1.0f; else turnDir = -1.0f;
+		if (ay < nay) turnDir = 1.0f;
+		else turnDir = -1.0f;
 	}
 }
 
 //Установить режим бега
 void Character::SetRunMode(bool _isRun)
 {
-	if(priorityAction.name) return;
+	if (priorityAction.name) return;
 	isRun = _isRun;
 }
 
@@ -1189,44 +1225,52 @@ void Character::SetRunMode(bool _isRun)
 bool Character::SetFightMode(bool _isFight, bool isPlayAni)
 {
 	UpdateWeapons();
-	if(lockFightMode) return isFight;
-	if(!isFightWOWps)
+	if (lockFightMode) return isFight;
+	if (!isFightWOWps)
 	{
-		if(!isBladeSet) return isFight;
+		if (!isBladeSet) return isFight;
 	}
-	if(isFight == _isFight) return isFight;
-	if(priorityAction.name) return isFight;
-	if(isSwim) return isFight;
-	if(!IsFightEnable())
+	if (isFight == _isFight) return isFight;
+	if (priorityAction.name) return isFight;
+	if (isSwim) return isFight;
+	if (!IsFightEnable())
 	{
-		if(!isFight) return false;
+		if (!isFight) return false;
 		_isFight = false;
 	}
 	isNFHit = false;
 	bool old = isFight;
 	isFight = _isFight;
-	if(isFight)
+	if (isFight)
 	{
 		radius = radiusFgt;
-		if(isPlayAni)
+		if (isPlayAni)
 		{
-			if(!SetPriorityAction(CHARACTER_NORM_TO_FIGHT)) {
+			if (!SetPriorityAction(CHARACTER_NORM_TO_FIGHT))
+			{
 				api->Send_Message(blade, "ll", MSG_BLADE_HAND, 0);
 				api->Send_Message(blade, "ll", MSG_BLADE_HAND, 1);
 			}
-		}else{
+		}
+		else
+		{
 			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 0);
 			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 1);
 		}
-	}else{
+	}
+	else
+	{
 		radius = radiusNrm;
-		if(isPlayAni)
+		if (isPlayAni)
 		{
-			if(!SetPriorityAction(CHARACTER_FIGHT_TO_NORM)) {
+			if (!SetPriorityAction(CHARACTER_FIGHT_TO_NORM))
+			{
 				api->Send_Message(blade, "ll", MSG_BLADE_BELT, 0);
 				api->Send_Message(blade, "ll", MSG_BLADE_BELT, 1);
 			}
-		}else{
+		}
+		else
+		{
 			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 0);
 			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 1);
 		}
@@ -1241,13 +1285,15 @@ bool Character::SetFightMode(bool _isFight, bool isPlayAni)
 bool Character::IsFightEnable()
 {
 	//Спросим у скрипта о возможности стрельбы
-	VDATA * vd = api->Event("Location_CharacterIsFight", "i", GetId());
+	VDATA* vd = api->Event("Location_CharacterIsFight", "i", GetId());
 	long res = 0;
-	if(vd && vd->Get(res))
+	if (vd && vd->Get(res))
 	{
-		if(!res) return false;
-	}else{
-//!!!		api->Trace("Event \"Location_CharacterIsFight\" -> return type is not int");
+		if (!res) return false;
+	}
+	else
+	{
+		//!!!		api->Trace("Event \"Location_CharacterIsFight\" -> return type is not int");
 		return true;
 	}
 	return true;
@@ -1256,25 +1302,25 @@ bool Character::IsFightEnable()
 //В данный момент идёт выбор цели для выстрела (игроком)
 bool Character::IsFireFindTarget()
 {
-	if(!priorityAction.name || !shot.name) return false;
-	if(_stricmp(priorityAction.name, shot.name) == 0) return !isFired;
+	if (!priorityAction.name || !shot.name) return false;
+	if (_stricmp(priorityAction.name, shot.name) == 0) return !isFired;
 	return false;
 }
 
 //Атаковать
-void Character::Attack(Character * enemy, FightAction type)
+void Character::Attack(Character* enemy, FightAction type)
 {
-	if(priorityAction.name) return;
-	if(isSwim) return;
-	if(!isFight) return;
-	if(type < fgt_attack_fast || type > fgt_attack_feintc) return;
+	if (priorityAction.name) return;
+	if (isSwim) return;
+	if (!isFight) return;
+	if (type < fgt_attack_fast || type > fgt_attack_feintc) return;
 	//if(!fightTbl[fgtCurType][type]) return;
-	if(enemy)
+	if (enemy)
 	{
 		enemyAttack = enemy->GetId();
 		float dx = enemy->curPos.x - curPos.x;
 		float dz = enemy->curPos.z - curPos.z;
-		float cs = dx*dx + dz*dz;
+		float cs = dx * dx + dz * dz;
 		Turn(dx, dz);
 		isTurnLock = true;
 		/*
@@ -1290,10 +1336,11 @@ void Character::Attack(Character * enemy, FightAction type)
 				isTurnLock = true;
 			}
 		}*/
-	}else memset(&enemyAttack, 0, sizeof(enemyAttack));
-	VDATA * res = nullptr;
-	const char * aname = nullptr;
-	switch(type)
+	}
+	else memset(&enemyAttack, 0, sizeof(enemyAttack));
+	VDATA* res = nullptr;
+	const char* aname = nullptr;
+	switch (type)
 	{
 	case fgt_attack_fast:
 		aname = FGT_ATTACK_FAST;
@@ -1303,16 +1350,28 @@ void Character::Attack(Character * enemy, FightAction type)
 		aname = FGT_ATTACK_FORCE;
 		ObstacleZone zone[4];
 		// выпад 1
-		zone[0].use = true; zone[0].x = 0.f; zone[0].z = 1.f; zone[0].dw = 0.001f;
+		zone[0].use = true;
+		zone[0].x = 0.f;
+		zone[0].z = 1.f;
+		zone[0].dw = 0.001f;
 		// выпад 2
-		zone[1].use = true; zone[1].x = 0.f; zone[1].z = 1.f; zone[1].dw = 0.001f;
+		zone[1].use = true;
+		zone[1].x = 0.f;
+		zone[1].z = 1.f;
+		zone[1].dw = 0.001f;
 		// выпад 3
-		zone[2].use = true; zone[2].x = 0.f; zone[2].z = 1.f; zone[2].dw = 0.001f;
+		zone[2].use = true;
+		zone[2].x = 0.f;
+		zone[2].z = 1.f;
+		zone[2].dw = 0.001f;
 		// выпад 4
-		zone[3].use = true; zone[3].x = 0.f; zone[3].z = 1.f; zone[3].dw = 0.001f;
+		zone[3].use = true;
+		zone[3].x = 0.f;
+		zone[3].z = 1.f;
+		zone[3].dw = 0.001f;
 		fgtSetIndex = GetRandomIndexByObstacle(zone, 4);
 		//если выпад на заступ за патч, то производим быстрый удар, а не выпад
-		if( fgtSetIndex<0 )
+		if (fgtSetIndex < 0)
 		{
 			type = fgt_attack_fast;
 			aname = FGT_ATTACK_FAST;
@@ -1332,12 +1391,14 @@ void Character::Attack(Character * enemy, FightAction type)
 		fgtSetIndex = rand() % numAttackFeint;
 		break;
 	case fgt_attack_feintc:
-        fgtSetType =  fgt_attack_feintc;  // fix boal
-        //fgtCurType =
-		if(fgtCurIndex >= 0 && fgtCurIndex < numAttackFeint)
+		fgtSetType = fgt_attack_feintc; // fix boal
+		//fgtCurType =
+		if (fgtCurIndex >= 0 && fgtCurIndex < numAttackFeint)
 		{
 			fgtSetIndex = fgtCurIndex;
-		}else{
+		}
+		else
+		{
 			fgtSetIndex = rand() % numAttackFeint;
 		}
 		return; // fix boal
@@ -1347,27 +1408,31 @@ void Character::Attack(Character * enemy, FightAction type)
 		fgtSetIndex = -1;
 		return;
 	}
-	if(aname) //~!~
+	if (aname) //~!~
 	{
 		res = api->Event("ChrAttackAction", "is", GetId(), aname);
-		if(res)
+		if (res)
 		{
 			long isEnable = 1;
-			if(res->Get(isEnable))
+			if (res->Get(isEnable))
 			{
-				if(!isEnable)
+				if (!isEnable)
 				{
 					res = nullptr;
 				}
-			}else{
+			}
+			else
+			{
 				res = nullptr;
 			}
 		}
 	}
-	if(res)
+	if (res)
 	{
 		fgtSetType = type;
-	}else{
+	}
+	else
+	{
 		fgtSetType = fgt_none;
 		fgtSetIndex = -1;
 	}
@@ -1377,9 +1442,10 @@ void Character::Attack(Character * enemy, FightAction type)
 void Character::Block()
 {
 	// boal прервывние всего блоком if(priorityAction.name) return;
-	if(isSwim) return;
-	if(!isFight) return;
-	if(fgtCurType != fgt_blockhit && fgtSetType != fgt_blockhit && fgtCurType != fgt_blockbreak && fgtSetType != fgt_blockbreak)
+	if (isSwim) return;
+	if (!isFight) return;
+	if (fgtCurType != fgt_blockhit && fgtSetType != fgt_blockhit && fgtCurType != fgt_blockbreak && fgtSetType !=
+		fgt_blockbreak)
 	{
 		fgtSetType = fgt_block;
 		fgtSetIndex = 0;
@@ -1390,24 +1456,36 @@ void Character::Block()
 //Парирование
 void Character::Parry()
 {
-	if(priorityAction.name) return;
-	if(isSwim) return;
-	if(!isFight) return;
+	if (priorityAction.name) return;
+	if (isSwim) return;
+	if (!isFight) return;
 	fgtSetType = fgt_parry;
 
 	//fgtSetIndex = rand() % numParry;
 	ObstacleZone zone[4];
 	// уход влево
-	zone[0].use = true; zone[0].x = -1.f; zone[0].z = 0.f; zone[0].dw = 0.5f;
+	zone[0].use = true;
+	zone[0].x = -1.f;
+	zone[0].z = 0.f;
+	zone[0].dw = 0.5f;
 	// уход вправо блок сверху
-	zone[1].use = true; zone[1].x = 1.f; zone[1].z = 0.f; zone[1].dw = 0.5f;
+	zone[1].use = true;
+	zone[1].x = 1.f;
+	zone[1].z = 0.f;
+	zone[1].dw = 0.5f;
 	// уход вправо блок снизу
-	zone[2].use = true; zone[2].x = 1.f; zone[2].z = 0.f; zone[2].dw = 0.5f;
+	zone[2].use = true;
+	zone[2].x = 1.f;
+	zone[2].z = 0.f;
+	zone[2].dw = 0.5f;
 	// никаких уходов - на месте
-	zone[3].use = true; zone[3].x = 0.f; zone[3].z = 0.f; zone[3].dw = 0.5f;
+	zone[3].use = true;
+	zone[3].x = 0.f;
+	zone[3].z = 0.f;
+	zone[3].dw = 0.5f;
 	fgtSetIndex = GetRandomIndexByObstacle(zone, 4);
 	//api->Trace("Результат выбора: \"%i\"", fgtSetIndex);
-	if( fgtSetIndex<0 ) fgtSetIndex = 3;
+	if (fgtSetIndex < 0) fgtSetIndex = 3;
 
 	isTurnLock = false;
 }
@@ -1415,11 +1493,11 @@ void Character::Parry()
 //Отскок
 void Character::Recoil()
 {
-	if(priorityAction.name) return;
-	if(isSwim) return;
-	if(!isFight) return;
-	if(recoilWait > 0.0f) return;
-	if(!GetLocation()->IsSwimming()) return;
+	if (priorityAction.name) return;
+	if (isSwim) return;
+	if (!isFight) return;
+	if (recoilWait > 0.0f) return;
+	if (!GetLocation()->IsSwimming()) return;
 	fgtSetType = fgt_recoil;
 	fgtSetIndex = 0;
 	recoilWait = 0.8f;
@@ -1429,10 +1507,10 @@ void Character::Recoil()
 //Пыжёк влево
 void Character::StrafeLeft()
 {
-	if(priorityAction.name) return;
-	if(isSwim) return;
-	if(strafeWait > 0.0f) return;
-	if(!!GetLocation()->IsSwimming()) return;
+	if (priorityAction.name) return;
+	if (isSwim) return;
+	if (strafeWait > 0.0f) return;
+	if (!!GetLocation()->IsSwimming()) return;
 	strafeWait = 0.8f;
 	fgtSetType = fgt_strafe_l;
 	fgtSetIndex = 0;
@@ -1443,10 +1521,10 @@ void Character::StrafeLeft()
 //Пыжёк вправо
 void Character::StrafeRight()
 {
-	if(priorityAction.name) return;
-	if(isSwim) return;
-	if(strafeWait > 0.0f) return;
-	if(!!GetLocation()->IsSwimming()) return;
+	if (priorityAction.name) return;
+	if (isSwim) return;
+	if (strafeWait > 0.0f) return;
+	if (!!GetLocation()->IsSwimming()) return;
 	strafeWait = 0.8f;
 	fgtSetType = fgt_strafe_r;
 	fgtSetIndex = 0;
@@ -1469,31 +1547,33 @@ void Character::Hit(FightAction type)
 	api->Send_Message(eid, "lls", 45020, false, sbuf);
 	//!!!
 	//*/
-	if(priorityAction.name) return;
-	if(isSwim) return;
+	if (priorityAction.name) return;
+	if (isSwim) return;
 	isNFHit = false;
 	//if(!isFight)
 	{
-		if(!IsDead())
+		if (!IsDead())
 		{
 			isNFHit = true;
 		}
 	}
 	impulse = 0.0f;
 	bool restBlockBreak = (fgtSetType == fgt_blockbreak);
-	switch(type)
+	switch (type)
 	{
 	case fgt_hit_attack:
-		if(fgtCurType != fgt_block && fgtCurType != fgt_blockhit)
+		if (fgtCurType != fgt_block && fgtCurType != fgt_blockhit)
 		{
 			HitChild(false);
-			if(fgtSetType < fgt_hit_attack)
+			if (fgtSetType < fgt_hit_attack)
 			{
 				fgtSetType = fgt_hit_attack;
 				fgtSetIndex = rand() % numHits;
 			}
 			//api->Send_Message(eid, "lls", 45020, false, "fgt_hit_attack");
-		}else{
+		}
+		else
+		{
 			HitChild(true);
 			fgtSetType = fgt_blockhit;
 			fgtSetIndex = 0;
@@ -1501,13 +1581,15 @@ void Character::Hit(FightAction type)
 		}
 		break;
 	case fgt_hit_round:
-		if(fgtCurType != fgt_block && fgtCurType != fgt_blockhit)
+		if (fgtCurType != fgt_block && fgtCurType != fgt_blockhit)
 		{
 			HitChild(false);
 			fgtSetType = fgt_hit_round;
 			fgtSetIndex = 0;
 			//api->Send_Message(eid, "lls", 45020, false, "fgt_hit_round");
-		}else{
+		}
+		else
+		{
 			HitChild(true);
 			fgtSetType = fgt_blockhit;
 			fgtSetIndex = 0;
@@ -1515,13 +1597,15 @@ void Character::Hit(FightAction type)
 		}
 		break;
 	case fgt_blockbreak:
-		if(fgtCurType != fgt_block && fgtCurType != fgt_blockhit)
+		if (fgtCurType != fgt_block && fgtCurType != fgt_blockhit)
 		{
 			HitChild(false);
 			fgtSetType = fgt_hit_attack;
 			fgtSetIndex = rand() % numHits;
 			//api->Send_Message(eid, "lls", 45020, false, "fgt_hit_attack");
-		}else{
+		}
+		else
+		{
 			HitChild(true);
 			fgtSetType = fgt_blockbreak;
 			fgtSetIndex = 0;
@@ -1552,16 +1636,16 @@ void Character::Hit(FightAction type)
 		fgtSetIndex = rand() % numHits;
 		//api->Send_Message(eid, "lls", 45020, false, "default hit!...");
 	}
-	if(restBlockBreak) fgtSetType = fgt_blockbreak;
+	if (restBlockBreak) fgtSetType = fgt_blockbreak;
 }
 
 //Выстрел
 void Character::Fire()
 {
-	if(priorityAction.name) return;
-	if(isSwim) return;
-	if(!IsGunLoad()) return;
-	if(!!GetLocation()->IsSwimming()) return;
+	if (priorityAction.name) return;
+	if (isSwim) return;
+	if (!IsGunLoad()) return;
+	if (!!GetLocation()->IsSwimming()) return;
 	//Ставим действие стрельбы
 	fgtSetType = fgt_fire;
 	fgtSetIndex = 0;
@@ -1570,15 +1654,17 @@ void Character::Fire()
 //Проверить, заряжен ли пистолет
 bool Character::IsGunLoad()
 {
-	if(!isGunSet) return false;
-	if(!isFight || liveValue < 0 || deadName) return false;
+	if (!isGunSet) return false;
+	if (!isFight || liveValue < 0 || deadName) return false;
 	//Спросим у скрипта о возможности стрельбы
-	VDATA * vd = api->Event("Location_CharacterIsFire", "i", GetId());
+	VDATA* vd = api->Event("Location_CharacterIsFire", "i", GetId());
 	long res = 0;
-	if(vd && vd->Get(res))
+	if (vd && vd->Get(res))
 	{
-		if(!res) return false;
-	}else{
+		if (!res) return false;
+	}
+	else
+	{
 		api->Trace("Event \"Location_CharacterIsFire\" -> return type is not int");
 		//return false;
 		//!!!
@@ -1590,11 +1676,11 @@ bool Character::IsGunLoad()
 //Смерть
 void Character::Dead()
 {
-	if(deadName) return;
+	if (deadName) return;
 	DelSavePosition(false);
 	long num = numActionDead;
-	ActionDead * dead = actionDead;
-	if(isFight)
+	ActionDead* dead = actionDead;
+	if (isFight)
 	{
 		num = numActionFightDead;
 		dead = actionFightDead;
@@ -1606,47 +1692,49 @@ void Character::Dead()
 	static Supervisor::FindCharacter fnd[MAX_CHARACTERS];
 	static long numChr = 0;
 	const auto location = GetLocation();
-	for(long i = 0; i < num; i++)
+	for (long i = 0; i < num; i++)
 	{
 		ay = _ay + dead[i].ang;
-		if(location->supervisor.FindCharacters(fnd, numChr, this, 2.0f, 0.0f, 0.0f)) dead[i].p *= 0.1f;
+		if (location->supervisor.FindCharacters(fnd, numChr, this, 2.0f, 0.0f, 0.0f)) dead[i].p *= 0.1f;
 		float cs = cosf(dead[i].ang);
 		float sn = sinf(dead[i].ang);
 		CVECTOR p = curPos + CVECTOR(0.0f, 0.5f, 0.0f);
-		if(!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.5f;
-		p += CVECTOR(sn*0.5f, 0.0f, -cs*0.5f);
-		if(!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.5f;
-		p -= CVECTOR(sn*1.0f, 0.0f, -cs*1.0f);
-		if(!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.5f;
+		if (!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.5f;
+		p += CVECTOR(sn * 0.5f, 0.0f, -cs * 0.5f);
+		if (!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.5f;
+		p -= CVECTOR(sn * 1.0f, 0.0f, -cs * 1.0f);
+		if (!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.5f;
 		p = curPos + CVECTOR(0.0f, 1.0f, 0.0f);
-		if(!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.5f;
-		p += CVECTOR(sn*0.5f, 0.0f, -cs*0.5f);
-		if(!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.5f;
-		p -= CVECTOR(sn*1.0f, 0.0f, -cs*1.0f);
-		if(!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.5f;
+		if (!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.5f;
+		p += CVECTOR(sn * 0.5f, 0.0f, -cs * 0.5f);
+		if (!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.5f;
+		p -= CVECTOR(sn * 1.0f, 0.0f, -cs * 1.0f);
+		if (!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.5f;
 		p = curPos + CVECTOR(0.0f, 1.5f, 0.0f);
-		if(!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.9f;
-		p += CVECTOR(sn*0.5f, 0.0f, -cs*0.5f);
-		if(!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.9f;
-		p -= CVECTOR(sn*1.0f, 0.0f, -cs*1.0f);
-		if(!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.9f;
+		if (!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.9f;
+		p += CVECTOR(sn * 0.5f, 0.0f, -cs * 0.5f);
+		if (!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.9f;
+		p -= CVECTOR(sn * 1.0f, 0.0f, -cs * 1.0f);
+		if (!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.9f;
 	}
 	ay = _ay;
 	//Сумарный вероятностный отрезок
 	float sum = 0.0f;
 	long i;
-	for(i = 0; i < num; i++) sum += dead[i].p;
+	for (i = 0; i < num; i++) sum += dead[i].p;
 	//Выбираем действия
-	if(sum > 0.0f)
+	if (sum > 0.0f)
 	{
-		float p = rand()*sum/RAND_MAX;
+		float p = rand() * sum / RAND_MAX;
 		sum = 0.0f;
-		for(i = 0; i < num; i++)
+		for (i = 0; i < num; i++)
 		{
 			sum += dead[i].p;
-			if(sum >= p) break;
+			if (sum >= p) break;
 		}
-	}else{
+	}
+	else
+	{
 		i = rand() % num;
 	}
 	Assert(i < num);
@@ -1670,7 +1758,7 @@ void Character::ExitFromLocation()
 
 void Character::StartJump()
 {
-	if( !isJump && BuildJump(curPos,ay) )
+	if (!isJump && BuildJump(curPos, ay))
 	{
 		isJump = true;
 		isJumpSnd = true;
@@ -1686,7 +1774,7 @@ void Character::StartJump()
 //Сбросить состояние
 void Character::Reset()
 {
-	if(fgtCurType == fgt_block && !IsPlayer()) fgtCurType = fgt_none;
+	if (fgtCurType == fgt_block && !IsPlayer()) fgtCurType = fgt_none;
 }
 
 //Перемещаем персонажа в желаемую позицию
@@ -1694,16 +1782,16 @@ void Character::Move(float dltTime)
 {
 	const auto location = GetLocation();
 
-	if(lockMove) dltTime = 0.0f;
-	if(recoilWait > 0.0f) recoilWait -= dltTime;
-	if(strafeWait > 0.0f) strafeWait -= dltTime;
-	if(camRotWait > 0.0f) camRotWait -= dltTime;
-	if(isTurnLock)
+	if (lockMove) dltTime = 0.0f;
+	if (recoilWait > 0.0f) recoilWait -= dltTime;
+	if (strafeWait > 0.0f) strafeWait -= dltTime;
+	if (camRotWait > 0.0f) camRotWait -= dltTime;
+	if (isTurnLock)
 	{
-		if(fgtCurType >= fgt_attack_fast && fgtCurType <= fgt_attack_feintc)
+		if (fgtCurType >= fgt_attack_fast && fgtCurType <= fgt_attack_feintc)
 		{
 			auto* eAttack = (Character *)EntityManager::GetEntityPointer(enemyAttack);
-			if(eAttack)
+			if (eAttack)
 			{
 				isTurnLock = false;
 				Turn(eAttack->curPos.x - curPos.x, eAttack->curPos.z - curPos.z);
@@ -1713,147 +1801,157 @@ void Character::Move(float dltTime)
 	}
 
 	//Снимем выделение
-	if(tuner.selected > 0.0f) tuner.selected -= dltTime*3.0f;
+	if (tuner.selected > 0.0f) tuner.selected -= dltTime * 3.0f;
 	//Коэфициент скорости
-	float k = dltTime*0.5f;
-	if(k > 1.0f) k = 1.0f;
-	if(kSpd < 0.0f) kSpd = 0.0f;
-	if(kSpd > 1.0f) kSpd = 1.0f;
-	kSpdCur += (kSpd - kSpdCur)*k;
-	k = kSpdCur*0.3f + 0.7f + kSpdDlt;
-	MODEL * m = Model();
-	if(m)
+	float k = dltTime * 0.5f;
+	if (k > 1.0f) k = 1.0f;
+	if (kSpd < 0.0f) kSpd = 0.0f;
+	if (kSpd > 1.0f) kSpd = 1.0f;
+	kSpdCur += (kSpd - kSpdCur) * k;
+	k = kSpdCur * 0.3f + 0.7f + kSpdDlt;
+	MODEL* m = Model();
+	if (m)
 	{
-		Animation * a = m->GetAnimation();
-		if(a)
+		Animation* a = m->GetAnimation();
+		if (a)
 		{
-			a->Player(0).SetSpeed(a->Player(0).GetDefSpeed()*k);
-			a->Player(1).SetSpeed(a->Player(1).GetDefSpeed()*k);
+			a->Player(0).SetSpeed(a->Player(0).GetDefSpeed() * k);
+			a->Player(1).SetSpeed(a->Player(1).GetDefSpeed() * k);
 		}
 	}
 	//Текущая позиция
 	oldPos = curPos;
-	if(!isJump)
+	if (!isJump)
 	{
 		//Скорость перемещения
-		if(bspeed.Update(dltTime)) speed = bspeed.Get();
+		if (bspeed.Update(dltTime)) speed = bspeed.Get();
 		//Скорость вращения
-		if(bturn.Update(dltTime)) turnspd = bturn.Get();
+		if (bturn.Update(dltTime)) turnspd = bturn.Get();
 		//Перемещение
-		float spd = dltTime*speed*k;
-		CVECTOR moveVec(sinf(ay)*spd, 0.0f, cosf(ay)*spd);
+		float spd = dltTime * speed * k;
+		CVECTOR moveVec(sinf(ay) * spd, 0.0f, cosf(ay) * spd);
 		curPos += moveVec;
-		if(spd < 0.0f) moveVec = -moveVec;
-		curPos += CVECTOR(moveVec.z, 0.0f, -moveVec.x)*(strafeMove*0.8f);
-		curPos += impulse*dltTime;
-		float kStrafe = dltTime*8.0f;
+		if (spd < 0.0f) moveVec = -moveVec;
+		curPos += CVECTOR(moveVec.z, 0.0f, -moveVec.x) * (strafeMove * 0.8f);
+		curPos += impulse * dltTime;
+		float kStrafe = dltTime * 8.0f;
 		bool noStrafe = true;
 		bool noStrafeMove = true;
-		if(fabsf(speed) > 0.1f)
+		if (fabsf(speed) > 0.1f)
 		{
 			float sm = strafeMove;
-			if(speed < 0.0f)
+			if (speed < 0.0f)
 			{
 				sm = -sm;
 			}
-			if(sm > 0.1f)
+			if (sm > 0.1f)
 			{
 				noStrafe = false;
 				strafeAngle += kStrafe;
-				if(strafeAngle > 1.0f) strafeAngle = 1.0f;
-			}else
-			if(sm < -0.1f)
+				if (strafeAngle > 1.0f) strafeAngle = 1.0f;
+			}
+			else if (sm < -0.1f)
 			{
 				noStrafe = false;
 				strafeAngle -= kStrafe;
-				if(strafeAngle < -1.0f) strafeAngle = -1.0f;
+				if (strafeAngle < -1.0f) strafeAngle = -1.0f;
 			}
-		}else{
-			if(!IsFight())
+		}
+		else
+		{
+			if (!IsFight())
 			{
-				if(strafeMove > 0.1f)
+				if (strafeMove > 0.1f)
 				{
 					noStrafeMove = false;
 					strafeVel += kStrafe;
-					if(strafeVel > 1.0f) strafeVel = 1.0f;
-				}else
-				if(strafeMove < -0.1f)
+					if (strafeVel > 1.0f) strafeVel = 1.0f;
+				}
+				else if (strafeMove < -0.1f)
 				{
 					noStrafeMove = false;
 					strafeVel -= kStrafe;
-					if(strafeVel < -1.0f) strafeVel = -1.0f;
+					if (strafeVel < -1.0f) strafeVel = -1.0f;
 				}
 			}
 		}
-		if(noStrafe)
+		if (noStrafe)
 		{
-			if(strafeAngle >= 0.0f)
+			if (strafeAngle >= 0.0f)
 			{
 				strafeAngle -= kStrafe;
-				if(strafeAngle < 0.0f) strafeAngle = 0.0f;
-			}else{
+				if (strafeAngle < 0.0f) strafeAngle = 0.0f;
+			}
+			else
+			{
 				strafeAngle += kStrafe;
-				if(strafeAngle > 0.0f) strafeAngle = 0.0f;
+				if (strafeAngle > 0.0f) strafeAngle = 0.0f;
 			}
 		}
-		if(noStrafeMove)
+		if (noStrafeMove)
 		{
-			if(strafeVel >= 0.0f)
+			if (strafeVel >= 0.0f)
 			{
 				strafeVel -= kStrafe;
-				if(strafeVel < 0.0f) strafeVel = 0.0f;
-			}else{
+				if (strafeVel < 0.0f) strafeVel = 0.0f;
+			}
+			else
+			{
 				strafeVel += kStrafe;
-				if(strafeVel > 0.0f) strafeVel = 0.0f;
+				if (strafeVel > 0.0f) strafeVel = 0.0f;
 			}
 		}
-		curPos += CVECTOR(cosf(ay), 0.0f, -sinf(ay))*(strafeVel*dltTime*0.9f);
+		curPos += CVECTOR(cosf(ay), 0.0f, -sinf(ay)) * (strafeVel * dltTime * 0.9f);
 		//Вращение
-		if(turnDir > 0.0f)
+		if (turnDir > 0.0f)
 		{
-			ay += turnspd*dltTime;
-			if(ay > nay)
+			ay += turnspd * dltTime;
+			if (ay > nay)
 			{
 				ay = nay;
 				turnDir = 0.0f;
 			}
-			isTurn += 0.8f*turnspd*dltTime;
-			if(isTurn > 1.0f) isTurn = 1.0f;
-		}else
-		if(turnDir < 0.0f)
+			isTurn += 0.8f * turnspd * dltTime;
+			if (isTurn > 1.0f) isTurn = 1.0f;
+		}
+		else if (turnDir < 0.0f)
 		{
-			ay -= turnspd*dltTime;
-			if(ay < nay)
+			ay -= turnspd * dltTime;
+			if (ay < nay)
 			{
 				ay = nay;
 				turnDir = 0.0f;
 			}
-			isTurn -= 0.8f*turnspd*dltTime;
-			if(isTurn < -1.0f) isTurn = -1.0f;
-		}else{
-			if(isTurn > 0.0f)
+			isTurn -= 0.8f * turnspd * dltTime;
+			if (isTurn < -1.0f) isTurn = -1.0f;
+		}
+		else
+		{
+			if (isTurn > 0.0f)
 			{
-				isTurn -= dltTime*1.7f;
-				if(isTurn < 0.0f) isTurn = 0.0f;
-			}else
-			if(isTurn < 0.0f)
+				isTurn -= dltTime * 1.7f;
+				if (isTurn < 0.0f) isTurn = 0.0f;
+			}
+			else if (isTurn < 0.0f)
 			{
-				isTurn += dltTime*1.7f;
-				if(isTurn > 0.0f) isTurn = 0.0f;
+				isTurn += dltTime * 1.7f;
+				if (isTurn > 0.0f) isTurn = 0.0f;
 			}
 		}
 		//location->Print(curPos, 1000.0f, 4, 1.0f, 0xffffffff, 1.0f, "ay = %f, nay = %f, turnDir = %f, turnspd = %f", ay, nay, turnDir, turnspd);
 		kSpd = 1.0f;
-	}else{
+	}
+	else
+	{
 		//Движемся по траектории падения
 		curJumpFallTime += dltTime;
-		if(isJumpSnd && priorityAction.name)
+		if (isJumpSnd && priorityAction.name)
 		{
 			auto* sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
-			if(sb && location->IsSwimming())
+			if (sb && location->IsSwimming())
 			{
 				seaY = sb->WaveXZ(curPos.x, curPos.z, nullptr);
-				if(seaY > curPos.y + 0.01f && PriorityActionIsJump())
+				if (seaY > curPos.y + 0.01f && PriorityActionIsJump())
 				{
 					PlaySound("jump_water");
 					isJumpSnd = false;
@@ -1862,96 +1960,103 @@ void Character::Move(float dltTime)
 				}
 			}
 		}
-		if(curJumpFallTime < jumpFallTime)
+		if (curJumpFallTime < jumpFallTime)
 		{
 			//Ищем ключевые позиции
-			long s = long(curJumpFallTime/CHARACTER_JUMP_TIMESTEP);
-			if(s >= jumpPoints) s = jumpPoints - 1;
+			long s = long(curJumpFallTime / CHARACTER_JUMP_TIMESTEP);
+			if (s >= jumpPoints) s = jumpPoints - 1;
 			long e = s + 1;
-			if(e >= jumpPoints) e = jumpPoints - 1;
-			float kBlend = (curJumpFallTime/CHARACTER_JUMP_TIMESTEP) - s;
-			if(s + kBlend > e) kBlend = float(e - s);
-			if(kBlend < 0.0f) kBlend = 0.0f;
-			if(kBlend > 1.0f) kBlend = 1.0f;
-			curPos = jumpTrack[s] + (jumpTrack[e] - jumpTrack[s])*kBlend;
-		}else{
+			if (e >= jumpPoints) e = jumpPoints - 1;
+			float kBlend = (curJumpFallTime / CHARACTER_JUMP_TIMESTEP) - s;
+			if (s + kBlend > e) kBlend = float(e - s);
+			if (kBlend < 0.0f) kBlend = 0.0f;
+			if (kBlend > 1.0f) kBlend = 1.0f;
+			curPos = jumpTrack[s] + (jumpTrack[e] - jumpTrack[s]) * kBlend;
+		}
+		else
+		{
 			//Закончили прыжок
-			if(isJumpSnd)
+			if (isJumpSnd)
 			{
 				PlaySound("jump");
 				isJumpSnd = false;
 			}
 			Teleport(osculationPoint.x, osculationPoint.y, osculationPoint.z, ay);
 
-			if(priorityAction.name)
+			if (priorityAction.name)
 			{
-				MODEL * m = Model();
-				if(m)
+				MODEL* m = Model();
+				if (m)
 				{
-					Animation * a = m->GetAnimation();
-					if(a)
+					Animation* a = m->GetAnimation();
+					if (a)
 					{
 						//Продолжим проигрывание
 						a->Player(0).Play();
-					}else priorityAction.SetName(nullptr);
-				}else priorityAction.SetName(nullptr);
+					}
+					else priorityAction.SetName(nullptr);
+				}
+				else priorityAction.SetName(nullptr);
 			}
 		}
-		if(isJumpSnd)
+		if (isJumpSnd)
 		{
 			//SetSoundPosition(jumpSound);
-		}else{
+		}
+		else
+		{
 			//ReleaseSound(jumpSound);
 			jumpSound = SOUND_INVALID_ID;
 		}
 	}
 	//Ослабим импульс
-	k = dltTime*5.0f;
-	if(k > 1.0f) k = 1.0f;
-	impulse -= impulse*k;
+	k = dltTime * 5.0f;
+	if (k > 1.0f) k = 1.0f;
+	impulse -= impulse * k;
 
 	//!!!
 	//if(api->Controls->GetDebugAsyncKeyState('7') < 0) api->Send_Message(effects, "sffff", "Splashes", curPos.x, curPos.y, curPos.z, 1.0f);
 
 	//Высота волны в данной точке
-	if(swimChange <= 0.0f && location->IsSwimming())
+	if (swimChange <= 0.0f && location->IsSwimming())
 	{
 		bool old = isSwim;
 		auto* sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
 		isSwim = false;
 		isRunDisable = false;
-		if(sb)
+		if (sb)
 		{
 			CVECTOR n;
 			seaY = sb->WaveXZ(curPos.x, curPos.z, &n);
 			isRunDisable = seaY - curPos.y > CHARACTER_SEA_NOTRUN;
-			if(seaY > curPos.y)
+			if (seaY > curPos.y)
 			{
 				stepsRate += dltTime;
-				if(stepsRate > 0.15f)
+				if (stepsRate > 0.15f)
 				{
 					stepsRate = 0.0f;
 					api->Send_Message(waterrings, "ffflll", curPos.x, curPos.z, ay, isMove, IsRun(), isSwim);
 				}
 			}
-			if(seaY > curPos.y + CHARACTER_SEA_MOVE*height)
+			if (seaY > curPos.y + CHARACTER_SEA_MOVE * height)
 			{
 				//Игрока сносит или он плывёт
 				float dlt = old ? -0.03f : 0.03f;
-				if(seaY > curPos.y + CHARACTER_SEA_SWIM*height + dlt)
+				if (seaY > curPos.y + CHARACTER_SEA_SWIM * height + dlt)
 				{
 					//Игрок плывёт
-					seaY -= CHARACTER_SEA_SWIM*height;
+					seaY -= CHARACTER_SEA_SWIM * height;
 					isSwim = true;
 				}
-				float k = 5.0f*(seaY - curPos.y - CHARACTER_SEA_MOVE*height)*dltTime;
-				if(k > 2.0f) k = 2.0f;
+				float k = 5.0f * (seaY - curPos.y - CHARACTER_SEA_MOVE * height) * dltTime;
+				if (k > 2.0f) k = 2.0f;
 				n.y = 0.0f;
-				curPos += n*k;
+				curPos += n * k;
 			}
 		}
-		if(isSwim != old) swimChange = 0.8f;
-	}else swimChange -= dltTime;
+		if (isSwim != old) swimChange = 0.8f;
+	}
+	else swimChange -= dltTime;
 }
 
 //Обновить позицию персонажа
@@ -1960,117 +2065,122 @@ void Character::Update(float dltTime)
 	const auto location = GetLocation();
 
 	//Обновление полосок
-	if(isPlayerEnemy && isFight && !IsDead())
+	if (isPlayerEnemy && isFight && !IsDead())
 	{
-		enemyBarsAlpha += dltTime*2.0f;
-		if(enemyBarsAlpha > 1.0f) enemyBarsAlpha = 1.0f;
-	}else{
-		enemyBarsAlpha -= dltTime*2.0f;
-		if(enemyBarsAlpha < 0.0f) enemyBarsAlpha = 0.0f;
+		enemyBarsAlpha += dltTime * 2.0f;
+		if (enemyBarsAlpha > 1.0f) enemyBarsAlpha = 1.0f;
 	}
-	if(enemyBarsAlpha > 1.0f/255.0f)
+	else
+	{
+		enemyBarsAlpha -= dltTime * 2.0f;
+		if (enemyBarsAlpha < 0.0f) enemyBarsAlpha = 0.0f;
+	}
+	if (enemyBarsAlpha > 1.0f / 255.0f)
 	{
 		float hp = 0.5f;
 		float energy = 0.5f;
 		//Получим параметры жизни и энергии
-		VDATA * retVal = api->Event("NpcEvtHP", "i", GetId());
-		if(retVal)
+		VDATA* retVal = api->Event("NpcEvtHP", "i", GetId());
+		if (retVal)
 		{
-			if(!retVal->Get(hp))
+			if (!retVal->Get(hp))
 			{
 				hp = 0.5f;
 			}
 		}
 		retVal = api->Event("NpcEvtEny", "i", GetId());
-		if(retVal)
+		if (retVal)
 		{
-			if(!retVal->Get(energy))
+			if (!retVal->Get(energy))
 			{
 				energy = 0.5f;
 			}
 		}
 		//Добавимся в список рисуемых
 		CVECTOR pos = curPos + CVECTOR(0.0f, 2.0f, 0.0f);
-		location->DrawEnemyBars(pos, hp, energy, tuner.GetAlpha()*enemyBarsAlpha);
+		location->DrawEnemyBars(pos, hp, energy, tuner.GetAlpha() * enemyBarsAlpha);
 	}
 	//
-	if(lockMove) dltTime = 0.0f;
+	if (lockMove) dltTime = 0.0f;
 	//Посчитаем время для работы групп
 	{
-		for(long i = 0; i < numTargets; i++)
+		for (long i = 0; i < numTargets; i++)
 		{
 			grpTargets[i].time += dltTime;
 		}
 	}
 	//Время блендинга анимации
 	noBlendTime -= dltTime;
-	if(noBlendTime <= 0.0f) noBlendTime = 0.0f;
+	if (noBlendTime <= 0.0f) noBlendTime = 0.0f;
 	//Блендинг оружия и теней
 	{
-		float alpha = tuner.GetAlpha()*255.0f;
+		float alpha = tuner.GetAlpha() * 255.0f;
 		uint32_t blendColor = (uint32_t(alpha) << 24) | 0x00ffffff;
 		api->Send_Message(blade, "ll", MSG_BLADE_ALPHA, blendColor);
 		api->Send_Message(shadow, "ll", MSG_BLADE_ALPHA, blendColor);
 	}
 	//
-	PtcData & ptc = location->GetPtcData();
-	if(deadName)
+	PtcData& ptc = location->GetPtcData();
+	if (deadName)
 	{
-		if(!priorityAction.name || _stricmp(priorityAction.name, deadName) != 0)
+		if (!priorityAction.name || _stricmp(priorityAction.name, deadName) != 0)
 		{
 			priorityAction.SetName(deadName);
 			isSetPriorityAction = false;
 		}
 	}
-	MODEL * m = Model();
-	if(!m) return;
-	if(!isJump)
+	MODEL* m = Model();
+	if (!m) return;
+	if (!isJump)
 	{
 		//Скорость падения
-		vy -= 9.8f*dltTime;
-		curPos.y += vy*dltTime;
+		vy -= 9.8f * dltTime;
+		curPos.y += vy * dltTime;
 		//Сверяемся с патчем
 		currentNode = ptc.Move(currentNode, curPos, oldPos);
 		curPos = oldPos;
-		if(ptc.isBearing) vy = 0.0f;
+		if (ptc.isBearing) vy = 0.0f;
 		isSlide = ptc.isSlide;
-		if(ptc.isSlide && isEnableJump)
+		if (ptc.isSlide && isEnableJump)
 		{
-			if(fall.name && !isFight && !priorityAction.name)
+			if (fall.name && !isFight && !priorityAction.name)
 			{
-				if(TestJump(curPos + CVECTOR(0.001f*sinf(ay), -0.001f, 0.001f*cosf(ay))))
+				if (TestJump(curPos + CVECTOR(0.001f * sinf(ay), -0.001f, 0.001f * cosf(ay))))
 				{
 					PlaySound("recoil");
 					isJump = true;
 					isJumpSnd = true;
 					jumpSound = SOUND_INVALID_ID;
 					PlaySound("clothes");
-					if(fabsf(curPos.y - osculationPoint.y) > 1.5f) SetPriorityAction(fall.name);
+					if (fabsf(curPos.y - osculationPoint.y) > 1.5f) SetPriorityAction(fall.name);
 					return;
 				}
 			}
 		}
-	}else{
+	}
+	else
+	{
 		vy = 0.0f;
 	}
 	//SetSoundPosition(recoilSound);
 	//Высота волны в данной точке
 	CVECTOR chrPos = curPos;
-	if(isSwim && location->IsSwimming())
+	if (isSwim && location->IsSwimming())
 	{
 		vy = 0.0f;
 		chrPos.y = seaY;
 	}
 	//Ставим матрицу для модельки
-	m->mtx.BuildMatrix(CVECTOR(0.0f, ay + strafeAngle*3.1415f*0.25f*0.8f, 0.0f), chrPos);// - CVECTOR(0.0f, 0.14f, 0.0f));
+	m->mtx.BuildMatrix(CVECTOR(0.0f, ay + strafeAngle * 3.1415f * 0.25f * 0.8f, 0.0f), chrPos);
+	// - CVECTOR(0.0f, 0.14f, 0.0f));
 	//Хождение по ступенькам
 	float sn = 0.0f;
 	CVECTOR nodeNorm;
 	ptc.GetNodeNormal(currentNode, nodeNorm);
-	float k = 10.0f*dltTime;
-	if(k > 1.0f) k = 1.0f;
-	movecs += (nodeNorm.y - movecs)*k;
-	isUp = nodeNorm.x*m->mtx.Vz().x + nodeNorm.z*m->mtx.Vz().z <= 0;
+	float k = 10.0f * dltTime;
+	if (k > 1.0f) k = 1.0f;
+	movecs += (nodeNorm.y - movecs) * k;
+	isUp = nodeNorm.x * m->mtx.Vz().x + nodeNorm.z * m->mtx.Vz().z <= 0;
 	//Анимация
 	/*
 	if(_stricmp(characterID, "Blaze") == 0)
@@ -2081,9 +2191,9 @@ void Character::Update(float dltTime)
 	*/
 	UpdateAnimation();
 	//Анализируем детекторы
-	for(long i = 0; i < numDetectors; i++) detector[i]->Check(dltTime, this);
+	for (long i = 0; i < numDetectors; i++) detector[i]->Check(dltTime, this);
 	//Если упали - пишем дебажную строчку
-	if(curPos.y < -1000.0f)
+	if (curPos.y < -1000.0f)
 	{
 		//Assert(false);
 		api->Trace("Character [%s] fall to underworld!!!", characterID ? characterID : "Unknow id");
@@ -2091,25 +2201,29 @@ void Character::Update(float dltTime)
 		vy = 0.0f;
 	}
 	//Появление, удаление
-	if(liveValue != 0.0f)
+	if (liveValue != 0.0f)
 	{
-		tuner.alpha += liveValue*dltTime;
-		if(liveValue > 0.0f)
+		tuner.alpha += liveValue * dltTime;
+		if (liveValue > 0.0f)
 		{
-			if(tuner.alpha >= 1.0f)
+			if (tuner.alpha >= 1.0f)
 			{
 				tuner.alpha = 1.0f;
 				liveValue = 0.0f;
 				api->Event("Location_CharacterEntryToLocation", "e", GetId());
 			}
-		}else{
-			if(tuner.alpha <= 0.0f)
+		}
+		else
+		{
+			if (tuner.alpha <= 0.0f)
 			{
 				tuner.alpha = 0.0f;
-				if(deadName)
+				if (deadName)
 				{
 					api->Event("Location_CharacterDead", "e", GetId());
-				}else{
+				}
+				else
+				{
 					api->Event("Location_CharacterExitFromLocation", "e", GetId());
 				}
 				EntityManager::EraseEntity(GetId());
@@ -2119,35 +2233,38 @@ void Character::Update(float dltTime)
 	CVECTOR camPos, camAng;
 	float perspective;
 	location->GetRS()->GetCamera(camPos, camAng, perspective);
-	float dxz = (curPos.x - camPos.x)*(curPos.x - camPos.x) + (curPos.z - camPos.z)*(curPos.z - camPos.z);
-	if(dxz < CHARACTER_HIDE_DIST*CHARACTER_HIDE_DIST)
+	float dxz = (curPos.x - camPos.x) * (curPos.x - camPos.x) + (curPos.z - camPos.z) * (curPos.z - camPos.z);
+	if (dxz < CHARACTER_HIDE_DIST * CHARACTER_HIDE_DIST)
 	{
-		tuner.chrAlpha -= dltTime*3.0f;
-		if(tuner.chrAlpha < 0.1f) tuner.chrAlpha = 0.1f;
-	}else{
-		tuner.chrAlpha += dltTime*3.0f;
-		if(tuner.chrAlpha > 1.0f) tuner.chrAlpha = 1.0f;
+		tuner.chrAlpha -= dltTime * 3.0f;
+		if (tuner.chrAlpha < 0.1f) tuner.chrAlpha = 0.1f;
+	}
+	else
+	{
+		tuner.chrAlpha += dltTime * 3.0f;
+		if (tuner.chrAlpha > 1.0f) tuner.chrAlpha = 1.0f;
 	}
 	//
-	k = dltTime*4.0f;
-	if(k > 1.0f) k = 1.0f;
-	grsPos += (curPos - grsPos)*k;
+	k = dltTime * 4.0f;
+	if (k > 1.0f) k = 1.0f;
+	grsPos += (curPos - grsPos) * k;
 	//Звук шагов
-	if(soundStep)
+	if (soundStep)
 	{
 		PlayStep();
 		soundStep = false;
 	}
 	soundGrass = false;
 	//
-	MODEL * signMdl = (MODEL *)EntityManager::GetEntityPointer(sign);
-	if(signMdl)
+	MODEL* signMdl = (MODEL *)EntityManager::GetEntityPointer(sign);
+	if (signMdl)
 	{
-		CVECTOR dir = camPos - curPos; dir.y = 0.0f;
+		CVECTOR dir = camPos - curPos;
+		dir.y = 0.0f;
 		float len = sqrtf(~dir);
-		if(len > 1e-10f)
+		if (len > 1e-10f)
 		{
-			signMdl->mtx.Vz() = dir/len;
+			signMdl->mtx.Vz() = dir / len;
 			signMdl->mtx.Vy() = CVECTOR(0.0f, 1.0f, 0.0f);
 			signMdl->mtx.Vx() = signMdl->mtx.Vz() ^ signMdl->mtx.Vy();
 		}
@@ -2155,182 +2272,186 @@ void Character::Update(float dltTime)
 	}
 
 	// источник света у персонажа
-	if( m_nHandLightID >= 0 )
+	if (m_nHandLightID >= 0)
 	{
-		location->GetLights()->UpdateMovingLight( m_nHandLightID, GetHandLightPos() );
+		location->GetLights()->UpdateMovingLight(m_nHandLightID, GetHandLightPos());
 	}
 }
 
 //Событие окончания проигрывания анимации действия
-void Character::ActionEvent(const char * actionName, Animation * animation, long index, long eventID, AnimationEvent event)
+void Character::ActionEvent(const char* actionName, Animation* animation, long index, long eventID,
+                            AnimationEvent event)
 {
-	if(index != 0) return;
-	if(event == ae_end) curIdleIndex = -1;
+	if (index != 0) return;
+	if (event == ae_end) curIdleIndex = -1;
 
-	if(fgtCurType != fgt_block) fgtCurType = fgt_none;
+	if (fgtCurType != fgt_block) fgtCurType = fgt_none;
 	isTurnLock = false;
-	if(priorityAction.name && _stricmp(actionName, priorityAction.name) == 0)
+	if (priorityAction.name && _stricmp(actionName, priorityAction.name) == 0)
 	{
-		if(_stricmp(priorityAction.name, CHARACTER_NORM_TO_FIGHT) == 0)
+		if (_stricmp(priorityAction.name, CHARACTER_NORM_TO_FIGHT) == 0)
 		{
 			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 0);
 			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 1);
-			if(event == ae_end)
+			if (event == ae_end)
 			{
 				priorityAction.SetName(nullptr);
 				animation->Player(0).Pause();
 				animation->Player(0).SetPosition(1.0f);
 			}
-		}else
-		if(_stricmp(priorityAction.name, CHARACTER_FIGHT_TO_NORM) == 0)
+		}
+		else if (_stricmp(priorityAction.name, CHARACTER_FIGHT_TO_NORM) == 0)
 		{
 			api->Send_Message(blade, "ll", MSG_BLADE_BELT, 0);
 			api->Send_Message(blade, "ll", MSG_BLADE_BELT, 1);
-			if(event == ae_end)
+			if (event == ae_end)
 			{
 				priorityAction.SetName(nullptr);
 				animation->Player(0).Pause();
 				animation->Player(0).SetPosition(1.0f);
 			}
-		}else
-		if(shot.name && _stricmp(priorityAction.name, shot.name) == 0)
+		}
+		else if (shot.name && _stricmp(priorityAction.name, shot.name) == 0)
 		{
 			api->Send_Message(blade, "l", MSG_BLADE_GUNBELT);
-			if(event == ae_end)
+			if (event == ae_end)
 			{
 				//Закончился выстрел
 				priorityAction.SetName(nullptr);
 				animation->Player(0).Pause();
 				animation->Player(0).SetPosition(1.0f);
-				if(fgtCurType == fgt_fire)
+				if (fgtCurType == fgt_fire)
 				{
 					fgtSetType = fgtCurType = fgt_none;
 				}
 			}
-		}else
-		if(recoil.name && _stricmp(priorityAction.name, recoil.name) == 0)
+		}
+		else if (recoil.name && _stricmp(priorityAction.name, recoil.name) == 0)
 		{
-			if(rand() % 10 > 7) recoilLook = true; //в стоянии проиграть дразнилку
+			if (rand() % 10 > 7) recoilLook = true; //в стоянии проиграть дразнилку
 			priorityAction.SetName(nullptr);
-		}else
-		if(deadName && _stricmp(priorityAction.name, deadName) == 0)
+		}
+		else if (deadName && _stricmp(priorityAction.name, deadName) == 0)
 		{
 			animation->Player(0).Pause();
 			animation->Player(0).SetPosition(1.0f);
 			api->Event("Location_Character_Dead", "i", GetId());
-		}else
-		if( PriorityActionIsJump() )
+		}
+		else if (PriorityActionIsJump())
 		{
 			priorityAction.SetName(nullptr);
 			animation->Player(0).Pause();
 			animation->Player(0).SetPosition(1.0f);
 
 			// проверим куда упали и проиграем анимацию после падения на землю и в воду.
-			SEA_BASE * sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
-			if(sb)
+			SEA_BASE* sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
+			if (sb)
 			{
-				if( sb->WaveXZ(curPos.x, curPos.z, nullptr) - curPos.y > CHARACTER_SEA_SWIM )
+				if (sb->WaveXZ(curPos.x, curPos.z, nullptr) - curPos.y > CHARACTER_SEA_SWIM)
 					SetPriorityAction(fall_water.name);
 				else
 					SetPriorityAction(fall_land.name);
 			}
 			else
 				SetPriorityAction(fall_land.name);
-		}else
-		if( _stricmp(priorityAction.name, fall_land.name)==0 || _stricmp(priorityAction.name, fall_water.name)==0 )
+		}
+		else if (_stricmp(priorityAction.name, fall_land.name) == 0 || _stricmp(priorityAction.name, fall_water.name) ==
+			0)
 		{
 			priorityAction.SetName(nullptr);
 			animation->Player(0).Pause();
 			animation->Player(0).SetPosition(1.0f);
 		}
-	}else
-	if(userIdle.name)
+	}
+	else if (userIdle.name)
 	{
-		if(_stricmp(actionName, userIdle.name) != 0) return;
+		if (_stricmp(actionName, userIdle.name) != 0) return;
 		api->Event("Location_Character_EndAction", "i", GetId());
 	}
 }
 
-void Character::ActionEvent(Animation * animation, long playerIndex, const char * eventName)
+void Character::ActionEvent(Animation* animation, long playerIndex, const char* eventName)
 {
-	if(playerIndex) return;
-	const char * actionName = animation->Player(playerIndex).GetAction();
-	const char * alliace = nullptr;
-	if(!actionName) return;
-	if(_stricmp(eventName, "LStep") == 0)
+	if (playerIndex) return;
+	const char* actionName = animation->Player(playerIndex).GetAction();
+	const char* alliace = nullptr;
+	if (!actionName) return;
+	if (_stricmp(eventName, "LStep") == 0)
 	{
 		soundStep = true;
-	}else
-	if(_stricmp(eventName, "RStep") == 0)
+	}
+	else if (_stricmp(eventName, "RStep") == 0)
 	{
 		soundStep = true;
-	}else
-	if(_stricmp(eventName, "swim") == 0)
+	}
+	else if (_stricmp(eventName, "swim") == 0)
 	{
 		PlaySound("swiming");
-	}else
-	if((alliace = GetValueByPrefix(eventName, "SndAlliace_")) != nullptr)
+	}
+	else if ((alliace = GetValueByPrefix(eventName, "SndAlliace_")) != nullptr)
 	{
 		PlaySound(alliace);
-	}else
-	/*
-	if(_stricmp(eventName, "Sound_wind_fast") == 0)
-	{
-		PlaySound("sword_wind_fast");
-	}else
-	if(_stricmp(eventName, "Sound_wind_force") == 0)
-	{
-		PlaySound("sword_wind_force");
-	}else
-	if(_stricmp(eventName, "Sound_wind_round") == 0)
-	{
-		PlaySound("sword_wind_round");
-	}else
-	if(_stricmp(eventName, "Sound_wind_break") == 0)
-	{
-		PlaySound("sword_wind_break");
-	}else
-	if(_stricmp(eventName, "Sound_wind_feint") == 0)
-	{
-		PlaySound("sword_wind_feint");
-	}else
-	if(_stricmp(eventName, "Sound_wind_feintc") == 0)
-	{
-		PlaySound("sword_wind_feintc");
-	}else
-	if(_stricmp(eventName, "Sound_wind_feintend") == 0)
-	{
-		PlaySound("sword_wind_feintend");
-	}else*/
-	if(_stricmp(eventName, "Resact") == 0)
-	{
-		fgtSetType = fgt_none;
-		fgtSetIndex = -1;
-	}else
-	if(_stricmp(eventName, "Attack") == 0)
-	{
-		CheckAttackHit();
-	}else
-	if(_stricmp(eventName, "Parry start") == 0)
-	{
-		isParryState = true;
-		isFeintState = false;
-	}else
-	if(_stricmp(eventName, "Parry end") == 0)
-	{
-		isParryState = false;
-		isFeintState = false;
-	}else
-	if(_stricmp(eventName, "Feint start") == 0)
-	{
-		isParryState = false;
-		isFeintState = true;
-	}else
-	if(_stricmp(eventName, "Feint end") == 0)
-	{
-		isParryState = false;
-		isFeintState = false;
-	}else/*
+	}
+	else
+		/*
+		if(_stricmp(eventName, "Sound_wind_fast") == 0)
+		{
+			PlaySound("sword_wind_fast");
+		}else
+		if(_stricmp(eventName, "Sound_wind_force") == 0)
+		{
+			PlaySound("sword_wind_force");
+		}else
+		if(_stricmp(eventName, "Sound_wind_round") == 0)
+		{
+			PlaySound("sword_wind_round");
+		}else
+		if(_stricmp(eventName, "Sound_wind_break") == 0)
+		{
+			PlaySound("sword_wind_break");
+		}else
+		if(_stricmp(eventName, "Sound_wind_feint") == 0)
+		{
+			PlaySound("sword_wind_feint");
+		}else
+		if(_stricmp(eventName, "Sound_wind_feintc") == 0)
+		{
+			PlaySound("sword_wind_feintc");
+		}else
+		if(_stricmp(eventName, "Sound_wind_feintend") == 0)
+		{
+			PlaySound("sword_wind_feintend");
+		}else*/
+		if (_stricmp(eventName, "Resact") == 0)
+		{
+			fgtSetType = fgt_none;
+			fgtSetIndex = -1;
+		}
+		else if (_stricmp(eventName, "Attack") == 0)
+		{
+			CheckAttackHit();
+		}
+		else if (_stricmp(eventName, "Parry start") == 0)
+		{
+			isParryState = true;
+			isFeintState = false;
+		}
+		else if (_stricmp(eventName, "Parry end") == 0)
+		{
+			isParryState = false;
+			isFeintState = false;
+		}
+		else if (_stricmp(eventName, "Feint start") == 0)
+		{
+			isParryState = false;
+			isFeintState = true;
+		}
+		else if (_stricmp(eventName, "Feint end") == 0)
+		{
+			isParryState = false;
+			isFeintState = false;
+		}
+		else /*
 	if(_stricmp(eventName, "sound_pistol") == 0)
 	{
 		PlaySound("pistol_out");
@@ -2351,100 +2472,108 @@ void Character::ActionEvent(Animation * animation, long playerIndex, const char 
 			if(pos < 0.99f) PlaySound("sword_out");
 		}
 	}else */
-	if(_stricmp(eventName, "Death sound") == 0)
-	{
-		api->Event("Event_ChrSnd_Body", "i", GetId());
-	}else
-	if((alliace=GetValueByPrefix(eventName, "itemaction_")) != nullptr)
-	{
-		char* pcActionName = nullptr;
-		long nIdx = -1;
-		if( _strnicmp(alliace,"set",3)==0 ) {
-			pcActionName = "set";
-			if( alliace[3]>='0' && alliace[3]<='9' )
-				nIdx = atoi(&alliace[3]);
-		} else if( _strnicmp(alliace,"reset",5)==0 ) {
-			pcActionName = "reset";
-			if( alliace[5]>='0' && alliace[5]<='9' )
-				nIdx = atoi(&alliace[5]);
-		}
-		if( pcActionName )
-			api->Event("Location_CharacterItemAction", "isl", GetId(), pcActionName, nIdx);
-	}else
-	if(priorityAction.name && _stricmp(actionName, priorityAction.name) == 0)
-	{
-		if(_stricmp(priorityAction.name, CHARACTER_NORM_TO_FIGHT) == 0)
-		{
-			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 0);
-			api->Send_Message(blade, "ll", MSG_BLADE_HAND, 1);
-		}else
-		if(_stricmp(priorityAction.name, CHARACTER_FIGHT_TO_NORM) == 0)
-		{
-			api->Send_Message(blade, "ll", MSG_BLADE_BELT, 0);
-			api->Send_Message(blade, "ll", MSG_BLADE_BELT, 1);
-		}else
-		if(shot.name && _stricmp(priorityAction.name, shot.name) == 0)
-		{
-			if(eventName)
+			if (_stricmp(eventName, "Death sound") == 0)
 			{
-				if(_stricmp(eventName, CHARACTER_FIGHT_GUNBELT) == 0)
+				api->Event("Event_ChrSnd_Body", "i", GetId());
+			}
+			else if ((alliace = GetValueByPrefix(eventName, "itemaction_")) != nullptr)
+			{
+				char* pcActionName = nullptr;
+				long nIdx = -1;
+				if (_strnicmp(alliace, "set", 3) == 0)
 				{
-					api->Send_Message(blade, "l", MSG_BLADE_GUNBELT);
-				}else
-				if(_stricmp(eventName, CHARACTER_FIGHT_GUNHAND) == 0)
+					pcActionName = "set";
+					if (alliace[3] >= '0' && alliace[3] <= '9')
+						nIdx = atoi(&alliace[3]);
+				}
+				else if (_strnicmp(alliace, "reset", 5) == 0)
 				{
-					api->Send_Message(blade, "l", MSG_BLADE_GUNHAND);
-				}else
-				if(_stricmp(eventName, CHARACTER_FIGHT_GUNFIRE) == 0)
+					pcActionName = "reset";
+					if (alliace[5] >= '0' && alliace[5] <= '9')
+						nIdx = atoi(&alliace[5]);
+				}
+				if (pcActionName)
+					api->Event("Location_CharacterItemAction", "isl", GetId(), pcActionName, nIdx);
+			}
+			else if (priorityAction.name && _stricmp(actionName, priorityAction.name) == 0)
+			{
+				if (_stricmp(priorityAction.name, CHARACTER_NORM_TO_FIGHT) == 0)
 				{
-					api->Send_Message(blade, "l", MSG_BLADE_GUNFIRE);
-					//PlaySound("pistol_shot");
-					isFired = true;
-					float kDist;
-					Character * chr = FindGunTarget(kDist);
-					entid_t enemy;
-					if(chr)
+					api->Send_Message(blade, "ll", MSG_BLADE_HAND, 0);
+					api->Send_Message(blade, "ll", MSG_BLADE_HAND, 1);
+				}
+				else if (_stricmp(priorityAction.name, CHARACTER_FIGHT_TO_NORM) == 0)
+				{
+					api->Send_Message(blade, "ll", MSG_BLADE_BELT, 0);
+					api->Send_Message(blade, "ll", MSG_BLADE_BELT, 1);
+				}
+				else if (shot.name && _stricmp(priorityAction.name, shot.name) == 0)
+				{
+					if (eventName)
 					{
-						enemy = chr->GetId();
-						chr->Hit(fgt_hit_fire);
+						if (_stricmp(eventName, CHARACTER_FIGHT_GUNBELT) == 0)
+						{
+							api->Send_Message(blade, "l", MSG_BLADE_GUNBELT);
+						}
+						else if (_stricmp(eventName, CHARACTER_FIGHT_GUNHAND) == 0)
+						{
+							api->Send_Message(blade, "l", MSG_BLADE_GUNHAND);
+						}
+						else if (_stricmp(eventName, CHARACTER_FIGHT_GUNFIRE) == 0)
+						{
+							api->Send_Message(blade, "l", MSG_BLADE_GUNFIRE);
+							//PlaySound("pistol_shot");
+							isFired = true;
+							float kDist;
+							Character* chr = FindGunTarget(kDist);
+							entid_t enemy;
+							if (chr)
+							{
+								enemy = chr->GetId();
+								chr->Hit(fgt_hit_fire);
+							}
+							api->Event("Location_CharacterFire", "iifl", GetId(), enemy, kDist, chr != nullptr);
+						}
 					}
-					api->Event("Location_CharacterFire", "iifl", GetId(), enemy, kDist, chr != nullptr);
 				}
-			}
-		}else
-		if(isJump && PriorityActionIsJump())
-		{
-			if(eventName && _stricmp("Jump pause", eventName) == 0)
-			{
-				animation->Player(playerIndex).Pause();
-			}
-		}
-	} else
-	if(userIdle.name)
-	{
-		if(_stricmp(actionName, userIdle.name)==0)
-		{
-			if(shot.name && _stricmp(actionName,shot.name)==0)
-			{
-				if(eventName)
+				else if (isJump && PriorityActionIsJump())
 				{
-					if(_stricmp(eventName, CHARACTER_FIGHT_GUNBELT) == 0) {
-						api->Send_Message(blade, "l", MSG_BLADE_GUNBELT);
-					} else if(_stricmp(eventName, CHARACTER_FIGHT_GUNHAND) == 0) {
-						api->Send_Message(blade, "l", MSG_BLADE_GUNHAND);
-					} else if(_stricmp(eventName, CHARACTER_FIGHT_GUNFIRE) == 0) {
-						api->Send_Message(blade, "l", MSG_BLADE_GUNFIRE);
-						api->Event("ActorMakeShot","i",GetId());
+					if (eventName && _stricmp("Jump pause", eventName) == 0)
+					{
+						animation->Player(playerIndex).Pause();
 					}
 				}
 			}
-		}
-	}
+			else if (userIdle.name)
+			{
+				if (_stricmp(actionName, userIdle.name) == 0)
+				{
+					if (shot.name && _stricmp(actionName, shot.name) == 0)
+					{
+						if (eventName)
+						{
+							if (_stricmp(eventName, CHARACTER_FIGHT_GUNBELT) == 0)
+							{
+								api->Send_Message(blade, "l", MSG_BLADE_GUNBELT);
+							}
+							else if (_stricmp(eventName, CHARACTER_FIGHT_GUNHAND) == 0)
+							{
+								api->Send_Message(blade, "l", MSG_BLADE_GUNHAND);
+							}
+							else if (_stricmp(eventName, CHARACTER_FIGHT_GUNFIRE) == 0)
+							{
+								api->Send_Message(blade, "l", MSG_BLADE_GUNFIRE);
+								api->Event("ActorMakeShot", "i", GetId());
+							}
+						}
+					}
+				}
+			}
 }
 
-long Character::PlaySound(const char * soundName, bool isLoop, bool isCached)
+long Character::PlaySound(const char* soundName, bool isLoop, bool isCached)
 {
-	if(!soundService) return SOUND_INVALID_ID;
+	if (!soundService) return SOUND_INVALID_ID;
 	CVECTOR pos = curPos + CVECTOR(0.0f, 1.0f, 0.0f);
 	long sID = soundService->SoundPlay(soundName, PCM_3D, VOLUME_FX, false, false, isCached, 0, &pos);
 	return sID;
@@ -2452,15 +2581,15 @@ long Character::PlaySound(const char * soundName, bool isLoop, bool isCached)
 
 void Character::PlayStep()
 {
-	if(!soundService) return;
-	if(isSwim) return;
+	if (!soundService) return;
+	if (isSwim) return;
 	auto* sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
 	const auto location = GetLocation();
-	if(sb && location->IsSwimming())
+	if (sb && location->IsSwimming())
 	{
 		//Проверим высоту моря
 		seaY = sb->WaveXZ(curPos.x, curPos.z, nullptr);
-		if(seaY > curPos.y)
+		if (seaY > curPos.y)
 		{
 			PlaySound("step_water", false, true);
 			return;
@@ -2468,46 +2597,47 @@ void Character::PlayStep()
 	}
 	//Идём по земле
 
-	if( IsRun() && !isBack ) {
-		if(!soundGrass)
+	if (IsRun() && !isBack)
+	{
+		if (!soundGrass)
 		{
-			const char * defSnd = "run_grass";
-			const char * mtl = location->GetPtcData().GetMaterial(currentNode);
-			if(mtl)
+			const char* defSnd = "run_grass";
+			const char* mtl = location->GetPtcData().GetMaterial(currentNode);
+			if (mtl)
 			{
-				if(_stricmp(mtl, "run_grass") == 0)
+				if (_stricmp(mtl, "run_grass") == 0)
 				{
 					defSnd = "run_grass";
-				}else
-				if(_stricmp(mtl, "snd_wood") == 0)
+				}
+				else if (_stricmp(mtl, "snd_wood") == 0)
 				{
 					defSnd = "run_wood";
-				}else
-				if(_stricmp(mtl, "snd_ground") == 0)
+				}
+				else if (_stricmp(mtl, "snd_ground") == 0)
 				{
 					defSnd = "run_ground";
-				}else
-				if(_stricmp(mtl, "snd_sand") == 0)
+				}
+				else if (_stricmp(mtl, "snd_sand") == 0)
 				{
 					defSnd = "run_sand";
-				}else
-				if(_stricmp(mtl, "snd_stone") == 0)
+				}
+				else if (_stricmp(mtl, "snd_stone") == 0)
 				{
 					defSnd = "run_stone";
-				}else
-				if(_stricmp(mtl, "snd_stairway") == 0)
+				}
+				else if (_stricmp(mtl, "snd_stairway") == 0)
 				{
 					defSnd = "run_stairway";
-				}else
-				if(_stricmp(mtl, "snd_carpet") == 0)
+				}
+				else if (_stricmp(mtl, "snd_carpet") == 0)
 				{
 					defSnd = "run_carpet";
-				}else
-				if(_stricmp(mtl, "snd_church") == 0)
+				}
+				else if (_stricmp(mtl, "snd_church") == 0)
 				{
 					defSnd = "run_church";
-				}else
-				if(_stricmp(mtl, "snd_echo") == 0)
+				}
+				else if (_stricmp(mtl, "snd_echo") == 0)
 				{
 					defSnd = "run_echo";
 				}
@@ -2518,59 +2648,65 @@ void Character::PlayStep()
 				}*/
 			}
 			PlaySound(defSnd, false, true);
-		}else{
+		}
+		else
+		{
 			PlaySound("run_grass_noise", false, true);
 		}
-	} else {
-		if(!soundGrass)
+	}
+	else
+	{
+		if (!soundGrass)
 		{
-			const char * defSnd = "step_grass";
-			const char * mtl = location->GetPtcData().GetMaterial(currentNode);
-			if(mtl)
+			const char* defSnd = "step_grass";
+			const char* mtl = location->GetPtcData().GetMaterial(currentNode);
+			if (mtl)
 			{
-				if(_stricmp(mtl, "snd_grass") == 0)
+				if (_stricmp(mtl, "snd_grass") == 0)
 				{
 					defSnd = "step_grass";
-				}else
-				if(_stricmp(mtl, "snd_wood") == 0)
+				}
+				else if (_stricmp(mtl, "snd_wood") == 0)
 				{
 					defSnd = "step_wood";
-				}else
-				if(_stricmp(mtl, "snd_ground") == 0)
+				}
+				else if (_stricmp(mtl, "snd_ground") == 0)
 				{
 					defSnd = "step_ground";
-				}else
-				if(_stricmp(mtl, "snd_sand") == 0)
+				}
+				else if (_stricmp(mtl, "snd_sand") == 0)
 				{
 					defSnd = "step_sand";
-				}else
-				if(_stricmp(mtl, "snd_stone") == 0)
+				}
+				else if (_stricmp(mtl, "snd_stone") == 0)
 				{
 					defSnd = "step_stone";
-				}else
-				if(_stricmp(mtl, "snd_stairway") == 0)
+				}
+				else if (_stricmp(mtl, "snd_stairway") == 0)
 				{
 					defSnd = "step_stairway";
-				}else
-				if(_stricmp(mtl, "snd_carpet") == 0)
+				}
+				else if (_stricmp(mtl, "snd_carpet") == 0)
 				{
 					defSnd = "step_carpet";
-				}else
-				if(_stricmp(mtl, "snd_church") == 0)
+				}
+				else if (_stricmp(mtl, "snd_church") == 0)
 				{
 					defSnd = "step_church";
-				}else
-				if(_stricmp(mtl, "snd_echo") == 0)
+				}
+				else if (_stricmp(mtl, "snd_echo") == 0)
 				{
 					defSnd = "step_echo";
-				}else
-				if(_stricmp(mtl, "snd_iron") == 0)
+				}
+				else if (_stricmp(mtl, "snd_iron") == 0)
 				{
 					defSnd = "step_iron";
 				}
 			}
 			PlaySound(defSnd, false, true);
-		}else{
+		}
+		else
+		{
 			PlaySound("grass_noise", false, true);
 		}
 	}
@@ -2578,13 +2714,13 @@ void Character::PlayStep()
 
 void Character::SetSoundPosition(long id)
 {
-	if(!soundService || id == SOUND_INVALID_ID) return;
+	if (!soundService || id == SOUND_INVALID_ID) return;
 	CVECTOR pos = curPos + CVECTOR(0.0f, 1.0f, 0.0f);
 	const auto location = GetLocation();
-	if(location->supervisor.player)
+	if (location->supervisor.player)
 	{
-		VDX9RENDER * rs = location->GetRS();
-		if(rs)
+		VDX9RENDER* rs = location->GetRS();
+		if (rs)
 		{
 			static CMatrix view, cur;
 			rs->GetTransform(D3DTS_VIEW, view);
@@ -2598,8 +2734,8 @@ void Character::SetSoundPosition(long id)
 
 void Character::ReleaseSound(long id)
 {
-	if(!soundService) return;
-	if(id != SOUND_INVALID_ID) soundService->SoundRelease(id);
+	if (!soundService) return;
+	if (id != SOUND_INVALID_ID) soundService->SoundRelease(id);
 }
 
 
@@ -2607,7 +2743,7 @@ void Character::ReleaseSound(long id)
 //Инкапсуляция
 //============================================================================================
 
-bool Character::zLoadModel(MESSAGE & message)
+bool Character::zLoadModel(MESSAGE& message)
 {
 	char name[256];
 	char ani[256];
@@ -2621,43 +2757,43 @@ bool Character::zLoadModel(MESSAGE & message)
 	ani[255] = 0;
 	//Путь до текстур
 	auto* gs = (VGEOMETRY *)api->CreateService("geometry");
-	if(gs) gs->SetTexturePath("characters\\");
+	if (gs) gs->SetTexturePath("characters\\");
 	//Путь до модельки
 	strcpy_s(mpath, "characters\\");
 	strcat_s(mpath, name);
 	//Создаём и загружаем модельку
-	if(!(mdl = EntityManager::CreateEntity("modelr")))
+	if (!(mdl = EntityManager::CreateEntity("modelr")))
 	{
-		if(gs) gs->SetTexturePath("");
+		if (gs) gs->SetTexturePath("");
 		return false;
 	}
-	if(!api->Send_Message(mdl,
-							"ls",
-							MSG_MODEL_LOAD_GEO,
-							mpath))
+	if (!api->Send_Message(mdl,
+	                       "ls",
+	                       MSG_MODEL_LOAD_GEO,
+	                       mpath))
 	{
-		if(gs) gs->SetTexturePath("");
+		if (gs) gs->SetTexturePath("");
 		api->Trace("Character model '%s' not loaded", mpath);
 		return false;
 	}
-	if(gs) gs->SetTexturePath("");
-	if(!api->Send_Message(mdl,
-									"ls",
-									MSG_MODEL_LOAD_ANI,
-									ani) != 0)
+	if (gs) gs->SetTexturePath("");
+	if (!api->Send_Message(mdl,
+	                       "ls",
+	                       MSG_MODEL_LOAD_ANI,
+	                       ani) != 0)
 	{
 		api->Trace("Character animation '%s' not loaded", ani);
 		EntityManager::EraseEntity(mdl);
 		return false;
 	}
 	auto* m = (MODEL *)EntityManager::GetEntityPointer(mdl);
-	if(!m)
+	if (!m)
 	{
 		EntityManager::EraseEntity(mdl);
 		return false;
 	}
-	Animation * a = m->GetAnimation();
-	if(a)
+	Animation* a = m->GetAnimation();
+	if (a)
 	{
 		a->SetEventListener(&eventListener);
 		eventId = a->SetEvent(ae_end, 0, &eventListener);
@@ -2665,13 +2801,15 @@ bool Character::zLoadModel(MESSAGE & message)
 	m->SetRenderTuner(&tuner);
 	EntityManager::AddToLayer(REALIZE, mdl, 20);
 	EntityManager::AddToLayer(SUN_TRACE, mdl, 10);
-	if(shadow = EntityManager::CreateEntity("shadow"))
+	if (shadow = EntityManager::CreateEntity("shadow"))
 	{
 		api->Send_Message(shadow, "li", 0, mdl);
-	}else{
+	}
+	else
+	{
 		api->Trace("Shadow not created!");
 	}
-	if(!EntityManager::GetEntityId("waterrings"))
+	if (!EntityManager::GetEntityId("waterrings"))
 	{
 		waterrings = EntityManager::CreateEntity("waterrings");
 	}
@@ -2679,16 +2817,16 @@ bool Character::zLoadModel(MESSAGE & message)
 	return true;
 }
 
-bool Character::zTeleport(MESSAGE & message, bool isAy)
+bool Character::zTeleport(MESSAGE& message, bool isAy)
 {
 	float x = message.Float();
 	float y = message.Float();
 	float z = message.Float();
-	if(isAy) return Teleport(x, y, z, message.Float());
+	if (isAy) return Teleport(x, y, z, message.Float());
 	return Teleport(x, y, z);
 }
 
-bool Character::zTeleportL(MESSAGE & message)
+bool Character::zTeleportL(MESSAGE& message)
 {
 	char group[256];
 	char name[256];
@@ -2699,34 +2837,34 @@ bool Character::zTeleportL(MESSAGE & message)
 	return Teleport(group, name);
 }
 
-bool Character::zAddDetector(MESSAGE & message)
+bool Character::zAddDetector(MESSAGE& message)
 {
-	if(numDetectors >= sizeof(detector)/sizeof(Detector *)) return false;
+	if (numDetectors >= sizeof(detector) / sizeof(Detector *)) return false;
 	char group[256];
 	message.String(256, group);
 	group[255] = 0;
-	if(!group[0]) return false;
+	if (!group[0]) return false;
 	//Проверяем на созданность
-	for(long i = 0; i < numDetectors; i++)
+	for (long i = 0; i < numDetectors; i++)
 	{
-		if(_stricmp(detector[i]->la->GetGroupName(), group) == 0) return false;
+		if (_stricmp(detector[i]->la->GetGroupName(), group) == 0) return false;
 	}
 	//Ищем группу
 	const auto location = GetLocation();
-	LocatorArray * la = location->FindLocatorsGroup(group);
-	if(!la) return false;
+	LocatorArray* la = location->FindLocatorsGroup(group);
+	if (!la) return false;
 	detector[numDetectors++] = new Detector(la);
 	return true;
 }
 
-bool Character::zDelDetector(MESSAGE & message)
+bool Character::zDelDetector(MESSAGE& message)
 {
 	char group[256];
 	message.String(256, group);
 	group[255] = 0;
-	for(long i = 0; i < numDetectors; i++)
+	for (long i = 0; i < numDetectors; i++)
 	{
-		if(_stricmp(detector[i]->la->GetGroupName(), group) == 0)
+		if (_stricmp(detector[i]->la->GetGroupName(), group) == 0)
 		{
 			detector[i]->Exit(this);
 			delete detector[i];
@@ -2737,24 +2875,25 @@ bool Character::zDelDetector(MESSAGE & message)
 	return false;
 }
 
-bool Character::zActionPlay(MESSAGE & message)
+bool Character::zActionPlay(MESSAGE& message)
 {
 	char buf[256];
 	message.String(sizeof(buf) - 1, buf);
 	buf[sizeof(buf) - 1] = 0;
-	if(buf[0])
+	if (buf[0])
 	{
 		userIdle.SetName(buf);
-		MODEL * m = Model();
-		if(!m) return false;
-		Animation * a = m->GetAnimation();
-		if(!a) return false;
+		MODEL* m = Model();
+		if (!m) return false;
+		Animation* a = m->GetAnimation();
+		if (!a) return false;
 		UpdateActionCharacterData(userIdle, a);
-	}else userIdle.SetName(nullptr);
+	}
+	else userIdle.SetName(nullptr);
 	return true;
 }
 
-bool Character::zEntry(MESSAGE & message)
+bool Character::zEntry(MESSAGE& message)
 {
 	EntryToLocation();
 	char grp[256];
@@ -2766,7 +2905,7 @@ bool Character::zEntry(MESSAGE & message)
 	return Teleport(grp, name);
 }
 
-bool Character::zSetBlade(MESSAGE & message)
+bool Character::zSetBlade(MESSAGE& message)
 {
 	long nBladeIdx = message.Long();
 
@@ -2775,7 +2914,7 @@ bool Character::zSetBlade(MESSAGE & message)
 	message.String(sizeof(name) - 1, name);
 	name[sizeof(name) - 1] = 0;
 	isBladeSet = true;
-	if(!name[0])
+	if (!name[0])
 	{
 		isBladeSet = false;
 		SetFightMode(false);
@@ -2783,16 +2922,16 @@ bool Character::zSetBlade(MESSAGE & message)
 	float t = message.Float();
 	long s = message.Long();
 	long e = message.Long();
-	if(!EntityManager::GetEntityPointer(blade))
+	if (!EntityManager::GetEntityPointer(blade))
 	{
-		if(!(blade = EntityManager::CreateEntity("blade"))) return false;
+		if (!(blade = EntityManager::CreateEntity("blade"))) return false;
 	}
 	api->Send_Message(blade, "llisfll", MSG_BLADE_SET, nBladeIdx, mdl, name, t, s, e);
 	UpdateWeapons();
 	return true;
 }
 
-bool Character::zSetGun(MESSAGE & message)
+bool Character::zSetGun(MESSAGE& message)
 {
 	isGunSet = false;
 	//if(!isBladeSet) return false;  //eddy. пистолет пусть виснет, он не мешает
@@ -2800,8 +2939,8 @@ bool Character::zSetGun(MESSAGE & message)
 	message.String(sizeof(name) - 1, name);
 	name[sizeof(name) - 1] = 0;
 	isGunSet = true;
-	if(!name[0]) isGunSet = false;
-	if(!EntityManager::GetEntityPointer(blade))
+	if (!name[0]) isGunSet = false;
+	if (!EntityManager::GetEntityPointer(blade))
 	{
 		if (!(blade = EntityManager::CreateEntity("blade"))) return false;
 	}
@@ -2810,7 +2949,7 @@ bool Character::zSetGun(MESSAGE & message)
 	return true;
 }
 
-bool Character::zTurnByLoc(MESSAGE & message)
+bool Character::zTurnByLoc(MESSAGE& message)
 {
 	char group[256];
 	char name[256];
@@ -2819,32 +2958,34 @@ bool Character::zTurnByLoc(MESSAGE & message)
 	message.String(sizeof(name) - 1, name);
 	name[sizeof(name) - 1] = 0;
 	const auto location = GetLocation();
-	LocatorArray * la = location->FindLocatorsGroup(group);
-	if(!la) return false;
+	LocatorArray* la = location->FindLocatorsGroup(group);
+	if (!la) return false;
 	long li = la->FindByName(name);
-	if(li < 0) return false;
+	if (li < 0) return false;
 	CMatrix mtx;
-	if(!la->GetLocatorPos(li, mtx)) return false;
+	if (!la->GetLocatorPos(li, mtx)) return false;
 	bool isTo = message.Long() != 0;
-	if(isTo)
+	if (isTo)
 	{
 		Turn(mtx.Pos().x - curPos.x, mtx.Pos().z - curPos.z);
-	}else{
+	}
+	else
+	{
 		Turn(mtx.Vz().x, mtx.Vz().z);
 	}
 	return true;
 }
 
-bool Character::zTurnByChr(MESSAGE & message)
+bool Character::zTurnByChr(MESSAGE& message)
 {
 	entid_t chr = message.EntityID();
 	auto* c = (Character *)EntityManager::GetEntityPointer(chr);
-	if(!c) return false;
+	if (!c) return false;
 	Turn(c->curPos.x - curPos.x, c->curPos.z - curPos.z);
 	return true;
 }
 
-bool Character::zTurnByPoint(MESSAGE & message)
+bool Character::zTurnByPoint(MESSAGE& message)
 {
 	float dx = message.Float() - curPos.x;
 	message.Float();
@@ -2853,110 +2994,112 @@ bool Character::zTurnByPoint(MESSAGE & message)
 	return true;
 }
 
-bool Character::zDistByCharacter(MESSAGE & message, bool is2D)
+bool Character::zDistByCharacter(MESSAGE& message, bool is2D)
 {
 	entid_t chr = message.EntityID();
 	auto* c = (Character *)EntityManager::GetEntityPointer(chr);
-	if(!c) return false;
+	if (!c) return false;
 	float dx = curPos.x - c->curPos.x;
 	float dz = curPos.z - c->curPos.z;
-	if(is2D)
+	if (is2D)
 	{
-		message.ScriptVariablePointer()->Set(sqrtf(dx*dx + dz*dz));
-	}else{
+		message.ScriptVariablePointer()->Set(sqrtf(dx * dx + dz * dz));
+	}
+	else
+	{
 		float dy = curPos.y - c->curPos.y;
-		message.ScriptVariablePointer()->Set(sqrtf(dx*dx + dy*dy + dz*dz));
+		message.ScriptVariablePointer()->Set(sqrtf(dx * dx + dy * dy + dz * dz));
 	}
 	return true;
 }
 
-uint32_t Character::zExMessage(MESSAGE & message)
+uint32_t Character::zExMessage(MESSAGE& message)
 {
 	char msg[64];
 	char grp[32];
 	message.String(sizeof(msg), msg);
 	msg[sizeof(msg) - 1] = 0;
-	LocatorArray * la;
+	LocatorArray* la;
 	long i;
-	VDATA * v;
+	VDATA* v;
 	CVECTOR pos;
-	if(_stricmp(msg, "TieItem") == 0)
+	if (_stricmp(msg, "TieItem") == 0)
 	{
 		i = message.Long();
 		char modelName[MAX_PATH];
-		message.String(sizeof(modelName),modelName);
+		message.String(sizeof(modelName), modelName);
 		char locatorName[128];
-		message.String(sizeof(locatorName),locatorName);
-		if(!EntityManager::GetEntityPointer(blade))
+		message.String(sizeof(locatorName), locatorName);
+		if (!EntityManager::GetEntityPointer(blade))
 		{
 			if (!(blade = EntityManager::CreateEntity("blade"))) return 0;
 			UpdateWeapons();
 		}
-		api->Send_Message(blade, "lilss", 1001, mdl,i,modelName,locatorName);
+		api->Send_Message(blade, "lilss", 1001, mdl, i, modelName, locatorName);
 		return 1;
-	} 
-	if(_stricmp(msg, "UntieItem") == 0)
+	}
+	if (_stricmp(msg, "UntieItem") == 0)
 	{
 		i = message.Long();
 		api->Send_Message(blade, "ll", 1002, i);
 		return 1;
 	}
 	const auto location = GetLocation();
-	if(_stricmp(msg, "HandLightOn") == 0)
+	if (_stricmp(msg, "HandLightOn") == 0)
 	{
 		// удалим старый источник
-		if( m_nHandLightID >= 0 )
+		if (m_nHandLightID >= 0)
 			location->GetLights()->DelMovingLight(m_nHandLightID);
 		// создадим новый
-		message.String(sizeof(msg),msg);
-		m_nHandLightID = location->GetLights()->AddMovingLight( msg, GetHandLightPos() );
+		message.String(sizeof(msg), msg);
+		m_nHandLightID = location->GetLights()->AddMovingLight(msg, GetHandLightPos());
 		return 1;
 	}
-	if(_stricmp(msg, "HandLightOff") == 0)
+	if (_stricmp(msg, "HandLightOff") == 0)
 	{
-		if( m_nHandLightID >= 0 )
+		if (m_nHandLightID >= 0)
 			location->GetLights()->DelMovingLight(m_nHandLightID);
 		m_nHandLightID = -1;
 		return 1;
 	}
-	if(_stricmp(msg, "PlaySound") == 0)
+	if (_stricmp(msg, "PlaySound") == 0)
 	{
 		message.String(32, msg);
 		msg[31] = 0;
 		return PlaySound(msg) != SOUND_INVALID_ID;
 	}
-	if(_stricmp(msg, "IsFightMode") == 0)
+	if (_stricmp(msg, "IsFightMode") == 0)
 	{
 		return IsFight();
 	}
-	if(_stricmp(msg, "IsSetBalde") == 0)
+	if (_stricmp(msg, "IsSetBalde") == 0)
 	{
 		return IsSetBlade();
 	}
-	if(_stricmp(msg, "IsDead") == 0)
+	if (_stricmp(msg, "IsDead") == 0)
 	{
 		return deadName != nullptr;
 	}
-	if(!deadName)
+	if (!deadName)
 	{
-		if(_stricmp(msg, "FindDialogCharacter") == 0)
+		if (_stricmp(msg, "FindDialogCharacter") == 0)
 		{
-			Character * chr = FindDialogCharacter();
-			if(chr && chr->AttributesPointer)
+			Character* chr = FindDialogCharacter();
+			if (chr && chr->AttributesPointer)
 			{
 				return chr->AttributesPointer->GetAttributeAsDword("index", -1);
 			}
 			return -1;
 		}
-		if(_stricmp(msg, "SetFightMode") == 0)
+		if (_stricmp(msg, "SetFightMode") == 0)
 		{
 			return SetFightMode(message.Long() != 0, false);
 		}
-		if(_stricmp(msg, "ChangeFightMode") == 0)
+		if (_stricmp(msg, "ChangeFightMode") == 0)
 		{
 			return SetFightMode(message.Long() != 0, true);
 		}
-		if(_stricmp(msg, "FindForvardLocator") == 0)
+		if (_stricmp(msg, "FindForvardLocator") == 0)
 		{
 			//Имя групы
 			message.String(sizeof(grp), grp);
@@ -2965,8 +3108,8 @@ uint32_t Character::zExMessage(MESSAGE & message)
 			v = message.ScriptVariablePointer();
 			//Ищем локатор
 			la = location->FindLocatorsGroup(grp);
-			i =location->supervisor.FindForvardLocator(la, curPos, CVECTOR(sinf(ay), 0.0f, cosf(ay)));
-			if(i < 0)
+			i = location->supervisor.FindForvardLocator(la, curPos, CVECTOR(sinf(ay), 0.0f, cosf(ay)));
+			if (i < 0)
 			{
 				v->Set("");
 				return 0;
@@ -2974,7 +3117,7 @@ uint32_t Character::zExMessage(MESSAGE & message)
 			v->Set((char *)la->LocatorName(i));
 			return 1;
 		}
-		if(_stricmp(msg, "DistToLocator") == 0)
+		if (_stricmp(msg, "DistToLocator") == 0)
 		{
 			//Имя групы
 			message.String(sizeof(grp), grp);
@@ -2985,8 +3128,8 @@ uint32_t Character::zExMessage(MESSAGE & message)
 			v = message.ScriptVariablePointer();
 			la = location->FindLocatorsGroup(grp);
 			i = -1;
-			if(la) i = la->FindByName(msg);
-			if(i < 0)
+			if (la) i = la->FindByName(msg);
+			if (i < 0)
 			{
 				v->Set(-1.0f);
 				return 0;
@@ -2995,57 +3138,58 @@ uint32_t Character::zExMessage(MESSAGE & message)
 			v->Set(sqrtf(~(pos - curPos)));
 			return 1;
 		}
-		if(_stricmp(msg, "InDialog") == 0)
+		if (_stricmp(msg, "InDialog") == 0)
 		{
 			isDialog = message.Long() != 0;
 			return 1;
 		}
-		if(_stricmp(msg, "SetSex") == 0)
+		if (_stricmp(msg, "SetSex") == 0)
 		{
 			isMale = message.Long() != 0;
 			return 1;
 		}
-		if(_stricmp(msg, "SetFightWOWeapon") == 0)
+		if (_stricmp(msg, "SetFightWOWeapon") == 0)
 		{
 			isFightWOWps = message.Long() != 0;
 			UpdateWeapons();
 			return 1;
 		}
-		if(_stricmp(msg, "LockFightMode") == 0)
+		if (_stricmp(msg, "LockFightMode") == 0)
 		{
 			lockFightMode = message.Long() != 0;
 			return 1;
 		}
-		if(_stricmp(msg, "CheckFightMode") == 0)
+		if (_stricmp(msg, "CheckFightMode") == 0)
 		{
 			return isFight;
 		}
-		if(_stricmp(msg, "IsActive") == 0)
+		if (_stricmp(msg, "IsActive") == 0)
 		{
 			return isActiveState;
 		}
-		if(_stricmp(msg, "CheckID") == 0)
+		if (_stricmp(msg, "CheckID") == 0)
 		{
-	#ifdef _DEBUG
-	#ifndef _XBOX
-			message.String(sizeof(msg), msg); msg[sizeof(msg) - 1] = 0;
-			if(AttributesPointer)
+#ifdef _DEBUG
+#ifndef _XBOX
+			message.String(sizeof(msg), msg);
+			msg[sizeof(msg) - 1] = 0;
+			if (AttributesPointer)
 			{
-				const char * id = AttributesPointer->GetAttribute("id");
-				if(id)
+				const char* id = AttributesPointer->GetAttribute("id");
+				if (id)
 				{
-					if(strcmp(id, characterID) != 0) __debugbreak();
-					if(strcmp(id, msg) != 0) __debugbreak();
+					if (strcmp(id, characterID) != 0) __debugbreak();
+					if (strcmp(id, msg) != 0) __debugbreak();
 				}
 			}
-			if(strcmp(msg, characterID) != 0) __debugbreak();
-	#endif
-	#endif
+			if (strcmp(msg, characterID) != 0) __debugbreak();
+#endif
+#endif
 			return 1;
 		}
-		if(_stricmp(msg,"GunBelt") == 0)
+		if (_stricmp(msg, "GunBelt") == 0)
 		{
-			if( message.Long()!=0 )
+			if (message.Long() != 0)
 				api->Send_Message(blade, "l", MSG_BLADE_GUNBELT);
 			else
 				api->Send_Message(blade, "l", MSG_BLADE_GUNHAND);
@@ -3054,7 +3198,7 @@ uint32_t Character::zExMessage(MESSAGE & message)
 	return 0;
 }
 
-bool Character::zPlaySound(MESSAGE & message)
+bool Character::zPlaySound(MESSAGE& message)
 {
 	char name[64];
 	message.String(sizeof(name), name);
@@ -3066,30 +3210,30 @@ bool Character::zPlaySound(MESSAGE & message)
 bool Character::TestJump(CVECTOR pos)
 {
 	const auto location = GetLocation();
-	MODEL * jpm = location->JmpPatch();
-	if(!jpm) return false;
+	MODEL* jpm = location->JmpPatch();
+	if (!jpm) return false;
 	CVECTOR src(pos.x, pos.y + 1.0f, pos.z);
 	CVECTOR dst(pos.x, pos.y - 1.0f, pos.z);
-	if(jpm->Trace(src, dst) >= 1.0f) return false;
+	if (jpm->Trace(src, dst) >= 1.0f) return false;
 	//Проверяем траекторию падения
 	const float speed = 3.3f;
-	CVECTOR v(speed*sinf(ay), vy, speed*cosf(ay));
-	for(long i = 0; i < CHARACTER_MAXJUMPPOINTS; i++)
+	CVECTOR v(speed * sinf(ay), vy, speed * cosf(ay));
+	for (long i = 0; i < CHARACTER_MAXJUMPPOINTS; i++)
 	{
 		//Сохраняем позицию в треке
 		jumpTrack[i] = pos;
 		//Проверяем следующий отрезок
-		CVECTOR dlt = v*CHARACTER_JUMP_TIMESTEP;
-		v.y -= 9.8f*CHARACTER_JUMP_TIMESTEP;
-		CVECTOR src = pos - dlt*0.001f;
-		CVECTOR dst = pos + dlt*1.001f;
+		CVECTOR dlt = v * CHARACTER_JUMP_TIMESTEP;
+		v.y -= 9.8f * CHARACTER_JUMP_TIMESTEP;
+		CVECTOR src = pos - dlt * 0.001f;
+		CVECTOR dst = pos + dlt * 1.001f;
 		//location->DrawLine(src, 0xff00ff00, dst, 0xff00ff00, false);
 		float k = location->GetPtcData().Trace(src, dst);
-		if(k < 1.0f)
+		if (k < 1.0f)
 		{
 			//Нашли точку приземления
-			osculationPoint = src + (dst - src)*k + CVECTOR(0.0f, 0.01f, 0.0f);
-			jumpFallTime = (i + k)*CHARACTER_JUMP_TIMESTEP;
+			osculationPoint = src + (dst - src) * k + CVECTOR(0.0f, 0.01f, 0.0f);
+			jumpFallTime = (i + k) * CHARACTER_JUMP_TIMESTEP;
 			curJumpFallTime = 0.0f;
 			jumpPoints = i + 1;
 			return true;
@@ -3100,58 +3244,60 @@ bool Character::TestJump(CVECTOR pos)
 	return false;
 }
 
-bool Character::BuildJump(CVECTOR pos,float fAng)
+bool Character::BuildJump(CVECTOR pos, float fAng)
 {
 	const auto location = GetLocation();
 	// нет патча для прыгания - нет и прыжков
-	MODEL * jpm = location->JmpPatch();
-	if( !jpm ) return false;
+	MODEL* jpm = location->JmpPatch();
+	if (!jpm) return false;
 
 	CVECTOR src(pos.x, pos.y + 1.0f, pos.z);
 	CVECTOR dst(pos.x, pos.y - 1.0f, pos.z);
 	float fTrace = location->GetPtcData().Trace(src, dst);
-	if( fTrace > 1.0f) return false;
-	pos.y = src.y + (dst.y-src.y)*(fTrace - 0.1f);
+	if (fTrace > 1.0f) return false;
+	pos.y = src.y + (dst.y - src.y) * (fTrace - 0.1f);
 
 	//Проверяем траекторию прыжка
 	const float speed = 3.3f;
-	CVECTOR v(speed*sinf(fAng), speed, speed*cosf(fAng)); // скорость прыжка
+	CVECTOR v(speed * sinf(fAng), speed, speed * cosf(fAng)); // скорость прыжка
 	//Строим трек для прыжка
-	for(long i = 0; i < CHARACTER_MAXJUMPPOINTS; i++)
+	for (long i = 0; i < CHARACTER_MAXJUMPPOINTS; i++)
 	{
 		//Сохраняем позицию в треке
 		jumpTrack[i] = pos;
 		//Проверяем следующий отрезок
-		CVECTOR dlt = v*CHARACTER_JUMP_TIMESTEP;
-		v.y -= 9.8f*CHARACTER_JUMP_TIMESTEP;
-		CVECTOR src = pos - dlt*0.001f;
-		CVECTOR dst = pos + dlt*1.001f;
+		CVECTOR dlt = v * CHARACTER_JUMP_TIMESTEP;
+		v.y -= 9.8f * CHARACTER_JUMP_TIMESTEP;
+		CVECTOR src = pos - dlt * 0.001f;
+		CVECTOR dst = pos + dlt * 1.001f;
 		//location->DrawLine(src, 0xff00ff00, dst, 0xff00ff00, false);
 		//если врезаемся в какую нить бню, то не можем прыгать
 		float k = location->GetPtcData().Trace(src, dst);
-		if(k < 1.0f)
+		if (k < 1.0f)
 		{
 			//Нашли точку приземления
-			osculationPoint = src + (dst - src)*k + CVECTOR(0.0f, 0.01f, 0.0f);
-			jumpFallTime = (i + k)*CHARACTER_JUMP_TIMESTEP;
+			osculationPoint = src + (dst - src) * k + CVECTOR(0.0f, 0.01f, 0.0f);
+			jumpFallTime = (i + k) * CHARACTER_JUMP_TIMESTEP;
 			curJumpFallTime = 0.0f;
 			jumpPoints = i + 1;
 
 			//Проверим приземление на джамп патч
-			if( jpm ) { //~!~
+			if (jpm)
+			{
+				//~!~
 				dst = src = osculationPoint;
 				src.y += 10.f;
 				dst.y -= 20.f;
-				float fT = jpm->Trace(src,dst);
+				float fT = jpm->Trace(src, dst);
 				//да мы приземляемся на прыжковый патч
-				if( fT<1.f )
+				if (fT < 1.f)
 				{
-					CVECTOR vdlt = src + (dst-src)*fT - osculationPoint;
+					CVECTOR vdlt = src + (dst - src) * fT - osculationPoint;
 					//учитываем поправку если она достаточно велика
-					if( vdlt.GetLength() > 0.1f )
+					if (vdlt.GetLength() > 0.1f)
 					{
 						vdlt *= 1.f / jumpPoints;
-						for(long i = 1; i < jumpPoints; i++)
+						for (long i = 1; i < jumpPoints; i++)
 						{
 							jumpTrack[i] += vdlt;
 						}
@@ -3161,30 +3307,30 @@ bool Character::BuildJump(CVECTOR pos,float fAng)
 
 			return true;
 		}
-		if( TraceWithObstacle(src,dst) ) return false;
+		if (TraceWithObstacle(src, dst)) return false;
 		//Сохраним новую позицию
 		pos += dlt;
 	}
 	return false;
 }
 
-bool Character::TraceWithObstacle(const CVECTOR& src,const CVECTOR& dst)
+bool Character::TraceWithObstacle(const CVECTOR& src, const CVECTOR& dst)
 {
 	const auto location = GetLocation();
-	if( location->Trace( src, dst ) > 1.f ) return false;
+	if (location->Trace(src, dst) > 1.f) return false;
 	return true;
 }
 
 void Character::UpdateActionsData()
 {
-	MODEL * m = Model();
-	if(!m) return;
-	Animation * a = m->GetAnimation();
-	if(!a) return;
+	MODEL* m = Model();
+	if (!m) return;
+	Animation* a = m->GetAnimation();
+	if (!a) return;
 	//Действия перемещения
 	turnSpeed = 2.0f;
-	const char * s = a->GetData("Turn speed");
-	if(s && s[0]) turnSpeed = float(atof(s));
+	const char* s = a->GetData("Turn speed");
+	if (s && s[0]) turnSpeed = float(atof(s));
 	UpdateActionMoveData(walk, a);
 	UpdateActionMoveData(backwalk, a);
 	UpdateActionMoveData(run, a);
@@ -3203,22 +3349,22 @@ void Character::UpdateActionsData()
 	UpdateActionMoveData(fall_water, a);
 	//Смерти
 	long i;
-	for(i = 0; i < numActionDead; i++) UpdateActionDeadData(actionDead[i], a);
-	for(i = 0; i < numActionFightDead; i++) UpdateActionDeadData(actionFightDead[i], a);
+	for (i = 0; i < numActionDead; i++) UpdateActionDeadData(actionDead[i], a);
+	for (i = 0; i < numActionFightDead; i++) UpdateActionDeadData(actionFightDead[i], a);
 	//Бой
 	UpdateActionMoveData(fightwalk, a);
 	UpdateActionMoveData(fightbackwalk, a);
 	UpdateActionMoveData(fightrun, a);
 	UpdateActionMoveData(fightbackrun, a);
-	for(i = 0; i < numAttackFast; i++) UpdateActionCharacterData(attackFast[i], a);
-	for(i = 0; i < numAttackForce; i++) UpdateActionCharacterData(attackForce[i], a);
-	for(i = 0; i < numAttackRound; i++) UpdateActionCharacterData(attackRound[i], a);
-	for(i = 0; i < numAttackBreak; i++) UpdateActionCharacterData(attackBreak[i], a);
-	for(i = 0; i < numAttackFeint; i++) UpdateActionCharacterData(attackFeint[i], a);
-	for(i = 0; i < numAttackFeint; i++) UpdateActionCharacterData(attackFeintC[i], a);
+	for (i = 0; i < numAttackFast; i++) UpdateActionCharacterData(attackFast[i], a);
+	for (i = 0; i < numAttackForce; i++) UpdateActionCharacterData(attackForce[i], a);
+	for (i = 0; i < numAttackRound; i++) UpdateActionCharacterData(attackRound[i], a);
+	for (i = 0; i < numAttackBreak; i++) UpdateActionCharacterData(attackBreak[i], a);
+	for (i = 0; i < numAttackFeint; i++) UpdateActionCharacterData(attackFeint[i], a);
+	for (i = 0; i < numAttackFeint; i++) UpdateActionCharacterData(attackFeintC[i], a);
 	UpdateActionCharacterData(shot, a);
-	for(i = 0; i < numHits; i++) UpdateActionCharacterData(hit[i], a);
-	for(i = 0; i < numParry; i++) UpdateActionCharacterData(parry[i], a);  //eddy
+	for (i = 0; i < numHits; i++) UpdateActionCharacterData(hit[i], a);
+	for (i = 0; i < numParry; i++) UpdateActionCharacterData(parry[i], a); //eddy
 	UpdateActionCharacterData(hitFeint, a);
 	UpdateActionCharacterData(hitParry, a);
 	UpdateActionCharacterData(hitRound, a);
@@ -3233,119 +3379,120 @@ void Character::UpdateActionsData()
 	UpdateActionCharacterData(actionTurnL, a);
 	UpdateActionCharacterData(actionTurnR, a);
 	//Действия стояния при стоянии
-	for(i = 0; i < numActionIdles; i++) UpdateActionIdleData(actionIdle[i], a);
+	for (i = 0; i < numActionIdles; i++) UpdateActionIdleData(actionIdle[i], a);
 	//Действия стояния в режиме боя
-	for(i = 0; i < numFightActionIdles; i++) UpdateActionIdleData(actionFightIdle[i], a);
+	for (i = 0; i < numFightActionIdles; i++) UpdateActionIdleData(actionFightIdle[i], a);
 	noBlendTime = 1.0f;
 	UpdateAnimation();
 }
 
-void Character::UpdateActionMoveData(ActionMove & am, Animation * a)
+void Character::UpdateActionMoveData(ActionMove& am, Animation* a)
 {
-	const char * s;
-	if(!a) return;
+	const char* s;
+	if (!a) return;
 	//set player action
-	if(!a->Player(1).SetAction(am.name)) return;
+	if (!a->Player(1).SetAction(am.name)) return;
 	//speed
 	am.speed = 0.0f;
 	s = a->Player(1).GetData("Walk speed");
-	if(s && s[0]) am.speed = float(atof(s));
+	if (s && s[0]) am.speed = float(atof(s));
 	//Blend time
 	am.tblend = 0.2f;
 	s = a->Player(1).GetData("Blend time");
-	if(s && s[0]) am.tblend = float(atof(s));
-	if(am.tblend < 0.0f) am.tblend = 0.0f;
+	if (s && s[0]) am.tblend = float(atof(s));
+	if (am.tblend < 0.0f) am.tblend = 0.0f;
 	//Turn speed
 	am.turnspd = turnSpeed;
 	s = a->Player(1).GetData("Turn speed");
-	if(s && s[0]) am.turnspd = float(atof(s));
+	if (s && s[0]) am.turnspd = float(atof(s));
 	//reset player
 	a->Player(1).SetAction(nullptr);
 }
 
-void Character::UpdateActionCharacterData(ActionCharacter & ac, Animation * a)
+void Character::UpdateActionCharacterData(ActionCharacter& ac, Animation* a)
 {
-	const char * s;
-	if(!a) return;
+	const char* s;
+	if (!a) return;
 	//set player action
-	if(!a->Player(2).SetAction(ac.name)) return;
+	if (!a->Player(2).SetAction(ac.name)) return;
 	//Blend time
 	ac.tblend = 0.0f;
 	s = a->Player(2).GetData("Blend time");
-	if(s && s[0]) ac.tblend = float(atof(s));
-	if(ac.tblend < 0.0f) ac.tblend = 0.0f;
+	if (s && s[0]) ac.tblend = float(atof(s));
+	if (ac.tblend < 0.0f) ac.tblend = 0.0f;
 	//reset player
 	a->Player(2).SetAction(nullptr);
 }
 
-void Character::UpdateActionIdleData(ActionIdle & ai, Animation * a)
+void Character::UpdateActionIdleData(ActionIdle& ai, Animation* a)
 {
-	const char * s;
-	if(!a) return;
+	const char* s;
+	if (!a) return;
 	//set player action
-	if(!a->Player(2).SetAction(ai.name)) return;
+	if (!a->Player(2).SetAction(ai.name)) return;
 	//Blend time
 	ai.tblend = 0.0f;
 	s = a->Player(2).GetData("Blend time");
-	if(s && s[0]) ai.tblend = float(atof(s));
-	if(ai.tblend < 0.0f) ai.tblend = 0.0f;
+	if (s && s[0]) ai.tblend = float(atof(s));
+	if (ai.tblend < 0.0f) ai.tblend = 0.0f;
 	//Вероятность
 	ai.p = 1.0f;
 	s = a->Player(2).GetData("Probability");
-	if(s && s[0]) ai.p = float(atof(s));
-	if(ai.p > 1.0f) ai.p = 1.0f;
-	if(ai.p < 0.0f) ai.p = 0.0f;
+	if (s && s[0]) ai.p = float(atof(s));
+	if (ai.p > 1.0f) ai.p = 1.0f;
+	if (ai.p < 0.0f) ai.p = 0.0f;
 	//reset player
 	a->Player(2).SetAction(nullptr);
 }
 
-void Character::UpdateActionDeadData(ActionDead & ai, Animation * a)
+void Character::UpdateActionDeadData(ActionDead& ai, Animation* a)
 {
-	const char * s;
-	if(!a) return;
+	const char* s;
+	if (!a) return;
 	//set player action
-	if(!a->Player(2).SetAction(ai.name)) return;
+	if (!a->Player(2).SetAction(ai.name)) return;
 	//Blend time
 	ai.tblend = 0.0f;
 	s = a->Player(2).GetData("Blend time");
-	if(s && s[0]) ai.tblend = float(atof(s));
-	if(ai.tblend < 0.0f) ai.tblend = 0.0f;
+	if (s && s[0]) ai.tblend = float(atof(s));
+	if (ai.tblend < 0.0f) ai.tblend = 0.0f;
 	//Вероятность
 	ai.p = 1.0f;
 	s = a->Player(2).GetData("Probability");
-	if(s && s[0]) ai.p = float(atof(s));
-	if(ai.p > 1.0f) ai.p = 1.0f;
-	if(ai.p < 0.0f) ai.p = 0.0f;
+	if (s && s[0]) ai.p = float(atof(s));
+	if (ai.p > 1.0f) ai.p = 1.0f;
+	if (ai.p < 0.0f) ai.p = 0.0f;
 	//s
 	ai.ang = 0.0f;
 	s = a->Player(2).GetData("Angle");
-	if(s && s[0]) ai.ang = float(atof(s));
-	if(ai.ang > 360.0f) ai.ang = 360.0f;
-	if(ai.ang < 0.0f) ai.ang = 0.0f;
-	ai.ang *= 3.141592654f/180.0f;
+	if (s && s[0]) ai.ang = float(atof(s));
+	if (ai.ang > 360.0f) ai.ang = 360.0f;
+	if (ai.ang < 0.0f) ai.ang = 0.0f;
+	ai.ang *= 3.141592654f / 180.0f;
 	//reset player
 	a->Player(2).SetAction(nullptr);
 }
 
 
-bool Character::SetAction(const char * actionName, float tblend, float movespeed, float trnspeed, bool forceStart)
+bool Character::SetAction(const char* actionName, float tblend, float movespeed, float trnspeed,
+                          bool forceStart)
 {
-	MODEL * m = Model();
-	if(!m) return false;
-	Animation * a = m->GetAnimation();
-	if(!a) return false;
-	const char * curAction = "";
-	if(a->Player(0).IsPlaying() && !a->Player(0).IsPause())
+	MODEL* m = Model();
+	if (!m) return false;
+	Animation* a = m->GetAnimation();
+	if (!a) return false;
+	const char* curAction = "";
+	if (a->Player(0).IsPlaying() && !a->Player(0).IsPause())
 	{
 		curAction = a->Player(0).GetAction();
-		if(!forceStart && curAction && actionName && _stricmp(curAction, actionName) == 0) return true;
+		if (!forceStart && curAction && actionName && _stricmp(curAction, actionName) == 0) return true;
 	}
-	if(noBlendTime > 0.0f) tblend = 0.0f;
+	if (noBlendTime > 0.0f) tblend = 0.0f;
 	bspeed.Blend(speed, movespeed, tblend);
-	bturn.Blend(turnspd, trnspeed, tblend*0.1f);
-	if(!actionName || !actionName[0])
+	bturn.Blend(turnspd, trnspeed, tblend * 0.1f);
+	if (!actionName || !actionName[0])
 	{
-		if(tblend <= 0.0f)
+		if (tblend <= 0.0f)
 		{
 			a->Player(0).Stop();
 			a->Player(0).SetAction(nullptr);
@@ -3353,25 +3500,27 @@ bool Character::SetAction(const char * actionName, float tblend, float movespeed
 			a->Player(1).SetAction(nullptr);
 			return true;
 		}
-		if(a->Player(1).IsPlaying())
+		if (a->Player(1).IsPlaying())
 		{
 			a->Player(1).Stop();
 			a->Player(1).SetAction(nullptr);
 		}
-		if(!a->Player(0).IsPlaying()) return true;
+		if (!a->Player(0).IsPlaying()) return true;
 		float start = 0.0f;
-		if(a->Timer(0).IsWork())
+		if (a->Timer(0).IsWork())
 		{
-			start = (1.0f - a->Timer(0).GetCurrent())*tblend;
+			start = (1.0f - a->Timer(0).GetCurrent()) * tblend;
 			Assert(0.0f <= start && start <= tblend);
 		}
-		if(start < tblend)
+		if (start < tblend)
 		{
 			a->Timer(0).ResetTimer();
 			a->Timer(0).Start(tblend, start);
 			a->Timer(0).SetPlayer(0, true);
 			a->Player(0).SetAutoStop(true);
-		}else{
+		}
+		else
+		{
 			a->Player(0).Stop();
 			a->Player(0).SetAction(nullptr);
 		}
@@ -3380,19 +3529,21 @@ bool Character::SetAction(const char * actionName, float tblend, float movespeed
 	//Сбросим привязанные вещи
 	api->Send_Message(blade, "l", 1003);
 	//Индекс текущего плеера
-	if(a->Player(0).IsPlaying()) a->CopyPlayerState(0, 1);
+	if (a->Player(0).IsPlaying()) a->CopyPlayerState(0, 1);
 	a->Player(0).SetAction(nullptr);
 	bool res = a->Player(0).SetAction(actionName) && a->Player(0).Play();
 	a->Timer(0).ResetTimer();
 	a->Timer(1).ResetTimer();
-	if(tblend)
+	if (tblend)
 	{
 		a->Timer(0).Start(tblend);
 		a->Player(0).SetAutoStop(false);
 		a->Player(1).SetAutoStop(true);
 		a->Timer(0).SetPlayer(0, false);
 		a->Timer(0).SetPlayer(1, true);
-	}else{
+	}
+	else
+	{
 		a->Player(1).Stop();
 		a->Player(1).SetAction(nullptr);
 	}
@@ -3402,14 +3553,15 @@ bool Character::SetAction(const char * actionName, float tblend, float movespeed
 void Character::UpdateAnimation()
 {
 	isActiveState = true;
-	if(priorityAction.name)
+	if (priorityAction.name)
 	{
 		curIdleIndex = -1;
 		//Специяльные действия
-		if(!isSetPriorityAction)
+		if (!isSetPriorityAction)
 		{
 			isSetPriorityAction = true;
-			if(!SetAction(priorityAction.name, priorityAction.tblend, priorityActionMoveSpd, priorityActionRotSpd))
+			if (!SetAction(priorityAction.name, priorityAction.tblend, priorityActionMoveSpd,
+			               priorityActionRotSpd))
 			{
 				api->Trace("Character animation: not set priority action: \"%s\"", priorityAction.name);
 			}
@@ -3417,341 +3569,435 @@ void Character::UpdateAnimation()
 			fgtCurType = fgtSetType = fgt_none;
 			fgtSetIndex = -1;
 		}
-	}else
-	if(isSwim)
+	}
+	else if (isSwim)
 	{
-		if(!SetAction(swim.name, swim.tblend, swim.speed, swim.turnspd))
+		if (!SetAction(swim.name, swim.tblend, swim.speed, swim.turnspd))
 		{
 			api->Trace("Character animation: not set priority action: \"%s\"", swim.name);
 		}
 		curMove = nullptr;
 		fgtCurType = fgtSetType = fgt_none;
 		fgtSetIndex = -1;
-	}else{
+	}
+	else
+	{
 		isSetPriorityAction = false;
-		if(!isFight)
+		if (!isFight)
 		{
-			if(isNFHit)
+			if (isNFHit)
 			{
 				isNFHit = false;
 				curMove = nullptr;
-				if (userIdle.name && (_stricmp(userIdle.name, "Ground_SitDown")==0 || _stricmp(userIdle.name, "Ground_StandUp")==0))
+				if (userIdle.name && (_stricmp(userIdle.name, "Ground_SitDown") == 0 || _stricmp(
+					userIdle.name, "Ground_StandUp") == 0))
 				{
 					api->Trace("Not int: \"%s\"", userIdle.name);
 				}
 				else
 				{
-					if(!SetAction(nfhit.name, nfhit.tblend, 0.0f, 0.0f))
+					if (!SetAction(nfhit.name, nfhit.tblend, 0.0f, 0.0f))
 					{
 						curIdleIndex = -1;
-						if(noBlendTime <= 0.0f) api->Trace("Character animation: not set non fight hit action: \"%s\"", nfhit.name);
+						if (noBlendTime <= 0.0f) api->Trace(
+							"Character animation: not set non fight hit action: \"%s\"", nfhit.name);
 					}
 				}
-			}else
-			if(isJump)
+			}
+			else if (isJump)
 			{
-				if(!SetAction(fall.name, fall.tblend, 0.0f, 0.0f))
+				if (!SetAction(fall.name, fall.tblend, 0.0f, 0.0f))
 				{
 					api->Trace("Character animation: not fall action: \"%s\"", fall.name);
 				}
-			}else
-			if(isMove)
+			}
+			else if (isMove)
 			{
 				curIdleIndex = -1;
 				//api->Trace("movesn = %f", movesn);
-				if(movecs > CHARACTER_COS_STAIR || IsRun())
+				if (movecs > CHARACTER_COS_STAIR || IsRun())
 				{
-					if(!IsRun())
+					if (!IsRun())
 					{
-						if(!isBack)
+						if (!isBack)
 						{
 							//Простая ходьба
-							if(curMove != &walk)
+							if (curMove != &walk)
 							{
 								curMove = &walk;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
 								{
-									api->Trace("Character animation: not set walk action: \"%s\"", curMove->name);
-								}
-							}
-						}else{
-							//Хотьба назад
-							if(curMove != &backwalk)
-							{
-								curMove = &backwalk;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
-								{
-									api->Trace("Character animation: not set back walk action: \"%s\"", curMove->name);
+									api->Trace("Character animation: not set walk action: \"%s\"",
+									           curMove->name);
 								}
 							}
 						}
-					}else{
-						if(!isBack)
+						else
 						{
-							//Бег
-							if(curMove != &run)
+							//Хотьба назад
+							if (curMove != &backwalk)
 							{
-								curMove = &run;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
+								curMove = &backwalk;
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
 								{
-									api->Trace("Character animation: not set run action: \"%s\"", curMove->name);
-								}
-							}
-						}else{
-							//Бег назад
-							if(curMove != &backrun)
-							{
-								curMove = &backrun;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
-								{
-									api->Trace("Character animation: not set buck run action: \"%s\"", curMove->name);
+									api->Trace("Character animation: not set back walk action: \"%s\"",
+									           curMove->name);
 								}
 							}
 						}
 					}
-				}else{
-					if(!IsRun() || true)
+					else
 					{
-						if(!isBack)
+						if (!isBack)
 						{
-							//Ходьба по лестнице
-							if(isUp)
+							//Бег
+							if (curMove != &run)
 							{
-								curMove = &stsUp;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
+								curMove = &run;
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
 								{
-									api->Trace("Character animation: not set stair up action: \"%s\"", curMove->name);
-								}
-							}else{
-								curMove = &stsDown;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
-								{
-									api->Trace("Character animation: not set stair down action: \"%s\"", curMove->name);
-								}
-							}
-						}else{
-							//Хотьба назад по лестнице
-							if(isUp)
-							{
-								curMove = &stsUpBack;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
-								{
-									api->Trace("Character animation: not set back stair up action: \"%s\"", curMove->name);
-								}
-							}else{
-								curMove = &stsDownBack;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
-								{
-									api->Trace("Character animation: not set back stair down action: \"%s\"", curMove->name);
+									api->Trace("Character animation: not set run action: \"%s\"",
+									           curMove->name);
 								}
 							}
 						}
-					}else{
-						Assert(false);
-						if(!isBack)
+						else
 						{
-							//Бег по лестнице вперёд
-							if(isUp)
+							//Бег назад
+							if (curMove != &backrun)
 							{
-								curMove = &stsUpRun;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
+								curMove = &backrun;
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
 								{
-									api->Trace("Character animation: not set run stair up action: \"%s\"", curMove->name);
-								}
-							}else{
-								curMove = &stsDownRun;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
-								{
-									api->Trace("Character animation: not set run stair down action: \"%s\"", curMove->name);
-								}
-							}
-						}else{
-							//Бег по лестнице назад
-							if(isUp)
-							{
-								curMove = &stsUpRunBack;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
-								{
-									api->Trace("Character animation: not set back run stair up action: \"%s\"", curMove->name);
-								}
-							}else{
-								curMove = &stsDownRunBack;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
-								{
-									api->Trace("Character animation: not set back run stair down action: \"%s\"", curMove->name);
+									api->Trace("Character animation: not set buck run action: \"%s\"",
+									           curMove->name);
 								}
 							}
 						}
 					}
 				}
-			}else{
-				float ts;
-				const char * an;
-				//Анимация стояния по умолчанию
-				if(!curMove)
+				else
 				{
-					if(fabsf(strafeVel) < 0.1f)
+					if (!IsRun() || true)
 					{
-						//Стояние
-						an = FindIdleAnimation(ts);
-						if(an)
+						if (!isBack)
 						{
-							if(!SetAction(an, ts, 0.0f, turnSpeed))
+							//Ходьба по лестнице
+							if (isUp)
 							{
-								curIdleIndex = -1;
-								if(noBlendTime <= 0.0f) api->Trace("Character animation: not set idle action: \"%s\"", an);
+								curMove = &stsUp;
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
+								{
+									api->Trace("Character animation: not set stair up action: \"%s\"",
+									           curMove->name);
+								}
 							}
-						}else{
-							api->Trace("Character: No set idle animation!!!");
-							if(noBlendTime <= 0.0f) SetAction(nullptr, 0.3f, 0.0f, turnSpeed);
+							else
+							{
+								curMove = &stsDown;
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
+								{
+									api->Trace("Character animation: not set stair down action: \"%s\"",
+									           curMove->name);
+								}
+							}
 						}
-					}else{
-						//Шагаем в сторну
-						if(strafeVel < 0.0f)
+						else
 						{
-							curIdleIndex = -1;
-							if(!SetAction("strafe_left", 0.2f, 0.0f, turnSpeed))
+							//Хотьба назад по лестнице
+							if (isUp)
 							{
-								if(noBlendTime <= 0.0f) api->Trace("Character animation: not set \"strafe_left\" action");
+								curMove = &stsUpBack;
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
+								{
+									api->Trace("Character animation: not set back stair up action: \"%s\"",
+									           curMove->name);
+								}
 							}
-						}else{
-							curIdleIndex = -1;
-							if(!SetAction("strafe_right", 0.2f, 0.0f, turnSpeed))
+							else
 							{
-								if(noBlendTime <= 0.0f) api->Trace("Character animation: not set \"strafe_right\" action");
+								curMove = &stsDownBack;
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
+								{
+									api->Trace("Character animation: not set back stair down action: \"%s\"",
+									           curMove->name);
+								}
 							}
 						}
 					}
-				}else{
-					//Остановиться
-					an = FindIdleAnimation(ts);
-					if(an)
+					else
 					{
-						if(!SetAction(an, ts, 0.0f, turnSpeed))
+						Assert(false);
+						if (!isBack)
+						{
+							//Бег по лестнице вперёд
+							if (isUp)
+							{
+								curMove = &stsUpRun;
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
+								{
+									api->Trace("Character animation: not set run stair up action: \"%s\"",
+									           curMove->name);
+								}
+							}
+							else
+							{
+								curMove = &stsDownRun;
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
+								{
+									api->Trace("Character animation: not set run stair down action: \"%s\"",
+									           curMove->name);
+								}
+							}
+						}
+						else
+						{
+							//Бег по лестнице назад
+							if (isUp)
+							{
+								curMove = &stsUpRunBack;
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
+								{
+									api->Trace("Character animation: not set back run stair up action: \"%s\"",
+									           curMove->name);
+								}
+							}
+							else
+							{
+								curMove = &stsDownRunBack;
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
+								{
+									api->Trace(
+										"Character animation: not set back run stair down action: \"%s\"",
+										curMove->name);
+								}
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				float ts;
+				const char* an;
+				//Анимация стояния по умолчанию
+				if (!curMove)
+				{
+					if (fabsf(strafeVel) < 0.1f)
+					{
+						//Стояние
+						an = FindIdleAnimation(ts);
+						if (an)
+						{
+							if (!SetAction(an, ts, 0.0f, turnSpeed))
+							{
+								curIdleIndex = -1;
+								if (noBlendTime <= 0.0f) api->Trace(
+									"Character animation: not set idle action: \"%s\"", an);
+							}
+						}
+						else
+						{
+							api->Trace("Character: No set idle animation!!!");
+							if (noBlendTime <= 0.0f) SetAction(nullptr, 0.3f, 0.0f, turnSpeed);
+						}
+					}
+					else
+					{
+						//Шагаем в сторну
+						if (strafeVel < 0.0f)
 						{
 							curIdleIndex = -1;
-							if(noBlendTime <= 0.0f) api->Trace("Character animation: not set idle action: \"%s\"", an);
+							if (!SetAction("strafe_left", 0.2f, 0.0f, turnSpeed))
+							{
+								if (noBlendTime <= 0.0f) api->Trace(
+									"Character animation: not set \"strafe_left\" action");
+							}
 						}
-					}else{
+						else
+						{
+							curIdleIndex = -1;
+							if (!SetAction("strafe_right", 0.2f, 0.0f, turnSpeed))
+							{
+								if (noBlendTime <= 0.0f) api->Trace(
+									"Character animation: not set \"strafe_right\" action");
+							}
+						}
+					}
+				}
+				else
+				{
+					//Остановиться
+					an = FindIdleAnimation(ts);
+					if (an)
+					{
+						if (!SetAction(an, ts, 0.0f, turnSpeed))
+						{
+							curIdleIndex = -1;
+							if (noBlendTime <= 0.0f) api->Trace(
+								"Character animation: not set idle action: \"%s\"", an);
+						}
+					}
+					else
+					{
 						SetAction(nullptr, curMove->tblend, 0.0f, turnSpeed);
 						curIdleIndex = -1;
-						if(noBlendTime <= 0.0f) api->Trace("Character: No set idle animation!!!");
+						if (noBlendTime <= 0.0f) api->Trace("Character: No set idle animation!!!");
 					}
 					curMove = nullptr;
 				}
 			}
-		}else{
+		}
+		else
+		{
 			//Режим боя
 
-			if(fgtSetType == fgt_blockbreak)
+			if (fgtSetType == fgt_blockbreak)
 			{
 				int i = 0;
 			}
 
-			if(!fightTbl[fgtCurType][fgtSetType]) return;
+			if (!fightTbl[fgtCurType][fgtSetType]) return;
 			bool isSet = false;
-			if(fgtSetType != fgt_none)
+			if (fgtSetType != fgt_none)
 			{
 				isParryState = false;
 				isFeintState = false;
-/*
-				if(_stricmp(characterID, "Blaze") == 0)
-				{
-					entid_t eid;
-					api->FindClass(&eid, "ILogAndActions", 0);
-					char sbuf[256];
-					sprintf_s(sbuf, "Set act: %s", fightNamesTbl[fgtSetType]);
-					api->Send_Message(eid, "lls", 45020, false, sbuf);
-					if(fgtCurType == fgt_blockhit && fgtSetType == fgt_blockhit)
-					{
-						int i = 0;
-					}
-				}
- */
+				/*
+								if(_stricmp(characterID, "Blaze") == 0)
+								{
+									entid_t eid;
+									api->FindClass(&eid, "ILogAndActions", 0);
+									char sbuf[256];
+									sprintf_s(sbuf, "Set act: %s", fightNamesTbl[fgtSetType]);
+									api->Send_Message(eid, "lls", 45020, false, sbuf);
+									if(fgtCurType == fgt_blockhit && fgtSetType == fgt_blockhit)
+									{
+										int i = 0;
+									}
+								}
+				 */
 				char* pWeaponID;
-				VDATA* pdat = api->Event("eGetWeaponID","s",characterID);
-				if( pdat )
+				VDATA* pdat = api->Event("eGetWeaponID", "s", characterID);
+				if (pdat)
 				{
 					pWeaponID = pdat->GetString();
 				}
 
-				switch(fgtSetType)
+				switch (fgtSetType)
 				{
-				case fgt_attack_fast:	//Быстрый удар
-					if(!(isSet = SetAction(attackFast[fgtSetIndex].name, attackFast[fgtSetIndex].tblend, 0.0f, 4.0f)))
+				case fgt_attack_fast: //Быстрый удар
+					if (!(isSet = SetAction(attackFast[fgtSetIndex].name, attackFast[fgtSetIndex].tblend, 0.0f,
+					                        4.0f)))
 					{
-						api->Trace("Character animation: not set fast attack action: \"%s\"", attackFast[fgtSetIndex].name);
-					}else{
-						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
+						api->Trace("Character animation: not set fast attack action: \"%s\"",
+						           attackFast[fgtSetIndex].name);
+					}
+					else
+					{
+						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON, 0);
 						api->Event("Event_ChrSnd_Attack", "is", GetId(), "fast");
 						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetId(), FGT_ATTACK_FAST);
 						camRotWait = camRotMax = 0.3f;
-						impulse += 5.0f*GetEnemyDirForImpulse();
+						impulse += 5.0f * GetEnemyDirForImpulse();
 					}
 					break;
-				case fgt_attack_force:	//Выпад и выпад с рубящим ударом
-					if(_stricmp(pWeaponID, "topor") == 0 && fgtSetIndex == 3)
-					{	//если с топором, то выпад меняем на рубящий удар
+				case fgt_attack_force: //Выпад и выпад с рубящим ударом
+					if (_stricmp(pWeaponID, "topor") == 0 && fgtSetIndex == 3)
+					{
+						//если с топором, то выпад меняем на рубящий удар
 						fgtSetIndex = rand() % 2;
 					}
-					if(!(isSet = SetAction(attackForce[fgtSetIndex].name, attackForce[fgtSetIndex].tblend, 0.0f, 4.0f)))
+					if (!(isSet = SetAction(attackForce[fgtSetIndex].name, attackForce[fgtSetIndex].tblend,
+					                        0.0f, 4.0f)))
 					{
-						api->Trace("Character animation: not set force attack action: \"%s\"", attackForce[fgtSetIndex].name);
-					}else{
-						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
+						api->Trace("Character animation: not set force attack action: \"%s\"",
+						           attackForce[fgtSetIndex].name);
+					}
+					else
+					{
+						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON, 0);
 						api->Event("Event_ChrSnd_Attack", "is", GetId(), "force");
 						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetId(), FGT_ATTACK_FORCE);
 						camRotWait = camRotMax = 0.3f;
-						impulse += 2.5f*GetEnemyDirForImpulse();
+						impulse += 2.5f * GetEnemyDirForImpulse();
 					}
 					break;
-				case fgt_attack_round:	//Круговой удар
-					if(!(isSet = SetAction(attackRound[fgtSetIndex].name, attackRound[fgtSetIndex].tblend, 0.0f, 4.0f)))
+				case fgt_attack_round: //Круговой удар
+					if (!(isSet = SetAction(attackRound[fgtSetIndex].name, attackRound[fgtSetIndex].tblend,
+					                        0.0f, 4.0f)))
 					{
-						api->Trace("Character animation: not set round attack action: \"%s\"", attackRound[fgtSetIndex].name);
-					}else{
-						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
+						api->Trace("Character animation: not set round attack action: \"%s\"",
+						           attackRound[fgtSetIndex].name);
+					}
+					else
+					{
+						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON, 0);
 						api->Event("Event_ChrSnd_Attack", "is", GetId(), "round");
 						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetId(), FGT_ATTACK_ROUND);
 						camRotWait = camRotMax = 0.8f;
 					}
 					break;
-				case fgt_attack_break:	//Пробивающий удар
-					if(!(isSet = SetAction(attackBreak[fgtSetIndex].name, attackBreak[fgtSetIndex].tblend, 0.0f, 4.0f)))
+				case fgt_attack_break: //Пробивающий удар
+					if (!(isSet = SetAction(attackBreak[fgtSetIndex].name, attackBreak[fgtSetIndex].tblend,
+					                        0.0f, 4.0f)))
 					{
-						api->Trace("Character animation: not set break attack action: \"%s\"", attackBreak[fgtSetIndex].name);
-					}else{
-						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
+						api->Trace("Character animation: not set break attack action: \"%s\"",
+						           attackBreak[fgtSetIndex].name);
+					}
+					else
+					{
+						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON, 0);
 						api->Event("Event_ChrSnd_Attack", "is", GetId(), "break");
 						// boal перенос в момент удара api->Event("ChrFgtActApply", "is", GetId(), FGT_ATTACK_BREAK);
 						camRotWait = camRotMax = 0.3f;
-						impulse += 1.0f*GetEnemyDirForImpulse();
+						impulse += 1.0f * GetEnemyDirForImpulse();
 					}
 					break;
-				case fgt_attack_feint:	//Финт - спрециальный обманный удар
-					if(!(isSet = SetAction(attackFeint[fgtSetIndex].name, attackFeint[fgtSetIndex].tblend, 0.0f, 4.0f)))
+				case fgt_attack_feint: //Финт - спрециальный обманный удар
+					if (!(isSet = SetAction(attackFeint[fgtSetIndex].name, attackFeint[fgtSetIndex].tblend,
+					                        0.0f, 4.0f)))
 					{
-						api->Trace("Character animation: not set feint action: \"%s\"", attackFeint[fgtSetIndex].name);
-					}else{
-						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
+						api->Trace("Character animation: not set feint action: \"%s\"",
+						           attackFeint[fgtSetIndex].name);
+					}
+					else
+					{
+						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON, 0);
 						api->Event("Event_ChrSnd_Attack", "is", GetId(), "feint");
 						api->Event("ChrFgtActApply", "is", GetId(), FGT_ATTACK_FEINT);
 						camRotWait = camRotMax = 0.3f;
 					}
 					break;
-				case fgt_attack_feintc:	//Атакующие продолжение финта
-					if(!(isSet = SetAction(attackFeintC[fgtSetIndex].name, attackFeintC[fgtSetIndex].tblend, 0.0f, 4.0f)))
+				case fgt_attack_feintc: //Атакующие продолжение финта
+					if (!(isSet = SetAction(attackFeintC[fgtSetIndex].name, attackFeintC[fgtSetIndex].tblend,
+					                        0.0f, 4.0f)))
 					{
-						api->Trace("Character animation: not set feint action: \"%s\"", attackFeintC[fgtSetIndex].name);
-					}else{
-						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON,0);
+						api->Trace("Character animation: not set feint action: \"%s\"",
+						           attackFeintC[fgtSetIndex].name);
+					}
+					else
+					{
+						api->Send_Message(blade, "ll", MSG_BLADE_TRACE_ON, 0);
 						api->Event("Event_ChrSnd_Attack", "is", GetId(), "feintc");
 						api->Event("ChrFgtActApply", "is", GetId(), "feintc"); // boal жрем энергию за успех
 						camRotWait = camRotMax = 0.3f;
 					}
 					break;
-				case fgt_fire:			//Выстрел из пистолета
-					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+				case fgt_fire: //Выстрел из пистолета
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF, 0);
 					priorityAction.SetName(shot.name);
 					priorityAction.tblend = shot.tblend;
 					priorityActionMoveSpd = 0.0f;
@@ -3760,131 +4006,141 @@ void Character::UpdateAnimation()
 					fgtSetIndex = -1;
 					isFired = false;
 					break;
-				case fgt_hit_attack:	//Реакция попадания удара по персонажу вводящая его в stall
-                    if(_stricmp(characterID, "Blaze") == 0) // boal не нашел лучшего, но у нас ГГ всегда имеет это ИД, работать будет
-                    {
+				case fgt_hit_attack: //Реакция попадания удара по персонажу вводящая его в stall
+					if (_stricmp(characterID, "Blaze") == 0)
+						// boal не нашел лучшего, но у нас ГГ всегда имеет это ИД, работать будет
+					{
 						if (rand() % 100 >= 50) break; // boal не всегда пробиваться в анимацию
 					}
-					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
-					if(!(isSet = SetAction(hit[fgtSetIndex].name, hit[fgtSetIndex].tblend, 0.0f, 1.0f, true)))
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF, 0);
+					if (!(isSet = SetAction(hit[fgtSetIndex].name, hit[fgtSetIndex].tblend, 0.0f, 1.0f, true)))
 					{
-						api->Trace("Character animation: not set fight attack hit action: \"%s\"", hit[fgtSetIndex].name);
+						api->Trace("Character animation: not set fight attack hit action: \"%s\"",
+						           hit[fgtSetIndex].name);
 					}
 					break;
-				case fgt_blockbreak:	//Реакция попадания удара по персонажу вводящая его в stall
-					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
-					if(!(isSet = SetAction(blockbreak.name, blockbreak.tblend, 0.0f, 1.0f, true)))
+				case fgt_blockbreak: //Реакция попадания удара по персонажу вводящая его в stall
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF, 0);
+					if (!(isSet = SetAction(blockbreak.name, blockbreak.tblend, 0.0f, 1.0f, true)))
 					{
-						api->Trace("Character animation: not set fight blockbreak action: \"%s\"", blockbreak.name);
+						api->Trace("Character animation: not set fight blockbreak action: \"%s\"",
+						           blockbreak.name);
 					}
 					break;
-				case fgt_hit_feint:		//Реакция от финта вводящая его в stall
-					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
-					if(!(isSet = SetAction(hitFeint.name, hitFeint.tblend, 0.0f, 0.0f, true)))
+				case fgt_hit_feint: //Реакция от финта вводящая его в stall
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF, 0);
+					if (!(isSet = SetAction(hitFeint.name, hitFeint.tblend, 0.0f, 0.0f, true)))
 					{
-						api->Trace("Character animation: not set fight feint hit action: \"%s\"", hitFeint.name);
+						api->Trace("Character animation: not set fight feint hit action: \"%s\"",
+						           hitFeint.name);
 					}
 					break;
-				case fgt_hit_parry:		//Реакция от парирования вводящая его в stall
-					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
-					if(!(isSet = SetAction(hitParry.name, hitParry.tblend, 0.0f, 0.0f, true)))
+				case fgt_hit_parry: //Реакция от парирования вводящая его в stall
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF, 0);
+					if (!(isSet = SetAction(hitParry.name, hitParry.tblend, 0.0f, 0.0f, true)))
 					{
-						api->Trace("Character animation: not set fight parry hit action: \"%s\"", hitParry.name);
+						api->Trace("Character animation: not set fight parry hit action: \"%s\"",
+						           hitParry.name);
 					}
-					api->Event("ChrFgtActApply", "is", GetId(), "hit_parry"); // boal баг фикс FGT_ATTACK_PARRY);
+					api->Event("ChrFgtActApply", "is", GetId(), "hit_parry");
+					// boal баг фикс FGT_ATTACK_PARRY);
 					break;
-				case fgt_hit_round:		//Реакция отталкивание круговым ударом
-					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
-					impulse.x -= 3.0f*sinf(ay);
-					impulse.z -= 3.0f*cosf(ay);
-					if(!(isSet = SetAction(hitRound.name, hitRound.tblend, 0.0f, 0.0f, true)))
+				case fgt_hit_round: //Реакция отталкивание круговым ударом
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF, 0);
+					impulse.x -= 3.0f * sinf(ay);
+					impulse.z -= 3.0f * cosf(ay);
+					if (!(isSet = SetAction(hitRound.name, hitRound.tblend, 0.0f, 0.0f, true)))
 					{
-						api->Trace("Character animation: not set fight round hit action: \"%s\"", hitRound.name);
+						api->Trace("Character animation: not set fight round hit action: \"%s\"",
+						           hitRound.name);
 					}
 					break;
-				case fgt_hit_fire:		//Реакция от выстрела вводящая его в stall
-					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
-					if(!(isSet = SetAction(hitFire.name, hitFire.tblend, 0.0f, 0.0f, true)))
+				case fgt_hit_fire: //Реакция от выстрела вводящая его в stall
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF, 0);
+					if (!(isSet = SetAction(hitFire.name, hitFire.tblend, 0.0f, 0.0f, true)))
 					{
 						api->Trace("Character animation: not set fight fire hit action: \"%s\"", hitFire.name);
 					}
 					break;
-				case fgt_block:			//Защита саблей
-					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
-					if(_stricmp(pWeaponID, "topor") == 0)
+				case fgt_block: //Защита саблей
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF, 0);
+					if (_stricmp(pWeaponID, "topor") == 0)
 					{
-						if(!(isSet = SetAction(blockaxe.name, blockaxe.tblend, 0.0f, 5.0f, true)))
+						if (!(isSet = SetAction(blockaxe.name, blockaxe.tblend, 0.0f, 5.0f, true)))
 						{
 							api->Trace("Character animation: not set block action: \"%s\"", blockaxe.name);
 						}
 					}
 					else
 					{
-						if(!(isSet = SetAction(block.name, block.tblend, 0.0f, 5.0f, true)))
+						if (!(isSet = SetAction(block.name, block.tblend, 0.0f, 5.0f, true)))
 						{
 							api->Trace("Character animation: not set block action: \"%s\"", block.name);
 						}
 					}
 					break;
-				case fgt_blockhit:		//Защита саблей
-                    if(_stricmp(characterID, "Blaze") == 0) // boal не нашел лучшего, но у нас ГГ всегда имеет это ИД, работать будет
-                    {
+				case fgt_blockhit: //Защита саблей
+					if (_stricmp(characterID, "Blaze") == 0)
+						// boal не нашел лучшего, но у нас ГГ всегда имеет это ИД, работать будет
+					{
 						if (rand() % 100 >= 65) break; // boal не всегда пробиваться в анимацию
 					}
-					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
-					if(_stricmp(pWeaponID, "topor") == 0)
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF, 0);
+					if (_stricmp(pWeaponID, "topor") == 0)
 					{
-						if(!(isSet = SetAction(blockaxehit.name, blockaxehit.tblend, 0.0f, 2.0f, true)))
+						if (!(isSet = SetAction(blockaxehit.name, blockaxehit.tblend, 0.0f, 2.0f, true)))
 						{
-							api->Trace("Character animation: not set block axe hit action: \"%s\"", blockaxehit.name);
+							api->Trace("Character animation: not set block axe hit action: \"%s\"",
+							           blockaxehit.name);
 						}
 					}
 					else
 					{
-						if(!(isSet = SetAction(blockhit.name, blockhit.tblend, 0.0f, 2.0f, true)))
+						if (!(isSet = SetAction(blockhit.name, blockhit.tblend, 0.0f, 2.0f, true)))
 						{
 							api->Trace("Character animation: not set block hit action: \"%s\"", blockhit.name);
 						}
 					}
 					break;
-				case fgt_parry:			//Парирование, защитное движение вводящее противника в stall
-					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
-					if(!(isSet = SetAction(parry[fgtSetIndex].name, parry[fgtSetIndex].tblend, 0.0f, 5.0f)))
+				case fgt_parry: //Парирование, защитное движение вводящее противника в stall
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF, 0);
+					if (!(isSet = SetAction(parry[fgtSetIndex].name, parry[fgtSetIndex].tblend, 0.0f, 5.0f)))
 					{
-						api->Trace("Character animation: not set block(parry) action: \"%s\"", parry[fgtSetIndex].name);
+						api->Trace("Character animation: not set block(parry) action: \"%s\"",
+						           parry[fgtSetIndex].name);
 					}
 					break;
-				case fgt_recoil:		//Отскок назад
-					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
+				case fgt_recoil: //Отскок назад
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF, 0);
 					PlaySound("recoil", true);
-					impulse.x -= 2.0f*sinf(ay);
-					impulse.z -= 2.0f*cosf(ay);
+					impulse.x -= 2.0f * sinf(ay);
+					impulse.z -= 2.0f * cosf(ay);
 					priorityAction.SetName(recoil.name); //для проверки окончания анимации
-					if(!(isSet = SetAction(recoil.name, recoil.tblend, -3.0f, 0.0f)))
+					if (!(isSet = SetAction(recoil.name, recoil.tblend, -3.0f, 0.0f)))
 					{
 						api->Trace("Character animation: not set recoil action: \"%s\"", recoil.name);
 					}
 					break;
-				case fgt_strafe_l:		//Отскок влево
-					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
-					recoilSound = SOUND_INVALID_ID;//PlaySound("recoil", true);
-					impulse += 15.0f*CVECTOR(-cosf(ay), 0.0f, sinf(ay));
-					if(!(isSet = SetAction(strafe_l.name, strafe_l.tblend, 0.0f, 0.0f)))
+				case fgt_strafe_l: //Отскок влево
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF, 0);
+					recoilSound = SOUND_INVALID_ID; //PlaySound("recoil", true);
+					impulse += 15.0f * CVECTOR(-cosf(ay), 0.0f, sinf(ay));
+					if (!(isSet = SetAction(strafe_l.name, strafe_l.tblend, 0.0f, 0.0f)))
 					{
 						api->Trace("Character animation: not set recoil action: \"%s\"", strafe_l.name);
 					}
 					break;
-				case fgt_strafe_r:		//Отскок влево
-					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
-					recoilSound = SOUND_INVALID_ID;//PlaySound("recoil", true);
-					impulse -= 15.0f*CVECTOR(-cosf(ay), 0.0f, sinf(ay));
-					if(!(isSet = SetAction(strafe_r.name, strafe_r.tblend, 0.0f, 0.0f)))
+				case fgt_strafe_r: //Отскок влево
+					api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF, 0);
+					recoilSound = SOUND_INVALID_ID; //PlaySound("recoil", true);
+					impulse -= 15.0f * CVECTOR(-cosf(ay), 0.0f, sinf(ay));
+					if (!(isSet = SetAction(strafe_r.name, strafe_r.tblend, 0.0f, 0.0f)))
 					{
 						api->Trace("Character animation: not set recoil action: \"%s\"", strafe_l.name);
 					}
 					break;
 				}
-				if(isSet)
+				if (isSet)
 				{
 					fgtCurType = fgtSetType;
 					fgtCurIndex = fgtSetIndex;
@@ -3893,92 +4149,118 @@ void Character::UpdateAnimation()
 				fgtSetIndex = -1;
 				curMove = nullptr;
 				curIdleIndex = -1;
-			}else{
-				api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF,0);
-				if(isMove)
+			}
+			else
+			{
+				api->Send_Message(blade, "ll", MSG_BLADE_TRACE_OFF, 0);
+				if (isMove)
 				{
 					curIdleIndex = -1;
-					if(!IsRun())
+					if (!IsRun())
 					{
-						if(!isBack)
+						if (!isBack)
 						{
 							//Хотьба вперёд
-							if(curMove != &fightwalk)
+							if (curMove != &fightwalk)
 							{
 								curMove = &fightwalk;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
 								{
-									api->Trace("Character animation: not set fight walk action: \"%s\"", curMove->name);
-								}
-							}
-						}else{
-							//Хотьба назад
-							if(curMove != &fightbackwalk)
-							{
-								curMove = &fightbackwalk;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
-								{
-									api->Trace("Character animation: not set fight back walk action: \"%s\"", curMove->name);
+									api->Trace("Character animation: not set fight walk action: \"%s\"",
+									           curMove->name);
 								}
 							}
 						}
-					}else{
-						if(!isBack)
+						else
 						{
-							//Бег вперёд
-							if(curMove != &fightrun)
+							//Хотьба назад
+							if (curMove != &fightbackwalk)
 							{
-								curMove = &fightrun;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
+								curMove = &fightbackwalk;
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
 								{
-									api->Trace("Character animation: not set fight run action: \"%s\"", curMove->name);
-								}
-							}
-						}else{
-							//Бег назад
-							if(curMove != &fightbackrun)
-							{
-								curMove = &fightbackrun;
-								if(!SetAction(curMove->name, curMove->tblend, curMove->speed, curMove->turnspd))
-								{
-									api->Trace("Character animation: not set fight back run action: \"%s\"", curMove->name);
+									api->Trace("Character animation: not set fight back walk action: \"%s\"",
+									           curMove->name);
 								}
 							}
 						}
 					}
-				}else{
+					else
+					{
+						if (!isBack)
+						{
+							//Бег вперёд
+							if (curMove != &fightrun)
+							{
+								curMove = &fightrun;
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
+								{
+									api->Trace("Character animation: not set fight run action: \"%s\"",
+									           curMove->name);
+								}
+							}
+						}
+						else
+						{
+							//Бег назад
+							if (curMove != &fightbackrun)
+							{
+								curMove = &fightbackrun;
+								if (!SetAction(curMove->name, curMove->tblend, curMove->speed,
+								               curMove->turnspd))
+								{
+									api->Trace("Character animation: not set fight back run action: \"%s\"",
+									           curMove->name);
+								}
+							}
+						}
+					}
+				}
+				else
+				{
 					float ts;
-					const char * an;
+					const char* an;
 					//Анимация стояния по умолчанию
-					if(!curMove)
+					if (!curMove)
 					{
 						//Стояние
 						an = FindFightIdleAnimation(ts);
-						if(an)
+						if (an)
 						{
-							if(!SetAction(an, ts, 0.0f, turnSpeed))
+							if (!SetAction(an, ts, 0.0f, turnSpeed))
 							{
 								curIdleIndex = -1;
-								if(noBlendTime <= 0.0f) api->Trace("Character animation: not set fight idle \"%s\" action", an);
+								if (noBlendTime <= 0.0f) api->Trace(
+									"Character animation: not set fight idle \"%s\" action", an);
 							}
-						}else{
-							if(noBlendTime <= 0.0f) api->Trace("Character: No set idle animation!!!");
+						}
+						else
+						{
+							if (noBlendTime <= 0.0f) api->Trace("Character: No set idle animation!!!");
 							SetAction(nullptr, 0.3f, 0.0f, turnSpeed);
 							curIdleIndex = -1;
 						}
-					}else{
+					}
+					else
+					{
 						//Остановиться
 						an = FindFightIdleAnimation(ts);
-						if(an)
+						if (an)
 						{
-							if(!SetAction(an, ts, 0.0f, turnSpeed))
+							if (!SetAction(an, ts, 0.0f, turnSpeed))
 							{
 								curIdleIndex = -1;
-								if(noBlendTime <= 0.0f) api->Trace("Character animation: not set fight idle \"%s\" action", an);
+								if (noBlendTime <= 0.0f) api->Trace(
+									"Character animation: not set fight idle \"%s\" action", an);
 							}
-						}else{
+						}
+						else
+						{
 							SetAction(nullptr, curMove->tblend, 0.0f, turnSpeed);
-							if(noBlendTime <= 0.0f) api->Trace("Character: No set idle animation!!!");
+							if (noBlendTime <= 0.0f) api->Trace("Character: No set idle animation!!!");
 							curIdleIndex = -1;
 						}
 						curMove = nullptr;
@@ -3987,98 +4269,96 @@ void Character::UpdateAnimation()
 			}
 		}
 	}
-
 }
 
-const char * Character::FindIdleAnimation(float & tblend)
+const char* Character::FindIdleAnimation(float& tblend)
 {
 	//Пользовательская анимация
-	if(userIdle.name)
+	if (userIdle.name)
 	{
 		curIdleIndex = -1;
 		tblend = userIdle.tblend;
 		return userIdle.name;
 	}
 	//Стандартная анимация
-	if(fabsf(isTurn) <= (curIdleIndex >= 0 ? 0.8f : 0.1f))
+	if (fabsf(isTurn) <= (curIdleIndex >= 0 ? 0.8f : 0.1f))
 	{
-		if(numActionIdles <= 0)
+		if (numActionIdles <= 0)
 		{
 			tblend = 0.0f;
 			return nullptr;
 		}
-		if(!isLockIdleForCamera)
+		if (!isLockIdleForCamera)
 		{
-			if(curIdleIndex < 0)
+			if (curIdleIndex < 0)
 			{
 				//Расчитываем текущии вероятности и сумарную вероятность
 				float allp = 0.0f;
 				long i;
-				for(i = 0; i < numActionIdles; i++) allp += actionIdle[i].p;
+				for (i = 0; i < numActionIdles; i++) allp += actionIdle[i].p;
 				//Текущее действие
-				float rnd = rand()*allp/RAND_MAX;
+				float rnd = rand() * allp / RAND_MAX;
 				//Выбираем из списка то которое будем проигрывать
 				allp = 0.0f;
-				for(i = 0; i < numActionIdles; i++)
+				for (i = 0; i < numActionIdles; i++)
 				{
 					allp += actionIdle[i].p;
-					if(rnd < allp) break;
+					if (rnd < allp) break;
 				}
-				if(i >= numActionIdles) i = numActionIdles - 1;
+				if (i >= numActionIdles) i = numActionIdles - 1;
 				curIdleIndex = i;
 			}
-		}else curIdleIndex = 0;
+		}
+		else curIdleIndex = 0;
 		tblend = actionIdle[curIdleIndex].tblend;
 		isActiveState = false;
 		return actionIdle[curIdleIndex].name;
-	}else{
-		curIdleIndex = -1;
-		//Поворот
-		if(isTurn < 0)
-		{
-			tblend = actionTurnL.tblend;
-			return actionTurnL.name;
-		}else{
-			tblend = actionTurnR.tblend;
-			return actionTurnR.name;
-		}
 	}
+	curIdleIndex = -1;
+	//Поворот
+	if (isTurn < 0)
+	{
+		tblend = actionTurnL.tblend;
+		return actionTurnL.name;
+	}
+	tblend = actionTurnR.tblend;
+	return actionTurnR.name;
 	return nullptr;
 }
 
-const char * Character::FindFightIdleAnimation(float & tblend)
+const char* Character::FindFightIdleAnimation(float& tblend)
 {
 	//Пользовательская анимация
-	if(userIdle.name)
+	if (userIdle.name)
 	{
 		curIdleIndex = -1;
 		tblend = userIdle.tblend;
 		return userIdle.name;
 	}
-	if(curIdleIndex < 0 || curIdleIndex >= numFightActionIdles)
+	if (curIdleIndex < 0 || curIdleIndex >= numFightActionIdles)
 	{
 		//Расчитываем текущии вероятности и сумарную вероятность
 		float allp = 0.0f;
 		long i;
-		for(i = 0; i < numFightActionIdles; i++) allp += actionFightIdle[i].p;
+		for (i = 0; i < numFightActionIdles; i++) allp += actionFightIdle[i].p;
 		//Текущее действие
-		float rnd = rand()*allp/RAND_MAX;
+		float rnd = rand() * allp / RAND_MAX;
 		//Выбираем из списка то которое будем проигрывать
 		allp = 0.0f;
-		for(i = 0; i < numFightActionIdles; i++)
+		for (i = 0; i < numFightActionIdles; i++)
 		{
 			allp += actionFightIdle[i].p;
-			if(rnd < allp) break;
+			if (rnd < allp) break;
 		}
-		if(i >= numFightActionIdles) i = numFightActionIdles - 1;
-		if(recoilLook)
+		if (i >= numFightActionIdles) i = numFightActionIdles - 1;
+		if (recoilLook)
 		{
 			curIdleIndex = 7; //проиграть дразнилку после отскока
 			recoilLook = false;
 		}
 		else curIdleIndex = i;
 	}
-	if(fabsf(isTurn) <= (curIdleIndex >= 0 ? 0.8f : 0.1f)) isActiveState = false;
+	if (fabsf(isTurn) <= (curIdleIndex >= 0 ? 0.8f : 0.1f)) isActiveState = false;
 	tblend = actionFightIdle[curIdleIndex].tblend;
 	return actionFightIdle[curIdleIndex].name;
 	/*
@@ -4104,85 +4384,87 @@ const char * Character::FindFightIdleAnimation(float & tblend)
 
 float Character::GetCurrentPlayerPos()
 {
-	MODEL * m = Model();
-	if(!m) return 1.0f;
-	Animation * a = m->GetAnimation();
-	if(!a) return 1.0f;
+	MODEL* m = Model();
+	if (!m) return 1.0f;
+	Animation* a = m->GetAnimation();
+	if (!a) return 1.0f;
 	float p = a->Player(0).GetPosition();
-	if(!a->Player(0).IsPlaying()) p = 1.0f;
+	if (!a->Player(0).IsPlaying()) p = 1.0f;
 	return p;
 }
 
 float Character::GetAniPlayTime()
 {
-	MODEL * m = Model();
-	if(!m) return 1.0f;
-	Animation * a = m->GetAnimation();
-	if(!a) return 1.0f;
+	MODEL* m = Model();
+	if (!m) return 1.0f;
+	Animation* a = m->GetAnimation();
+	if (!a) return 1.0f;
 	float p = a->Player(0).GetPosition();
-	if(!a->Player(0).IsPlaying()) p = 1.0f;
+	if (!a->Player(0).IsPlaying()) p = 1.0f;
 	p = 1.0f - p;
-	p *= a->Player(0).GetFrames()*(1.0f/15.0f);
+	p *= a->Player(0).GetFrames() * (1.0f / 15.0f);
 	return p;
 }
 
-Character * Character::FindDialogCharacter()
+Character* Character::FindDialogCharacter()
 {
 	const auto location = GetLocation();
-	if(IsFight() || liveValue < 0 || deadName) return nullptr;
+	if (IsFight() || liveValue < 0 || deadName) return nullptr;
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	static long num = 0;
-	if(!location->supervisor.FindCharacters(fndCharacter, num, this, 3.0f)) return nullptr;
+	if (!location->supervisor.FindCharacters(fndCharacter, num, this, 3.0f)) return nullptr;
 	//Выбираем лутшего
 	float minDst;
 	long j = -1;
-	for(long i = 0; i < num; i++)
+	for (long i = 0; i < num; i++)
 	{
 		//Персонаж
-		Supervisor::FindCharacter & fc = fndCharacter[i];
+		Supervisor::FindCharacter& fc = fndCharacter[i];
 		//Если воюем, то не говорим с ним
-		if(fc.c->IsFight() || fc.c->liveValue < 0 || fc.c->deadName) continue;
+		if (fc.c->IsFight() || fc.c->liveValue < 0 || fc.c->deadName) continue;
 		//Дистанция
-		if(fabsf(fc.dy) > 2.0f) continue;
+		if (fabsf(fc.dy) > 2.0f) continue;
 		float d = sqrtf(fc.d2);
 		//Углы
-		static const float testAng = cosf(0.5f*CHARACTER_DIALOG_ANG*(3.1415926535f/180.0f));
+		static const float testAng = cosf(0.5f * CHARACTER_DIALOG_ANG * (3.1415926535f / 180.0f));
 		float cs = -1.0f;
-		if(fc.d2 > 0.0f) cs = (fc.dx*sinf(ay) + fc.dz*cosf(ay))/d;
-		if(cs < testAng) continue;
+		if (fc.d2 > 0.0f) cs = (fc.dx * sinf(ay) + fc.dz * cosf(ay)) / d;
+		if (cs < testAng) continue;
 		//Дистанция с учётом угла
 		d /= cs;
-		if(j >= 0)
+		if (j >= 0)
 		{
-			if(minDst > d)
+			if (minDst > d)
 			{
 				minDst = d;
 				j = i;
 			}
-		}else{
+		}
+		else
+		{
 			minDst = d;
 			j = i;
 		}
 	}
-	if(j >= 0) return fndCharacter[j].c;
+	if (j >= 0) return fndCharacter[j].c;
 	return nullptr;
 }
 
-bool Character::SetPriorityAction(const char * action)
+bool Character::SetPriorityAction(const char* action)
 {
 	priorityAction.SetName(nullptr);
-	if(!action) return false;
-	MODEL * m = Model();
-	if(!m) return false;
-	Animation * a = m->GetAnimation();
-	if(!a) return false;
+	if (!action) return false;
+	MODEL* m = Model();
+	if (!m) return false;
+	Animation* a = m->GetAnimation();
+	if (!a) return false;
 	isResetAutoAction = true;
 	priorityAction.SetName(action);
 	priorityAction.tblend = 0.0f;
 	priorityActionMoveSpd = 0.0f;
 	priorityActionRotSpd = 0.0f;
-	if(!a->Player(1).SetAction(action))
+	if (!a->Player(1).SetAction(action))
 	{
 		a->Player(1).SetAction(nullptr);
 		priorityAction.SetName(nullptr);
@@ -4197,9 +4479,9 @@ inline void Character::CheckAttackHit()
 {
 	//Получим название атаки и реакцию
 	bool isBlockBreak = false;
-	const char * aname;
+	const char* aname;
 	FightAction hitReaction;
-	switch(fgtCurType)
+	switch (fgtCurType)
 	{
 	case fgt_attack_fast:
 		aname = FGT_ATTACK_FAST;
@@ -4222,47 +4504,48 @@ inline void Character::CheckAttackHit()
 		aname = FGT_ATTACK_FEINT;
 		hitReaction = fgt_hit_feint;
 		break;
-	/*case fgt_attack_feint: //boal для теста добавил и убрал
-		aname = FGT_ATTACK_FEINT;
-		hitReaction = fgt_hit_feint;
-		break;*/
+		/*case fgt_attack_feint: //boal для теста добавил и убрал
+			aname = FGT_ATTACK_FEINT;
+			hitReaction = fgt_hit_feint;
+			break;*/
 	default:
 		return;
 	}
 	float attackDist = 2.4f, attackAng = (fgtCurType != fgt_attack_round ? 60.0f : 0.0f);
-	MODEL * m = Model();
-	if(m)
+	MODEL* m = Model();
+	if (m)
 	{
-		Animation * a = m->GetAnimation();
-		if(a)
+		Animation* a = m->GetAnimation();
+		if (a)
 		{
-			const char * s = a->Player(0).GetData("Dist");
-			if(s && s[0]) attackDist = float(atof(s));
+			const char* s = a->Player(0).GetData("Dist");
+			if (s && s[0]) attackDist = float(atof(s));
 			s = a->Player(0).GetData("Ang");
-			if(s && s[0]) attackAng = float(atof(s));
+			if (s && s[0]) attackAng = float(atof(s));
 		}
 	}
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	long num = 0;
 	const auto location = GetLocation();
-	if(!location->supervisor.FindCharacters(fndCharacter, num, this, attackDist, attackAng, 0.1f, 0.0f, false, true)) return;
+	if (!location->supervisor.FindCharacters(fndCharacter, num, this, attackDist, attackAng, 0.1f, 0.0f, false,
+	                                         true)) return;
 	//Перебираем всех врагов
 	bool isParry = false;
 	bool isHrrrSound = true;
 	bool isUseEnergy = true; // снять энергию один раз boal
-	for(long i = 0; i < num; i++)
+	for (long i = 0; i < num; i++)
 	{
 		//Персонаж
-		Supervisor::FindCharacter & fc = fndCharacter[i];
-		if(fc.c->liveValue < 0 || fc.c->deadName || fc.d2 <= 0.0f) continue;
+		Supervisor::FindCharacter& fc = fndCharacter[i];
+		if (fc.c->liveValue < 0 || fc.c->deadName || fc.d2 <= 0.0f) continue;
 
-		if(fc.c->fgtCurType == fgt_parry && fc.c->isParryState)
+		if (fc.c->fgtCurType == fgt_parry && fc.c->isParryState)
 		{
 			isParry = true;
 			//fc.c->PlaySound("fgt_parry");
-		}else
-		if(fc.c->fgtCurType == fgt_attack_feint && fc.c->isFeintState)
+		}
+		else if (fc.c->fgtCurType == fgt_attack_feint && fc.c->isFeintState)
 		{
 			// boal был баг, нет сброса анимации, соотв нельзя проиграть ролик атаки  -->
 			//fc.c->StopFightAnimation();
@@ -4271,21 +4554,27 @@ inline void Character::CheckAttackHit()
 			fc.c->Attack(this, fgt_attack_feintc);
 			fc.c->UpdateAnimation(); // boal
 			//fc.c->PlaySound("fgt_feint");
-		}else{
+		}
+		else
+		{
 			bool isBlocked = (fc.c->fgtCurType == fgt_block || fc.c->fgtCurType == fgt_blockhit);
-			if(isBlockBreak) isBlocked = false;
-			if(isBlocked)
+			if (isBlockBreak) isBlocked = false;
+			if (isBlocked)
 			{
 				//fc.c->PlaySound("fgt_block");
-			}else{
-				if(fc.c->fgtCurType >= fgt_attack_fast && fc.c->fgtCurType <= fgt_attack_feintc)
+			}
+			else
+			{
+				if (fc.c->fgtCurType >= fgt_attack_fast && fc.c->fgtCurType <= fgt_attack_feintc)
 				{
 					fc.c->PlaySound("fgt_collision");
-				}else{
+				}
+				else
+				{
 					//fc.c->PlaySound("fgt_blockbreak");
 				}
 				//fc.c->PlaySound("fgt_inbody");
-				if(isHrrrSound && (rand() & 3))
+				if (isHrrrSound && (rand() & 3))
 				{
 					isHrrrSound = false;
 					api->Event("Event_ChrSnd_Hit", "i", fc.c->GetId());
@@ -4295,27 +4584,29 @@ inline void Character::CheckAttackHit()
 			api->Event("Location_CharacterAttack", "iisl", GetId(), fc.c->GetId(), aname, (long)isBlocked);
 			// boal 12.09.06 отжор энергии по факту удара -->
 			if (isUseEnergy && fgtCurType != fgt_attack_feintc)
-			{// для fgt_attack_feintc идет отжор в анимации, а тут будет "финт", а он стоит 0
+			{
+				// для fgt_attack_feintc идет отжор в анимации, а тут будет "финт", а он стоит 0
 				api->Event("ChrFgtActApply", "is", GetId(), aname);
 				isUseEnergy = false;
 			}
 			// boal <--
 		}
 	}
-	if(isParry)
+	if (isParry)
 	{
 		Hit(fgt_hit_parry);
 	}
 }
 
 //Найти персонажа в которого попали из пистолета
-Character * Character::FindGunTarget(float & kDist, bool bOnlyEnemyTest)
+Character* Character::FindGunTarget(float& kDist, bool bOnlyEnemyTest)
 {
-	CharactersGroups * chrGroup;
+	CharactersGroups* chrGroup;
 	long grp;
 	if (bOnlyEnemyTest)
 	{
-		chrGroup = (CharactersGroups *)EntityManager::GetEntityPointer(EntityManager::GetEntityId("CharactersGroups"));
+		chrGroup = (CharactersGroups *)EntityManager::GetEntityPointer(
+			EntityManager::GetEntityId("CharactersGroups"));
 		grp = chrGroup->FindGroupIndex(group);
 	}
 
@@ -4323,53 +4614,56 @@ Character * Character::FindGunTarget(float & kDist, bool bOnlyEnemyTest)
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	static long num = 0;
 	const auto location = GetLocation();
-	if(!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_FIGHT_FIREDIST, CHARACTER_FIGHT_FIREANG, 0.4f, 30.0f, false)) return nullptr;
+	if (!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_FIGHT_FIREDIST,
+	                                         CHARACTER_FIGHT_FIREANG, 0.4f, 30.0f, false)) return nullptr;
 	float minDst;
 	long j = -1;
-	for(long i = 0; i < num; i++)
+	for (long i = 0; i < num; i++)
 	{
-		Supervisor::FindCharacter & fc = fndCharacter[i];
-		if(fc.d2 <= 0.0f || fc.c->radius <= 0.0f) continue;
+		Supervisor::FindCharacter& fc = fndCharacter[i];
+		if (fc.d2 <= 0.0f || fc.c->radius <= 0.0f) continue;
 		//Определяем видимость
-		if(!VisibleTest(fc.c)) continue;
-		if(bOnlyEnemyTest)
+		if (!VisibleTest(fc.c)) continue;
+		if (bOnlyEnemyTest)
 		{
 			long enemygrpIndex = chrGroup->FindGroupIndex(fc.c->group);
 			if (chrGroup->FindRelation(enemygrpIndex, grp).curState != CharactersGroups::rs_enemy) continue;
 		}
 		//Ищем дистанцию с поправками
 		fc.d2 = sqrtf(fc.d2);
-		float cs = (fc.dx*sinf(ay) + fc.dz*cosf(ay))/fc.d2;
-		cs *= cs*cs;
-		if(cs < 0.1f) cs = 0.1f;
-		float dist = fc.d2/cs;
-		if(j >= 0)
+		float cs = (fc.dx * sinf(ay) + fc.dz * cosf(ay)) / fc.d2;
+		cs *= cs * cs;
+		if (cs < 0.1f) cs = 0.1f;
+		float dist = fc.d2 / cs;
+		if (j >= 0)
 		{
-			if(minDst > dist)
+			if (minDst > dist)
 			{
 				minDst = dist;
 				j = i;
 			}
-		}else{
+		}
+		else
+		{
 			minDst = dist;
 			j = i;
 		}
 	}
-	if(j >= 0)
+	if (j >= 0)
 	{
-		kDist = 1.0f - fndCharacter[j].d2/CHARACTER_FIGHT_FIREDIST;
-		if(kDist < 0.0f) kDist = 0.0f;
-		if(kDist > 1.0f) kDist = 1.0f;
+		kDist = 1.0f - fndCharacter[j].d2 / CHARACTER_FIGHT_FIREDIST;
+		if (kDist < 0.0f) kDist = 0.0f;
+		if (kDist > 1.0f) kDist = 1.0f;
 		return fndCharacter[j].c;
 	}
 	return nullptr;
 }
 
 
-void Character::FindNearCharacters(MESSAGE & message)
+void Character::FindNearCharacters(MESSAGE& message)
 {
-	VDATA * array = message.ScriptVariablePointer();
-	VDATA * num = message.ScriptVariablePointer();
+	VDATA* array = message.ScriptVariablePointer();
+	VDATA* num = message.ScriptVariablePointer();
 	float rad = message.Float();
 	float ax = message.Float();
 	float viewAng = message.Float();
@@ -4381,24 +4675,24 @@ void Character::FindNearCharacters(MESSAGE & message)
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	static long n = 0;
 	const auto location = GetLocation();
-	if(!location->supervisor.FindCharacters(fndCharacter, n, this, rad, viewAng, planeDist, ax, isSort))
+	if (!location->supervisor.FindCharacters(fndCharacter, n, this, rad, viewAng, planeDist, ax, isSort))
 	{
 		num->Set(0L);
 		return;
 	}
 	num->Set(n);
-	if(!n) return;
-	if(n > long(array->GetElementsNum())) array->SetElementsNum(n);
+	if (!n) return;
+	if (n > long(array->GetElementsNum())) array->SetElementsNum(n);
 	char buf[64];
 	long nn = 0;
-	for(long i = 0; i < n; i++)
+	for (long i = 0; i < n; i++)
 	{
 		//Информация
-		Supervisor::FindCharacter & fc = fndCharacter[i];
+		Supervisor::FindCharacter& fc = fndCharacter[i];
 		Assert(fc.c);
-		if(!fc.c->AttributesPointer) continue;
+		if (!fc.c->AttributesPointer) continue;
 		//Определяем видимость
-		if(visTest && !VisibleTest(fc.c)) continue;
+		if (visTest && !VisibleTest(fc.c)) continue;
 		//Обновим колшичество
 		nn++;
 		//Элемент массива
@@ -4418,25 +4712,32 @@ void Character::FindNearCharacters(MESSAGE & message)
 }
 
 //Проверить видимость
-bool Character::CharactersVisibleTest(MESSAGE & message)
+bool Character::CharactersVisibleTest(MESSAGE& message)
 {
 	auto* chr = (Character *)EntityManager::GetEntityPointer(message.EntityID());
-	if(!chr) return false;
+	if (!chr) return false;
 	return VisibleTest(chr);
 }
 
 //Проверка видимости двух персонажей
-bool Character::VisibleTest(Character * chr)
+bool Character::VisibleTest(Character* chr)
 {
-	if(!chr) return false;
+	if (!chr) return false;
 	const auto location = GetLocation();
 	//Тест по оси персонажа
-	if(location->VisibleTest(curPos + CVECTOR(0.0f, height*0.9f, 0.0f), chr->curPos + CVECTOR(0.0f, chr->height*0.97f, 0.0f))) return true;
-	if(location->VisibleTest(curPos + CVECTOR(0.0f, height*0.9f, 0.0f), chr->curPos + CVECTOR(0.0f, chr->height*0.67f, 0.0f))) return true;
-	if(location->VisibleTest(curPos + CVECTOR(0.0f, height*0.9f, 0.0f), chr->curPos + CVECTOR(0.0f, chr->height*0.37f, 0.0f))) return true;
+	if (location->VisibleTest(curPos + CVECTOR(0.0f, height * 0.9f, 0.0f),
+	                          chr->curPos + CVECTOR(0.0f, chr->height * 0.97f, 0.0f))) return true;
+	if (location->VisibleTest(curPos + CVECTOR(0.0f, height * 0.9f, 0.0f),
+	                          chr->curPos + CVECTOR(0.0f, chr->height * 0.67f, 0.0f))) return true;
+	if (location->VisibleTest(curPos + CVECTOR(0.0f, height * 0.9f, 0.0f),
+	                          chr->curPos + CVECTOR(0.0f, chr->height * 0.37f, 0.0f))) return true;
 	//Трейсим лучи смещённые от центра
-	if(location->VisibleTest(curPos + CVECTOR(0.0f, height*0.9f, 0.0f), chr->curPos + CVECTOR(0.3f*cosf(chr->ay), chr->height*0.8f, -0.3f*sinf(chr->ay)))) return true;
-	if(location->VisibleTest(curPos + CVECTOR(0.0f, height*0.9f, 0.0f), chr->curPos + CVECTOR(-0.3f*cosf(chr->ay), chr->height*0.8f, 0.3f*sinf(chr->ay)))) return true;
+	if (location->VisibleTest(curPos + CVECTOR(0.0f, height * 0.9f, 0.0f),
+	                          chr->curPos + CVECTOR(0.3f * cosf(chr->ay), chr->height * 0.8f,
+	                                                -0.3f * sinf(chr->ay)))) return true;
+	if (location->VisibleTest(curPos + CVECTOR(0.0f, height * 0.9f, 0.0f),
+	                          chr->curPos + CVECTOR(-0.3f * cosf(chr->ay), chr->height * 0.8f,
+	                                                0.3f * sinf(chr->ay)))) return true;
 	//Спрятался...
 	return false;
 }
@@ -4444,10 +4745,12 @@ bool Character::VisibleTest(Character * chr)
 //Обновить состояние оружия
 void Character::UpdateWeapons()
 {
-	if(isFightWOWps)
+	if (isFightWOWps)
 	{
 		EntityManager::RemoveFromLayer(REALIZE, blade);
-	}else{
+	}
+	else
+	{
 		EntityManager::AddToLayer(REALIZE, blade, 65550);
 	}
 }
@@ -4457,15 +4760,15 @@ void Character::UpdateWeapons()
 CVECTOR Character::GetEnemyDirForImpulse()
 {
 	auto* chr = (Character *)EntityManager::GetEntityPointer(enemyAttack);
-	if(!chr) return CVECTOR(0.0f);
+	if (!chr) return CVECTOR(0.0f);
 	CVECTOR dir = chr->curPos - curPos;
 	dir.y = 0.0f;
 	float l = ~dir;
-	if(l > 0.0f)
+	if (l > 0.0f)
 	{
-		dir *= 1.0f/sqrtf(l);
-		static const float jAng = cosf(20.0f*3.141592653f/180.0f);
-		if((dir.x*sinf(ay) + dir.z*cosf(ay)) >= jAng)
+		dir *= 1.0f / sqrtf(l);
+		static const float jAng = cosf(20.0f * 3.141592653f / 180.0f);
+		if ((dir.x * sinf(ay) + dir.z * cosf(ay)) >= jAng)
 		{
 			return dir;
 		}
@@ -4474,34 +4777,31 @@ CVECTOR Character::GetEnemyDirForImpulse()
 }
 
 //Получить постфикс
-const char * Character::GetValueByPrefix(const char * str, const char * pref)
+const char* Character::GetValueByPrefix(const char* str, const char* pref)
 {
-	if(!str || !str[0]) return nullptr;
-	if(!pref || !pref[0]) return nullptr;
-	while(true)
+	if (!str || !str[0]) return nullptr;
+	if (!pref || !pref[0]) return nullptr;
+	while (true)
 	{
-		if(*pref == 0) return str;
-		if(*str++ != *pref++) break;
+		if (*pref == 0) return str;
+		if (*str++ != *pref++) break;
 	}
 	return nullptr;
-
-
-
 }
 
 CVECTOR Character::GetHandLightPos()
 {
-	MODEL * mdlChr = Model();
-	NODE * mdlNode = mdlChr ? mdlChr->GetNode(0) : nullptr;
-	if( mdlNode )
+	MODEL* mdlChr = Model();
+	NODE* mdlNode = mdlChr ? mdlChr->GetNode(0) : nullptr;
+	if (mdlNode)
 	{
 		long sti = -1;
 		auto idLocator = mdlNode->geo->FindName(m_pcHandLightLocator);
 
-		if((sti = mdlNode->geo->FindLabelN(sti+1, idLocator))>-1)
+		if ((sti = mdlNode->geo->FindLabelN(sti + 1, idLocator)) > -1)
 		{
-			Animation *ani = mdlChr->GetAnimation();
-			CMatrix *bones = &ani->GetAnimationMatrix(0);
+			Animation* ani = mdlChr->GetAnimation();
+			CMatrix* bones = &ani->GetAnimationMatrix(0);
 
 			GEOS::LABEL lb;
 			mdlNode->geo->GetLabel(sti, lb);
@@ -4511,7 +4811,7 @@ CVECTOR Character::GetHandLightPos()
 			mt.Vz() = CVECTOR(lb.m[2][0], lb.m[2][1], lb.m[2][2]);
 			mt.Pos() = CVECTOR(lb.m[3][0], lb.m[3][1], lb.m[3][2]);
 
-			CMatrix mbn = mt*bones[lb.bones[0]];
+			CMatrix mbn = mt * bones[lb.bones[0]];
 			mbn.Pos().x *= -1.0f;
 			mbn.Vx().x *= -1.0f;
 			mbn.Vy().x *= -1.0f;
@@ -4527,15 +4827,15 @@ CVECTOR Character::GetHandLightPos()
 		}
 	}
 
-	return CVECTOR(0.f,0.f,0.f);
+	return CVECTOR(0.f, 0.f, 0.f);
 }
 
 // boal -->
 void Character::StopFightAnimation()
 {
-	MODEL * m = Model();
-	Animation * a = nullptr;
-	if (m) 	a = m->GetAnimation();
+	MODEL* m = Model();
+	Animation* a = nullptr;
+	if (m) a = m->GetAnimation();
 	if (a)
 	{
 		priorityAction.SetName(nullptr);
@@ -4544,21 +4844,22 @@ void Character::StopFightAnimation()
 		fgtSetType = fgtCurType = fgt_none;
 	}
 }
+
 // boal <--
 
-bool Character::CheckObstacle(float fx,float fz, float fzlen)
+bool Character::CheckObstacle(float fx, float fz, float fzlen)
 {
 	float ca = cosf(ay);
 	float sa = sinf(ay);
-	float fdx = fx*ca + fz*sa;
-	float fdz = fz*ca - fx*sa;
-	float fk = fzlen / sqrtf(fdx*fdx + fdz*fdz);
+	float fdx = fx * ca + fz * sa;
+	float fdz = fz * ca - fx * sa;
+	float fk = fzlen / sqrtf(fdx * fdx + fdz * fdz);
 	float xmed = curPos.x + fdx;
 	float zmed = curPos.z + fdz;
-	float xbeg = xmed - fk*fdz;
-	float xend = xmed + fk*fdz;
-	float zbeg = zmed + fk*fdx;
-	float zend = zmed - fk*fdx;
+	float xbeg = xmed - fk * fdz;
+	float xend = xmed + fk * fdz;
+	float zbeg = zmed + fk * fdx;
+	float zend = zmed - fk * fdx;
 	/*float xbeg = xmed - fzlen*0.5f*sa;
 	float xend = xmed + fzlen*0.5f*sa;
 	float zbeg = zmed + fzlen*0.5f*ca;
@@ -4566,65 +4867,65 @@ bool Character::CheckObstacle(float fx,float fz, float fzlen)
 
 	float fTrace;
 	float fHDist;
-	CVECTOR vsrc,vdst;
+	CVECTOR vsrc, vdst;
 
 	const auto location = GetLocation();
 
 	// проверим среднюю точку
-	vsrc = CVECTOR(xmed,50.f,zmed);
-	vdst = CVECTOR(xmed,-50.f,zmed);
-	fTrace = location->GetPtcData().Trace(vsrc,vdst);
-	if(fTrace<0.f || fTrace>1.f) return true;
-	fHDist = vsrc.y + fTrace * (vdst.y-vsrc.y) - curPos.y;
-	if( fHDist*fHDist > 0.25f ) return true;
+	vsrc = CVECTOR(xmed, 50.f, zmed);
+	vdst = CVECTOR(xmed, -50.f, zmed);
+	fTrace = location->GetPtcData().Trace(vsrc, vdst);
+	if (fTrace < 0.f || fTrace > 1.f) return true;
+	fHDist = vsrc.y + fTrace * (vdst.y - vsrc.y) - curPos.y;
+	if (fHDist * fHDist > 0.25f) return true;
 
 	// проверим начальную точку
-	vsrc = CVECTOR(xbeg,50.f,zbeg);
-	vdst = CVECTOR(xbeg,-50.f,zbeg);
-	fTrace = location->GetPtcData().Trace(vsrc,vdst);
-	if(fTrace<0.f || fTrace>1.f) return true;
-	fHDist = vsrc.y + fTrace * (vdst.y-vsrc.y) - curPos.y;
-	if( fHDist*fHDist > 0.25f ) return true;
+	vsrc = CVECTOR(xbeg, 50.f, zbeg);
+	vdst = CVECTOR(xbeg, -50.f, zbeg);
+	fTrace = location->GetPtcData().Trace(vsrc, vdst);
+	if (fTrace < 0.f || fTrace > 1.f) return true;
+	fHDist = vsrc.y + fTrace * (vdst.y - vsrc.y) - curPos.y;
+	if (fHDist * fHDist > 0.25f) return true;
 
 	// проверим конечную точку
-	vsrc = CVECTOR(xend,50.f,zend);
-	vdst = CVECTOR(xend,-50.f,zend);
-	fTrace = location->GetPtcData().Trace(vsrc,vdst);
-	if(fTrace<0.f || fTrace>1.f) return true;
-	fHDist = vsrc.y + fTrace * (vdst.y-vsrc.y) - curPos.y;
-	if( fHDist*fHDist > 0.25f ) return true;
+	vsrc = CVECTOR(xend, 50.f, zend);
+	vdst = CVECTOR(xend, -50.f, zend);
+	fTrace = location->GetPtcData().Trace(vsrc, vdst);
+	if (fTrace < 0.f || fTrace > 1.f) return true;
+	fHDist = vsrc.y + fTrace * (vdst.y - vsrc.y) - curPos.y;
+	if (fHDist * fHDist > 0.25f) return true;
 
 	return false;
 }
 
 long Character::GetRandomIndexByObstacle(ObstacleZone* pZone, long num)
 {
-	long n,m,i,q;
+	long n, m, i, q;
 
 	// найдем количество используемых зон
 	q = 0;
-	for( i=0; i<num; i++ )
-		if( pZone[i].use )
+	for (i = 0; i < num; i++)
+		if (pZone[i].use)
 			q++;
 
-	while(q>0)
+	while (q > 0)
 	{
 		// найдем рандомный номер из еще используемых зон
 		n = rand() % q;
 		m = 0;
-		for(i=0; i<num; i++)
+		for (i = 0; i < num; i++)
 		{
-			if( !pZone[i].use ) continue;
-			if( m==n ) break;
+			if (!pZone[i].use) continue;
+			if (m == n) break;
 			m++;
 		}
 
 		// ничего тут нет
-		if( i==num ) break;
+		if (i == num) break;
 
 		// проверим зону на наличие препятсвий в ней
-		if( pZone[i].x==0 && pZone[i].z==0 ) return i;
-		if( !CheckObstacle(pZone[i].x,pZone[i].z, pZone[i].dw) ) return i;
+		if (pZone[i].x == 0 && pZone[i].z == 0) return i;
+		if (!CheckObstacle(pZone[i].x, pZone[i].z, pZone[i].dw)) return i;
 
 		// отметим зону как неиспользуемую
 		pZone[i].use = false;

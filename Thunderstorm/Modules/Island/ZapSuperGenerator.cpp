@@ -1,12 +1,12 @@
 #include "ISLAND.h"
 #include "tga.h"
 
-bool ISLAND::DoZapSuperGeneratorDecodeFile(char * sname)
+bool ISLAND::DoZapSuperGeneratorDecodeFile(char* sname)
 {
 	HANDLE hFile = fio->_CreateFile(sname, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
-		TGA_H	tga_head;
+		TGA_H tga_head;
 
 		fio->_ReadFile(hFile, &tga_head, sizeof(tga_head), nullptr);
 		uint32_t dwSize = tga_head.width;
@@ -22,40 +22,42 @@ bool ISLAND::DoZapSuperGeneratorDecodeFile(char * sname)
 	return true;
 }
 
-void ISLAND::DoZapSuperGeneratorInnerDecodeFiles(char * sub_dir, char * mask)
+void ISLAND::DoZapSuperGeneratorInnerDecodeFiles(char* sub_dir, char* mask)
 {
-	char				file_mask[256];
-	WIN32_FIND_DATA		wfd;
+	char file_mask[256];
+	WIN32_FIND_DATA wfd;
 
 	sprintf_s(file_mask, "resource\\foam\\%s%s%s", (sub_dir) ? sub_dir : "", (sub_dir) ? "\\" : "", "*.*");
 
 	HANDLE hFile = FindFirstFile(file_mask, &wfd);
-	if (hFile != INVALID_HANDLE_VALUE) 
+	if (hFile != INVALID_HANDLE_VALUE)
 	{
-		do 
-		{ 
+		do
+		{
 			if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			{
 				if (wfd.cFileName[0] == '.') continue;
 				sprintf_s(file_mask, "%s%s%s", (sub_dir) ? sub_dir : "", (sub_dir) ? "\\" : "", wfd.cFileName);
 				DoZapSuperGeneratorInnerDecodeFiles(file_mask, mask);
 			}
-		} while (FindNextFile(hFile, &wfd));
+		}
+		while (FindNextFile(hFile, &wfd));
 		FindClose(hFile);
 	}
 
 	sprintf_s(file_mask, "resource\\foam\\%s%s%s", (sub_dir) ? sub_dir : "", (sub_dir) ? "\\" : "", mask);
 
 	hFile = FindFirstFile(file_mask, &wfd);
-	if (hFile != INVALID_HANDLE_VALUE) 
+	if (hFile != INVALID_HANDLE_VALUE)
 	{
-		do 
-		{ 
+		do
+		{
 			sprintf_s(file_mask, "resource\\foam\\%s\\%s", (sub_dir) ? sub_dir : "", wfd.cFileName);
-			DoZapSuperGeneratorDecodeFile(file_mask); 
-		} while (FindNextFile(hFile, &wfd));
+			DoZapSuperGeneratorDecodeFile(file_mask);
+		}
+		while (FindNextFile(hFile, &wfd));
 		FindClose(hFile);
-	} 
+	}
 }
 
 void ISLAND::DoZapSuperGenerator()

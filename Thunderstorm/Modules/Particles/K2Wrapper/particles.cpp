@@ -19,23 +19,23 @@ PARTICLES::PARTICLES()
 PARTICLES::~PARTICLES()
 {
 	bSystemDelete = true;
-	DeleteAll ();
+	DeleteAll();
 }
 
-bool PARTICLES::Init ()
+bool PARTICLES::Init()
 {
-	EntityManager::AddToLayer(REALIZE,GetId(),0xfffff);
-	EntityManager::AddToLayer(EXECUTE,GetId(),0);
+	EntityManager::AddToLayer(REALIZE, GetId(), 0xfffff);
+	EntityManager::AddToLayer(EXECUTE, GetId(), 0);
 
 	pService = (IParticleService*)api->CreateService("ParticleService");
-	Assert (pService);
+	Assert(pService);
 	pManager = pService->DefManager();
-	Assert (pManager);
+	Assert(pManager);
 	return true;
 }
 
 
-uint64_t PARTICLES::ProcessMessage(MESSAGE & message)
+uint64_t PARTICLES::ProcessMessage(MESSAGE& message)
 {
 	long code = message.Long();
 
@@ -45,21 +45,20 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE & message)
 
 	switch (code)
 	{
-	//Поставить все партиклы на паузу
-	// новые не пауженные рождаются...
+		//Поставить все партиклы на паузу
+		// новые не пауженные рождаются...
 	case PS_PAUSEALL:
 		{
-			PauseAllActive (message.Long() != 0);
+			PauseAllActive(message.Long() != 0);
 			break;
 		}
 
-	//Удалить конкретную систему
+		//Удалить конкретную систему
 	case PS_DELETE:
 		{
-			DeleteSystem (message.Long());
+			DeleteSystem(message.Long());
 			break;
 		}
-
 
 
 	case PS_CREATIONCAPTURE_BEG:
@@ -74,22 +73,21 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE & message)
 		}
 	case PS_CLEAR_CAPTURED:
 		{
-			DeleteCaptured ();
+			DeleteCaptured();
 			break;
 		}
 
 
-
-	//Удалить все
+		//Удалить все
 	case PS_CLEARALL:
 		{
-			DeleteAll ();
+			DeleteAll();
 			break;
 		}
-	//создать систему (string имя, float x,y,z позиция, float rx, ry, rz вращение, float life_time время жизни)
+		//создать систему (string имя, float x,y,z позиция, float rx, ry, rz вращение, float life_time время жизни)
 	case PS_CREATE_RIC:
 		{
-			message.String(sizeof(ps_name),ps_name);
+			message.String(sizeof(ps_name), ps_name);
 			pos.x = message.Float();
 			pos.y = message.Float();
 			pos.z = message.Float();
@@ -99,10 +97,10 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE & message)
 			angles.z = message.Float();
 			lifetime = message.Long();
 
-			PARTICLE_SYSTEM* pSystem = CreateSystem (ps_name, lifetime);
+			PARTICLE_SYSTEM* pSystem = CreateSystem(ps_name, lifetime);
 			if (!pSystem) return 0;
 
-			pSystem->SetEmitter(pos,angles);
+			pSystem->SetEmitter(pos, angles);
 			pSystem->SetDelay(0);
 			pSystem->SetLifeTime(lifetime);
 			return (uintptr_t)pSystem;
@@ -114,10 +112,10 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE & message)
 			throw std::exception("Unsupported particle manager command !!!");
 		}
 
-	//создать систему
+		//создать систему
 	case PS_CREATE:
 		{
-			message.String(sizeof(ps_name),ps_name);
+			message.String(sizeof(ps_name), ps_name);
 			pos.x = message.Float();
 			pos.y = message.Float();
 			pos.z = message.Float();
@@ -127,21 +125,21 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE & message)
 			angles.z = message.Float();
 			lifetime = message.Long();
 
-			PARTICLE_SYSTEM* pSystem = CreateSystem (ps_name, lifetime);
+			PARTICLE_SYSTEM* pSystem = CreateSystem(ps_name, lifetime);
 			if (!pSystem) return 0;
 
 
-			pSystem->SetEmitter(pos,angles);
+			pSystem->SetEmitter(pos, angles);
 			pSystem->SetDelay(0);
 			pSystem->SetLifeTime(lifetime);
 			return (uintptr_t)pSystem;
 
 			break;
 		}
-	//создать систему
+		//создать систему
 	case PS_CREATEX:
 		{
-			message.String(sizeof(ps_name),ps_name);
+			message.String(sizeof(ps_name), ps_name);
 			pos.x = message.Float();
 			pos.y = message.Float();
 			pos.z = message.Float();
@@ -156,19 +154,20 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE & message)
 			{
 				angles.y = normal.GetAY();
 				double fDiv = -(normal.y / fLen);
-				fDiv = Min (Max (fDiv, -1.0), 1.0);
-				angles.x = (float)asin (fDiv);
-			} else
-				{
-					angles.x = 0.0f;
-					angles.y = 0.0f;
-				}
+				fDiv = Min(Max(fDiv, -1.0), 1.0);
+				angles.x = (float)asin(fDiv);
+			}
+			else
+			{
+				angles.x = 0.0f;
+				angles.y = 0.0f;
+			}
 
 			angles.z = 0.0f;
 
 			lifetime = message.Long();
 
-			PARTICLE_SYSTEM* pSystem = CreateSystem (ps_name, lifetime);
+			PARTICLE_SYSTEM* pSystem = CreateSystem(ps_name, lifetime);
 			if (!pSystem) return 0;
 
 			pSystem->SetEmitter(pos, angles);
@@ -197,12 +196,10 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE & message)
 		}
 	}
 	return 0;
-
-
 }
 
 
-PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, uint32_t LifeTime)
+PARTICLE_SYSTEM* PARTICLES::CreateSystem(const char* pFileName, uint32_t LifeTime)
 {
 	//std::string pFullFileName;
 	//pFullFileName = "resource\\particles\\";
@@ -230,7 +227,6 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, uint32_t LifeTi
 	pNewPS->SetManager(this);
 
 
-
 	//api->Trace("PSYS Created ok");
 
 	SystemInfo Info;
@@ -248,7 +244,7 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem (const char* pFileName, uint32_t LifeTi
 	return pNewPS;
 }
 
-void PARTICLES::DeleteSystem (uintptr_t SystemID)
+void PARTICLES::DeleteSystem(uintptr_t SystemID)
 {
 	bSystemDelete = true;
 	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
@@ -270,7 +266,7 @@ void PARTICLES::DeleteSystem (uintptr_t SystemID)
 	bSystemDelete = false;
 }
 
-void PARTICLES::DeleteAll ()
+void PARTICLES::DeleteAll()
 {
 	bSystemDelete = true;
 	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
@@ -282,7 +278,7 @@ void PARTICLES::DeleteAll ()
 	bSystemDelete = false;
 }
 
-void PARTICLES::DeleteResource (PARTICLE_SYSTEM* pResource)
+void PARTICLES::DeleteResource(PARTICLE_SYSTEM* pResource)
 {
 	if (bSystemDelete) return;
 
@@ -309,7 +305,7 @@ void PARTICLES::Realize(uint32_t Delta_Time)
 	// когда все партиклы умрут система удалиться сама...
 	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
 	{
-		CreatedSystems[n].PassedTime +=	Delta_Time;
+		CreatedSystems[n].PassedTime += Delta_Time;
 
 		if (CreatedSystems[n].LifeTime == 0) continue;
 
@@ -341,19 +337,17 @@ void PARTICLES::Execute(uint32_t Delta_Time)
 {
 }
 
-void PARTICLES::PauseAllActive (bool bPaused)
+void PARTICLES::PauseAllActive(bool bPaused)
 {
-
 	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
 	{
 		CreatedSystems[n].pSystem->GetSystem()->Restart(0);
 		CreatedSystems[n].pSystem->Pause(bPaused);
 	}
-
 }
 
 
-void PARTICLES::DeleteCaptured ()
+void PARTICLES::DeleteCaptured()
 {
 	for (uint32_t n = 0; n < CaptureBuffer.size(); n++)
 	{

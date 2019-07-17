@@ -6,30 +6,35 @@
 class CXI_RECTANGLE : public CINODE
 {
 public:
-	 CXI_RECTANGLE();
+	CXI_RECTANGLE();
 	~CXI_RECTANGLE();
 
-	void	Draw(bool bSelected,uint32_t Delta_Time);
-	bool	Init(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2, VDX9RENDER *rs, XYRECT &hostRect, XYPOINT &ScreenSize);
-	void	ReleaseAll();
-	int		CommandExecute(int wActCode);
-	bool	IsClick(int buttonID,long xPos,long yPos);
-	void	MouseThis(float fX, float fY) {}
-	void	ChangePosition( XYRECT &rNewPos );
-	void	SaveParametersToIni();
-	uint32_t MessageProc(long msgcode, MESSAGE & message);
-	bool	IsGlowChanged() {return true;}
+	void Draw(bool bSelected, uint32_t Delta_Time) override;
+	bool Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+	          XYPOINT& ScreenSize) override;
+	void ReleaseAll() override;
+	int CommandExecute(int wActCode) override;
+	bool IsClick(int buttonID, long xPos, long yPos) override;
+
+	void MouseThis(float fX, float fY) override
+	{
+	}
+
+	void ChangePosition(XYRECT& rNewPos) override;
+	void SaveParametersToIni() override;
+	uint32_t MessageProc(long msgcode, MESSAGE& message) override;
+	bool IsGlowChanged() override { return true; }
 
 protected:
-	void	LoadIni(INIFILE *ini1,char *name1, INIFILE *ini2,char *name2);
-	void	UpdateColors();
+	void LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2) override;
+	void UpdateColors();
 
 	uint32_t m_dwTopColor;
 	uint32_t m_dwBottomColor;
 	uint32_t m_dwLeftColor;
 	uint32_t m_dwRightColor;
-    bool  m_bBorder;
-    uint32_t m_dwBorderColor;
+	bool m_bBorder;
+	uint32_t m_dwBorderColor;
 
 	XI_NOTEX_VERTEX m_pVert[4];
 };

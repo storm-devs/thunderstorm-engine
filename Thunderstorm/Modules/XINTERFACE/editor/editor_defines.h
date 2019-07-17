@@ -20,10 +20,12 @@ typedef void (GIEditorObject::*GIEditorEvent)();
 class GIEditorObject
 {
 public:
-	virtual ~GIEditorObject(){}
+	virtual ~GIEditorObject()
+	{
+	}
 
 public:
-	void LinkEvent( GIEditorEventHandler* pEventHandler, const GIEditorEvent& pEventFunction );
+	void LinkEvent(GIEditorEventHandler* pEventHandler, const GIEditorEvent& pEventFunction);
 };
 
 class GIEditorEventHandler
@@ -34,13 +36,15 @@ public:
 
 	bool Execute();
 
-	void AddEventFunction( GIEditorObject* pObj, const GIEditorEvent& pEventFunction );
+	void AddEventFunction(GIEditorObject* pObj, const GIEditorEvent& pEventFunction);
 
 protected:
-	struct FuncDescr {
+	struct FuncDescr
+	{
 		GIEditorObject* pObj;
 		GIEditorEvent func;
 	};
+
 	std::vector<FuncDescr> m_aEventFuncs;
 };
 

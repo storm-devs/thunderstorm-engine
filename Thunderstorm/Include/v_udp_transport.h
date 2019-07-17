@@ -5,11 +5,14 @@
 
 #define NETWORK_MESSAGE		0xF3F3F3F3
 
-class V_UDP_TRANSPORT  : public SERVICE
+class V_UDP_TRANSPORT : public SERVICE
 {
 public:
-	virtual ~V_UDP_TRANSPORT(){}
-	virtual bool Send(char *s) {return false;}; 
+	virtual ~V_UDP_TRANSPORT()
+	{
+	}
+
+	virtual bool Send(char* s) { return false; };
 };
 
 #endif

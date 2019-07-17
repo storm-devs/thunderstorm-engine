@@ -17,23 +17,22 @@ class DataPosition
 
 public:
 
-//конструктор/деструктор
-	DataPosition ();
-	virtual ~DataPosition ();
+	//конструктор/деструктор
+	DataPosition();
+	virtual ~DataPosition();
 
-//Получить значение (Текущее время, Коэфицент рандома[0..1])
-	const Vector& GetValue ();
+	//Получить значение (Текущее время, Коэфицент рандома[0..1])
+	const Vector& GetValue();
 
-//Установить значение
-	void SetValue (const Vector& val);
+	//Установить значение
+	void SetValue(const Vector& val);
 
 
-	void Load (MemFile* File);
-	void Write (MemFile* File);
+	void Load(MemFile* File);
+	void Write(MemFile* File);
 
-	void SetName (const char* szName);
-	const char* GetName ();
-
+	void SetName(const char* szName);
+	const char* GetName();
 };
 
 

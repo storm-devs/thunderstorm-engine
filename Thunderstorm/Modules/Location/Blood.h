@@ -1,4 +1,3 @@
-
 #ifndef _Blood_H_
 #define _Blood_H_
 
@@ -17,12 +16,14 @@ class Blood : public Entity
 	{
 		CVECTOR pos;
 		uint32_t dwCol;
-		float u,v;
+		float u, v;
 	};
+
 	struct BloodTriangle
 	{
 		BloodVertex v[3];
 	};
+
 	struct BloodInfo
 	{
 		long nStartIdx;
@@ -30,32 +31,37 @@ class Blood : public Entity
 		float fLiveTime;
 		CVECTOR cpos;
 	};
+
 	struct ClipTriangle
 	{
 		CVECTOR v[3];
 	};
-//--------------------------------------------------------------------------------------------
-//Конструирование, деструктурирование
-//--------------------------------------------------------------------------------------------
+
+	//--------------------------------------------------------------------------------------------
+	//Конструирование, деструктурирование
+	//--------------------------------------------------------------------------------------------
 public:
 	Blood();
 	virtual ~Blood();
 
 	//Инициализация
-	bool Init();
+	bool Init() override;
 	//Работа
 	void Execute(uint32_t delta_time);
 	void Realize(uint32_t delta_time);
 	//
-	uint64_t ProcessMessage(MESSAGE &message);
+	uint64_t ProcessMessage(MESSAGE& message) override;
+
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)
 		{
 		case Stage::execute:
-			Execute(delta); break;
+			Execute(delta);
+			break;
 		case Stage::realize:
-			Realize(delta); break;
+			Realize(delta);
+			break;
 			/*case Stage::lost_render:
 				LostRender(delta); break;
 			case Stage::restore_render:
@@ -63,7 +69,7 @@ public:
 		}
 	}
 
-	static bool AddClipPoligon(const CVECTOR * v, long nv);
+	static bool AddClipPoligon(const CVECTOR* v, long nv);
 
 protected:
 	VDX9RENDER* pRS;
@@ -89,4 +95,3 @@ protected:
 };
 
 #endif
-

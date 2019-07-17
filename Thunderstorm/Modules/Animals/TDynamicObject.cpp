@@ -14,7 +14,7 @@ TDynamicObject::~TDynamicObject()
 }
 
 //--------------------------------------------------------------------
-void TDynamicObject::Initialize(const CVECTOR &_center, float _radius)
+void TDynamicObject::Initialize(const CVECTOR& _center, float _radius)
 {
 	pos.x = _center.x + randCentered(_radius);
 	pos.y = 0.0f;
@@ -24,16 +24,16 @@ void TDynamicObject::Initialize(const CVECTOR &_center, float _radius)
 }
 
 //--------------------------------------------------------------------
-void TDynamicObject::Calculate(TDynamicObject **a, int aCount, TDynamicObject **d, int dCount, float _k)
+void TDynamicObject::Calculate(TDynamicObject** a, int aCount, TDynamicObject** d, int dCount, float _k)
 {
 	//ang = fmod(ang, 2.0*PI);
 
 	CVECTOR aEffect(0.0f, 0.0f, 0.0f);
 	CVECTOR dEffect(0.0f, 0.0f, 0.0f);
-	TDynamicObject **effectObject;
+	TDynamicObject** effectObject;
 	int i;
 
-	for (i=0, effectObject = a; i<aCount; i++, effectObject++)
+	for (i = 0, effectObject = a; i < aCount; i++, effectObject++)
 	{
 		if (!(*effectObject) || (this == *effectObject))
 			continue;
@@ -41,55 +41,55 @@ void TDynamicObject::Calculate(TDynamicObject **a, int aCount, TDynamicObject **
 		aEffect += ATTRACT_FACTOR * ((*effectObject)->pos - pos);
 	}
 
-	for (i=0, effectObject = d; i<dCount; i++, effectObject++)
+	for (i = 0, effectObject = d; i < dCount; i++, effectObject++)
 	{
 		if (!(*effectObject) || (this == *effectObject))
 			continue;
 
 		CVECTOR delta;
 		delta = (*effectObject)->pos - pos;
-		auto d = (float) sqrt(~delta);
+		auto d = (float)sqrt(~delta);
 		if (d < 1e-10f)
-			d=1e-10f;
+			d = 1e-10f;
 		dEffect += DEFLECT_FACTOR * !delta / d;
 	}
 
 	velocity = !(velocity + MOVEMENT_FACTOR * !(aEffect - dEffect));
-	pos += _k*velocity;
+	pos += _k * velocity;
+
+	/*
+		float dEffect = 0;
+		for (i=0, effectObject = a; i<aCount; i++, effectObject++)
+		{
+			if (!effectObject || (this == effectObject))
+				continue;
 	
-/*
-	float dEffect = 0;
-	for (i=0, effectObject = a; i<aCount; i++, effectObject++)
-	{
-		if (!effectObject || (this == effectObject))
-			continue;
-
-		effect = effectObject->pos - pos;
-		float effectAng = atan2(effect.z, effect.x);
-		dEffect += ATTRACT_FACTOR * ~effect;
-
-		if (dEffect > MAX_ANG_DELTA)
-			dEffect = MAX_ANG_DELTA;
-
-		if (fabs(ang) < PId2)
-		{
-			if (effectAng > ang)
-				ang += dEffect;
+			effect = effectObject->pos - pos;
+			float effectAng = atan2(effect.z, effect.x);
+			dEffect += ATTRACT_FACTOR * ~effect;
+	
+			if (dEffect > MAX_ANG_DELTA)
+				dEffect = MAX_ANG_DELTA;
+	
+			if (fabs(ang) < PId2)
+			{
+				if (effectAng > ang)
+					ang += dEffect;
+				else
+					ang -= dEffect;
+			}
 			else
-				ang -= dEffect;
+			{
+				if (effectAng > ang)
+					ang -= dEffect;
+				else
+					ang += dEffect;
+			}
 		}
-		else
-		{
-			if (effectAng > ang)
-				ang -= dEffect;
-			else
-				ang += dEffect;
-		}
-	}
-
-  	pos.x += cos(ang);
-	pos.z += sin(ang);
-	*/
+	
+		  pos.x += cos(ang);
+		pos.z += sin(ang);
+		*/
 }
 
 
@@ -129,7 +129,7 @@ void TDynamicObject::Draw(HDC _dc, DWORD _color)
 }
 */
 //--------------------------------------------------------------------
-void TDynamicObject::SetXYZ (const CVECTOR & _pos)
+void TDynamicObject::SetXYZ(const CVECTOR& _pos)
 {
 	pos = _pos;
 }

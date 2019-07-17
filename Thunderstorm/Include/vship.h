@@ -3,13 +3,13 @@
 #include "vcannon.h"
 
 class VSHIP : public ENTITY
-	{
-	public:
+{
+public:
 
 	virtual void CauseDamage(float, float, float) = 0;
 	virtual float GetHullPercent() = 0;
 	virtual void* GetModel() = 0;
-	virtual void*  GetCannon() = 0;
-	};
+	virtual void* GetCannon() = 0;
+};
 
 #endif

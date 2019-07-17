@@ -1,8 +1,8 @@
 #ifndef _KEY_CODES_H_
 #define _KEY_CODES_H_
 
-#define LOSHORT(l)   ((short) (l)) 
-#define HISHORT(l)   ((short) (((uint32_t) (l) >> 16) & 0xFFFF)) 
+#define LOSHORT(l)   ((short) (l))
+#define HISHORT(l)   ((short) (((uint32_t) (l) >> 16) & 0xFFFF))
 
 #define DPAD_UP			0
 #define DPAD_RIGHT		1

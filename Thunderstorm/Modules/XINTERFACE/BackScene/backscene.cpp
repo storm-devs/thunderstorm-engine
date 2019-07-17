@@ -7,28 +7,28 @@
 
 InterfaceBackScene::LightParam::~LightParam()
 {
-	bUse=false;
-	if( pModel ) {
-		EntityManager::EraseEntity( eiModel );
+	bUse = false;
+	if (pModel)
+	{
+		EntityManager::EraseEntity(eiModel);
 		pModel = nullptr;
 	}
 }
 
-void InterfaceBackScene::LightParam::UpdateParams( float fTime )
+void InterfaceBackScene::LightParam::UpdateParams(float fTime)
 {
 	float fK = 0.f;
 	fColorTimer += fTime;
 	long jjj = 0;
-	while( fColorTimer > fColorPeriod + fAddPeriod )
+	while (fColorTimer > fColorPeriod + fAddPeriod)
 	{
-
-		if(fColorTimer > fAddPeriodMax*10.0f)
+		if (fColorTimer > fAddPeriodMax * 10.0f)
 		{
-			fColorTimer = fAddPeriodMax*10.0f;
+			fColorTimer = fAddPeriodMax * 10.0f;
 		}
 
 		fColorTimer -= fColorPeriod + fAddPeriod;
-		fAddPeriod = FRAND(fAddPeriodMax);//(-0.6f+FRAND(3.0f))*fColorPeriod;
+		fAddPeriod = FRAND(fAddPeriodMax); //(-0.6f+FRAND(3.0f))*fColorPeriod;
 		jjj++;
 		if (jjj > 10000)
 		{
@@ -37,18 +37,18 @@ void InterfaceBackScene::LightParam::UpdateParams( float fTime )
 		}
 	}
 	float fPer = fColorPeriod + fAddPeriod;
-	if( fColorTimer <= .5f*fPer ) fK = 2.f * fColorTimer / fPer;
+	if (fColorTimer <= .5f * fPer) fK = 2.f * fColorTimer / fPer;
 	else fK = 2.f - 2.f * fColorTimer / fPer;
 	lightSource.Diffuse.a = colorMin.a + (colorMax.a - colorMin.a) * fK; // 1.f
 	lightSource.Diffuse.r = colorMin.r + (colorMax.r - colorMin.r) * fK; // 1.0f;
 	lightSource.Diffuse.g = colorMin.g + (colorMax.g - colorMin.g) * fK; // 1.0f;
 	lightSource.Diffuse.b = colorMin.b + (colorMax.b - colorMin.b) * fK; // 0.7f;
 
-	dwFlareColor = uint32_t(fMinFlareColor + (fMaxFlareColor-fMinFlareColor) * fK);
-	dwFlareColor = dwFlareColor | (dwFlareColor<<24) | (dwFlareColor<<16) | (dwFlareColor<<8);
+	dwFlareColor = uint32_t(fMinFlareColor + (fMaxFlareColor - fMinFlareColor) * fK);
+	dwFlareColor = dwFlareColor | (dwFlareColor << 24) | (dwFlareColor << 16) | (dwFlareColor << 8);
 
 	CVECTOR vPos = vLightPos;
-	if( pLightSrcNode )
+	if (pLightSrcNode)
 		vPos = pLightSrcNode->glob_mtx * vLightPos;
 
 	lightSource.Position.x = vPos.x;
@@ -56,8 +56,8 @@ void InterfaceBackScene::LightParam::UpdateParams( float fTime )
 	lightSource.Position.z = vPos.z;
 
 	fRangeTimer += fTime;
-	if( fRangeTimer > fRangePeriod ) fRangeTimer -= fRangePeriod;
-	if( fRangeTimer <= .5f*fRangePeriod ) fK = 2.f * fRangeTimer / fRangePeriod;
+	if (fRangeTimer > fRangePeriod) fRangeTimer -= fRangePeriod;
+	if (fRangeTimer <= .5f * fRangePeriod) fK = 2.f * fRangeTimer / fRangePeriod;
 	else fK = 2.f - 2.f * fRangeTimer / fRangePeriod;
 	lightSource.Range = fRangeMin + (fRangeMax - fRangeMin) * fK; // 10.f;
 }
@@ -70,46 +70,51 @@ InterfaceBackScene::MenuDescr::~MenuDescr()
 	pPassive = nullptr;
 }
 
-void InterfaceBackScene::MenuDescr::Set( CMatrix* pMtx, const char* pcActiveName, const char* pcPassiveName, const char* pcEvent, const char* pcPathName, const char* pcTechniqueName )
+void InterfaceBackScene::MenuDescr::Set(CMatrix* pMtx, const char* pcActiveName, const char* pcPassiveName,
+                                        const char* pcEvent, const char* pcPathName, const char* pcTechniqueName)
 {
-	if( !pcTechniqueName ) pcTechniqueName = "InterfaceBackScene_Menu";
+	if (!pcTechniqueName) pcTechniqueName = "InterfaceBackScene_Menu";
 	sEventName = pcEvent;
 	VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
-	if( pGeo )
-		if( pcPathName && pcPathName[0] ) pGeo->SetTexturePath((std::string("MainMenu\\")+pcPathName+"\\").c_str());
+	if (pGeo)
+		if (pcPathName && pcPathName[0]) pGeo->SetTexturePath((std::string("MainMenu\\") + pcPathName + "\\").c_str());
 		else pGeo->SetTexturePath("MainMenu\\");
 	// create active model
-	if( pcActiveName )
+	if (pcActiveName)
 	{
-		eiActive = EntityManager::CreateEntity( "MODELR" );
-		api->Send_Message( eiActive, "ls", MSG_MODEL_LOAD_GEO, pcActiveName );
-		pActive = (MODEL*)EntityManager::GetEntityPointer( eiActive );
-		if( pActive && pMtx )
+		eiActive = EntityManager::CreateEntity("MODELR");
+		api->Send_Message(eiActive, "ls", MSG_MODEL_LOAD_GEO, pcActiveName);
+		pActive = (MODEL*)EntityManager::GetEntityPointer(eiActive);
+		if (pActive && pMtx)
 		{
 			pActive->mtx = *pMtx;
 			pActive->Update();
-			if( pActive->GetNode(0) ) pActive->GetNode(0)->SetTechnique(pcTechniqueName);
-		} else {
+			if (pActive->GetNode(0)) pActive->GetNode(0)->SetTechnique(pcTechniqueName);
+		}
+		else
+		{
 			api->Trace("Warning! Interface Back Scene: invalid menu model %s or transform matrix", pcActiveName);
 		}
 	}
 	// create passive model
-	if( pcPassiveName )
+	if (pcPassiveName)
 	{
-		eiPassive = EntityManager::CreateEntity( "MODELR" );
-		api->Send_Message( eiPassive, "ls", MSG_MODEL_LOAD_GEO, pcPassiveName );
-		pPassive = (MODEL*)EntityManager::GetEntityPointer( eiPassive );
-		if( pPassive && pMtx )
+		eiPassive = EntityManager::CreateEntity("MODELR");
+		api->Send_Message(eiPassive, "ls", MSG_MODEL_LOAD_GEO, pcPassiveName);
+		pPassive = (MODEL*)EntityManager::GetEntityPointer(eiPassive);
+		if (pPassive && pMtx)
 		{
 			pPassive->mtx = *pMtx;
 			pPassive->Update();
-			if( pPassive->GetNode(0) ) pPassive->GetNode(0)->SetTechnique(pcTechniqueName);
-		} else {
+			if (pPassive->GetNode(0)) pPassive->GetNode(0)->SetTechnique(pcTechniqueName);
+		}
+		else
+		{
 			api->Trace("Warning! Interface Back Scene: invalid menu model %s or transform matrix", pcPassiveName);
 		}
 	}
-	if( pGeo ) pGeo->SetTexturePath("");
-	if( pActive ) bSelectable = true;
+	if (pGeo) pGeo->SetTexturePath("");
+	if (pActive) bSelectable = true;
 }
 
 InterfaceBackScene::InterfaceBackScene()
@@ -133,26 +138,29 @@ InterfaceBackScene::InterfaceBackScene()
 InterfaceBackScene::~InterfaceBackScene()
 {
 	RestoreLight();
-	EntityManager::EraseEntity( m_eiModel );
-	EntityManager::EraseEntity( m_eiLocators );
+	EntityManager::EraseEntity(m_eiModel);
+	EntityManager::EraseEntity(m_eiLocators);
 	m_pLocators = nullptr;
 	m_pModel = nullptr;
 	ReleaseMenuList();
 
-	for (const auto &light : m_aLights)
+	for (const auto& light : m_aLights)
 		delete light;
-	for (const auto &model : m_apAniModel)
+	for (const auto& model : m_apAniModel)
 		delete model;
 	//m_apAniModel.DelAllWithPointers();
 
-	if( m_nFlareTexture >=0 ) m_pRS->TextureRelease(m_nFlareTexture); m_nFlareTexture = -1;
+	if (m_nFlareTexture >= 0) m_pRS->TextureRelease(m_nFlareTexture);
+	m_nFlareTexture = -1;
 
-	if(flyTex >= 0) m_pRS->TextureRelease(flyTex); flyTex = -1;
+	if (flyTex >= 0) m_pRS->TextureRelease(flyTex);
+	flyTex = -1;
 }
 
 bool InterfaceBackScene::Init()
 {
-	m_pRS = (VDX9RENDER *)api->CreateService("dx9render");	Assert(m_pRS);
+	m_pRS = (VDX9RENDER *)api->CreateService("dx9render");
+	Assert(m_pRS);
 	flyTex = m_pRS->TextureCreate("LocEfx\\firefly.tga");
 	m_nFlareTexture = m_pRS->TextureCreate("ShipsFlares\\corona.tga");
 	return true;
@@ -163,94 +171,99 @@ void InterfaceBackScene::Execute(uint32_t Delta_Time)
 	long nOldMenuIndex = m_nSelectMenuIndex;
 
 	FXYPOINT pntMouse = XINTERFACE::pThis->GetMousePoint();
-	if( m_pntOldMouse.x!=pntMouse.x || m_pntOldMouse.y!=pntMouse.y )
+	if (m_pntOldMouse.x != pntMouse.x || m_pntOldMouse.y != pntMouse.y)
 	{
 		m_pntOldMouse = pntMouse;
-		long n = CheckMousePos( pntMouse.x, pntMouse.y );
-		if( n>=0 && n!=m_nSelectMenuIndex ) SetNewMenu(n);
+		long n = CheckMousePos(pntMouse.x, pntMouse.y);
+		if (n >= 0 && n != m_nSelectMenuIndex) SetNewMenu(n);
 	}
 
 	CONTROL_STATE cs;
-	api->Controls->GetControlState("IUp",cs);
-	if( cs.state==CST_ACTIVATED ) {
+	api->Controls->GetControlState("IUp", cs);
+	if (cs.state == CST_ACTIVATED)
+	{
 		ChoosePrevMenu();
 	}
-	api->Controls->GetControlState("IDown",cs);
-	if( cs.state==CST_ACTIVATED ) {
+	api->Controls->GetControlState("IDown", cs);
+	if (cs.state == CST_ACTIVATED)
+	{
 		ChooseNextMenu();
 	}
-	api->Controls->GetControlState("ILClick",cs);
-	if( cs.state==CST_ACTIVATED ) {
-		ExecuteMenu( CheckMousePos( m_pntOldMouse.x, m_pntOldMouse.y ) );
+	api->Controls->GetControlState("ILClick", cs);
+	if (cs.state == CST_ACTIVATED)
+	{
+		ExecuteMenu(CheckMousePos(m_pntOldMouse.x, m_pntOldMouse.y));
 	}
-	api->Controls->GetControlState("IAction",cs);
-	if( cs.state==CST_ACTIVATED ) {
-		ExecuteMenu( m_nSelectMenuIndex );
+	api->Controls->GetControlState("IAction", cs);
+	if (cs.state == CST_ACTIVATED)
+	{
+		ExecuteMenu(m_nSelectMenuIndex);
 	}
 
-	if( api->Controls->GetDebugAsyncKeyState(VK_CONTROL)<0 )
+	if (api->Controls->GetDebugAsyncKeyState(VK_CONTROL) < 0)
 	{
 		CMatrix mtx;
 		mtx.BuildMatrix(m_vCamAng);
-		CVECTOR vz = mtx * CVECTOR(0.f,0.f,1.f);
-		CVECTOR vx = mtx * CVECTOR(1.f,0.f,0.f);
+		CVECTOR vz = mtx * CVECTOR(0.f, 0.f, 1.f);
+		CVECTOR vx = mtx * CVECTOR(1.f, 0.f, 0.f);
 
 		float fForwardSpeed = 0.01f * Delta_Time;
-		if( api->Controls->GetDebugAsyncKeyState(VK_SHIFT)<0 ) fForwardSpeed *= 10.f;
-		if( api->Controls->GetDebugAsyncKeyState(VK_MENU)<0 ) fForwardSpeed *= 0.1f;
+		if (api->Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0) fForwardSpeed *= 10.f;
+		if (api->Controls->GetDebugAsyncKeyState(VK_MENU) < 0) fForwardSpeed *= 0.1f;
 		float fSideSpeed = 0.5f * fForwardSpeed;
 
-		if( api->Controls->GetDebugAsyncKeyState('W')<0 ) m_vCamPos += vz * fForwardSpeed;
-		if( api->Controls->GetDebugAsyncKeyState('S')<0 ) m_vCamPos -= vz * fForwardSpeed;
-		if( api->Controls->GetDebugAsyncKeyState('D')<0 ) m_vCamPos += vx * fSideSpeed;
-		if( api->Controls->GetDebugAsyncKeyState('A')<0 ) m_vCamPos -= vx * fSideSpeed;
+		if (api->Controls->GetDebugAsyncKeyState('W') < 0) m_vCamPos += vz * fForwardSpeed;
+		if (api->Controls->GetDebugAsyncKeyState('S') < 0) m_vCamPos -= vz * fForwardSpeed;
+		if (api->Controls->GetDebugAsyncKeyState('D') < 0) m_vCamPos += vx * fSideSpeed;
+		if (api->Controls->GetDebugAsyncKeyState('A') < 0) m_vCamPos -= vx * fSideSpeed;
 
 		float fRotateSpeed = 0.001f * Delta_Time;
-		if( api->Controls->GetDebugAsyncKeyState(VK_UP)<0 ) m_vCamAng.x += fRotateSpeed;
-		if( api->Controls->GetDebugAsyncKeyState(VK_DOWN)<0 ) m_vCamAng.x -= fRotateSpeed;
-		if( api->Controls->GetDebugAsyncKeyState(VK_LEFT)<0 ) m_vCamAng.y -= fRotateSpeed;
-		if( api->Controls->GetDebugAsyncKeyState(VK_RIGHT)<0 ) m_vCamAng.y += fRotateSpeed;
+		if (api->Controls->GetDebugAsyncKeyState(VK_UP) < 0) m_vCamAng.x += fRotateSpeed;
+		if (api->Controls->GetDebugAsyncKeyState(VK_DOWN) < 0) m_vCamAng.x -= fRotateSpeed;
+		if (api->Controls->GetDebugAsyncKeyState(VK_LEFT) < 0) m_vCamAng.y -= fRotateSpeed;
+		if (api->Controls->GetDebugAsyncKeyState(VK_RIGHT) < 0) m_vCamAng.y += fRotateSpeed;
 	}
 
-	m_pRS->SetCamera( &m_vCamPos, &m_vCamAng, m_fCamPerspective );
+	m_pRS->SetCamera(&m_vCamPos, &m_vCamAng, m_fCamPerspective);
 
-	if( nOldMenuIndex != m_nSelectMenuIndex )
-		api->Event(ISOUND_EVENT,"l",2); // выбор нового нода
+	if (nOldMenuIndex != m_nSelectMenuIndex)
+		api->Event(ISOUND_EVENT, "l", 2); // выбор нового нода
 
-/*	for( long n=0; n<m_apAniModel; n++ )
-	{
-		if( m_apAniModel[n]->pModel )
-			m_apAniModel[n]->pModel->Execute( Delta_Time );
-	}*/
+	/*	for( long n=0; n<m_apAniModel; n++ )
+		{
+			if( m_apAniModel[n]->pModel )
+				m_apAniModel[n]->pModel->Execute( Delta_Time );
+		}*/
 }
 
 void InterfaceBackScene::Realize(uint32_t Delta_Time)
 {
 	long n;
 
-	ProcessedFlys( Delta_Time*.001f );
+	ProcessedFlys(Delta_Time * .001f);
 
 	// отрисовка модели
-	if( m_pModel )
+	if (m_pModel)
 	{
 		SetLight();
 		m_pRS->SetRenderState(D3DRS_LIGHTING, true);
-		m_pModel->ProcessStage(Entity::Stage::realize, Delta_Time);
-		for( n=0; n<m_aLights.size(); n++ ) // показать все фонари
-			if( m_aLights[n]->pModel )
+		m_pModel->ProcessStage(Stage::realize, Delta_Time);
+		for (n = 0; n < m_aLights.size(); n++) // показать все фонари
+			if (m_aLights[n]->pModel)
 			{
-				m_aLights[n]->pModel->ProcessStage(Entity::Stage::realize, Delta_Time);
+				m_aLights[n]->pModel->ProcessStage(Stage::realize, Delta_Time);
 				FlareShow(n);
 			}
-		for( n=0; n<m_apAniModel.size(); n++ )
+		for (n = 0; n < m_apAniModel.size(); n++)
 		{
-			if( m_apAniModel[n]->pModel ) {
+			if (m_apAniModel[n]->pModel)
+			{
 				uint32_t dwTFactor;
-				m_pRS->GetRenderState(D3DRS_TEXTUREFACTOR,&dwTFactor);
-				if( m_apAniModel[n]->bUseTFactor )
-					m_pRS->SetRenderState(D3DRS_TEXTUREFACTOR,m_apAniModel[n]->dwTFactor);
-				m_apAniModel[n]->pModel->ProcessStage(Entity::Stage::realize, Delta_Time);
-				m_pRS->SetRenderState(D3DRS_TEXTUREFACTOR,dwTFactor);
+				m_pRS->GetRenderState(D3DRS_TEXTUREFACTOR, &dwTFactor);
+				if (m_apAniModel[n]->bUseTFactor)
+					m_pRS->SetRenderState(D3DRS_TEXTUREFACTOR, m_apAniModel[n]->dwTFactor);
+				m_apAniModel[n]->pModel->ProcessStage(Stage::realize, Delta_Time);
+				m_pRS->SetRenderState(D3DRS_TEXTUREFACTOR, dwTFactor);
 			}
 		}
 		m_pRS->SetRenderState(D3DRS_LIGHTING, false);
@@ -258,132 +271,134 @@ void InterfaceBackScene::Realize(uint32_t Delta_Time)
 	}
 
 	// отрисовка пунктов меню
-	for( n=0; n<m_aMenuDescr.size(); n++ )
+	for (n = 0; n < m_aMenuDescr.size(); n++)
 	{
-		if( n==m_nSelectMenuIndex && m_aMenuDescr[n]->pActive )
-			m_aMenuDescr[n]->pActive->ProcessStage(Entity::Stage::realize, Delta_Time);
-		else if( m_aMenuDescr[n]->pPassive )
-			m_aMenuDescr[n]->pPassive->ProcessStage(Entity::Stage::realize, Delta_Time);
+		if (n == m_nSelectMenuIndex && m_aMenuDescr[n]->pActive)
+			m_aMenuDescr[n]->pActive->ProcessStage(Stage::realize, Delta_Time);
+		else if (m_aMenuDescr[n]->pPassive)
+			m_aMenuDescr[n]->pPassive->ProcessStage(Stage::realize, Delta_Time);
 	}
 }
 
-uint64_t InterfaceBackScene::ProcessMessage(MESSAGE & message)
+uint64_t InterfaceBackScene::ProcessMessage(MESSAGE& message)
 {
 	long nMsgCode = message.Long();
 	char param[1024];
-	switch( nMsgCode )
+	switch (nMsgCode)
 	{
-
 	case 0: // load model
-		message.String( sizeof(param), param );
-		LoadModel( param );
-	break;
+		message.String(sizeof(param), param);
+		LoadModel(param);
+		break;
 
 	case 1: // set camera
-		message.String( sizeof(param), param );
-		SetCameraPosition( param );
-	break;
+		message.String(sizeof(param), param);
+		SetCameraPosition(param);
+		break;
 
 	case 2: // set ship position by locator
-		message.String( sizeof(param), param );
-		SetShipPosition( param, message.AttributePointer() );
-	break;
+		message.String(sizeof(param), param);
+		SetShipPosition(param, message.AttributePointer());
+		break;
 
 	case 3: // create menu list
 		{
 			long nStartIdx = message.Long();
 			ATTRIBUTES* pA = message.AttributePointer();
-			CreateMenuList( nStartIdx, pA );
+			CreateMenuList(nStartIdx, pA);
 		}
-	break;
+		break;
 
 	case 4: // controling of menu list
 		{
 			long nControlCode = message.Long();
-			if( nControlCode&1 ) ChooseNextMenu();
+			if (nControlCode & 1) ChooseNextMenu();
 			else ChoosePrevMenu();
 		}
-	break;
+		break;
 
 	case 5: // get current menu
 		return m_nSelectMenuIndex;
-	break;
+		break;
 
 	case 6: // set current menu
 		{
 			long n = message.Long();
-			if( n<0 || n>=m_aMenuDescr.size() || !m_aMenuDescr[n]->bSelectable ) n = -1;
+			if (n < 0 || n >= m_aMenuDescr.size() || !m_aMenuDescr[n]->bSelectable) n = -1;
 			else m_nSelectMenuIndex = n;
 		}
-	break;
+		break;
 
 	case 7: // set selectable flag for menu
 		{
 			long num = message.Long(); // menu number
 			long flag = message.Long(); // selectable state
-			SetMenuSelectableState( num, flag!=0 );
+			SetMenuSelectableState(num, flag != 0);
 		}
-	break;
+		break;
 
 	case 8: // set light source
 		{
-			message.String( sizeof(param), param ); // light attributes name
-			InitLight( AttributesPointer ? AttributesPointer->GetAttributeClass(param) : nullptr );
+			message.String(sizeof(param), param); // light attributes name
+			InitLight(AttributesPointer ? AttributesPointer->GetAttributeClass(param) : nullptr);
 		}
-	break;
+		break;
 
 	case 9: // add animation model
 		{
-			message.String( sizeof(param), param ); // animation model attributes name
-			InitAniModel( AttributesPointer ? AttributesPointer->GetAttributeClass(param) : nullptr );
+			message.String(sizeof(param), param); // animation model attributes name
+			InitAniModel(AttributesPointer ? AttributesPointer->GetAttributeClass(param) : nullptr);
 		}
-	break;
+		break;
 
 	case 10: // add model
 		{
-			message.String( sizeof(param), param ); // model attributes name
-			InitStaticModel( AttributesPointer ? AttributesPointer->GetAttributeClass(param) : nullptr );
+			message.String(sizeof(param), param); // model attributes name
+			InitStaticModel(AttributesPointer ? AttributesPointer->GetAttributeClass(param) : nullptr);
 		}
-	break;
+		break;
 	}
 	return 0;
 }
 
-void InterfaceBackScene::LoadModel( const char* pcModelName )
+void InterfaceBackScene::LoadModel(const char* pcModelName)
 {
 	// delete all
-	if( m_pModel ) {
-		EntityManager::EraseEntity( m_eiModel );
+	if (m_pModel)
+	{
+		EntityManager::EraseEntity(m_eiModel);
 		m_pModel = nullptr;
 	}
-	if( m_pLocators ) {
-		EntityManager::EraseEntity( m_eiLocators );
+	if (m_pLocators)
+	{
+		EntityManager::EraseEntity(m_eiLocators);
 		m_pLocators = nullptr;
 	}
 	VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
-	if( pGeo ) pGeo->SetTexturePath((std::string("MainMenu\\")+XINTERFACE::pThis->StringService()->GetLanguage()+"\\").c_str());
+	if (pGeo) pGeo->SetTexturePath(
+		(std::string("MainMenu\\") + XINTERFACE::pThis->StringService()->GetLanguage() + "\\").c_str());
 	// create model
-	m_eiModel = EntityManager::CreateEntity("MODELR" );
-	api->Send_Message( m_eiModel, "ls", MSG_MODEL_LOAD_GEO, pcModelName );
-	m_pModel = (MODEL*)EntityManager::GetEntityPointer( m_eiModel );
-	if( pGeo ) pGeo->SetTexturePath("");
-	EntityManager::AddToLayer(SUN_TRACE, m_eiModel, 0 );
+	m_eiModel = EntityManager::CreateEntity("MODELR");
+	api->Send_Message(m_eiModel, "ls", MSG_MODEL_LOAD_GEO, pcModelName);
+	m_pModel = (MODEL*)EntityManager::GetEntityPointer(m_eiModel);
+	if (pGeo) pGeo->SetTexturePath("");
+	EntityManager::AddToLayer(SUN_TRACE, m_eiModel, 0);
 	EntityManager::AddToLayer(RAIN_DROPS, m_eiModel, 100);
 	// create locators
-	m_eiLocators = EntityManager::CreateEntity( "MODELR" );
+	m_eiLocators = EntityManager::CreateEntity("MODELR");
 	std::string sLocName = std::string(pcModelName) + "_locators";
-	api->Send_Message( m_eiLocators, "ls", MSG_MODEL_LOAD_GEO, sLocName.c_str() );
-	m_pLocators = (MODEL*)EntityManager::GetEntityPointer( m_eiLocators );
+	api->Send_Message(m_eiLocators, "ls", MSG_MODEL_LOAD_GEO, sLocName.c_str());
+	m_pLocators = (MODEL*)EntityManager::GetEntityPointer(m_eiLocators);
 }
 
-void InterfaceBackScene::SetCameraPosition( const char* pcLocatorName )
+void InterfaceBackScene::SetCameraPosition(const char* pcLocatorName)
 {
 	//FindLocator( pcLocatorName, 0, &m_vCamPos, &m_vCamAng.y );
 	Matrix mtx;
-	FindLocator( pcLocatorName, (CMatrix*)&mtx, &m_vCamPos, nullptr );
+	FindLocator(pcLocatorName, (CMatrix*)&mtx, &m_vCamPos, nullptr);
 	Vector vAddZ;
-	mtx.GetAngles( m_vCamAng.x, m_vCamAng.y, m_vCamAng.z );
-	vAddZ = mtx.MulNormal( Vector(0.f,0.f,1.f) );
+	mtx.GetAngles(m_vCamAng.x, m_vCamAng.y, m_vCamAng.z);
+	vAddZ = mtx.MulNormal(Vector(0.f, 0.f, 1.f));
 	vAddZ *= -0.1f;
 	m_vCamPos.x += vAddZ.x;
 	m_vCamPos.y += vAddZ.y;
@@ -391,54 +406,57 @@ void InterfaceBackScene::SetCameraPosition( const char* pcLocatorName )
 	//m_vCamAng.x = -4.262f/180.f*PI;
 }
 
-void InterfaceBackScene::SetShipPosition( const char* pcLocName, ATTRIBUTES* pAChar )
+void InterfaceBackScene::SetShipPosition(const char* pcLocName, ATTRIBUTES* pAChar)
 {
-	if( !pcLocName || !pAChar || !m_pLocators ) return;
+	if (!pcLocName || !pAChar || !m_pLocators) return;
 
-	ATTRIBUTES* pAPos = pAChar->FindAClass(pAChar,"Ship.Pos");
-	if( !pAPos ) pAPos = pAChar->CreateSubAClass(pAChar,"Ship.Pos");
+	ATTRIBUTES* pAPos = pAChar->FindAClass(pAChar, "Ship.Pos");
+	if (!pAPos) pAPos = pAChar->CreateSubAClass(pAChar, "Ship.Pos");
 	Assert(pAPos);
 
-	ATTRIBUTES* pAAng = pAChar->FindAClass(pAChar,"Ship.Ang");
-	if( !pAAng ) pAAng = pAChar->CreateSubAClass(pAChar,"Ship.Ang");
+	ATTRIBUTES* pAAng = pAChar->FindAClass(pAChar, "Ship.Ang");
+	if (!pAAng) pAAng = pAChar->CreateSubAClass(pAChar, "Ship.Ang");
 	Assert(pAAng);
 
 	CVECTOR pos;
 	float fYAng;
-	if( FindLocator( pcLocName, nullptr, &pos, &fYAng ) )
+	if (FindLocator(pcLocName, nullptr, &pos, &fYAng))
 	{
 		pAPos->SetAttributeUseFloat("x", pos.x);
 		pAPos->SetAttributeUseFloat("y", pos.y);
 		pAPos->SetAttributeUseFloat("z", pos.z);
-		pAAng->SetAttributeUseFloat("y", fYAng );
+		pAAng->SetAttributeUseFloat("y", fYAng);
 	}
 }
 
-bool InterfaceBackScene::FindLocator( const char* pcLocName, CMatrix* pMtx, CVECTOR* pPos, float* pYAng )
+bool InterfaceBackScene::FindLocator(const char* pcLocName, CMatrix* pMtx, CVECTOR* pPos, float* pYAng)
 {
-	if( !pcLocName || !m_pLocators ) return false;
-	for( long n=0; n<100; n++ )
+	if (!pcLocName || !m_pLocators) return false;
+	for (long n = 0; n < 100; n++)
 	{
 		NODE* pNod = m_pLocators->GetNode(n);
-		if( !pNod ) break;
+		if (!pNod) break;
 		GEOS::INFO ginf;
-		pNod->geo->GetInfo( ginf );
+		pNod->geo->GetInfo(ginf);
 		GEOS::LABEL lbl;
-		for( long l=0; l<ginf.nlabels; l++ )
+		for (long l = 0; l < ginf.nlabels; l++)
 		{
-			pNod->geo->GetLabel( l, lbl );
-			if( lbl.name && _stricmp(pcLocName,lbl.name)==0 )
+			pNod->geo->GetLabel(l, lbl);
+			if (lbl.name && _stricmp(pcLocName, lbl.name) == 0)
 			{
-				if( pMtx ) {
-					memcpy( pMtx, &lbl.m, sizeof(float)*4*4 );
+				if (pMtx)
+				{
+					memcpy(pMtx, &lbl.m, sizeof(float) * 4 * 4);
 				}
-				if( pPos ) {
+				if (pPos)
+				{
 					pPos->x = lbl.m[3][0] + pNod->glob_mtx.matrix[3];
 					pPos->y = lbl.m[3][1] + pNod->glob_mtx.matrix[7];
 					pPos->z = lbl.m[3][2] + pNod->glob_mtx.matrix[11];
 				}
-				if( pYAng ) {
-					*pYAng = atan2f( lbl.m[2][0], lbl.m[2][2] );
+				if (pYAng)
+				{
+					*pYAng = atan2f(lbl.m[2][0], lbl.m[2][2]);
 				}
 				return true;
 			}
@@ -447,22 +465,22 @@ bool InterfaceBackScene::FindLocator( const char* pcLocName, CMatrix* pMtx, CVEC
 	return false;
 }
 
-void InterfaceBackScene::SetLocatorPosition( MODEL* pModel, const char* pcLocName, CVECTOR & pos, NODE* &pNodPtr )
+void InterfaceBackScene::SetLocatorPosition(MODEL* pModel, const char* pcLocName, CVECTOR& pos, NODE* & pNodPtr)
 {
 	pos = 0.f;
-	if( pModel && pcLocName )
+	if (pModel && pcLocName)
 	{
-		for( long n=0; n<100; n++ )
+		for (long n = 0; n < 100; n++)
 		{
 			NODE* pNod = pModel->GetNode(n);
-			if( !pNod ) break;
+			if (!pNod) break;
 			GEOS::INFO ginf;
-			pNod->geo->GetInfo( ginf );
+			pNod->geo->GetInfo(ginf);
 			GEOS::LABEL lbl;
-			for( long l=0; l<ginf.nlabels; l++ )
+			for (long l = 0; l < ginf.nlabels; l++)
 			{
-				pNod->geo->GetLabel( l, lbl );
-				if( lbl.name && _stricmp(pcLocName,lbl.name)==0 )
+				pNod->geo->GetLabel(l, lbl);
+				if (lbl.name && _stricmp(pcLocName, lbl.name) == 0)
 				{
 					pos.x = lbl.m[3][0];
 					pos.y = lbl.m[3][1];
@@ -478,33 +496,34 @@ void InterfaceBackScene::SetLocatorPosition( MODEL* pModel, const char* pcLocNam
 void InterfaceBackScene::ReleaseMenuList()
 {
 	//m_aMenuDescr.DelAllWithPointers();
-	for (const auto &descr : m_aMenuDescr)
+	for (const auto& descr : m_aMenuDescr)
 		delete descr;
 	m_aMenuDescr.clear();
 }
 
-void InterfaceBackScene::CreateMenuList( long nStartIndex, ATTRIBUTES* pAMenu )
+void InterfaceBackScene::CreateMenuList(long nStartIndex, ATTRIBUTES* pAMenu)
 {
 	ReleaseMenuList();
-	if( !pAMenu ) return;
+	if (!pAMenu) return;
 
 	ATTRIBUTES* pA;
 	CMatrix mtx;
 	long q = pAMenu->GetAttributesNum();
-	for( long n=0; n<q; n++ )
+	for (long n = 0; n < q; n++)
 	{
 		pA = pAMenu->GetAttributeClass(n);
-		if( !pA ) continue;
-		if( !FindLocator( pA->GetAttribute("locname"), &mtx, nullptr, nullptr ) )
+		if (!pA) continue;
+		if (!FindLocator(pA->GetAttribute("locname"), &mtx, nullptr, nullptr))
 		{
-			api->Trace( "Warning! Interface Back scene: Can`t find locator %s", pA->GetAttribute("locname") );
+			api->Trace("Warning! Interface Back scene: Can`t find locator %s", pA->GetAttribute("locname"));
 		}
 		auto* pMD = new MenuDescr;
-		Assert(pMD);;
-		pMD->Set( &mtx, pA->GetAttribute("sel"), pA->GetAttribute("norm"), pA->GetAttribute("event"), pA->GetAttribute("path"), pA->GetAttribute("technique") );
-		m_aMenuDescr.push_back( pMD );
+		Assert(pMD);
+		pMD->Set(&mtx, pA->GetAttribute("sel"), pA->GetAttribute("norm"), pA->GetAttribute("event"),
+		         pA->GetAttribute("path"), pA->GetAttribute("technique"));
+		m_aMenuDescr.push_back(pMD);
 	}
-	if( nStartIndex>=0 && nStartIndex<m_aMenuDescr.size() && m_aMenuDescr[nStartIndex]->bSelectable )
+	if (nStartIndex >= 0 && nStartIndex < m_aMenuDescr.size() && m_aMenuDescr[nStartIndex]->bSelectable)
 		m_nSelectMenuIndex = nStartIndex;
 	else m_nSelectMenuIndex = -1;
 }
@@ -512,43 +531,44 @@ void InterfaceBackScene::CreateMenuList( long nStartIndex, ATTRIBUTES* pAMenu )
 void InterfaceBackScene::ChooseNextMenu()
 {
 	long n;
-	for( n=m_nSelectMenuIndex+1; n<m_aMenuDescr.size(); n++ )
-		if( m_aMenuDescr[n]->bSelectable )
+	for (n = m_nSelectMenuIndex + 1; n < m_aMenuDescr.size(); n++)
+		if (m_aMenuDescr[n]->bSelectable)
 			break;
-	if( n<m_aMenuDescr.size() ) m_nSelectMenuIndex = n;
+	if (n < m_aMenuDescr.size()) m_nSelectMenuIndex = n;
 }
 
 void InterfaceBackScene::ChoosePrevMenu()
 {
 	long n;
-	for( n=m_nSelectMenuIndex-1; n>=0; n-- )
-		if( m_aMenuDescr[n]->bSelectable )
+	for (n = m_nSelectMenuIndex - 1; n >= 0; n--)
+		if (m_aMenuDescr[n]->bSelectable)
 			break;
-	if( n>=0 ) m_nSelectMenuIndex = n;
+	if (n >= 0) m_nSelectMenuIndex = n;
 }
 
 void InterfaceBackScene::SetNewMenu(long nNewSelectIndex)
 {
-	if( nNewSelectIndex<0 || nNewSelectIndex>=m_aMenuDescr.size() || !m_aMenuDescr[nNewSelectIndex]->bSelectable ) return;
+	if (nNewSelectIndex < 0 || nNewSelectIndex >= m_aMenuDescr.size() || !m_aMenuDescr[nNewSelectIndex]->bSelectable)
+		return;
 	m_nSelectMenuIndex = nNewSelectIndex;
 }
 
-void InterfaceBackScene::SetMenuSelectableState( long nMenuIndex, bool bSelectable )
+void InterfaceBackScene::SetMenuSelectableState(long nMenuIndex, bool bSelectable)
 {
-	if( nMenuIndex<0 || nMenuIndex>=m_aMenuDescr.size() ) return;
-	if( m_aMenuDescr[nMenuIndex]->bSelectable == bSelectable ) return;
-	if( bSelectable && m_aMenuDescr[nMenuIndex]->pActive && m_aMenuDescr[nMenuIndex]->pPassive )
+	if (nMenuIndex < 0 || nMenuIndex >= m_aMenuDescr.size()) return;
+	if (m_aMenuDescr[nMenuIndex]->bSelectable == bSelectable) return;
+	if (bSelectable && m_aMenuDescr[nMenuIndex]->pActive && m_aMenuDescr[nMenuIndex]->pPassive)
 		m_aMenuDescr[nMenuIndex]->bSelectable = true;
 	else m_aMenuDescr[nMenuIndex]->bSelectable = false;
 }
 
-void InterfaceBackScene::ExecuteMenu( long nMenuIndex )
+void InterfaceBackScene::ExecuteMenu(long nMenuIndex)
 {
-	if( nMenuIndex<0 || nMenuIndex>=m_aMenuDescr.size() ) return;
-	api->PostEvent( "backgroundcommand", 1, "s", m_aMenuDescr[nMenuIndex]->sEventName.c_str() );
+	if (nMenuIndex < 0 || nMenuIndex >= m_aMenuDescr.size()) return;
+	api->PostEvent("backgroundcommand", 1, "s", m_aMenuDescr[nMenuIndex]->sEventName.c_str());
 }
 
-long InterfaceBackScene::CheckMousePos( float fX, float fY )
+long InterfaceBackScene::CheckMousePos(float fX, float fY)
 {
 	float fW = (float)XINTERFACE::pThis->GetScreenWidth();
 	auto fH = (float)XINTERFACE::pThis->GetScreenHeight();
@@ -556,31 +576,31 @@ long InterfaceBackScene::CheckMousePos( float fX, float fY )
 	float fRelY = 2.f * fY / fH - 1.f;
 
 	CMatrix mtxProj;
-	m_pRS->GetTransform(D3DTS_PROJECTION,(D3DXMATRIX*)&mtxProj);
+	m_pRS->GetTransform(D3DTS_PROJECTION, (D3DXMATRIX*)&mtxProj);
 	CVECTOR v;
 	v.x = fRelX / mtxProj.m[0][0];
 	v.y = - fRelY / mtxProj.m[1][1];
 	v.z = 1.0f;
 
 	CMatrix mtxView;
-	m_pRS->GetTransform(D3DTS_VIEW,(D3DXMATRIX*)&mtxView);
+	m_pRS->GetTransform(D3DTS_VIEW, (D3DXMATRIX*)&mtxView);
 	CVECTOR vDir;
-	mtxView.MulToInvNorm(v,vDir);
+	mtxView.MulToInvNorm(v, vDir);
 	mtxView.Transposition();
 	CVECTOR vStart = mtxView.Pos();
 	CVECTOR vEnd = vStart + vDir * 300.f;
 
-	for( long n=0; n<m_aMenuDescr.size(); n++ )
-		if( m_aMenuDescr[n]->bSelectable &&
+	for (long n = 0; n < m_aMenuDescr.size(); n++)
+		if (m_aMenuDescr[n]->bSelectable &&
 			m_aMenuDescr[n]->pActive &&
-			m_aMenuDescr[n]->pActive->Trace( vStart, vEnd ) <= 1.f )
+			m_aMenuDescr[n]->pActive->Trace(vStart, vEnd) <= 1.f)
 			return n;
 	return -1;
 }
 
-void InterfaceBackScene::InitLight( ATTRIBUTES* pAParam )
+void InterfaceBackScene::InitLight(ATTRIBUTES* pAParam)
 {
-	if( !pAParam ) return;
+	if (!pAParam) return;
 
 	auto* pLight = new LightParam();
 	Assert(pLight);
@@ -595,69 +615,75 @@ void InterfaceBackScene::InitLight( ATTRIBUTES* pAParam )
 	pLight->indexLight = -1;
 
 	float fDiv = 1.f / 255.f;
-	uint32_t dwTmp = pAParam->GetAttributeAsDword("lightcolormin",0xFFFFFFFF);
+	uint32_t dwTmp = pAParam->GetAttributeAsDword("lightcolormin", 0xFFFFFFFF);
 	pLight->colorMin.a = ALPHA(dwTmp) * fDiv;
 	pLight->colorMin.r = RED(dwTmp) * fDiv;
 	pLight->colorMin.g = GREEN(dwTmp) * fDiv;
 	pLight->colorMin.b = BLUE(dwTmp) * fDiv;
-	dwTmp = pAParam->GetAttributeAsDword("lightcolormax",0xFFFFFFFF);
+	dwTmp = pAParam->GetAttributeAsDword("lightcolormax", 0xFFFFFFFF);
 	pLight->colorMax.a = ALPHA(dwTmp) * fDiv;
 	pLight->colorMax.r = RED(dwTmp) * fDiv;
 	pLight->colorMax.g = GREEN(dwTmp) * fDiv;
 	pLight->colorMax.b = BLUE(dwTmp) * fDiv;
-	pLight->fColorPeriod = pAParam->GetAttributeAsFloat("colorperiod",1.f);
-	pLight->fAddPeriodMax = pAParam->GetAttributeAsFloat("addcolorperiod",1.f);
+	pLight->fColorPeriod = pAParam->GetAttributeAsFloat("colorperiod", 1.f);
+	pLight->fAddPeriodMax = pAParam->GetAttributeAsFloat("addcolorperiod", 1.f);
 	pLight->fColorTimer = 0.f;
 
-	pLight->fRangeMin = pAParam->GetAttributeAsFloat("rangemin",5.f);
-	pLight->fRangeMax = pAParam->GetAttributeAsFloat("rangemax",10.f);
-	pLight->fRangePeriod = pAParam->GetAttributeAsFloat("rangeperiod",1.f);
+	pLight->fRangeMin = pAParam->GetAttributeAsFloat("rangemin", 5.f);
+	pLight->fRangeMax = pAParam->GetAttributeAsFloat("rangemax", 10.f);
+	pLight->fRangePeriod = pAParam->GetAttributeAsFloat("rangeperiod", 1.f);
 	pLight->fRangeTimer = 0.f;
 
-	pLight->fMinFlareColor = pAParam->GetAttributeAsFloat("minflarecolor",200.f);
-	pLight->fMaxFlareColor = pAParam->GetAttributeAsFloat("maxflarecolor",255.f);
+	pLight->fMinFlareColor = pAParam->GetAttributeAsFloat("minflarecolor", 200.f);
+	pLight->fMaxFlareColor = pAParam->GetAttributeAsFloat("maxflarecolor", 255.f);
 
-	pLight->bUse = pAParam->GetAttributeAsDword("turnon",0)!=0;
+	pLight->bUse = pAParam->GetAttributeAsDword("turnon", 0) != 0;
 
 	// find transform from locator
 	CMatrix locMtx;
-	FindLocator( pAParam->GetAttribute("locator"), &locMtx, nullptr, nullptr );
+	FindLocator(pAParam->GetAttribute("locator"), &locMtx, nullptr, nullptr);
 	pLight->vLightPos = locMtx.Pos();
 
 	// load model
 	char* pcFonarModel = pAParam->GetAttribute("model");
-	if( pcFonarModel )
+	if (pcFonarModel)
 	{
 		VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
-		if( pGeo ) pGeo->SetTexturePath("MainMenu\\");
+		if (pGeo) pGeo->SetTexturePath("MainMenu\\");
 		// create model
-		pLight->eiModel = EntityManager::CreateEntity( "MODELR" );
-		api->Send_Message( pLight->eiModel, "ls", MSG_MODEL_LOAD_GEO, pcFonarModel );
-		pLight->pModel = (MODEL*)EntityManager::GetEntityPointer( pLight->eiModel );
-		if( pGeo ) pGeo->SetTexturePath("");
-		if( pLight->pModel )
+		pLight->eiModel = EntityManager::CreateEntity("MODELR");
+		api->Send_Message(pLight->eiModel, "ls", MSG_MODEL_LOAD_GEO, pcFonarModel);
+		pLight->pModel = (MODEL*)EntityManager::GetEntityPointer(pLight->eiModel);
+		if (pGeo) pGeo->SetTexturePath("");
+		if (pLight->pModel)
 		{
 			pLight->pModel->mtx = locMtx;
 			pLight->pModel->Update();
 
 			pLight->pLightSrcNode = pLight->pModel->GetNode(0);
-			SetLocatorPosition( pLight->pModel, pAParam->GetAttribute("lightlocator"), pLight->vLightPos, pLight->pLightSrcNode );
-			if(m_aLights.size()>0 && m_aLights[0]->bUse) {
+			SetLocatorPosition(pLight->pModel, pAParam->GetAttribute("lightlocator"), pLight->vLightPos,
+			                   pLight->pLightSrcNode);
+			if (m_aLights.size() > 0 && m_aLights[0]->bUse)
+			{
 				CVECTOR vFlarePos = pLight->vLightPos;
-				SetLocatorPosition( pLight->pModel, pAParam->GetAttribute("flarelocator"), vFlarePos, pLight->pLightSrcNode );
+				SetLocatorPosition(pLight->pModel, pAParam->GetAttribute("flarelocator"), vFlarePos,
+				                   pLight->pLightSrcNode);
 				m_vFlarePos = pLight->pLightSrcNode->glob_mtx * vFlarePos;
-				m_fFlareSize = pAParam->GetAttributeAsFloat("flaresize",0.2f);
-				AddLampFlys( m_vFlarePos );
+				m_fFlareSize = pAParam->GetAttributeAsFloat("flaresize", 0.2f);
+				AddLampFlys(m_vFlarePos);
 
 				ATTRIBUTES* pA = nullptr;
-				if( AttributesPointer ) pA = AttributesPointer->CreateSubAClass(AttributesPointer,"lightpos");
-				if( pA ) {
-					pA->SetAttributeUseFloat("x",m_vFlarePos.x);
-					pA->SetAttributeUseFloat("y",m_vFlarePos.y);
-					pA->SetAttributeUseFloat("z",m_vFlarePos.z);
+				if (AttributesPointer) pA = AttributesPointer->CreateSubAClass(AttributesPointer, "lightpos");
+				if (pA)
+				{
+					pA->SetAttributeUseFloat("x", m_vFlarePos.x);
+					pA->SetAttributeUseFloat("y", m_vFlarePos.y);
+					pA->SetAttributeUseFloat("z", m_vFlarePos.z);
 				}
 			}
-		} else {
+		}
+		else
+		{
 			api->Trace("Warning! Interface Back Scene: invalid torchlight model %s", pcFonarModel);
 		}
 	}
@@ -665,35 +691,41 @@ void InterfaceBackScene::InitLight( ATTRIBUTES* pAParam )
 
 void InterfaceBackScene::SetLight()
 {
-	long nFreeLightIndex=0;
-	D3DCAPS9 d3dcaps;	m_pRS->GetDeviceCaps(&d3dcaps);
+	long nFreeLightIndex = 0;
+	D3DCAPS9 d3dcaps;
+	m_pRS->GetDeviceCaps(&d3dcaps);
 
-	for( long n=0; n<m_aLights.size(); n++ )
+	for (long n = 0; n < m_aLights.size(); n++)
 	{
-		if( m_aLights[n]->bUse ) {
+		if (m_aLights[n]->bUse)
+		{
 			BOOL bTmp;
-			for( ; nFreeLightIndex<(long)d3dcaps.MaxActiveLights; nFreeLightIndex++ )
-				if( m_pRS->GetLightEnable(nFreeLightIndex,&bTmp) && bTmp==false ) break;
-			if( nFreeLightIndex<(long)d3dcaps.MaxActiveLights ) { // нашли свободный источник
+			for (; nFreeLightIndex < (long)d3dcaps.MaxActiveLights; nFreeLightIndex++)
+				if (m_pRS->GetLightEnable(nFreeLightIndex, &bTmp) && bTmp == false) break;
+			if (nFreeLightIndex < (long)d3dcaps.MaxActiveLights)
+			{
+				// нашли свободный источник
 				m_aLights[n]->indexLight = nFreeLightIndex;
-				m_pRS->GetLight( nFreeLightIndex, &m_aLights[n]->lightOldSource );
-				m_pRS->LightEnable(nFreeLightIndex,true);
-				m_aLights[n]->UpdateParams( api->GetDeltaTime()*.001f );
+				m_pRS->GetLight(nFreeLightIndex, &m_aLights[n]->lightOldSource);
+				m_pRS->LightEnable(nFreeLightIndex, true);
+				m_aLights[n]->UpdateParams(api->GetDeltaTime() * .001f);
 				m_pRS->SetLight(nFreeLightIndex, &m_aLights[n]->lightSource);
-			} else m_aLights[n]->indexLight = -1;
+			}
+			else m_aLights[n]->indexLight = -1;
 		}
 	}
 }
 
 void InterfaceBackScene::RestoreLight()
 {
-	for( long n=0; n<m_aLights.size(); n++ )
+	for (long n = 0; n < m_aLights.size(); n++)
 	{
-		if( m_aLights[n]->bUse ) {
-			if( m_aLights[n]->indexLight >= 0 )
+		if (m_aLights[n]->bUse)
+		{
+			if (m_aLights[n]->indexLight >= 0)
 			{
-				m_pRS->SetLight( m_aLights[n]->indexLight, &m_aLights[n]->lightOldSource);
-				m_pRS->LightEnable(m_aLights[n]->indexLight,false);
+				m_pRS->SetLight(m_aLights[n]->indexLight, &m_aLights[n]->lightOldSource);
+				m_pRS->LightEnable(m_aLights[n]->indexLight, false);
 				m_aLights[n]->indexLight = -1;
 			}
 		}
@@ -738,16 +770,19 @@ void InterfaceBackScene::FlareShow(long idx)
 	uint32_t c = uint32_t(alpha); c |= (c << 24) | (c << 16) | (c << 8);*/
 	//Угол поворота
 	float cs, sn;
-	float _cs = (dx*camMtx.Vx().z + dz*camMtx.Vz().z);
-	float _sn = (dx*camMtx.Vz().z - dz*camMtx.Vx().z);
-	float kn = _cs*_cs + _sn*_sn;
-	if(kn > 0.0f)
+	float _cs = (dx * camMtx.Vx().z + dz * camMtx.Vz().z);
+	float _sn = (dx * camMtx.Vz().z - dz * camMtx.Vx().z);
+	float kn = _cs * _cs + _sn * _sn;
+	if (kn > 0.0f)
 	{
-		kn = 1.0f/sqrtf(kn);
-		_cs *= kn; _sn *= kn;
-		cs = (_cs*_cs - _sn*_sn);
-		sn = 2.0f*_cs*_sn;
-	}else{
+		kn = 1.0f / sqrtf(kn);
+		_cs *= kn;
+		_sn *= kn;
+		cs = (_cs * _cs - _sn * _sn);
+		sn = 2.0f * _cs * _sn;
+	}
+	else
+	{
 		cs = 1.0f;
 		sn = 0.0f;
 	}
@@ -757,15 +792,15 @@ void InterfaceBackScene::FlareShow(long idx)
 
 	uint32_t c = m_aLights[idx]->dwFlareColor;
 
-	buffer[0].pos = pos + CVECTOR(m_fFlareSize*(-cs + sn), m_fFlareSize*(sn + cs), 0.0f);
+	buffer[0].pos = pos + CVECTOR(m_fFlareSize * (-cs + sn), m_fFlareSize * (sn + cs), 0.0f);
 	buffer[0].color = c;
 	buffer[0].u = 0.0f;
 	buffer[0].v = 0.0f;
-	buffer[1].pos = pos + CVECTOR(m_fFlareSize*(-cs - sn), m_fFlareSize*(sn - cs), 0.0f);
+	buffer[1].pos = pos + CVECTOR(m_fFlareSize * (-cs - sn), m_fFlareSize * (sn - cs), 0.0f);
 	buffer[1].color = c;
 	buffer[1].u = 0.0f;
 	buffer[1].v = 1.0f;
-	buffer[2].pos = pos + CVECTOR(m_fFlareSize*(cs + sn), m_fFlareSize*(-sn + cs), 0.0f);
+	buffer[2].pos = pos + CVECTOR(m_fFlareSize * (cs + sn), m_fFlareSize * (-sn + cs), 0.0f);
 	buffer[2].color = c;
 	buffer[2].u = 1.0f;
 	buffer[2].v = 0.0f;
@@ -777,50 +812,55 @@ void InterfaceBackScene::FlareShow(long idx)
 	buffer[4].color = c;
 	buffer[4].u = 0.0f;
 	buffer[4].v = 1.0f;
-	buffer[5].pos = pos + CVECTOR(m_fFlareSize*(cs - sn), m_fFlareSize*(-sn - cs), 0.0f);
+	buffer[5].pos = pos + CVECTOR(m_fFlareSize * (cs - sn), m_fFlareSize * (-sn - cs), 0.0f);
 	buffer[5].color = c;
 	buffer[5].u = 1.0f;
 	buffer[5].v = 1.0f;
-	m_pRS->TextureSet(0,m_nFlareTexture);
-	CMatrix mtx; mtx.SetIdentity();
-	m_pRS->SetWorld( mtx );
-	m_pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, 2, buffer, sizeof(Vertex), "Coronas");
+	m_pRS->TextureSet(0, m_nFlareTexture);
+	CMatrix mtx;
+	mtx.SetIdentity();
+	m_pRS->SetWorld(mtx);
+	m_pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, 2, buffer, sizeof(Vertex),
+	                       "Coronas");
 }
 
-void InterfaceBackScene::InitAniModel( ATTRIBUTES* pAParam )
+void InterfaceBackScene::InitAniModel(ATTRIBUTES* pAParam)
 {
-	if( !pAParam ) return;
+	if (!pAParam) return;
 
 	const char* pcMdlName = pAParam->GetAttribute("model");
 	const char* pcAniName = pAParam->GetAttribute("animation");
 	const char* pcAniActionName = pAParam->GetAttribute("aniaction");
-	if( !pcMdlName ) {
+	if (!pcMdlName)
+	{
 		api->Trace("Warning! Bad model name parameter for ani model into InterfaceBackScene.");
 		return;
 	}
 
 	CMatrix mtx;
-	if( !FindLocator( pAParam->GetAttribute("locator"), &mtx, nullptr, nullptr ) ) mtx.SetIdentity();
+	if (!FindLocator(pAParam->GetAttribute("locator"), &mtx, nullptr, nullptr)) mtx.SetIdentity();
 
 	auto* pObj = new AniModelDescr;
 	Assert(pObj);
 
 	auto* pAniService = (ANIMATION*)api->CreateService("AnimationServiceImp");
 	auto* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
-	if( pGeo ) pGeo->SetTexturePath("MainMenu\\");
+	if (pGeo) pGeo->SetTexturePath("MainMenu\\");
 	// create model
-	pObj->ei = EntityManager::CreateEntity( "MODELR" );
-	api->Send_Message( pObj->ei, "ls", MSG_MODEL_LOAD_GEO, pcMdlName );
-	pObj->pModel = (MODEL*)EntityManager::GetEntityPointer( pObj->ei );
-	if( pGeo ) pGeo->SetTexturePath("");
+	pObj->ei = EntityManager::CreateEntity("MODELR");
+	api->Send_Message(pObj->ei, "ls", MSG_MODEL_LOAD_GEO, pcMdlName);
+	pObj->pModel = (MODEL*)EntityManager::GetEntityPointer(pObj->ei);
+	if (pGeo) pGeo->SetTexturePath("");
 
-	if( pObj->pModel )
+	if (pObj->pModel)
 	{
 		pObj->pModel->mtx = mtx;
 		//pObj->pModel->Update();
-		if( pcAniName ) {
-			api->Send_Message( pObj->ei, "ls", MSG_MODEL_LOAD_ANI, pcAniName );
-			if( pcAniActionName ) {
+		if (pcAniName)
+		{
+			api->Send_Message(pObj->ei, "ls", MSG_MODEL_LOAD_ANI, pcAniName);
+			if (pcAniActionName)
+			{
 				pObj->pModel->GetAnimation()->Player(0).SetAction(pcAniActionName);
 				pObj->pModel->GetAnimation()->Player(0).Play();
 			}
@@ -832,44 +872,48 @@ void InterfaceBackScene::InitAniModel( ATTRIBUTES* pAParam )
 	//pObj->pModel->GetAnimation()-
 }
 
-void InterfaceBackScene::InitStaticModel( ATTRIBUTES* pAParam )
+void InterfaceBackScene::InitStaticModel(ATTRIBUTES* pAParam)
 {
-	if( !pAParam ) return;
+	if (!pAParam) return;
 
 	const char* pcMdlName = pAParam->GetAttribute("model");
 	const char* pcTechniqueName = pAParam->GetAttribute("technique");
-	if( !pcMdlName ) {
+	if (!pcMdlName)
+	{
 		api->Trace("Warning! Bad model name parameter for static model into InterfaceBackScene.");
 		return;
 	}
 
 	CMatrix mtx;
-	if( !FindLocator( pAParam->GetAttribute("locator"), &mtx, nullptr, nullptr ) ) mtx.SetIdentity();
+	if (!FindLocator(pAParam->GetAttribute("locator"), &mtx, nullptr, nullptr)) mtx.SetIdentity();
 
 	auto* pObj = new AniModelDescr;
 	Assert(pObj);
 
 	auto* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
-	if( pGeo ) pGeo->SetTexturePath("MainMenu\\");
+	if (pGeo) pGeo->SetTexturePath("MainMenu\\");
 	// create model
-	pObj->ei = EntityManager::CreateEntity( "MODELR" );
-	api->Send_Message( pObj->ei, "ls", MSG_MODEL_LOAD_GEO, pcMdlName );
-	pObj->pModel = (MODEL*)EntityManager::GetEntityPointer( pObj->ei );
-	if( pGeo ) pGeo->SetTexturePath("");
+	pObj->ei = EntityManager::CreateEntity("MODELR");
+	api->Send_Message(pObj->ei, "ls", MSG_MODEL_LOAD_GEO, pcMdlName);
+	pObj->pModel = (MODEL*)EntityManager::GetEntityPointer(pObj->ei);
+	if (pGeo) pGeo->SetTexturePath("");
 
-	if( pAParam->GetAttribute("tfactor") ) {
+	if (pAParam->GetAttribute("tfactor"))
+	{
 		pObj->bUseTFactor = true;
 		pObj->dwTFactor = pAParam->GetAttributeAsDword("tfactor");
-	} else {
+	}
+	else
+	{
 		pObj->bUseTFactor = false;
 	}
 
-	if( pObj->pModel )
+	if (pObj->pModel)
 	{
 		pObj->pModel->mtx = mtx;
-		if( pcTechniqueName )
+		if (pcTechniqueName)
 		{
-			pObj->pModel->GetNode(0)->SetTechnique( pcTechniqueName );
+			pObj->pModel->GetNode(0)->SetTechnique(pcTechniqueName);
 		}
 	}
 
@@ -879,10 +923,10 @@ void InterfaceBackScene::InitStaticModel( ATTRIBUTES* pAParam )
 //---------------------------------------------------
 //Мухи у фанарей
 //---------------------------------------------------
-void InterfaceBackScene::AddLampFlys(CVECTOR & pos)
+void InterfaceBackScene::AddLampFlys(CVECTOR& pos)
 {
 	//Занимаем массив
-	if(numFlys >= maxFlys)
+	if (numFlys >= maxFlys)
 	{
 		maxFlys += 8;
 		flys.resize(maxFlys);
@@ -890,24 +934,24 @@ void InterfaceBackScene::AddLampFlys(CVECTOR & pos)
 	//Заполняем параметры
 	//Общие
 	flys[numFlys].pos = pos;
-	flys[numFlys].radius = 0.2f;//0.6f;
+	flys[numFlys].radius = 0.2f; //0.6f;
 	flys[numFlys].start = numFly;
-	flys[numFlys].num = 4 + (rand() & 4);//1 + (rand() & 7);
+	flys[numFlys].num = 4 + (rand() & 4); //1 + (rand() & 7);
 	numFly += flys[numFlys].num;
 	fly.resize(numFly);
 	//Каждой мухи
-	for(long i = 0; i < flys[numFlys].num; i++)
+	for (long i = 0; i < flys[numFlys].num; i++)
 	{
-		ParticleFly & f = fly[flys[numFlys].start + i];
-		f.ax = rand()*PIm2/RAND_MAX;
-		f.ay = rand()*PIm2/RAND_MAX;
-		f.kx = 0.8f + rand()*(0.4f/RAND_MAX);
-		if(rand() & 1) f.kx = -f.kx;
-		f.ky = 0.8f + rand()*(0.4f/RAND_MAX);
-		if(rand() & 1) f.ky = -f.ky;
-		f.a = rand()*PIm2/RAND_MAX;
-		f.k = 0.8f + rand()*(0.4f/RAND_MAX);
-		if(rand() & 1) f.k = -f.k;
+		ParticleFly& f = fly[flys[numFlys].start + i];
+		f.ax = rand() * PIm2 / RAND_MAX;
+		f.ay = rand() * PIm2 / RAND_MAX;
+		f.kx = 0.8f + rand() * (0.4f / RAND_MAX);
+		if (rand() & 1) f.kx = -f.kx;
+		f.ky = 0.8f + rand() * (0.4f / RAND_MAX);
+		if (rand() & 1) f.ky = -f.ky;
+		f.a = rand() * PIm2 / RAND_MAX;
+		f.k = 0.8f + rand() * (0.4f / RAND_MAX);
+		if (rand() & 1) f.k = -f.k;
 		f.angle = 0.0f;
 		f.size = 0.03f;
 		f.alpha = 1.0f;
@@ -922,123 +966,129 @@ void InterfaceBackScene::ProcessedFlys(float dltTime)
 	m_pRS->GetTransform(D3DTS_VIEW, view);
 	view.Transposition();
 	CVECTOR cam = view.Pos();
-	float dax = dltTime*1.3f;
-	float day = dltTime*1.4f;
-	float da = dltTime*5.6f;
+	float dax = dltTime * 1.3f;
+	float day = dltTime * 1.4f;
+	float da = dltTime * 5.6f;
 	//Расчитываем
-	for(long i = 0; i < numFlys; i++)
+	for (long i = 0; i < numFlys; i++)
 	{
 		//Коэфициент видимости
 		CVECTOR dir = cam - flys[i].pos;
 		float k = ~dir;
-		if(k > 400.0f) continue;
+		if (k > 400.0f) continue;
 		k = sqrtf(k);
-		if(k > 0.0f) dir *= 1.0f/k;
-		k = k/20.0f;
-		k = 3.0f*(1.0f - k);
-		if(k > 1.0f) k = 1.0f;
+		if (k > 0.0f) dir *= 1.0f / k;
+		k = k / 20.0f;
+		k = 3.0f * (1.0f - k);
+		if (k > 1.0f) k = 1.0f;
 		//Обновляем мух
-		ParticleFly * fl = &fly[flys[i].start];
-		for(long j = 0; j < flys[i].num; j++)
+		ParticleFly* fl = &fly[flys[i].start];
+		for (long j = 0; j < flys[i].num; j++)
 		{
-			ParticleFly & f = fl[j];
+			ParticleFly& f = fl[j];
 			//Углы
-			f.ax += dax*f.kx; f.ay += day*f.ky; f.a += da*f.k;
+			f.ax += dax * f.kx;
+			f.ay += day * f.ky;
+			f.a += da * f.k;
 			//Радиус
-			float r = 1.0f + 0.5f*sinf(f.a) + 0.2f*cosf(f.a*f.k*2.1f);
+			float r = 1.0f + 0.5f * sinf(f.a) + 0.2f * cosf(f.a * f.k * 2.1f);
 			r *= flys[i].radius;
 			//Позиция
-			f.pos.x = flys[i].pos.x + r*sinf(f.ax)*sinf(f.ay);
-			f.pos.y = flys[i].pos.y + r*cosf(f.ax)*cosf(f.ay);
-			f.pos.z = flys[i].pos.z + r*sinf(f.ax)*cosf(f.ay);
+			f.pos.x = flys[i].pos.x + r * sinf(f.ax) * sinf(f.ay);
+			f.pos.y = flys[i].pos.y + r * cosf(f.ax) * cosf(f.ay);
+			f.pos.z = flys[i].pos.z + r * sinf(f.ax) * cosf(f.ay);
 			//Прозрачность
-			f.alpha = k*255.0f;
+			f.alpha = k * 255.0f;
 			//Цвет
 			CVECTOR tmp = f.pos - flys[i].pos;
 			float dst = sqrtf(~tmp);
-			if(dst > 0.0f) tmp *= 1.0f/dst;
+			if (dst > 0.0f) tmp *= 1.0f / dst;
 			float cs = -(tmp | dir) + 0.4f;
-			if(dst > flys[i].radius)
+			if (dst > flys[i].radius)
 			{
-				dst = 3.0f*(dst - flys[i].radius)/flys[i].radius;
-				if(dst > 1.0f) dst = 1.0f;
+				dst = 3.0f * (dst - flys[i].radius) / flys[i].radius;
+				if (dst > 1.0f) dst = 1.0f;
 				cs *= 1.0f - dst;
 			}
-			if(cs < 0.0f) cs = 0.0f;
-			if(cs > 1.0f) cs = 1.0f;
-			f.color = long(cs*255.0f);
+			if (cs < 0.0f) cs = 0.0f;
+			if (cs > 1.0f) cs = 1.0f;
+			f.color = long(cs * 255.0f);
 			f.color |= (f.color << 16) | (f.color << 8);
 			//Кадр
-			f.frame += dltTime*f.k*25.0f;
-			if(f.frame >= 4.0f) f.frame -= 4.0f;
+			f.frame += dltTime * f.k * 25.0f;
+			if (f.frame >= 4.0f) f.frame -= 4.0f;
 			//Угл
-			f.angle += dltTime*f.k*3.0f;
+			f.angle += dltTime * f.k * 3.0f;
 		}
 	}
 	//Рисуем
 	DrawParticles(fly.data(), numFly, sizeof(ParticleFly), flyTex, "LocFly", true, 4);
 }
 
-void InterfaceBackScene::DrawParticles(void * prts, long num, long size, long texture, const char * tech, bool isEx, long numU)
+void InterfaceBackScene::DrawParticles(void* prts, long num, long size, long texture, const char* tech, bool isEx,
+                                       long numU)
 {
 	CMatrix camMtx;
 	m_pRS->GetTransform(D3DTS_VIEW, camMtx);
-	m_pRS->SetTransform(D3DTS_VIEW,CMatrix());
-	m_pRS->SetTransform(D3DTS_WORLD,CMatrix());
+	m_pRS->SetTransform(D3DTS_VIEW, CMatrix());
+	m_pRS->SetTransform(D3DTS_WORLD, CMatrix());
 	m_pRS->TextureSet(0, texture);
 	long n = 0;
-	for(long i = 0; i < num; i++)
+	for (long i = 0; i < num; i++)
 	{
 		auto* parts = (Particle *)prts;
 		prts = (char *)prts + size;
-		CVECTOR pos = camMtx*parts->pos;
-		float size = parts->size*0.5f;
+		CVECTOR pos = camMtx * parts->pos;
+		float size = parts->size * 0.5f;
 		float sn = sinf(parts->angle);
 		float cs = cosf(parts->angle);
 		long color = (long(parts->alpha) << 24);
-		if(!isEx) color |= 0x00ffffff; else color |= 0x00ffffff & ((ParticleEx *)parts)->color;
+		if (!isEx) color |= 0x00ffffff;
+		else color |= 0x00ffffff & ((ParticleEx *)parts)->color;
 		float u1 = 0.0f;
 		float u2 = 1.0f;
-		if(isEx && numU)
+		if (isEx && numU)
 		{
-			u2 = 1.0f/float(numU);
-			u1 = long(((ParticleEx *)parts)->frame)*u2;
+			u2 = 1.0f / float(numU);
+			u1 = long(((ParticleEx *)parts)->frame) * u2;
 			u2 += u1;
 		}
-		buffer[n*6 + 0].pos = pos + CVECTOR(size*(-cs + sn), size*(sn + cs), 0.0f);
-		buffer[n*6 + 0].color = color;
-		buffer[n*6 + 0].u = u1;
-		buffer[n*6 + 0].v = 0.0f;
-		buffer[n*6 + 1].pos = pos + CVECTOR(size*(-cs - sn), size*(sn - cs), 0.0f);
-		buffer[n*6 + 1].color = color;
-		buffer[n*6 + 1].u = u1;
-		buffer[n*6 + 1].v = 1.0f;
-		buffer[n*6 + 2].pos = pos + CVECTOR(size*(cs + sn), size*(-sn + cs), 0.0f);
-		buffer[n*6 + 2].color = color;
-		buffer[n*6 + 2].u = u2;
-		buffer[n*6 + 2].v = 0.0f;
-		buffer[n*6 + 3].pos = buffer[n*6 + 2].pos;
-		buffer[n*6 + 3].color = color;
-		buffer[n*6 + 3].u = u2;
-		buffer[n*6 + 3].v = 0.0f;
-		buffer[n*6 + 4].pos = buffer[n*6 + 1].pos;
-		buffer[n*6 + 4].color = color;
-		buffer[n*6 + 4].u = u1;
-		buffer[n*6 + 4].v = 1.0f;
-		buffer[n*6 + 5].pos = pos + CVECTOR(size*(cs - sn), size*(-sn - cs), 0.0f);
-		buffer[n*6 + 5].color = color;
-		buffer[n*6 + 5].u = u2;
-		buffer[n*6 + 5].v = 1.0f;
+		buffer[n * 6 + 0].pos = pos + CVECTOR(size * (-cs + sn), size * (sn + cs), 0.0f);
+		buffer[n * 6 + 0].color = color;
+		buffer[n * 6 + 0].u = u1;
+		buffer[n * 6 + 0].v = 0.0f;
+		buffer[n * 6 + 1].pos = pos + CVECTOR(size * (-cs - sn), size * (sn - cs), 0.0f);
+		buffer[n * 6 + 1].color = color;
+		buffer[n * 6 + 1].u = u1;
+		buffer[n * 6 + 1].v = 1.0f;
+		buffer[n * 6 + 2].pos = pos + CVECTOR(size * (cs + sn), size * (-sn + cs), 0.0f);
+		buffer[n * 6 + 2].color = color;
+		buffer[n * 6 + 2].u = u2;
+		buffer[n * 6 + 2].v = 0.0f;
+		buffer[n * 6 + 3].pos = buffer[n * 6 + 2].pos;
+		buffer[n * 6 + 3].color = color;
+		buffer[n * 6 + 3].u = u2;
+		buffer[n * 6 + 3].v = 0.0f;
+		buffer[n * 6 + 4].pos = buffer[n * 6 + 1].pos;
+		buffer[n * 6 + 4].color = color;
+		buffer[n * 6 + 4].u = u1;
+		buffer[n * 6 + 4].v = 1.0f;
+		buffer[n * 6 + 5].pos = pos + CVECTOR(size * (cs - sn), size * (-sn - cs), 0.0f);
+		buffer[n * 6 + 5].color = color;
+		buffer[n * 6 + 5].u = u2;
+		buffer[n * 6 + 5].v = 1.0f;
 		n++;
-		if(n*2 == 256)
+		if (n * 2 == 256)
 		{
-			m_pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, n*2, buffer, sizeof(Vertex), (char *)tech);
+			m_pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, n * 2, buffer,
+			                       sizeof(Vertex), (char *)tech);
 			n = 0;
 		}
 	}
-	if(n > 0)
+	if (n > 0)
 	{
-		m_pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, n*2, buffer, sizeof(Vertex), (char *)tech);
+		m_pRS->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1, n * 2, buffer,
+		                       sizeof(Vertex), (char *)tech);
 	}
 	m_pRS->SetTransform(D3DTS_VIEW, camMtx);
 }

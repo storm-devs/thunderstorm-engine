@@ -2,8 +2,8 @@
 #include "ShipLights.h"
 #include "../../Shared/messages.h"
 
-VDX9RENDER * ShipLights::pRS = nullptr;
-COLLIDE * ShipLights::pCollide = nullptr;
+VDX9RENDER* ShipLights::pRS = nullptr;
+COLLIDE* ShipLights::pCollide = nullptr;
 
 ShipLights::ShipLights()
 {
@@ -29,26 +29,28 @@ ShipLights::~ShipLights()
 	aLights.clear();
 	aSelectedLights.clear();
 	aLightTypes.clear();
-	
+
 	bLoadLights = false;
 }
 
 bool ShipLights::Init()
 {
-	pRS = (VDX9RENDER *)api->CreateService("dx9render");	Assert(pRS);
-	pCollide = (COLLIDE *)api->CreateService("coll");		Assert(pCollide);
+	pRS = (VDX9RENDER *)api->CreateService("dx9render");
+	Assert(pRS);
+	pCollide = (COLLIDE *)api->CreateService("coll");
+	Assert(pCollide);
 	pSea = (SEA_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
 	return true;
 }
 
-void ShipLights::Release(VAI_OBJBASE * pObject)
+void ShipLights::Release(VAI_OBJBASE* pObject)
 {
 }
 
-float ShipLights::GetAttributeAsFloat(ATTRIBUTES * pA, const char * pName, float fDefault)
+float ShipLights::GetAttributeAsFloat(ATTRIBUTES* pA, const char* pName, float fDefault)
 {
 	if (!pName) return fDefault;
-	ATTRIBUTES * pAF = pA->FindAClass(pA, (char*)pName);
+	ATTRIBUTES* pAF = pA->FindAClass(pA, (char*)pName);
 	return pAF ? pAF->GetAttributeAsFloat() : fDefault;
 }
 
@@ -58,13 +60,13 @@ bool ShipLights::LoadLights()
 
 	bLoadLights = false;
 
-	ATTRIBUTES * pA = this->AttributesPointer;
-	ATTRIBUTES * pALights = pA->FindAClass(pA, "LightTypes");
+	ATTRIBUTES* pA = this->AttributesPointer;
+	ATTRIBUTES* pALights = pA->FindAClass(pA, "LightTypes");
 	if (!pALights) return false;
 
-	for (uint32_t i=0; i<pALights->GetAttributesNum(); i++)
+	for (uint32_t i = 0; i < pALights->GetAttributesNum(); i++)
 	{
-		ATTRIBUTES * pAL = pALights->GetAttributeClass(i);
+		ATTRIBUTES* pAL = pALights->GetAttributeClass(i);
 
 		LightType lightType;
 		lightType.sLightType = pAL->GetThisName();
@@ -96,7 +98,9 @@ bool ShipLights::LoadLights()
 
 	sCoronaTechnique = (pA->GetAttribute("CoronaTechnique")) ? pA->GetAttribute("CoronaTechnique") : "";
 	iCoronaTex = (pA->GetAttribute("CoronaTexture")) ? pRS->TextureCreate(pA->GetAttribute("CoronaTexture")) : -1;
-	iFlareSunRoadTex = (pA->GetAttribute("FlareSunRoadTexture")) ? pRS->TextureCreate(pA->GetAttribute("FlareSunRoadTexture")) : -1;
+	iFlareSunRoadTex = (pA->GetAttribute("FlareSunRoadTexture"))
+		                   ? pRS->TextureCreate(pA->GetAttribute("FlareSunRoadTexture"))
+		                   : -1;
 	dwCoronaSubTexX = pA->GetAttributeAsDword("CoronaTextureX", 1);
 	dwCoronaSubTexY = pA->GetAttributeAsDword("CoronaTextureY", 1);
 	fSunRoadFlareSize = pA->GetAttributeAsFloat("SunRoadFlareSize", 4.0);
@@ -105,25 +109,26 @@ bool ShipLights::LoadLights()
 	return true;
 }
 
-ShipLights::LightType * ShipLights::FindLightType(std::string sLightType)
+ShipLights::LightType* ShipLights::FindLightType(std::string sLightType)
 {
-	for (uint32_t i=0; i<aLightTypes.size(); i++)
+	for (uint32_t i = 0; i < aLightTypes.size(); i++)
 		if (aLightTypes[i].sLightType == sLightType) return &aLightTypes[i];
 
 	return nullptr;
 }
 
-void ShipLights::AddDynamicLights(VAI_OBJBASE * pObject, const CVECTOR & vPos)
+void ShipLights::AddDynamicLights(VAI_OBJBASE* pObject, const CVECTOR& vPos)
 {
 	if (!bLoadLights && !LoadLights()) return;
 
 	uint32_t dwNum = 0;
-	for (uint32_t i=0; i<aLights.size(); i++) if (aLights[i].pObject == pObject && aLights[i].bDynamicLight) dwNum++;
+	for (uint32_t i = 0; i < aLights.size(); i++) if (aLights[i].pObject == pObject && aLights[i].bDynamicLight) dwNum
+		++;
 	if (dwNum >= 4) return;
 
 	std::string sLightType = "cannondefault";
-	LightType * pLT = FindLightType(sLightType);
-	if (!pLT) 
+	LightType* pLT = FindLightType(sLightType);
+	if (!pLT)
 	{
 		api->Trace("Can find ship light \"%s\"", sLightType.c_str());
 		return;
@@ -160,7 +165,7 @@ void ShipLights::AddDynamicLights(VAI_OBJBASE * pObject, const CVECTOR & vPos)
 	aLights.push_back(light);
 }
 
-bool ShipLights::SetLabel(ShipLight * pL, MODEL * pModel, const char * pStr)
+bool ShipLights::SetLabel(ShipLight* pL, MODEL* pModel, const char* pStr)
 {
 	pL->pNode = pModel->FindNode(pStr);
 	if (!pL->pNode) return false;
@@ -171,7 +176,7 @@ bool ShipLights::SetLabel(ShipLight * pL, MODEL * pModel, const char * pStr)
 	return true;
 }
 
-void ShipLights::AddFlare(VAI_OBJBASE * pObject, bool bLight, MODEL * pModel, const GEOS::LABEL & label)
+void ShipLights::AddFlare(VAI_OBJBASE* pObject, bool bLight, MODEL* pModel, const GEOS::LABEL& label)
 {
 	CMatrix m;
 	char str[256], str2[256];
@@ -182,7 +187,7 @@ void ShipLights::AddFlare(VAI_OBJBASE * pObject, bool bLight, MODEL * pModel, co
 
 	aLights.push_back(ShipLight{});
 	//ShipLight * pL = &aLights[aLights.Add()];
-	ShipLight * pL = &aLights.back();
+	ShipLight* pL = &aLights.back();
 	memcpy(m, label.m, sizeof(m));
 
 	pL->pNode = nullptr;
@@ -194,7 +199,8 @@ void ShipLights::AddFlare(VAI_OBJBASE * pObject, bool bLight, MODEL * pModel, co
 	// mast found
 	if (str[1] == 'm')
 	{
-		str2[0] = str[2]; str2[1] = '\0';
+		str2[0] = str[2];
+		str2[1] = '\0';
 		int iMastIndex = atoi(str2);
 
 		sprintf_s(str2, "mast%d", iMastIndex);
@@ -211,7 +217,7 @@ void ShipLights::AddFlare(VAI_OBJBASE * pObject, bool bLight, MODEL * pModel, co
 		}
 	}
 
-	LightType * pLT = FindLightType((bLight) ? "default" : "flare");
+	LightType* pLT = FindLightType((bLight) ? "default" : "flare");
 
 	if (!pLT) return;
 
@@ -233,7 +239,7 @@ void ShipLights::AddFlare(VAI_OBJBASE * pObject, bool bLight, MODEL * pModel, co
 		pL->bCoronaOnly = false;
 		pL->Light.Type = D3DLIGHT_POINT;
 		pL->Light.Diffuse.r = pLT->cLightColor.r;
-		pL->Light.Diffuse.g = pLT->cLightColor.g;	
+		pL->Light.Diffuse.g = pLT->cLightColor.g;
 		pL->Light.Diffuse.b = pLT->cLightColor.b;
 		pL->Light.Diffuse.a = 1.0f;
 		pL->Light.Range = pLT->fRange;
@@ -241,7 +247,7 @@ void ShipLights::AddFlare(VAI_OBJBASE * pObject, bool bLight, MODEL * pModel, co
 		pL->Light.Attenuation1 = pLT->fAttenuation1;
 		pL->Light.Attenuation2 = pLT->fAttenuation2;
 	}
-	
+
 	pL->Osc[0].fStep = pLT->fFreq;
 	pL->Osc[0].fAmp = pLT->fFlicker;
 	pL->Osc[0].fOneDivAmp = 1.0f / pL->Osc[0].fAmp;
@@ -259,74 +265,78 @@ void ShipLights::AddFlare(VAI_OBJBASE * pObject, bool bLight, MODEL * pModel, co
 	pL->pLT = pLT;
 }
 
-void ShipLights::SetLightsOff(VAI_OBJBASE * pObject, float fTime, bool bLights, bool bFlares, bool bNow)
+void ShipLights::SetLightsOff(VAI_OBJBASE* pObject, float fTime, bool bLights, bool bFlares, bool bNow)
 {
-	for (uint32_t i=0; i<aLights.size(); i++) if (aLights[i].pObject == pObject && !aLights[i].bOff)
-	{
-		if (aLights[i].bCoronaOnly)
+	for (uint32_t i = 0; i < aLights.size(); i++)
+		if (aLights[i].pObject == pObject && !aLights[i].bOff)
 		{
-			if (aLights[i].bOff == bFlares || (aLights[i].fTotalBrokenTime > 0.0f && aLights[i].bBrokenTimeOff == bFlares)) continue;
-			aLights[i].bBrokenTimeOff = bFlares;
-		}	
-		else
-		{
-			if (aLights[i].bOff == bLights || (aLights[i].fTotalBrokenTime > 0.0f && aLights[i].bBrokenTimeOff == bLights)) continue;
-			aLights[i].bBrokenTimeOff = bLights;
-		}
+			if (aLights[i].bCoronaOnly)
+			{
+				if (aLights[i].bOff == bFlares || (aLights[i].fTotalBrokenTime > 0.0f && aLights[i].bBrokenTimeOff ==
+					bFlares)) continue;
+				aLights[i].bBrokenTimeOff = bFlares;
+			}
+			else
+			{
+				if (aLights[i].bOff == bLights || (aLights[i].fTotalBrokenTime > 0.0f && aLights[i].bBrokenTimeOff ==
+					bLights)) continue;
+				aLights[i].bBrokenTimeOff = bLights;
+			}
 
-		aLights[i].fBrokenTime = 0.0f;
-		aLights[i].fTotalBrokenTime = Rnd(fTime);
-
-		if (bNow)
-		{
-			aLights[i].fTotalBrokenTime = 0.0f;
-			aLights[i].bOff = aLights[i].bBrokenTimeOff;
-		}
-	}
-}
-
-void ShipLights::KillMast(VAI_OBJBASE * pObject, NODE * pNode, bool bNow)
-{
-	for (uint32_t i=0; i<aLights.size(); i++) if (aLights[i].pObject == pObject && aLights[i].pNode)
-	{
-		if (aLights[i].bOff) continue;
-		if (aLights[i].pNode->parent != pNode && aLights[i].pNode != pNode) continue;
-		if (bNow)
-		{
-			aLights[i].pNode = nullptr;
-			aLights[i].bOff = true;
-			aLights[i].bBrokenTimeOff = true;
-			//aLights.ExtractNoShift(i);
-			//i--;
-		}
-		else
-		{
-			// slow 
-			aLights[i].fTotalBrokenTime = 0.1f + FRAND(3.0f);
 			aLights[i].fBrokenTime = 0.0f;
-			aLights[i].bBrokenTimeOff = true;
+			aLights[i].fTotalBrokenTime = Rnd(fTime);
+
+			if (bNow)
+			{
+				aLights[i].fTotalBrokenTime = 0.0f;
+				aLights[i].bOff = aLights[i].bBrokenTimeOff;
+			}
 		}
-	}
 }
 
-void ShipLights::AddLights(VAI_OBJBASE * pObject, MODEL * pModel, bool bLights, bool bFlares)
+void ShipLights::KillMast(VAI_OBJBASE* pObject, NODE* pNode, bool bNow)
+{
+	for (uint32_t i = 0; i < aLights.size(); i++)
+		if (aLights[i].pObject == pObject && aLights[i].pNode)
+		{
+			if (aLights[i].bOff) continue;
+			if (aLights[i].pNode->parent != pNode && aLights[i].pNode != pNode) continue;
+			if (bNow)
+			{
+				aLights[i].pNode = nullptr;
+				aLights[i].bOff = true;
+				aLights[i].bBrokenTimeOff = true;
+				//aLights.ExtractNoShift(i);
+				//i--;
+			}
+			else
+			{
+				// slow 
+				aLights[i].fTotalBrokenTime = 0.1f + FRAND(3.0f);
+				aLights[i].fBrokenTime = 0.0f;
+				aLights[i].bBrokenTimeOff = true;
+			}
+		}
+}
+
+void ShipLights::AddLights(VAI_OBJBASE* pObject, MODEL* pModel, bool bLights, bool bFlares)
 {
 	if (!bLoadLights && !LoadLights()) return;
 
 	std::string sLightType = "default";
 
-	LightType * pLT = FindLightType(sLightType);
-	if (!pLT) 
+	LightType* pLT = FindLightType(sLightType);
+	if (!pLT)
 	{
 		api->Trace("Can't find ship light \"%s\"", sLightType.c_str());
 		return;
 	}
 
-	GEOS::LABEL	label;
+	GEOS::LABEL label;
 	GEOS::INFO info;
-	NODE * pNode;
+	NODE* pNode;
 
-	NODE * pRoot = pModel->GetNode(0);
+	NODE* pRoot = pModel->GetNode(0);
 
 	std::string sFlares = "flares";
 	std::string sLights = "lights";
@@ -335,7 +345,7 @@ void ShipLights::AddLights(VAI_OBJBASE * pObject, MODEL * pModel, bool bLights, 
 	{
 		pNode->geo->GetInfo(info);
 
-		for (uint32_t i=0; i<uint32_t(info.nlabels); i++)
+		for (uint32_t i = 0; i < uint32_t(info.nlabels); i++)
 		{
 			pNode->geo->GetLabel(i, label);
 
@@ -348,19 +358,18 @@ void ShipLights::AddLights(VAI_OBJBASE * pObject, MODEL * pModel, bool bLights, 
 			if (bLights && sLights == label.group_name)
 			{
 				AddFlare(pObject, true, pModel, label);
-				continue;
 			}
 		}
 		dwIdx++;
 	}
 }
 
-void ShipLights::SetLights(VAI_OBJBASE * pObject)
+void ShipLights::SetLights(VAI_OBJBASE* pObject)
 {
 	uint32_t i;
 	aSelectedLights.clear();
 
-	for (i=0; i<aLights.size(); i++)
+	for (i = 0; i < aLights.size(); i++)
 	{
 		if (aLights[i].bOff) continue;
 		if (!aLights[i].bDynamicLight)
@@ -381,23 +390,23 @@ void ShipLights::SetLights(VAI_OBJBASE * pObject)
 
 		if (pObject == aLights[i].pObject || aLights[i].bCoronaOnly) continue;
 
-		aSelectedLights.push_back(SelectedLight{ aLights[i].fCurDistance, i });
+		aSelectedLights.push_back(SelectedLight{aLights[i].fCurDistance, i});
 	}
 
 	//aSelectedLights.Sort();
 	std::sort(aSelectedLights.begin(), aSelectedLights.end());
 
-	for (i=0; i<aLights.size(); i++) 
+	for (i = 0; i < aLights.size(); i++)
 		if (!aLights[i].bOff && aLights[i].pObject == pObject && !aLights[i].bCoronaOnly)
 		{
-			aSelectedLights.insert(aSelectedLights.begin(), SelectedLight{ aLights[i].fCurDistance, i });
+			aSelectedLights.insert(aSelectedLights.begin(), SelectedLight{aLights[i].fCurDistance, i});
 		}
 
-	for (i=0; i<dwMaxD3DLights; i++) 
+	for (i = 0; i < dwMaxD3DLights; i++)
 	{
 		if (i >= aSelectedLights.size()) break;
 
-		ShipLight * pL = &aLights[aSelectedLights[i].dwIndex];
+		ShipLight* pL = &aLights[aSelectedLights[i].dwIndex];
 
 		pRS->SetLight(i + 1, &pL->Light);
 		pRS->LightEnable(i + 1, true);
@@ -416,9 +425,9 @@ void ShipLights::Execute(uint32_t dwDeltaTime)
 	CVECTOR vCamPos, vCamAng;
 	pRS->GetCamera(vCamPos, vCamAng, fFov);
 
-	for (uint32_t i=0; i<aLights.size(); i++)
+	for (uint32_t i = 0; i < aLights.size(); i++)
 	{
-		ShipLight & L = aLights[i];
+		ShipLight& L = aLights[i];
 
 		//if (i==19) _asm int 3
 		if (L.bOff) continue;
@@ -431,7 +440,10 @@ void ShipLights::Execute(uint32_t dwDeltaTime)
 				L.vCurPos = *(L.pObject->GetMatrix()) * L.vPos;
 		}
 
-		if (!L.bOff && L.bDead && L.fTotalBrokenTime <= 0.0f && pSea && pSea->WaveXZ(L.vCurPos.x, L.vCurPos.x) > L.vCurPos.y)
+		if (!L.bOff && L.bDead && L.fTotalBrokenTime <= 0.0f && pSea && pSea->WaveXZ(L.vCurPos.x, L.vCurPos.x) > L
+		                                                                                                         .
+		                                                                                                         vCurPos
+		                                                                                                         .y)
 		{
 			L.fTotalBrokenTime = RRnd(1.0f, 4.0f);
 			L.fBrokenTime = 0.0f;
@@ -458,7 +470,8 @@ void ShipLights::Execute(uint32_t dwDeltaTime)
 		{
 			L.bVisible = true;
 
-			float fDistance = pCollide->Trace(EntityManager::GetEntityIdIterators(SAILS_TRACE), L.vCurPos, vCamPos, nullptr, 0);
+			float fDistance = pCollide->Trace(EntityManager::GetEntityIdIterators(SAILS_TRACE), L.vCurPos, vCamPos,
+			                                  nullptr, 0);
 			L.fFlareAlphaMax = (fDistance >= 1.0f) ? 1.0f : 0.2f;
 
 			const auto its = EntityManager::GetEntityIdIterators(SUN_TRACE);
@@ -481,18 +494,20 @@ void ShipLights::Execute(uint32_t dwDeltaTime)
 		{
 			float fIntensity = 0.0f;
 			float fKAmp = 1.0f;
-			for (uint32_t j=0; j<2; j++)
+			for (uint32_t j = 0; j < 2; j++)
 			{
-				Oscillator & o = L.Osc[j];
+				Oscillator& o = L.Osc[j];
 				o.fK += o.fStep * fDeltaTime;
-				if(o.fK >= 1.0f)
+				if (o.fK >= 1.0f)
 				{
 					if (o.fK < 2.0f)
 					{
 						o.fK -= 1.0f;
 						o.fOldValue = o.fNewValue;
 						o.fNewValue = RRnd(-o.fAmp, o.fAmp);
-					}else{
+					}
+					else
+					{
 						o.fK = 0.0f;
 						o.fOldValue = RRnd(-o.fAmp, o.fAmp);
 						o.fNewValue = RRnd(-o.fAmp, o.fAmp);
@@ -501,7 +516,7 @@ void ShipLights::Execute(uint32_t dwDeltaTime)
 				float fIns = o.fOldValue + (o.fNewValue - o.fOldValue) * o.fK;
 				fIntensity += fIns * fKAmp;
 				fKAmp -= fIns * o.fOneDivAmp;
-				if(fKAmp < 0.0f) break;
+				if (fKAmp < 0.0f) break;
 			}
 
 			fIntensity = 1.0f + Clampf(fIntensity, -1.0f, 1.0f);
@@ -523,14 +538,15 @@ void ShipLights::Execute(uint32_t dwDeltaTime)
 				continue;
 			}
 
-			float fIntensity = (L.fCurTime < L.fUpTime) ? L.fCurTime / L.fUpTime : (1.0f - (L.fCurTime - L.fUpTime) / (L.fTotalTime - L.fUpTime));
+			float fIntensity = (L.fCurTime < L.fUpTime)
+				                   ? L.fCurTime / L.fUpTime
+				                   : (1.0f - (L.fCurTime - L.fUpTime) / (L.fTotalTime - L.fUpTime));
 			fIntensity = 0.5f + Clampf(fIntensity, -0.5f, 0.5f);
 			L.Light.Diffuse.r = L.pLT->cLightColor.r * fIntensity;
 			L.Light.Diffuse.g = L.pLT->cLightColor.g * fIntensity;
 			L.Light.Diffuse.b = L.pLT->cLightColor.b * fIntensity;
 		}
 	}
-
 }
 
 // draw flares
@@ -539,7 +555,7 @@ void ShipLights::Realize(uint32_t dwDeltaTime)
 	float fDeltaTime = float(dwDeltaTime) * 0.001f;
 
 	float fFov;
-	CVECTOR vCamPos, vCamAng; 
+	CVECTOR vCamPos, vCamAng;
 	pRS->GetCamera(vCamPos, vCamAng, fFov);
 
 	static std::vector<RS_RECT> aRects;
@@ -547,10 +563,10 @@ void ShipLights::Realize(uint32_t dwDeltaTime)
 
 	float fReflSize = (bReflection) ? fSunRoadFlareSize : 1.0f;
 
-	for (uint32_t i=0; i<aLights.size(); i++) 
+	for (uint32_t i = 0; i < aLights.size(); i++)
 	{
-		ShipLight & L = aLights[i];
-		
+		ShipLight& L = aLights[i];
+
 		if (L.bOff) continue;
 
 		float fDistanceFade = 1.0f;
@@ -561,7 +577,7 @@ void ShipLights::Realize(uint32_t dwDeltaTime)
 			fDistanceFade = 1.0f - Clamp(fDistance / L.pLT->fSunRoadFlareFadeDistance);
 		}
 
-		if (L.bDynamicLight && bReflection) 
+		if (L.bDynamicLight && bReflection)
 		{
 			//RS_RECT & r = aRects[aRects.Add()];
 			RS_RECT r;
@@ -595,31 +611,32 @@ void ShipLights::Realize(uint32_t dwDeltaTime)
 	}
 }
 
-void ShipLights::UnSetLights(VAI_OBJBASE * pObject)
+void ShipLights::UnSetLights(VAI_OBJBASE* pObject)
 {
-	for (long i=iMinLight; i<=iMaxLight; i++)
+	for (long i = iMinLight; i <= iMaxLight; i++)
 		pRS->LightEnable(i, false);
 
 	iMinLight = 1000;
 	iMaxLight = -1;
 }
 
-uint64_t ShipLights::ProcessMessage(MESSAGE & message)
+uint64_t ShipLights::ProcessMessage(MESSAGE& message)
 {
 	switch (message.Long())
 	{
-		case MSG_SEA_SUNROAD_DRAW:
-			bReflection = true;
-			Realize(0);
-			bReflection = false;
+	case MSG_SEA_SUNROAD_DRAW:
+		bReflection = true;
+		Realize(0);
+		bReflection = false;
 		break;
 	}
 
 	return 0;
 }
 
-void ShipLights::SetDead(VAI_OBJBASE * pObject)
+void ShipLights::SetDead(VAI_OBJBASE* pObject)
 {
-	for (uint32_t i=0; i<aLights.size(); i++) if (aLights[i].pObject == pObject)
-		aLights[i].bDead = true;
+	for (uint32_t i = 0; i < aLights.size(); i++)
+		if (aLights[i].pObject == pObject)
+			aLights[i].bDead = true;
 }

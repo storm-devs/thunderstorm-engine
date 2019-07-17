@@ -17,7 +17,7 @@
 ///Быстрое приведение числа с плавающей точкой к целому с отбрасыванием дробной части
 inline long fftol(float f)
 {
-	return  _mm_cvttss_si32(_mm_load_ss(&f));
+	return _mm_cvttss_si32(_mm_load_ss(&f));
 
 	/*long l;
 	static const float cnt[2] = {-0.4999999f, 0.4999999f};
@@ -35,7 +35,7 @@ inline long fftol(float f)
 ///Быстрое приведение числа с плавающей точкой к целому с округлением к ближайшему
 inline long fftoi(float f)
 {
-	return  _mm_cvtss_si32(_mm_load_ss(&f));
+	return _mm_cvtss_si32(_mm_load_ss(&f));
 
 	/*long l;
 	_asm
@@ -49,7 +49,7 @@ inline long fftoi(float f)
 ///Fast floor
 inline long ffloor(float f)
 {
-	return  _mm_cvtss_si32(_mm_add_ss(_mm_load_ss(&f), _mm_set_ss(-0.5f)));
+	return _mm_cvtss_si32(_mm_add_ss(_mm_load_ss(&f), _mm_set_ss(-0.5f)));
 
 	/*long l;
 	static const float c = -0.5f;
@@ -65,7 +65,7 @@ inline long ffloor(float f)
 ///Fast ceil
 inline long fceil(float f)
 {
-	return  _mm_cvtss_si32(_mm_add_ss(_mm_load_ss(&f), _mm_set_ss(0.5f)));
+	return _mm_cvtss_si32(_mm_add_ss(_mm_load_ss(&f), _mm_set_ss(0.5f)));
 
 	/*long l;
 	static const float c = 0.5f;
@@ -79,7 +79,7 @@ inline long fceil(float f)
 }
 
 ///Fast fasb in memory
-inline float & ffabs(float & f)
+inline float& ffabs(float& f)
 {
 	*(unsigned long *)&f &= 0x7fffffff;
 	return f;
@@ -88,34 +88,34 @@ inline float & ffabs(float & f)
 //Возвести в квадрат
 inline float sqrf(float f)
 {
-	return f*f;
+	return f * f;
 }
 
 //Случайное число
 inline float Rnd(float max = 1.0f)
 {
-	return rand()*(max*(1.0f/RAND_MAX));
+	return rand() * (max * (1.0f / RAND_MAX));
 }
 
 //Случайное число
 inline float RRnd(float min, float max)
 {
-	return min + rand()*((max - min)*(1.0f/RAND_MAX));
+	return min + rand() * ((max - min) * (1.0f / RAND_MAX));
 }
 
 //Ограничить float
 inline float Clampf(float v, float min = 0.0f, float max = 1.0f)
 {
-	if(v < min) v = min;
-	if(v > max) v = max;
+	if (v < min) v = min;
+	if (v > max) v = max;
 	return v;
 }
 
 //Ограничить float
-inline float Clampfr(float & v, float min = 0.0f, float max = 1.0f)
+inline float Clampfr(float& v, float min = 0.0f, float max = 1.0f)
 {
-	if(v < min) v = min;
-	if(v > max) v = max;
+	if (v < min) v = min;
+	if (v > max) v = max;
 	return v;
 }
 
@@ -124,24 +124,24 @@ inline float Clampfr(float & v, float min = 0.0f, float max = 1.0f)
 inline float NormAngle2PI(float angle)
 {
 	static const float pi = 3.14159265358979323846f;
-	if(angle >= 0.0f && angle <= 2*pi) return angle;
-	return (angle/(2.0f*pi) - long(angle/(2.0f*pi)))*2.0f*pi;
+	if (angle >= 0.0f && angle <= 2 * pi) return angle;
+	return (angle / (2.0f * pi) - long(angle / (2.0f * pi))) * 2.0f * pi;
 }
 
 //Привести угол к диапазону -PI..PI
 inline float NormAnglePI(float angle)
 {
 	static const float pi = 3.14159265358979323846f;
-	if(angle >= -pi && angle <= pi) return angle;
-	return (angle/(2.0f*pi) - long(angle/(2.0f*pi)))*2.0f*pi - pi;
+	if (angle >= -pi && angle <= pi) return angle;
+	return (angle / (2.0f * pi) - long(angle / (2.0f * pi))) * 2.0f * pi - pi;
 }
 
 //Посчитать acos с ограничением диапазона
 inline float safeACos(float ang)
 {
 	auto d = (double)ang;
-	if(d < -1.0) d = -1.0;
-	if(d > 1.0) d = 1.0;
+	if (d < -1.0) d = -1.0;
+	if (d > 1.0) d = 1.0;
 	d = acos(d);
 	return (float)d;
 }
@@ -150,8 +150,8 @@ inline float safeACos(float ang)
 inline float safeASin(float ang)
 {
 	auto d = (double)ang;
-	if(d < -1.0) d = -1.0;
-	if(d > 1.0) d = 1.0;
+	if (d < -1.0) d = -1.0;
+	if (d > 1.0) d = 1.0;
 	d = acos(d);
 	return (float)d;
 }

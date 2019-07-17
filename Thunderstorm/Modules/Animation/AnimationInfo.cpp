@@ -14,7 +14,7 @@
 //Конструирование, деструктурирование
 //============================================================================================
 
-AnimationInfo::AnimationInfo(const char * animationName)
+AnimationInfo::AnimationInfo(const char* animationName)
 {
 	Assert(strlen(animationName) < 64);
 	strcpy_s(name, animationName);
@@ -40,16 +40,16 @@ void AnimationInfo::CreateBones(long numbones)
 }
 
 //Создать действие
-ActionInfo * AnimationInfo::AddAction(const char * anctionName, long startframe, long endframe)
+ActionInfo* AnimationInfo::AddAction(const char* anctionName, long startframe, long endframe)
 {
 	Assert(anctionName);
 	//Ищем повторение
-	for (const auto &action : actions)
+	for (const auto& action : actions)
 		if (action == anctionName)
 			return nullptr;
 
 	//Всё нормально - новое действие
-	return &actions.emplace_back(anctionName, startframe, endframe);;
+	return &actions.emplace_back(anctionName, startframe, endframe);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -57,17 +57,16 @@ ActionInfo * AnimationInfo::AddAction(const char * anctionName, long startframe,
 //--------------------------------------------------------------------------------------------
 
 //Сравнить с текущим именем
-bool AnimationInfo::operator == (const char * animationName)
+bool AnimationInfo::operator ==(const char* animationName)
 {
 	return _stricmp(animationName, name) == 0;
 }
 
 //Найти действие по имени
-ActionInfo * AnimationInfo::FindAction(const char * actionName)
+ActionInfo* AnimationInfo::FindAction(const char* actionName)
 {
-	for (auto &action : actions)
+	for (auto& action : actions)
 		if (action == actionName)
-			return &action;;
+			return &action;
 	return nullptr;
 }
-

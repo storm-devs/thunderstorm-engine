@@ -14,27 +14,30 @@
 #include "vmodule_api.h"
 #include "dx9render.h"
 
-class Fader : public Entity  
+class Fader : public Entity
 {
-//--------------------------------------------------------------------------------------------
-//Конструирование, деструктурирование
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Конструирование, деструктурирование
+	//--------------------------------------------------------------------------------------------
 public:
 	Fader();
 	virtual ~Fader();
 
 	//Инициализация
-	bool Init();
+	bool Init() override;
 	//Сообщения
-	uint64_t ProcessMessage(MESSAGE & message);
+	uint64_t ProcessMessage(MESSAGE& message) override;
+
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)
 		{
 		case Stage::execute:
-			Execute(delta); break;
+			Execute(delta);
+			break;
 		case Stage::realize:
-			Realize(delta); break;
+			Realize(delta);
+			break;
 			/*case Stage::lost_render:
 				LostRender(delta); break;
 			case Stage::restore_render:
@@ -47,13 +50,13 @@ public:
 	void Realize(uint32_t delta_time);
 
 
-//--------------------------------------------------------------------------------------------
-//Инкапсуляция
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Инкапсуляция
+	//--------------------------------------------------------------------------------------------
 private:
-	VDX9RENDER * rs;
-	IDirect3DSurface9 * renderTarget;
-	IDirect3DSurface9 * surface;
+	VDX9RENDER* rs;
+	IDirect3DSurface9* renderTarget;
+	IDirect3DSurface9* surface;
 
 	bool isWork;
 	bool haveFrame;
@@ -78,4 +81,3 @@ public:
 };
 
 #endif
-

@@ -6,9 +6,6 @@
 uint32_t EmitterID = 0;
 
 
-
-
-
 //Создание/удаление 
 ParticleSystem::ParticleSystem(ParticleManager* serv)
 {
@@ -20,22 +17,22 @@ ParticleSystem::ParticleSystem(ParticleManager* serv)
 ParticleSystem::~ParticleSystem()
 {
 	pMaster->RemoveResource(this);
-	DeleteAllEmitters ();
+	DeleteAllEmitters();
 }
 
 
-bool ParticleSystem::Release ()
+bool ParticleSystem::Release()
 {
 	delete this;
 	return false;
 }
 
 //Отработать всем партиклам
-uint32_t ParticleSystem::Execute (float DeltaTime)
+uint32_t ParticleSystem::Execute(float DeltaTime)
 {
 	if (AutoDeleted)
 	{
-		if (DeleteIfNeed ())
+		if (DeleteIfNeed())
 		{
 			//api->Trace("AUTO DELETE !!!!\n");
 			return 0;
@@ -53,7 +50,7 @@ uint32_t ParticleSystem::Execute (float DeltaTime)
 }
 
 
-void ParticleSystem::CreateFromDataSource (DataSource* pDataSource)
+void ParticleSystem::CreateFromDataSource(DataSource* pDataSource)
 {
 	int EmitterCount = pDataSource->GetEmitterCount();
 	if (EmitterCount <= 0) return;
@@ -64,11 +61,11 @@ void ParticleSystem::CreateFromDataSource (DataSource* pDataSource)
 		IEmitter* pEmitter = nullptr;
 		switch (pEmitterDecription->Type)
 		{
-			case POINT_EMITTER:
-				pEmitter = CreatePointEmitter (pEmitterDecription);
-				break;
-			default:
-				throw std::exception("Particles: Unknown emitter type !!!!");
+		case POINT_EMITTER:
+			pEmitter = CreatePointEmitter(pEmitterDecription);
+			break;
+		default:
+			throw std::exception("Particles: Unknown emitter type !!!!");
 		}
 
 		//Assert (pEmitter);
@@ -77,27 +74,25 @@ void ParticleSystem::CreateFromDataSource (DataSource* pDataSource)
 	}
 }
 
-IEmitter* ParticleSystem::CreatePointEmitter (DataSource::EmitterDesc* pEmitter)
+IEmitter* ParticleSystem::CreatePointEmitter(DataSource::EmitterDesc* pEmitter)
 {
-
-	
-//	api->Trace("Create 'Point' emitter\n");
-auto* pNewEmitter = new PointEmitter(this);
+	//	api->Trace("Create 'Point' emitter\n");
+	auto* pNewEmitter = new PointEmitter(this);
 	pNewEmitter->AttachToDataSource(pEmitter);
-	pNewEmitter->SetGUID (EmitterID);
+	pNewEmitter->SetGUID(EmitterID);
 
 	EmitterDesc NewEmitter;
 	NewEmitter.Type = POINT_EMITTER;
 	NewEmitter.pEmitter = pNewEmitter;
 	Emitters.push_back(NewEmitter);
 
-	EmitterID+=GUIDSTEP;
+	EmitterID += GUIDSTEP;
 
 	return pNewEmitter;
 }
 
 
-void ParticleSystem::DeleteAllEmitters ()
+void ParticleSystem::DeleteAllEmitters()
 {
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
@@ -107,39 +102,38 @@ void ParticleSystem::DeleteAllEmitters ()
 	Emitters.clear();
 }
 
-ParticleManager* ParticleSystem::GetMaster ()
+ParticleManager* ParticleSystem::GetMaster()
 {
 	return pMaster;
 }
 
 
-
 //Перезапустить партикловую систему  
-void ParticleSystem::Restart (uint32_t RandomSeed)
+void ParticleSystem::Restart(uint32_t RandomSeed)
 {
-	srand (RandomSeed);
+	srand(RandomSeed);
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		Emitters[n].pEmitter->Restart();
 	}
 
-	PauseEmission (false);
+	PauseEmission(false);
 }
 
 //Запаузить испускание партиклов  
-void ParticleSystem::PauseEmission (bool bPause)
+void ParticleSystem::PauseEmission(bool bPause)
 {
 	EmissionPause = bPause;
 }
 
 //Узнать на паузе эмиссия или нет  
-bool ParticleSystem::IsEmissionPaused ()
+bool ParticleSystem::IsEmissionPaused()
 {
 	return EmissionPause;
 }
 
 
-bool ParticleSystem::DeleteIfNeed ()
+bool ParticleSystem::DeleteIfNeed()
 {
 	if (!IsAlive())
 	{
@@ -151,43 +145,43 @@ bool ParticleSystem::DeleteIfNeed ()
 
 
 //Установить автоудаляемая система или обычная...  
-void ParticleSystem::AutoDelete (bool Enabled)
+void ParticleSystem::AutoDelete(bool Enabled)
 {
 	AutoDeleted = Enabled;
 }
 
 //Узнаять автоудаляемая система или нет  
-bool ParticleSystem::IsAutoDeleted ()
+bool ParticleSystem::IsAutoDeleted()
 {
 	return AutoDeleted;
 }
 
 //Установить матрицу трансформации для системы 
-void ParticleSystem::SetTransform (const Matrix& transform)
+void ParticleSystem::SetTransform(const Matrix& transform)
 {
 	matWorld = transform;
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
-		Emitters[n].pEmitter->SetTransform (transform);
+		Emitters[n].pEmitter->SetTransform(transform);
 	}
 }
 
-void ParticleSystem::Teleport (const Matrix &transform)
+void ParticleSystem::Teleport(const Matrix& transform)
 {
 	matWorld = transform;
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
-		Emitters[n].pEmitter->Teleport (transform);
+		Emitters[n].pEmitter->Teleport(transform);
 	}
 }
 
-void ParticleSystem::GetTransform (Matrix& _matWorld)
+void ParticleSystem::GetTransform(Matrix& _matWorld)
 {
 	_matWorld = matWorld;
 }
 
 
-IEmitter* ParticleSystem::FindEmitterByData (FieldList* Data)
+IEmitter* ParticleSystem::FindEmitterByData(FieldList* Data)
 {
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
@@ -197,39 +191,39 @@ IEmitter* ParticleSystem::FindEmitterByData (FieldList* Data)
 	return nullptr;
 }
 
-IEmitter* ParticleSystem::FindEmitter (const char* name)
+IEmitter* ParticleSystem::FindEmitter(const char* name)
 {
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
-		if (_stricmp (Emitters[n].pEmitter->GetName(), name) == 0) return Emitters[n].pEmitter;
+		if (_stricmp(Emitters[n].pEmitter->GetName(), name) == 0) return Emitters[n].pEmitter;
 	}
 
 	return nullptr;
 }
 
 
-uint32_t ParticleSystem::GetEmittersCount ()
+uint32_t ParticleSystem::GetEmittersCount()
 {
 	return Emitters.size();
 }
 
-IEmitter* ParticleSystem::GetEmitterByIndex (uint32_t Index)
+IEmitter* ParticleSystem::GetEmitterByIndex(uint32_t Index)
 {
 	return Emitters[Index].pEmitter;
 }
 
-EmitterType ParticleSystem::GetEmitterTypeByIndex  (uint32_t Index)
+EmitterType ParticleSystem::GetEmitterTypeByIndex(uint32_t Index)
 {
 	return Emitters[Index].Type;
 }
 
-bool ParticleSystem::IsAlive ()
+bool ParticleSystem::IsAlive()
 {
 	uint32_t pCount = 0;
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
 		pCount += Emitters[n].pEmitter->GetParticleCount();
-		if (!Emitters[n].pEmitter->IsStoped())	return true;
+		if (!Emitters[n].pEmitter->IsStoped()) return true;
 	}
 
 	if (pCount > 0) return true;
@@ -237,32 +231,30 @@ bool ParticleSystem::IsAlive ()
 	return false;
 }
 
-const char* ParticleSystem::GetName ()
+const char* ParticleSystem::GetName()
 {
 	return SystemName.c_str();
 }
 
-void ParticleSystem::SetName (const char* Name)
+void ParticleSystem::SetName(const char* Name)
 {
 	SystemName = Name;
 }
 
 
-
-
-void ParticleSystem::Editor_UpdateCachedData ()
+void ParticleSystem::Editor_UpdateCachedData()
 {
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
-		Emitters[n].pEmitter->Editor_UpdateCachedData ();
+		Emitters[n].pEmitter->Editor_UpdateCachedData();
 	}
 }
 
 
-void ParticleSystem::Stop ()
+void ParticleSystem::Stop()
 {
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
-		Emitters[n].pEmitter->Stop ();
+		Emitters[n].pEmitter->Stop();
 	}
 }

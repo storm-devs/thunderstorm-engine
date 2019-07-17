@@ -9,23 +9,25 @@ class WMShipCommandList;
 
 class WM_INTERFACE : public Entity
 {
-	VDX9RENDER *rs;
+	VDX9RENDER* rs;
 
 public:
 	WM_INTERFACE();
 	~WM_INTERFACE();
-	bool Init();
+	bool Init() override;
 	void Realize(uint32_t delta_time);
-    uint64_t ProcessMessage(MESSAGE & message);
-	uint32_t AttributeChanged(ATTRIBUTES * pAttr);
+	uint64_t ProcessMessage(MESSAGE& message) override;
+	uint32_t AttributeChanged(ATTRIBUTES* pAttr) override;
+
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)
 		{
-		//case Stage::execute:
-		//	Execute(delta); break;
+			//case Stage::execute:
+			//	Execute(delta); break;
 		case Stage::realize:
-			Realize(delta); break;
+			Realize(delta);
+			break;
 			/*case Stage::lost_render:
 				LostRender(delta); break;
 			case Stage::restore_render:
@@ -45,7 +47,7 @@ protected:
 	void LoadIniFile();
 
 	void MakeControl();
-	void ExecuteCommand( long command );
+	void ExecuteCommand(long command);
 	void UpdateCommandList();
 	long GetCurrentCommandTopLine();
 	long GetCurrentCommandCharacterIndex();

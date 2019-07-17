@@ -41,55 +41,55 @@
 //Заголовок файла
 struct PtcHeader
 {
-	long id;							//Идентификатор файла
-	long space0;						//Неиспользуеться '    '
-	long ver;							//Версия файла
-	long space1;						//Неиспользуеться '    '
-	long isSea;							//Пишет, патч для морской локации или нет
-	long space2;						//Неиспользуеться '    '
-	long numTriangles;					//Количество треугольников 
-	long numVerteces;					//Количество индексированных вершин
-	long numNormals;					//Количество нормалей
-	long mapL, mapW;					//Размеры карты коллизии
-	long numIndeces;					//Размер таблицы индексов
-	long lineSize;						//Размер строки в таблице поиска пути
-	float minX, minY, minZ;				//Минимальная граница ящика
-	float maxX, maxY, maxZ;				//Максимальная граница ящика
+	long id; //Идентификатор файла
+	long space0; //Неиспользуеться '    '
+	long ver; //Версия файла
+	long space1; //Неиспользуеться '    '
+	long isSea; //Пишет, патч для морской локации или нет
+	long space2; //Неиспользуеться '    '
+	long numTriangles; //Количество треугольников 
+	long numVerteces; //Количество индексированных вершин
+	long numNormals; //Количество нормалей
+	long mapL, mapW; //Размеры карты коллизии
+	long numIndeces; //Размер таблицы индексов
+	long lineSize; //Размер строки в таблице поиска пути
+	float minX, minY, minZ; //Минимальная граница ящика
+	float maxX, maxY, maxZ; //Максимальная граница ящика
 };
 
 struct PtcTriangle
 {
-	unsigned short i[3];				//Индексы вершин
-	unsigned short n;					//Нормаль к треугольнику
-	short nb[3];						//Индексы соседей
-	char mtl;							//Индекс материала
+	unsigned short i[3]; //Индексы вершин
+	unsigned short n; //Нормаль к треугольнику
+	short nb[3]; //Индексы соседей
+	char mtl; //Индекс материала
 	char flags;
 };
 
 struct PtcVertex
 {
-	float x;							//Позиция по X
-	float y;							//Позиция по Y
-	float z;							//Позиция по Z
+	float x; //Позиция по X
+	float y; //Позиция по Y
+	float z; //Позиция по Z
 };
 
 struct PtcNormal
 {
-	float x;							//Направление по X
-	float y;							//Направление по Y
-	float z;							//Направление по Z
+	float x; //Направление по X
+	float y; //Направление по Y
+	float z; //Направление по Z
 };
 
 struct PtcMap
 {
-	long start;							//Начало таблицы полигонов, входящих в ячейку карты
-	long size;							//Размер таблицы полигонов, входящих в ячейку карты
+	long start; //Начало таблицы полигонов, входящих в ячейку карты
+	long size; //Размер таблицы полигонов, входящих в ячейку карты
 };
 
 struct PtcMaterials
 {
-	long numMaterials;					//Количество материалов
-	char material[16][16];				//Таблица материалов
+	long numMaterials; //Количество материалов
+	char material[16][16]; //Таблица материалов
 };
 
 //============================================================================================
@@ -97,5 +97,3 @@ struct PtcMaterials
 #pragma pack(pop)
 
 #endif
-
-

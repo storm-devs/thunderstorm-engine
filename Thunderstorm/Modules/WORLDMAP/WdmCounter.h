@@ -17,11 +17,11 @@
 #define WMD_NUM_SKYS	8
 
 
-class WdmCounter : public WdmRenderModel  
+class WdmCounter : public WdmRenderModel
 {
-//--------------------------------------------------------------------------------------------
-//Конструирование, деструктурирование
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Конструирование, деструктурирование
+	//--------------------------------------------------------------------------------------------
 public:
 	WdmCounter();
 	virtual ~WdmCounter();
@@ -29,26 +29,31 @@ public:
 	bool Init();
 
 	//Расчёты
-	void Update(float dltTime);
+	void Update(float dltTime) override;
 
-	void PRender(VDX9RENDER * rs){};
-	void MRender(VDX9RENDER * rs){};
-	void LRender(VDX9RENDER * rs);
+	void PRender(VDX9RENDER* rs) override
+	{
+	};
+
+	void MRender(VDX9RENDER* rs) override
+	{
+	};
+	void LRender(VDX9RENDER* rs) override;
 
 
-//--------------------------------------------------------------------------------------------
-//Инкапсуляция
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Инкапсуляция
+	//--------------------------------------------------------------------------------------------
 private:
-	bool LoadModel(WdmRenderModel * & pnt, const char * name, const char * tech);
-	void DrawNum(VDX9RENDER * rs, WdmRenderModel * m, float u, float v);
+	bool LoadModel(WdmRenderModel* & pnt, const char* name, const char* tech);
+	void DrawNum(VDX9RENDER* rs, WdmRenderModel* m, float u, float v);
 
 
 private:
-	WdmRenderModel * sky;
-	WdmRenderModel * d[2];
-	WdmRenderModel * m[2];
-	WdmRenderModel * y[4];
+	WdmRenderModel* sky;
+	WdmRenderModel* d[2];
+	WdmRenderModel* m[2];
+	WdmRenderModel* y[4];
 
 	long skytx[WMD_NUM_SKYS];
 	long lastSkys[2];
@@ -56,8 +61,7 @@ private:
 	long dayCounter;
 	long skyCounter;
 
-	static const char * skytex[WMD_NUM_SKYS];
+	static const char* skytex[WMD_NUM_SKYS];
 };
 
 #endif
-

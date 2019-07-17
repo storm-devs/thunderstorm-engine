@@ -33,23 +33,24 @@ public:
 	LocationP();
 	~LocationP();
 
-	bool Init();
+	bool Init() override;
 	void Execute(uint32_t dwDeltaTime);
+
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)
 		{
 		case Stage::execute:
-			Execute(delta); break;
-		//case Stage::realize:
-		//	Realize(delta); break;
+			Execute(delta);
+			break;
+			//case Stage::realize:
+			//	Realize(delta); break;
 			/*case Stage::lost_render:
 				LostRender(delta); break;
 			case Stage::restore_render:
 				RestoreRender(delta); break;*/
 		}
 	}
-
 };
 
 LocationP::LocationP()
@@ -74,21 +75,37 @@ void LocationP::Execute(uint32_t dwDeltaTime)
 
 INTERFACE_FUNCTION
 CREATE_CLASS(Location)
+
 CREATE_CLASS(NPCharacter)
+
 CREATE_CLASS(Player)
+
 CREATE_CLASS(LocationCamera)
+
 CREATE_CLASS(Fader)
+
 CREATE_CLASS(Grass)
+
 CREATE_CLASS(Lights)
+
 CREATE_CLASS(WideScreen)
+
 CREATE_CLASS(CharacterAnimationKipper)
+
 CREATE_CLASS(LocationEffects)
+
 CREATE_CLASS(CharactersGroups)
+
 CREATE_CLASS(LocEagle)
+
 CREATE_CLASS(Lizards)
+
 CREATE_CLASS(LocRats)
+
 CREATE_CLASS(LocModelRealizer)
+
 CREATE_CLASS(Blood)
+
 CREATE_CLASS(LocationP)
 
 //============================================================================================

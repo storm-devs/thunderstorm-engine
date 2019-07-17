@@ -6,9 +6,17 @@
 class VEVENT : public SERVICE
 {
 public:
-	VEVENT(){};
-	virtual ~VEVENT(){};
-	virtual uint32_t _cdecl Event(char * name, char * format,...){};
+	VEVENT()
+	{
+	};
+
+	virtual ~VEVENT()
+	{
+	};
+
+	virtual uint32_t _cdecl Event(char* name, char* format,...)
+	{
+	};
 };
 
 #endif

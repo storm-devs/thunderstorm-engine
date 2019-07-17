@@ -20,25 +20,25 @@ class PathTracer;
 
 #define MA_MAX_NAME_LENGTH	256
 
-class ModelArray  
+class ModelArray
 {
 	class UVSlider : public MODEL::RenderTuner
 	{
 	public:
-		virtual void Set(MODEL * model, VDX9RENDER * rs);
-		virtual void Restore(MODEL * model, VDX9RENDER * rs);
+		void Set(MODEL* model, VDX9RENDER* rs) override;
+		void Restore(MODEL* model, VDX9RENDER* rs) override;
 
 		float u0, v0;
 		float us0, vs0;
-		float u1, v1;		
+		float u1, v1;
 		float us1, vs1;
 	};
 
 	class Relection : public MODEL::RenderTuner
 	{
 	public:
-		virtual void Set(MODEL * model, VDX9RENDER * rs);
-		virtual void Restore(MODEL * model, VDX9RENDER * rs);
+		void Set(MODEL* model, VDX9RENDER* rs) override;
+		void Restore(MODEL* model, VDX9RENDER* rs) override;
 		uint32_t tfactor;
 	};
 
@@ -49,55 +49,57 @@ class ModelArray
 
 	struct LocationModel
 	{
-		entid_t modelrealizer;		//Отрисовщик модели
-		entid_t id;					//Модель
-		uint32_t hash;						//Хэшь значение для быстрого поиска
+		entid_t modelrealizer; //Отрисовщик модели
+		entid_t id; //Модель
+		uint32_t hash; //Хэшь значение для быстрого поиска
 		union
 		{
 			uint32_t flags;
+
 			struct
 			{
 				uint32_t isVisible : 1;
-
 			};
 		};
-		UVSlider * slider;
-		Rotator * rotator;
-		Relection * reflection;
-		char name[MA_MAX_NAME_LENGTH];	//Имя модели
+
+		UVSlider* slider;
+		Rotator* rotator;
+		Relection* reflection;
+		char name[MA_MAX_NAME_LENGTH]; //Имя модели
 	};
 
-//--------------------------------------------------------------------------------------------
-//Конструирование, деструктурирование
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Конструирование, деструктурирование
+	//--------------------------------------------------------------------------------------------
 public:
 	ModelArray();
 	virtual ~ModelArray();
-	
+
 	//Создать модель
-	long CreateModel(const char * modelName, const char * technique, long level, bool isVisible = true, void* pLights=nullptr);
+	long CreateModel(const char* modelName, const char* technique, long level, bool isVisible = true,
+	                 void* pLights = nullptr);
 	//Удалить модель
 	void DeleteModel(long modelIndex);
 	//Установить модели анимацию
-	bool SetAnimation(long modelIndex, const char * modelAni);
+	bool SetAnimation(long modelIndex, const char* modelAni);
 	//Найти индекс модели по имени
-	long FindModel(const char * modelName);
+	long FindModel(const char* modelName);
 
 	//Проверить на правильность индекс
 	bool IsValidateIndex(long index);
 	//Получить название модели
-	const char * GetModelName(long index);
+	const char* GetModelName(long index);
 
 	//Количество моделий
 	long Models();
 	//Получение ID модели по индексу
-	entid_t  ID(long modelIndex);
+	entid_t ID(long modelIndex);
 	//Получение модели по индексу
-	MODEL * operator [](long modelIndex);
+	MODEL* operator [](long modelIndex);
 	//Получение анимации по индексу
-	Animation * GetAnimation(long modelIndex);
+	Animation* GetAnimation(long modelIndex);
 	//Получение ID отрисовщика по индексу
-	entid_t  RealizerID(long modelIndex);
+	entid_t RealizerID(long modelIndex);
 
 	//Установить модельке анимацию скольжения uv
 	void SetUVSlide(long modelIndex, float u0, float v0, float u1, float v1);
@@ -115,18 +117,18 @@ public:
 	void UpdateShadowPath();
 
 	//Проверить видимость 2-х точек
-	bool VisibleTest(const CVECTOR & p1, const CVECTOR & p2);
+	bool VisibleTest(const CVECTOR& p1, const CVECTOR& p2);
 	//Протрейсит луч через локацию
-	float Trace(const CVECTOR & src, const CVECTOR & dst);
-	bool GetCollideTriangle(TRIANGLE & trg);
-	void Clip(PLANE * p, long numPlanes, CVECTOR & cnt, float rad, bool (* fnc)(const CVECTOR * vtx, long num));
+	float Trace(const CVECTOR& src, const CVECTOR& dst);
+	bool GetCollideTriangle(TRIANGLE& trg);
+	void Clip(PLANE* p, long numPlanes, CVECTOR& cnt, float rad, bool (* fnc)(const CVECTOR* vtx, long num));
 
-//--------------------------------------------------------------------------------------------
-//Инкапсуляция
-//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	//Инкапсуляция
+	//--------------------------------------------------------------------------------------------
 private:
-	uint32_t CalcHashString(const char * str);
-	static void UpdatePath(char * path);
+	uint32_t CalcHashString(const char* str);
+	static void UpdatePath(char* path);
 private:
 	//Модели локации
 	std::vector<LocationModel> model;
@@ -150,11 +152,10 @@ inline bool ModelArray::IsValidateIndex(long index)
 }
 
 //Получить название модели
-inline const char * ModelArray::GetModelName(long index)
+inline const char* ModelArray::GetModelName(long index)
 {
-	if(index >= 0 && index < numModels) return model[index].name;
+	if (index >= 0 && index < numModels) return model[index].name;
 	return nullptr;
 }
 
 #endif
-

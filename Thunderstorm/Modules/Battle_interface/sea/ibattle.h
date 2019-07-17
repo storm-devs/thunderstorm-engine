@@ -11,29 +11,33 @@ class ShipInfoImages;
 
 class BATTLE_INTERFACE : public Entity
 {
-	VDX9RENDER *rs;
+	VDX9RENDER* rs;
 
 public:
 	BATTLE_INTERFACE();
 	~BATTLE_INTERFACE();
-	bool Init();
+	bool Init() override;
 	void Execute(uint32_t delta_time);
 	void Realize(uint32_t delta_time);
-    uint64_t ProcessMessage(MESSAGE & message);
-	uint32_t AttributeChanged(ATTRIBUTES * pAttr);
+	uint64_t ProcessMessage(MESSAGE& message) override;
+	uint32_t AttributeChanged(ATTRIBUTES* pAttr) override;
 
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)
 		{
 		case Stage::execute:
-			Execute(delta); break;
+			Execute(delta);
+			break;
 		case Stage::realize:
-			Realize(delta); break;
+			Realize(delta);
+			break;
 		case Stage::lost_render:
-			LostRender(); break;
+			LostRender();
+			break;
 		case Stage::restore_render:
-			RestoreRender(); break;
+			RestoreRender();
+			break;
 		}
 	}
 
@@ -41,20 +45,20 @@ public:
 	void RestoreRender() { BattleNavigator.RestoreRender(); };
 
 protected:
-	BATTLE_NAVIGATOR	BattleNavigator; // навигационные иконки
+	BATTLE_NAVIGATOR BattleNavigator; // навигационные иконки
 	//MESSAGE_ICONS *		m_pMessageIcons;
-	BIShipIcon*			m_pShipIcon; // иконки команд и целеуказаний в боевом меню
-	bool	m_bShowCommandMenu;
-	bool	m_bShowBattleNavigator;
-	bool	m_bYesShowAll;
-	bool	m_bVisible;
+	BIShipIcon* m_pShipIcon; // иконки команд и целеуказаний в боевом меню
+	bool m_bShowCommandMenu;
+	bool m_bShowBattleNavigator;
+	bool m_bYesShowAll;
+	bool m_bVisible;
 
-	float	m_fBlinkSpeed;
-	float	m_fCurBlinkTime;
+	float m_fBlinkSpeed;
+	float m_fCurBlinkTime;
 
-	bool	m_bNeedIslandSet;
+	bool m_bNeedIslandSet;
 
-	bool	m_bMyShipView;
+	bool m_bMyShipView;
 
 	std::vector<BITextInfo> m_TextArray;
 	BILinesInfo m_LinesInfo;
@@ -67,7 +71,7 @@ protected:
 protected:
 	void LoadIniFile();
 	void CheckSeaState();
-	void EnableMessageIcons(VDATA * pvdat);
+	void EnableMessageIcons(VDATA* pvdat);
 };
 
 #endif

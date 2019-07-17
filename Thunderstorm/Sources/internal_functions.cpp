@@ -107,107 +107,107 @@ enum FUNCTION_CODE
 	FUNC_SETTIMESCALE,
 	FUNC_CHECKFUNCTION,
 	FUNC_GETENGINEVERSION
-
 };
 
 
-INTFUNCDESC IntFuncTable[]=
+INTFUNCDESC IntFuncTable[] =
 {
-	1,"Rand",VAR_INTEGER,
-	0,"frnd",VAR_FLOAT,
-	1,"CreateClass",VAR_OBJECT,
-	2,"CreateEntity",VAR_INTEGER,
-	1,"DeleteClass",TVOID,
-	3,"SetEventHandler",TVOID,
-	0,"ExitProgram",TVOID,
-	0,"GetEventData",UNKNOWN,
+	1, "Rand", VAR_INTEGER,
+	0, "frnd", VAR_FLOAT,
+	1, "CreateClass", VAR_OBJECT,
+	2, "CreateEntity", VAR_INTEGER,
+	1, "DeleteClass", TVOID,
+	3, "SetEventHandler", TVOID,
+	0, "ExitProgram", TVOID,
+	0, "GetEventData", UNKNOWN,
 	//1,"Execute",TVOID,
-	0,"Stop",TVOID,
-	0,"SendMessage",VAR_PTR,
-	1,"LoadSegment",VAR_INTEGER,
-	1,"UnloadSegment",TVOID,
-	1,"Trace",TVOID,
-	1,"MakeInt",VAR_INTEGER,
-	1,"MakeFloat",VAR_FLOAT,
+	0, "Stop", TVOID,
+	0, "SendMessage", VAR_PTR,
+	1, "LoadSegment", VAR_INTEGER,
+	1, "UnloadSegment", TVOID,
+	1, "Trace", TVOID,
+	1, "MakeInt", VAR_INTEGER,
+	1, "MakeFloat", VAR_FLOAT,
 	//2,"LayerCreate",TVOID,
 	//1,"LayerDelete",TVOID,
-	1,"LayerDeleteContent",TVOID,
-	1,"LayerSetRealize",TVOID,
-	1,"LayerSetExecute",TVOID,
-	2,"LayerSetMessages",TVOID,
-	3,"LayerAddObject",TVOID,
-	2,"LayerDelObject",TVOID,
-	2,"LayerFreeze",TVOID,
-	1,"abs",UNKNOWN,
-	1,"sqrt",VAR_FLOAT,
-	1,"sqr",VAR_FLOAT,
-	1,"sin",VAR_FLOAT,
-	1,"cos",VAR_FLOAT,
-	1,"tan",VAR_FLOAT,
-	1,"atan",VAR_FLOAT,
-	2,"atan2",VAR_FLOAT,
-	2,"DeleteAttribute",TVOID,
-	1,"SegmentIsLoaded",VAR_INTEGER,
-	1,"GetAttributesNum",VAR_INTEGER,
-	2,"GetAttributeN",VAR_AREFERENCE,
-	1,"GetAttributeName",VAR_STRING,
-	2,"DelEventHandler",TVOID,
-	1,"EntityUpdate",TVOID,
-	1,"IsEntity",VAR_INTEGER,
-	1,"DumpAttributes",TVOID,
-	1,"sti",VAR_INTEGER,
-	1,"stf",VAR_FLOAT,
-	2, "CheckAttribute",VAR_INTEGER,
-	4,"argb",VAR_INTEGER,
-	0,"DeleteEntities",TVOID,
-	0,"ClearEvents",TVOID,
-	1,"SaveEngineState",TVOID,
-	1,"LoadEngineState",TVOID,
-	0,"Event",TVOID,
-	0,"PostEvent",TVOID,
-	2,"fts",VAR_STRING,
-	0,"ClearPostEvents",TVOID,
-	2,"SetArraySize",TVOID,
-	1,"GetAttributeValue",VAR_STRING,
-	1,"Vartype",VAR_STRING,
-	0,"Breakpoint",TVOID,
-	2,"Pow",VAR_FLOAT,
-	2,"CopyAttributes",TVOID,
+	1, "LayerDeleteContent", TVOID,
+	1, "LayerSetRealize", TVOID,
+	1, "LayerSetExecute", TVOID,
+	2, "LayerSetMessages", TVOID,
+	3, "LayerAddObject", TVOID,
+	2, "LayerDelObject", TVOID,
+	2, "LayerFreeze", TVOID,
+	1, "abs", UNKNOWN,
+	1, "sqrt", VAR_FLOAT,
+	1, "sqr", VAR_FLOAT,
+	1, "sin", VAR_FLOAT,
+	1, "cos", VAR_FLOAT,
+	1, "tan", VAR_FLOAT,
+	1, "atan", VAR_FLOAT,
+	2, "atan2", VAR_FLOAT,
+	2, "DeleteAttribute", TVOID,
+	1, "SegmentIsLoaded", VAR_INTEGER,
+	1, "GetAttributesNum", VAR_INTEGER,
+	2, "GetAttributeN", VAR_AREFERENCE,
+	1, "GetAttributeName", VAR_STRING,
+	2, "DelEventHandler", TVOID,
+	1, "EntityUpdate", TVOID,
+	1, "IsEntity", VAR_INTEGER,
+	1, "DumpAttributes", TVOID,
+	1, "sti", VAR_INTEGER,
+	1, "stf", VAR_FLOAT,
+	2, "CheckAttribute", VAR_INTEGER,
+	4, "argb", VAR_INTEGER,
+	0, "DeleteEntities", TVOID,
+	0, "ClearEvents", TVOID,
+	1, "SaveEngineState", TVOID,
+	1, "LoadEngineState", TVOID,
+	0, "Event", TVOID,
+	0, "PostEvent", TVOID,
+	2, "fts", VAR_STRING,
+	0, "ClearPostEvents", TVOID,
+	2, "SetArraySize", TVOID,
+	1, "GetAttributeValue", VAR_STRING,
+	1, "Vartype", VAR_STRING,
+	0, "Breakpoint", TVOID,
+	2, "Pow", VAR_FLOAT,
+	2, "CopyAttributes", TVOID,
 	//2,"GetEntityPointer",VAR_INTEGER,
 	//1,"GetEntityNext",VAR_INTEGER,
 	//1,"GetEntityName",VAR_STRING,
-	3,"strcut",VAR_STRING,
-	3,"findSubStr",VAR_STRING,
-	1,"ClearRef",TVOID,
-	1,"strlen",VAR_INTEGER,
-	0,"GetDeltaTime",VAR_INTEGER,
-	0,"EventsBreak",TVOID,
-	2,"shl",VAR_INTEGER,
-	2,"shr",VAR_INTEGER,
-	2,"and",VAR_INTEGER,
-	2,"or",VAR_INTEGER,
-	1,"DeleteEntitiesByType",TVOID,
-	1,"CreateControl",VAR_INTEGER,
-	1,"DeleteControl",TVOID,
-	2,"MapControl",TVOID,
-	2,"SetControlFlags",TVOID,
-	1,"ClearEntityAP",TVOID,
-	1,"GetArraySize",VAR_INTEGER,
-	0,"GetTargetPlatform",VAR_STRING,
-	2,"GetEntity",VAR_INTEGER,
-	2,"FindEntity",VAR_INTEGER,
-	1,"FindEntityNext",VAR_INTEGER,
-	2,"GetSymbol",VAR_STRING,
-	2,"IsDigit",VAR_INTEGER,
-	2,"SaveVariable",VAR_INTEGER,
-	2,"LoadVariable",VAR_INTEGER,
-	2,"SetControlTreshold",TVOID,
-	2,"LockControl",TVOID,
-	1,"TestRef",VAR_INTEGER,
-	1,"SetTimeScale",TVOID,
-	1,"CheckFunction",VAR_INTEGER,
-	0,"GetEngineVersion",VAR_INTEGER
+	3, "strcut", VAR_STRING,
+	3, "findSubStr", VAR_STRING,
+	1, "ClearRef", TVOID,
+	1, "strlen", VAR_INTEGER,
+	0, "GetDeltaTime", VAR_INTEGER,
+	0, "EventsBreak", TVOID,
+	2, "shl", VAR_INTEGER,
+	2, "shr", VAR_INTEGER,
+	2, "and", VAR_INTEGER,
+	2, "or", VAR_INTEGER,
+	1, "DeleteEntitiesByType", TVOID,
+	1, "CreateControl", VAR_INTEGER,
+	1, "DeleteControl", TVOID,
+	2, "MapControl", TVOID,
+	2, "SetControlFlags", TVOID,
+	1, "ClearEntityAP", TVOID,
+	1, "GetArraySize", VAR_INTEGER,
+	0, "GetTargetPlatform", VAR_STRING,
+	2, "GetEntity", VAR_INTEGER,
+	2, "FindEntity", VAR_INTEGER,
+	1, "FindEntityNext", VAR_INTEGER,
+	2, "GetSymbol", VAR_STRING,
+	2, "IsDigit", VAR_INTEGER,
+	2, "SaveVariable", VAR_INTEGER,
+	2, "LoadVariable", VAR_INTEGER,
+	2, "SetControlTreshold", TVOID,
+	2, "LockControl", TVOID,
+	1, "TestRef", VAR_INTEGER,
+	1, "SetTimeScale", TVOID,
+	1, "CheckFunction", VAR_INTEGER,
+	0, "GetEngineVersion", VAR_INTEGER
 };
+
 /*
 char * FuncNameTable[]=
 {
@@ -405,7 +405,7 @@ DWORD FuncArguments[]=
 */
 uint32_t COMPILER::GetInternalFunctionArgumentsNum(uint32_t code)
 {
-	if(GetIntFunctionsNum() <= code)
+	if (GetIntFunctionsNum() <= code)
 	{
 		SetError("invalid internal function code");
 		return 0;
@@ -416,159 +416,186 @@ uint32_t COMPILER::GetInternalFunctionArgumentsNum(uint32_t code)
 
 uint32_t COMPILER::GetIntFunctionsNum()
 {
-	return sizeof(IntFuncTable)/sizeof(INTFUNCDESC);
+	return sizeof(IntFuncTable) / sizeof(INTFUNCDESC);
 	//return sizeof(FuncNameTable)/sizeof(char *);
 }
 
 bool COMPILER::IsIntFuncVarArgsNum(uint32_t code)
 {
 	//if(code == FUNC_SEND_MESSAGE) return true;
-	switch(code)
+	switch (code)
 	{
-		case FUNC_SEND_MESSAGE:
-		case FUNC_EVENT:
-		case FUNC_POSTEVENT:
+	case FUNC_SEND_MESSAGE:
+	case FUNC_EVENT:
+	case FUNC_POSTEVENT:
 
 		return true;
 	}
 	return false;
 }
 
-uint32_t COMPILER::GetIntFunctionCode(char * func_name)
+uint32_t COMPILER::GetIntFunctionCode(char* func_name)
 {
 	//functions_num = sizeof(FuncNameTable)/sizeof(char *);
 	uint32_t functions_num = sizeof(IntFuncTable) / sizeof(INTFUNCDESC);
 
-	for(uint32_t n = 0;n<functions_num;n++)
+	for (uint32_t n = 0; n < functions_num; n++)
 	{
 		//if(strcmp(func_name,FuncNameTable[n])==0) return n;
-		if(strcmp(func_name,IntFuncTable[n].pName)==0) return n;
-
+		if (strcmp(func_name, IntFuncTable[n].pName) == 0) return n;
 	}
 	return INVALID_ORDINAL_NUMBER;
 }
 
-DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_t arguments)
+DATA* COMPILER::BC_CallIntFunction(uint32_t func_code, DATA* & pVResult, uint32_t arguments)
 {
-//	char Format_string[MAX_PATH];
-	char Message_string[2*MAX_PATH];
+	//	char Format_string[MAX_PATH];
+	char Message_string[2 * MAX_PATH];
 	entid_t ent;
 	uint32_t functions_num;
 
 	//functions_num = sizeof(FuncNameTable)/sizeof(char *);
-	functions_num = sizeof(IntFuncTable)/sizeof(INTFUNCDESC);
+	functions_num = sizeof(IntFuncTable) / sizeof(INTFUNCDESC);
 
-	if(func_code >= functions_num) return nullptr;
+	if (func_code >= functions_num) return nullptr;
 
-	DATA * pResult;
-	DATA * pV;
-	DATA * pV2;
-	DATA * pV3;
-	DATA * pV4;
+	DATA* pResult;
+	DATA* pV;
+	DATA* pV2;
+	DATA* pV3;
+	DATA* pV4;
 
 	DATA Access;
 	Access.SetVCompiler(this);
 	float TempFloat1;
 	float TempFloat2;
-	long  TempLong1;
-	long  TempLong2;
-	long  TempLong;
-	char * pChar;
-	char * pChar2;
+	long TempLong1;
+	long TempLong2;
+	long TempLong;
+	char* pChar;
+	char* pChar2;
 	entid_t TempEid;
-	entid_t  pEid = 0;
+	entid_t pEid = 0;
 	uint32_t n;
-	ATTRIBUTES * pA;
-	ATTRIBUTES * pRoot;
-	Entity * pE;
+	ATTRIBUTES* pA;
+	ATTRIBUTES* pRoot;
+	Entity* pE;
 	MESSAGE_SCRIPT ms;
 	uint32_t s_off;
 
-	static EntityManager::EntityVector * entVec;
+	static EntityManager::EntityVector* entVec;
 	static EntityManager::EntityVector::const_iterator it;
 
 	pResult = nullptr;
 	TempFloat1 = 0;
 	TempLong1 = 0;
 
-	pVResult = nullptr;	// default - no return value
+	pVResult = nullptr; // default - no return value
 
-	long slen,slen2;
+	long slen, slen2;
 	char sVarName[64];
 	char sBuff2[2];
 
-	switch(func_code)
+	switch (func_code)
 	{
-		case FUNC_GETENGINEVERSION:
-			pV = SStack.Push();
-			pV->Set((long)ENGINE_SCRIPT_VERSION);
-			pVResult = pV;
-			return pV;
+	case FUNC_GETENGINEVERSION:
+		pV = SStack.Push();
+		pV->Set((long)ENGINE_SCRIPT_VERSION);
+		pVResult = pV;
+		return pV;
 		break;
-		case FUNC_CHECKFUNCTION:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA); break;}
-			if(pV->GetType() == VAR_STRING)
+	case FUNC_CHECKFUNCTION:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		if (pV->GetType() == VAR_STRING)
+		{
+			pV->Get(pChar);
+			if (FuncTab.FindFunc(pChar) == INVALID_FUNC_CODE)
 			{
-				pV->Get(pChar);
-				if( FuncTab.FindFunc(pChar) == INVALID_FUNC_CODE ) {
-					pV = SStack.Push();
-					pV->Set((long)0);
-				} else {
-					pV = SStack.Push();
-					pV->Set((long)1);
-				}
-				pVResult = pV;
-			}
-			else SetError("incorrect argument type");
-		break;
-		case FUNC_SETTIMESCALE:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA); break;}
-			if(pV->GetType() == VAR_FLOAT)
-			{
-				pV->Get(TempFloat1);
-				api->SetTimeScale(TempFloat1);
-			}
-			else
-			if(pV->GetType() == VAR_INTEGER)
-			{
-				pV->Get(TempLong1);
-				api->SetTimeScale((float)TempLong1);
-			}
-			else SetError("incorrect argument type");
-		break;
-		case FUNC_TEST_REF:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA); break;}
-			pV = pV->GetVarPointer();
-			if(pV == nullptr)
-			{
-				TempLong1 = 0;
+				pV = SStack.Push();
+				pV->Set((long)0);
 			}
 			else
 			{
-				switch(pV->GetType())
-				{
-					case VAR_REFERENCE:
-						if(pV->pReference) TempLong1 = 1;
-						else TempLong1 = 0;
-					break;
-					case VAR_AREFERENCE:
-						if(pV->AttributesClass) TempLong1 = 1;
-						else TempLong1 = 0;
-					break;
-					default: TempLong1 = 1;	break;
-				}
+				pV = SStack.Push();
+				pV->Set((long)1);
 			}
-			pV = SStack.Push();
-			pV->Set(TempLong1);
 			pVResult = pV;
+		}
+		else SetError("incorrect argument type");
+		break;
+	case FUNC_SETTIMESCALE:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		if (pV->GetType() == VAR_FLOAT)
+		{
+			pV->Get(TempFloat1);
+			api->SetTimeScale(TempFloat1);
+		}
+		else if (pV->GetType() == VAR_INTEGER)
+		{
+			pV->Get(TempLong1);
+			api->SetTimeScale((float)TempLong1);
+		}
+		else SetError("incorrect argument type");
+		break;
+	case FUNC_TEST_REF:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = pV->GetVarPointer();
+		if (pV == nullptr)
+		{
+			TempLong1 = 0;
+		}
+		else
+		{
+			switch (pV->GetType())
+			{
+			case VAR_REFERENCE:
+				if (pV->pReference) TempLong1 = 1;
+				else TempLong1 = 0;
+				break;
+			case VAR_AREFERENCE:
+				if (pV->AttributesClass) TempLong1 = 1;
+				else TempLong1 = 0;
+				break;
+			default: TempLong1 = 1;
+				break;
+			}
+		}
+		pV = SStack.Push();
+		pV->Set(TempLong1);
+		pVResult = pV;
 		return pV;
 
-		case FUNC_LOCK_CONTROL:
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA); break;}
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA); break;}
-			pV->Get(pChar);
-			pV2->Get(TempLong1);
-			if(Core.Controls != nullptr) Core.Controls->LockControl(pChar,TempLong1!=0);
+	case FUNC_LOCK_CONTROL:
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(pChar);
+		pV2->Get(TempLong1);
+		if (Core.Controls != nullptr) Core.Controls->LockControl(pChar, TempLong1 != 0);
 		break;
 		/*case FUNC_SAVEVARIABLE:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA); break;};	// var ref
@@ -644,249 +671,385 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pVResult = pV;
 		return pV;*/
 
-		case FUNC_ISDIGIT:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};	// symbol index
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			pV2 = pV2->GetVarPointer();	// string
-			pV->Get(TempLong1);
-			pV2->Get(pChar);
-			if((uint32_t)TempLong1 >= strlen(pChar))
-			{
-				pV = SStack.Push();
-				pV->Set((long)0);
-				pVResult = pV;
-				return pV;
-			}
+	case FUNC_ISDIGIT:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2 = pV2->GetVarPointer(); // string
+		pV->Get(TempLong1);
+		pV2->Get(pChar);
+		if ((uint32_t)TempLong1 >= strlen(pChar))
+		{
 			pV = SStack.Push();
-			if(pChar[TempLong1] >= 0x30 && pChar[TempLong1] <= 0x39) pV->Set((long)1);
-			else pV->Set((long)0);
+			pV->Set((long)0);
 			pVResult = pV;
+			return pV;
+		}
+		pV = SStack.Push();
+		if (pChar[TempLong1] >= 0x30 && pChar[TempLong1] <= 0x39) pV->Set((long)1);
+		else pV->Set((long)0);
+		pVResult = pV;
 		return pV;
 
 		break;
-		case FUNC_GETSYMBOL:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};	// symbol index
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			pV2 = pV2->GetVarPointer();	// string
-			pV->Get(TempLong1);
-			pV2->Get(pChar);
-			if((uint32_t)TempLong1 >= strlen(pChar))
-			{
-				pV = SStack.Push();
-				pV->Set("");
-				pVResult = pV;
-				return pV;
-			}
-			sBuff2[0] = pChar[TempLong1];
-			sBuff2[1] = 0;
+	case FUNC_GETSYMBOL:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2 = pV2->GetVarPointer(); // string
+		pV->Get(TempLong1);
+		pV2->Get(pChar);
+		if ((uint32_t)TempLong1 >= strlen(pChar))
+		{
 			pV = SStack.Push();
-			pV->Set(sBuff2);
+			pV->Set("");
 			pVResult = pV;
+			return pV;
+		}
+		sBuff2[0] = pChar[TempLong1];
+		sBuff2[1] = 0;
+		pV = SStack.Push();
+		pV->Set(sBuff2);
+		pVResult = pV;
 		return pV;
 
-		case FUNC_GETENTITY:
-			pV = SStack.Pop(); if (!pV) { SetError(INVALID_FA); break; };
-			pV2 = SStack.Pop(); if (!pV2) { SetError(INVALID_FA); break; };
+	case FUNC_GETENTITY:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
 
-			pV->Convert(VAR_STRING);
-			pV->Get(pChar);
+		pV->Convert(VAR_STRING);
+		pV->Get(pChar);
 
-			ent = EntityManager::GetEntityId(pChar);
+		ent = EntityManager::GetEntityId(pChar);
 
-			pV2 = pV2->GetVarPointer();
-			pV2->Set(ent);
-			pV2->SetType(VAR_AREFERENCE);
-			pV2->SetAReference(api->Entity_GetAttributePointer(ent));
+		pV2 = pV2->GetVarPointer();
+		pV2->Set(ent);
+		pV2->SetType(VAR_AREFERENCE);
+		pV2->SetAReference(api->Entity_GetAttributePointer(ent));
 
-			if (EntityManager::GetEntityPointer(ent)) 
-				TempLong1 = 1;
-			else 
-				TempLong1 = 0;
+		if (EntityManager::GetEntityPointer(ent))
+			TempLong1 = 1;
+		else
+			TempLong1 = 0;
 
-			pV = SStack.Push();
-			pV->Set(TempLong1);
-			pVResult = pV;
+		pV = SStack.Push();
+		pV->Set(TempLong1);
+		pVResult = pV;
 		return pV;
 
-		case FUNC_FINDENTITY:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
+	case FUNC_FINDENTITY:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
 
-			pV->Convert(VAR_STRING);
-			pV->Get(pChar);
+		pV->Convert(VAR_STRING);
+		pV->Get(pChar);
 
-			delete entVec;
-			entVec = new EntityManager::EntityVector(EntityManager::GetEntityIdVector(pChar));
-			it = entVec->begin();
-			ent = *it;
-			 
-			pV2 = pV2->GetVarPointer();
-			pV2->Set(ent);
-			pV2->SetType(VAR_AREFERENCE);
-			pV2->SetAReference(api->Entity_GetAttributePointer(ent));
+		delete entVec;
+		entVec = new EntityManager::EntityVector(EntityManager::GetEntityIdVector(pChar));
+		it = entVec->begin();
+		ent = *it;
 
-			if(EntityManager::GetEntityPointer(ent)) TempLong1 = 1;
-			else TempLong1 = 0;
-			pV = SStack.Push();
-			pV->Set(TempLong1);
-			pVResult = pV;
+		pV2 = pV2->GetVarPointer();
+		pV2->Set(ent);
+		pV2->SetType(VAR_AREFERENCE);
+		pV2->SetAReference(api->Entity_GetAttributePointer(ent));
+
+		if (EntityManager::GetEntityPointer(ent)) TempLong1 = 1;
+		else TempLong1 = 0;
+		pV = SStack.Push();
+		pV->Set(TempLong1);
+		pVResult = pV;
 		return pV;
 
-		case FUNC_FINDENTITYNEXT:
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			
-			++it;
-			ent = it != entVec->end() ? *it : invalid_entity;
+	case FUNC_FINDENTITYNEXT:
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
 
-			pV2 = pV2->GetVarPointer();
-			pV2->Set(ent);
-			pV2->SetType(VAR_AREFERENCE);
-			pV2->SetAReference(api->Entity_GetAttributePointer(ent));
+		++it;
+		ent = it != entVec->end() ? *it : invalid_entity;
 
-			if(EntityManager::GetEntityPointer(ent)) 
-				TempLong1 = 1;
-			else 
-				TempLong1 = 0;
+		pV2 = pV2->GetVarPointer();
+		pV2->Set(ent);
+		pV2->SetType(VAR_AREFERENCE);
+		pV2->SetAReference(api->Entity_GetAttributePointer(ent));
 
-			pV = SStack.Push();
-			pV->Set(TempLong1);
-			pVResult = pV;
+		if (EntityManager::GetEntityPointer(ent))
+			TempLong1 = 1;
+		else
+			TempLong1 = 0;
+
+		pV = SStack.Push();
+		pV->Set(TempLong1);
+		pVResult = pV;
 		return pV;
 
 
-		case FUNC_GETTARGETPLATFORM:
-			pV = SStack.Push();
+	case FUNC_GETTARGETPLATFORM:
+		pV = SStack.Push();
 #ifdef _XBOX
 			pV->Set("xbox");
 #else
-			pV->Set("pc");
+		pV->Set("pc");
 #endif
-			pVResult = pV;
+		pVResult = pV;
 		return pV;
 
-		case FUNC_CLEAR_Entity_AP:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA); break;}
-			pV->Get(TempEid);
-			Core.Entity_SetAttributePointer(TempEid,nullptr);
+	case FUNC_CLEAR_Entity_AP:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempEid);
+		Core.Entity_SetAttributePointer(TempEid, nullptr);
 		break;
-		case FUNC_CREATE_CONTROL:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA); break;}
-			pV->Get(pChar);
-			if(Core.Controls != nullptr) TempLong1 = Core.Controls->CreateControl(pChar);
-			else TempLong1 = -1;
-			pV = SStack.Push();
-			pV->Set(TempLong1);
-			pVResult = pV;
+	case FUNC_CREATE_CONTROL:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(pChar);
+		if (Core.Controls != nullptr) TempLong1 = Core.Controls->CreateControl(pChar);
+		else TempLong1 = -1;
+		pV = SStack.Push();
+		pV->Set(TempLong1);
+		pVResult = pV;
 		return pV;
 
-		case FUNC_DELETE_CONTROL:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}
-			pV->Get(pChar);
+	case FUNC_DELETE_CONTROL:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(pChar);
 
 
 		break;
 
-		case FUNC_MAP_CONTROL:
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;}
-			pV2->Get(TempLong1);
+	case FUNC_MAP_CONTROL:
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2->Get(TempLong1);
 
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}
-			pV->Get(TempLong2);
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong2);
 
-			api->Controls->MapControl(TempLong2,TempLong1);
+		api->Controls->MapControl(TempLong2, TempLong1);
 		break;
 
-		case FUNC_SET_CONTROL_TRESHOLD:
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;}
-			pV2->Get(TempFloat1);
+	case FUNC_SET_CONTROL_TRESHOLD:
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2->Get(TempFloat1);
 
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}
-			pV->Get(TempLong2);
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong2);
 
-			api->Controls->SetControlTreshold(TempLong2,TempFloat1);
+		api->Controls->SetControlTreshold(TempLong2, TempFloat1);
 
 		break;
 
-		case FUNC_SET_CONTROL_FLAGS:
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;}
-			pV2->Get(TempLong1);
+	case FUNC_SET_CONTROL_FLAGS:
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2->Get(TempLong1);
 
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}
-			pV->Get(TempLong2);
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong2);
 
-			api->Controls->SetControlFlags(TempLong2,TempLong1);
+		api->Controls->SetControlFlags(TempLong2, TempLong1);
 		break;
 
-		case FUNC_DELETEENTITIESBYTYPE:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}
-			pV->Get(pChar);
+	case FUNC_DELETEENTITIESBYTYPE:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(pChar);
+		{
+			const auto entities = EntityManager::GetEntityIdVector(pChar);
+			for (auto ent : entities)
 			{
-				const auto entities = EntityManager::GetEntityIdVector(pChar);
-				for (auto ent : entities) {
-					EntityManager::EraseEntity(ent);
-				}
+				EntityManager::EraseEntity(ent);
 			}
+		}
 		break;
-		case FUNC_SHL:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}
-			pV->Get(TempLong2);
+	case FUNC_SHL:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong2);
 
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}
-			pV->Get(TempLong1);
-			TempLong1 = TempLong1<<TempLong2;
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong1);
+		TempLong1 = TempLong1 << TempLong2;
 
-			pV = SStack.Push();
-			pV->Set(TempLong1);
-			pVResult = pV;
+		pV = SStack.Push();
+		pV->Set(TempLong1);
+		pVResult = pV;
 		return pV;
 
 
-		case FUNC_SHR:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}
-			pV->Get(TempLong2);
+	case FUNC_SHR:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong2);
 
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}
-			pV->Get(TempLong1);
-			TempLong1 = TempLong1>>TempLong2;
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong1);
+		TempLong1 = TempLong1 >> TempLong2;
 
-			pV = SStack.Push();
-			pV->Set(TempLong1);
-			pVResult = pV;
+		pV = SStack.Push();
+		pV->Set(TempLong1);
+		pVResult = pV;
 		return pV;
 
-		case FUNC_AND:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}
-			pV->Get(TempLong2);
+	case FUNC_AND:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong2);
 
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}
-			pV->Get(TempLong1);
-			TempLong1 = TempLong1&TempLong2;
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong1);
+		TempLong1 = TempLong1 & TempLong2;
 
-			pV = SStack.Push();
-			pV->Set(TempLong1);
-			pVResult = pV;
+		pV = SStack.Push();
+		pV->Set(TempLong1);
+		pVResult = pV;
 		return pV;
 
-		case FUNC_OR:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}
-			pV->Get(TempLong2);
+	case FUNC_OR:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong2);
 
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}
-			pV->Get(TempLong1);
-			TempLong1 = TempLong1|TempLong2;
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong1);
+		TempLong1 = TempLong1 | TempLong2;
 
-			pV = SStack.Push();
-			pV->Set(TempLong1);
-			pVResult = pV;
+		pV = SStack.Push();
+		pV->Set(TempLong1);
+		pVResult = pV;
 		return pV;
 
-		case FUNC_EVENTSBREAK:
-			bEventsBreak = true;
+	case FUNC_EVENTSBREAK:
+		bEventsBreak = true;
 		break;
-		case FUNC_GETDELTATIME:
-			pV = SStack.Push();
-			pV->Set((long)Core.GetDeltaTime());
-			pVResult = pV;
+	case FUNC_GETDELTATIME:
+		pV = SStack.Push();
+		pV->Set((long)Core.GetDeltaTime());
+		pVResult = pV;
 		return pV;
 
 		/*case FUNC_SETSAVEDATA:
@@ -910,133 +1073,177 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Set(pChar);	pVResult = pV;
 		return pV;*/
 
-		case FUNC_STRLEN:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;}// string or ref
-			pV = pV->GetVarPointer();
-			if(!pV) {SetError(INVALID_FA);break;}
-			if(pV->GetType()!=VAR_STRING) {SetError("invalid argument type");break;}
-			pV->Get(pChar);
-			if(pChar == nullptr)
-			{
-				TempLong1 = 0;
-			}
-			else
-			{
-				TempLong1 = strlen(pChar);
-			}
-			pV = SStack.Push();
-			pV->Set(TempLong1);
-			pVResult = pV;
+	case FUNC_STRLEN:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		} // string or ref
+		pV = pV->GetVarPointer();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		if (pV->GetType() != VAR_STRING)
+		{
+			SetError("invalid argument type");
+			break;
+		}
+		pV->Get(pChar);
+		if (pChar == nullptr)
+		{
+			TempLong1 = 0;
+		}
+		else
+		{
+			TempLong1 = strlen(pChar);
+		}
+		pV = SStack.Push();
+		pV->Set(TempLong1);
+		pVResult = pV;
 		return pV;
-		case FUNC_CLEARREF:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};// ref or aref
-			switch(pV->GetType())
-			{
-				case VAR_REFERENCE:
-					pV->SetReference(nullptr);
-				break;
-				case VAR_AREFERENCE:
-					pV->SetAReference(nullptr);
-				break;
-			}
+	case FUNC_CLEARREF:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		switch (pV->GetType())
+		{
+		case VAR_REFERENCE:
+			pV->SetReference(nullptr);
+			break;
+		case VAR_AREFERENCE:
+			pV->SetAReference(nullptr);
+			break;
+		}
 		break;
 
-		case FUNC_STRCUT:
+	case FUNC_STRCUT:
 
-			pV3 = SStack.Pop(); if(!pV3){SetError(INVALID_FA);break;};// lastn
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};// firstn
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};// string
-			pV->Get(pChar);
-			if(pChar == nullptr)
-			{
-				SetError("Invalid string argument");
-				pV = SStack.Push();
-				pV->Set("");
-				pVResult = pV;
-				return pV;
-			}
-			else
-			{
-				slen = strlen(pChar);
-				pV2->Get(TempLong1);
-				pV3->Get(TempLong2);
-				if(TempLong1 > TempLong2 || TempLong1 >= slen || TempLong2 >= slen)
-				{
-					SetError("Invalid range");
-					pV = SStack.Push();
-					pV->Set("");
-					pVResult = pV;
-					return pV;
-				}
+		pV3 = SStack.Pop();
+		if (!pV3)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(pChar);
+		if (pChar == nullptr)
+		{
+			SetError("Invalid string argument");
+			pV = SStack.Push();
+			pV->Set("");
+			pVResult = pV;
+			return pV;
+		}
+		slen = strlen(pChar);
+		pV2->Get(TempLong1);
+		pV3->Get(TempLong2);
+		if (TempLong1 > TempLong2 || TempLong1 >= slen || TempLong2 >= slen)
+		{
+			SetError("Invalid range");
+			pV = SStack.Push();
+			pV->Set("");
+			pVResult = pV;
+			return pV;
+		}
 
-				if(TempLong1 == TempLong2)
-				{
-					Message_string[0] = pChar[TempLong1];
-					Message_string[1] = 0;
-					pV = SStack.Push();
-					pV->Set(Message_string);
-					pVResult = pV;
-					return pV;
-				}
-				if(TempLong2 - TempLong1 >= sizeof(Message_string))
-				{
-					SetError("internal: buffer too small");
-					pV = SStack.Push();
-					pV->Set("");
-					pVResult = pV;
-					return pV;
-				}
-				memcpy(Message_string,pChar + TempLong1,TempLong2 - TempLong1 + 1);
-				Message_string[TempLong2 - TempLong1 + 1] = 0;
-				pV = SStack.Push();
-				pV->Set(Message_string);
-				pVResult = pV;
-				return pV;
-
-			}
+		if (TempLong1 == TempLong2)
+		{
+			Message_string[0] = pChar[TempLong1];
+			Message_string[1] = 0;
+			pV = SStack.Push();
+			pV->Set(Message_string);
+			pVResult = pV;
+			return pV;
+		}
+		if (TempLong2 - TempLong1 >= sizeof(Message_string))
+		{
+			SetError("internal: buffer too small");
+			pV = SStack.Push();
+			pV->Set("");
+			pVResult = pV;
+			return pV;
+		}
+		memcpy(Message_string, pChar + TempLong1, TempLong2 - TempLong1 + 1);
+		Message_string[TempLong2 - TempLong1 + 1] = 0;
+		pV = SStack.Push();
+		pV->Set(Message_string);
+		pVResult = pV;
+		return pV;
 		break;
 
-		case FUNC_FINDSUBSTR:
-			pV3 = SStack.Pop(); if(!pV3){SetError(INVALID_FA);break;};// fromn
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};// substring
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};// string
-			pV->Get(pChar);
-			pV2->Get(pChar2);
-			pV3->Get(TempLong1);
-			if(pChar == nullptr || pChar2 == nullptr)
-			{
-				SetError("Invalid string argument");
-				pV = SStack.Push();
-				pV->Set("");
-				pVResult = pV;
-				return pV;
-			}
-			slen = strlen(pChar);
-			slen2 = strlen(pChar2);
-			if(slen < slen2)
-			{
-				pV = SStack.Push();
-				pV->Set((long)-1);
-				pVResult = pV;
-				return pV;
-			}
-
-
-			n = TempLong1;
-			while(n + (uint32_t)slen2 <= (uint32_t)slen)
-			{
-				if(_strnicmp(pChar + n,pChar2,slen2) == 0)
-				{
-					pV = SStack.Push();
-					pV->Set((long)n);
-					pVResult = pV;
-					return pV;
-				}
-				n++;
-			}
+	case FUNC_FINDSUBSTR:
+		pV3 = SStack.Pop();
+		if (!pV3)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(pChar);
+		pV2->Get(pChar2);
+		pV3->Get(TempLong1);
+		if (pChar == nullptr || pChar2 == nullptr)
+		{
+			SetError("Invalid string argument");
+			pV = SStack.Push();
+			pV->Set("");
+			pVResult = pV;
+			return pV;
+		}
+		slen = strlen(pChar);
+		slen2 = strlen(pChar2);
+		if (slen < slen2)
+		{
 			pV = SStack.Push();
 			pV->Set((long)-1);
 			pVResult = pV;
+			return pV;
+		}
+
+
+		n = TempLong1;
+		while (n + (uint32_t)slen2 <= (uint32_t)slen)
+		{
+			if (_strnicmp(pChar + n, pChar2, slen2) == 0)
+			{
+				pV = SStack.Push();
+				pV->Set((long)n);
+				pVResult = pV;
+				return pV;
+			}
+			n++;
+		}
+		pV = SStack.Push();
+		pV->Set((long)-1);
+		pVResult = pV;
 		return pV;
 
 		/*case FUNC_GETEntityNAME:
@@ -1083,72 +1290,141 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Set(TempLong1);
 			pVResult = pV;
 		return pV;*/
-		case FUNC_POW:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Convert(VAR_FLOAT);
-			pV->Get(TempFloat1);
+	case FUNC_POW:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Convert(VAR_FLOAT);
+		pV->Get(TempFloat1);
 
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			pV2->Convert(VAR_FLOAT);
-			pV2->Get(TempFloat2);
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2->Convert(VAR_FLOAT);
+		pV2->Get(TempFloat2);
 
-			TempFloat1 = (float)pow(TempFloat2,TempFloat1);
-			pV = SStack.Push();
-			pV->Set(TempFloat1);
-			pVResult = pV;
+		TempFloat1 = (float)pow(TempFloat2, TempFloat1);
+		pV = SStack.Push();
+		pV->Set(TempFloat1);
+		pVResult = pV;
 		return pV;
 
-		case FUNC_BREAKPOINT:
+	case FUNC_BREAKPOINT:
 #ifdef _DEBUG
-			__debugbreak();
+		__debugbreak();
 #endif
 		break;
-		case FUNC_VARTYPE:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV = pV->GetReference();
-			if(!pV){SetError(INVALID_FA);break;};
-			if(pV->IsReference()) strcpy_s(sVarName,"ref:"); else sVarName[0] = 0;
-			pV = pV->GetVarPointer();
-			switch(pV->GetType())
-			{
-			case VAR_INTEGER: strcat_s(sVarName,"int"); break;
-			case VAR_FLOAT: strcat_s(sVarName,"float"); break;
-			case VAR_STRING: strcat_s(sVarName,"string"); break;
-			case VAR_OBJECT: strcat_s(sVarName,"object"); break;
-			case VAR_REFERENCE: strcat_s(sVarName,"ref"); break;
-			case VAR_AREFERENCE: strcat_s(sVarName,"aref"); break;
-			}
-			pV = SStack.Push();
-			pV->Set(sVarName);
-			pVResult = pV;
+	case FUNC_VARTYPE:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = pV->GetReference();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		if (pV->IsReference()) strcpy_s(sVarName, "ref:");
+		else sVarName[0] = 0;
+		pV = pV->GetVarPointer();
+		switch (pV->GetType())
+		{
+		case VAR_INTEGER: strcat_s(sVarName, "int");
+			break;
+		case VAR_FLOAT: strcat_s(sVarName, "float");
+			break;
+		case VAR_STRING: strcat_s(sVarName, "string");
+			break;
+		case VAR_OBJECT: strcat_s(sVarName, "object");
+			break;
+		case VAR_REFERENCE: strcat_s(sVarName, "ref");
+			break;
+		case VAR_AREFERENCE: strcat_s(sVarName, "aref");
+			break;
+		}
+		pV = SStack.Push();
+		pV->Set(sVarName);
+		pVResult = pV;
 		return pV;
 
-		case FUNC_SET_ARRAY_SIZE:
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
+	case FUNC_SET_ARRAY_SIZE:
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
 
-			if(pV->GetType() != VAR_REFERENCE) {SetError(INVALID_FA); break;};
-			pV = pV->GetVarPointer();
-			if(pV == nullptr) {SetError(INVALID_FA); break;};
-			if(!pV->IsArray()) {SetError("Not array"); break;};
-			pV2->Get(TempLong1);
-			if(TempLong1 <= 0) {SetError(INVALID_FA); break;};
-			pV->SetElementsNum(TempLong1);
+		if (pV->GetType() != VAR_REFERENCE)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = pV->GetVarPointer();
+		if (pV == nullptr)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		if (!pV->IsArray())
+		{
+			SetError("Not array");
+			break;
+		}
+		pV2->Get(TempLong1);
+		if (TempLong1 <= 0)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->SetElementsNum(TempLong1);
 
-			if(pV->nGlobalVarTableIndex != 0xffffffff) VarTab.ArraySizeChanged(pV->nGlobalVarTableIndex,TempLong1);
+		if (pV->nGlobalVarTableIndex != 0xffffffff) VarTab.ArraySizeChanged(pV->nGlobalVarTableIndex, TempLong1);
 
 		break;
 
-		case FUNC_GET_ARRAY_SIZE:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			if(pV->GetType() != VAR_REFERENCE) {SetError(INVALID_FA); break;};
-			pV = pV->GetVarPointer();
-			if(pV == nullptr) {SetError(INVALID_FA); break;};
-			if(!pV->IsArray()) {SetError("Not array"); break;};
-			TempLong1 = pV->GetElementsNum();
-			pV = SStack.Push();
-			pV->Set(TempLong1);
-			pVResult = pV;
+	case FUNC_GET_ARRAY_SIZE:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		if (pV->GetType() != VAR_REFERENCE)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = pV->GetVarPointer();
+		if (pV == nullptr)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		if (!pV->IsArray())
+		{
+			SetError("Not array");
+			break;
+		}
+		TempLong1 = pV->GetElementsNum();
+		pV = SStack.Push();
+		pV->Set(TempLong1);
+		pVResult = pV;
 		return pV;
 
 
@@ -1171,23 +1447,33 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			pV->Get(pChar);
 			api->LayerDeleteContent(pChar);*/
 		break;
-		case FUNC_LAYER_SET_REALIZE:
-			//pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(TempLong1);
-			//pV2->Get(TempLong1);
-			//if(TempLong1 == 0) api->LayerSetRealize(pChar,false);
-			//else api->LayerSetRealize(pChar,true);
-			EntityManager::SetLayerType(TempLong1, EntityManager::Layer::Type::realize);
+	case FUNC_LAYER_SET_REALIZE:
+		//pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong1);
+		//pV2->Get(TempLong1);
+		//if(TempLong1 == 0) api->LayerSetRealize(pChar,false);
+		//else api->LayerSetRealize(pChar,true);
+		EntityManager::SetLayerType(TempLong1, EntityManager::Layer::Type::realize);
 		break;
-		case FUNC_LAYER_SET_EXECUTE:
-			//pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(TempLong1);
-			//pV2->Get(TempLong1);
-			//if(TempLong1 == 0) api->LayerSetExecute(pChar,false);
-			//else api->LayerSetExecute(pChar,true);
-			EntityManager::SetLayerType(TempLong1, EntityManager::Layer::Type::execute);
+	case FUNC_LAYER_SET_EXECUTE:
+		//pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong1);
+		//pV2->Get(TempLong1);
+		//if(TempLong1 == 0) api->LayerSetExecute(pChar,false);
+		//else api->LayerSetExecute(pChar,true);
+		EntityManager::SetLayerType(TempLong1, EntityManager::Layer::Type::execute);
 		break;
 		/*case FUNC_LAYER_SET_MESSAGES:
 			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
@@ -1197,811 +1483,1148 @@ DATA * COMPILER::BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_
 			if(TempLong1 == 0) api->LayerClrFlags(pChar,LRFLAG_SYS_MESSAGES);
 			else api->LayerSetFlags(pChar,LRFLAG_SYS_MESSAGES);
 		break;*/
-		case FUNC_LAYER_ADDOBJECT:
-			pV3 = SStack.Pop(); if(!pV3){SetError(INVALID_FA);break;};
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(TempLong2);
-			pV2->Get(TempEid);
-			pV3->Get(TempLong1);
-			EntityManager::AddToLayer(TempLong2,TempEid,TempLong1);
+	case FUNC_LAYER_ADDOBJECT:
+		pV3 = SStack.Pop();
+		if (!pV3)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong2);
+		pV2->Get(TempEid);
+		pV3->Get(TempLong1);
+		EntityManager::AddToLayer(TempLong2, TempEid, TempLong1);
 		break;
-		case FUNC_LAYER_DELOBJECT:
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(TempLong2);
-			pV2->Get(TempEid);
-			EntityManager::RemoveFromLayer(TempLong2,TempEid);
+	case FUNC_LAYER_DELOBJECT:
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong2);
+		pV2->Get(TempEid);
+		EntityManager::RemoveFromLayer(TempLong2, TempEid);
 		break;
-		case FUNC_LAYER_FREEZE:
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(TempLong2);
-			pV2->Get(TempLong1);
-			EntityManager::SetLayerFrozen(TempLong2, TempLong1);
+	case FUNC_LAYER_FREEZE:
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong2);
+		pV2->Get(TempLong1);
+		EntityManager::SetLayerFrozen(TempLong2, TempLong1);
 		break;
 
-		case FUNC_IS_Entity_LOADED:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV = pV->GetVarPointer();
-			pV->Get(TempEid);
-			pV = SStack.Push();
-			if(EntityManager::GetEntityPointer(TempEid) != nullptr) TempLong1 = 1;
-			else TempLong1 = 0;
-			pV->Set(TempLong1);
-			pVResult = pV;
+	case FUNC_IS_Entity_LOADED:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = pV->GetVarPointer();
+		pV->Get(TempEid);
+		pV = SStack.Push();
+		if (EntityManager::GetEntityPointer(TempEid) != nullptr) TempLong1 = 1;
+		else TempLong1 = 0;
+		pV->Set(TempLong1);
+		pVResult = pV;
 		return pV;
 
-		case FUNC_Entity_UPDATE:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(TempLong1);
-			if(TempLong1) bEntityUpdate = true;
-			else bEntityUpdate = false;
+	case FUNC_Entity_UPDATE:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong1);
+		if (TempLong1) bEntityUpdate = true;
+		else bEntityUpdate = false;
 		break;
 
-		case FUNC_FRAND:
-			TempFloat1 = (float)rand()/RAND_MAX;
-			pV = SStack.Push();
-			//TempFloat1 = 1.0f;	// ***
-			pV->Set(TempFloat1);
-			pVResult = pV;
+	case FUNC_FRAND:
+		TempFloat1 = (float)rand() / RAND_MAX;
+		pV = SStack.Push();
+		//TempFloat1 = 1.0f;	// ***
+		pV->Set(TempFloat1);
+		pVResult = pV;
 		return pV;
 
-		case FUNC_RAND:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(TempLong1);
-			TempLong2 = ((TempLong1 + 1) * rand())/RAND_MAX;
-			if(TempLong2 > TempLong1) TempLong2 = TempLong1;
-			pV = SStack.Push();
-			//TempLong2 = TempLong1; // ***
-			pV->Set(TempLong2);
-			pVResult = pV;
+	case FUNC_RAND:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong1);
+		TempLong2 = ((TempLong1 + 1) * rand()) / RAND_MAX;
+		if (TempLong2 > TempLong1) TempLong2 = TempLong1;
+		pV = SStack.Push();
+		//TempLong2 = TempLong1; // ***
+		pV->Set(TempLong2);
+		pVResult = pV;
 		return pV;
 
 		// create entity
-		case FUNC_CREATE_Entity:
+	case FUNC_CREATE_Entity:
 
-			pV2 = SStack.Pop();	// class name
-			if(!pV2) { SetError(MISSING_PARAMETER); break; }
-			//pV = SStack.Pop();	// object reference
-			pV = SStack.Read();	// object reference
-			if(!pV) { SetError(MISSING_PARAMETER); break; }
+		pV2 = SStack.Pop(); // class name
+		if (!pV2)
+		{
+			SetError(MISSING_PARAMETER);
+			break;
+		}
+		//pV = SStack.Pop();	// object reference
+		pV = SStack.Read(); // object reference
+		if (!pV)
+		{
+			SetError(MISSING_PARAMETER);
+			break;
+		}
 
-			pV2->Get(pChar);
-			if(ent = EntityManager::CreateEntity(pChar, pV->GetAClass()))
-			{
-				//api->Entity_SetAttributePointer(&entid_t,pV->GetAClass());
-				pV->Set(ent);
-				SStack.Pop();
-				pV = SStack.Push();
-				pV->Set((long)1);
-				pVResult = pV;
-				return pV;
-			}
-			else
-			{
-				SStack.Pop();
-				pV = SStack.Push();
-				pV->Set((long)0);
-				pVResult = pV;
-				SetError("Cant create class: %s",pChar); return pV;
-			}
+		pV2->Get(pChar);
+		if (ent = EntityManager::CreateEntity(pChar, pV->GetAClass()))
+		{
+			//api->Entity_SetAttributePointer(&entid_t,pV->GetAClass());
+			pV->Set(ent);
+			SStack.Pop();
+			pV = SStack.Push();
+			pV->Set((long)1);
+			pVResult = pV;
+			return pV;
+		}
+		SStack.Pop();
+		pV = SStack.Push();
+		pV->Set((long)0);
+		pVResult = pV;
+		SetError("Cant create class: %s", pChar);
+		return pV;
 		break;
 
-		case FUNC_CREATE_CLASS:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(pChar);
-			if(ent = EntityManager::CreateEntity(pChar))
-			{
-				pV = SStack.Push();
-				pV->Set(ent);
-				pVResult = pV;
-				return pV;
-
-			}
-			SetError("Cant create class: %s",pChar);
+	case FUNC_CREATE_CLASS:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(pChar);
+		if (ent = EntityManager::CreateEntity(pChar))
+		{
+			pV = SStack.Push();
+			pV->Set(ent);
+			pVResult = pV;
+			return pV;
+		}
+		SetError("Cant create class: %s", pChar);
 		break;
 		//
-		case FUNC_DELETE_Entity:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(ent);
-			EntityManager::EraseEntity(ent);
+	case FUNC_DELETE_Entity:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(ent);
+		EntityManager::EraseEntity(ent);
 		break;
 		//
-		case FUNC_DEL_EVENT_HANDLER:
-			pV2 = SStack.Pop();	if(!pV2){SetError(INVALID_FA);break;};// func name
-			pV = SStack.Pop();	if(!pV){SetError(INVALID_FA);break;};// event name
-			pV->Get(pChar);
-			pV2->Get(pChar2);
-			DelEventHandler(pChar,pChar2);
+	case FUNC_DEL_EVENT_HANDLER:
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(pChar);
+		pV2->Get(pChar2);
+		DelEventHandler(pChar, pChar2);
 		break;
-		case FUNC_SET_EVENT_HANDLER:
-			pV3 = SStack.Pop();	if(!pV3){SetError(INVALID_FA);break;};// flag
-			pV2 = SStack.Pop();	if(!pV2){SetError(INVALID_FA);break;};// func name
-			pV = SStack.Pop();	if(!pV){SetError(INVALID_FA);break;};// event name
-			pV->Get(pChar);
-			pV2->Get(pChar2);
-			pV3->Get(TempLong1);
-			SetEventHandler(pChar,pChar2,TempLong1);
+	case FUNC_SET_EVENT_HANDLER:
+		pV3 = SStack.Pop();
+		if (!pV3)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(pChar);
+		pV2->Get(pChar2);
+		pV3->Get(TempLong1);
+		SetEventHandler(pChar, pChar2, TempLong1);
 		break;
 		//
-		case FUNC_EXIT_PROGRAM:
-			ExitProgram();
-			//api->Exit();
+	case FUNC_EXIT_PROGRAM:
+		ExitProgram();
+		//api->Exit();
 		break;
 		//
-		case FUNC_GET_EVENTDATA:
-			if(pEventMessage == nullptr)
-			{
-				SetError("No data on this event");
-				return nullptr;
-			}
-			char format_sym;
-			format_sym = pEventMessage->GetCurrentFormatType();
-			if(format_sym == 0)
-			{
-				SetError("No (more) data on this event");
-				return nullptr;
-			}
-			switch(format_sym)
-			{
-				case 'a':
-					pResult = SStack.Push();
-					pResult->SetType(VAR_AREFERENCE);
-					pResult->SetAReference(pEventMessage->AttributePointer());
-					pVResult = pResult;
-				return pResult;
-				case 'l':
-					pResult = SStack.Push();
-					pResult->Set(pEventMessage->Long());
-					pVResult = pResult;
-				return pResult;
-				case 'f':
-					pResult = SStack.Push();
-					pResult->Set(pEventMessage->Float());
-					pVResult = pResult;
-				return pResult;
-				case 's':
-					pResult = SStack.Push();
-					pEventMessage->String(sizeof(Message_string),Message_string);
-					pResult->Set(Message_string);
-					pVResult = pResult;
-				return pResult;
-				case 'i':
-					pResult = SStack.Push();
-					pResult->SetType(VAR_AREFERENCE);
-					ent = pEventMessage->EntityID();
-					pResult->Set(ent);
-					pResult->SetAReference(api->Entity_GetAttributePointer(ent));
+	case FUNC_GET_EVENTDATA:
+		if (pEventMessage == nullptr)
+		{
+			SetError("No data on this event");
+			return nullptr;
+		}
+		char format_sym;
+		format_sym = pEventMessage->GetCurrentFormatType();
+		if (format_sym == 0)
+		{
+			SetError("No (more) data on this event");
+			return nullptr;
+		}
+		switch (format_sym)
+		{
+		case 'a':
+			pResult = SStack.Push();
+			pResult->SetType(VAR_AREFERENCE);
+			pResult->SetAReference(pEventMessage->AttributePointer());
+			pVResult = pResult;
+			return pResult;
+		case 'l':
+			pResult = SStack.Push();
+			pResult->Set(pEventMessage->Long());
+			pVResult = pResult;
+			return pResult;
+		case 'f':
+			pResult = SStack.Push();
+			pResult->Set(pEventMessage->Float());
+			pVResult = pResult;
+			return pResult;
+		case 's':
+			pResult = SStack.Push();
+			pEventMessage->String(sizeof(Message_string), Message_string);
+			pResult->Set(Message_string);
+			pVResult = pResult;
+			return pResult;
+		case 'i':
+			pResult = SStack.Push();
+			pResult->SetType(VAR_AREFERENCE);
+			ent = pEventMessage->EntityID();
+			pResult->Set(ent);
+			pResult->SetAReference(api->Entity_GetAttributePointer(ent));
 
-					pVResult = pResult;
-				return pResult;
-				case 'e':
-					pResult = SStack.Push();
-					DATA * pE;
-					pE = (DATA *)pEventMessage->ScriptVariablePointer();
-					pResult->SetReference(pE);
-					pVResult = pResult;
-				return pResult;
-				default:
-					SetError("Invalid data type in event message: '%c'",format_sym);
-				return nullptr;
-			}
+			pVResult = pResult;
+			return pResult;
+		case 'e':
+			pResult = SStack.Push();
+			DATA* pE;
+			pE = (DATA *)pEventMessage->ScriptVariablePointer();
+			pResult->SetReference(pE);
+			pVResult = pResult;
+			return pResult;
+		default:
+			SetError("Invalid data type in event message: '%c'", format_sym);
+			return nullptr;
+		}
 		break;
 		/*case FUNC_EXECUTE:
 			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
 			pV->Get(pChar);
 			api->Execute(pChar);
 		break;*/
-		case FUNC_LOAD_SEGMENT:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			Access.Copy(pV);
-			//pV->Get(pChar);
-			Access.Get(pChar);
-			pV = SStack.Push();
-			if(BC_LoadSegment(pChar)) pV->Set((long)1);
-			else pV->Set((long)0);
-			pVResult = pV;
+	case FUNC_LOAD_SEGMENT:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		Access.Copy(pV);
+		//pV->Get(pChar);
+		Access.Get(pChar);
+		pV = SStack.Push();
+		if (BC_LoadSegment(pChar)) pV->Set((long)1);
+		else pV->Set((long)0);
+		pVResult = pV;
 		return pV;
 		//
-		case FUNC_UNLOAD_SEGMENT:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(pChar);
-			UnloadSegment(pChar);
+	case FUNC_UNLOAD_SEGMENT:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(pChar);
+		UnloadSegment(pChar);
 		break;
-		case FUNC_SEGMENT_IS_LOADED:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(pChar);
-			pV = SStack.Push();
-			if(BC_SegmentIsLoaded(pChar)) pV->Set((long)1);
-			else pV->Set((long)0);
-			pVResult = pV;
+	case FUNC_SEGMENT_IS_LOADED:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(pChar);
+		pV = SStack.Push();
+		if (BC_SegmentIsLoaded(pChar)) pV->Set((long)1);
+		else pV->Set((long)0);
+		pVResult = pV;
 		break;
 		//
-		case FUNC_STOP:
-			bCompleted = true;
+	case FUNC_STOP:
+		bCompleted = true;
 		break;
 		//
 
-		case FUNC_EVENT:
-			s_off = SStack.GetDataNum() - arguments;	// set stack offset
-			pV = SStack.Read(s_off,0); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(pChar);
-			if(arguments > 1)
-			{
-				CreateMessage(&ms,s_off,1);
-				ms.ResetIndex();
-				ProcessEvent(pChar,&ms);
-			} else ProcessEvent(pChar);
-			for(n=0;n<arguments;n++){SStack.Pop();}	// set stack pointer to correct position (vars in stack remain valid)
+	case FUNC_EVENT:
+		s_off = SStack.GetDataNum() - arguments; // set stack offset
+		pV = SStack.Read(s_off, 0);
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(pChar);
+		if (arguments > 1)
+		{
+			CreateMessage(&ms, s_off, 1);
+			ms.ResetIndex();
+			ProcessEvent(pChar, &ms);
+		}
+		else ProcessEvent(pChar);
+		for (n = 0; n < arguments; n++) { SStack.Pop(); }
+		// set stack pointer to correct position (vars in stack remain valid)
 		break;
-		case FUNC_POSTEVENT:
-			MESSAGE_SCRIPT * pMS;
-			S_EVENTMSG * pEM;
-			s_off = SStack.GetDataNum() - arguments;	// set stack offset
-			pV = SStack.Read(s_off,0); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(pChar);
-			pV = SStack.Read(s_off,1); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(TempLong1);
-			if(arguments >= 4)	// event w/o message
-			{
+	case FUNC_POSTEVENT:
+		MESSAGE_SCRIPT* pMS;
+		S_EVENTMSG* pEM;
+		s_off = SStack.GetDataNum() - arguments; // set stack offset
+		pV = SStack.Read(s_off, 0);
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(pChar);
+		pV = SStack.Read(s_off, 1);
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong1);
+		if (arguments >= 4) // event w/o message
+		{
+			pMS = new MESSAGE_SCRIPT;
+			CreateMessage(pMS, s_off, 2);
+			pMS->ResetIndex();
+		}
+		else pMS = nullptr;
 
-				pMS = new MESSAGE_SCRIPT;
-				CreateMessage(pMS,s_off,2);
-				pMS->ResetIndex();
-			} else pMS = nullptr;
-
-			pEM = new S_EVENTMSG(pChar,pMS,TempLong1);
-			EventMsg.Add(pEM);
-			for(n=0;n<arguments;n++){SStack.Pop();}
+		pEM = new S_EVENTMSG(pChar, pMS, TempLong1);
+		EventMsg.Add(pEM);
+		for (n = 0; n < arguments; n++) { SStack.Pop(); }
 		break;
-		case FUNC_SEND_MESSAGE:
+	case FUNC_SEND_MESSAGE:
 
-			s_off = SStack.GetDataNum() - arguments;	// set stack offset
+		s_off = SStack.GetDataNum() - arguments; // set stack offset
 
 
-			pV = SStack.Read(s_off,0); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(ent);
+		pV = SStack.Read(s_off, 0);
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(ent);
 
-			CreateMessage(&ms,s_off,1);
+		CreateMessage(&ms, s_off, 1);
 
-			uint64_t mresult;
-			pE = EntityManager::GetEntityPointer(ent);
-			if(pE)
-			{
-				ms.ResetIndex();
-				mresult = pE->ProcessMessage(ms);
-			}
-			for(n=0;n<arguments;n++){SStack.Pop();}	// set stack pointer to correct position (vars in stack remain valid)
+		uint64_t mresult;
+		pE = EntityManager::GetEntityPointer(ent);
+		if (pE)
+		{
+			ms.ResetIndex();
+			mresult = pE->ProcessMessage(ms);
+		}
+		for (n = 0; n < arguments; n++) { SStack.Pop(); }
+		// set stack pointer to correct position (vars in stack remain valid)
 
-			pV = SStack.Push();
-			pV->SetPtr(mresult); // SendMessage returns uint64_t, could be truncated to 32
-			pVResult = pV;
+		pV = SStack.Push();
+		pV->SetPtr(mresult); // SendMessage returns uint64_t, could be truncated to 32
+		pVResult = pV;
 
 		return pV;
 		//break;
-		case FUNC_TRACE:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->RefConvert();
-			pV->Convert(VAR_STRING);
-			pV->Get(pChar);
+	case FUNC_TRACE:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->RefConvert();
+		pV->Convert(VAR_STRING);
+		pV->Get(pChar);
 #ifndef _TOFF
-			DTrace(pChar);
+		DTrace(pChar);
 #endif
 		break;
-		case FUNC_STI:
-		case FUNC_MAKE_INT:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Convert(VAR_INTEGER);
+	case FUNC_STI:
+	case FUNC_MAKE_INT:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Convert(VAR_INTEGER);
+		pV->Get(TempLong1);
+		pV = SStack.Push();
+		pV->Set(TempLong1);
+		pVResult = pV;
+		return pV;
+	case FUNC_STF:
+	case FUNC_MAKE_FLOAT:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Convert(VAR_FLOAT);
+		pV->Get(TempFloat1);
+		pV = SStack.Push();
+		pV->Set(TempFloat1);
+		pVResult = pV;
+		return pV;
+	case FUNC_FTS:
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		if (pV->GetType() != VAR_FLOAT)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		if (pV2->GetType() != VAR_INTEGER)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempFloat1);
+		pV2->Get(TempLong1);
+		pV = SStack.Push();
+		_gcvt(TempFloat1, TempLong1, gs);
+		pV->Set(gs);
+		pVResult = pV;
+		return pV;
+	case FUNC_ABS:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+
+		switch (pV->GetType())
+		{
+		case VAR_INTEGER:
 			pV->Get(TempLong1);
+			TempLong1 = abs(TempLong1);
 			pV = SStack.Push();
 			pV->Set(TempLong1);
 			pVResult = pV;
+			return pV;
+		case VAR_FLOAT:
+			pV->Get(TempFloat1);
+			TempFloat1 = (float)fabs(TempFloat1);
+			pV = SStack.Push();
+			pV->Set(TempFloat1);
+			pVResult = pV;
+			return pV;
+		default:
+			SetError("Invalid func 'abs' argument");
+			return nullptr;
+		}
+		break;
+
+	case FUNC_SQRT:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		switch (pV->GetType())
+		{
+		case VAR_INTEGER:
+			pV->Get(TempLong1);
+			if (TempLong1 < 0)
+			{
+				SetError("Negative func 'sqrt' argument");
+				return nullptr;
+			}
+			TempLong1 = (long)sqrtf((float)TempLong1);
+			pV = SStack.Push();
+			pV->Set(TempLong1);
+			pVResult = pV;
+			return pV;
+		case VAR_FLOAT:
+			pV->Get(TempFloat1);
+			if (TempFloat1 < 0)
+			{
+				SetError("Negative func 'sqrt' argument");
+				return nullptr;
+			}
+			TempFloat1 = (float)sqrt(TempFloat1);
+			pV = SStack.Push();
+			pV->Set(TempFloat1);
+			pVResult = pV;
+			return pV;
+		default:
+			SetError("Invalid func 'sqrt' argument");
+			return nullptr;
+		}
+		break;
+	case FUNC_SQR:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		switch (pV->GetType())
+		{
+		case VAR_INTEGER:
+			pV->Get(TempLong1);
+			TempLong1 = TempLong1 * TempLong1;
+			pV = SStack.Push();
+			pV->Set(TempLong1);
+			pVResult = pV;
+			return pV;
+		case VAR_FLOAT:
+			pV->Get(TempFloat1);
+			TempFloat1 = TempFloat1 * TempFloat1;
+			pV = SStack.Push();
+			pV->Set(TempFloat1);
+			pVResult = pV;
+			return pV;
+		default:
+			SetError("Invalid func 'sqr' argument");
+			return nullptr;
+		}
+		break;
+	case FUNC_SIN:
+		pV = SStack.Pop();
+		if (pV == nullptr)
+		{
+			SetError("Missing func 'sin' argument(s)");
+			return nullptr;
+		}
+		switch (pV->GetType())
+		{
+		case VAR_INTEGER:
+			pV->Get(TempLong1);
+			TempFloat1 = (float)sinf((float)TempLong1);
+			break;
+		case VAR_FLOAT:
+			pV->Get(TempFloat1);
+			TempFloat1 = (float)sin(TempFloat1);
+			break;
+		default:
+			SetError("Invalid func 'sin' argument");
+			return nullptr;
+		}
+		pV = SStack.Push();
+		pV->Set(TempFloat1);
+		pVResult = pV;
 		return pV;
-		case FUNC_STF:
-		case FUNC_MAKE_FLOAT:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
+
+	case FUNC_COS:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		switch (pV->GetType())
+		{
+		case VAR_INTEGER:
+			pV->Get(TempLong1);
+			TempFloat1 = (float)cosf((float)TempLong1);
+			break;
+		case VAR_FLOAT:
+			pV->Get(TempFloat1);
+			TempFloat1 = (float)cos(TempFloat1);
+			break;
+		default:
+			SetError("Invalid func 'cos' argument");
+			return nullptr;
+		}
+		pV = SStack.Push();
+		pV->Set(TempFloat1);
+		pVResult = pV;
+		return pV;
+	case FUNC_TAN:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		switch (pV->GetType())
+		{
+		case VAR_INTEGER:
+			pV->Get(TempLong1);
+			TempFloat1 = (float)tanf((float)TempLong1);
+			break;
+		case VAR_FLOAT:
+			pV->Get(TempFloat1);
+			TempFloat1 = (float)tan(TempFloat1);
+			break;
+		default:
+			SetError("Invalid func 'tan' argument");
+			return nullptr;
+		}
+		pV = SStack.Push();
+		pV->Set(TempFloat1);
+		pVResult = pV;
+		return pV;
+	case FUNC_ATAN:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		switch (pV->GetType())
+		{
+		case VAR_INTEGER:
+			pV->Get(TempLong1);
+			TempFloat1 = (float)atanf((float)TempLong1);
+			break;
+		case VAR_FLOAT:
+			pV->Get(TempFloat1);
+			TempFloat1 = (float)atan(TempFloat1);
+			break;
+		default:
+			SetError("Invalid func 'atan' argument");
+			return nullptr;
+		}
+		pV = SStack.Push();
+		pV->Set(TempFloat1);
+		pVResult = pV;
+		return pV;
+	case FUNC_ATAN2:
+
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		switch (pV->GetType())
+		{
+		case VAR_FLOAT:
+		case VAR_INTEGER:
 			pV->Convert(VAR_FLOAT);
+			switch (pV->GetType())
+			{
+			case VAR_FLOAT:
+			case VAR_INTEGER:
+				pV2->Convert(VAR_FLOAT);
+				break;
+			default:
+				SetError("Invalid func 'atan2' argument");
+				return nullptr;
+			}
 			pV->Get(TempFloat1);
+			pV2->Get(TempFloat2);
+			TempFloat1 = (float)atan2(TempFloat1, TempFloat2);
 			pV = SStack.Push();
 			pV->Set(TempFloat1);
 			pVResult = pV;
-		return pV;
-		case FUNC_FTS:
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			if(pV->GetType() != VAR_FLOAT) {SetError(INVALID_FA); break;}
-			if(pV2->GetType() != VAR_INTEGER) {SetError(INVALID_FA); break;}
-			pV->Get(TempFloat1);
-			pV2->Get(TempLong1);
-			pV = SStack.Push();
-			_gcvt(TempFloat1,TempLong1,gs);
-			pV->Set(gs);
-			pVResult = pV;
-		return pV;
-		case FUNC_ABS:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-
-			switch(pV->GetType())
-			{
-				case VAR_INTEGER:
-					pV->Get(TempLong1);
-					TempLong1 = abs(TempLong1);
-					pV = SStack.Push();
-					pV->Set(TempLong1);
-					pVResult = pV;
-				return pV;
-				case VAR_FLOAT:
-					pV->Get(TempFloat1);
-					TempFloat1 = (float)fabs(TempFloat1);
-					pV = SStack.Push();
-					pV->Set(TempFloat1);
-					pVResult = pV;
-				return pV;
-				default:
-					SetError("Invalid func 'abs' argument");
-				return nullptr;
-			}
+			return pV;
+		default:
+			SetError("Invalid func 'atan2' argument");
+			return nullptr;
+		}
 		break;
+	case FUNC_COPYATTRIBUTES:
+		// source
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		// destination
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
 
-		case FUNC_SQRT:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			switch(pV->GetType())
-			{
-				case VAR_INTEGER:
-					pV->Get(TempLong1);
-					if(TempLong1 < 0)
-					{
-						SetError("Negative func 'sqrt' argument");
-						return nullptr;
-					}
-					TempLong1 = (long)sqrtf((float)TempLong1);
-					pV = SStack.Push();
-					pV->Set(TempLong1);
-					pVResult = pV;
-				return pV;
-				case VAR_FLOAT:
-					pV->Get(TempFloat1);
-					if(TempFloat1 < 0)
-					{
-						SetError("Negative func 'sqrt' argument");
-						return nullptr;
-					}
-					TempFloat1 = (float)sqrt(TempFloat1);
-					pV = SStack.Push();
-					pV->Set(TempFloat1);
-					pVResult = pV;
-				return pV;
-				default:
-					SetError("Invalid func 'sqrt' argument");
-				return nullptr;
-			}
+		pRoot = pV->GetAClass();
+		pA = pV2->GetAClass();
+
+		if (pA == nullptr || pRoot == nullptr)
+		{
+			SetError("AClass ERROR n1");
+			break;
+		}
+		pRoot->Copy(pA);
 		break;
-		case FUNC_SQR:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			switch(pV->GetType())
-			{
-				case VAR_INTEGER:
-					pV->Get(TempLong1);
-					TempLong1 = TempLong1*TempLong1;
-					pV = SStack.Push();
-					pV->Set(TempLong1);
-					pVResult = pV;
-				return pV;
-				case VAR_FLOAT:
-					pV->Get(TempFloat1);
-					TempFloat1 = TempFloat1*TempFloat1;
-					pV = SStack.Push();
-					pV->Set(TempFloat1);
-					pVResult = pV;
-				return pV;
-				default:
-					SetError("Invalid func 'sqr' argument");
-				return nullptr;
-			}
+	case FUNC_DELETE_ATTRIBUTE:
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2->Get(pChar);
+
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		//pV->Get(TempEid);
+		pRoot = pV->GetAClass();
+		if (pRoot == nullptr)
+		{
+			SetError("AClass ERROR n1");
+			break;
+		}
+		pA = pRoot->FindAClass(pRoot, pChar);
+		pRoot->DeleteAttributeClassX(pA);
 		break;
-		case FUNC_SIN:
-			pV = SStack.Pop();
-			if(pV == nullptr)
-			{
-				SetError("Missing func 'sin' argument(s)");
-				return nullptr;
-			}
-			switch(pV->GetType())
-			{
-				case VAR_INTEGER:
-					pV->Get(TempLong1);
-					TempFloat1 = (float)sinf((float)TempLong1);
-				break;
-				case VAR_FLOAT:
-					pV->Get(TempFloat1);
-					TempFloat1 = (float)sin(TempFloat1);
-				break;
-				default:
-					SetError("Invalid func 'sin' argument");
-				return nullptr;
-			}
-			pV = SStack.Push();
-			pV->Set(TempFloat1);
-			pVResult = pV;
-		return pV;
+	case FUNC_CHECK_ATTRIBUTE:
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2->Get(pChar);
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
 
-		case FUNC_COS:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			switch(pV->GetType())
+		pV = pV->GetVarPointer();
+		if (!pV) TempLong1 = 0;
+		else
+		{
+			switch (pV->GetType())
 			{
-				case VAR_INTEGER:
-					pV->Get(TempLong1);
-					TempFloat1 = (float)cosf((float)TempLong1);
-				break;
-				case VAR_FLOAT:
-					pV->Get(TempFloat1);
-					TempFloat1 = (float)cos(TempFloat1);
-				break;
-				default:
-					SetError("Invalid func 'cos' argument");
-				return nullptr;
-			}
-			pV = SStack.Push();
-			pV->Set(TempFloat1);
-			pVResult = pV;
-		return pV;
-		case FUNC_TAN:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			switch(pV->GetType())
-			{
-				case VAR_INTEGER:
-					pV->Get(TempLong1);
-					TempFloat1 = (float)tanf((float)TempLong1);
-				break;
-				case VAR_FLOAT:
-					pV->Get(TempFloat1);
-					TempFloat1 = (float)tan(TempFloat1);
-				break;
-				default:
-					SetError("Invalid func 'tan' argument");
-				return nullptr;
-			}
-			pV = SStack.Push();
-			pV->Set(TempFloat1);
-			pVResult = pV;
-		return pV;
-		case FUNC_ATAN:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			switch(pV->GetType())
-			{
-				case VAR_INTEGER:
-					pV->Get(TempLong1);
-					TempFloat1 = (float)atanf((float)TempLong1);
-				break;
-				case VAR_FLOAT:
-					pV->Get(TempFloat1);
-					TempFloat1 = (float)atan(TempFloat1);
-				break;
-				default:
-					SetError("Invalid func 'atan' argument");
-				return nullptr;
-			}
-			pV = SStack.Push();
-			pV->Set(TempFloat1);
-			pVResult = pV;
-		return pV;
-		case FUNC_ATAN2:
-
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			switch(pV->GetType())
-			{
-				case VAR_FLOAT:
-				case VAR_INTEGER:
-					pV->Convert(VAR_FLOAT);
-					switch(pV->GetType())
-					{
-						case VAR_FLOAT:
-						case VAR_INTEGER:
-							pV2->Convert(VAR_FLOAT);
-						break;
-						default:
-							SetError("Invalid func 'atan2' argument");
-						return nullptr;
-					}
-					pV->Get(TempFloat1);
-					pV2->Get(TempFloat2);
-					TempFloat1 = (float)atan2(TempFloat1,TempFloat2);
-					pV = SStack.Push();
-					pV->Set(TempFloat1);
-					pVResult = pV;
-				return pV;
-				default:
-					SetError("Invalid func 'atan2' argument");
-				return nullptr;
-			}
-		break;
-		case FUNC_COPYATTRIBUTES:
-			// source
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			// destination
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-
-			pRoot = pV->GetAClass();
-			pA = pV2->GetAClass();
-
-			if(pA == nullptr || pRoot == nullptr) {SetError("AClass ERROR n1"); break;}
-			pRoot->Copy(pA);
-		break;
-		case FUNC_DELETE_ATTRIBUTE:
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			pV2->Get(pChar);
-
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			//pV->Get(TempEid);
-			pRoot = pV->GetAClass();
-			if(pRoot == nullptr) {SetError("AClass ERROR n1"); break;}
-			pA = pRoot->FindAClass(pRoot,pChar);
-			pRoot->DeleteAttributeClassX(pA);
-		break;
-		case FUNC_CHECK_ATTRIBUTE:
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			pV2->Get(pChar);
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-
-			pV = pV->GetVarPointer();
-			if(!pV) TempLong1 = 0;
-			else
-			{
-				switch(pV->GetType())
+			case VAR_AREFERENCE:
+				if (!pV->AttributesClass)
 				{
-					case VAR_AREFERENCE:
-						if(!pV->AttributesClass)
-						{
-							TempLong1 = 0;
-							break;
-						}
-
-					default:
-						pRoot = pV->GetAClass();
-						if(pRoot)
-						{
-							pA = pRoot->FindAClass(pRoot,pChar);
-							if(pA) TempLong1 = 1;
-							else TempLong1 = 0;
-						} else TempLong1 = 0;
+					TempLong1 = 0;
 					break;
 				}
+
+			default:
+				pRoot = pV->GetAClass();
+				if (pRoot)
+				{
+					pA = pRoot->FindAClass(pRoot, pChar);
+					if (pA) TempLong1 = 1;
+					else TempLong1 = 0;
+				}
+				else TempLong1 = 0;
+				break;
 			}
-			pV = SStack.Push();
-			pV->Set(TempLong1);
-			pVResult = pV;
+		}
+		pV = SStack.Push();
+		pV->Set(TempLong1);
+		pVResult = pV;
 		return pV;
-		case FUNC_GET_ATTRIBUTES_NUM:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV = pV->GetVarPointer();
-			if(!(pV->GetType() == VAR_AREFERENCE || pV->GetType() == VAR_OBJECT)) {SetError(BAD_FA);break;};
-			pA = pV->GetAClass();
-			if(pA) TempLong1 = pA->GetAttributesNum();
-			else TempLong1 = 0;
-			pV = SStack.Push();
-			pV->Set(TempLong1);
-			pVResult = pV;
+	case FUNC_GET_ATTRIBUTES_NUM:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = pV->GetVarPointer();
+		if (!(pV->GetType() == VAR_AREFERENCE || pV->GetType() == VAR_OBJECT))
+		{
+			SetError(BAD_FA);
+			break;
+		}
+		pA = pV->GetAClass();
+		if (pA) TempLong1 = pA->GetAttributesNum();
+		else TempLong1 = 0;
+		pV = SStack.Push();
+		pV->Set(TempLong1);
+		pVResult = pV;
 		return pV;
-		case FUNC_GET_ATTRIBUTE_BYN:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV->Get(TempLong1);
+	case FUNC_GET_ATTRIBUTE_BYN:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Get(TempLong1);
 
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV = pV->GetVarPointer();
-			if(!(pV->GetType() == VAR_AREFERENCE || pV->GetType() == VAR_OBJECT)) {SetError(BAD_FA);break;};
-			pA = pV->GetAClass();
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = pV->GetVarPointer();
+		if (!(pV->GetType() == VAR_AREFERENCE || pV->GetType() == VAR_OBJECT))
+		{
+			SetError(BAD_FA);
+			break;
+		}
+		pA = pV->GetAClass();
 
-			if(pA) pA = pA->GetAttributeClass(TempLong1);
-			if(pA == nullptr) {SetError("incorrect argument index");break;};
-			pV = SStack.Push();
-			pV->SetType(VAR_AREFERENCE);
-			pV->SetAReference(pA);
-			pVResult = pV;
+		if (pA) pA = pA->GetAttributeClass(TempLong1);
+		if (pA == nullptr)
+		{
+			SetError("incorrect argument index");
+			break;
+		}
+		pV = SStack.Push();
+		pV->SetType(VAR_AREFERENCE);
+		pV->SetAReference(pA);
+		pVResult = pV;
 		return pV;
-		case FUNC_GET_ATTRIBUTE_VALUE:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV = pV->GetVarPointer();
-			if(!(pV->GetType() == VAR_AREFERENCE || pV->GetType() == VAR_OBJECT)) {SetError(BAD_FA);break;};
-			pA = pV->GetAClass();
-			if(pA) pChar = pA->GetThisAttr();
-			else pChar = "AClass ERROR n1";
-			pV = SStack.Push();
-			pV->Set(pChar);
-			pVResult = pV;
+	case FUNC_GET_ATTRIBUTE_VALUE:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = pV->GetVarPointer();
+		if (!(pV->GetType() == VAR_AREFERENCE || pV->GetType() == VAR_OBJECT))
+		{
+			SetError(BAD_FA);
+			break;
+		}
+		pA = pV->GetAClass();
+		if (pA) pChar = pA->GetThisAttr();
+		else pChar = "AClass ERROR n1";
+		pV = SStack.Push();
+		pV->Set(pChar);
+		pVResult = pV;
 		return pV;
-		case FUNC_GET_ATTRIBUTE_NAME:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV = pV->GetVarPointer();
-			if(!(pV->GetType() == VAR_AREFERENCE || pV->GetType() == VAR_OBJECT)) {SetError(BAD_FA);break;};
-			pA = pV->GetAClass();
-			if(pA) pChar = pA->GetThisName();
-			else pChar = "AClass ERROR n1";
-			pV = SStack.Push();
-			pV->Set(pChar);
-			pVResult = pV;
+	case FUNC_GET_ATTRIBUTE_NAME:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = pV->GetVarPointer();
+		if (!(pV->GetType() == VAR_AREFERENCE || pV->GetType() == VAR_OBJECT))
+		{
+			SetError(BAD_FA);
+			break;
+		}
+		pA = pV->GetAClass();
+		if (pA) pChar = pA->GetThisName();
+		else pChar = "AClass ERROR n1";
+		pV = SStack.Push();
+		pV->Set(pChar);
+		pVResult = pV;
 		return pV;
-		case FUNC_DUMP_ATTRIBUTES:
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-			pV = pV->GetVarPointer();
-			if(!(pV->GetType() == VAR_AREFERENCE || pV->GetType() == VAR_OBJECT)) {SetError(BAD_FA);break;};
-			pA = pV->GetAClass();
-			if(pA == nullptr) {SetError("AClass ERROR n1"); break;}
+	case FUNC_DUMP_ATTRIBUTES:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = pV->GetVarPointer();
+		if (!(pV->GetType() == VAR_AREFERENCE || pV->GetType() == VAR_OBJECT))
+		{
+			SetError(BAD_FA);
+			break;
+		}
+		pA = pV->GetAClass();
+		if (pA == nullptr)
+		{
+			SetError("AClass ERROR n1");
+			break;
+		}
 #ifndef _TOFF
-			DumpAttributes(pA,0);
+		DumpAttributes(pA, 0);
 #endif
 		break;
-		case FUNC_ARGB:
-			pV4 = SStack.Pop(); if(!pV4){SetError(INVALID_FA);break;};
-			pV3 = SStack.Pop(); if(!pV3){SetError(INVALID_FA);break;};
-			pV2 = SStack.Pop(); if(!pV2){SetError(INVALID_FA);break;};
-			pV = SStack.Pop(); if(!pV){SetError(INVALID_FA);break;};
-
-			pV->Get(TempLong);
-			TempLong = TempLong<<24;
-			pV2->Get(TempLong2);
-			TempLong2 = TempLong2<<16;
-			TempLong = TempLong | TempLong2;
-			pV3->Get(TempLong2);
-			TempLong2 = TempLong2<<8;
-			TempLong = TempLong | TempLong2;
-			pV4->Get(TempLong2);
-			TempLong = TempLong | TempLong2;
-
-			pV = SStack.Push();
-			pV->Set(TempLong);
-			pVResult = pV;
-		return pVResult;
-		case FUNC_DELETE_ENTITIES:
-			Core.EraseEntities();
-		break;
-		case FUNC_CLEAR_EVENTS:
-			Core.ClearEvents();
-		break;
-		case FUNC_CLEAR_POST_EVENTS:
-			//EventMsg.Release();
-			EventMsg.InvalidateAll();
+	case FUNC_ARGB:
+		pV4 = SStack.Pop();
+		if (!pV4)
+		{
+			SetError(INVALID_FA);
 			break;
-		case FUNC_SAVEENGINESTATE:
-			pV = SStack.Pop();
-			if(!pV){SetError(INVALID_FA);break;};
-			pV->Convert(VAR_STRING);
-			pV->Get(pChar);
-			api->SaveState(pChar);
+		}
+		pV3 = SStack.Pop();
+		if (!pV3)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV2 = SStack.Pop();
+		if (!pV2)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+
+		pV->Get(TempLong);
+		TempLong = TempLong << 24;
+		pV2->Get(TempLong2);
+		TempLong2 = TempLong2 << 16;
+		TempLong = TempLong | TempLong2;
+		pV3->Get(TempLong2);
+		TempLong2 = TempLong2 << 8;
+		TempLong = TempLong | TempLong2;
+		pV4->Get(TempLong2);
+		TempLong = TempLong | TempLong2;
+
+		pV = SStack.Push();
+		pV->Set(TempLong);
+		pVResult = pV;
+		return pVResult;
+	case FUNC_DELETE_ENTITIES:
+		Core.EraseEntities();
 		break;
-		case FUNC_LOADENGINESTATE:
-			pV = SStack.Pop();
-			if(!pV){SetError(INVALID_FA);break;};
-			pV->Convert(VAR_STRING);
-			pV->Get(pChar);
-			api->InitiateStateLoading(pChar);
+	case FUNC_CLEAR_EVENTS:
+		Core.ClearEvents();
+		break;
+	case FUNC_CLEAR_POST_EVENTS:
+		//EventMsg.Release();
+		EventMsg.InvalidateAll();
+		break;
+	case FUNC_SAVEENGINESTATE:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Convert(VAR_STRING);
+		pV->Get(pChar);
+		api->SaveState(pChar);
+		break;
+	case FUNC_LOADENGINESTATE:
+		pV = SStack.Pop();
+		if (!pV)
+		{
+			SetError(INVALID_FA);
+			break;
+		}
+		pV->Convert(VAR_STRING);
+		pV->Get(pChar);
+		api->InitiateStateLoading(pChar);
 		break;
 	}
 	return nullptr;
 }
 
-void COMPILER::DumpAttributes(ATTRIBUTES * pA, long level)
+void COMPILER::DumpAttributes(ATTRIBUTES* pA, long level)
 {
 	char buffer[128];
-	if(pA == nullptr) return;
+	if (pA == nullptr) return;
 
-	if(level >= 128) level = 127;
-	if(level != 0) memset(buffer,' ',level); buffer[level] = 0;
+	if (level >= 128) level = 127;
+	if (level != 0) memset(buffer, ' ', level);
+	buffer[level] = 0;
 
-	for(uint32_t n = 0;n<pA->GetAttributesNum();n++)
+	for (uint32_t n = 0; n < pA->GetAttributesNum(); n++)
 	{
-		DTrace("%s%s = %s",buffer,pA->GetAttributeName(n),pA->GetAttribute(n));
+		DTrace("%s%s = %s", buffer, pA->GetAttributeName(n), pA->GetAttribute(n));
 		DumpAttributes(pA->GetAttributeClass(pA->GetAttributeName(n)), level + 2);
 	}
 }
 
 
 // assume first param - format string
-bool COMPILER::CreateMessage(MESSAGE_SCRIPT * pMs, uint32_t s_off, uint32_t var_offset, bool s2s)
+bool COMPILER::CreateMessage(MESSAGE_SCRIPT* pMs, uint32_t s_off, uint32_t var_offset, bool s2s)
 {
 	uintptr_t TempPtr;
-	long  TempLong1;
+	long TempLong1;
 	float TempFloat1;
 	entid_t TempEid;
-	ATTRIBUTES * pA;
-	char * Format_string;
-	char * pChar;
+	ATTRIBUTES* pA;
+	char* Format_string;
+	char* pChar;
 
-	if(pMs == nullptr) return false;
+	if (pMs == nullptr) return false;
 
 	// read format string
-	DATA* pV = SStack.Read(s_off, var_offset); if(!pV){SetError(INVALID_FA); return false;};
+	DATA* pV = SStack.Read(s_off, var_offset);
+	if (!pV)
+	{
+		SetError(INVALID_FA);
+		return false;
+	}
 	var_offset++;
 	// set pointer to format string
 	pV->Get(Format_string);
-	if(Format_string == nullptr)
+	if (Format_string == nullptr)
 	{
-		SetError("format string is null"); return false;
+		SetError("format string is null");
+		return false;
 	}
 	// reset message class data
 	pMs->Reset(Format_string);
 	// scan format string
 	uint32_t n = 0;
-	while(Format_string[n])
+	while (Format_string[n])
 	{
 		// read stack data
-		pV = SStack.Read(s_off,var_offset); var_offset++;
-		if(!pV)	{ SetError("No data in CreateMessage()"); return false; }
-
-		switch(Format_string[n])
+		pV = SStack.Read(s_off, var_offset);
+		var_offset++;
+		if (!pV)
 		{
-			case 'l':
-				pV = pV->GetVarPointer();
-				if(pV->GetType() != VAR_INTEGER)
-				{
-					SetError("CreateMessage: Invalid Data");
-					return false;
-				}
-				pV->Get(TempLong1);
-				pMs->Set((char *)&TempLong1);
-			break;
-			case 'p':
-				pV = pV->GetVarPointer();
-				if (pV->GetType() != VAR_PTR)
-				{
-					SetError("CreateMessage: Invalid Data");
-					return false;
-				}
-				pV->GetPtr(TempPtr);
-				pMs->Set((char*)&TempPtr);
-				break;
-			case 'f':
-				pV = pV->GetVarPointer();
-				if(pV->GetType() != VAR_FLOAT)
-				{
-					if(pV->GetType() == VAR_INTEGER)
-					{
-						pV->Convert(VAR_FLOAT);
-					}
-					else
-					{
-						SetError("CreateMessage: Invalid Data");
-						return false;
-					}
-				}
-				pV->Get(TempFloat1);
-				pMs->Set((char *)&TempFloat1);
-			break;
-			case 'i':
-				pV = pV->GetVarPointer();
-				if(!(pV->GetType() == VAR_OBJECT || pV->GetType() == VAR_AREFERENCE))
-				{
-					SetError("CreateMessage: Invalid Data");
-					return false;
-				}
-				pV->Get(TempEid);
-				pMs->Set((char *)&TempEid);
-			break;
-			case 'e':
-				pV = pV->GetVarPointer();
-				pMs->Set((char *)&pV);
-			break;
-			case 's':
-				if(pV->GetType() != VAR_STRING)
-				{
-					SetError("CreateMessage: Invalid Data");
-					return false;
-				}
-				pV->Get(pChar);
-				pMs->Set((char *)pChar);
-			break;
-			case 'a':
-				pV = pV->GetVarPointer();
-				if(!(pV->GetType() == VAR_OBJECT || pV->GetType() == VAR_AREFERENCE))
-				{
-					SetError("CreateMessage: Invalid Data");
-					return false;
-				}
-				pA = pV->GetAClass();
-				pMs->Set((char *)&pA);
-			break;
+			SetError("No data in CreateMessage()");
+			return false;
+		}
 
+		switch (Format_string[n])
+		{
+		case 'l':
+			pV = pV->GetVarPointer();
+			if (pV->GetType() != VAR_INTEGER)
+			{
+				SetError("CreateMessage: Invalid Data");
+				return false;
+			}
+			pV->Get(TempLong1);
+			pMs->Set((char *)&TempLong1);
+			break;
+		case 'p':
+			pV = pV->GetVarPointer();
+			if (pV->GetType() != VAR_PTR)
+			{
+				SetError("CreateMessage: Invalid Data");
+				return false;
+			}
+			pV->GetPtr(TempPtr);
+			pMs->Set((char*)&TempPtr);
+			break;
+		case 'f':
+			pV = pV->GetVarPointer();
+			if (pV->GetType() != VAR_FLOAT)
+			{
+				if (pV->GetType() == VAR_INTEGER)
+				{
+					pV->Convert(VAR_FLOAT);
+				}
+				else
+				{
+					SetError("CreateMessage: Invalid Data");
+					return false;
+				}
+			}
+			pV->Get(TempFloat1);
+			pMs->Set((char *)&TempFloat1);
+			break;
+		case 'i':
+			pV = pV->GetVarPointer();
+			if (!(pV->GetType() == VAR_OBJECT || pV->GetType() == VAR_AREFERENCE))
+			{
+				SetError("CreateMessage: Invalid Data");
+				return false;
+			}
+			pV->Get(TempEid);
+			pMs->Set((char *)&TempEid);
+			break;
+		case 'e':
+			pV = pV->GetVarPointer();
+			pMs->Set((char *)&pV);
+			break;
+		case 's':
+			if (pV->GetType() != VAR_STRING)
+			{
+				SetError("CreateMessage: Invalid Data");
+				return false;
+			}
+			pV->Get(pChar);
+			pMs->Set((char *)pChar);
+			break;
+		case 'a':
+			pV = pV->GetVarPointer();
+			if (!(pV->GetType() == VAR_OBJECT || pV->GetType() == VAR_AREFERENCE))
+			{
+				SetError("CreateMessage: Invalid Data");
+				return false;
+			}
+			pA = pV->GetAClass();
+			pMs->Set((char *)&pA);
+			break;
 		}
 		n++;
 	}

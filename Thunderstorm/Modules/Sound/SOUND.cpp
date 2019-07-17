@@ -8,9 +8,10 @@
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SOUND)
+
 //--------------------------------------------------------------------
 SOUND::SOUND()
-	:soundService(nullptr)
+	: soundService(nullptr)
 {
 }
 
@@ -28,15 +29,15 @@ bool SOUND::Init()
 	if (!soundService)
 		api->Trace("!SOUND: Can`t create sound service");
 
-	renderer = (VDX9RENDER *) api->CreateService("dx9render");
-	EntityManager::AddToLayer(REALIZE,GetId(),-1);
+	renderer = (VDX9RENDER *)api->CreateService("dx9render");
+	EntityManager::AddToLayer(REALIZE, GetId(), -1);
 
 	return true;
 	//UNGUARD
 }
 
 //--------------------------------------------------------------------
-uint64_t SOUND::ProcessMessage(MESSAGE & message)
+uint64_t SOUND::ProcessMessage(MESSAGE& message)
 {
 	////GUARD(SOUND::ProcessMessage)
 
@@ -90,46 +91,48 @@ uint64_t SOUND::ProcessMessage(MESSAGE & message)
 	case MSG_SOUND_PLAY:
 		message.String(sizeof(tempString), tempString); //filename
 
-		temp     = message.Long(); //type
+		temp = message.Long(); //type
 		//defaults
-		vt       = (int) VOLUME_FX; //volume type
-		temp2    = 0;
-		temp3    = 0;
-		temp4    = 0;
+		vt = (int)VOLUME_FX; //volume type
+		temp2 = 0;
+		temp3 = 0;
+		temp4 = 0;
 		tempLong = 0;
 		vector.x = 0;
 		vector.y = 0;
 		vector.z = 0;
-		minD     = -1.0f;
-		maxD     = -1.0f;
+		minD = -1.0f;
+		maxD = -1.0f;
 		loopPauseTime = 0;
-		volume   = 1.f;
+		volume = 1.f;
 		//try to read as many parameters   as we can
-		if (message.GetCurrentFormatType())	vt       = message.Long(); //volume_type
-		if (message.GetCurrentFormatType())	temp2    = message.Long(); //simple_cache
-		if (message.GetCurrentFormatType())	temp3    = message.Long(); //looped
-		if (message.GetCurrentFormatType())	temp4    = message.Long(); //cached
-		if (message.GetCurrentFormatType())	tempLong = message.Long(); //fade_in_time
+		if (message.GetCurrentFormatType()) vt = message.Long(); //volume_type
+		if (message.GetCurrentFormatType()) temp2 = message.Long(); //simple_cache
+		if (message.GetCurrentFormatType()) temp3 = message.Long(); //looped
+		if (message.GetCurrentFormatType()) temp4 = message.Long(); //cached
+		if (message.GetCurrentFormatType()) tempLong = message.Long(); //fade_in_time
 		// boal fix 28.10.06
 		if (temp == SOUND_MP3_STEREO)
 		{
 			if (temp3) // stereo OGG, looped
 			{
-				if (message.GetCurrentFormatType())	loopPauseTime = message.Long();
-				if (message.GetCurrentFormatType())	volume		  = message.Float();
+				if (message.GetCurrentFormatType()) loopPauseTime = message.Long();
+				if (message.GetCurrentFormatType()) volume = message.Float();
 			}
 		}
 		else
 		{
-			if (message.GetCurrentFormatType())	vector.x = message.Float();
-			if (message.GetCurrentFormatType())	vector.y = message.Float();
-			if (message.GetCurrentFormatType())	vector.z = message.Float();
-			if (message.GetCurrentFormatType())	minD	 = message.Float();
-			if (message.GetCurrentFormatType())	maxD	 = message.Float();
+			if (message.GetCurrentFormatType()) vector.x = message.Float();
+			if (message.GetCurrentFormatType()) vector.y = message.Float();
+			if (message.GetCurrentFormatType()) vector.z = message.Float();
+			if (message.GetCurrentFormatType()) minD = message.Float();
+			if (message.GetCurrentFormatType()) maxD = message.Float();
 		}
 
-		outValue = (uint32_t) soundService->SoundPlay(tempString, (eSoundType) temp, (eVolumeType) vt, (temp2 != 0), (temp3 != 0), (temp4 != 0), tempLong, &vector, minD, maxD, loopPauseTime, volume);
-		
+		outValue = (uint32_t)soundService->SoundPlay(tempString, (eSoundType)temp, (eVolumeType)vt, (temp2 != 0),
+		                                             (temp3 != 0), (temp4 != 0), tempLong, &vector, minD, maxD,
+		                                             loopPauseTime, volume);
+
 		break;
 	case MSG_SOUND_STOP:
 		id = message.Long();
@@ -142,7 +145,7 @@ uint64_t SOUND::ProcessMessage(MESSAGE & message)
 		break;
 	case MSG_SOUND_DUPLICATE:
 		id = message.Long();
-		outValue = (uint32_t) soundService->SoundDuplicate(id);
+		outValue = (uint32_t)soundService->SoundDuplicate(id);
 		break;
 	case MSG_SOUND_SET_3D_PARAM:
 		id = message.Long();
@@ -181,7 +184,7 @@ uint64_t SOUND::ProcessMessage(MESSAGE & message)
 		break;
 	case MSG_SOUND_GET_POSITION:
 		id = message.Long();
-		outValue = (uint32_t) (soundService->SoundGetPosition(id) * 100.0f);
+		outValue = (uint32_t)(soundService->SoundGetPosition(id) * 100.0f);
 		break;
 	case MSG_SOUND_RESTART:
 		id = message.Long();
@@ -223,25 +226,26 @@ void SOUND::Realize(uint32_t dTime)
 {
 	if (!soundService)
 		return;
-/*
-	bool drawInfo;
-#ifndef _XBOX
-	drawInfo = (GetKeyState(VK_SUBTRACT) & 0x8000) != 0;
-#else
-	drawInfo = true;
-#endif
-	if (drawInfo)
-	{
-		renderer->Print(0, 90, "cnt[%d,%d] buf[%d,%d] cach[%d,%d]"
-					   ,soundService->soundStatistics.soundsCount
-					   ,soundService->soundStatistics.maxSoundsCount
-					   ,soundService->soundStatistics.bytesInBuffers / 1024
-		 			   ,soundService->soundStatistics.maxBytesInBuffers / 1024
-					   ,soundService->soundStatistics.bytesCached / 1024
-					   ,soundService->soundStatistics.maxBytesCached / 1024
-					   );
-	}
-*/
+	/*
+		bool drawInfo;
+	#ifndef _XBOX
+		drawInfo = (GetKeyState(VK_SUBTRACT) & 0x8000) != 0;
+	#else
+		drawInfo = true;
+	#endif
+		if (drawInfo)
+		{
+			renderer->Print(0, 90, "cnt[%d,%d] buf[%d,%d] cach[%d,%d]"
+						   ,soundService->soundStatistics.soundsCount
+						   ,soundService->soundStatistics.maxSoundsCount
+						   ,soundService->soundStatistics.bytesInBuffers / 1024
+						    ,soundService->soundStatistics.maxBytesInBuffers / 1024
+						   ,soundService->soundStatistics.bytesCached / 1024
+						   ,soundService->soundStatistics.maxBytesCached / 1024
+						   );
+		}
+	*/
 }
+
 //--------------------------------------------------------------------
 //--------------------------------------------------------------------

@@ -6,9 +6,13 @@
 
 INTERFACE_FUNCTION
 CREATE_CLASS(SEA_AI)
+
 CREATE_CLASS(AIFort)
+
 CREATE_CLASS(AIBalls)
+
 CREATE_CLASS(AISeaGoods)
+
 CREATE_CLASS(SeaLocatorShow)
 
 SEA_AI::SEA_AI()
@@ -18,7 +22,8 @@ SEA_AI::SEA_AI()
 
 SEA_AI::~SEA_AI()
 {
-	for (uint32_t i=0;i<AIGroup::AIGroups.size();i++) STORM_DELETE(AIGroup::AIGroups[i]);
+	for (uint32_t i = 0; i < AIGroup::AIGroups.size(); i++)
+	STORM_DELETE(AIGroup::AIGroups[i]);
 	AIGroup::AIGroups.clear();
 	AIShip::AIShips.clear();
 	Helper.Uninit();
@@ -46,8 +51,8 @@ void SEA_AI::Execute(uint32_t Delta_Time)
 		Helper.CalculateRelations();
 		bFirstInit = false;
 	}
-	
-	for (uint32_t i=0;i<AIGroup::AIGroups.size();i++)
+
+	for (uint32_t i = 0; i < AIGroup::AIGroups.size(); i++)
 	{
 		AIGroup::AIGroups[i]->Execute(fDeltaTime);
 	}
@@ -60,7 +65,7 @@ extern uint32_t dwTotal;
 void SEA_AI::Realize(uint32_t Delta_Time)
 {
 	float fDeltaTime = 0.001f * float(Delta_Time);
-	for (uint32_t i=0;i<AIGroup::AIGroups.size();i++)
+	for (uint32_t i = 0; i < AIGroup::AIGroups.size(); i++)
 	{
 		AIGroup::AIGroups[i]->Realize(fDeltaTime);
 	}
@@ -68,12 +73,12 @@ void SEA_AI::Realize(uint32_t Delta_Time)
 	//AIHelper::pRS->Print(0,90,"%d",dwRDTSC);//dwTotal);
 }
 
-bool SEA_AI::CreateState(ENTITY_STATE_GEN * state_gen)
+bool SEA_AI::CreateState(ENTITY_STATE_GEN* state_gen)
 {
 	return true;
 }
 
-bool SEA_AI::LoadState(ENTITY_STATE * state)
+bool SEA_AI::LoadState(ENTITY_STATE* state)
 {
 	return true;
 }
@@ -82,280 +87,286 @@ void SEA_AI::ProcessMessage(uint32_t iMsg, uint32_t wParam, uint32_t lParam)
 {
 }
 
-uint64_t SEA_AI::ProcessMessage(MESSAGE & message)
+uint64_t SEA_AI::ProcessMessage(MESSAGE& message)
 {
-	char	cGroupName[256], cOtherGroupName[256], cTemp[256];
+	char cGroupName[256], cOtherGroupName[256], cTemp[256];
 
 	long iCode = message.Long();
 	switch (iCode)
 	{
-		case AI_MESSAGE_UNLOAD:
+	case AI_MESSAGE_UNLOAD:
 		{
-			uint32_t	i;
-			for (i=0; i<AIGroup::AIGroups.size(); i++) AIGroup::AIGroups[i]->Unload();
-			for (i=0; i<AIShip::AIShips.size(); i++) AIShip::AIShips[i]->Unload();
+			uint32_t i;
+			for (i = 0; i < AIGroup::AIGroups.size(); i++) AIGroup::AIGroups[i]->Unload();
+			for (i = 0; i < AIShip::AIShips.size(); i++) AIShip::AIShips[i]->Unload();
 		}
 		break;
-		case AI_MESSAGE_CANNON_RELOAD:
-			AIShip::ReloadCannons(message.AttributePointer());
+	case AI_MESSAGE_CANNON_RELOAD:
+		AIShip::ReloadCannons(message.AttributePointer());
 		break;
-		case AI_MESSAGE_SET_CAMERAS_ATTRIBUTE:
-			AIHelper::pASeaCameras = message.AttributePointer();
+	case AI_MESSAGE_SET_CAMERAS_ATTRIBUTE:
+		AIHelper::pASeaCameras = message.AttributePointer();
 		break;
-		case AI_MESSAGE_ADD_SHIP:
+	case AI_MESSAGE_ADD_SHIP:
 		{
-			entid_t  eidShip = message.EntityID();
-			ATTRIBUTES * pACharacter = message.AttributePointer();
-			ATTRIBUTES * pAShip = message.AttributePointer();
+			entid_t eidShip = message.EntityID();
+			ATTRIBUTES* pACharacter = message.AttributePointer();
+			ATTRIBUTES* pAShip = message.AttributePointer();
 			AddShip(eidShip, pACharacter, pAShip);
 		}
 		break;
-		case AI_MESSAGE_GROUP_SET_LOCATION_OTHER_GROUP:
-			message.String(sizeof(cGroupName),cGroupName);
-			message.String(sizeof(cOtherGroupName),cOtherGroupName);
-			AIGroup::GroupSetLocationNearOtherGroup(cGroupName,cOtherGroupName);
+	case AI_MESSAGE_GROUP_SET_LOCATION_OTHER_GROUP:
+		message.String(sizeof(cGroupName), cGroupName);
+		message.String(sizeof(cOtherGroupName), cOtherGroupName);
+		AIGroup::GroupSetLocationNearOtherGroup(cGroupName, cOtherGroupName);
 		break;
-		case AI_MESSAGE_GROUP_SET_TYPE:
-			message.String(sizeof(cGroupName),cGroupName);
-			message.String(sizeof(cTemp),cTemp);
-			AIGroup::GroupSetType(cGroupName, cTemp);
+	case AI_MESSAGE_GROUP_SET_TYPE:
+		message.String(sizeof(cGroupName), cGroupName);
+		message.String(sizeof(cTemp), cTemp);
+		AIGroup::GroupSetType(cGroupName, cTemp);
 		break;
-		case AI_MESSAGE_GROUP_SET_COMMANDER:
+	case AI_MESSAGE_GROUP_SET_COMMANDER:
 		{
-			message.String(sizeof(cGroupName),cGroupName);
-			ATTRIBUTES * pCharacter = message.AttributePointer();
+			message.String(sizeof(cGroupName), cGroupName);
+			ATTRIBUTES* pCharacter = message.AttributePointer();
 			AIGroup::GroupSetCommander(cGroupName, pCharacter);
 		}
 		break;
-		case AI_MESSAGE_GROUP_GET_ATTACK_HP:
+	case AI_MESSAGE_GROUP_GET_ATTACK_HP:
 		{
-			message.String(sizeof(cGroupName),cGroupName);
+			message.String(sizeof(cGroupName), cGroupName);
 			float fDistance = message.Float();
-			VDATA * pVData = message.ScriptVariablePointer();
+			VDATA* pVData = message.ScriptVariablePointer();
 			pVData->Set(AIGroup::GetAttackHP(cGroupName, fDistance));
 		}
 		break;
-		case AI_MESSAGE_GROUP_SET_XYZ_AY:
+	case AI_MESSAGE_GROUP_SET_XYZ_AY:
 		{
-			float	x, y, z, ay;
-			message.String(sizeof(cGroupName),cGroupName);
-			x = message.Float(); y = message.Float(); z = message.Float();
+			float x, y, z, ay;
+			message.String(sizeof(cGroupName), cGroupName);
+			x = message.Float();
+			y = message.Float();
+			z = message.Float();
 			ay = message.Float();
-			AIGroup::SetXYZ_AY(cGroupName,CVECTOR(x,y,z),ay);
+			AIGroup::SetXYZ_AY(cGroupName, CVECTOR(x, y, z), ay);
 		}
 		break;
-		case AI_MESSAGE_SHIP_SET_SAIL_STATE:
+	case AI_MESSAGE_SHIP_SET_SAIL_STATE:
 		{
-			ATTRIBUTES * pCharacter = message.AttributePointer();
+			ATTRIBUTES* pCharacter = message.AttributePointer();
 			float fSailState = message.Float();
-			AIShip * pAIShip = AIShip::FindShip(pCharacter); 
+			AIShip* pAIShip = AIShip::FindShip(pCharacter);
 			if (!pAIShip)
 			{
-				api->Trace("SeaAI err: SetSailState, can't find ship for character = %s", pCharacter->GetAttribute("id"));
+				api->Trace("SeaAI err: SetSailState, can't find ship for character = %s",
+				           pCharacter->GetAttribute("id"));
 				return 0;
 			}
 			api->Send_Message(pAIShip->GetShipEID(), "lf", MSG_SHIP_SET_SAIL_STATE, fSailState);
 		}
 		break;
-		case AI_MESSAGE_SHIP_SET_TASK:
+	case AI_MESSAGE_SHIP_SET_TASK:
 		{
-			ATTRIBUTES * pCharacter1, * pCharacter2;
-			uint32_t	dwCommand = message.Long();
-			uint32_t	dwTaskPriority = message.Long();
+			ATTRIBUTES *pCharacter1, *pCharacter2;
+			uint32_t dwCommand = message.Long();
+			uint32_t dwTaskPriority = message.Long();
 			switch (dwCommand)
 			{
-				case AITASK_ATTACK:
-					pCharacter1 = message.AttributePointer();
+			case AITASK_ATTACK:
+				pCharacter1 = message.AttributePointer();
+				pCharacter2 = message.AttributePointer();
+				AIShip::ShipSetAttack(dwTaskPriority, pCharacter1, pCharacter2);
+				break;
+			case AITASK_RUNAWAY:
+				pCharacter1 = message.AttributePointer();
+				AIShip::ShipSetRunAway(dwTaskPriority, pCharacter1);
+				break;
+			case AITASK_MOVE:
+				pCharacter1 = message.AttributePointer();
+				if (message.GetCurrentFormatType() == 'a')
+				{
 					pCharacter2 = message.AttributePointer();
-					AIShip::ShipSetAttack(dwTaskPriority, pCharacter1, pCharacter2);
+					AIShip::ShipSetMove(dwTaskPriority, pCharacter1, pCharacter2);
+				}
+				else
+				{
+					CVECTOR vPos = 0.0f;
+					vPos.x = message.Float();
+					vPos.z = message.Float();
+					AIShip::ShipSetMove(dwTaskPriority, pCharacter1, vPos);
+				}
 				break;
-				case AITASK_RUNAWAY:
-					pCharacter1 = message.AttributePointer();
-					AIShip::ShipSetRunAway(dwTaskPriority, pCharacter1);
+			case AITASK_DRIFT:
+				pCharacter1 = message.AttributePointer();
+				AIShip::ShipSetDrift(dwTaskPriority, pCharacter1);
 				break;
-				case AITASK_MOVE:
-					pCharacter1 = message.AttributePointer();
-					if (message.GetCurrentFormatType() == 'a')
-					{
-						pCharacter2 = message.AttributePointer();
-						AIShip::ShipSetMove(dwTaskPriority, pCharacter1, pCharacter2);
-					}
-					else
-					{
-						CVECTOR vPos = 0.0f;
-						vPos.x = message.Float();
-						vPos.z = message.Float();
-						AIShip::ShipSetMove(dwTaskPriority, pCharacter1, vPos);
-					}
+			case AITASK_DEFEND:
+				pCharacter1 = message.AttributePointer();
+				pCharacter2 = message.AttributePointer();
+				AIShip::ShipSetDefend(dwTaskPriority, pCharacter1, pCharacter2);
 				break;
-				case AITASK_DRIFT:
-					pCharacter1 = message.AttributePointer();
-					AIShip::ShipSetDrift(dwTaskPriority, pCharacter1);
+			case AITASK_BRANDER:
+				pCharacter1 = message.AttributePointer();
+				pCharacter2 = message.AttributePointer();
+				AIShip::ShipSetBrander(dwTaskPriority, pCharacter1, pCharacter2);
 				break;
-				case AITASK_DEFEND:
-					pCharacter1 = message.AttributePointer();
-					pCharacter2 = message.AttributePointer();
-					AIShip::ShipSetDefend(dwTaskPriority, pCharacter1, pCharacter2);
-				break;
-				case AITASK_BRANDER:
-					pCharacter1 = message.AttributePointer();
-					pCharacter2 = message.AttributePointer();
-					AIShip::ShipSetBrander(dwTaskPriority, pCharacter1, pCharacter2);
-				break;
-				case AITASK_ABORDAGE:
-					pCharacter1 = message.AttributePointer();
-					pCharacter2 = message.AttributePointer();
-					AIShip::ShipSetAbordage(dwTaskPriority, pCharacter1, pCharacter2);
-					break;
-			}
-		}
-		break;
-		case AI_MESSAGE_GROUP_SET_TASK:
-		{
-			CVECTOR	vPnt;
-			char	cGroupAttackingName[256];
-			uint32_t	dwCommand = message.Long();
-			switch (dwCommand)
-			{
-				case AITASK_MOVE:
-					message.String(sizeof(cGroupName),cGroupName);
-					vPnt.x = message.Float();
-					vPnt.y = message.Float();
-					vPnt.z = message.Float();
-					AIGroup::GroupSetMove(cGroupName,vPnt);
-				break;
-				case AITASK_ATTACK:
-					message.String(sizeof(cGroupName),cGroupName);
-					message.String(sizeof(cGroupAttackingName),cGroupAttackingName);
-					AIGroup::GroupSetAttack(cGroupName,cGroupAttackingName);
-				break;
-				case AITASK_RUNAWAY:
-					message.String(sizeof(cGroupName),cGroupName);
-					AIGroup::GroupSetRunAway(cGroupName);
+			case AITASK_ABORDAGE:
+				pCharacter1 = message.AttributePointer();
+				pCharacter2 = message.AttributePointer();
+				AIShip::ShipSetAbordage(dwTaskPriority, pCharacter1, pCharacter2);
 				break;
 			}
 		}
 		break;
-		case AI_MESSAGE_UPDATE_RELATIONS:
-			Helper.CalculateRelations();
-		break;
-		case AI_MESSAGE_SHIP_GET_ATTACK_HP:
+	case AI_MESSAGE_GROUP_SET_TASK:
 		{
-			ATTRIBUTES * pACharacter = message.AttributePointer();
+			CVECTOR vPnt;
+			char cGroupAttackingName[256];
+			uint32_t dwCommand = message.Long();
+			switch (dwCommand)
+			{
+			case AITASK_MOVE:
+				message.String(sizeof(cGroupName), cGroupName);
+				vPnt.x = message.Float();
+				vPnt.y = message.Float();
+				vPnt.z = message.Float();
+				AIGroup::GroupSetMove(cGroupName, vPnt);
+				break;
+			case AITASK_ATTACK:
+				message.String(sizeof(cGroupName), cGroupName);
+				message.String(sizeof(cGroupAttackingName), cGroupAttackingName);
+				AIGroup::GroupSetAttack(cGroupName, cGroupAttackingName);
+				break;
+			case AITASK_RUNAWAY:
+				message.String(sizeof(cGroupName), cGroupName);
+				AIGroup::GroupSetRunAway(cGroupName);
+				break;
+			}
+		}
+		break;
+	case AI_MESSAGE_UPDATE_RELATIONS:
+		Helper.CalculateRelations();
+		break;
+	case AI_MESSAGE_SHIP_GET_ATTACK_HP:
+		{
+			ATTRIBUTES* pACharacter = message.AttributePointer();
 			float fDistance = message.Float();
-			VDATA * pVD = message.ScriptVariablePointer();
+			VDATA* pVD = message.ScriptVariablePointer();
 			pVD->Set(AIShip::FindShip(pACharacter)->GetAttackHP(fDistance));
 		}
 		break;
-		case AI_MESSAGE_SHIP_CHANGE_GROUP:
+	case AI_MESSAGE_SHIP_CHANGE_GROUP:
 		{
-			ATTRIBUTES * pACharacter = message.AttributePointer();
+			ATTRIBUTES* pACharacter = message.AttributePointer();
 			message.String(sizeof(cGroupName), cGroupName);
 			AIGroup::ShipChangeGroup(pACharacter, cGroupName);
 		}
 		break;
-		case AI_MESSAGE_CANNON_FIRE:
+	case AI_MESSAGE_CANNON_FIRE:
 		{
-			ATTRIBUTES * pACharacter = message.AttributePointer();
+			ATTRIBUTES* pACharacter = message.AttributePointer();
 			bool bCameraOutside = (message.Long() == 1);
 			AIShip::ShipFire(pACharacter, bCameraOutside);
-		}	
+		}
 		break;
-		case AI_MESSAGE_SET_OFFICER_2_SHIP:
+	case AI_MESSAGE_SET_OFFICER_2_SHIP:
 		{
-			ATTRIBUTES * pACharacter1 = message.AttributePointer();
-			ATTRIBUTES * pACharacter2 = message.AttributePointer();
+			ATTRIBUTES* pACharacter1 = message.AttributePointer();
+			ATTRIBUTES* pACharacter2 = message.AttributePointer();
 			AIGroup::SetOfficerCharacter2Ship(pACharacter1, pACharacter2);
 		}
 		break;
-		case AI_MESSAGE_SWAP_SHIPS:
+	case AI_MESSAGE_SWAP_SHIPS:
 		{
-			ATTRIBUTES * pACharacter1 = message.AttributePointer();
-			ATTRIBUTES * pACharacter2 = message.AttributePointer();
+			ATTRIBUTES* pACharacter1 = message.AttributePointer();
+			ATTRIBUTES* pACharacter2 = message.AttributePointer();
 			AIGroup::SwapCharactersShips(pACharacter1, pACharacter2);
 		}
 		break;
-		case AI_MESSAGE_SAIL_2_LOCATOR:
+	case AI_MESSAGE_SAIL_2_LOCATOR:
 		{
 			float x, y, z, ay;
 			x = message.Float();
 			y = message.Float();
 			z = message.Float();
 			ay = message.Float();
-			
-			AIGroup::SailMainGroup(CVECTOR(x,y,z), ay, nullptr);
+
+			AIGroup::SailMainGroup(CVECTOR(x, y, z), ay, nullptr);
 		}
 		break;
-		case AI_MESSAGE_SAIL_2_CHARACTER:
+	case AI_MESSAGE_SAIL_2_CHARACTER:
 		{
-			ATTRIBUTES * pACharacter = message.AttributePointer();
+			ATTRIBUTES* pACharacter = message.AttributePointer();
 			float fDistance = message.Float();
 			float fAngle = message.Float();
-			AIShip * pAIShip = AIShip::FindShip(pACharacter); Assert(pAIShip);
+			AIShip* pAIShip = AIShip::FindShip(pACharacter);
+			Assert(pAIShip);
 			CVECTOR vPos = pAIShip->GetPos() + (fDistance * CVECTOR(sinf(fAngle), 0.0f, cosf(fAngle)));
 
 			AIGroup::SailMainGroup(vPos, -10000.0f, pACharacter);
 		}
 		break;
-		case AI_MESSAGE_CHARACTER_DEAD:
+	case AI_MESSAGE_CHARACTER_DEAD:
 		{
-			VAI_INNEROBJ * pAIObj = AIHelper::FindAIInnerObj(message.AttributePointer());
-			if (pAIObj) 
+			VAI_INNEROBJ* pAIObj = AIHelper::FindAIInnerObj(message.AttributePointer());
+			if (pAIObj)
 			{
 				pAIObj->SetDead(true);
 				if (pAIObj->GetObjType() != AIOBJ_FORT) ((AIShip*)pAIObj)->GetShipBasePointer()->SetDead();
 			}
 		}
 		break;
-		case AI_MESSAGE_GET_RELATION:
+	case AI_MESSAGE_GET_RELATION:
 		{
-			ATTRIBUTES	* pACharacter1 = message.AttributePointer();
-			ATTRIBUTES	* pACharacter2 = message.AttributePointer();
-			VDATA		* pVData = message.ScriptVariablePointer();
+			ATTRIBUTES* pACharacter1 = message.AttributePointer();
+			ATTRIBUTES* pACharacter2 = message.AttributePointer();
+			VDATA* pVData = message.ScriptVariablePointer();
 			pVData->Set((long)Helper.GetRelationSafe(pACharacter1, pACharacter2));
 		}
 		break;
-		case AI_MESSAGE_SET_COMPANION_ENEMY:
+	case AI_MESSAGE_SET_COMPANION_ENEMY:
 		{
-			ATTRIBUTES	* pACharacter = message.AttributePointer();
+			ATTRIBUTES* pACharacter = message.AttributePointer();
 			SetCompanionEnemy(pACharacter);
 		}
 		break;
-		case AI_MESSAGE_CANNONS_PARAMS:
-			AIShipCannonController::fMaxCannonDamageDistance = message.Float();
-			AIShipCannonController::fMaxCannonDamageRadiusPoint = message.Float();
+	case AI_MESSAGE_CANNONS_PARAMS:
+		AIShipCannonController::fMaxCannonDamageDistance = message.Float();
+		AIShipCannonController::fMaxCannonDamageRadiusPoint = message.Float();
 		break;
-		case AI_MESSAGE_CANNONS_BOOM_CHECK:
+	case AI_MESSAGE_CANNONS_BOOM_CHECK:
 		{
-			float	fTmpCannonDamage, x, y, z;
+			float fTmpCannonDamage, x, y, z;
 
-			ATTRIBUTES * pACharacter = message.AttributePointer();
+			ATTRIBUTES* pACharacter = message.AttributePointer();
 			fTmpCannonDamage = message.Float();
 			x = message.Float();
-			y = message.Float(); 
+			y = message.Float();
 			z = message.Float();
 
-			AIShip * pAIShip = AIShip::FindShip(pACharacter); Assert(pAIShip);
+			AIShip* pAIShip = AIShip::FindShip(pACharacter);
+			Assert(pAIShip);
 			pAIShip->GetCannonController()->CheckCannonsBoom(fTmpCannonDamage, CVECTOR(x, y, z));
 		}
 		break;
 		// boal 08.08.06 метод пересчета орудий на корабле -->
-		case AI_MESSAGE_RESEARCH_CANNONS:
+	case AI_MESSAGE_RESEARCH_CANNONS:
 		{
-			ATTRIBUTES * pACharacter = message.AttributePointer();
+			ATTRIBUTES* pACharacter = message.AttributePointer();
 
-			AIShip * pAIShip = AIShip::FindShip(pACharacter); Assert(pAIShip);
+			AIShip* pAIShip = AIShip::FindShip(pACharacter);
+			Assert(pAIShip);
 			pAIShip->GetCannonController()->ResearchCannons();
 		}
 		break;
 		// boal 08.08.06 метод пересчета орудий на корабле <--
-		case AI_MESSAGE_SEASAVE: //~!~
+	case AI_MESSAGE_SEASAVE: //~!~
 		{
 			char str[256];
 			Save(str);
 		}
 		break;
-		case AI_MESSAGE_SEALOAD:
+	case AI_MESSAGE_SEALOAD:
 		{
 			char str[256];
 			Load(str);
@@ -365,7 +376,7 @@ uint64_t SEA_AI::ProcessMessage(MESSAGE & message)
 	return 0;
 }
 
-void SEA_AI::Save(const char * pStr)
+void SEA_AI::Save(const char* pStr)
 {
 	CSaveLoad SL;
 
@@ -375,14 +386,14 @@ void SEA_AI::Save(const char * pStr)
 	api->Send_Message(EntityManager::GetEntityId("SEA_CAMERAS"), "lp", AI_MESSAGE_SEASAVE, &SL);
 
 	AIBalls::pAIBalls->Save(&SL);
-	
+
 	SL.SaveDword(AIGroup::AIGroups.size());
-	for (uint32_t i=0; i<AIGroup::AIGroups.size(); i++) AIGroup::AIGroups[i]->Save(&SL);
+	for (uint32_t i = 0; i < AIGroup::AIGroups.size(); i++) AIGroup::AIGroups[i]->Save(&SL);
 
 	if (AIFort::pAIFort) AIFort::pAIFort->Save(&SL);
 }
 
-void SEA_AI::Load(const char * pStr)
+void SEA_AI::Load(const char* pStr)
 {
 	Helper.Uninit();
 
@@ -394,9 +405,9 @@ void SEA_AI::Load(const char * pStr)
 	api->Send_Message(EntityManager::GetEntityId("SEA_CAMERAS"), "lp", AI_MESSAGE_SEALOAD, &SL);
 
 	AIBalls::pAIBalls->Load(&SL);
-	
+
 	uint32_t dwNumGroups = SL.LoadDword();
-	for (uint32_t i=0; i<dwNumGroups; i++) 
+	for (uint32_t i = 0; i < dwNumGroups; i++)
 	{
 		AIGroup::AIGroups.push_back(new AIGroup());
 		AIGroup::AIGroups.back()->Load(&SL);
@@ -406,16 +417,16 @@ void SEA_AI::Load(const char * pStr)
 	Helper.Init();
 }
 
-uint32_t SEA_AI::AttributeChanged(ATTRIBUTES * pAttribute)
+uint32_t SEA_AI::AttributeChanged(ATTRIBUTES* pAttribute)
 {
-	uint32_t	i;
+	uint32_t i;
 
 	if (*pAttribute == "isDone")
 	{
 		// delete all old groups and ships
 		Helper.Init();
 
-		for (i=0; i<AIShip::AIShips.size(); i++) AIShip::AIShips[i]->CheckStartPosition();
+		for (i = 0; i < AIShip::AIShips.size(); i++) AIShip::AIShips[i]->CheckStartPosition();
 	}
 
 	if (*pAttribute == "DistanceBetweenGroupShips")
@@ -426,28 +437,33 @@ uint32_t SEA_AI::AttributeChanged(ATTRIBUTES * pAttribute)
 	return 0;
 }
 
-void SEA_AI::AddShip(entid_t eidShip, ATTRIBUTES * pCharacter, ATTRIBUTES * pAShip)
+void SEA_AI::AddShip(entid_t eidShip, ATTRIBUTES* pCharacter, ATTRIBUTES* pAShip)
 {
 	Assert(pCharacter && pAShip);
-	ATTRIBUTES * pG = pCharacter->FindAClass(pCharacter,"SeaAI.Group");	Assert(pG);
-	
+	ATTRIBUTES* pG = pCharacter->FindAClass(pCharacter, "SeaAI.Group");
+	Assert(pG);
+
 	// search group
-	char * pGName = pG->GetAttribute("Name"); Assert(pGName);
+	char* pGName = pG->GetAttribute("Name");
+	Assert(pGName);
 
 	AIGroup::FindOrCreateGroup(pGName)->AddShip(eidShip, pCharacter, pAShip);
 }
 
-void SEA_AI::SetCompanionEnemy(ATTRIBUTES * pACharacter)
+void SEA_AI::SetCompanionEnemy(ATTRIBUTES* pACharacter)
 {
 	Assert(pACharacter);
 
 	// delete from old group
-	AIGroup * pG = AIGroup::FindGroup(pACharacter); Assert(pG); 
-	AIShip * pS = pG->ExtractShip(pACharacter);
+	AIGroup* pG = AIGroup::FindGroup(pACharacter);
+	Assert(pG);
+	AIShip* pS = pG->ExtractShip(pACharacter);
 
 	// create and add to new group
-	ATTRIBUTES * pSeaAIG = pACharacter->FindAClass(pACharacter, "SeaAI.Group");	Assert(pSeaAIG);
-	char * pGName = pSeaAIG->GetAttribute("Name"); Assert(pGName);
+	ATTRIBUTES* pSeaAIG = pACharacter->FindAClass(pACharacter, "SeaAI.Group");
+	Assert(pSeaAIG);
+	char* pGName = pSeaAIG->GetAttribute("Name");
+	Assert(pGName);
 
 	AIGroup::FindOrCreateGroup(pGName)->InsertShip(pS);
 }

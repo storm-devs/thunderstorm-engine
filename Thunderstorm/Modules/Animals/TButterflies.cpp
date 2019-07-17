@@ -5,8 +5,8 @@
 
 //--------------------------------------------------------------------
 TButterflies::TButterflies()
-	:enabled(false)
-	,yDefineTime(0)
+	: enabled(false)
+	  , yDefineTime(0)
 {
 }
 
@@ -21,7 +21,7 @@ TButterflies::~TButterflies()
 //--------------------------------------------------------------------
 void TButterflies::LoadSettings()
 {
-	INIFILE * ini = fio->OpenIniFile(ANIMALS_INI_FILENAME);
+	INIFILE* ini = fio->OpenIniFile(ANIMALS_INI_FILENAME);
 	if (!ini)
 		return;
 
@@ -40,26 +40,27 @@ void TButterflies::Init()
 	LoadSettings();
 
 	renderService = (VDX9RENDER *)api->CreateService("dx9render");
-	if(!renderService)	
+	if (!renderService)
 		throw std::exception("!Butterflies: No service 'dx9render'");
 
 	collide = (COLLIDE *)api->CreateService("coll");
-	if (!collide)	
+	if (!collide)
 		throw std::exception("!Butterflies: No service COLLIDE");
 
-	ivManager = new TIVBufferManager(renderService, 
-									 BUTTERFLY_VERTEX_TYPE, 
-									 sizeof(tButterflyVertex), 
-									 3*4, 6, butterfliesCount);
+	ivManager = new TIVBufferManager(renderService,
+	                                 BUTTERFLY_VERTEX_TYPE,
+	                                 sizeof(tButterflyVertex),
+	                                 3 * 4, 6, butterfliesCount);
 
-	for (int i=0; i<butterfliesCount; i++)
-		butterflies[i].Initialize(CVECTOR(0.0f, 0.0f, 0.0f), maxDistance, ivManager->ReserveElement(), rand() % 4, rand() % 4);
+	for (int i = 0; i < butterfliesCount; i++)
+		butterflies[i].Initialize(CVECTOR(0.0f, 0.0f, 0.0f), maxDistance, ivManager->ReserveElement(), rand() % 4,
+		                          rand() % 4);
 
 	texture = renderService->TextureCreate("butter.tga");
 }
 
 //--------------------------------------------------------------------
-uint64_t TButterflies::ProcessMessage(long _code, MESSAGE & message)
+uint64_t TButterflies::ProcessMessage(long _code, MESSAGE& message)
 {
 	uint32_t outValue = 0;
 	switch (_code)
@@ -77,13 +78,12 @@ uint64_t TButterflies::ProcessMessage(long _code, MESSAGE & message)
 			static CVECTOR affectVector(0.f, 0.f, 0.f);
 			affectVector.x = message.Float();
 			affectVector.z = message.Float();
-			for (int i = 0; i<butterfliesCount; i++)
+			for (int i = 0; i < butterfliesCount; i++)
 			{
 				butterflies[i].Effect(affectVector);
 			}
 		}
 		break;
-
 	}
 	return outValue;
 }
@@ -96,7 +96,7 @@ void TButterflies::Execute(uint32_t _dTime)
 
 	// re-set center
 	CVECTOR pos, ang;
-	float   persp;
+	float persp;
 	renderService->GetCamera(pos, ang, persp);
 	butterflies[0].SetCenter(pos);
 	int i;
@@ -107,7 +107,7 @@ void TButterflies::Execute(uint32_t _dTime)
 	yDefineTime += _dTime;
 	if (yDefineTime > Y_REDEFINE_TIME)
 	{
-		for (i = 0; i<butterfliesCount; i++)
+		for (i = 0; i < butterfliesCount; i++)
 		{
 			static const float ALL_Y = 1000.0f;
 			CVECTOR topVector = butterflies[i].GetPosition();
@@ -117,17 +117,16 @@ void TButterflies::Execute(uint32_t _dTime)
 
 			float ray = collide->Trace(its, topVector, bottomVector, nullptr, 0);
 			if (ray <= 1.0f)
-				butterflies[i].SetMinY(-ALL_Y+(1.f - ray)*2.f*ALL_Y);
+				butterflies[i].SetMinY(-ALL_Y + (1.f - ray) * 2.f * ALL_Y);
 			else
 				butterflies[i].SetMinY(-ALL_Y);
 		}
-
 	}
 
 	// recalculate & redraw
 	ivManager->LockBuffers();
 
-	for (i = 0; i<butterfliesCount; i++)
+	for (i = 0; i < butterfliesCount; i++)
 	{
 		butterflies[i].Calculate(_dTime, collide, its);
 		butterflies[i].Draw(ivManager);
@@ -145,7 +144,7 @@ void TButterflies::Realize(uint32_t dTime)
 
 	CMatrix wMatrix;
 
-	renderService->SetTransform(D3DTS_WORLD, (D3DMATRIX *) wMatrix);
+	renderService->SetTransform(D3DTS_WORLD, (D3DMATRIX *)wMatrix);
 	renderService->TextureSet(0, texture);
 	//for (int i = 0; i<butterfliesCount; i++)
 	//	butterflies[i].Draw(renderService, butterfly);

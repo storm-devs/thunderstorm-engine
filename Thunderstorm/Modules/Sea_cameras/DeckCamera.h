@@ -24,10 +24,10 @@ class DECK_CAMERA : public COMMON_CAMERA
 
 	VERTEX tri[4];
 
-    // параметры загружаемые из INI-файла //
-    //--------------------------------------
-	float	fSensivityDistance, fSensivityHeightAngle, fSensivityAzimuthAngle;
-	float	fRockingX, fRockingZ;
+	// параметры загружаемые из INI-файла //
+	//--------------------------------------
+	float fSensivityDistance, fSensivityHeightAngle, fSensivityAzimuthAngle;
+	float fRockingX, fRockingZ;
 
 	float MEN_STEP_UP;
 	float MEN_STEP_MIN;
@@ -36,49 +36,52 @@ class DECK_CAMERA : public COMMON_CAMERA
 	float HEIGHT_STEP;
 	float CAMERA_MAX_X, CAMERA_MIN_X;
 	float DEFAULT_HEIGHT;
-    //--------------------------------------
+	//--------------------------------------
 
-    CVECTOR g_gv0, g_gv1, g_gv2;
+	CVECTOR g_gv0, g_gv1, g_gv2;
 
-	MODEL * pModel; 
-	VDX9RENDER * RenderService;
+	MODEL* pModel;
+	VDX9RENDER* RenderService;
 	CVECTOR camera_pos, camera_ang;
-    float h_eye;
+	float h_eye;
 	RECT Screen_Rect;
 	long lock_x;
 	long lock_y;
 	long vb_id;
 	bool bLoad;
-    NODE * pathNode;
-    void SetStartPos();
-    bool GetCrossXZ(CVECTOR &spos,CVECTOR &dv, CVECTOR &p1,CVECTOR &p2, CVECTOR &res);
+	NODE* pathNode;
+	void SetStartPos();
+	bool GetCrossXZ(CVECTOR& spos, CVECTOR& dv, CVECTOR& p1, CVECTOR& p2, CVECTOR& res);
 	bool FindPath();
-	void SetViewPoint(CVECTOR & cViewPoint);
-	float MultiTrace(const CVECTOR & cvBase, const CVECTOR & cvDown, float fHBase);
+	void SetViewPoint(CVECTOR& cViewPoint);
+	float MultiTrace(const CVECTOR& cvBase, const CVECTOR& cvDown, float fHBase);
 
 public:
 	DECK_CAMERA();
 	~DECK_CAMERA();
 
-	void SetCharacter(ATTRIBUTES *_pACharacter);
+	void SetCharacter(ATTRIBUTES* _pACharacter) override;
 
 	void SetDevice();
-	bool Init();
+	bool Init() override;
 	void Move(uint32_t DeltaTime);
 	void Realize(uint32_t Delta_Time);
 	void Execute(uint32_t Delta_Time);
-	bool CreateState(ENTITY_STATE_GEN * state_gen);
-	bool LoadState(ENTITY_STATE * state);
-	uint32_t AttributeChanged(ATTRIBUTES * pAttr);
-	uint64_t ProcessMessage(MESSAGE & message);
+	bool CreateState(ENTITY_STATE_GEN* state_gen);
+	bool LoadState(ENTITY_STATE* state);
+	uint32_t AttributeChanged(ATTRIBUTES* pAttr) override;
+	uint64_t ProcessMessage(MESSAGE& message) override;
+
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{
 		switch (stage)
 		{
 		case Stage::execute:
-			Execute(delta); break;
+			Execute(delta);
+			break;
 		case Stage::realize:
-			Realize(delta); break;
+			Realize(delta);
+			break;
 			/*case Stage::lost_render:
 				LostRender(delta); break;
 			case Stage::restore_render:
@@ -86,8 +89,8 @@ public:
 		}
 	}
 
-	void Save(CSaveLoad * pSL);
-	void Load(CSaveLoad * pSL);
+	void Save(CSaveLoad* pSL) override;
+	void Load(CSaveLoad* pSL) override;
 };
 
 #endif

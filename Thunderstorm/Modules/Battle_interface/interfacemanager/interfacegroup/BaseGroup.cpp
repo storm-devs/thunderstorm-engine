@@ -1,6 +1,6 @@
 #include "BaseGroup.h"
 
-BI_BaseGroup::BI_BaseGroup( BI_ManagerBase* pManager )
+BI_BaseGroup::BI_BaseGroup(BI_ManagerBase* pManager)
 {
 	Assert(pManager);
 	m_pManager = pManager;

@@ -1,11 +1,13 @@
 #include "fs.h"
 #include <ShlObj.h>
 
-namespace fs {
+namespace fs
+{
 	path GetStashPath()
 	{
 		static path path;
-		if (path.empty()) {
+		if (path.empty())
+		{
 			wchar_t* str = nullptr;
 			SHGetKnownFolderPath(FOLDERID_Documents, KF_FLAG_SIMPLE_IDLIST, nullptr, &str);
 			path = str;

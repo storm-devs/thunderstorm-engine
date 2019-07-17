@@ -19,24 +19,24 @@ public:
 
 	void Render();
 
-	void SetPosition( float fLeft, float fTop, float fRight, float fBottom );
+	void SetPosition(float fLeft, float fTop, float fRight, float fBottom);
 
-	void AddString(std::string& sNewStr );
-	void RemoveString(std::string& sStr );
-	void RemoveString( long nIndex );
+	void AddString(std::string& sNewStr);
+	void RemoveString(std::string& sStr);
+	void RemoveString(long nIndex);
 	void RemoveAllStrings();
-	long FindString(std::string& sStr );
-	long GetStringQuantity() {return m_aStrings.size();}
-	std::string& GetString( long nIndex );
-	long GetSelectIndex() {return m_nSelectIndex;}
-	void SetSelectIndex( long nIndex );
-	std::string& GetSelectString() {return GetString(m_nSelectIndex);}
+	long FindString(std::string& sStr);
+	long GetStringQuantity() { return m_aStrings.size(); }
+	std::string& GetString(long nIndex);
+	long GetSelectIndex() { return m_nSelectIndex; }
+	void SetSelectIndex(long nIndex);
+	std::string& GetSelectString() { return GetString(m_nSelectIndex); }
 
-	bool CheckMouseInside( float fX, float fY );
-	void MakeMouseClick( float fX, float fY );
+	bool CheckMouseInside(float fX, float fY);
+	void MakeMouseClick(float fX, float fY);
 	void DoKeyChecking();
 
-	void IncrementSelectedLine( bool bIncr );
+	void IncrementSelectedLine(bool bIncr);
 
 protected:
 	void UpdateSelectPosition();

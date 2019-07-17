@@ -15,24 +15,23 @@ class DataFloat
 
 public:
 
-//конструктор/деструктор
-	DataFloat ();
-	virtual ~DataFloat ();
+	//конструктор/деструктор
+	DataFloat();
+	virtual ~DataFloat();
 
 	//Получить значение
-	float GetValue ();
+	float GetValue();
 
 	//Установить значение
-	void SetValue (float val);
+	void SetValue(float val);
 
 
-	void Load (MemFile* File);
-	void Write (MemFile* File);
+	void Load(MemFile* File);
+	void Write(MemFile* File);
 
 
-	void SetName (const char* szName);
-	const char* GetName ();
-
+	void SetName(const char* szName);
+	const char* GetName();
 };
 
 

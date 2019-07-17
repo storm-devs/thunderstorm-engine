@@ -1,7 +1,7 @@
 #include "SeaGroup.h"
 #include "../../Utils.h"
 
-BI_SeaGroup::BI_SeaGroup( BI_ManagerBase* pManager ) :
+BI_SeaGroup::BI_SeaGroup(BI_ManagerBase* pManager) :
 	BI_BaseGroup(pManager)
 {
 }
@@ -15,8 +15,8 @@ void BI_SeaGroup::Init()
 	BI_BaseGroup::Init();
 
 	ATTRIBUTES* pARoot = Manager()->AttributesPointer;
-	if( pARoot ) pARoot = pARoot->GetAttributeClass("sea");
-	if( !pARoot ) return;
+	if (pARoot) pARoot = pARoot->GetAttributeClass("sea");
+	if (!pARoot) return;
 
 	ATTRIBUTES* pA;
 	char texture[MAX_PATH];
@@ -26,18 +26,18 @@ void BI_SeaGroup::Init()
 
 	// back
 	pA = pARoot->GetAttributeClass("back");
-	if( pA )
+	if (pA)
 	{
-		BIUtils::ReadStringFromAttr( pA, "texture", texture, sizeof(texture), "" );
+		BIUtils::ReadStringFromAttr(pA, "texture", texture, sizeof(texture), "");
 		color = pA->GetAttributeAsDword("color");
 		FULLRECT(uv);
-		BIUtils::ReadRectFromAttr( pA, "uv", uv, uv );
+		BIUtils::ReadRectFromAttr(pA, "uv", uv, uv);
 		ZERO(pos);
-		BIUtils::ReadRectFromAttr( pA, "pos", pos, pos );
+		BIUtils::ReadRectFromAttr(pA, "pos", pos, pos);
 
 		BI_ManagerNodeBase* pNod = Manager()->CreateImageNode(texture, uv, pos, color, BIImagePrioritet_Group_Beg);
-		if( pNod )
-			m_aNodes.push_back( pNod );
+		if (pNod)
+			m_aNodes.push_back(pNod);
 		//Manager()->GetImageRender()->CreateImage( BIType_square, texture, color, uv, pos, BIImagePrioritet_Group_Beg );
 	}
 }

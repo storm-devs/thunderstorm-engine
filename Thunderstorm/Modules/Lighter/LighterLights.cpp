@@ -19,7 +19,7 @@ LighterLights::LighterLights()
 	maxLights = 256;
 	numLights = 3;
 	light.resize(maxLights);
-	for(long i = 0; i < maxLights; i++) SetDefLightParam(i);
+	for (long i = 0; i < maxLights; i++) SetDefLightParam(i);
 	light[0].type = Light::t_amb;
 	light[0].color = CVECTOR(0.2f, 0.2f, 0.2f);
 	light[0].group = nullptr;
@@ -37,27 +37,28 @@ LighterLights::LighterLights()
 
 LighterLights::~LighterLights()
 {
-	for(long i = 0; i < numLights; i++)
+	for (long i = 0; i < numLights; i++)
 		delete light[i].group;
 }
 
-void LighterLights::AddAmbient(const CVECTOR & color)
+void LighterLights::AddAmbient(const CVECTOR& color)
 {
 	light[0].color = color;
 	light[0].isOn = true;
 }
 
-void LighterLights::AddWeaterLights(const CVECTOR & color, const CVECTOR & dir)
+void LighterLights::AddWeaterLights(const CVECTOR& color, const CVECTOR& dir)
 {
 	light[1].color = color;
-	if(~dir > 0.0f) light[1].p = !dir;
+	if (~dir > 0.0f) light[1].p = !dir;
 	light[1].isOn = true;
 	light[2].isOn = true;
 }
 
-void LighterLights::AddPointLight(const CVECTOR & color, const CVECTOR & pos, float att0, float att1, float att2, float range, const char * group)
+void LighterLights::AddPointLight(const CVECTOR& color, const CVECTOR& pos, float att0, float att1, float att2,
+                                  float range, const char* group)
 {
-	if(numLights > maxLights)
+	if (numLights > maxLights)
 	{
 		maxLights += 32;
 		light.resize(maxLights);
@@ -69,13 +70,14 @@ void LighterLights::AddPointLight(const CVECTOR & color, const CVECTOR & pos, fl
 	light[numLights].att1 = att1;
 	light[numLights].att2 = att2;
 	light[numLights].range = range;
-	if(group && group[0])
+	if (group && group[0])
 	{
 		const auto len = strlen(group) + 1;
 		light[numLights].group = new char[len];
 		//strcpy_s(light[numLights].group, group);
 		std::copy(group, group + len, light[numLights].group);
-	}else light[numLights].group = nullptr;
+	}
+	else light[numLights].group = nullptr;
 	light[numLights].type = Light::t_point;
 	light[numLights].isOn = true;
 	numLights++;
@@ -95,24 +97,24 @@ void LighterLights::SetDefLightParam(long i)
 void LighterLights::PostInit()
 {
 	//Соберём все существующие группы
-	char ** grp = new char * [numLights + 1];
+	char** grp = new char * [numLights + 1];
 	long numGrp = 0;
-	for(long i = 0; i < numLights; i++)
+	for (long i = 0; i < numLights; i++)
 	{
-		if(!light[i].group) continue;
+		if (!light[i].group) continue;
 		long j;
-		for(j = 0; j < numGrp; j++)
-			if(_stricmp(grp[j], light[i].group) == 0) break;
-		if(j == numGrp) grp[numGrp++] = light[i].group;
+		for (j = 0; j < numGrp; j++)
+			if (_stricmp(grp[j], light[i].group) == 0) break;
+		if (j == numGrp) grp[numGrp++] = light[i].group;
 	}
 	//Добавляем груповые источники освещения
-	if(numLights + numGrp > maxLights)
+	if (numLights + numGrp > maxLights)
 	{
 		maxLights += numGrp + 4;
 		light.resize(maxLights);
 	}
 	long num = numLights;
-	for(long i = 0; i < numGrp; i++)
+	for (long i = 0; i < numGrp; i++)
 	{
 		memset(&light[numLights], 0, sizeof(light[numLights]));
 		const auto len = strlen(grp[i]) + 1;
@@ -123,9 +125,9 @@ void LighterLights::PostInit()
 		light[numLights].isOn = true;
 		//Собираем параметры
 		float nrm = 0.0f;
-		for(long j = 0; j < numLights; j++)
+		for (long j = 0; j < numLights; j++)
 		{
-			if(light[j].group && _stricmp(light[j].group, grp[i]) == 0)
+			if (light[j].group && _stricmp(light[j].group, grp[i]) == 0)
 			{
 				nrm += 1.0f;
 				light[numLights].color += light[j].color;
@@ -144,7 +146,7 @@ void LighterLights::PostInit()
 			}
 		}
 		Assert(nrm > 0.0f);
-		nrm = 1.0f/nrm;
+		nrm = 1.0f / nrm;
 		light[numLights].color *= nrm;
 		light[numLights].p *= nrm;
 		light[numLights].att0 *= nrm;
@@ -166,22 +168,23 @@ void LighterLights::PostInit()
 void LighterLights::UpdateLights(long lit)
 {
 	long i;
-	if(lit >= 0)
+	if (lit >= 0)
 	{
-		for(i = 0; i < numLights; i++) light[i].isMark = false;
-	}else{
-		for(i = 0; i < numLights; i++) light[i].isMark = true;
+		for (i = 0; i < numLights; i++) light[i].isMark = false;
 	}
-	for(i = 0; i < numLights; i++)
+	else
 	{
-
-		if(light[i].type == Light::t_group)
+		for (i = 0; i < numLights; i++) light[i].isMark = true;
+	}
+	for (i = 0; i < numLights; i++)
+	{
+		if (light[i].type == Light::t_group)
 		{
-			for(long j = 0; j < numLights; j++)
+			for (long j = 0; j < numLights; j++)
 			{
-				if(light[j].type == Light::t_point && light[j].group)
+				if (light[j].type == Light::t_point && light[j].group)
 				{
-					if(_stricmp(light[j].group, light[i].group) == 0)
+					if (_stricmp(light[j].group, light[i].group) == 0)
 					{
 						light[j].color = light[i].color;
 						light[j].cosine = light[i].cosine;
@@ -200,8 +203,10 @@ void LighterLights::UpdateLights(long lit)
 					}
 				}
 			}
-		}else{
-			if(i == lit) light[i].isMark = true;
+		}
+		else
+		{
+			if (i == lit) light[i].isMark = true;
 		}
 	}
 }
