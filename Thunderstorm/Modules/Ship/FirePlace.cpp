@@ -40,11 +40,11 @@ void FirePlace::DeleteParticle()
 {
 	if (const auto eidParticle = EntityManager::GetEntityId("particles"))
 	{
-		if (pParticleSmoke && api->Send_Message(eidParticle, "ll",PS_VALIDATE_PARTICLE, pParticleSmoke))
+		if (pParticleSmoke && api->Send_Message(eidParticle, "lp",PS_VALIDATE_PARTICLE, pParticleSmoke))
 		{
 			pParticleSmoke->Pause(true); //>StopEmitter();
 		}
-		if (pParticleFire && api->Send_Message(eidParticle, "ll",PS_VALIDATE_PARTICLE, pParticleFire))
+		if (pParticleFire && api->Send_Message(eidParticle, "lp",PS_VALIDATE_PARTICLE, pParticleFire))
 		{
 			pParticleFire->Pause(true);
 		}
