@@ -16,8 +16,7 @@ ItemEntity::~ItemEntity()
 
 bool ItemEntity::Init()
 {
-	if (!ReadAndCreate()) return false;
-	return true;
+	return ReadAndCreate();
 }
 
 void ItemEntity::Realize(uint32_t delta_time)
@@ -250,14 +249,14 @@ void ItemEntity::DrawIntoLocator()
 
 entid_t ItemEntity::GetModelEIDFromCharacterEID(entid_t chrEID)
 {
-	entid_t eid;
 	auto* pvdat = (VDATA*)api->GetScriptVariable("g_TmpModelVariable");
 	if (pvdat)
 	{
 		api->Send_Message(chrEID, "le", MSG_CHARACTER_GETMODEL, pvdat);
-		eid = pvdat->GetEntityID();
+		return pvdat->GetEntityID();
 	}
-	return eid;
+	else
+		return invalid_entity;
 }
 
 void ItemEntity::SetEventListener(entid_t mdlEID, entid_t mdlToTieEID, const char* pcLocName, const char* pcStartEvent,
