@@ -329,7 +329,7 @@ void LightProcessor::SmoothShadows()
 		OctFndVerts* verts = octtree->verts.data();
 		long numVerts = octtree->numVerts;
 
-		if constexpr (false)
+		/*if constexpr (false)
 		{
 			float r2 = smoothRad * smoothRad;
 			static Vertex* ov[16384];
@@ -353,7 +353,7 @@ void LightProcessor::SmoothShadows()
 					if (verts[n].v == ov[k]) break;
 				if (k >= numV) api->Trace("k >= numV");
 			}
-		}
+		}*/
 		//		Assert(numVerts > 0);
 		//Проходимся по всем источникам
 		for (long n = 0; n < num; n++)

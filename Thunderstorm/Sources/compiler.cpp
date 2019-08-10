@@ -7381,7 +7381,7 @@ void COMPILER::FormatDialog(char* file_name)
 						//fio->_WriteFile(fhH,sFileName,strlen(sFileName),&dwR);
 						//fio->_WriteFile(fhH,sNewLine,strlen(sNewLine),&dwR);
 
-						size_t newline_len = strlen(sNewLine);
+						constexpr size_t newline_len = _countof(sNewLine) - 1;
 						do
 						{
 							Token_type = Token.FormatGet();
@@ -7461,7 +7461,7 @@ void COMPILER::FormatDialog(char* file_name)
 							}
 							if (Token_type != DOT)
 							{
-								size_t newline_len = strlen(sNewLine);
+								constexpr size_t newline_len = _countof(sNewLine) - 1;
 								do
 								{
 									Token_type = Token.FormatGet();

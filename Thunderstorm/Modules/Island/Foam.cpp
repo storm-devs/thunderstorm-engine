@@ -696,7 +696,7 @@ void CoastFoam::RecalculateFoam(long iFoam)
 	pF->fAlphaColor[1] = RRnd(pF->fAlphaMin, pF->fAlphaMax) / 255.0f;
 
 	pF->fSX[0] = Rnd(100.0f);
-	pF->fSX[0] = Rnd(100.0f);
+	pF->fSX[1] = Rnd(100.0f);
 	pF->fAlpha[0] = 0.0f;
 	pF->fAlpha[1] = 0.0f;
 	pF->iMode[0] = 0;

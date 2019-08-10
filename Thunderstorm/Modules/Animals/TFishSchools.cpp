@@ -8,7 +8,7 @@
 TFishSchools::TFishSchools()
 	: enabled(false)
 {
-	PZERO(fishSchools, FISHSCHOOL_COUNT << 2);
+	memset(fishSchools, 0, sizeof(fishSchools));
 }
 
 //--------------------------------------------------------------------

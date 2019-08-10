@@ -33,8 +33,8 @@ protected:
 	uint16_t* m_pI;
 	long m_nSquareQ;
 	uint32_t m_dwBackColor;
-	long m_nLeftSideWidth;
-	long m_nRightSideWidth;
+	long m_nLeftSideWidth{};
+	long m_nRightSideWidth{};
 
 	FXYRECT m_uvBackLeft;
 	FXYRECT m_uvBackRight;
@@ -42,27 +42,27 @@ protected:
 
 	std::string m_sGroupName;
 	long m_nTextureID;
-	long m_nPicIndex_Left;
-	long m_nPicIndex_Right;
-	long m_nPicIndex_Middle;
+	long m_nPicIndex_Left{};
+	long m_nPicIndex_Right{};
+	long m_nPicIndex_Middle{};
 
 	XYPOINT m_pntScreenSize;
 	XYPOINT m_pntTextOffset;
 	XYRECT m_rPos;
 	XYRECT m_rActiveZone;
 
-	long m_nXRectangleOffset;
-	long m_nYRectangleOffsetUp;
-	long m_nYRectangleOffsetDown;
+	long m_nXRectangleOffset{};
+	long m_nYRectangleOffsetUp{};
+	long m_nYRectangleOffsetDown{};
 
 	std::string m_sText;
 	std::vector<std::string> m_aSubText;
 	long m_nFontID;
-	uint32_t m_dwFontColor;
-	float m_fFontScale;
-	long m_nMaxStrWidth;
-	long m_nUseWidth;
-	long m_nUseHeight;
+	uint32_t m_dwFontColor{};
+	float m_fFontScale{};
+	long m_nMaxStrWidth{};
+	long m_nUseWidth{};
+	long m_nUseHeight{};
 
 	bool m_bDisableDraw;
 	float m_fTurnOnDelay;

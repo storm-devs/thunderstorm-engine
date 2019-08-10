@@ -78,6 +78,7 @@ uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 	uint32_t hash = MakeHashValue(fi.name);
 	uint32_t hash_index = MAKEHASHINDEX(hash);
 
+	const auto len = strlen(fi.decl_file_name) + 1;
 	for (uint32_t n = 0; n < Func_num; n++)
 	{
 		if (pTable[n].hash != hash) continue;
@@ -98,7 +99,6 @@ uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 
 			delete pTable[n].decl_file_name;
 
-			const auto len = strlen(fi.decl_file_name) + 1;
 			pTable[n].decl_file_name = new char[len];
 			memcpy(pTable[n].decl_file_name, fi.decl_file_name, len);
 			pTable[n].code = n;

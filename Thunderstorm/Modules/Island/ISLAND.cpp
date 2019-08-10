@@ -803,7 +803,7 @@ bool ISLAND::SaveTga8(char* fname, uint8_t* pBuffer, uint32_t dwSizeX, uint32_t 
 bool ISLAND::Mount(char* fname, char* fdir, entid_t* eID)
 {
 	//std::string		sRealFileName;
-	std::string sModelPath, sLightPath;
+	//std::string sModelPath, sLightPath;
 
 	Uninit();
 

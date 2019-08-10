@@ -213,7 +213,7 @@ public:
 		return vDword;
 	};
 
-	uint32_t GetAttributeAsPointer(const char* name = nullptr, uintptr_t def = 0)
+	uintptr_t GetAttributeAsPointer(const char* name = nullptr, uintptr_t def = 0)
 	{
 		uintptr_t ptr;
 		char* pAttribute;

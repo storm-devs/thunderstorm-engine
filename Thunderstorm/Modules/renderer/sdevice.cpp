@@ -1169,8 +1169,8 @@ void DX9RENDER::MakePostProcess()
 //################################################################################
 bool DX9RENDER::DX9EndScene()
 {
-	MEMORYSTATUS ms;
-	GlobalMemoryStatus(&ms);
+	//MEMORYSTATUS ms;
+	//GlobalMemoryStatus(&ms);
 
 	uint32_t dwTotalTexSize = 0;
 	uint32_t dwTotalTexNum = 0, dwTotalVB = 0, dwTotalIB = 0, dwTotalVBSize = 0, dwTotalIBSize = 0;

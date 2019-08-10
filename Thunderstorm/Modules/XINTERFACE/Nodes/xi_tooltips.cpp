@@ -2,11 +2,10 @@
 #include "../xinterface.h"
 #include "../strutils.h"
 
-CXI_ToolTip::CXI_ToolTip(VXSERVICE* pPicService, VSTRSERVICE* pStrService, XYPOINT& pntScrSize)
+CXI_ToolTip::CXI_ToolTip(VXSERVICE* pPicService, VSTRSERVICE* pStrService, XYPOINT& pntScrSize) : m_pntScreenSize(pntScrSize)
 {
 	m_pPicService = pPicService;
 	m_pStrService = pStrService;
-	m_pntScreenSize = pntScrSize;
 
 	m_rs = XINTERFACE::GetRenderService();
 	if (!m_rs) { throw std::exception("No service: dx9render"); }
