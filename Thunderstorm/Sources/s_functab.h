@@ -67,7 +67,7 @@ public:
 	 S_FUNCTAB();
 	~S_FUNCTAB();
 	uint32_t GetFuncNum(){return Func_num;};
-	uint32_t AddFunc(FUNCINFO& fi);
+	uint32_t AddFunc(const FUNCINFO& fi);
 	bool  GetFunc(FUNCINFO& fi,uint32_t func_code);	// return true if func registred and loaded
 	bool  GetFuncX(FUNCINFO& fi,uint32_t func_code);	// return true if func registred
 	uint32_t MakeHashValue(const char * string);

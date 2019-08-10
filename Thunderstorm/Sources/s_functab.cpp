@@ -72,7 +72,7 @@ bool S_FUNCTAB::GetFuncX(FUNCINFO& fi, uint32_t func_code)
 	return true;
 }
 
-uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
+uint32_t S_FUNCTAB::AddFunc(const FUNCINFO& fi)
 {
 	if (fi.name == nullptr) return INVALID_FUNC_CODE;
 	uint32_t hash = MakeHashValue(fi.name);
@@ -127,7 +127,6 @@ uint32_t S_FUNCTAB::AddFunc(FUNCINFO& fi)
 	pTable[Func_num].fTimeUsage = 0;
 	pTable[Func_num].nNumberOfCalls = 0;
 
-	const auto len = strlen(fi.decl_file_name) + 1;
 	pTable[Func_num].decl_file_name = new char[len];
 	memcpy(pTable[Func_num].decl_file_name, fi.decl_file_name, len);
 	pTable[Func_num].code = Func_num;
