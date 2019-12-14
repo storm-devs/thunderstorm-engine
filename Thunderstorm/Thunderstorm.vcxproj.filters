@@ -2238,9 +2238,6 @@
     <ClInclude Include="Include\particles\iparticlesystem.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Sd2_h\AIMessages.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Sd2_h\CannonTrace.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -2400,19 +2397,7 @@
     <ClInclude Include="Include\vapi.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Include\vblast.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\vcontrols.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\vcube_service.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Include\vdata.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\vevent.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\vfile_service.h">
