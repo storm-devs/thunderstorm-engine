@@ -248,7 +248,7 @@ public:
 		entities_.first[index].deleted = true;
 	}
 
-	static constexpr void EraseAll()
+	static void EraseAll()
 	{
 		auto& arr = entities_.first;
 		const auto size = entities_.second;
@@ -326,12 +326,12 @@ public:
 		return std::pair{std::begin(entities_.first), std::begin(entities_.first) + entities_.second};
 	}
 
-	static constexpr auto GetEntityId(const char* name) -> entid_t
+	static auto GetEntityId(const char* name) -> entid_t
 	{
 		return GetEntityId(MakeHashValue(name));
 	}
 
-	static constexpr auto GetEntityId(const uint32_t hash) -> entid_t
+	static auto GetEntityId(const uint32_t hash) -> entid_t
 	{
 		const auto& arr = entities_.first;
 		const auto size = entities_.second;
@@ -375,7 +375,7 @@ public:
 		return layers_[index].frozen;
 	}
 
-	static constexpr void PushFreeIndex(entity_index_t index)
+	static void PushFreeIndex(entity_index_t index)
 	{
 		auto& stack = freeIndices_.first;
 		auto& top = freeIndices_.second;
@@ -386,7 +386,7 @@ public:
 	}
 
 	/* new lifecycle is started at the end of each frame. it's time to cleanup */
-	static constexpr void NewLifecycle()
+	static void NewLifecycle()
 	{
 		auto& arr = entities_.first;
 		const auto size = entities_.second;
@@ -429,7 +429,7 @@ public:
 		return data;
 	}
 
-	static constexpr entid_t PushEntity(entptr_t ptr, hash_t hash)
+	static entid_t PushEntity(entptr_t ptr, hash_t hash)
 	{
 		auto& arr = entities_.first;
 		auto& size = entities_.second;
@@ -458,5 +458,5 @@ public:
 	}
 
 	/* static constexpr asserts */
-	static_assert(sizeof std::chrono::milliseconds == sizeof entid_stamp_t * 2); /* we are ok with half-precision */
+	static_assert(sizeof(std::chrono::milliseconds) == sizeof(entid_stamp_t) * 2); /* we are ok with half-precision */
 };

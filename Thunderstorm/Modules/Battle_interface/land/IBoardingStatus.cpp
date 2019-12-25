@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "../../../Shared/battle_interface/log_msg.h"
+#include "../../Shared/battle_interface/log_msg.h"
 #include "IBoardingStatus.h"
-#include "../EntityManager.h"
+#include "EntityManager.h"
 
 IBoardingStatus::IBoardingStatus()
 {

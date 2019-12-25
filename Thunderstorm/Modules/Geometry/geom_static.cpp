@@ -36,7 +36,7 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 
 	auto file = srv.OpenFile(fname);
 	//read header
-	srv.ReadFile(file, &rhead, sizeof RDF_HEAD);
+	srv.ReadFile(file, &rhead, sizeof(RDF_HEAD));
 	if (rhead.version != RDF_VERSION) throw "invalid version";
 
 	//read names
@@ -52,14 +52,14 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 	srv.ReadFile(file, tname, rhead.ntextures * sizeof(long));
 
 	//read materials
-	RDF_MATERIAL* rmat = (RDF_MATERIAL*)srv.malloc(sizeof RDF_MATERIAL * rhead.nmaterials);
-	srv.ReadFile(file, rmat, sizeof RDF_MATERIAL * rhead.nmaterials);
-	material = (MATERIAL*)srv.malloc(sizeof MATERIAL * rhead.nmaterials);
+	RDF_MATERIAL* rmat = (RDF_MATERIAL*)srv.malloc(sizeof(RDF_MATERIAL) * rhead.nmaterials);
+	srv.ReadFile(file, rmat, sizeof(RDF_MATERIAL) * rhead.nmaterials);
+	material = (MATERIAL*)srv.malloc(sizeof(MATERIAL) * rhead.nmaterials);
 
 	//read lights
-	RDF_LIGHT* rlig = (RDF_LIGHT*)srv.malloc(sizeof RDF_LIGHT * rhead.nlights);
-	srv.ReadFile(file, rlig, sizeof RDF_LIGHT * rhead.nlights);
-	light = (LIGHT*)srv.malloc(sizeof LIGHT * rhead.nlights);
+	RDF_LIGHT* rlig = (RDF_LIGHT*)srv.malloc(sizeof(RDF_LIGHT) * rhead.nlights);
+	srv.ReadFile(file, rlig, sizeof(RDF_LIGHT) * rhead.nlights);
+	light = (LIGHT*)srv.malloc(sizeof(LIGHT) * rhead.nlights);
 	for (long l = 0; l < rhead.nlights; l++)
 	{
 		light[l].flags = rlig[l].flags;
@@ -87,9 +87,9 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 	srv.free(rlig);
 
 	//read labels
-	RDF_LABEL* lab = (RDF_LABEL*)srv.malloc(sizeof RDF_LABEL * rhead.nlabels);
-	srv.ReadFile(file, lab, sizeof RDF_LABEL * rhead.nlabels);
-	label = (LABEL*)srv.malloc(sizeof LABEL * rhead.nlabels);
+	RDF_LABEL* lab = (RDF_LABEL*)srv.malloc(sizeof(RDF_LABEL)* rhead.nlabels);
+	srv.ReadFile(file, lab, sizeof(RDF_LABEL)* rhead.nlabels);
+	label = (LABEL*)srv.malloc(sizeof(LABEL)* rhead.nlabels);
 	for (long lb = 0; lb < rhead.nlabels; lb++)
 	{
 		label[lb].flags = lab[lb].flags;
@@ -102,10 +102,10 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 	srv.free(lab);
 
 	//read objects
-	RDF_OBJECT* obj = (RDF_OBJECT*)srv.malloc(sizeof RDF_OBJECT * rhead.nobjects);
+	RDF_OBJECT* obj = (RDF_OBJECT*)srv.malloc(sizeof(RDF_OBJECT)* rhead.nobjects);
 	atriangles = (long*)srv.malloc(sizeof(long) * rhead.nobjects);
-	srv.ReadFile(file, obj, sizeof RDF_OBJECT * rhead.nobjects);
-	object = (OBJECT*)srv.malloc(sizeof OBJECT * rhead.nobjects);
+	srv.ReadFile(file, obj, sizeof(RDF_OBJECT) * rhead.nobjects);
+	object = (OBJECT*)srv.malloc(sizeof(OBJECT) * rhead.nobjects);
 	for (long o = 0; o < rhead.nobjects; o++)
 	{
 		object[o].flags = obj[o].flags;
@@ -126,16 +126,16 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 	srv.free(obj);
 
 	//read triangles
-	idx_buff = srv.CreateIndexBuffer(rhead.ntriangles * sizeof RDF_TRIANGLE);
+	idx_buff = srv.CreateIndexBuffer(rhead.ntriangles * sizeof(RDF_TRIANGLE));
 	RDF_TRIANGLE* trg = (RDF_TRIANGLE*)srv.LockIndexBuffer(idx_buff);
-	srv.ReadFile(file, trg, sizeof RDF_TRIANGLE * rhead.ntriangles);
+	srv.ReadFile(file, trg, sizeof(RDF_TRIANGLE) * rhead.ntriangles);
 	srv.UnlockIndexBuffer(idx_buff);
 
 	int nvertices = 0;
 	//read vertex buffers
-	RDF_VERTEXBUFF* rvb = (RDF_VERTEXBUFF*)srv.malloc(rhead.nvrtbuffs * sizeof RDF_VERTEXBUFF);
-	srv.ReadFile(file, rvb, rhead.nvrtbuffs * sizeof RDF_VERTEXBUFF);
-	vbuff = (VERTEX_BUFFER*)srv.malloc(rhead.nvrtbuffs * sizeof VERTEX_BUFFER);
+	RDF_VERTEXBUFF* rvb = (RDF_VERTEXBUFF*)srv.malloc(rhead.nvrtbuffs * sizeof(RDF_VERTEXBUFF));
+	srv.ReadFile(file, rvb, rhead.nvrtbuffs * sizeof(RDF_VERTEXBUFF));
+	vbuff = (VERTEX_BUFFER*)srv.malloc(rhead.nvrtbuffs * sizeof(VERTEX_BUFFER));
 	long v;
 	for (v = 0; v < rhead.nvrtbuffs; v++)
 	{

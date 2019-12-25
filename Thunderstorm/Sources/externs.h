@@ -2,7 +2,7 @@
 
 #include "Core.h"
 #include "file_service.h"
-#include "../vapi.h"
+#include "vapi.h"
 
 extern CORE Core;
 extern VAPI* api;

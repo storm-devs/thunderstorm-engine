@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "xi_table.h"
 #include "xi_scroller.h"
-#include "../strutils.h"
+#include "strutils.h"
 #include "xi_util.h"
 
 #define ALIGN_BOTTOM	16
@@ -1183,7 +1183,7 @@ void CXI_TABLE::UpdateTableCells()
 	}
 }
 
-long CXI_TABLE::GetLineByPoint(FXYPOINT& pnt)
+long CXI_TABLE::GetLineByPoint(const FXYPOINT& pnt)
 {
 	if (pnt.x < m_rect.left || pnt.x > m_rect.right ||
 		pnt.y < m_rect.top || pnt.y > m_rect.bottom)

@@ -298,7 +298,7 @@ void ActivePerkShower::FillVIBuffers()
 	rs->UnLockVertexBuffer(m_idVBuf);
 }
 
-void ActivePerkShower::FillRectData(void* vbuf, FRECT& rectPos, FRECT& rectTex)
+void ActivePerkShower::FillRectData(void* vbuf, const FRECT& rectPos, const FRECT& rectTex)
 {
 	if (vbuf == nullptr) return;
 	auto* ptmp = (BI_ONETEXTURE_VERTEX*)vbuf;

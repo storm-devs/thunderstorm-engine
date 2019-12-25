@@ -123,7 +123,7 @@ public:
 	//Инкапсуляция
 	//--------------------------------------------------------------------------------------------
 private:
-	bool IsShipInArea(long islIndex, CVECTOR& pos);
+	bool IsShipInArea(long islIndex, const CVECTOR& pos);
 	static bool AddEdges(const GEOS::VERTEX* vrt, long numVrt);
 	static bool FindNearPoint(const GEOS::VERTEX* vrt, long numVrt);
 	void LabelsReadIconParams(ATTRIBUTES* apnt);
@@ -131,7 +131,7 @@ private:
 	bool LabelsFindLocator(const char* name, CVECTOR& pos);
 	long LabelsAddFont(const char* name);
 	void LabelsRelease();
-	static CVECTOR& Norm2D(CVECTOR& v);
+	static CVECTOR& Norm2D(const CVECTOR& ret);
 
 private:
 	//Модель, содержащая все локаторы
@@ -164,21 +164,22 @@ public:
 	static CVECTOR centPos;
 };
 
-inline CVECTOR& WdmIslands::Norm2D(CVECTOR& v)
+inline CVECTOR& WdmIslands::Norm2D(const CVECTOR& v)
 {
-	v.y = 0.0f;
-	double len = v.x * v.x + v.z * v.z;
+	CVECTOR ret = v;
+	ret.y = 0.0f;
+	double len = ret.x * ret.x + ret.z * ret.z;
 	if (len >= 1e-30f)
 	{
 		len = 1.0f / sqrt(len);
-		v.x = float(len * v.x);
-		v.z = float(len * v.z);
+		ret.x = float(len * ret.x);
+		ret.z = float(len * ret.z);
 	}
 	else
 	{
-		v = 0.0f;
+		ret = 0.0f;
 	}
-	return v;
+	return ret;
 }
 
 

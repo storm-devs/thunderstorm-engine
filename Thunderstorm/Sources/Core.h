@@ -2,8 +2,8 @@
 
 #include <windows.h>
 
-#include "../EntityManager.h"
-#include "../vapi.h"
+#include "EntityManager.h"
+#include "vapi.h"
 
 #include "timer.h"
 #include "services_list.h"
@@ -96,10 +96,10 @@ public:
 	void DumpEntitiesInfo();
 	void EraseEntities();
 	void ClearEvents();
-	void * MakeClass(char * class_name);
+	void * MakeClass(const char * class_name);
 	void AppState(bool state);
 	uint32_t MakeHashValue(const char * string);
-	VMA * FindVMA(char * class_name);
+	VMA * FindVMA(const char * class_name);
 	VMA * FindVMA(long hash);
 //------------------------------------------------------------------------------------------------
 // API functions : (virtual API)
@@ -117,15 +117,15 @@ public:
 	void Trace(const char * Format,...) override;
 
 	// return service object pointer; 
-	void * CreateService(char * service_name) override;
+	void * CreateService(const char * service_name) override;
 
-	ATTRIBUTES * Entity_GetAttributeClass(entid_t id_PTR, char * name) override;
-	char *	Entity_GetAttribute(entid_t id_PTR, char * name) override;
-	uint32_t	Entity_GetAttributeAsDword(entid_t id_PTR, char * name, uint32_t def = 0) override;
-	FLOAT	Entity_GetAttributeAsFloat(entid_t id_PTR, char * name, FLOAT def = 0) override;
-	BOOL	Entity_SetAttribute(entid_t id_PTR, char * name, char * attribute) override;
-	BOOL	Entity_SetAttributeUseDword(entid_t id_PTR, char * name, uint32_t val) override;
-	BOOL	Entity_SetAttributeUseFloat(entid_t id_PTR, char * name, FLOAT val) override;
+	ATTRIBUTES * Entity_GetAttributeClass(entid_t id_PTR, const char * name) override;
+	char *	Entity_GetAttribute(entid_t id_PTR, const char * name) override;
+	uint32_t	Entity_GetAttributeAsDword(entid_t id_PTR, const char * name, uint32_t def = 0) override;
+	FLOAT	Entity_GetAttributeAsFloat(entid_t id_PTR, const char * name, FLOAT def = 0) override;
+	BOOL	Entity_SetAttribute(entid_t id_PTR, const char * name, const char * attribute) override;
+	BOOL	Entity_SetAttributeUseDword(entid_t id_PTR, const char * name, uint32_t val) override;
+	BOOL	Entity_SetAttributeUseFloat(entid_t id_PTR, const char * name, FLOAT val) override;
 	void	Entity_SetAttributePointer(entid_t id_PTR, ATTRIBUTES * pA) override;
 	uint32_t	Entity_AttributeChanged(entid_t id_PTR, ATTRIBUTES *);
 	ATTRIBUTES * Entity_GetAttributePointer(entid_t id_PTR) override;
@@ -133,12 +133,12 @@ public:
 	// messeges system
 
 	// send message to an object
-	uint64_t Send_Message(entid_t Destination,char * Format,...) override;
+	uint64_t Send_Message(entid_t Destination, const char * Format,...) override;
 	
 	// save core state
-	bool SaveState(char * file_name) override;
+	bool SaveState(const char * file_name) override;
 	// force core to load state file at the start of next game loop, return false if no state file
-	bool InitiateStateLoading(char * file_name) override;
+	bool InitiateStateLoading(const char * file_name) override;
 
 	// return current fps
 	uint32_t EngineFps() override;
@@ -147,12 +147,12 @@ public:
 	uint32_t GetDeltaTime() override;
 	uint32_t GetRDeltaTime() override;
 	//
-	VDATA * Event(char * Event_name, char * Format,...) override;
-	uint32_t PostEvent(char * Event_name, uint32_t post_time, char * Format,...) override;
+	VDATA * Event(const char * Event_name, const char * Format,...) override;
+	uint32_t PostEvent(const char * Event_name, uint32_t post_time, const char * Format,...) override;
 
-	void * GetSaveData(char * file_name, long & data_size) override;
+	void * GetSaveData(const char * file_name, long & data_size) override;
 	
-	bool SetSaveData(char * file_name, void * data_ptr, long data_size) override;
+	bool SetSaveData(const char * file_name, void * data_ptr, long data_size) override;
 
 	uint32_t SetScriptFunction(IFUNCINFO * pFuncInfo) override;
 

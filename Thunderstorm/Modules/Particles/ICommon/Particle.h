@@ -2,7 +2,7 @@
 #define PARTICLE_STRUCT
 
 
-#include "../math3d.h"
+#include "math3d.h"
 
 class DataGraph;
 class DataColor;

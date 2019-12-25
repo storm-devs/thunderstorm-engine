@@ -548,7 +548,7 @@ bool CINODE::GetIniBool(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, 
 }
 
 XYRECT CINODE::GetIniLongRect(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
-                              XYRECT& rectDefault)
+	const XYRECT& rectDefault)
 {
 	char param[256];
 	XYRECT outRect = rectDefault;
@@ -560,7 +560,7 @@ XYRECT CINODE::GetIniLongRect(INIFILE* ini1, char* name1, INIFILE* ini2, char* n
 }
 
 FXYRECT CINODE::GetIniFloatRect(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
-                                FXYRECT& rectDefault)
+	const FXYRECT& rectDefault)
 {
 	char param[256];
 	FXYRECT outRect = rectDefault;
@@ -572,7 +572,7 @@ FXYRECT CINODE::GetIniFloatRect(INIFILE* ini1, char* name1, INIFILE* ini2, char*
 }
 
 XYPOINT CINODE::GetIniLongPoint(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
-                                XYPOINT& pntDefault)
+	const XYPOINT& pntDefault)
 {
 	char param[256];
 	XYPOINT outPnt = pntDefault;
@@ -584,7 +584,7 @@ XYPOINT CINODE::GetIniLongPoint(INIFILE* ini1, char* name1, INIFILE* ini2, char*
 }
 
 FXYPOINT CINODE::GetIniFloatPoint(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
-                                  FXYPOINT& pntDefault)
+	const FXYPOINT& pntDefault)
 {
 	char param[256];
 	FXYPOINT outPnt = pntDefault;

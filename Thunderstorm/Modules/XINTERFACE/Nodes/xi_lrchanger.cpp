@@ -1,6 +1,6 @@
 #include "xi_lrchanger.h"
 
-void SetOneTextureCoordinate(XI_ONETEX_VERTEX v[4], FXYRECT& tr)
+void SetOneTextureCoordinate(XI_ONETEX_VERTEX v[4], const FXYRECT& tr)
 {
 	v[0].tu = tr.left;
 	v[0].tv = tr.top;
@@ -12,7 +12,7 @@ void SetOneTextureCoordinate(XI_ONETEX_VERTEX v[4], FXYRECT& tr)
 	v[3].tv = tr.bottom;
 }
 
-void SetRectanglePosition(XI_ONETEX_VERTEX v[4], FXYRECT& pr)
+void SetRectanglePosition(XI_ONETEX_VERTEX v[4], const FXYRECT& pr)
 {
 	v[0].pos.x = (float)pr.left;
 	v[0].pos.y = (float)pr.top;

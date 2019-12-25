@@ -35,7 +35,7 @@ struct XYPOINT
 	long x,y;
 	XYPOINT() {x=y=0;}
 	XYPOINT(long ix, long iy)	{x=ix; y=iy;}
-	void operator = (XYPOINT &lp)
+	void operator = (const XYPOINT &lp)
 	{
 		this->x=lp.x;	this->y=lp.y;
 	}
@@ -51,7 +51,7 @@ struct XYRECT
 		right = iright;
 		bottom = ibottom;
 	}
-	void operator = (XYRECT & ir)
+	void operator = (const XYRECT & ir)
 	{
 		this->left=ir.left;		this->top=ir.top;
 		this->right=ir.right;	this->bottom=ir.bottom;
@@ -97,43 +97,43 @@ struct FXYRECT
 		right = fright;
 		bottom = fbottom;
 	}
-	void operator = (FXYRECT & fr)
+	void operator = (const FXYRECT & fr)
 	{
 		this->left=fr.left;		this->top=fr.top;
 		this->right=fr.right;	this->bottom=fr.bottom;
 	}
-	void operator += (FXYRECT & fr)
+	void operator += (const FXYRECT & fr)
 	{
 		this->left+=fr.left;	this->top+=fr.top;
 		this->right+=fr.right;	this->bottom+=fr.bottom;
 	}
-	void operator -= (FXYRECT & fr)
+	void operator -= (const FXYRECT & fr)
 	{
 		this->left-=fr.left;	this->top-=fr.top;
 		this->right-=fr.right;	this->bottom-=fr.bottom;
 	}
-	FXYRECT operator + (FXYRECT & fr)
+	FXYRECT operator + (const FXYRECT & fr)
 	{
 		FXYRECT tmp;
 		tmp.left = this->left+fr.left;		tmp.top = this->top+fr.top;
 		tmp.right = this->right+fr.right;	tmp.bottom = this->bottom+fr.bottom;
 		return tmp;
 	}
-	FXYRECT operator - (FXYRECT & fr)
+	FXYRECT operator - (const FXYRECT & fr)
 	{
 		FXYRECT tmp;
 		tmp.left = this->left-fr.left;		tmp.top = this->top-fr.top;
 		tmp.right = this->right-fr.right;	tmp.bottom = this->bottom-fr.bottom;
 		return tmp;
 	}
-	FXYRECT operator + (FXYPOINT & fp)
+	FXYRECT operator + (const FXYPOINT & fp)
 	{
 		FXYRECT tmp;
 		tmp.left = this->left+fp.x;		tmp.top = this->top+fp.y;
 		tmp.right = this->right+fp.x;	tmp.bottom = this->bottom+fp.y;
 		return tmp;
 	}
-	FXYRECT operator - (FXYPOINT & fp)
+	FXYRECT operator - (const FXYPOINT & fp)
 	{
 		FXYRECT tmp;
 		tmp.left = this->left-fp.x;		tmp.top = this->top-fp.y;

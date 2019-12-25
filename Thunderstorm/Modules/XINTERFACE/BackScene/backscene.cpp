@@ -224,7 +224,7 @@ void InterfaceBackScene::Execute(uint32_t Delta_Time)
 		if (api->Controls->GetDebugAsyncKeyState(VK_RIGHT) < 0) m_vCamAng.y += fRotateSpeed;
 	}
 
-	m_pRS->SetCamera(&m_vCamPos, &m_vCamAng, m_fCamPerspective);
+	m_pRS->SetCamera(m_vCamPos, m_vCamAng, m_fCamPerspective);
 
 	if (nOldMenuIndex != m_nSelectMenuIndex)
 		api->Event(ISOUND_EVENT, "l", 2); // выбор нового нода

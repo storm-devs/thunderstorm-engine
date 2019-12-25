@@ -87,7 +87,7 @@ void BICommandList::Update(long nTopLine, long nCharacterIndex, long nCommandMod
 	UpdateShowIcon();
 }
 
-long BICommandList::AddTexture(const char* pcTextureName, long nCols, long nRows)
+long BICommandList::AddTexture(const char* pcTextureName, uint32_t nCols, uint32_t nRows)
 {
 	m_aTexture.push_back(TextureDescr{pcTextureName, nCols, nRows});
 	return m_aTexture.size() - 1;

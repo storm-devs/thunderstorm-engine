@@ -285,7 +285,7 @@ void DECK_CAMERA::Move(uint32_t DeltaTime)
 	s_pos = pathNode->glob_mtx * (camera_pos + CVECTOR(0.f, h_eye, 0.f));
 
 	// установить камеру
-	RenderService->SetCamera(&s_pos, &s_ang, GetPerspective());
+	RenderService->SetCamera(s_pos, s_ang, GetPerspective());
 }
 
 void DECK_CAMERA::SetCharacter(ATTRIBUTES* _pACharacter)

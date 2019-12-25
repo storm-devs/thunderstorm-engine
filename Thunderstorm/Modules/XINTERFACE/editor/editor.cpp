@@ -235,7 +235,7 @@ void GIEditor::AddNode(CINODE* pNode)
 void GIEditor::DelNode(CINODE* pNode)
 {
 	if (!pNode) return;
-	m_pNodeList->RemoveString(std::string(pNode->m_nodeName));
+	m_pNodeList->RemoveString(pNode->m_nodeName);
 }
 
 void GIEditor::DrawSizeBox()

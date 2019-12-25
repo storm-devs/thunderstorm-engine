@@ -1,8 +1,8 @@
 #ifndef _GEOMETRY_CACHE_
 #define _GEOMETRY_CACHE_
 
-#include "../geometry.h"
-#include "../geos.h"
+#include "geometry.h"
+#include "geos.h"
 #include <string>
 #include <vector>
 

@@ -1,8 +1,8 @@
 #include "itementity.h"
 #include "../Utils.h"
-#include "../model.h"
-#include "../../../Shared/messages.h"
-#include "../EntityManager.h"
+#include "model.h"
+#include "../../Shared/messages.h"
+#include "EntityManager.h"
 
 ItemEntity::ItemEntity()
 {

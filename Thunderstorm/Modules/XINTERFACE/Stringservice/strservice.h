@@ -2,11 +2,10 @@
 #define __STRSERVICE_H__
 
 
-#include "../vmodule_api.h"
-//#include "..\defines.h"
+#include "vmodule_api.h"
 
-#include "../stringService.h"
-#include "../script_libriary.h"
+#include "stringService.h"
+#include "script_libriary.h"
 
 //-----------SDEVICE-----------
 class STRSERVICE : public VSTRSERVICE

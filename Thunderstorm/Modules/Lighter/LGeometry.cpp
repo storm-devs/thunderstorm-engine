@@ -404,7 +404,7 @@ void LGeometry::UpdateColors(VDX9RENDER* rs)
 }
 
 //Протрейсить луч
-float LGeometry::Trace(CVECTOR& src, CVECTOR& dst)
+float LGeometry::Trace(const CVECTOR& src, const CVECTOR& dst)
 {
 	for (long i = 0; i < numObjects; i++)
 	{

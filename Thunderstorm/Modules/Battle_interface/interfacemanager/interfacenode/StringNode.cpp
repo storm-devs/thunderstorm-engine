@@ -6,7 +6,7 @@ BI_StringNode::BI_StringNode(BI_ManagerBase* pManager, const char* text, const c
 	BI_BaseNode(pManager)
 {
 	m_pStr = Manager()->GetImageRender()->
-	                    CreateString(text, font, scale, color, nVAlign, nHAlign, (RECT)pos, prioritet);
+	                    CreateString(text, font, scale, color, nVAlign, nHAlign, pos, prioritet);
 }
 
 BI_StringNode::~BI_StringNode()

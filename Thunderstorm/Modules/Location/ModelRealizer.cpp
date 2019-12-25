@@ -69,12 +69,17 @@ void LocModelRealizer::Realize(uint32_t delta_time)
 			// 13 - (0, 0, 0, 0)
 
 			fCausticDelta = fCausticFrame - long(fCausticFrame);
-			rs->SetVertexShaderConstantF(10, (const float*)&CVECTOR4(fCausticScale, fCausticDelta, 0.0f, 0.0f), 1);
-			rs->SetVertexShaderConstantF(11, (const float*)&v4CausticColor, 1);
-			rs->SetVertexShaderConstantF(12, (const float*)&CVECTOR4(fFogDensity, 0.0f, 0.0f, 0.0f), 1);
-			rs->SetVertexShaderConstantF(13, (const float*)&CVECTOR4(0.0f, 0.0f, 0.0f, 0.0f), 1);
-			rs->SetVertexShaderConstantF(14, (const float*)&CVECTOR4(0.0f, 1.0f, 0.0f, 0.0f), 1);
-			rs->SetVertexShaderConstantF(15, (const float*)&CVECTOR4(1.0f / fCausticDistance, 1.0f, 0.0f, 0.0f), 1);
+			const auto vec1 = CVECTOR4(fCausticScale, fCausticDelta, 0.0f, 0.0f);
+			const auto vec2 = CVECTOR4(fFogDensity, 0.0f, 0.0f, 0.0f);
+			const auto vec3 = CVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
+			const auto vec4 = CVECTOR4(0.0f, 1.0f, 0.0f, 0.0f);
+			const auto vec5 = CVECTOR4(1.0f / fCausticDistance, 1.0f, 0.0f, 0.0f);
+			rs->SetVertexShaderConstantF(10, reinterpret_cast<const float*>(&vec1), 1);
+			rs->SetVertexShaderConstantF(11, reinterpret_cast<const float*>(&v4CausticColor), 1);
+			rs->SetVertexShaderConstantF(12, reinterpret_cast<const float*>(&vec2), 1);
+			rs->SetVertexShaderConstantF(13, reinterpret_cast<const float*>(&vec3), 1);
+			rs->SetVertexShaderConstantF(14, reinterpret_cast<const float*>(&vec4), 1);
+			rs->SetVertexShaderConstantF(15, reinterpret_cast<const float*>(&vec5), 1);
 
 			rs->TextureSet(1, iCausticTex[long(fCausticFrame) % 32]);
 			rs->TextureSet(2, iCausticTex[(long(fCausticFrame) + 1) % 32]);

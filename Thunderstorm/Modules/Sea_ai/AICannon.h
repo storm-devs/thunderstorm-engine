@@ -54,8 +54,8 @@ public:
 	entid_t GetParentEID() const { return eidParent; };
 	VAI_OBJBASE* GetAIObjPointer() const;
 
-	float CalcHeightFireAngle(float _fSpeedV0, CVECTOR& vOur, CVECTOR& vEnemy);
-	bool Fire(float fSpeedV0, CVECTOR& vFirePos);
+	float CalcHeightFireAngle(float _fSpeedV0, const CVECTOR& vOur, const CVECTOR& vEnemy);
+	bool Fire(float fSpeedV0, const CVECTOR& vFirePos);
 	void Load();
 	void Unload();
 	void Recharge();

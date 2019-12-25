@@ -132,7 +132,7 @@ public:
 	void Init(entid_t _shipID, int editorMode, char* shipType);
 	void CheckPosition(uint32_t& dltTime);
 	void SetMastBroken(int iMastIndex);
-	void OnHullHit(CVECTOR& v);
+	void OnHullHit(const CVECTOR& v);
 	void Reset();
 
 	void Free();

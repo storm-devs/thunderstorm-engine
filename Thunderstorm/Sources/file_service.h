@@ -1,7 +1,7 @@
 #ifndef _FILE_SERVICE_H_
 #define _FILE_SERVICE_H_
 
-#include "../vfile_service.h"
+#include "vfile_service.h"
 #include "ifs.h"
 
 

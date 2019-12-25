@@ -160,7 +160,8 @@ void FieldList::CreateEmptyUVField(const char* Name)
 {
 	auto* Field = new DataUV;
 	Field->SetName(Name);
-	Field->SetValues(&Vector4(0.0f, 0.0f, 1.0f, 1.0f), 1);
+	const auto vec = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
+	Field->SetValues(&vec, 1);
 
 	FieldDesc pDesc;
 	pDesc.MarkForDelete = false;

@@ -708,7 +708,7 @@ void COMPILER::DelEventHandler(char* event_name, char* func_name)
 	}
 }
 
-VDATA* COMPILER::ProcessEvent(char* event_name)
+VDATA* COMPILER::ProcessEvent(const char* event_name)
 {
 	uint32_t event_code;
 	uint32_t func_code;
@@ -812,14 +812,14 @@ VDATA* COMPILER::ProcessEvent(char* event_name)
 	return pVD;
 }
 
-void COMPILER::ProcessEvent(char* event_name, MESSAGE* pMs)
+void COMPILER::ProcessEvent(const char* event_name, MESSAGE* pMs)
 {
 	pEventMessage = pMs;
 	ProcessEvent(event_name);
 	pEventMessage = nullptr;
 }
 
-VDATA* COMPILER::ProcessEvent(char* event_name, MESSAGE message)
+VDATA* COMPILER::ProcessEvent(const char* event_name, MESSAGE message)
 {
 	pEventMessage = &message;
 	VDATA* pVD = ProcessEvent(event_name);
@@ -6774,7 +6774,7 @@ void COMPILER::AddPostEvent(S_EVENTMSG* pEM)
 }
 
 
-bool COMPILER::SetSaveData(char* file_name, void* save_data, long data_size)
+bool COMPILER::SetSaveData(const char* file_name, void* save_data, long data_size)
 {
 	EXTDATA_HEADER exdh;
 
@@ -6962,7 +6962,7 @@ bool COMPILER::SetSaveData(char* file_name, void* save_data, long data_size)
 
 }*/
 
-void* COMPILER::GetSaveData(char* file_name, long& data_size)
+void* COMPILER::GetSaveData(const char* file_name, long& data_size)
 {
 	fio->SetDrive(XBOXDRIVE_NONE);
 	HANDLE fh = fio->_CreateFile(file_name, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);

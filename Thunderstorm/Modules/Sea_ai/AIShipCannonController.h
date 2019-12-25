@@ -69,7 +69,7 @@ private:
 
 	bool ScanShipForCannons();
 
-	bool Fire2Position(uint32_t dwBort, CVECTOR& vFirePos, float fFireHeight);
+	bool Fire2Position(uint32_t dwBort, const CVECTOR& vFirePos, float fFireHeight);
 
 	float GetSpeedV0();
 
@@ -80,25 +80,25 @@ public:
 
 	// bort section
 	float GetBortHeightAngle(long iBortIndex);
-	bool isCanFireBort(uint32_t dwBort, CVECTOR& vFirePos, float* pfZapasDistance = nullptr);
-	uint32_t GetFirstFireBort(CVECTOR& vFirePos, float* pfZapasDistance = nullptr);
+	bool isCanFireBort(uint32_t dwBort, const CVECTOR& vFirePos, float* pfZapasDistance = nullptr);
+	uint32_t GetFirstFireBort(const CVECTOR& vFirePos, float* pfZapasDistance = nullptr);
 	bool isHaveEnoughtBallsForBort(uint32_t dwBortIdx);
-	uint32_t GetNextFireBort(uint32_t dwPrevBort, CVECTOR& vFirePos, float* pfZapasDistance = nullptr);
+	uint32_t GetNextFireBort(uint32_t dwPrevBort, const CVECTOR& vFirePos, float* pfZapasDistance = nullptr);
 	CVECTOR GetBortDirection(uint32_t dwBort);
 	uint32_t GetBestFireBortOnlyDistance(CVECTOR vFirePos, float fZapasDistance);
-	CVECTOR GetFirePos(CVECTOR& vFireDir);
-	CVECTOR GetFirePos(CVECTOR& vFireDir, float fDistance);
+	CVECTOR GetFirePos(const CVECTOR& vFireDir);
+	CVECTOR GetFirePos(const CVECTOR& vFireDir, float fDistance);
 	uint32_t GetBortIntactCannonsNum(uint32_t dwBortIdx);
 
 	// fire test
-	bool isCanFirePos(CVECTOR& vFirePos); // is we can fire to position
+	bool isCanFirePos(const CVECTOR& vFirePos); // is we can fire to position
 	bool isCanFire(AIShip* pEnemy); // is we can fire to enemy ship
-	bool isCanFire(CVECTOR& vCamDir); // is we can fire to camera direction
+	bool isCanFire(const CVECTOR& vCamDir); // is we can fire to camera direction
 
 	// fire section
-	bool Fire(CVECTOR& vFirePos); // fire to position
+	bool Fire(const CVECTOR& vFirePos); // fire to position
 	bool Fire(AIShip* pEnemy); // fire to ship
-	bool Fire(CVECTOR& vFireCamPos, CVECTOR& vFireDir); // manual fire
+	bool Fire(const CVECTOR& vFireCamPos, const CVECTOR& vFireDir); // manual fire
 
 	// reload section
 	void Unload(); // unload cannons

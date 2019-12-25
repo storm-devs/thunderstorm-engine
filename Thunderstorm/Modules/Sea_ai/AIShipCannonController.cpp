@@ -22,7 +22,7 @@ AIShipCannonController::~AIShipCannonController()
 {
 }
 
-bool AIShipCannonController::Fire2Position(uint32_t dwBort, CVECTOR& vFirePos, float fFireHeight)
+bool AIShipCannonController::Fire2Position(uint32_t dwBort, const CVECTOR& vFirePos, float fFireHeight)
 {
 	Assert(dwBort < aShipBorts.size());
 	AISHIP_BORT* pBort = &aShipBorts[dwBort];
@@ -60,7 +60,7 @@ bool AIShipCannonController::Fire2Position(uint32_t dwBort, CVECTOR& vFirePos, f
 	return true;
 }
 
-bool AIShipCannonController::Fire(CVECTOR& vFireCamPos, CVECTOR& vFireDir)
+bool AIShipCannonController::Fire(const CVECTOR& vFireCamPos, const CVECTOR& vFireDir)
 {
 	CVECTOR vOurPos = GetAIShip()->GetPos();
 	float fSpeedV0 = GetSpeedV0();
@@ -89,7 +89,7 @@ bool AIShipCannonController::Fire(CVECTOR& vFireCamPos, CVECTOR& vFireDir)
 	return true;
 }
 
-bool AIShipCannonController::Fire(CVECTOR& vFirePos)
+bool AIShipCannonController::Fire(const CVECTOR& vFirePos)
 {
 	uint32_t dwBort = GetFirstFireBort(vFirePos);
 	if (dwBort != INVALID_BORT_INDEX)
@@ -324,7 +324,7 @@ CVECTOR AIShipCannonController::GetBortDirection(uint32_t dwBort)
 	return v;
 }
 
-CVECTOR AIShipCannonController::GetFirePos(CVECTOR& vFireDir, float fDistance)
+CVECTOR AIShipCannonController::GetFirePos(const CVECTOR& vFireDir, float fDistance)
 {
 	CVECTOR vOurPos = GetAIShip()->GetPos();
 	float fSpeedV0 = GetSpeedV0();
@@ -354,7 +354,7 @@ CVECTOR AIShipCannonController::GetFirePos(CVECTOR& vFireDir, float fDistance)
 	return vPos;
 }
 
-CVECTOR AIShipCannonController::GetFirePos(CVECTOR& vFireDir)
+CVECTOR AIShipCannonController::GetFirePos(const CVECTOR& vFireDir)
 {
 	CVECTOR vOurPos = GetAIShip()->GetPos();
 	float fSpeedV0 = GetSpeedV0();
@@ -382,7 +382,7 @@ CVECTOR AIShipCannonController::GetFirePos(CVECTOR& vFireDir)
 	return vOurPos + fMaxDist * !vFireDir;
 }
 
-bool AIShipCannonController::isCanFire(CVECTOR& vCamDir)
+bool AIShipCannonController::isCanFire(const CVECTOR& vCamDir)
 {
 	CVECTOR vEnemyDir = !CVECTOR(vCamDir.x, 0.0f, vCamDir.z);
 	for (uint32_t i = 0; i < aShipBorts.size(); i++)
@@ -414,7 +414,7 @@ bool AIShipCannonController::isCanFire(CVECTOR& vCamDir)
 	return false;
 }
 
-bool AIShipCannonController::isCanFireBort(uint32_t dwBort, CVECTOR& vFirePos, float* pfZapasDistance)
+bool AIShipCannonController::isCanFireBort(uint32_t dwBort, const CVECTOR& vFirePos, float* pfZapasDistance)
 {
 	AISHIP_BORT* pBort = &aShipBorts[dwBort];
 
@@ -476,7 +476,7 @@ uint32_t AIShipCannonController::GetBestFireBortOnlyDistance(CVECTOR vFirePos, f
 	return dwBestBort;
 }
 
-uint32_t AIShipCannonController::GetFirstFireBort(CVECTOR& vFirePos, float* pfZapasDistance)
+uint32_t AIShipCannonController::GetFirstFireBort(const CVECTOR& vFirePos, float* pfZapasDistance)
 {
 	for (uint32_t i = 0; i < aShipBorts.size(); i++) if (aShipBorts[i].aCannons.size() &&
 		isCanFireBort(i, vFirePos, pfZapasDistance) && !aShipBorts[i].isBortDamaged()) return i;
@@ -485,7 +485,7 @@ uint32_t AIShipCannonController::GetFirstFireBort(CVECTOR& vFirePos, float* pfZa
 	return INVALID_BORT_INDEX;
 }
 
-uint32_t AIShipCannonController::GetNextFireBort(uint32_t dwPrevBort, CVECTOR& vFirePos, float* pfZapasDistance)
+uint32_t AIShipCannonController::GetNextFireBort(uint32_t dwPrevBort, const CVECTOR& vFirePos, float* pfZapasDistance)
 {
 	Assert(dwPrevBort != INVALID_BORT_INDEX && dwPrevBort<aShipBorts.size());
 	for (uint32_t i = dwPrevBort + 1; i < aShipBorts.size(); i++) if (aShipBorts[i].aCannons.size() &&
@@ -494,7 +494,7 @@ uint32_t AIShipCannonController::GetNextFireBort(uint32_t dwPrevBort, CVECTOR& v
 	return INVALID_BORT_INDEX;
 }
 
-bool AIShipCannonController::isCanFirePos(CVECTOR& vFirePos)
+bool AIShipCannonController::isCanFirePos(const CVECTOR& vFirePos)
 {
 	return (GetFirstFireBort(vFirePos) != INVALID_BORT_INDEX);
 }

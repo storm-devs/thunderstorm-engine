@@ -8,9 +8,7 @@
 #ifndef PARTICLES_MANAGER_IMPLEMENTATION
 #define PARTICLES_MANAGER_IMPLEMENTATION
 
-#include <stdarg.h>
-#include <stdio.h>
-#include "../particles/iparticlemanager.h"
+#include "particles/iparticlemanager.h"
 
 #include "../System/ParticleProcessor/mdl_processor.h"
 #include "../System/ParticleProcessor/bb_processor.h"

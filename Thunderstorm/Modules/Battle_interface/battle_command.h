@@ -27,7 +27,7 @@ public:
 	void Update(long nTopLine, long nCharacterIndex, long nCommandMode);
 	virtual void FillIcons() = 0;
 
-	long AddTexture(const char* pcTextureName, long nCols, long nRows);
+	long AddTexture(const char* pcTextureName, uint32_t nCols, uint32_t nRows);
 
 	// commands
 	long ExecuteConfirm();
@@ -57,8 +57,8 @@ protected:
 	struct TextureDescr
 	{
 		std::string sFileName;
-		long nCols;
-		long nRows;
+		uint32_t nCols;
+		uint32_t nRows;
 	};
 
 	std::vector<TextureDescr> m_aTexture;

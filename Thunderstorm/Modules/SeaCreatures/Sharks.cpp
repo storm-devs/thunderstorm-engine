@@ -658,7 +658,8 @@ void Sharks::Execute(uint32_t delta_time)
 					if (LoadPeriscopeModel())
 					{
 						periscope.time = 30.0f + rand() * (20.0f / RAND_MAX);
-						rs->GetCamera(periscope.pos, CVECTOR(0.0f), periscope.pos.y);
+						CVECTOR dummy;
+						rs->GetCamera(periscope.pos, dummy, periscope.pos.y);
 					}
 					periscope.pos.y = -10.0f;
 					waitPTime = -1.0f;

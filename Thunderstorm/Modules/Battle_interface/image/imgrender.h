@@ -12,10 +12,10 @@ public:
 	void Render();
 	uint64_t ProcessMessage(MESSAGE& message);
 
-	IBIImage* CreateImage(BIImageType type, const char* pcTextureName, uint32_t color, FRECT& uv, long nLeft, long nTop,
+	IBIImage* CreateImage(BIImageType type, const char* pcTextureName, uint32_t color, const FRECT& uv, long nLeft, long nTop,
 	                      long nRight, long nBottom, long nPrior = ImagePrioritet_DefaultValue,
 	                      const char* pcTechniqueName = nullptr);
-	IBIImage* CreateImage(BIImageType type, const char* pcTextureName, uint32_t color, FRECT& uv, RECT& pos,
+	IBIImage* CreateImage(BIImageType type, const char* pcTextureName, uint32_t color, const FRECT& uv, const RECT& pos,
 	                      long nPrior = ImagePrioritet_DefaultValue, const char* pcTechniqueName = nullptr);
 
 	BIImageMaterial* FindMaterial(const char* pcTextureName, const char* pcTechniqueName);
@@ -34,7 +34,7 @@ public:
 	                        long halign, long nLeft, long nTop, long nRight, long nBottom,
 	                        long nPrior = ImagePrioritet_DefaultValue);
 	IBIString* CreateString(const char* text, const char* font_name, float font_scale, uint32_t font_color, long valign,
-	                        long halign, RECT& pos, long nPrior = ImagePrioritet_DefaultValue);
+	                        long halign, const RECT& pos, long nPrior = ImagePrioritet_DefaultValue);
 	void DeleteString(IBIString* str);
 	void CutPrioritetRangeByStrings();
 

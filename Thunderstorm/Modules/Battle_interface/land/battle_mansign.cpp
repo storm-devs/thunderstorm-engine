@@ -1,8 +1,8 @@
 #include "battle_mansign.h"
 #include "battle_mancommand.h"
 #include "../Utils.h"
-#include "../../../Shared/battle_interface/msg_control.h"
-#include "../vmodule_api.h"
+#include "../../Shared/battle_interface/msg_control.h"
+#include "vmodule_api.h"
 
 BIManSign::BIManSign(entid_t BIEntityID, VDX9RENDER* pRS)
 {
@@ -521,7 +521,7 @@ void BIManSign::FillVertexBuffer()
 	}
 }
 
-long BIManSign::WriteSquareToVBuff(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size)
+long BIManSign::WriteSquareToVBuff(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_t color, const BIFPOINT& center, const FPOINT& size)
 {
 	if (!pv) return 0;
 
@@ -565,8 +565,8 @@ long BIManSign::WriteSquareToVBuff(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t colo
 	return 4;
 }
 
-long BIManSign::WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center,
-                                               FPOINT& size, float fClampUp, float fClampDown, float fClampLeft,
+long BIManSign::WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_t color, const BIFPOINT& center,
+	const FPOINT& size, float fClampUp, float fClampDown, float fClampLeft,
                                                float fClampRight)
 {
 	if (!pv) return 0;

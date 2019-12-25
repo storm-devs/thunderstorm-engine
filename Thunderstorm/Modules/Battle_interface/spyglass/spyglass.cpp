@@ -2,12 +2,12 @@
 #include "../image/imgrender.h"
 #include "../image/image.h"
 #include "../Utils.h"
-#include "../../../Shared/messages.h"
-#include "../../../Shared/events.h"
+#include "../../Shared/messages.h"
+#include "../../Shared/events.h"
 #include "../sea/ships_list.h"
-#include "../../../Shared/battle_interface/msg_control.h"
-#include "../math3d/Sphere.h"
-#include "../EntityManager.h"
+#include "../../Shared/battle_interface/msg_control.h"
+#include "math3d/Sphere.h"
+#include "EntityManager.h"
 
 void ISPYGLASS::ImageParam::Release()
 {
@@ -465,7 +465,8 @@ void ISPYGLASS::FindNewTargetShip()
 			{
 				if (pMainSD == pSD) continue;
 				Sphere sph;
-				sph.pos = *(Vector*)&pSD->pShip->GetPos();
+				const auto & vec = pSD->pShip->GetPos();
+				sph.pos = { vec.x, vec.y, vec.z };
 				sph.r = 40.f;
 				if (sph.Intersection(vsrc, vdst))
 				{

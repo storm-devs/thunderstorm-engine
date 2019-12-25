@@ -208,7 +208,7 @@ void CXI_GLOWCURSOR::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* na
 	SetRectanglesToPosition(rectXY);
 }
 
-void CXI_GLOWCURSOR::SetRectanglesToPosition(XYRECT& rectXY)
+void CXI_GLOWCURSOR::SetRectanglesToPosition(const XYRECT& rectXY)
 {
 	auto fW = (float)(rectXY.right - rectXY.left);
 	if (fW < 1.f) m_bShowGlow = false;

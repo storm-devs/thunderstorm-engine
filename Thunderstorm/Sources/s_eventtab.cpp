@@ -236,7 +236,7 @@ void S_EVENTTAB::InvalidateBySegmentID(uint32_t segment_id)
 	}
 }
 
-uint32_t S_EVENTTAB::FindEvent(char* event_name)
+uint32_t S_EVENTTAB::FindEvent(const char* event_name)
 {
 	if (event_name == nullptr) return INVALID_EVENT_CODE;
 	uint32_t hash = MakeHashValue(event_name);

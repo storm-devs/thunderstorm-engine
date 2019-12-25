@@ -52,7 +52,7 @@ public:
 
 	virtual void SetTechnique(const char* name) = 0;
 	virtual const char* GetTechnique() = 0;
-	virtual bool Init(const char* lightPath, const char* pname, const char* oname, CMatrix& m, CMatrix& globm,
+	virtual bool Init(const char* lightPath, const char* pname, const char* oname, const CMatrix& m, const CMatrix& globm,
 	                  NODER* par, const char* lmPath) = 0;
 
 	virtual float Trace(const CVECTOR& src, const CVECTOR& dst) = 0;

@@ -1,6 +1,6 @@
 #include "DataCache.h"
-#include "../filesystem.h"
-#include "../vmodule_api.h"
+#include "filesystem.h"
+#include "vmodule_api.h"
 
 bool ReadingAlreadyComplete;
 

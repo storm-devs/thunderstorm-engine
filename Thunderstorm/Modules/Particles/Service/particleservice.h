@@ -8,7 +8,7 @@
 #ifndef PARTICLES_SERVICE_IMPLEMENTATION
 #define PARTICLES_SERVICE_IMPLEMENTATION
 
-#include "../particles/iparticlesservice.h"
+#include "particles/iparticlesservice.h"
 #include <string>
 #include <vector>
 

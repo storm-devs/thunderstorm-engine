@@ -19,7 +19,7 @@ public:
 	bool IsUseTexture(const char* pcTextureName) { return (m_sTextureName == pcTextureName); }
 	bool IsUseTechnique(const char* pcTechniqueName) { return (m_sTechniqueName == pcTechniqueName); }
 
-	const BIImage* CreateImage(BIImageType type, uint32_t color, FRECT& uv, long nLeft, long nTop, long nRight,
+	const BIImage* CreateImage(BIImageType type, uint32_t color, const FRECT& uv, long nLeft, long nTop, long nRight,
 	                           long nBottom, long nPrior);
 	void DeleteImage(const BIImage* pImg);
 

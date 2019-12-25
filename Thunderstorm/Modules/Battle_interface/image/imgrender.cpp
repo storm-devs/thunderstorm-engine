@@ -35,7 +35,7 @@ uint64_t BIImageRender::ProcessMessage(MESSAGE& message)
 	return 0;
 }
 
-IBIImage* BIImageRender::CreateImage(BIImageType type, const char* pcTextureName, uint32_t color, FRECT& uv, long nLeft,
+IBIImage* BIImageRender::CreateImage(BIImageType type, const char* pcTextureName, uint32_t color, const FRECT& uv, long nLeft,
                                      long nTop, long nRight, long nBottom, long nPrior, const char* pcTechniqueName)
 {
 	BIImageMaterial* pMaterial = CreateMaterial(pcTextureName, pcTechniqueName);
@@ -44,7 +44,7 @@ IBIImage* BIImageRender::CreateImage(BIImageType type, const char* pcTextureName
 	return nullptr;
 }
 
-IBIImage* BIImageRender::CreateImage(BIImageType type, const char* pcTextureName, uint32_t color, FRECT& uv, RECT& pos,
+IBIImage* BIImageRender::CreateImage(BIImageType type, const char* pcTextureName, uint32_t color, const FRECT& uv, const RECT& pos,
                                      long nPrior, const char* pcTechniqueName)
 {
 	BIImageMaterial* pMaterial = CreateMaterial(pcTextureName, pcTechniqueName);
@@ -149,7 +149,7 @@ IBIString* BIImageRender::CreateString(const char* text, const char* font_name, 
 }
 
 IBIString* BIImageRender::CreateString(const char* text, const char* font_name, float font_scale, uint32_t font_color,
-                                       long valign, long halign, RECT& pos, long nPrior)
+                                       long valign, long halign, const RECT& pos, long nPrior)
 {
 	return CreateString(text, font_name, font_scale, font_color, valign, halign, pos.left, pos.top, pos.right,
 	                    pos.bottom, nPrior);

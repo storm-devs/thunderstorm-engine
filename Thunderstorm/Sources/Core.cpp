@@ -1,6 +1,6 @@
 #include "Core.h"
 #include "externs.h"
-#include "../dx9render.h"
+#include "dx9render.h"
 
 CREATE_SERVICE(CONTROLS)
 
@@ -181,12 +181,12 @@ bool CORE::Run()
 				CVECTOR tmpang = ang;
 				tmpang.y += ((float)x - (nSplitScreenshotGrid - 1) * 0.5f) * (fPersp / nSplitScreenshotGrid);
 				tmpang.x += ((float)y - (nSplitScreenshotGrid - 1) * 0.5f) * (fPersp / nSplitScreenshotGrid);
-				pRender->SetCamera(&pos, &tmpang, fPersp / nSplitScreenshotGrid);
+				pRender->SetCamera(pos, tmpang, fPersp / nSplitScreenshotGrid);
 				pRender->SaveShoot();
 				ProcessRealize();
 			}
 
-		pRender->SetCamera(&pos, &ang, fPersp);
+		pRender->SetCamera(pos, ang, fPersp);
 	}
 
 	return true;
@@ -322,7 +322,7 @@ void CORE::SetTimeScale(float _scale)
 //------------------------------------------------------------------------------------------------
 // transfer message arguments and program control to entity, specified by Destination id
 //
-uint64_t CORE::Send_Message(entid_t Destination, char* Format,...)
+uint64_t CORE::Send_Message(entid_t Destination, const char* Format,...)
 {
 	MESSAGE message;
 	entptr_t ptr = EntityManager::GetEntityPointer(Destination); // check for valid destination
@@ -337,7 +337,7 @@ uint64_t CORE::Send_Message(entid_t Destination, char* Format,...)
 	return rc;
 }
 
-uint32_t CORE::PostEvent(char* Event_name, uint32_t post_time, char* Format,...)
+uint32_t CORE::PostEvent(const char* Event_name, uint32_t post_time, const char* Format,...)
 {
 	MESSAGE_SCRIPT* pMS;
 	MESSAGE message;
@@ -402,7 +402,7 @@ uint32_t CORE::PostEvent(char* Event_name, uint32_t post_time, char* Format,...)
 	return 0;
 }
 
-VDATA* CORE::Event(char* Event_name, char* Format,...)
+VDATA* CORE::Event(const char* Event_name, const char* Format,...)
 {
 	VDATA* pVD = nullptr;
 	if (Format == nullptr)
@@ -420,7 +420,7 @@ VDATA* CORE::Event(char* Event_name, char* Format,...)
 	return pVD;
 }
 
-void* CORE::MakeClass(char* class_name)
+void* CORE::MakeClass(const char* class_name)
 {
 	long hash = MakeHashValue(class_name);
 	for (const auto c : _pModuleClassRoot)
@@ -440,7 +440,7 @@ void CORE::ReleaseServices()
 	Controls = nullptr;
 }
 
-VMA* CORE::FindVMA(char* class_name)
+VMA* CORE::FindVMA(const char* class_name)
 {
 	long hash = MakeHashValue(class_name);
 	for (const auto c : _pModuleClassRoot)
@@ -459,7 +459,7 @@ VMA* CORE::FindVMA(long hash)
 	return nullptr;
 }
 
-void* CORE::CreateService(char* service_name)
+void* CORE::CreateService(const char* service_name)
 {
 	VMA* pClass = FindVMA(service_name);
 	if (pClass == nullptr)
@@ -541,7 +541,7 @@ void CORE::ProcessRealize()
 }
 
 // save core state
-bool CORE::SaveState(char* file_name)
+bool CORE::SaveState(const char* file_name)
 {
 	if (!file_name)
 		return false;
@@ -560,7 +560,7 @@ bool CORE::SaveState(char* file_name)
 }
 
 // force core to load state file at the start of next game loop, return false if no state file
-bool CORE::InitiateStateLoading(char* file_name)
+bool CORE::InitiateStateLoading(const char* file_name)
 {
 	fio->SetDrive(XBOXDRIVE_NONE);
 	HANDLE fh = fio->_CreateFile(file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
@@ -647,7 +647,7 @@ uint32_t CORE::GetRDeltaTime()
 	return Timer.rDelta_Time;
 }
 
-ATTRIBUTES* CORE::Entity_GetAttributeClass(entid_t id_PTR, char* name)
+ATTRIBUTES* CORE::Entity_GetAttributeClass(entid_t id_PTR, const char* name)
 {
 	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if (pE == nullptr) return nullptr;
@@ -655,7 +655,7 @@ ATTRIBUTES* CORE::Entity_GetAttributeClass(entid_t id_PTR, char* name)
 	return pE->AttributesPointer->FindAClass(pE->AttributesPointer, name);
 }
 
-char* CORE::Entity_GetAttribute(entid_t id_PTR, char* name)
+char* CORE::Entity_GetAttribute(entid_t id_PTR, const char* name)
 {
 	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if (pE == nullptr) return nullptr;
@@ -663,7 +663,7 @@ char* CORE::Entity_GetAttribute(entid_t id_PTR, char* name)
 	return pE->AttributesPointer->GetAttribute(name);
 }
 
-uint32_t CORE::Entity_GetAttributeAsDword(entid_t id_PTR, char* name, uint32_t def)
+uint32_t CORE::Entity_GetAttributeAsDword(entid_t id_PTR, const char* name, uint32_t def)
 {
 	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if (pE == nullptr) return def;
@@ -671,7 +671,7 @@ uint32_t CORE::Entity_GetAttributeAsDword(entid_t id_PTR, char* name, uint32_t d
 	return pE->AttributesPointer->GetAttributeAsDword(name, def);
 }
 
-FLOAT CORE::Entity_GetAttributeAsFloat(entid_t id_PTR, char* name, FLOAT def)
+FLOAT CORE::Entity_GetAttributeAsFloat(entid_t id_PTR, const char* name, FLOAT def)
 {
 	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if (pE == nullptr) return def;
@@ -679,7 +679,7 @@ FLOAT CORE::Entity_GetAttributeAsFloat(entid_t id_PTR, char* name, FLOAT def)
 	return pE->AttributesPointer->GetAttributeAsFloat(name, def);
 }
 
-BOOL CORE::Entity_SetAttribute(entid_t id_PTR, char* name, char* attribute)
+BOOL CORE::Entity_SetAttribute(entid_t id_PTR, const char* name, const char* attribute)
 {
 	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if (pE == nullptr) return false;
@@ -687,7 +687,7 @@ BOOL CORE::Entity_SetAttribute(entid_t id_PTR, char* name, char* attribute)
 	return pE->AttributesPointer->SetAttribute(name, attribute);
 }
 
-BOOL CORE::Entity_SetAttributeUseDword(entid_t id_PTR, char* name, uint32_t val)
+BOOL CORE::Entity_SetAttributeUseDword(entid_t id_PTR, const char* name, uint32_t val)
 {
 	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if (pE == nullptr) return false;
@@ -695,7 +695,7 @@ BOOL CORE::Entity_SetAttributeUseDword(entid_t id_PTR, char* name, uint32_t val)
 	return pE->AttributesPointer->SetAttributeUseDword(name, val);
 }
 
-BOOL CORE::Entity_SetAttributeUseFloat(entid_t id_PTR, char* name, FLOAT val)
+BOOL CORE::Entity_SetAttributeUseFloat(entid_t id_PTR, const char* name, FLOAT val)
 {
 	Entity* pE = EntityManager::GetEntityPointer(id_PTR);
 	if (pE == nullptr) return false;
@@ -828,12 +828,12 @@ void CORE::DumpEntitiesInfo()
 	Sleep(200);*/
 }
 
-void* CORE::GetSaveData(char* file_name, long& data_size)
+void* CORE::GetSaveData(const char* file_name, long& data_size)
 {
 	return Compiler.GetSaveData(file_name, data_size);
 }
 
-bool CORE::SetSaveData(char* file_name, void* data_ptr, long data_size)
+bool CORE::SetSaveData(const char* file_name, void* data_ptr, long data_size)
 {
 	return Compiler.SetSaveData(file_name, data_ptr, data_size);
 }

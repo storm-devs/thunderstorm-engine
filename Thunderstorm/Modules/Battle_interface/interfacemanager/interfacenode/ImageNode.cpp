@@ -6,7 +6,7 @@ BI_ImageNode::BI_ImageNode(BI_ManagerBase* pManager, const char* texture, const 
 	BI_BaseNode(pManager)
 {
 	m_pImage = Manager()->GetImageRender()->
-	                      CreateImage(BIType_square, texture, color, (FRECT)uv, (RECT)pos, nPrioritet);
+	                      CreateImage(BIType_square, texture, color, uv, pos, nPrioritet);
 }
 
 BI_ImageNode::~BI_ImageNode()

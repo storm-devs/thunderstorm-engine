@@ -3,7 +3,7 @@
 #include "defines.h"
 #include "filesystem.h"
 #include "EntityManager.h"
-#include "../../../Shared/messages.h"
+#include "../../Shared/messages.h"
 #include "particles/iparticlemanager.h"
 #include "particles/iparticlesservice.h"
 #include "particles/iparticlesystem.h"

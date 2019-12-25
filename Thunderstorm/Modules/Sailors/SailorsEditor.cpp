@@ -40,7 +40,7 @@ bool SailorsEditor::Init()
 	LoadFromIni("SailorsEditor.ini");
 
 	shipID = EntityManager::CreateEntity("MODELR");
-	api->Send_Message(shipID, "ls",MSG_MODEL_LOAD_GEO, _shipName);
+	api->Send_Message(shipID, "ls",MSG_MODEL_LOAD_GEO, _shipName.c_str());
 
 	EntityManager::AddToLayer(EDITOR_REALIZE, shipID, 100000);
 	model = (MODEL*)EntityManager::GetEntityPointer(shipID);

@@ -60,12 +60,12 @@ public:
 	CMatrix(); //Identity matrix
 	CMatrix(float angX, float angY, float angZ, float x, float y, float z);
 	CMatrix(float angX, float angY, float angZ);
-	CMatrix(CVECTOR& ang, CVECTOR& pos);
-	CMatrix(CVECTOR& ang);
+	CMatrix(const CVECTOR& ang, const CVECTOR& pos);
+	CMatrix(const CVECTOR& ang);
 	CMatrix(const CMatrix& matrix);
-	CMatrix(CMatrix* matrix);
+	CMatrix(const CMatrix* matrix);
 	//this = m1*m2
-	CMatrix(CMatrix& m1, CMatrix& m2);
+	CMatrix(const CMatrix& m1, const CMatrix& m2);
 
 
 	//-----------------------------------------------------------
@@ -78,8 +78,8 @@ public:
 	//M = rotZ*rotX*rotY*Pos
 	void BuildMatrix(float angX, float angY, float angZ, float x, float y, float z);
 	void BuildMatrix(float angX, float angY, float angZ);
-	void BuildMatrix(CVECTOR& ang, CVECTOR& pos);
-	void BuildMatrix(CVECTOR& ang);
+	void BuildMatrix(const CVECTOR& ang, const CVECTOR& pos);
+	void BuildMatrix(const CVECTOR& ang);
 	//M = rotX*rotY*rotZ*Pos
 	void BuildMatrixXYZ(float angX, float angY, float angZ, float x, float y, float z);
 
@@ -103,16 +103,16 @@ public:
 	//Multiply
 	void operator *=(CMatrix& matrix);
 	void operator *=(float k);
-	CMatrix operator *(CMatrix& matrix);
-	CVECTOR operator *(CVECTOR& vector);
+	CMatrix operator *(const CMatrix& matrix);
+	CVECTOR operator *(const CVECTOR& vector);
 
 
 	//this = m1*m2, (m1 != this, m2 != this)
-	void EqMultiply(CMatrix& m1, CMatrix& m2);
+	void EqMultiply(const CMatrix& m1, const CMatrix& m2);
 	//Transform vertex to local coordinate system
 	void MulToInv(const CVECTOR& srcVrt, CVECTOR& resVrt);
 	//Transform normal to local coordinate system
-	void MulToInvNorm(CVECTOR& srcNorm, CVECTOR& resNorm);
+	void MulToInvNorm(const CVECTOR& srcNorm, CVECTOR& resNorm);
 
 	//Transposition
 	void Transposition();
@@ -129,7 +129,7 @@ public:
 	void MoveInversePosition(float x, float y, float z);
 	//Set new position
 	void SetPosition(float x, float y, float z);
-	void SetPosition(CVECTOR& pos);
+	void SetPosition(const CVECTOR& pos);
 	//SetPosition(-(pos * this))
 	void SetInversePosition(float x, float y, float z);
 
@@ -187,12 +187,12 @@ inline CMatrix::CMatrix(float angX, float angY, float angZ, float x, float y, fl
 	BuildMatrix(angX, angY, angZ, x, y, z);
 }
 
-inline CMatrix::CMatrix(CVECTOR& ang, CVECTOR& pos)
+inline CMatrix::CMatrix(const CVECTOR& ang, const CVECTOR& pos)
 {
 	BuildMatrix(ang.x, ang.y, ang.z, pos.x, pos.y, pos.z);
 }
 
-inline CMatrix::CMatrix(CVECTOR& ang)
+inline CMatrix::CMatrix(const CVECTOR& ang)
 {
 	BuildMatrix(ang.x, ang.y, ang.z, 0.0f, 0.0f, 0.0f);
 }
@@ -202,13 +202,13 @@ inline CMatrix::CMatrix(const CMatrix& matrix)
 	*this = matrix;
 }
 
-inline CMatrix::CMatrix(CMatrix* matrix)
+inline CMatrix::CMatrix(const CMatrix* matrix)
 {
 	*this = *matrix;
 }
 
 //this = m1*m2
-inline CMatrix::CMatrix(CMatrix& m1, CMatrix& m2)
+inline CMatrix::CMatrix(const CMatrix& m1, const CMatrix& m2)
 {
 	EqMultiply(m1, m2);
 }
@@ -329,12 +329,12 @@ inline void CMatrix::BuildMatrix(float angX, float angY, float angZ)
 	BuildMatrix(angX, angY, angZ, 0.0f, 0.0f, 0.0f);
 }
 
-inline void CMatrix::BuildMatrix(CVECTOR& ang, CVECTOR& pos)
+inline void CMatrix::BuildMatrix(const CVECTOR& ang, const CVECTOR& pos)
 {
 	BuildMatrix(ang.x, ang.y, ang.z, pos.x, pos.y, pos.z);
 }
 
-inline void CMatrix::BuildMatrix(CVECTOR& ang)
+inline void CMatrix::BuildMatrix(const CVECTOR& ang)
 {
 	BuildMatrix(ang.x, ang.y, ang.z, 0.0f, 0.0f, 0.0f);
 }
@@ -435,14 +435,14 @@ inline void CMatrix::operator *=(float k)
 	m[3][3] *= k;
 }
 
-inline CMatrix CMatrix::operator *(CMatrix& matrix)
+inline CMatrix CMatrix::operator *(const CMatrix& matrix)
 {
 	CMatrix tmp;
 	tmp.EqMultiply(*this, matrix);
 	return tmp;
 }
 
-inline CVECTOR CMatrix::operator *(CVECTOR& vector)
+inline CVECTOR CMatrix::operator *(const CVECTOR& vector)
 {
 	CVECTOR tmp;
 	tmp.x = matrix[0] * vector.x + matrix[4] * vector.y + matrix[8] * vector.z + matrix[12];
@@ -452,7 +452,7 @@ inline CVECTOR CMatrix::operator *(CVECTOR& vector)
 }
 
 //this = m1*m2, (m1 != this, m2 != this)
-inline void CMatrix::EqMultiply(CMatrix& m1, CMatrix& m2)
+inline void CMatrix::EqMultiply(const CMatrix& m1, const CMatrix& m2)
 {
 	matrix[0] = m2.matrix[0] * m1.matrix[0] + m2.matrix[4] * m1.matrix[1] + m2.matrix[8] * m1.matrix[2] + m2.matrix[12]
 		* m1.matrix[3];
@@ -500,7 +500,7 @@ inline void CMatrix::MulToInv(const CVECTOR& src, CVECTOR& res)
 }
 
 //Transform normal to local coordinate system
-inline void CMatrix::MulToInvNorm(CVECTOR& src, CVECTOR& res)
+inline void CMatrix::MulToInvNorm(const CVECTOR& src, CVECTOR& res)
 {
 	res.x = src.x * matrix[0] + src.y * matrix[1] + src.z * matrix[2];
 	res.y = src.x * matrix[4] + src.y * matrix[5] + src.z * matrix[6];
@@ -649,7 +649,7 @@ inline void CMatrix::SetPosition(float x, float y, float z)
 	matrix[14] = z;
 }
 
-inline void CMatrix::SetPosition(CVECTOR& pos)
+inline void CMatrix::SetPosition(const CVECTOR& pos)
 {
 	matrix[12] = pos.x;
 	matrix[13] = pos.y;

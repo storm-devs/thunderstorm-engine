@@ -202,7 +202,7 @@ public:
 	                 bool _looped = false,
 	                 bool _cached = false,
 	                 long _time = 0,
-	                 CVECTOR* _startPosition = nullptr,
+	                 const CVECTOR* _startPosition = nullptr,
 	                 float _minDistance = -1.0f,
 	                 float _maxDistance = -1.0f,
 	                 long _loopPauseTime = 0,

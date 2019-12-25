@@ -170,7 +170,7 @@ void WdmCamera::Move(float dltTime, VDX9RENDER* rs)
 		ps.z = bndPos.z + (pos.z - bndPos.z) * kBlendPos;
 	}
 	else kBlendPos = 1.0f;
-	rs->SetCamera(&CVECTOR(ps.x + r * sn, realHeight, ps.z + r * cs), &ang);
+	rs->SetCamera(CVECTOR(ps.x + r * sn, realHeight, ps.z + r * cs), ang);
 }
 
 void WdmCamera::CheckRange()

@@ -1,7 +1,7 @@
 #include "psystem.h"
 #include "particles.h"
-#include "../particles.h"
-#include "../math3d/Matrix.h"
+#include "math3d/Matrix.h"
+#include "particles/iparticlesystem.h"
 
 PARTICLE_SYSTEM::PARTICLE_SYSTEM(IParticleSystem* _pSystem)
 {
@@ -13,7 +13,8 @@ PARTICLE_SYSTEM::~PARTICLE_SYSTEM()
 {
 	pManager->DeleteResource(this);
 
-	if (pSystem) pSystem->Release();
+	if (pSystem)
+		pSystem->Release();
 	pSystem = nullptr;
 }
 

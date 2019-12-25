@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include "battle_navigator.h"
-#include "../ship_base.h"
-#include "../Island_Base.h"
+#include "ship_base.h"
+#include "Island_Base.h"
 #include "ships_list.h"
 #include "../Utils.h"
-#include "../../../Shared/battle_interface/msg_control.h"
-#include "../EntityManager.h"
+#include "../../Shared/battle_interface/msg_control.h"
+#include "EntityManager.h"
 
 #define NAVBACKGROUND_SIZESCALE	1.3f
 

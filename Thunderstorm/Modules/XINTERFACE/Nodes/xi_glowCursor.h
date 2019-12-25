@@ -26,7 +26,7 @@ public:
 
 protected:
 	void LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2) override;
-	void SetRectanglesToPosition(XYRECT& rectXY);
+	void SetRectanglesToPosition(const XYRECT& rectXY);
 
 	bool m_bShowGlow;
 	bool m_bGlowToBack;

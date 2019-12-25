@@ -136,7 +136,7 @@ protected:
 	void UpdateBorders();
 	void WriteSquare(XI_ONETEX_VERTEX* pV, long nImgID, uint32_t dwCol, long nX, long nY, long nW, long nH);
 	void UpdateTableCells();
-	long GetLineByPoint(FXYPOINT& pnt);
+	long GetLineByPoint(const FXYPOINT& pnt);
 	long GetColByX(long x);
 	void SelectRow(long nRowNum);
 	void SelectRow(long nRowNum, long nColNum);

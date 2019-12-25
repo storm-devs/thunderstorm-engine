@@ -45,8 +45,8 @@ protected:
 	void UpdateBuffers(long nQ);
 	void FillIndexBuffer();
 	void FillVertexBuffer();
-	long WriteSquareToVBuff(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size);
-	long WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size,
+	long WriteSquareToVBuff(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_t color, const BIFPOINT& center, const FPOINT& size);
+	long WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_t color, const BIFPOINT& center, const  FPOINT& size,
 	                                    float fClampUp, float fClampDown, float fClampLeft, float fClampRight);
 
 	VDX9RENDER* m_pRS;

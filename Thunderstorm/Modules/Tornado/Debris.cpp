@@ -77,8 +77,8 @@ void Debris::Update(float dltTime)
 				{
 					if (lastPlayTime <= 0.0f)
 					{
-						soundService->SoundPlay("TornadoCrackSound", PCM_3D, VOLUME_FX, false, false, true, 0,
-						                        &CVECTOR(pillar.GetX(0.0f), 0.0f, pillar.GetZ(0.0f)));
+						const auto pos = CVECTOR(pillar.GetX(0.0f), 0.0f, pillar.GetZ(0.0f));
+						soundService->SoundPlay("TornadoCrackSound", PCM_3D, VOLUME_FX, false, false, true, 0, &pos);
 						lastPlayTime = 0.2f + rand() * (0.2f / RAND_MAX);
 					}
 				}

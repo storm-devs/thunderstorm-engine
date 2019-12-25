@@ -41,7 +41,7 @@ protected:
 	long m_idVBuf;
 	long m_idIBuf;
 	void FillVIBuffers();
-	void FillRectData(void* vbuf, FRECT& rectPos, FRECT& rectTex);
+	void FillRectData(void* vbuf, const FRECT& rectPos, const FRECT& rectTex);
 
 	int m_nTextureQ;
 

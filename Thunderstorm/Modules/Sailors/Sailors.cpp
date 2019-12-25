@@ -871,7 +871,7 @@ void ShipWalk::SetMastBroken(int iMastIndex)
 	//UN//GUARD_SAILORS
 };
 //-----Попадание ядер в корабль-------------------------------------------------------
-void ShipWalk::OnHullHit(CVECTOR& v)
+void ShipWalk::OnHullHit(const CVECTOR& v)
 {
 	//GUARD_SAILORS(ShipWalk::OnHullHit())
 	for (int i = 0; i < crewCount; i++)

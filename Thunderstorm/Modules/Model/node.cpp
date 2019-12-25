@@ -176,7 +176,7 @@ NODER::NODER()
 	max_view_dist = 0.f;
 }
 
-bool NODER::Init(const char* lightPath, const char* pname, const char* oname, CMatrix& m, CMatrix& globm, NODER* par,
+bool NODER::Init(const char* lightPath, const char* pname, const char* oname, const CMatrix& m, const CMatrix& globm, NODER* par,
                  const char* lmPath)
 {
 	name[0] = 0;

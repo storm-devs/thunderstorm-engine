@@ -1,12 +1,12 @@
 #ifndef _MESSAGE_SCRIPT_H_
 #define _MESSAGE_SCRIPT_H_
 
-#include "../Cvector.h"
-#include "../message.h"
-#include "../vdata.h"
-#include "../vapi.h"
-#include "../vmodule_api.h"
-#include "../Entity.h"
+#include "Cvector.h"
+#include "message.h"
+#include "vdata.h"
+#include "vapi.h"
+#include "vmodule_api.h"
+#include "Entity.h"
 
 // Class for implementing function SendMessage from script in same way as 
 // api function Send_Message (with variable number of arguments)
@@ -164,7 +164,7 @@ public:
 		index = 0; 
 		ReadPointer = pData;
 	};
-	void Reset(char * _format) 
+	void Reset(const char * _format) 
 	{
 		if(!_format) throw "MESSAGE_SCRIPT: cant reset with empty format string";
 		if(format) delete format;

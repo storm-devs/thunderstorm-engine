@@ -52,7 +52,7 @@ public:
 	//Обновить цвета в буферах
 	void UpdateColors(VDX9RENDER * rs);
 	//Протрейсить луч через все модели
-	float Trace(CVECTOR & src, CVECTOR & dst);
+	float Trace(const CVECTOR & src, const CVECTOR & dst);
 	//Сохранить освещение
 	bool Save();
 

@@ -50,7 +50,8 @@ bool SEA::SunRoad_Render2()
 	float PlaneHeight = 0.5f;
 
 	D3DXPLANE plane;
-	D3DXPlaneFromPointNormal(&plane, &D3DXVECTOR3(0, PlaneHeight, 0), &D3DXVECTOR3(0, 1, 0));
+	const D3DXVECTOR3 point(0, PlaneHeight, 0), normal(0, 1, 0);
+	D3DXPlaneFromPointNormal(&plane, &point, &normal);
 
 	D3DXMATRIX matReflect;
 	D3DXMatrixReflect(&matReflect, &plane);
@@ -143,7 +144,8 @@ bool SEA::EnvMap_Render2()
 	float PlaneHeight = 0.5f;
 
 	D3DXPLANE plane;
-	D3DXPlaneFromPointNormal(&plane, &D3DXVECTOR3(0, PlaneHeight, 0), &D3DXVECTOR3(0, 1, 0));
+	const D3DXVECTOR3 point(0, PlaneHeight, 0), normal(0, 1, 0);
+	D3DXPlaneFromPointNormal(&plane, &point, &normal);
 
 	D3DXMATRIX matReflect;
 	D3DXMatrixReflect(&matReflect, &plane);

@@ -44,7 +44,7 @@ void BIImageMaterial::Render(long nBegPrior, long nEndPrior)
 	}
 }
 
-const BIImage* BIImageMaterial::CreateImage(BIImageType type, uint32_t color, FRECT& uv, long nLeft, long nTop,
+const BIImage* BIImageMaterial::CreateImage(BIImageType type, uint32_t color, const FRECT& uv, long nLeft, long nTop,
                                             long nRight, long nBottom, long nPrior)
 {
 	auto* pImg = new BIImage(m_pRS, this);

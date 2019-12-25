@@ -1,7 +1,7 @@
 #include "battle_shipsign.h"
 #include "battle_shipcommand.h"
 #include "../Utils.h"
-#include "../../../Shared/battle_interface/msg_control.h"
+#include "../../Shared/battle_interface/msg_control.h"
 
 BIShipIcon::BIShipIcon(entid_t BIEntityID, VDX9RENDER* pRS)
 {
@@ -542,7 +542,7 @@ void BIShipIcon::FillVertexBuffer()
 	}
 }
 
-long BIShipIcon::WriteSquareToVBuff(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size)
+long BIShipIcon::WriteSquareToVBuff(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_t color, const BIFPOINT& center, const FPOINT& size)
 {
 	if (!pv) return 0;
 
@@ -586,8 +586,8 @@ long BIShipIcon::WriteSquareToVBuff(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t col
 	return 4;
 }
 
-long BIShipIcon::WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center,
-                                                FPOINT& size, float fClampUp, float fClampDown, float fClampLeft,
+long BIShipIcon::WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_t color, const BIFPOINT& center,
+	const FPOINT& size, float fClampUp, float fClampDown, float fClampLeft,
                                                 float fClampRight)
 {
 	if (!pv) return 0;

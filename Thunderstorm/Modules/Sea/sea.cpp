@@ -1636,28 +1636,36 @@ void SEA::Realize(uint32_t dwDeltaTime)
 
 		rs->SetVertexDeclaration(vertexDecl_);
 
-		rs->SetVertexShaderConstantF(GC_CONSTANT, (const float*)&CVECTOR4(0.0f, 1.0f, 0.5f, -0.04f), 1);
+		const auto vec1 = CVECTOR4(0.0f, 1.0f, 0.5f, -0.04f);
+		const auto vec2 = CVECTOR4(2.0f, -1.0f, 0.00036621652552071f, (bFogEnable) ? fFogSeaDensity : 0.0f);
+		const auto vec3 = CVECTOR4(fFoamV, fFoamK, fFoamUV, 6.0f);
+		const auto vec4 = CVECTOR4(fTmp, fTmp, fTmp, fTmp);
+		const auto vec5 = CVECTOR4(vCamPos.x - vWorldOffset.x, vCamPos.y, vCamPos.z - vWorldOffset.z, 1.0f);
+		const auto vec6 = CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f);
+		const auto vec7 = CVECTOR4(fFrenel, 1.0f, 0.5f, 1.0f);
+		const auto vec8 = CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f);\
+		CVECTOR vTmp = !CVECTOR(0.0f, 1.0f, 0.0f);
+		const auto vec9 = CVECTOR4(vTmp.x, vTmp.y, vTmp.z, 1.0f);
+		rs->SetVertexShaderConstantF(GC_CONSTANT, (const float*)&vec1, 1);
 		rs->SetVertexShaderConstantF(
 			GC_CONSTANT2,
-			(const float*)&CVECTOR4(2.0f, -1.0f, 0.00036621652552071f, (bFogEnable) ? fFogSeaDensity : 0.0f), 1);
-		rs->SetVertexShaderConstantF(GC_SHADOW_CONST1, (const float*)&CVECTOR4(fFoamV, fFoamK, fFoamUV, 6.0f), 1);
-		rs->SetVertexShaderConstantF(GC_ANIMATION, (const float*)&CVECTOR4(fTmp, fTmp, fTmp, fTmp), 1);
+			(const float*)&vec2, 1);
+		rs->SetVertexShaderConstantF(GC_SHADOW_CONST1, (const float*)&vec3, 1);
+		rs->SetVertexShaderConstantF(GC_ANIMATION, (const float*)&vec4, 1);
 		rs->SetVertexShaderConstantF(
 			GC_CAMERA_POS,
-			(const float*)&CVECTOR4(vCamPos.x - vWorldOffset.x, vCamPos.y, vCamPos.z - vWorldOffset.z, 1.0f), 1);
+			(const float*)&vec5, 1);
 		rs->SetVertexShaderConstantF(GC_MTX_WVP, (const float*)&mWorldViewProj, 4);
 
 		rs->SetVertexShaderConstantF(GC_FREE, (const float*)&v4SeaParameters, 1);
 		rs->SetVertexShaderConstantF(GC_FREE + 1, (const float*)&v4SeaColor, 1);
 		rs->SetVertexShaderConstantF(GC_FREE + 2, (const float*)&v4SkyColor, 1);
 
-		rs->SetVertexShaderConstantF(GC_FREE + 5, (const float*)&CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), 1);
-		rs->SetVertexShaderConstantF(GC_FREE + 6, (const float*)&CVECTOR4(fFrenel, 1.0f, 0.5f, 1.0f), 1);
+		rs->SetVertexShaderConstantF(GC_FREE + 5, (const float*)&vec6, 1);
+		rs->SetVertexShaderConstantF(GC_FREE + 6, (const float*)&vec7, 1);
 		// Frenel K, Frenel Max
-		rs->SetVertexShaderConstantF(GC_FREE + 7, (const float*)&CVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), 1);
-
-		CVECTOR vTmp = !CVECTOR(0.0f, 1.0f, 0.0f);
-		rs->SetVertexShaderConstantF(GC_FREE + 30, (const float*)&CVECTOR4(vTmp.x, vTmp.y, vTmp.z, 1.0f), 1);
+		rs->SetVertexShaderConstantF(GC_FREE + 7, (const float*)&vec8, 1);
+		rs->SetVertexShaderConstantF(GC_FREE + 30, (const float*)&vec9, 1);
 
 		if (bSimpleSea)
 		{
@@ -1689,7 +1697,8 @@ void SEA::Realize(uint32_t dwDeltaTime)
 		}
 		else
 		{
-			rs->SetVertexShaderConstantF(GC_FREE + 8, (const float*)&CMatrix(0.0f, 0.0f, PId2), 4); // Matrix!!
+			const auto vec1 = CMatrix(0.0f, 0.0f, PId2);
+			rs->SetVertexShaderConstantF(GC_FREE + 8, (const float*)&vec1, 4); // Matrix!!
 
 			rs->SetTexture(0, (pVolumeTexture)
 				                  ? (IDirect3DBaseTexture9*)pVolumeTexture
@@ -1701,7 +1710,8 @@ void SEA::Realize(uint32_t dwDeltaTime)
 			if (fFoamK > 0.0f && bFoamEnable && bIniFoamEnable)
 			{
 				//Render sea foam
-				rs->SetPixelShaderConstantF(0, (const float*)&CVECTOR4(fFoamTextureDisturb, 0.0f, 0.0f, 0.0f), 1);
+				const auto vec2 = CVECTOR4(fFoamTextureDisturb, 0.0f, 0.0f, 0.0f);
+				rs->SetPixelShaderConstantF(0, (const float*)&vec2, 1);
 
 				rs->TextureSet(0, iFoamTexture);
 				rs->SetTexture(4, (pVolumeTexture)

@@ -51,7 +51,7 @@ public:
 	void  Release();
 	void  Clear();
 	void  InvalidateBySegmentID(uint32_t segment_id);
-	uint32_t FindEvent(char * event_name);
+	uint32_t FindEvent(const char * event_name);
 	void ProcessFrame();
 };
 

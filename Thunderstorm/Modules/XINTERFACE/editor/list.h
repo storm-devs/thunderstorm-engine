@@ -22,10 +22,10 @@ public:
 	void SetPosition(float fLeft, float fTop, float fRight, float fBottom);
 
 	void AddString(std::string& sNewStr);
-	void RemoveString(std::string& sStr);
+	void RemoveString(const std::string& sStr);
 	void RemoveString(long nIndex);
 	void RemoveAllStrings();
-	long FindString(std::string& sStr);
+	long FindString(const std::string& sStr);
 	long GetStringQuantity() { return m_aStrings.size(); }
 	std::string& GetString(long nIndex);
 	long GetSelectIndex() { return m_nSelectIndex; }

@@ -1,5 +1,5 @@
 #include "ShipInfoImages.h"
-#include "../ship_base.h"
+#include "ship_base.h"
 #include "../Utils.h"
 
 // определим вертексы

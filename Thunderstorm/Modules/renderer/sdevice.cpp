@@ -856,7 +856,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height)
 	//SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_ADDSIGNED);
 
 
-	SetCamera(&CVECTOR(0.0f, 0.0f, 0.0f), &CVECTOR(0.0f, 0.0f, 0.0f), 1.0f);
+	SetCamera(CVECTOR(0.0f, 0.0f, 0.0f), CVECTOR(0.0f, 0.0f, 0.0f), 1.0f);
 
 	D3DLIGHT9 l;
 	ZERO(l);
@@ -1871,20 +1871,20 @@ bool DX9RENDER::TextureRelease(long texid)
 
 
 //################################################################################
-bool DX9RENDER::SetCamera(CVECTOR* pos, CVECTOR* ang, float fov)
+bool DX9RENDER::SetCamera(const CVECTOR& pos, const CVECTOR& ang, float fov)
 {
 	if (!SetCamera(pos, ang)) return false;
 	if (!SetPerspective(fov, aspectRatio)) return false;
 
-	ProcessScriptPosAng(*pos, *ang);
+	ProcessScriptPosAng(pos, ang);
 	return true;
 }
 
-bool DX9RENDER::SetCamera(CVECTOR* pos, CVECTOR* ang)
+bool DX9RENDER::SetCamera(const CVECTOR& pos, const CVECTOR& ang)
 {
 	CMatrix mtx;
 	CVECTOR vOldWordRelationPos = vWordRelationPos;
-	if (!pos || !ang)
+	/*if (!pos || !ang)
 	{
 		if (!pos && !ang) return true;
 		//if(CHECKD3DERR(GetTransform(D3DTS_VIEW, mtx))==true) return false;
@@ -1905,13 +1905,13 @@ bool DX9RENDER::SetCamera(CVECTOR* pos, CVECTOR* ang)
 			Ang = *ang;
 		}
 	}
-	else
+	else*/
 	{
-		mtx.BuildMatrix(*ang);
+		mtx.BuildMatrix(ang);
 		mtx.Transposition3X3();
 		//mtx.SetInversePosition(pos->x, pos->y, pos->z);
-		Pos = *pos;
-		Ang = *ang;
+		Pos = pos;
+		Ang = ang;
 		vWordRelationPos = -Pos;
 	}
 	//if(CHECKD3DERR(SetTransform(D3DTS_VIEW, mtx))==true)	return false;
@@ -1923,7 +1923,7 @@ bool DX9RENDER::SetCamera(CVECTOR* pos, CVECTOR* ang)
 	d3d9->SetTransform(D3DTS_WORLD, mtx);
 
 	FindPlanes(d3d9);
-	ProcessScriptPosAng(*pos, *ang);
+	ProcessScriptPosAng(pos, ang);
 	return true;
 }
 
@@ -1947,7 +1947,7 @@ bool DX9RENDER::SetCamera(CVECTOR lookFrom, CVECTOR lookTo, CVECTOR up)
 	return true;
 }
 
-void DX9RENDER::ProcessScriptPosAng(CVECTOR& vPos, CVECTOR& vAng)
+void DX9RENDER::ProcessScriptPosAng(const CVECTOR& vPos, const CVECTOR& vAng)
 {
 	api->Event("CameraPosAng", "ffffff", vPos.x, vPos.y, vPos.z, vAng.x, vAng.y, vAng.z);
 }

@@ -33,7 +33,7 @@ public:
 	static VGEOMETRY *gs;
 	static VDX9RENDER *rs;
 
-	bool Init(const char *lightPath, const char *pname, const char *oname, CMatrix &m, CMatrix &globm, NODER *par, const char *lmPath);
+	bool Init(const char *lightPath, const char *pname, const char *oname, const CMatrix &m, const CMatrix &globm, NODER *par, const char *lmPath) override;
 	NODER();
 	~NODER();
 	void Draw();

@@ -1,6 +1,6 @@
 #include "xi_2picture.h"
 
-void SetRectanglePos(XI_ONETEX_VERTEX v[4], FXYPOINT& center, FXYPOINT& size)
+void SetRectanglePos(XI_ONETEX_VERTEX v[4], const FXYPOINT& center, const FXYPOINT& size)
 {
 	v[0].pos.x = v[1].pos.x = center.x - size.x / 2;
 	v[2].pos.x = v[3].pos.x = center.x + size.x / 2;
@@ -8,7 +8,7 @@ void SetRectanglePos(XI_ONETEX_VERTEX v[4], FXYPOINT& center, FXYPOINT& size)
 	v[1].pos.y = v[3].pos.y = center.y + size.y / 2;
 }
 
-void SetRectanglePos(XI_NOTEX_VERTEX v[4], FXYPOINT& center, FXYPOINT& size)
+void SetRectanglePos(XI_NOTEX_VERTEX v[4], const FXYPOINT& center, const FXYPOINT& size)
 {
 	v[0].pos.x = v[1].pos.x = center.x - size.x / 2;
 	v[2].pos.x = v[3].pos.x = center.x + size.x / 2;

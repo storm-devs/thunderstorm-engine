@@ -1,7 +1,7 @@
 #include "battle_shipcommand.h"
 #include "ships_list.h"
 #include "island_descr.h"
-#include "../../../Shared/battle_interface/msg_control.h"
+#include "../../Shared/battle_interface/msg_control.h"
 
 BIShipCommandList::BIShipCommandList(entid_t eid, ATTRIBUTES* pA, VDX9RENDER* rs) :
 	BICommandList(eid, pA, rs)

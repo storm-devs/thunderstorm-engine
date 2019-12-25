@@ -389,7 +389,7 @@ void BISignIcon::FillVertexBuffer()
 	}
 }
 
-long BISignIcon::WriteSquareToVBuff(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center, FPOINT& size)
+long BISignIcon::WriteSquareToVBuff(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_t color, const BIFPOINT& center, const FPOINT& size)
 {
 	if (!pv) return 0;
 
@@ -433,9 +433,8 @@ long BISignIcon::WriteSquareToVBuff(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t col
 	return 4;
 }
 
-long BISignIcon::WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, FRECT& uv, uint32_t color, BIFPOINT& center,
-                                                FPOINT& size, float fClampUp, float fClampDown, float fClampLeft,
-                                                float fClampRight)
+long BISignIcon::WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_t color, const BIFPOINT& center,
+	const FPOINT& size, float fClampUp, float fClampDown, float fClampLeft, float fClampRight)
 {
 	if (!pv) return 0;
 

@@ -240,13 +240,13 @@ public:
 	static bool GetIniBool(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
 	                       bool bDefault = false);
 	static XYRECT GetIniLongRect(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
-	                             XYRECT& rectDefault);
+		const XYRECT& rectDefault);
 	static FXYRECT GetIniFloatRect(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
-	                               FXYRECT& rectDefault);
+		const FXYRECT& rectDefault);
 	static XYPOINT GetIniLongPoint(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
-	                               XYPOINT& pntDefault);
+		const XYPOINT& pntDefault);
 	static FXYPOINT GetIniFloatPoint(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
-	                                 FXYPOINT& pntDefault);
+		const FXYPOINT& pntDefault);
 	static uint32_t GetIniARGB(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
 	                           uint32_t dwDefColor = 0);
 

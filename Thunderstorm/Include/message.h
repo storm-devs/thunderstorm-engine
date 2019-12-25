@@ -11,7 +11,7 @@ class VDATA;
 class MESSAGE
 {
 protected:
-	char* format;
+	const char* format;
 	long index;
 	va_list args_start;
 
@@ -135,7 +135,7 @@ public:
 		index++;
 	}
 
-	virtual void Reset(char* _format)
+	virtual void Reset(const char* _format)
 	{
 		index = 0;
 		format = _format;

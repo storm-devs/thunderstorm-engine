@@ -127,7 +127,7 @@ void FREE_CAMERA::Move(uint32_t DeltaTime)
 
 	//vPos = CVECTOR(0.0f, 20.0f, 0.0f);
 
-	pRS->SetCamera(&vPos, &vAng, GetPerspective());
+	pRS->SetCamera(vPos, vAng, GetPerspective());
 
 	/*CVECTOR vRes;
 	CVECTOR vDst = vPos + 2000.0f*CVECTOR(s0*c1, -s1, c0*c1);

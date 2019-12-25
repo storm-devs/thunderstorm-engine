@@ -48,7 +48,7 @@ void AICannon::Execute(float fDeltaTime)
 	}
 }
 
-float AICannon::CalcHeightFireAngle(float _fSpeedV0, CVECTOR& vOur, CVECTOR& vEnemy)
+float AICannon::CalcHeightFireAngle(float _fSpeedV0, const CVECTOR& vOur, const CVECTOR& vEnemy)
 {
 	CVECTOR vTemp = vOur - vEnemy;
 	vTemp.y = 0.0f;
@@ -134,7 +134,7 @@ void AICannon::RealFire()
 	Recharge();
 }
 
-bool AICannon::Fire(float _fSpeedV0, CVECTOR& _vFirePos)
+bool AICannon::Fire(float _fSpeedV0, const CVECTOR& _vFirePos)
 {
 	if (isFired() || isRecharged() || isDamaged() || isEmpty()) return false;
 

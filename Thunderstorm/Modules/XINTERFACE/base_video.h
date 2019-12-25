@@ -1,8 +1,8 @@
 #ifndef _BASE_VIDEO_H_
 #define _BASE_VIDEO_H_
 
-#include "../vmodule_api.h"
-#include "../dx9render.h"
+#include "vmodule_api.h"
+#include "dx9render.h"
 
 class xiBaseVideo : public Entity
 {

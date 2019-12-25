@@ -901,7 +901,7 @@ bool WdmIslands::FindNearPoint(const GEOS::VERTEX* vrt, long numVrt)
 	return true;
 }
 
-bool WdmIslands::IsShipInArea(long islIndex, CVECTOR& pos)
+bool WdmIslands::IsShipInArea(long islIndex, const CVECTOR& pos)
 {
 	static const float testRadius = 0.01f;
 	//Нет ареи нет пересечения

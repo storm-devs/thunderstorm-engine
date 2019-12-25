@@ -14,7 +14,7 @@
 
 #define LLOT_MAX	128
 
-OctTree::OTNode::OTNode(CVECTOR& _min, CVECTOR& _max)
+OctTree::OTNode::OTNode(const CVECTOR& _min, const CVECTOR& _max)
 {
 	for (long i = 0; i < 8; i++) node[i] = nullptr;
 	min = _min;
@@ -147,7 +147,7 @@ void OctTree::Optimize(OTNode* node)
 }
 
 //Найти вершины в заданном радиусе
-void OctTree::FindVerts(CVECTOR& pos, float r)
+void OctTree::FindVerts(const CVECTOR& pos, float r)
 {
 	numVerts = 0;
 	vertsPos = pos;

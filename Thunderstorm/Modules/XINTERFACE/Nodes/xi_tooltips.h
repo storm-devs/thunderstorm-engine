@@ -2,7 +2,7 @@
 #define _XI_TOOLTIP_H_
 
 #include "../xdefines.h"
-#include "../dx9render.h"
+#include "dx9render.h"
 
 class VXSERVICE;
 

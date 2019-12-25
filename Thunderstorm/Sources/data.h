@@ -2,7 +2,7 @@
 #define _DATA_H_
 
 #include "token.h"
-#include "../vdata.h"
+#include "vdata.h"
 
 class VIRTUAL_COMPILER
 {

@@ -291,8 +291,8 @@ public:
 	void SetTransform(long type, D3DMATRIX * mtx) override;
 	void GetTransform(long type, D3DMATRIX * mtx) override;
 
-	bool SetCamera(CVECTOR * pos, CVECTOR * ang, float perspective) override;
-	bool SetCamera(CVECTOR * pos, CVECTOR * ang) override;
+	bool SetCamera(const CVECTOR & pos, const  CVECTOR & ang, float perspective) override;
+	bool SetCamera(const CVECTOR & pos, const CVECTOR & ang) override;
 	bool SetCamera(CVECTOR lookFrom, CVECTOR lookTo, CVECTOR up) override;
 	bool SetPerspective(float perspective, float fAspectRatio = -1.0f) override;
 	void GetCamera(CVECTOR & pos, CVECTOR & ang, float & perspective) override;
@@ -451,7 +451,7 @@ public:
 	bool  LoadState(ENTITY_STATE * state) override;
 	bool  CreateState(ENTITY_STATE_GEN * state_gen) override;
 
-	void ProcessScriptPosAng(CVECTOR & vPos, CVECTOR & vAng);
+	void ProcessScriptPosAng(const CVECTOR & vPos, const CVECTOR & vAng);
 	void FindPlanes(IDirect3DDevice9 * d3dDevice);
 
 	void SetCommonStates();

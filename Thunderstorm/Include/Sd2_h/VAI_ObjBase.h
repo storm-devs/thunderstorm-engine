@@ -24,7 +24,7 @@ public:
 
 	virtual bool Mount(ATTRIBUTES*) { return false; };
 
-	virtual void SetPos(CVECTOR& vNewPos)
+	virtual void SetPos(const CVECTOR& vNewPos)
 	{
 	};
 

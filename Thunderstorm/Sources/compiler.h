@@ -1,8 +1,8 @@
 #ifndef _COMPILER_H_
 #define _COMPILER_H_
 
-#include "../message.h"
-#include "../script_libriary.h"
+#include "message.h"
+#include "script_libriary.h"
 #include "message_script.h"
 #include "token.h"
 #include "data.h"
@@ -201,8 +201,8 @@ public:
 	bool	Run();
 	void	Release();
 	void	SetProgramDirectory(char * dir_name);
-	VDATA *	ProcessEvent(char * event_name, MESSAGE message);
-	VDATA * ProcessEvent(char * event_name);
+	VDATA *	ProcessEvent(const char * event_name, MESSAGE message);
+	VDATA * ProcessEvent(const char * event_name);
 	void	SetEventHandler(char * event_name, char * func_name,long flag, bool bStatic = false);
 	void	DelEventHandler(char * event_name, char * func_name);
 	bool	Completed(){return bCompleted;}
@@ -274,7 +274,7 @@ public:
 	bool IsIntFuncVarArgsNum(uint32_t code);
 	uint32_t GetInternalFunctionArgumentsNum(uint32_t code);
 	bool CreateMessage(MESSAGE_SCRIPT * pMs, uint32_t stack_offset, uint32_t vindex, bool s2s = false);
-	void ProcessEvent(char * event_name, MESSAGE * pMs);
+	void ProcessEvent(const char * event_name, MESSAGE * pMs);
 
 	bool SaveState(HANDLE fh);
 	bool LoadState(HANDLE fh);
@@ -308,8 +308,8 @@ public:
 	//bool SetSaveData(const char * file_name, const char * save_data);
 	//bool GetSaveData(const char * file_name, DATA * pV);
 
-	bool SetSaveData(char * file_name, void * save_data, long data_size);
-	void * GetSaveData(char * file_name, long & data_size);
+	bool SetSaveData(const char * file_name, void * save_data, long data_size);
+	void * GetSaveData(const char * file_name, long & data_size);
 
 	void AddRuntimeEvent();
 

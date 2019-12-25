@@ -105,8 +105,8 @@ public:
 	virtual void SetTransform(long type, D3DMATRIX* mtx) = 0;
 	virtual void GetTransform(long type, D3DMATRIX* mtx) = 0;
 
-	virtual bool SetCamera(CVECTOR* pos, CVECTOR* ang, float perspective) = 0;
-	virtual bool SetCamera(CVECTOR* pos, CVECTOR* ang) = 0;
+	virtual bool SetCamera(const CVECTOR& pos, const CVECTOR& ang, float perspective) = 0;
+	virtual bool SetCamera(const CVECTOR& pos, const CVECTOR& ang) = 0;
 	virtual bool SetCamera(CVECTOR lookFrom, CVECTOR lookTo, CVECTOR up) = 0;
 	virtual bool SetPerspective(float perspective, float fAspectRatio = -1.0f) = 0;
 	virtual void GetCamera(CVECTOR& pos, CVECTOR& ang, float& perspective) = 0;

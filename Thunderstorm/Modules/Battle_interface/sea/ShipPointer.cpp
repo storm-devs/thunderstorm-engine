@@ -1,7 +1,7 @@
 #include "ShipPointer.h"
-#include "../../../Shared/battle_interface/msg_control.h"
+#include "../../Shared/battle_interface/msg_control.h"
 #include "../bi_defines.h"
-#include "../ship_base.h"
+#include "ship_base.h"
 #include <EntityManager.h>
 
 // определим вертексы

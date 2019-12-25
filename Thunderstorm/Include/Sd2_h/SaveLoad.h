@@ -118,7 +118,7 @@ public:
 		Write(&iValue, sizeof(iValue));
 	}
 
-	void SaveString(std::string& str)
+	void SaveString(const std::string& str)
 	{
 		if (str.size())
 		{
@@ -152,7 +152,7 @@ public:
 			iIndex = (long)pAttribute->GetAttributeAsDword("index", -1);
 		}
 		SaveLong(iIndex);
-		SaveString(std::string(pStr));
+		SaveString(pStr);
 	}
 
 	// =======================================================================================

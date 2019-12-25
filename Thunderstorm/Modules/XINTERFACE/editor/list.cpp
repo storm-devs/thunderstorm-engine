@@ -97,7 +97,7 @@ void GIEditorList::AddString(std::string& sNewStr)
 	m_aStrings.push_back(sNewStr);
 }
 
-void GIEditorList::RemoveString(std::string& sStr)
+void GIEditorList::RemoveString(const std::string& sStr)
 {
 	RemoveString(FindString(sStr));
 }
@@ -115,7 +115,7 @@ void GIEditorList::RemoveAllStrings()
 	SetSelectIndex(-1);
 }
 
-long GIEditorList::FindString(std::string& sStr)
+long GIEditorList::FindString(const std::string& sStr)
 {
 	for (long n = 0; n < m_aStrings.size(); n++)
 		if (m_aStrings[n] == sStr)

@@ -1,7 +1,7 @@
 #ifndef _QUEST_FILE_READER_H_
 #define _QUEST_FILE_READER_H_
 
-#include "../vmodule_api.h"
+#include "vmodule_api.h"
 #include <string>
 #include <vector>
 
