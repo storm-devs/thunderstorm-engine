@@ -54,14 +54,48 @@ public:
 	};
 
 private:
-	/* static constexpr array of layers */
+	/* static array of layers */
 	static inline std::array<Layer, max_layers_num> layers_;
 
-	/* static constexpr array of entities and actual size */
+	/* static array of entities and actual size */
 	static inline std::pair<std::array<EntityInternalData, max_ent_num>, entity_index_t> entities_;
 
 	/* stack for indices of erased entities: static constexpr array and top counter */
 	static inline std::pair<std::array<entity_index_t, max_ent_num>, entity_index_t> freeIndices_;
+	
+	/* static array for indices to delete */
+	/* RATIONALE:
+	 * Entities can be deleted inside destruction of another entity, therefore we shall either
+	 * loop until there is no entity to delete (O(N^N) at worst) or use a stack for them.
+	 */
+	static inline std::pair<std::array<entity_index_t, max_ent_num>, entity_index_t> deletedIndices_;
+
+	/* actual erase */
+	static void _erase(EntityInternalData& data)
+	{
+		auto& mask = data.mask;
+
+		// remove from layers
+		for (unsigned i = 0; i < sizeof(mask) * 8; ++i)
+		{
+			RemoveFromLayer(i, data);
+		}
+
+		delete data.ptr;
+	}
+
+	/* mark entity to delete */
+	static void _EraseEntityNoCheck(const entid_t entity)
+	{
+		const auto index = static_cast<entid_index_t>(entity);
+		auto& entData = entities_.first[index];
+		entData.deleted = true;
+
+		auto& deletedArr = deletedIndices_.first;
+		auto& deletedSize = deletedIndices_.second;
+
+		deletedArr[deletedSize++] = index;
+	}
 
 public:
 	using EntityVector = const std::vector<entid_t>;
@@ -210,30 +244,15 @@ public:
 		// then init
 		if (!ptr->Init())
 		{
-			// mark as deleted if fail 
-			const auto index = static_cast<entid_index_t>(id);
-			auto& entityData = entities_.first[index];
-			entityData.deleted = true;
+			// delete if fail
+			_EraseEntityNoCheck(id);
 			return invalid_entity;
 		}
 
 		// return entid_t if success
 		return id;
 	}
-
-	static void _erase(EntityInternalData& data)
-	{
-		auto& mask = data.mask;
-
-		// remove from layers
-		for (unsigned i = 0; i < sizeof(mask) * 8; ++i)
-		{
-			RemoveFromLayer(i, data);
-		}
-
-		delete data.ptr;
-	}
-
+	
 	static void EraseEntity(const entid_t entity)
 	{
 		const auto& entData = GetEntityData(entity);
@@ -244,8 +263,7 @@ public:
 		if (entData.ptr->GetId() != entity)
 			return; /* already replaced by another entity */
 
-		const auto index = static_cast<entid_index_t>(entity);
-		entities_.first[index].deleted = true;
+		_EraseEntityNoCheck(entity);
 	}
 
 	static void EraseAll()
@@ -254,8 +272,17 @@ public:
 		const auto size = entities_.second;
 		for (auto it = std::begin(arr); it != std::begin(arr) + size; ++it)
 		{
-			it->deleted = true;
+			const auto index = static_cast<entid_index_t>(it->id);
+			if (index >= size)
+				continue;
+
+			_erase(arr[index]); // release
+			arr[index] = {};
 		}
+
+		// clear arrays
+		entities_.second = 0;
+		freeIndices_.second = 0;
 	}
 
 	static entptr_t GetEntityPointer(const entid_t entity)
@@ -390,19 +417,26 @@ public:
 	{
 		auto& arr = entities_.first;
 		const auto size = entities_.second;
-		for (auto it = std::begin(arr); it != std::begin(arr) + size; ++it)
-		{
-			if (it->deleted && it->id)
-			{
-				const auto index = static_cast<entid_index_t>(it->id);
-				if (index >= size)
-					continue;
 
-				_erase(arr[index]); // release
-				arr[index] = {}; // erase entity data
-				PushFreeIndex(index); // push free index to stack instead of shifting
-			}
+		auto& deletedArr = deletedIndices_.first;
+		volatile auto& deletedSize = deletedIndices_.second;
+
+		// deletedSize will increment while erasing entities. this is safe for std::array iteration
+		for (auto it = std::begin(deletedArr); it != std::begin(deletedArr) + deletedSize; ++it)
+		{
+			const auto index = *it;
+			
+			if (index >= size)
+				continue;
+
+			if (arr[index].id == 0)
+				continue;
+
+			_erase(arr[index]); // release
+			arr[index] = {}; // erase entity data
+			PushFreeIndex(index); // push free index to stack instead of shifting
 		}
+		deletedSize = 0; // clear array of entities to delete
 	}
 
 	static EntityInternalData& GetEntityData(const entid_t entity)
