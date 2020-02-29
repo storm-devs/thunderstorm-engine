@@ -206,7 +206,7 @@ public:
 	CVECTOR		GetAng();
 	CVECTOR		GetBoxsize();
 
-	void		SetPos(CVECTOR & vNewPos);
+	void		SetPos(const CVECTOR & vNewPos) override;
 
 	bool		Mount(ATTRIBUTES*);
 

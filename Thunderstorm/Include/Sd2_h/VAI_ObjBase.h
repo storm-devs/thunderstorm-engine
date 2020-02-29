@@ -22,16 +22,14 @@ public:
 	virtual void SetACharacter(ATTRIBUTES* pAP) { pACharacter = pAP; };
 	virtual ATTRIBUTES* GetACharacter() { return pACharacter; };
 
-	virtual bool Mount(ATTRIBUTES*) { return false; };
+	virtual bool Mount(ATTRIBUTES*) = 0;
 
-	virtual void SetPos(const CVECTOR& vNewPos)
-	{
-	};
+	virtual void SetPos(const CVECTOR& vNewPos) = 0;
 
-	virtual CVECTOR GetPos() { return 0.0f; };
-	virtual CVECTOR GetAng() { return 0.0f; };
+	virtual CVECTOR GetPos() = 0;
+	virtual CVECTOR GetAng() = 0;
 	virtual CMatrix* GetMatrix() = 0;
-	virtual CVECTOR GetBoxsize() { return 0.0f; };
+	virtual CVECTOR GetBoxsize() = 0;
 
 	virtual MODEL* GetModel() = 0;
 	virtual entid_t GetModelEID() = 0;

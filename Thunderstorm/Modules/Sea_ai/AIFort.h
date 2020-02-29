@@ -58,6 +58,12 @@ public:
 			void ProcessStage(Stage, uint32_t) override
 			{
 			}
+
+			bool Mount(ATTRIBUTES*) override { return false; }
+			void SetPos(const CVECTOR& vNewPos) override { }
+			CVECTOR GetPos() override { return {}; }
+			CVECTOR GetAng() override { return {}; }
+			CVECTOR GetBoxsize() override { return {}; }
 		};
 
 		entid_t eidModel;
@@ -238,6 +244,8 @@ public:
 	void Load(CSaveLoad* pSL) override;
 
 	void Fire(const CVECTOR& vPos) override;
+	void SetPos(const CVECTOR& vNewPos) override { };
+	CVECTOR GetBoxsize() override {	return {}; }
 };
 
 #endif

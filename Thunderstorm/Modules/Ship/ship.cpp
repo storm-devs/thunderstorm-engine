@@ -1566,7 +1566,7 @@ void SHIP::SetMatrix(CMatrix& mtx) { GetModel()->mtx = mtx; }
 CVECTOR SHIP::GetAng() { return State.vAng; }
 CVECTOR SHIP::GetPos() { return CVECTOR(State.vPos.x + fXOffset, State.vPos.y, State.vPos.z + fZOffset); }
 
-void SHIP::SetPos(CVECTOR& vNewPos)
+void SHIP::SetPos(const CVECTOR& vNewPos)
 {
 	State.vPos = vNewPos;
 	if (pSea)
