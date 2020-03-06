@@ -34,7 +34,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>ClangCL</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
