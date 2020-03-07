@@ -273,7 +273,7 @@ int SoundService::FindEmptySlot()
 const char* SoundService::GetRandomName(tAlias* _alias)
 {
 	float randomFloat = rand(_alias->fMaxProbabilityValue);
-	int currentNameIndex = 0;
+	size_t currentNameIndex = 0;
 	float currentFloat = 0.f;
 
 	for (;;)
@@ -298,7 +298,7 @@ const char* SoundService::GetRandomName(tAlias* _alias)
 int SoundService::GetAliasIndexByName(const char* szAliasName)
 {
 	uint32_t dwSearchHash = TOREMOVE::HashNoCase(szAliasName);
-	for (uint32_t i = 0; i < Aliases.size(); i++)
+	for (size_t i = 0; i < Aliases.size(); i++)
 	{
 		if (Aliases[i].dwNameHash == dwSearchHash)
 		{
@@ -332,7 +332,7 @@ TSD_ID SoundService::SoundPlay(const char* _name,
 	if (!strchr(_name, '\\'))
 	{
 		//Пробуем найти в алиасах
-		int AliasIdx = GetAliasIndexByName(_name);
+		size_t AliasIdx = GetAliasIndexByName(_name);
 		if (AliasIdx >= 0 && Aliases[AliasIdx].SoundFiles.size() > 0)
 		{
 			//Играем из алиаса звук...
@@ -416,7 +416,7 @@ TSD_ID SoundService::SoundPlay(const char* _name,
 	else
 	{
 		//Для всех остальных звуков берем из кеша
-		int CacheIdx = GetFromCache(SoundName.c_str(), _type);
+		size_t CacheIdx = GetFromCache(SoundName.c_str(), _type);
 		if (CacheIdx < 0)
 		{
 			return 0;
@@ -1269,7 +1269,7 @@ void SoundService::DebugDraw()
 
 	rs->Print(500, 0, "Sound schemes %d", SoundSchemeChannels.size());
 	Ypos = 16;
-	for (uint32_t i = 0; i < SoundSchemeChannels.size(); i++)
+	for (size_t i = 0; i < SoundSchemeChannels.size(); i++)
 	{
 		rs->Print(510, Ypos, "[%d] %s", i, SoundSchemeChannels[i].soundName.c_str());
 		Ypos += 16;
@@ -1277,11 +1277,11 @@ void SoundService::DebugDraw()
 }
 
 
-int SoundService::GetFromCache(const char* szName, eSoundType _type)
+size_t SoundService::GetFromCache(const char* szName, eSoundType _type)
 {
 	uint32_t dwSearchHash = TOREMOVE::HashNoCase(szName);
 
-	for (uint32_t i = 0; i < SoundCache.size(); i++)
+	for (size_t i = 0; i < SoundCache.size(); i++)
 	{
 		if (SoundCache[i].type != _type) continue;
 		if (SoundCache[i].dwNameHash == dwSearchHash)
@@ -1582,7 +1582,7 @@ void SoundService::ProcessSoundSchemes()
 
 	uint32_t dTime = api->GetDeltaTime();
 
-	for (uint32_t i = 0; i < SoundSchemeChannels.size(); i++)
+	for (size_t i = 0; i < SoundSchemeChannels.size(); i++)
 	{
 		if (SoundSchemeChannels[i].looped)
 		{
@@ -1613,7 +1613,7 @@ int SoundService::GetOGGPositionIndex(const char* szName)
 {
 	uint32_t dwHash = TOREMOVE::HashNoCase(szName);
 
-	for (uint32_t i = 0; i < OGGPosition.size(); i++)
+	for (size_t i = 0; i < OGGPosition.size(); i++)
 	{
 		if (OGGPosition[i].dwHash == dwHash)
 		{

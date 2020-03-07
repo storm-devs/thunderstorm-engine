@@ -101,7 +101,7 @@ class SoundService : public VSoundService
 	std::vector<tSoundCache> SoundCache;
 
 
-	int GetFromCache(const char* szName, eSoundType _type);
+	size_t GetFromCache(const char* szName, eSoundType _type);
 
 
 	bool FaderParity;
