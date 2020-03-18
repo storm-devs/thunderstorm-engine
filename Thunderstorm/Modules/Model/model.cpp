@@ -29,6 +29,7 @@ MODELR::~MODELR()
 {
 	if (d3dDestVB != nullptr) d3dDestVB->Release();
 	delete root;
+	root = nullptr;
 	for (int i = 0; i < MODEL_ANI_MAXBUFFERS; i++)
 		delete aniVerts[i].v;
 	delete ani;
@@ -45,6 +46,10 @@ bool MODELR::Init()
 
 	GeometyService = (VGEOMETRY *)api->CreateService("geometry");
 	if (!GeometyService) throw std::exception("No service: geometry");
+
+	/* this is workaround. TODO: remove */
+	NODER::gs = GeometyService;
+	NODER::rs = rs;
 
 	//UNGUARD
 	return true;
@@ -391,8 +396,6 @@ uint64_t MODELR::ProcessMessage(MESSAGE& message)
 
 #ifndef _XBOX
 		message.String(255, str);
-		NODER::gs = GeometyService;
-		NODER::rs = rs;
 		root = new NODER();
 		if (!root->Init(LightPath, str, "", CMatrix(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f), mtx, nullptr, lmPath))
 		{
@@ -552,7 +555,7 @@ bool MODELR::GetCollideTriangle(TRIANGLE& triangle)
 }
 
 //-------------------------------------------------------------------
-CVECTOR cold[8192];
+CVECTOR cold[1024 * 1024];
 
 float MODELR::Trace(const CVECTOR& src, const CVECTOR& dst)
 {

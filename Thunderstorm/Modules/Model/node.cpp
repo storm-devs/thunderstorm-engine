@@ -159,7 +159,8 @@ float NODER::Trace(const CVECTOR& src, const CVECTOR& dst)
 //----------------------------------------------------------
 //NODE constructor
 //----------------------------------------------------------
-NODER::NODER()
+NODER::NODER(): isReleaed(false), idGeoGroup(0), technique{}, name{}, geo_radius(0), geo_center(), distance_blend(0),
+                radius(0), center()
 {
 #ifdef SHOW_SPHERES
 	sphere = 0;

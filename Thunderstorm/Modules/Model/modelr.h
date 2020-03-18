@@ -8,6 +8,7 @@
 
 class NODER : public NODE
 {
+	friend class MODELR;
 	char * sys_modelName;
 	char * sys_LightPath;
 	char * sys_TexPath;
@@ -25,13 +26,13 @@ class NODER : public NODE
 	float max_view_dist;
 	float distance_blend;
 
+	static VGEOMETRY* gs;
+	static VDX9RENDER* rs;
+	
 public:	
 	//local radius and center of whole node with children
 	float radius;
 	CVECTOR center;
-
-	static VGEOMETRY *gs;
-	static VDX9RENDER *rs;
 
 	bool Init(const char *lightPath, const char *pname, const char *oname, const CMatrix &m, const CMatrix &globm, NODER *par, const char *lmPath) override;
 	NODER();

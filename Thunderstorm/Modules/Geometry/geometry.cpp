@@ -103,7 +103,7 @@ GEOS* GEOMETRY::CreateGeometry(const char* file_name, const char* light_file_nam
 	{
 		vrtSize = 0;
 		if (first == 0) fl = fopen("geoLoad.txt", "w");
-		else fl = fopen("geoLoad.txt", "aw");
+		else fl = fopen("geoLoad.txt", "a");
 	}
 #endif
 
@@ -425,8 +425,8 @@ void GEOM_SERVICE_R::ReleaseVertexBuffer(GEOS::ID vb)
 	if (RenderService)
 		if (vb >= SHIFT_VALUE)
 		{
-			delete avb[vb - SHIFT_VALUE].buff;
-			avb[vb - SHIFT_VALUE].nvertices = 0;
+			delete[] avb[vb - SHIFT_VALUE].buff;
+			avb[vb - SHIFT_VALUE] = { };
 		}
 		else RenderService->ReleaseVertexBuffer(vb);
 }
