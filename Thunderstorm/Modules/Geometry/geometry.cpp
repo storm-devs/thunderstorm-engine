@@ -290,9 +290,8 @@ void GEOM_SERVICE_R::SetMaterial(const GEOS::MATERIAL& mt)
 	RenderService->SetTextureStageState(2, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
 
 	// блок для ВМЛ -->
-	//RenderService->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-	RenderService->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	RenderService->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	//RenderService->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 
 	RenderService->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	RenderService->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
