@@ -6,7 +6,13 @@
 //#define STARFORCE_PROTECTION
 
 #define SKIP_COMMENT_TRACING
+
+
+// TODO: enable traces
 #define TRACE_OFF
+#define DTRACE_OFF
+#define WARNINGS_OFF
+
 #define INVALID_SEGMENT_INDEX	0xffffffff
 #ifndef INVALID_ARRAY_INDEX
 #define INVALID_ARRAY_INDEX		0xffffffff

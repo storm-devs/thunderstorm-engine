@@ -28,6 +28,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	set_default_logger(system_log);
 	system_log->set_level(spdlog::level::trace);
 
+
 	api = &Core;
 	fio = &File_Service;
 	//_VSYSTEM_API = &System_Api;
@@ -35,14 +36,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	/* Read config */
 	uint32_t dwMaxFPS = 0;
 	INIFILE* ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
-	/*if (ini)
+	if (ini)
 	{
-		dwMaxFPS = (uint32_t)ini->GetLong(nullptr, "max_fps", 0);
-		bDebugWindow = ini->GetLong(nullptr, "DebugWindow", 0) == 1;
-		bAcceleration = ini->GetLong(nullptr, "Acceleration", 0) == 1;
+		//MaxFPS = (uint32_t)ini->GetLong(nullptr, "max_fps", 0);
+		//bDebugWindow = ini->GetLong(nullptr, "DebugWindow", 0) == 1;
+		//cceleration = ini->GetLong(nullptr, "Acceleration", 0) == 1;
+		if(!ini->GetLong(nullptr, "logs", 0))
+		{
+			system_log->set_level(spdlog::level::off);
+		}
 
 		delete ini;
-	}*/
+	}
 
 	/* Register and show window */
 	const auto windowName = "Thunderstorm";
