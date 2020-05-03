@@ -1645,7 +1645,7 @@ void Character::Fire()
 	if (priorityAction.name) return;
 	if (isSwim) return;
 	if (!IsGunLoad()) return;
-	if (!!GetLocation()->IsSwimming()) return;
+	if (!GetLocation()->IsSwimming()) return;
 	//Ставим действие стрельбы
 	fgtSetType = fgt_fire;
 	fgtSetIndex = 0;
