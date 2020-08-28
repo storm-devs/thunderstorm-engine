@@ -101,6 +101,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <HeapReserveSize>1073741824</HeapReserveSize>
+      <HeapCommitSize>16777216</HeapCommitSize>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -133,6 +135,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <HeapReserveSize>1073741824</HeapReserveSize>
+      <HeapCommitSize>16777216</HeapCommitSize>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -164,6 +168,8 @@
       <AdditionalOptions>/LTCG %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>fmod_vc.lib;legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
+      <HeapReserveSize>1073741824</HeapReserveSize>
+      <HeapCommitSize>16777216</HeapCommitSize>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -196,6 +202,8 @@
       <AdditionalOptions>/LTCG %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>fmod_vc.lib;legacy_stdio_definitions.lib;d3d9.lib;d3dx9.lib;dxerr.lib;odbc32.lib;odbccp32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
+      <HeapReserveSize>1073741824</HeapReserveSize>
+      <HeapCommitSize>16777216</HeapCommitSize>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
