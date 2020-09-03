@@ -131,7 +131,7 @@ private:
 	bool LabelsFindLocator(const char* name, CVECTOR& pos);
 	long LabelsAddFont(const char* name);
 	void LabelsRelease();
-	static CVECTOR& Norm2D(const CVECTOR& ret);
+	static CVECTOR Norm2D(const CVECTOR& ret);
 
 private:
 	//Модель, содержащая все локаторы
@@ -164,7 +164,7 @@ public:
 	static CVECTOR centPos;
 };
 
-inline CVECTOR& WdmIslands::Norm2D(const CVECTOR& v)
+inline CVECTOR WdmIslands::Norm2D(const CVECTOR& v)
 {
 	CVECTOR ret = v;
 	ret.y = 0.0f;

@@ -4026,7 +4026,8 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA* & pVReturnResult, char* 
 
 				if (fi.pLocal[n].type == VAR_AREFERENCE && pV->GetType() == VAR_OBJECT) continue;
 
-				if (pV->GetType() != fi.pLocal[n].type)
+				// TODO: remove and fix
+				if (0 && pV->GetType() != fi.pLocal[n].type)
 				{
 					SetWarning("wrong type of argument %d  %s(%s) <-- [%s]", n, fi.name,
 					           Token.GetTypeName(fi.pLocal[n].type),

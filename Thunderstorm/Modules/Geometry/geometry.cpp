@@ -103,7 +103,7 @@ GEOS* GEOMETRY::CreateGeometry(const char* file_name, const char* light_file_nam
 	{
 		vrtSize = 0;
 		if (first == 0) fl = fopen("geoLoad.txt", "w");
-		else fl = fopen("geoLoad.txt", "aw");
+		else fl = fopen("geoLoad.txt", "a");
 	}
 #endif
 
