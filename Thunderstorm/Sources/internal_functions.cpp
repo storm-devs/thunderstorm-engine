@@ -434,7 +434,7 @@ bool COMPILER::IsIntFuncVarArgsNum(uint32_t code)
 	return false;
 }
 
-uint32_t COMPILER::GetIntFunctionCode(char* func_name)
+uint32_t COMPILER::GetIntFunctionCode(const char* func_name)
 {
 	//functions_num = sizeof(FuncNameTable)/sizeof(char *);
 	uint32_t functions_num = sizeof(IntFuncTable) / sizeof(INTFUNCDESC);

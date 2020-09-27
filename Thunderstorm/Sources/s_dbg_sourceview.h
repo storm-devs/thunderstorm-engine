@@ -63,7 +63,7 @@ public:
 	bool OpenSourceFile(const char * _filename);
 	void LineUpDown(bool down,uint32_t nlines = 1);
 	void UpdateGDIControls();
-	void SetProgramDirectory(char * dir_name);
+	void SetProgramDirectory(const char * dir_name);
 	void SetActiveLine(uint32_t line);
 	void StartSelection(uint32_t x_pos);
 	void MoveSelection(uint32_t x_pos);
@@ -81,9 +81,9 @@ public:
 
 	static char cDelimTable[256];
 
-	void SetCharacterMap(char * pMap, char * pStr);
+	void SetCharacterMap(char * pMap, const char * pStr);
 	bool SetVariableOnChange(const char * pStr, bool bSet);
-	char * GetToken(char * pStr, std::string & sResult);
+	const char * GetToken(const char * pStr, std::string & sResult);
 };
 
 #endif

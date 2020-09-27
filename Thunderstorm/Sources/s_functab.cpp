@@ -210,7 +210,7 @@ void S_FUNCTAB::InvalidateFunction(uint32_t nFuncHandle)
 	}
 }
 
-uint32_t S_FUNCTAB::FindFunc(char* func_name)
+uint32_t S_FUNCTAB::FindFunc(const char* func_name)
 {
 	if (func_name == nullptr) return INVALID_FUNC_CODE;
 	uint32_t hash = MakeHashValue(func_name);
@@ -233,7 +233,7 @@ uint32_t S_FUNCTAB::FindFunc(char* func_name)
 	return INVALID_FUNC_CODE;
 }
 
-bool S_FUNCTAB::SetFuncOffset(char* func_name, uint32_t offset)
+bool S_FUNCTAB::SetFuncOffset(const char* func_name, uint32_t offset)
 {
 	uint32_t n = FindFunc(func_name);
 	if (n == INVALID_FUNC_CODE) return false;
@@ -296,7 +296,7 @@ bool S_FUNCTAB::AddFuncArg(uint32_t func_code, LVARINFO& lvi, bool bExt)
 	return AddFuncVar(func_code, lvi);
 }
 
-uint32_t S_FUNCTAB::FindVar(uint32_t func_code, char* var_name)
+uint32_t S_FUNCTAB::FindVar(uint32_t func_code, const char* var_name)
 {
 	if (var_name == nullptr) return INVALID_VAR_CODE;
 	if (func_code >= Func_num) return INVALID_VAR_CODE;

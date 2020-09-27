@@ -387,7 +387,7 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 
 char SOURCE_VIEW::cDelimTable[256];
 
-void SOURCE_VIEW::SetCharacterMap(char* pMap, char* pStr)
+void SOURCE_VIEW::SetCharacterMap(char* pMap, const char* pStr)
 {
 	PZERO(pMap, 256);
 	uint32_t dwLen = strlen(pStr);
@@ -773,7 +773,7 @@ void SOURCE_VIEW::LineUpDown(bool down, uint32_t _nlines)
 	}
 }
 
-void SOURCE_VIEW::SetProgramDirectory(char* dir_name)
+void SOURCE_VIEW::SetProgramDirectory(const char* dir_name)
 {
 	if (dir_name) strcpy_s(ProgramDirectory, dir_name);
 }
@@ -1047,7 +1047,7 @@ void SOURCE_VIEW::GoNextBookmark()
 	}
 }
 
-char* SOURCE_VIEW::GetToken(char* pStr, std::string& sResult)
+const char* SOURCE_VIEW::GetToken(const char* pStr, std::string& sResult)
 {
 	char cToken[1024];
 	uint32_t dwTokenSize = 0;
@@ -1086,7 +1086,7 @@ bool SOURCE_VIEW::SetVariableOnChange(const char* pString, bool bSet)
 {
 	long iDigit;
 	std::string sVarName, sToken, sDigit;
-	char* pStr = (char*)pString;
+	const char* pStr = (char*)pString;
 	VDATA* pObject = nullptr;
 
 	pStr = GetToken(pStr, sVarName);

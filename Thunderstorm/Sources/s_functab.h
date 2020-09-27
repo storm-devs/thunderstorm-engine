@@ -74,11 +74,11 @@ public:
 	//void  KeepNameMode(bool on){bKeepName = on;};
 	void  Release();
 	void  InvalidateBySegmentID(uint32_t segment_id);
-	uint32_t FindFunc(char * func_name);
-	bool  SetFuncOffset(char * func_name, uint32_t offset);
+	uint32_t FindFunc(const char * func_name);
+	bool  SetFuncOffset(const char * func_name, uint32_t offset);
 	bool  AddFuncVar(uint32_t func_code, LVARINFO & lvi);
 	bool  AddFuncArg(uint32_t func_code, LVARINFO & lvi, bool bExt = false);
-	uint32_t FindVar(uint32_t func_code, char * var_name);
+	uint32_t FindVar(uint32_t func_code, const char * var_name);
 	void  AddTime(uint32_t func_code, uint64_t time);
 	void  SetTimeUsage(uint32_t func_code,double f);
 	void  AddCall(uint32_t func_code);

@@ -277,7 +277,7 @@ LRESULT CALLBACK DebugWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam
 	return DefWindowProc(hwnd, iMsg, wParam, lParam);
 }
 
-void S_DEBUG::BreakOn(char* filename, uint32_t line)
+void S_DEBUG::BreakOn(const char* filename, uint32_t line)
 {
 	strcpy_s(BreakFileName, filename);
 	BreakLineCode = line;
@@ -501,7 +501,7 @@ bool S_DEBUG::IsDebug()
 	return false;
 }
 
-bool S_DEBUG::SetOnDebugExpression(char* pLValue, char* pRValue)
+bool S_DEBUG::SetOnDebugExpression(const char* pLValue, const char* pRValue)
 {
 	DATA Result;
 	//	char * pC;
@@ -510,7 +510,7 @@ bool S_DEBUG::SetOnDebugExpression(char* pLValue, char* pRValue)
 	return false;
 }
 
-char* S_DEBUG::ProcessExpression(char* pExpression)
+char* S_DEBUG::ProcessExpression(const char* pExpression)
 {
 	if (!pExpression || !strlen(pExpression)) return "";
 	DATA Result;
@@ -606,7 +606,7 @@ bool S_DEBUG::BrowseFileWP(char* buffer, const char* filter)
 	return false;
 }
 
-void S_DEBUG::SetProgramDirectory(char* dir_name)
+void S_DEBUG::SetProgramDirectory(const char* dir_name)
 {
 	if (dir_name)
 	{
@@ -852,7 +852,7 @@ bool S_DEBUG::ProcessRegistry_Open()
 }
 
 
-long S_DEBUG::GetRecentFileALine(char* pFileName)
+long S_DEBUG::GetRecentFileALine(const char* pFileName)
 {
 	HKEY hKey;
 	char buffer[MAX_PATH];
@@ -894,7 +894,7 @@ long S_DEBUG::GetRecentFileALine(char* pFileName)
 	return 0;
 }
 
-void S_DEBUG::SaveRecentFileALine(char* pFileName, long nLine)
+void S_DEBUG::SaveRecentFileALine(const char* pFileName, long nLine)
 {
 	HKEY hKey;
 	char buffer[MAX_PATH];

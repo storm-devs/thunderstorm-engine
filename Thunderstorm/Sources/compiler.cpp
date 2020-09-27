@@ -193,7 +193,7 @@ void COMPILER::Release()
 	//Token.Release();
 }
 
-void COMPILER::SetProgramDirectory(char* dir_name)
+void COMPILER::SetProgramDirectory(const char* dir_name)
 {
 	delete ProgramDirectory;
 	ProgramDirectory = nullptr;
@@ -210,7 +210,7 @@ void COMPILER::SetProgramDirectory(char* dir_name)
 }
 
 // load file into memory
-char* COMPILER::LoadFile(char* file_name, uint32_t& file_size, bool bFullPath)
+char* COMPILER::LoadFile(const char* file_name, uint32_t& file_size, bool bFullPath)
 {
 	HANDLE fh;
 	uint32_t dwR;
@@ -283,7 +283,7 @@ char* COMPILER::LoadFile(char* file_name, uint32_t& file_size, bool bFullPath)
 }
 
 // write to compilation log file
-void COMPILER::Trace(char* data_PTR, ...)
+void COMPILER::Trace(const char* data_PTR, ...)
 {
 #ifdef 	TRACE_OFF
 	return;
@@ -306,7 +306,7 @@ void COMPILER::Trace(char* data_PTR, ...)
 }
 
 // write to compilation log file
-void COMPILER::DTrace(char* data_PTR, ...)
+void COMPILER::DTrace(const char* data_PTR, ...)
 {
 #ifdef DTRACEOFF
 	return;
@@ -347,7 +347,7 @@ void COMPILER::DTrace(char* data_PTR, ...)
 	return pBase;
 }*/
 
-bool COMPILER::AppendProgram(char* & pBase_program, uint32_t& Base_program_size, char* pAppend_program,
+bool COMPILER::AppendProgram(char* & pBase_program, uint32_t& Base_program_size, const char* pAppend_program,
                              uint32_t& Append_program_size, bool bAddLinefeed)
 {
 	uint32_t offset = Base_program_size;
@@ -383,7 +383,7 @@ bool COMPILER::AppendProgram(char* & pBase_program, uint32_t& Base_program_size,
 }
 
 
-void COMPILER::SetError(char* data_PTR, ...)
+void COMPILER::SetError(const char* data_PTR, ...)
 {
 	if (bDebugExpressionRun) return;
 	char LogBuffer[MAX_PATH + MAX_PATH];
@@ -424,7 +424,7 @@ void COMPILER::SetError(char* data_PTR, ...)
 #endif
 }
 
-void COMPILER::SetWarning(char* data_PTR, ...)
+void COMPILER::SetWarning(const char* data_PTR, ...)
 {
 #ifdef WARNINGS_OFF
 	return;
@@ -512,7 +512,7 @@ void COMPILER::LoadPreprocess()
 #endif
 }
 
-bool COMPILER::CreateProgram(char* file_name)
+bool COMPILER::CreateProgram(const char* file_name)
 {
 	/*	INIFILE * engine_ini;
 
@@ -641,7 +641,7 @@ void COMPILER::FindErrorSource()
 }
 
 
-void COMPILER::SetEventHandler(char* event_name, char* func_name, long flag, bool bStatic)
+void COMPILER::SetEventHandler(const char* event_name, const char* func_name, long flag, bool bStatic)
 {
 	FUNCINFO fi;
 
@@ -672,7 +672,7 @@ void COMPILER::SetEventHandler(char* event_name, char* func_name, long flag, boo
 	EventTab.AddEventHandler(event_name, func_code, fi.segment_id, flag, bStatic);
 }
 
-void COMPILER::DelEventHandler(char* event_name, char* func_name)
+void COMPILER::DelEventHandler(const char* event_name, const char* func_name)
 {
 	if (event_name == nullptr)
 	{
@@ -844,7 +844,7 @@ uint32_t COMPILER::GetSegmentIndex(uint32_t segment_id)
 
 // function release global variables, functions and labels reference for segment
 // mark segment for subsequent unload (on ProcessFrame)
-void COMPILER::UnloadSegment(char* segment_name)
+void COMPILER::UnloadSegment(const char* segment_name)
 {
 	//	OFFSET_INFO offset_info;
 
@@ -868,7 +868,7 @@ void COMPILER::UnloadSegment(char* segment_name)
 	}
 }
 
-bool COMPILER::BC_SegmentIsLoaded(char* file_name)
+bool COMPILER::BC_SegmentIsLoaded(const char* file_name)
 {
 	if (file_name == nullptr)
 	{
@@ -883,7 +883,7 @@ bool COMPILER::BC_SegmentIsLoaded(char* file_name)
 }
 
 
-bool COMPILER::BC_LoadSegment(char* file_name)
+bool COMPILER::BC_LoadSegment(const char* file_name)
 {
 	uint32_t n;
 
@@ -954,7 +954,7 @@ bool COMPILER::BC_LoadSegment(char* file_name)
 	return bRes;
 }
 
-bool COMPILER::ProcessDebugExpression(char* pExpression, DATA& Result)
+bool COMPILER::ProcessDebugExpression(const char* pExpression, DATA& Result)
 {
 	if (pExpression == nullptr) return false;
 
@@ -972,7 +972,7 @@ bool COMPILER::ProcessDebugExpression(char* pExpression, DATA& Result)
 	return ProcessDebugExpression0(pDebExpBuffer, Result);
 }
 
-bool COMPILER::SetOnDebugExpression(char* pLValue, char* pRValue, DATA& Result)
+bool COMPILER::SetOnDebugExpression(const char* pLValue, const char* pRValue, DATA& Result)
 {
 	if (pLValue == nullptr || pRValue == nullptr) return false;
 
@@ -990,7 +990,7 @@ bool COMPILER::SetOnDebugExpression(char* pLValue, char* pRValue, DATA& Result)
 	return ProcessDebugExpression0(pDebExpBuffer, Result);
 }
 
-bool COMPILER::ProcessDebugExpression0(char* pExpression, DATA& Result)
+bool COMPILER::ProcessDebugExpression0(const char* pExpression, DATA& Result)
 {
 	SEGMENT_DESC Segment;
 	STRINGS_LIST DbgLocalSL;
@@ -1043,7 +1043,7 @@ bool COMPILER::ProcessDebugExpression0(char* pExpression, DATA& Result)
 	uint32_t mem_InstructionPointer = InstructionPointer;
 	//mem_ip = ip;
 	FUNCINFO* mem_pfi = pRun_fi;
-	char* mem_codebase = pRunCodeBase;
+	const char* mem_codebase = pRunCodeBase;
 	//mem_CurrentFuncCode = CurrentFuncCode;
 
 	//trace("Segment.pCode : %s",pDebExpBuffer);
@@ -3748,7 +3748,7 @@ bool COMPILER::BC_CallFunction(uint32_t func_code, uint32_t& ip, DATA* & pVResul
 	uint32_t mem_InstructionPointer;
 	FUNCINFO* mem_pfi;
 	//	DATA * pV;
-	char* mem_codebase;
+	const char* mem_codebase;
 	uint32_t arguments;
 	uint32_t check_sp;
 
@@ -3914,7 +3914,7 @@ bool COMPILER::BC_CallFunction(uint32_t func_code, uint32_t& ip, DATA* & pVResul
 	return true;
 }
 
-bool COMPILER::BC_Execute(uint32_t function_code, DATA* & pVReturnResult, char* pDbgExpSource)
+bool COMPILER::BC_Execute(uint32_t function_code, DATA* & pVReturnResult, const char* pDbgExpSource)
 {
 	//GUARD(BC_Execute)
 	uint32_t inout;
@@ -3933,7 +3933,7 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA* & pVReturnResult, char* 
 	DATA* pV;
 	DATA* pVResult;
 	//	DATA   ExpressionResult;	// while compile expression not ready, each function have its own register
-	char* pCodeBase;
+	const char* pCodeBase;
 	bool bExit;
 	long lvalue;
 	S_TOKEN_TYPE vtype;
@@ -7233,7 +7233,7 @@ void COMPILER::DeleteScriptFunction(uint32_t nFuncHandle)
 	FuncTab.InvalidateFunction(nFuncHandle);
 }
 
-DATA* COMPILER::GetOperand(char* pCodeBase, uint32_t& ip, S_TOKEN_TYPE* pTokenType)
+DATA* COMPILER::GetOperand(const char* pCodeBase, uint32_t& ip, S_TOKEN_TYPE* pTokenType)
 {
 	uint32_t token_data_size;
 	VARINFO vi;

@@ -183,49 +183,49 @@ public:
 
 	VSTRING_CODEC * GetVSC(){return &SCodec;}
 
-	char *  LoadFile(char * file_name, uint32_t & file_size, bool bFullPath = false);
+	char *  LoadFile(const char * file_name, uint32_t & file_size, bool bFullPath = false);
 	//char *	AppendProgram(char * base_program, long base_program_size, char * append_program, long append_program_size, long& new_program_size);
-	bool	AppendProgram(char * & pBase_program, uint32_t & Base_program_size, char * pAppend_program, uint32_t & Append_program_size, bool bAddLinefeed);
-	void	Trace(char * data_PTR, ...);
-	void	DTrace(char * data_PTR, ...);
-	void	SetError(char * data_PTR, ...);
-	void	SetWarning(char * data_PTR, ...);
-	bool    CreateProgram(char * file_name);
-	bool	AddProgramFile(char * file_name);
+	bool	AppendProgram(char * & pBase_program, uint32_t & Base_program_size, const char * pAppend_program, uint32_t & Append_program_size, bool bAddLinefeed);
+	void	Trace(const char * data_PTR, ...);
+	void	DTrace(const char * data_PTR, ...);
+	void	SetError(const char * data_PTR, ...);
+	void	SetWarning(const char * data_PTR, ...);
+	bool  CreateProgram(const char * file_name);
+	bool	AddProgramFile(const char * file_name);
 	
-	void	UnloadSegment(char * segment_name);
+	void	UnloadSegment(const char * segment_name);
 	uint32_t	GetSegmentIndex(uint32_t segment_id);
 
 
 	void	ProcessFrame(uint32_t DeltaTime);
 	bool	Run();
 	void	Release();
-	void	SetProgramDirectory(char * dir_name);
+	void	SetProgramDirectory(const char * dir_name);
 	VDATA *	ProcessEvent(const char * event_name, MESSAGE message);
 	VDATA * ProcessEvent(const char * event_name);
-	void	SetEventHandler(char * event_name, char * func_name,long flag, bool bStatic = false);
-	void	DelEventHandler(char * event_name, char * func_name);
+	void	SetEventHandler(const char * event_name, const char * func_name, long flag, bool bStatic = false);
+	void	DelEventHandler(const char * event_name, const char * func_name);
 	bool	Completed(){return bCompleted;}
 	char *	GetName();
 	void	ExitProgram();
 	void	ClearEvents();
 
 	
-	uint32_t  GetIntFunctionCode(char * func_name);
+	uint32_t  GetIntFunctionCode(const char * func_name);
 	DATA * BC_CallIntFunction(uint32_t func_code,DATA * & pVResult,uint32_t arguments);
 	
 	uint32_t  GetIntFunctionsNum();
 	bool   InitInternalFunctions();
 
-	bool ProcessDebugExpression(char * pExpression, DATA & Result);
-	bool SetOnDebugExpression(char * pLValue, char * pRValue, DATA & Result);
-	bool ProcessDebugExpression0(char * pExpression, DATA & Result);
+	bool ProcessDebugExpression(const char * pExpression, DATA & Result);
+	bool SetOnDebugExpression(const char * pLValue, const char * pRValue, DATA & Result);
+	bool ProcessDebugExpression0(const char * pExpression, DATA & Result);
 	bool Compile(SEGMENT_DESC& Segment, char * pInternalCode = nullptr, uint32_t pInternalCodeSize = 0);
 	void CompileToken(SEGMENT_DESC& Segment,S_TOKEN_TYPE Token_type, uint32_t data_blocks_num = 0,...);
 	void ResizeBCodeBuffer(SEGMENT_DESC& Segment,uint32_t add_size);
-	bool BC_LoadSegment(char * file_name);
-	bool BC_SegmentIsLoaded(char * file_name);
-	bool BC_Execute(uint32_t function_code, DATA * & pVReturnResult, char * pDbgExpSource = nullptr);
+	bool BC_LoadSegment(const char * file_name);
+	bool BC_SegmentIsLoaded(const char * file_name);
+	bool BC_Execute(uint32_t function_code, DATA * & pVReturnResult, const char * pDbgExpSource = nullptr);
 	bool BC_CallFunction(uint32_t func_code, uint32_t & ip, DATA * & pVResult);
 	void FindErrorSource();
 	S_TOKEN_TYPE BC_TokenGet(uint32_t & ip, uint32_t & token_data_size);
@@ -233,7 +233,7 @@ public:
 
 	S_TOKEN_TYPE TokenLastReadResult;
 	uint32_t TLR_DataOffset;
-	char * pRunCodeBase;
+	const char * pRunCodeBase;
 	bool TokenIs(S_TOKEN_TYPE test);
 	S_TOKEN_TYPE TokenType() {return TokenLastReadResult;}
 	S_TOKEN_TYPE NextTokenType();
@@ -326,7 +326,7 @@ public:
 	bool CompileExpression_L6(SEGMENT_DESC& Segment);
 	bool CompileExpression_L7(SEGMENT_DESC& Segment);
 
-	DATA * GetOperand(char * pCodeBase, uint32_t & ip, S_TOKEN_TYPE * pTokenType = nullptr);
+	DATA * GetOperand(const char * pCodeBase, uint32_t & ip, S_TOKEN_TYPE * pTokenType = nullptr);
 
 
 };

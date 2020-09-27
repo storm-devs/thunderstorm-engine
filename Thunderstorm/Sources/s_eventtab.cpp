@@ -62,7 +62,7 @@ bool S_EVENTTAB::GetEvent(EVENTINFO& ei, uint32_t event_code)
 	return true;
 }
 
-uint32_t S_EVENTTAB::AddEventHandler(char* event_name, uint32_t func_code, uint32_t func_segment_id, long flag,
+uint32_t S_EVENTTAB::AddEventHandler(const char* event_name, uint32_t func_code, uint32_t func_segment_id, long flag,
                                      bool bStatic)
 {
 	uint32_t i;
@@ -157,7 +157,7 @@ uint32_t S_EVENTTAB::MakeHashValue(const char* string)
 	return hval;
 }
 
-bool S_EVENTTAB::DelEventHandler(char* event_name, uint32_t func_code)
+bool S_EVENTTAB::DelEventHandler(const char* event_name, uint32_t func_code)
 {
 	if (event_name == nullptr) return false;
 	uint32_t hash = MakeHashValue(event_name);
@@ -176,7 +176,7 @@ bool S_EVENTTAB::DelEventHandler(char* event_name, uint32_t func_code)
 	return false;
 }
 
-void S_EVENTTAB::SetStatus(char* event_name, uint32_t func_code, uint32_t status)
+void S_EVENTTAB::SetStatus(const char* event_name, uint32_t func_code, uint32_t status)
 {
 	if (event_name == nullptr) return;
 

@@ -78,25 +78,25 @@ public:
 	void OpenNewFile();
 	void CloseDebugWindow();
 	bool IsDebug();
-	char * ProcessExpression(char * pExpression);
-	bool SetOnDebugExpression(char * pLValue, char * pRValue);
+	char * ProcessExpression(const char * pExpression);
+	bool SetOnDebugExpression(const char * pLValue, const char * pRValue);
 	uint32_t GetLineStatus(const char * _pFileName, uint32_t linecode);
 	bool BrowseFile(char * buffer, const char * filter);
 	void Release();
-	void SetProgramDirectory(char * dir_name);
+	void SetProgramDirectory(const char * dir_name);
 	void SetTrace(bool on);
 	bool IsTrace();
 	uint32_t GetTraceMode();
 	void SetTraceMode(uint32_t tmode);
-	void BreakOn(char * filename,uint32_t line);
+	void BreakOn(const char * filename,uint32_t line);
 	void SetTraceLine(uint32_t l){nTraceLine = l;};
 	void SetDbgDisplayMode(DBG_DISPLAY_MODE mode);
 	bool BrowseFileWP(char * buffer, const char * filter);
 
 	bool ProcessRegistry_Open();
 	void Add2RecentFiles(char * pFileName);
-	long GetRecentFileALine(char * pFileName);
-	void SaveRecentFileALine(char * pFileName, long nLine);
+	long GetRecentFileALine(const char * pFileName);
+	void SaveRecentFileALine(const char * pFileName, long nLine);
 };
 #endif
 #endif
