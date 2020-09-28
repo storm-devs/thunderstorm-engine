@@ -477,7 +477,7 @@ void Grass::Realize(uint32_t delta_time)
 	CMatrix view, prj;
 	rs->GetTransform(D3DTS_VIEW, view);
 	rs->GetTransform(D3DTS_PROJECTION, prj);
-	auto& cmtx = (CMatrix &)consts[32];
+	auto& cmtx = (CMatrix&)consts[32];
 	cmtx.EqMultiply(view, prj);
 	//Параметры источника
 	consts[36].x = lDir.x;
@@ -539,16 +539,28 @@ void Grass::Realize(uint32_t delta_time)
 	numPoints = 0;
 	rs->SetTransform(D3DTS_WORLD, CMatrix());
 
-	for (long mx = left, mz; mx <= camx; mx++)
+	//api->Trace("%d %d %d %d %d %d", left, top, bottom, right, camx, camz);
+	/*for (long mx = left, mz; mx <= camx; mx++)
 	{
-		for (mz = top; mz <= camz; mz++) RenderBlock(pos, plane, numPlanes, mx, mz);
-		for (mz = bottom; mz > camz; mz--) RenderBlock(pos, plane, numPlanes, mx, mz);
+		for (mz = top; mz <= camz; mz++) render(mz, mx);
+		for (mz = bottom; mz > camz; mz--) render(mz, mx);
 	}
 	for (long mx = right, mz; mx > camx; mx--)
 	{
-		for (mz = top; mz <= camz; mz++) RenderBlock(pos, plane, numPlanes, mx, mz);
-		for (mz = bottom; mz > camz; mz--) RenderBlock(pos, plane, numPlanes, mx, mz);
+		for (mz = top; mz <= camz; mz++) render(mz, mx);
+		for (mz = bottom; mz > camz; mz--) render(mz, mx);
+	}*/
+	for (auto mx = left; mx < right; mx++) {
+		for (auto mz = top; mz < bottom; mz++) {
+			GRSMiniMapElement& mm = miniMap[mz * miniX + mx];
+
+			//Проверяем наличие блока
+			if (mm.num[0] != 0) {
+				RenderBlock(pos, plane, numPlanes, mx, mz);
+			}
+		}
 	}
+
 	//Рисуем буфер
 	DrawBuffer();
 
@@ -594,7 +606,7 @@ uint64_t Grass::ProcessMessage(MESSAGE& message)
 }
 
 //Отрисовать блок с координатами на миникарте
-void Grass::RenderBlock(const CVECTOR& camPos, PLANE* plane, long numPlanes, long mx, long mz)
+void Grass::RenderBlock(const CVECTOR& camPos, const PLANE* plane, long numPlanes, long mx, long mz)
 {
 	//Рисуем буфер, если переполнен
 	if (numPoints >= GRASS_MAX_POINTS - (GRASS_CNT_MIN + GRASS_CNT_DLT) * 3)
@@ -604,8 +616,6 @@ void Grass::RenderBlock(const CVECTOR& camPos, PLANE* plane, long numPlanes, lon
 	CVECTOR min, max;
 	//Блок, который рисуем
 	GRSMiniMapElement& mm = miniMap[mz * miniX + mx];
-	//Проверяем наличие блока
-	if (mm.num[0] == 0) return;
 	//Дистанция от центра кластера (бокса) до камеры в 2D
 	float cx = m_fDataScale * (startX + (mx + 0.5f) * GRASS_BLK_DST);
 	float cz = m_fDataScale * (startZ + (mz + 0.5f) * GRASS_BLK_DST);

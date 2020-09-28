@@ -145,7 +145,7 @@ public:
 	//--------------------------------------------------------------------------------------------
 private:
 	//Рендер блока
-	void RenderBlock(const CVECTOR& camPos, PLANE* plane, long numPlanes, long mx, long mz);
+	void RenderBlock(const CVECTOR& camPos, const PLANE* plane, long numPlanes, long mx, long mz);
 	//Проверка на видимость бокса
 	bool VisibleTest(const PLANE* plane, long numPlanes, const CVECTOR& min, const CVECTOR& max);
 	//Рендер блока
