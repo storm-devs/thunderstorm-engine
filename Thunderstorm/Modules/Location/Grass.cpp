@@ -34,8 +34,6 @@
 //Конструирование, деструктурирование
 //============================================================================================
 
-IDirect3DVertexDeclaration9* Grass::vertexDecl_ = nullptr;
-
 Grass::Grass()
 {
 	miniMap = nullptr;
@@ -234,7 +232,7 @@ bool Grass::LoadData(const char* patchName)
 			}
 		}
 	}
-	catch (const char* error)
+	catch (const char* error) 
 	{
 		api->Trace("Grass: incorrect grs file %s (%s)", patchName, error);
 		delete miniMap;
@@ -449,7 +447,7 @@ void Grass::Realize(uint32_t delta_time)
 		aColor = y * 0.7f + aColor * 0.3f;
 		aColor *= 0.8f;
 	}
-	else
+	else 
 	{
 		//Источник по умолчанию
 		//Рассеяный свет
@@ -515,7 +513,26 @@ void Grass::Realize(uint32_t delta_time)
 	rs->TextureSet(0, texture);
 	rs->TextureSet(1, texture);
 	//Ставим константы
-	rs->SetVertexShaderConstantF(0, (const float*)consts, sizeof(consts) / sizeof(VSConstant));
+	if (api->Controls->GetDebugAsyncKeyState(VK_F3) < 0)
+	{
+		rs->SetVertexShaderConstantF(0, (const float*)consts, sizeof(consts) / sizeof(consts[0]));
+	}
+	else if (fx_) {
+		rs->SetVertexShaderConstantF(40, (const float*)&consts[39], 3);
+		fx_->SetMatrix(hgVP_, cmtx);
+
+		//fx_->SetFloatArray(haAngles_, (FLOAT*)consts, 16);
+		fx_->SetValue(haAngles_, (FLOAT*)&consts[0], 4 * 3 * 16);
+		//fx_->SetVector(haAngles_, (D3DXVECTOR4*)&consts[0]);
+		//fx_->SetVector(haUV_, (D3DXVECTOR4*)&consts[16]);
+		fx_->SetValue(haUV_, (FLOAT*)&consts[16], 4 * 2 * 16);
+
+		fx_->SetValue(hlDir_, (FLOAT*)&consts[36], 4 * 2);
+		fx_->SetFloat(hkLitWF_, *(FLOAT*)&consts[37]);
+		fx_->SetValue(haColor_, (FLOAT*)&consts[38], 4 * 3);
+		fx_->SetValue(hlColor_, (FLOAT*)&consts[39], 4 * 3);
+	}
+
 	//rs->SetFVFConstant(0, consts, 40);
 	//Позиция камеры на карте
 	long camx = long((pos.x / m_fDataScale - startX) / GRASS_BLK_DST);
@@ -844,13 +861,26 @@ void Grass::DrawBuffer()
 	if (numPoints > 0)
 	{
 		rs->SetVertexDeclaration(vertexDecl_);
-		if (isGrassLightsOn == 1)
+		if (api->Controls->GetDebugAsyncKeyState(VK_F3) < 0)
 		{
-			rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "Grass");
+			if (isGrassLightsOn == 1)
+			{
+				rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "Grass_");
+			}
+			else
+			{
+				rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "GrassDark_");
+			}
 		}
-		else
-		{
-			rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "GrassDark");
+		else {
+			if (isGrassLightsOn == 1)
+			{
+				rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "Grass");
+			}
+			else
+			{
+				rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "GrassDark");
+			}
 		}
 		// boal выбор шайдера <--
 		numPoints = 0;
@@ -878,12 +908,24 @@ void Grass::CreateVertexDeclaration()
 
 	const D3DVERTEXELEMENT9 VertexElements[] =
 	{
-		{0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
-		{0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0},
-		{0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 1},
+		{0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
+		{0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,  0},
+		{0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,  1},
 		{0, 20, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
 		D3DDECL_END()
 	};
 
 	rs->CreateVertexDeclaration(VertexElements, &vertexDecl_);
+
+	fx_ = rs->GetEffectPointer("Grass");
+	if (fx_ == nullptr)
+		return;
+
+	hgVP_ = fx_->GetParameterByName(0, "gVP");
+	haAngles_ = fx_->GetParameterByName(0, "aAngles");
+	haUV_ = fx_->GetParameterByName(0, "aUV");
+	hlDir_ = fx_->GetParameterByName(0, "lDir");
+	hkLitWF_ = fx_->GetParameterByName(0, "kLitWF");
+	haColor_ = fx_->GetParameterByName(0, "aColor");
+	hlColor_ = fx_->GetParameterByName(0, "lColor");
 }

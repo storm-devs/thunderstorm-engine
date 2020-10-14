@@ -26,9 +26,18 @@ class Character;
 
 class Grass : public Entity
 {
-#pragma pack(push, 1)
 
-	static IDirect3DVertexDeclaration9* vertexDecl_;
+	static inline ID3DXEffect* Grass::fx_ ;
+	static inline IDirect3DVertexDeclaration9* Grass::vertexDecl_;
+	static inline D3DXHANDLE Grass::hgVP_ ;
+	static inline D3DXHANDLE Grass::haAngles_;
+	static inline D3DXHANDLE Grass::haUV_ ;
+	static inline D3DXHANDLE Grass::hlDir_;
+	static inline D3DXHANDLE Grass::hkLitWF_;
+	static inline D3DXHANDLE Grass::haColor_;
+	static inline D3DXHANDLE Grass::hlColor_;
+
+#pragma pack(push, 1)
 
 	struct Vertex
 	{
