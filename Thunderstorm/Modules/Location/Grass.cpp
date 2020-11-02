@@ -518,19 +518,19 @@ void Grass::Realize(uint32_t delta_time)
 		rs->SetVertexShaderConstantF(0, (const float*)consts, sizeof(consts) / sizeof(consts[0]));
 	}
 	else if (fx_) {
-		rs->SetVertexShaderConstantF(40, (const float*)&consts[39], 3);
-		fx_->SetMatrix(hgVP_, cmtx);
+		fx_ = rs->GetEffectPointer("Grass");
 
-		//fx_->SetFloatArray(haAngles_, (FLOAT*)consts, 16);
-		fx_->SetValue(haAngles_, (FLOAT*)&consts[0], 4 * 3 * 16);
-		//fx_->SetVector(haAngles_, (D3DXVECTOR4*)&consts[0]);
-		//fx_->SetVector(haUV_, (D3DXVECTOR4*)&consts[16]);
-		fx_->SetValue(haUV_, (FLOAT*)&consts[16], 4 * 2 * 16);
+		fx_->SetMatrix(fx_->GetParameterByName(0, "gVP"), cmtx);
 
-		fx_->SetValue(hlDir_, (FLOAT*)&consts[36], 4 * 2);
-		fx_->SetFloat(hkLitWF_, *(FLOAT*)&consts[37]);
-		fx_->SetValue(haColor_, (FLOAT*)&consts[38], 4 * 3);
-		fx_->SetValue(hlColor_, (FLOAT*)&consts[39], 4 * 3);
+		fx_->SetValue(fx_->GetParameterByName(0, "aAngles"), (FLOAT*)&consts[0], sizeof(D3DXVECTOR3) * 16);
+		fx_->SetValue(fx_->GetParameterByName(0, "aUV"), (FLOAT*)&consts[16], sizeof(D3DXVECTOR2) * 16);
+
+		fx_->SetValue(fx_->GetParameterByName(0, "lDir"), (FLOAT*)&consts[36], sizeof(D3DXVECTOR2));
+		fx_->SetValue(fx_->GetParameterByName(0, "aColor"), (FLOAT*)&consts[37], sizeof(D3DXVECTOR3));
+		fx_->SetValue(fx_->GetParameterByName(0, "lColor"), (FLOAT*)&consts[38], sizeof(D3DXVECTOR3));
+		fx_->SetFloat(fx_->GetParameterByName(0, "kLitWF"), *(FLOAT*)&consts[39]);
+		//rs->SetVertexShaderConstantF(39, (const float*)&consts[39], 3);
+		//rs->SetVertexShaderConstantF(0, (const float*)consts, sizeof(consts) / sizeof(consts[0]));
 	}
 
 	//rs->SetFVFConstant(0, consts, 40);
