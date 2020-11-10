@@ -101,7 +101,7 @@ bool Grass::Init()
 
 	// boal выбор шайдера -->
 	isGrassLightsOn = 1;
-	if (auto param = api->Event("GOpt_isGrassLightsOn", nullptr))
+	if (auto* param = api->Event("GOpt_isGrassLightsOn", nullptr))
 	{
 		param->Get(isGrassLightsOn);
 	}
@@ -130,27 +130,18 @@ bool Grass::Init()
 		index[5] = uint16_t(point + 3);
 	}
 	rs->UnLockIndexBuffer(ib);
+
 	//Константы
-	static const float pi2 = 2.0f * 3.141592653f;
-	for (long i = 0; i < 16; i++)
+	static const auto pi2 = 2.0f * 3.141592653f;
+	for (size_t i = 0; i < 16; i++)
 	{
 		//Таблица углов
-		consts[i].x = sinf(i * pi2 / 16.0f);
-		consts[i].y = cosf(i * pi2 / 16.0f);
-		consts[i].z = 0.0f;
-		consts[i].w = 1.0f;
+		aAngles[i] = { sinf(i * pi2 / 16.0f) ,cosf(i * pi2 / 16.0f), 0.0f };
 
 		//Таблица uv
-		consts[i + 16].x = (i & 3) * (1.0f / 4.0f);
-		consts[i + 16].y = ((i >> 2) & 3) * (1.0f / 4.0f);
-		consts[i + 16].z = 0.0f;
-		consts[i + 16].w = 1.0f;
-		aUV[i] = { (i & 3) * (1.0f / 4.0f), ((i >> 2) & 3) * (1.0f / 4.0f) };
+		aUV[i] = { static_cast<float>(i & 3) * (1.0f / 4.0f), static_cast<float>((i >> 2) & 3) * (1.0f / 4.0f) };
 	}
-	consts[36].w = 0.0f;
-	consts[39] = VSConstant(0.9f, 1.0f, 0.245f, -0.245f);
-	consts[40] = VSConstant(15.0f, -0.5f, 1.0f, 0.8f);
-	consts[41] = VSConstant(0.3f * m_fMaxWidth, 0.4f * m_fMaxHeight, 0.7f * m_fMaxWidth, 0.6f * m_fMaxHeight);
+
 	return true;
 }
 
@@ -346,7 +337,7 @@ void Grass::Execute(uint32_t delta_time)
 
 void Grass::Realize(uint32_t delta_time)
 {
-	if (quality == rq_off) return;
+	if (quality == rq_off || fx_ == nullptr) return;
 	rs->SetTransform(D3DTS_WORLD, CMatrix());
 	//Уберём текстуры
 	rs->TextureSet(0, -1);
@@ -465,33 +456,22 @@ void Grass::Realize(uint32_t delta_time)
 		//Цвет направления
 		lColor = 0.3f;
 	}
+
 	//Пересчитаем параметры углов
 	for (long i = 0; i < 16; i++)
 	{
-		consts[i].z = fabsf(-consts[i].y * lDir.x + consts[i].x * lDir.z);
-		if (consts[i].z < 0.0f) consts[i].z = 0.0f;
-		if (consts[i].z > 1.0f) consts[i].z = 1.0f;
-
-		aAngles[i] = { consts[i].x, consts[i].y, consts[i].z };
+		aAngles[i].z = fabsf(-aAngles[i].y * lDir.x + aAngles[i].x * lDir.z);
+		if (aAngles[i].z < 0.0f) aAngles[i].z = 0.0f;
+		if (aAngles[i].z > 1.0f) aAngles[i].z = 1.0f;
 	}
+
 	//Матрица
 	CMatrix view, prj;
 	rs->GetTransform(D3DTS_VIEW, view);
 	rs->GetTransform(D3DTS_PROJECTION, prj);
-	auto& cmtx = (CMatrix&)consts[32];
+	CMatrix cmtx;
 	cmtx.EqMultiply(view, prj);
-	//Параметры источника
-	consts[36].x = lDir.x;
-	consts[36].y = lDir.z;
-	consts[37].x = aColor.x;
-	consts[37].y = aColor.y;
-	consts[37].z = aColor.z;
-	consts[37].w = 1.0f;
-	consts[38].x = lColor.x;
-	consts[38].y = lColor.y;
-	consts[38].z = lColor.z;
-	consts[38].w = m_fDataScale; // 1.f;
-	consts[39].y = kLitWF;
+
 	//Позиция камеры
 	CVECTOR pos, ang;
 	float prs;
@@ -516,29 +496,16 @@ void Grass::Realize(uint32_t delta_time)
 	rs->TextureSet(0, texture);
 	rs->TextureSet(1, texture);
 	//Ставим константы
-	if (api->Controls->GetDebugAsyncKeyState(VK_F3) < 0)
-	{
-		rs->SetVertexShaderConstantF(0, (const float*)consts, sizeof(consts) / sizeof(consts[0]));
-	}
-	else if (fx_ || (fx_ = rs->GetEffectPointer("Grass"))) {
-		fx_->SetMatrix(fx_->GetParameterByName(0, "gVP"), cmtx);
+	fx_->SetMatrix(hgVP_, cmtx);
+	fx_->SetValue(haAngles_, &aAngles[0], sizeof(D3DXVECTOR3) * 16);
+	fx_->SetValue(haUV_, &aUV[0], sizeof(D3DXVECTOR2) * 16);
+	fx_->SetValue(hlDir_, D3DXVECTOR2(lDir.x, lDir.z), sizeof(D3DXVECTOR2));
+	fx_->SetValue(haColor_, D3DXVECTOR3(aColor.x, aColor.y, aColor.z), sizeof(D3DXVECTOR3));
+	fx_->SetValue(hlColor_, D3DXVECTOR3(lColor.x, lColor.y, lColor.z), sizeof(D3DXVECTOR3));
+	fx_->SetFloat(hkLitWF_, kLitWF);
+	fx_->SetFloat(hfDataScale_, m_fDataScale);
+	fx_->SetValue(haSize_, D3DXVECTOR2(m_fMaxWidth, m_fMaxHeight), sizeof(D3DXVECTOR2));
 
-		fx_->SetValue(fx_->GetParameterByName(0, "aAngles"), &aAngles[0], sizeof(D3DXVECTOR3) * 16);
-		fx_->SetValue(fx_->GetParameterByName(0, "aUV"), &aUV[0], sizeof(D3DXVECTOR2) * 16);
-
-		fx_->SetValue(fx_->GetParameterByName(0, "lDir"), D3DXVECTOR2(lDir.x, lDir.z), sizeof(D3DXVECTOR2));
-
-		fx_->SetValue(fx_->GetParameterByName(0, "aColor"), D3DXVECTOR3(aColor.x, aColor.y, aColor.z), sizeof(D3DXVECTOR3));
-		fx_->SetValue(fx_->GetParameterByName(0, "lColor"), D3DXVECTOR3(lColor.x, lColor.y, lColor.z), sizeof(D3DXVECTOR3));
-		fx_->SetFloat(fx_->GetParameterByName(0, "kLitWF"), kLitWF);
-
-		fx_->SetFloat(fx_->GetParameterByName(0, "fDataScale"), m_fDataScale);
-		fx_->SetValue(fx_->GetParameterByName(0, "aSize"), D3DXVECTOR2(m_fMaxWidth, m_fMaxHeight), sizeof(D3DXVECTOR2));
-		//rs->SetVertexShaderConstantF(39, (const float*)&consts[39], 3);
-		//rs->SetVertexShaderConstantF(0, (const float*)consts, sizeof(consts) / sizeof(consts[0]));
-	}
-
-	//rs->SetFVFConstant(0, consts, 40);
 	//Позиция камеры на карте
 	long camx = long((pos.x / m_fDataScale - startX) / GRASS_BLK_DST);
 	long camz = long((pos.z / m_fDataScale - startZ) / GRASS_BLK_DST);
@@ -615,7 +582,6 @@ uint64_t Grass::ProcessMessage(MESSAGE& message)
 
 		m_fMaxWidth = message.Float();
 		m_fMaxHeight = message.Float();
-		consts[41] = VSConstant(0.3f * m_fMaxWidth, 0.4f * m_fMaxHeight, 0.7f * m_fMaxWidth, 0.6f * m_fMaxHeight);
 
 		m_fMinVisibleDist = message.Float();
 		m_fMaxVisibleDist = message.Float();
@@ -866,26 +832,13 @@ void Grass::DrawBuffer()
 	if (numPoints > 0)
 	{
 		rs->SetVertexDeclaration(vertexDecl_);
-		if (api->Controls->GetDebugAsyncKeyState(VK_F3) < 0)
+		if (isGrassLightsOn == 1)
 		{
-			if (isGrassLightsOn == 1)
-			{
-				rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "Grass_");
-			}
-			else
-			{
-				rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "GrassDark_");
-			}
+			rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "Grass");
 		}
-		else {
-			if (isGrassLightsOn == 1)
-			{
-				rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "Grass");
-			}
-			else
-			{
-				rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "GrassDark");
-			}
+		else
+		{
+			rs->DrawBuffer(vb, sizeof(Vertex), ib, 0, numPoints * 4, 0, numPoints * 2, "GrassDark");
 		}
 		// boal выбор шайдера <--
 		numPoints = 0;
@@ -906,13 +859,12 @@ long Grass::GetColor(CVECTOR color)
 	return (r << 16) | (g << 8) | b;
 }
 
-void Grass::CreateVertexDeclaration()
-{
-	if (vertexDecl_ != nullptr)
+void Grass::CreateVertexDeclaration() const {
+	if (vertexDecl_ != nullptr) {
 		return;
+	}
 
-	const D3DVERTEXELEMENT9 VertexElements[] =
-	{
+	const D3DVERTEXELEMENT9 VertexElements[] = {
 		{0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
 		{0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,  0},
 		{0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,  1},
@@ -923,14 +875,15 @@ void Grass::CreateVertexDeclaration()
 	rs->CreateVertexDeclaration(VertexElements, &vertexDecl_);
 
 	fx_ = rs->GetEffectPointer("Grass");
-	if (fx_ == nullptr)
-		return;
-
-	hgVP_ = fx_->GetParameterByName(0, "gVP");
-	haAngles_ = fx_->GetParameterByName(0, "aAngles");
-	haUV_ = fx_->GetParameterByName(0, "aUV");
-	hlDir_ = fx_->GetParameterByName(0, "lDir");
-	hkLitWF_ = fx_->GetParameterByName(0, "kLitWF");
-	haColor_ = fx_->GetParameterByName(0, "aColor");
-	hlColor_ = fx_->GetParameterByName(0, "lColor");
+	if (fx_ != nullptr) {
+		hgVP_ = fx_->GetParameterByName(0, "gVP");
+		haAngles_ = fx_->GetParameterByName(0, "aAngles");
+		haUV_ = fx_->GetParameterByName(0, "aUV");
+		hlDir_ = fx_->GetParameterByName(0, "lDir");
+		hkLitWF_ = fx_->GetParameterByName(0, "kLitWF");
+		haColor_ = fx_->GetParameterByName(0, "aColor");
+		hlColor_ = fx_->GetParameterByName(0, "lColor");
+		hfDataScale_ = fx_->GetParameterByName(0, "fDataScale");
+		haSize_ = fx_->GetParameterByName(0, "aSize");
+	}
 }

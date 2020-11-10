@@ -27,15 +27,17 @@ class Character;
 class Grass : public Entity
 {
 
-	static inline ID3DXEffect* Grass::fx_ ;
-	static inline IDirect3DVertexDeclaration9* Grass::vertexDecl_;
-	static inline D3DXHANDLE Grass::hgVP_ ;
-	static inline D3DXHANDLE Grass::haAngles_;
-	static inline D3DXHANDLE Grass::haUV_ ;
-	static inline D3DXHANDLE Grass::hlDir_;
-	static inline D3DXHANDLE Grass::hkLitWF_;
-	static inline D3DXHANDLE Grass::haColor_;
-	static inline D3DXHANDLE Grass::hlColor_;
+	static inline ID3DXEffect* fx_ ;
+	static inline IDirect3DVertexDeclaration9* vertexDecl_;
+	static inline D3DXHANDLE hgVP_ ;
+	static inline D3DXHANDLE haAngles_;
+	static inline D3DXHANDLE haUV_ ;
+	static inline D3DXHANDLE hlDir_;
+	static inline D3DXHANDLE hkLitWF_;
+	static inline D3DXHANDLE haColor_;
+	static inline D3DXHANDLE hlColor_;
+	static inline D3DXHANDLE hfDataScale_;
+	static inline D3DXHANDLE haSize_;
 
 #pragma pack(push, 1)
 
@@ -164,7 +166,7 @@ private:
 	//Получить цвет
 	static long GetColor(CVECTOR color);
 	//Vertex declaration
-	void CreateVertexDeclaration();
+	void CreateVertexDeclaration() const;
 
 private:
 	//Сервис рендера
@@ -208,7 +210,6 @@ private:
 	float windAng;
 	long initForce;
 
-	VSConstant consts[42];
 	D3DXVECTOR3 aAngles[16];
 	D3DXVECTOR2 aUV[16];
 
