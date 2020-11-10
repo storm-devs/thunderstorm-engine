@@ -101,8 +101,7 @@ bool Grass::Init()
 
 	// boal выбор шайдера -->
 	isGrassLightsOn = 1;
-	VDATA* param = api->Event("GOpt_isGrassLightsOn", nullptr);
-	if (param)
+	if (auto param = api->Event("GOpt_isGrassLightsOn", nullptr))
 	{
 		param->Get(isGrassLightsOn);
 	}
@@ -140,11 +139,13 @@ bool Grass::Init()
 		consts[i].y = cosf(i * pi2 / 16.0f);
 		consts[i].z = 0.0f;
 		consts[i].w = 1.0f;
+
 		//Таблица uv
 		consts[i + 16].x = (i & 3) * (1.0f / 4.0f);
 		consts[i + 16].y = ((i >> 2) & 3) * (1.0f / 4.0f);
 		consts[i + 16].z = 0.0f;
 		consts[i + 16].w = 1.0f;
+		aUV[i] = { (i & 3) * (1.0f / 4.0f), ((i >> 2) & 3) * (1.0f / 4.0f) };
 	}
 	consts[36].w = 0.0f;
 	consts[39] = VSConstant(0.9f, 1.0f, 0.245f, -0.245f);
@@ -470,6 +471,8 @@ void Grass::Realize(uint32_t delta_time)
 		consts[i].z = fabsf(-consts[i].y * lDir.x + consts[i].x * lDir.z);
 		if (consts[i].z < 0.0f) consts[i].z = 0.0f;
 		if (consts[i].z > 1.0f) consts[i].z = 1.0f;
+
+		aAngles[i] = { consts[i].x, consts[i].y, consts[i].z };
 	}
 	//Матрица
 	CMatrix view, prj;
@@ -517,18 +520,20 @@ void Grass::Realize(uint32_t delta_time)
 	{
 		rs->SetVertexShaderConstantF(0, (const float*)consts, sizeof(consts) / sizeof(consts[0]));
 	}
-	else if (fx_) {
-		fx_ = rs->GetEffectPointer("Grass");
-
+	else if (fx_ || (fx_ = rs->GetEffectPointer("Grass"))) {
 		fx_->SetMatrix(fx_->GetParameterByName(0, "gVP"), cmtx);
 
-		fx_->SetValue(fx_->GetParameterByName(0, "aAngles"), (FLOAT*)&consts[0], sizeof(D3DXVECTOR3) * 16);
-		fx_->SetValue(fx_->GetParameterByName(0, "aUV"), (FLOAT*)&consts[16], sizeof(D3DXVECTOR2) * 16);
+		fx_->SetValue(fx_->GetParameterByName(0, "aAngles"), &aAngles[0], sizeof(D3DXVECTOR3) * 16);
+		fx_->SetValue(fx_->GetParameterByName(0, "aUV"), &aUV[0], sizeof(D3DXVECTOR2) * 16);
 
-		fx_->SetValue(fx_->GetParameterByName(0, "lDir"), (FLOAT*)&consts[36], sizeof(D3DXVECTOR2));
-		fx_->SetValue(fx_->GetParameterByName(0, "aColor"), (FLOAT*)&consts[37], sizeof(D3DXVECTOR3));
-		fx_->SetValue(fx_->GetParameterByName(0, "lColor"), (FLOAT*)&consts[38], sizeof(D3DXVECTOR3));
-		fx_->SetFloat(fx_->GetParameterByName(0, "kLitWF"), *(FLOAT*)&consts[39]);
+		fx_->SetValue(fx_->GetParameterByName(0, "lDir"), D3DXVECTOR2(lDir.x, lDir.z), sizeof(D3DXVECTOR2));
+
+		fx_->SetValue(fx_->GetParameterByName(0, "aColor"), D3DXVECTOR3(aColor.x, aColor.y, aColor.z), sizeof(D3DXVECTOR3));
+		fx_->SetValue(fx_->GetParameterByName(0, "lColor"), D3DXVECTOR3(lColor.x, lColor.y, lColor.z), sizeof(D3DXVECTOR3));
+		fx_->SetFloat(fx_->GetParameterByName(0, "kLitWF"), kLitWF);
+
+		fx_->SetFloat(fx_->GetParameterByName(0, "fDataScale"), m_fDataScale);
+		fx_->SetValue(fx_->GetParameterByName(0, "aSize"), D3DXVECTOR2(m_fMaxWidth, m_fMaxHeight), sizeof(D3DXVECTOR2));
 		//rs->SetVertexShaderConstantF(39, (const float*)&consts[39], 3);
 		//rs->SetVertexShaderConstantF(0, (const float*)consts, sizeof(consts) / sizeof(consts[0]));
 	}

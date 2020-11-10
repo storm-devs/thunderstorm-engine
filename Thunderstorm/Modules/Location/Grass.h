@@ -209,6 +209,8 @@ private:
 	long initForce;
 
 	VSConstant consts[42];
+	D3DXVECTOR3 aAngles[16];
+	D3DXVECTOR2 aUV[16];
 
 	char textureName[64];
 
