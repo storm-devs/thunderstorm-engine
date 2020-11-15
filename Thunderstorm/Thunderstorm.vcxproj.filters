@@ -2193,16 +2193,7 @@
     <ClInclude Include="Modules\XINTERFACE\STRINGSERVICE\strservice.h">
       <Filter>Modules\XINTERFACE\StringService</Filter>
     </ClInclude>
-    <ClInclude Include="Include\math3d\Box.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\math3d\Capsule.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Include\math3d\Color.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\math3d\Line.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\math3d\Matrix.h">
@@ -2212,9 +2203,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\math3d\Quaternion.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\math3d\Sphere.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\math3d\Triangle.h">
@@ -2251,9 +2239,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\attributes.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Character.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\collide.h">
@@ -2295,25 +2280,13 @@
     <ClInclude Include="Include\geos.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Include\hash.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Include\inlines.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\input.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\Intel.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\Island_Base.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\key_codes.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\light.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\mast_msg.h">
@@ -2329,9 +2302,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\model.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Net.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\object.h">
@@ -2362,9 +2332,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\ship_base.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ship_msg.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\ShipLights.h">
@@ -2403,22 +2370,10 @@
     <ClInclude Include="Include\VideoTexture.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Include\vmapi.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Include\vmodule_api.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\vparticle_system.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\vparticles_system.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\vsail.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\vship.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\vstring_codec.h">
