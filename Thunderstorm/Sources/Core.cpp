@@ -2,7 +2,7 @@
 #include "externs.h"
 #include "dx9render.h"
 
-CREATE_SERVICE(CONTROLS)
+//CREATE_SERVICE(CONTROLS)
 
 uint32_t dwNumberScriptCommandsExecuted = 0;
 auto constexpr CORE_DEFAULT_ATOMS_SPACE = 128;

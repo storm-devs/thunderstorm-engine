@@ -117,7 +117,7 @@ bool PCS_CONTROLS::GetSystemControlDesc(long code, SYSTEM_CONTROL_DESC& _control
 	return true;
 }
 
-long PCS_CONTROLS::CreateControl(char* control_name)
+long PCS_CONTROLS::CreateControl(const char* control_name)
 {
 	long n;
 	if (control_name == nullptr) return INVALID_CONTROL_CODE;
@@ -192,7 +192,7 @@ void PCS_CONTROLS::MapControl(long control_code, long system_control_code)
 	pUserControls[control_code].system_code = system_control_code;
 }
 
-bool PCS_CONTROLS::GetControlState(char* control_name, CONTROL_STATE& _state_struct)
+bool PCS_CONTROLS::GetControlState(const char* control_name, CONTROL_STATE& _state_struct)
 {
 	/*
 		long n;
@@ -493,7 +493,7 @@ bool PCS_CONTROLS::SetControlFlags(long code, uint32_t _flags)
 	return true;
 }
 
-bool PCS_CONTROLS::SetControlState(char* control_name, CONTROL_STATE& _state_struct)
+bool PCS_CONTROLS::SetControlState(const char* control_name, CONTROL_STATE& _state_struct)
 {
 	long n;
 	if (control_name == nullptr) return false;
@@ -516,7 +516,12 @@ long PCS_CONTROLS::LastControlTime()
 	return nLastControlTime;
 }
 
-void PCS_CONTROLS::LockControl(char* control_name, bool mode)
+void PCS_CONTROLS::SetControlTreshold(long control_code, float thval)
+{
+	// ~!~
+}
+
+void PCS_CONTROLS::LockControl(const char* control_name, bool mode)
 {
 	long n;
 	if (control_name == nullptr || control_name[0] == 0)

@@ -51,7 +51,7 @@ public:
 	void Release();
 	void AddSystemControl(SYSTEM_CONTROL_DESC & _control_desc_struct);
 
-	long CreateControl(char * control_name);
+	long CreateControl(const char * control_name);
 	long GetControlsNum();
 	bool GetControlDesc(long code, USER_CONTROL & _user_desc_struct);
 	bool SetControlFlags(long code, uint32_t flags);
@@ -59,16 +59,17 @@ public:
 	long GetDevicesNum();
 	bool GetDeviceDesc(long code, DEVICE_DESC & _device_desc);
 
-	long AddControlTreeNode(long nParent,const char* pcBaseControl,const char* pcOutControl,float fTimeOut);
+	long AddControlTreeNode(long nParent, const char* pcBaseControl, const char* pcOutControl, float fTimeOut);
 
 	void MapControl(long control_code, long system_control_code);
 	bool GetControlState(long control_code, CONTROL_STATE & _state_struct);
-	bool GetControlState(char * control_name, CONTROL_STATE & _state_struct);
-	bool SetControlState(char * control_name, CONTROL_STATE & _state_struct);
+	bool GetControlState(const char * control_name, CONTROL_STATE & _state_struct);
+	bool SetControlState(const char * control_name, CONTROL_STATE & _state_struct);
 	bool SetControlState(long control_code, CONTROL_STATE & _state_struct);
 	void AppState(bool state);
 	long LastControlTime();
-	void LockControl(char * control_name, bool mode);
+	void SetControlTreshold(long control_code, float thval);
+	void LockControl(const char * control_name, bool mode);
 
 	void SetMouseSensivityX(float);
 	void SetMouseSensivityY(float);
