@@ -220,13 +220,9 @@ public:
 	{
 	};
 	//Принять событие
-	virtual void Event(Animation* animation, long index, long eventID, AnimationEvent event)
-	{
-	};
+	virtual void Event(Animation* animation, long index, long eventID, AnimationEvent event) { }
 	//Принять событие
-	virtual void Event(Animation* animation, long playerIndex, const char* eventName)
-	{
-	};
+	virtual void Event(Animation* animation, long playerIndex, const char* eventName) { }
 };
 
 //============================================================================================

@@ -1,4 +1,5 @@
 #include "vfile_service.h"
+#include <stdexcept>
 
 #define KNF_KEY				0x1
 #define KNF_COMMENTARY		0x2
@@ -112,7 +113,22 @@ protected:
 
 public:
 
-	
+
+#define IFS_NOT_IMPLEMENTED(x) x override { throw std::logic_error("not implemented"); }
+	  IFS_NOT_IMPLEMENTED(void ReadString(const char* section_name, const char* key_name, char* buffer, uint32_t buffer_size))
+		IFS_NOT_IMPLEMENTED(bool ReadString(const char* section_name, const char* key_name, char* buffer, uint32_t buffer_size, const char* def_string))
+		IFS_NOT_IMPLEMENTED(bool ReadStringNext(const char* section_name, const char* key_name, char* buffer, uint32_t buffer_size))
+		IFS_NOT_IMPLEMENTED(long GetLong(const char* section_name, const char* key_name))
+		IFS_NOT_IMPLEMENTED(long GetLong(const char* section_name, const char* key_name, long def_val))
+		IFS_NOT_IMPLEMENTED(bool GetLongNext(const char* section_name, const char* key_name, long* val))
+		IFS_NOT_IMPLEMENTED(double GetDouble(const char* section_name, const char* key_name))
+		IFS_NOT_IMPLEMENTED(double GetDouble(const char* section_name, const char* key_name, double def_val))
+		IFS_NOT_IMPLEMENTED(bool GetDoubleNext(const char* section_name, const char* key_name, double* val))
+		IFS_NOT_IMPLEMENTED(float GetFloat(const char* section_name, const char* key_name))
+		IFS_NOT_IMPLEMENTED(float GetFloat(const char* section_name, const char* key_name, float def_val))
+		IFS_NOT_IMPLEMENTED(bool GetFloatNext(const char* section_name, const char* key_name, float* val))
+			bool CaseSensitive(bool yes) { return false; }
+#undef IFS_NOT_IMPLEMENTED
 
 	 IFS(VFILE_SERVICE * _fs);
 	~IFS();

@@ -79,9 +79,7 @@ public:
 class INIFILE
 {
 public:
-	virtual ~INIFILE()
-	{
-	}
+	virtual ~INIFILE() = default;
 
 	// add string to file
 	virtual void AddString(const char* section_name, const char* key_name, const char* string) = 0;
@@ -93,40 +91,35 @@ public:
 	virtual void WriteDouble(const char* section_name, const char* key_name, double value) = 0;
 
 	// fill buffer with key value, throw EXS exception object if failed or if section or key doesnt exist
-	virtual void ReadString(const char* section_name, const char* key_name, char* buffer, uint32_t buffer_size)
-	{
-	}
+	virtual void ReadString(const char* section_name, const char* key_name, char* buffer, uint32_t buffer_size) = 0;
 
 	// fill buffer with key value if section and key exist, otherwise fill with def_string and return false
 	virtual bool ReadString(const char* section_name, const char* key_name, char* buffer, uint32_t buffer_size,
-	                        const char* def_string) { return false; }
+	                        const char* def_string) = 0;
 
 	// continue search from key founded in previous call this function or to function ReadString
 	// fill buffer with key value if section and key exist, otherwise return false
-	virtual bool ReadStringNext(const char* section_name, const char* key_name, char* buffer, uint32_t buffer_size)
-	{
-		return false;
-	}
+	virtual bool ReadStringNext(const char* section_name, const char* key_name, char* buffer, uint32_t buffer_size) = 0;
 
 	// return long value of key in pointed section if section and key exist, throw EXS object otherwise
-	virtual long GetLong(const char* section_name, const char* key_name) { return 0; }
+	virtual long GetLong(const char* section_name, const char* key_name) = 0;
 	// return long value of key in pointed section if section and key exist, if not - return def_value
-	virtual long GetLong(const char* section_name, const char* key_name, long def_val) { return 0; }
+	virtual long GetLong(const char* section_name, const char* key_name, long def_val) = 0;
 	// continue scanning for key in section, fill val with long value of key if it found and return true
 	// if not - return false
-	virtual bool GetLongNext(const char* section_name, const char* key_name, long* val) { return false; }
+	virtual bool GetLongNext(const char* section_name, const char* key_name, long* val) = 0;
 
 	// return double value of key in pointed section if section and key exist, throw EXS object otherwise
-	virtual double GetDouble(const char* section_name, const char* key_name) { return 0; }
+	virtual double GetDouble(const char* section_name, const char* key_name) = 0;
 	// return double value of key in pointed section if section and key exist, if not - return def_value
-	virtual double GetDouble(const char* section_name, const char* key_name, double def_val) { return 0; }
+	virtual double GetDouble(const char* section_name, const char* key_name, double def_val) = 0;
 	// continue scanning for key in section, fill val with double value of key if it found and return true
 	// if not - return false
-	virtual bool GetDoubleNext(const char* section_name, const char* key_name, double* val) { return false; }
+	virtual bool GetDoubleNext(const char* section_name, const char* key_name, double* val) = 0;
 
-	virtual float GetFloat(const char* section_name, const char* key_name) { return 0; }
-	virtual float GetFloat(const char* section_name, const char* key_name, float def_val) { return 0; }
-	virtual bool GetFloatNext(const char* section_name, const char* key_name, float* val) { return false; }
+	virtual float GetFloat(const char* section_name, const char* key_name) = 0;
+	virtual float GetFloat(const char* section_name, const char* key_name, float def_val) = 0;
+	virtual bool GetFloatNext(const char* section_name, const char* key_name, float* val) = 0;
 
 
 	//virtual void	SetSearch(void *)= 0;
@@ -144,7 +137,7 @@ public:
 
 	virtual void Flush() = 0;
 	virtual bool Reload() = 0;
-	virtual bool CaseSensitive(bool yes) { return false; }
+	virtual bool CaseSensitive(bool yes) = 0;
 	virtual bool TestSection(const char* section_name) = 0;
 };
 

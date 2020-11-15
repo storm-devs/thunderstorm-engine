@@ -22,7 +22,7 @@ public:
 	{
 	}
 
-	virtual long Event(const char* pcEventName) { return 0; }
+	virtual long Event(const char* pcEventName) = 0;
 
 	BI_ManagerBase* Manager() { return m_pManager; }
 	const std::vector<BI_ManagerNodeBase*>& Nodes() { return m_aNodes; }

@@ -41,7 +41,7 @@ class Sharks : public Entity
 		void ShipApply(float x, float z, float r2);
 		void Coordination(float cam_x, float cam_z, float dltTime, SEA_BASE * sb, ISLAND_BASE * ib);
 		void IslandCollision(ISLAND_BASE * ib, long numPnt, float rad, float frc);
-		virtual void Event(Animation * animation, long index, long eventID, AnimationEvent event);
+		void Event(Animation * animation, long index, long eventID, AnimationEvent event) override;
 		long GenerateTrack(uint16_t * inds, Vertex * vrt, uint16_t base, SEA_BASE * sb);
 
 		//Точка следования

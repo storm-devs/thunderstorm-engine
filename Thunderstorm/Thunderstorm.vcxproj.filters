@@ -2391,9 +2391,6 @@
     <ClInclude Include="Include\v_s_stack.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Include\v_udp_transport.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Include\vapi.h">
       <Filter>Headers</Filter>
     </ClInclude>

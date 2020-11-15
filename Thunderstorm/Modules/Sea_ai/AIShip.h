@@ -47,7 +47,7 @@ public:
 	};
 
 	// check for fire possibility
-	virtual bool isCanFire(const CVECTOR& vFirePos) const { return false; };
+	virtual bool isCanFire(const CVECTOR& vFirePos) const{ return false; }
 	// set / get type of AI object
 	virtual void SetObjType(AI_OBJTYPE _ObjType) { ObjType = _ObjType; };
 	virtual AI_OBJTYPE GetObjType() const { return ObjType; };

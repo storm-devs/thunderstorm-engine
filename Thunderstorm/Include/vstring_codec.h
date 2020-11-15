@@ -11,14 +11,12 @@ public:
 	virtual ~VSTRING_CODEC()
 	{
 	};
-	virtual uint32_t GetNum() { return 0; };
-	virtual uint32_t Convert(const char* pString) { return 0; };
-	virtual uint32_t Convert(const char* pString, long iLen) { return 0; };
-	virtual const char* Convert(uint32_t code) { return nullptr; };
+	virtual uint32_t GetNum() = 0;
+	virtual uint32_t Convert(const char* pString) = 0;
+	virtual uint32_t Convert(const char* pString, long iLen) = 0;
+	virtual const char* Convert(uint32_t code) = 0;
 
-	virtual void VariableChanged()
-	{
-	};
+	virtual void VariableChanged() = 0;
 };
 
 #endif

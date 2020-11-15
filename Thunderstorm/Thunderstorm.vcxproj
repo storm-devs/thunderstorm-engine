@@ -630,7 +630,6 @@
     <ClInclude Include="Include\vship.h" />
     <ClInclude Include="Include\vstring_codec.h" />
     <ClInclude Include="Include\v_s_stack.h" />
-    <ClInclude Include="Include\v_udp_transport.h" />
     <ClInclude Include="Include\Weather_Base.h" />
     <ClInclude Include="Modules\BATTLE_INTERFACE\ActivePerkShower.h" />
     <ClInclude Include="Modules\BATTLE_INTERFACE\battle_command.h" />

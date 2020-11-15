@@ -45,9 +45,7 @@ protected:
 public:
 	SHIP_STATE State;
 
-	virtual ~SHIP_BASE()
-	{
-	};
+	virtual ~SHIP_BASE() = default;
 
 	virtual ATTRIBUTES* GetAShip() { return pAShip; }
 
