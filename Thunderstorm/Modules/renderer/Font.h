@@ -71,7 +71,7 @@ class FONT
 public:
 	FONT();
 	~FONT();
-	bool Init(char * font_name, char * iniName, IDirect3DDevice9 * _device, VDX9RENDER * _render);
+	bool Init(const char * font_name, const char * iniName, IDirect3DDevice9 * _device, VDX9RENDER * _render);
     void TempUnload();
     void RepeatInit();
 	void Realize(uint32_t DeltaTime);

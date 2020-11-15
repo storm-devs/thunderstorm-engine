@@ -7,7 +7,7 @@
 extern VAPI* api;
 #define DISCARD_DATABUFFER {if(pTokenData) pTokenData[0] = 0;}
 #define INVALID_ARG_DCHARS	32
-char* TokenTypeName[] =
+const char* TokenTypeName[] =
 {
 	"END_OF_PROGRAMM",
 	"INVALID_TOKEN",
@@ -143,7 +143,7 @@ char* TokenTypeName[] =
 struct S_KEYWORD
 {
 	S_TOKEN_TYPE type;
-	char* name;
+	const char* name;
 };
 
 
@@ -298,7 +298,7 @@ void TOKEN::LowCase()
 	_strlwr(pTokenData);
 }
 
-char* TOKEN::GetData()
+const char* TOKEN::GetData()
 {
 	//if(pTokenData[0] == 0) return 0;
 	return pTokenData;
@@ -309,12 +309,12 @@ S_TOKEN_TYPE TOKEN::GetType()
 	return eTokenType;
 }
 
-char* TOKEN::GetTypeName()
+const char* TOKEN::GetTypeName()
 {
 	return TokenTypeName[eTokenType];
 }
 
-char* TOKEN::GetTypeName(S_TOKEN_TYPE code)
+const char* TOKEN::GetTypeName(S_TOKEN_TYPE code)
 {
 	return TokenTypeName[code];
 }
@@ -562,7 +562,7 @@ S_TOKEN_TYPE TOKEN::FormatGet()
 }
 
 // copy argument data to buffer and close the termination 0
-long TOKEN::SetTokenData(char* pointer, bool bKeepControlSymbols)
+long TOKEN::SetTokenData(const char* pointer, bool bKeepControlSymbols)
 {
 	//if(!IsOperator(pointer,Data_size))
 	long Data_size = StopArgument(pointer, bKeepControlSymbols);
@@ -584,7 +584,7 @@ long TOKEN::SetTokenData(char* pointer, bool bKeepControlSymbols)
 }
 
 // copy exact nymber of argument data to buffer and close the termination 0
-ptrdiff_t TOKEN::SetNTokenData(char* pointer, ptrdiff_t Data_size)
+ptrdiff_t TOKEN::SetNTokenData(const char* pointer, ptrdiff_t Data_size)
 {
 	if (Data_size == 0)
 	{
@@ -607,7 +607,7 @@ ptrdiff_t TOKEN::SetNTokenData(char* pointer, ptrdiff_t Data_size)
 // search throw the program code until find non significant argument character:
 // SPACE,TAB,0,'\0xd','\0xa'
 // return number of significant symbols
-long TOKEN::StopArgument(char* pointer, bool bKeepControlSymbols)
+long TOKEN::StopArgument(const char* pointer, bool bKeepControlSymbols)
 {
 	long size = 0;
 	bool bDot = false;
@@ -813,7 +813,7 @@ void TOKEN::StartArgument(char* & pointer, bool bKeepControlSymbols)
 	while (true);
 }
 
-bool TOKEN::IsNumber(char* pointer)
+bool TOKEN::IsNumber(const char* pointer)
 {
 	if (pointer == nullptr) return false;
 	for (uint32_t n = 0; pointer[n]; n++)
@@ -825,7 +825,7 @@ bool TOKEN::IsNumber(char* pointer)
 }
 
 // this function can interpreted integer as float, so always check using IsNumber function
-bool TOKEN::IsFloatNumber(char* pointer)
+bool TOKEN::IsFloatNumber(const char* pointer)
 {
 	if (pointer == nullptr) return false;
 	for (uint32_t n = 0; pointer[n]; n++)
@@ -904,7 +904,7 @@ bool TOKEN::IsOperator(char * pointer, long & syms)
 	return false;
 }
 */
-void TOKEN::CacheToken(char* pointer)
+void TOKEN::CacheToken(const char* pointer)
 {
 	if (ProgramStepsNum < PROGRAM_STEPS_CACHE)
 	{
@@ -1082,7 +1082,7 @@ long TOKEN::TokenLines()
 	return Lines_in_token;
 }
 
-S_TOKEN_TYPE TOKEN::Keyword2TokenType(char* pString)
+S_TOKEN_TYPE TOKEN::Keyword2TokenType(const char* pString)
 {
 	/*	DWORD n;
 		for(n=0;n<dwKeywordsNum;n++)

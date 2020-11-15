@@ -190,7 +190,7 @@ void CXI_FOURIMAGE::Draw(bool bSelected, uint32_t Delta_Time)
 	//UNGUARD
 }
 
-bool CXI_FOURIMAGE::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+bool CXI_FOURIMAGE::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                          XYPOINT& ScreenSize)
 {
 	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
@@ -200,12 +200,12 @@ bool CXI_FOURIMAGE::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2,
 	return true;
 }
 
-void CXI_FOURIMAGE::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
+void CXI_FOURIMAGE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2)
 {
 	int i;
 	char param[256];
 	char param1[256];
-	char* tmpstr;
+	const char* tmpstr;
 
 	// get base color
 	m_dwBaseColor = GetIniARGB(ini1, name1, ini2, name2, "commonColor", ARGB(255, 128, 128, 128));

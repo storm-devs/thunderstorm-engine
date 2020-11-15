@@ -62,7 +62,7 @@ public:
 	long GetHash() { return nHash; }
 	void Set(VMA* _p) { pNext = _p; };
 	virtual bool Service() { return false; }
-	virtual char* GetName() { return nullptr; }
+	virtual const char* GetName() { return nullptr; }
 	virtual void* CreateClass() { return nullptr; }
 	virtual void RefDec() { nReference--; };
 	virtual long GetReference() { return nReference; }
@@ -71,6 +71,6 @@ public:
 };
 
 
-#define CREATE_CLASS(a)	class a##vmacd : public VMA { public: char * GetName() {return TEXT(#a);} void * CreateClass() {nReference++; return new a;}} a##vmaci;
-#define CREATE_SERVICE(a) class a##vmacd : public VMA { public: a * pService = 0; char * GetName() {return TEXT(#a);} void * CreateClass() {if(pService == 0) pService = new a; nReference++; return pService;} bool Service() {return true;} void Clear(){nReference = 0; if(pService) delete pService; pService = 0;};} a##vmaci;
-#define CREATE_SCRIPTLIBRIARY(a) class a##vmacd : public VMA { public: /*a * pLibraryInitClass;*/ char * GetName() {return TEXT(#a);} void * CreateClass() {/*if(pLibraryInitClass == 0) pLibraryInitClass = new a; nReference++; return pLibraryInitClass;*/ return new a;} bool ScriptLibriary() {return true;} /*void Clear(){nReference = 0; if(pLibraryInitClass) delete pLibraryInitClass; pLibraryInitClass = 0;}*/;} a##vmaci;
+#define CREATE_CLASS(a)	class a##vmacd : public VMA { public: const char * GetName() {return TEXT(#a);} void * CreateClass() {nReference++; return new a;}} a##vmaci;
+#define CREATE_SERVICE(a) class a##vmacd : public VMA { public: a * pService = 0; const char * GetName() {return TEXT(#a);} void * CreateClass() {if(pService == 0) pService = new a; nReference++; return pService;} bool Service() {return true;} void Clear(){nReference = 0; if(pService) delete pService; pService = 0;};} a##vmaci;
+#define CREATE_SCRIPTLIBRIARY(a) class a##vmacd : public VMA { public: /*a * pLibraryInitClass;*/ const char * GetName() {return TEXT(#a);} void * CreateClass() {/*if(pLibraryInitClass == 0) pLibraryInitClass = new a; nReference++; return pLibraryInitClass;*/ return new a;} bool ScriptLibriary() {return true;} /*void Clear(){nReference = 0; if(pLibraryInitClass) delete pLibraryInitClass; pLibraryInitClass = 0;}*/;} a##vmaci;

@@ -256,7 +256,7 @@ void CINODE::GetAbsoluteRect(XYRECT& rect, int at)
 	else rect.bottom += m_hostRect.top;
 }
 
-char* CINODE::GetSubStr(char* inStr, char* buf, size_t bufSize, char devChar)
+const char* CINODE::GetSubStr(const char* inStr, char* buf, size_t bufSize, char devChar)
 {
 	if (bufSize <= 0 || buf == nullptr) return inStr;
 	if (inStr == nullptr)
@@ -265,7 +265,7 @@ char* CINODE::GetSubStr(char* inStr, char* buf, size_t bufSize, char devChar)
 		return nullptr;
 	}
 	int curSize = 0;
-	char* curStr;
+	const char* curStr;
 	for (curStr = inStr; *curStr != 0; curStr++)
 	{
 		if (*curStr == ' ' && curSize == 0) continue;
@@ -277,7 +277,7 @@ char* CINODE::GetSubStr(char* inStr, char* buf, size_t bufSize, char devChar)
 	return curStr;
 }
 
-bool CINODE::GetMidStr(char* inStr, char* buf, size_t bufSize, char* begStr, char* endStr)
+bool CINODE::GetMidStr(const char* inStr, char* buf, size_t bufSize, const char* begStr, const char* endStr)
 {
 	if (bufSize <= 0 || buf == nullptr) return false;
 	if (inStr == nullptr || begStr == nullptr || endStr == nullptr)
@@ -322,7 +322,7 @@ bool CINODE::GetMidStr(char* inStr, char* buf, size_t bufSize, char* begStr, cha
 	return true;
 }
 
-uint32_t CINODE::GetColorFromStr(char* inStr, uint32_t dwDefColor)
+uint32_t CINODE::GetColorFromStr(const char* inStr, uint32_t dwDefColor)
 {
 	if (inStr)
 	{
@@ -352,7 +352,7 @@ void CINODE::ShowToolTip()
 		m_pToolTip->Draw();
 }
 
-char* CINODE::GetDataStr(char* inStr, char* strOrder, ...)
+const char* CINODE::GetDataStr(const char* inStr, const char* strOrder, ...)
 {
 	if (inStr == nullptr || strOrder == nullptr) return nullptr;
 	va_list vl;
@@ -430,7 +430,7 @@ bool CINODE::CheckCommandUsed(int comCode)
 	return m_pCommands[i].bUse;
 }
 
-bool CINODE::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+bool CINODE::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                   XYPOINT& ScreenSize)
 {
 	char param[512];
@@ -493,7 +493,7 @@ bool CINODE::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RE
 	return true;
 }
 
-float CINODE::GetIniFloat(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName, float fDefault)
+float CINODE::GetIniFloat(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName, float fDefault)
 {
 	char param[256];
 	bool bYes = false;
@@ -507,7 +507,7 @@ float CINODE::GetIniFloat(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2
 	return fDefault;
 }
 
-long CINODE::GetIniLong(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName, long iDefault)
+long CINODE::GetIniLong(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName, long iDefault)
 {
 	char param[256];
 	bool bYes = false;
@@ -521,8 +521,8 @@ long CINODE::GetIniLong(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, 
 	return iDefault;
 }
 
-bool CINODE::ReadIniString(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName, char* buf,
-                           size_t bufSize, char* strDef)
+bool CINODE::ReadIniString(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName, char* buf,
+                           size_t bufSize, const char* strDef)
 {
 	bool bYes = false;
 	if (strDef == nullptr) strDef = "";
@@ -542,12 +542,12 @@ bool CINODE::ReadIniString(INIFILE* ini1, char* name1, INIFILE* ini2, char* name
 	return bYes;
 }
 
-bool CINODE::GetIniBool(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName, bool bDefault)
+bool CINODE::GetIniBool(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName, bool bDefault)
 {
 	return GetIniLong(ini1, name1, ini2, name2, keyName, bDefault) != 0;
 }
 
-XYRECT CINODE::GetIniLongRect(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
+XYRECT CINODE::GetIniLongRect(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName,
 	const XYRECT& rectDefault)
 {
 	char param[256];
@@ -559,7 +559,7 @@ XYRECT CINODE::GetIniLongRect(INIFILE* ini1, char* name1, INIFILE* ini2, char* n
 	return outRect;
 }
 
-FXYRECT CINODE::GetIniFloatRect(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
+FXYRECT CINODE::GetIniFloatRect(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName,
 	const FXYRECT& rectDefault)
 {
 	char param[256];
@@ -571,7 +571,7 @@ FXYRECT CINODE::GetIniFloatRect(INIFILE* ini1, char* name1, INIFILE* ini2, char*
 	return outRect;
 }
 
-XYPOINT CINODE::GetIniLongPoint(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
+XYPOINT CINODE::GetIniLongPoint(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName,
 	const XYPOINT& pntDefault)
 {
 	char param[256];
@@ -583,7 +583,7 @@ XYPOINT CINODE::GetIniLongPoint(INIFILE* ini1, char* name1, INIFILE* ini2, char*
 	return outPnt;
 }
 
-FXYPOINT CINODE::GetIniFloatPoint(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
+FXYPOINT CINODE::GetIniFloatPoint(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName,
 	const FXYPOINT& pntDefault)
 {
 	char param[256];
@@ -595,7 +595,7 @@ FXYPOINT CINODE::GetIniFloatPoint(INIFILE* ini1, char* name1, INIFILE* ini2, cha
 	return outPnt;
 }
 
-uint32_t CINODE::GetIniARGB(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName, uint32_t dwDefColor)
+uint32_t CINODE::GetIniARGB(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName, uint32_t dwDefColor)
 {
 	char param[256];
 	if (ReadIniString(ini1, name1, ini2, name2, keyName, param, sizeof(param)))

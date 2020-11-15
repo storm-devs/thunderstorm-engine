@@ -20,7 +20,7 @@ class BREAKPOINTS_TABLE
 public:
 	 BREAKPOINTS_TABLE();
 	~BREAKPOINTS_TABLE();
-	bool ReadProject(char * filename);
+	bool ReadProject(const char * filename);
 	void AddBreakPoint(const char * filename, uint32_t line);
 	void DelBreakPoint(const char * filename, uint32_t line);
 	bool Find(const char * filename, uint32_t line);

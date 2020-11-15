@@ -33,7 +33,7 @@ char* STRINGS_LIST::GetString(uint32_t code)
 }
 
 
-bool STRINGS_LIST::AddString(char* _char_PTR)
+bool STRINGS_LIST::AddString(const char* _char_PTR)
 {
 	//GUARD(STRINGS_LIST::AddString)
 	if (_char_PTR == nullptr) throw std::exception("zero string");
@@ -75,7 +75,7 @@ void STRINGS_LIST::Release()
 	//UNGUARD
 }
 
-uint32_t STRINGS_LIST::GetStringCode(char* _char_PTR)
+uint32_t STRINGS_LIST::GetStringCode(const char* _char_PTR)
 {
 	if (Strings <= 0 || String_Table_PTR == nullptr || _char_PTR == nullptr)
 	{
@@ -129,7 +129,7 @@ uint32_t STRINGS_LIST::GetStringCode(char* _char_PTR)
 		return INVALID_ORDINAL_NUMBER;*/
 }
 
-bool STRINGS_LIST::AddUnicalString(char* _char_PTR)
+bool STRINGS_LIST::AddUnicalString(const char* _char_PTR)
 {
 	if (GetStringCode(_char_PTR) != INVALID_ORDINAL_NUMBER) return false;
 	return AddString(_char_PTR);

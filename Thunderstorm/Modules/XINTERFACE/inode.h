@@ -168,7 +168,7 @@ public:
 	CINODE();
 	virtual ~CINODE();
 	virtual void Draw(bool bSelected, uint32_t Delta_Time) = 0;
-	virtual bool Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+	virtual bool Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
 	                  XYPOINT& ScreenSize);
 	virtual void ReleaseAll() = 0;
 	CINODE* DoAction(int wActCode, bool& bBreakPress, bool bFirstPress);
@@ -202,7 +202,7 @@ public:
 	virtual bool IsShowGlowCursor() { return m_bShowGlowCursor; }
 	virtual bool IsGlowCursorBack() { return m_bGlowCursorBack; }
 	virtual bool IsGlowChanged() { return false; }
-	virtual void LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2) = 0;
+	virtual void LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2) = 0;
 
 	virtual void MakeLClickPreaction()
 	{
@@ -232,31 +232,31 @@ public:
 		}
 	}
 
-	static float GetIniFloat(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
+	static float GetIniFloat(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName,
 	                         float fDefault = 0.f);
-	static long GetIniLong(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName, long iDefault = 0);
-	static bool ReadIniString(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName, char* buf,
-	                          size_t bufSize, char* strDef = nullptr);
-	static bool GetIniBool(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
+	static long GetIniLong(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName, long iDefault = 0);
+	static bool ReadIniString(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName, char* buf,
+	                          size_t bufSize, const char* strDef = nullptr);
+	static bool GetIniBool(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName,
 	                       bool bDefault = false);
-	static XYRECT GetIniLongRect(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
+	static XYRECT GetIniLongRect(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName,
 		const XYRECT& rectDefault);
-	static FXYRECT GetIniFloatRect(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
+	static FXYRECT GetIniFloatRect(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName,
 		const FXYRECT& rectDefault);
-	static XYPOINT GetIniLongPoint(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
+	static XYPOINT GetIniLongPoint(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName,
 		const XYPOINT& pntDefault);
-	static FXYPOINT GetIniFloatPoint(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
+	static FXYPOINT GetIniFloatPoint(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName,
 		const FXYPOINT& pntDefault);
-	static uint32_t GetIniARGB(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, char* keyName,
+	static uint32_t GetIniARGB(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName,
 	                           uint32_t dwDefColor = 0);
 
 	void GetRelativeRect(XYRECT& rect);
 	void GetAbsoluteRect(XYRECT& rect, int at);
 
-	static char* GetSubStr(char* inStr, char* buf, size_t bufSize, char devChar = ',');
-	static bool GetMidStr(char* inStr, char* buf, size_t bufSize, char* begStr, char* endStr);
-	static char* GetDataStr(char* inStr, char* strOrder, ...);
-	static uint32_t GetColorFromStr(char* inStr, uint32_t dwDefColor);
+	static const char* GetSubStr(const char* inStr, char* buf, size_t bufSize, char devChar = ',');
+	static bool GetMidStr(const char* inStr, char* buf, size_t bufSize, const char* begStr, const char* endStr);
+	static const char* GetDataStr(const char* inStr, const char* strOrder, ...);
+	static uint32_t GetColorFromStr(const char* inStr, uint32_t dwDefColor);
 
 	virtual void MoveMouseOutScreen(float fX, float fY)
 	{

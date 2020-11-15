@@ -50,7 +50,7 @@ void CXI_SLIDELINE::Draw(bool bSelected, uint32_t Delta_Time)
 	}
 }
 
-bool CXI_SLIDELINE::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+bool CXI_SLIDELINE::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                          XYPOINT& ScreenSize)
 {
 	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
@@ -215,7 +215,7 @@ uint32_t CXI_SLIDELINE::MessageProc(long msgcode, MESSAGE& message)
 	return 0;
 }
 
-void CXI_SLIDELINE::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
+void CXI_SLIDELINE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2)
 {
 	int i;
 	char param[255];

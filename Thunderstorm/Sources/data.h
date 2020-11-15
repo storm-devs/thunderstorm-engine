@@ -7,8 +7,8 @@
 class VIRTUAL_COMPILER
 {
 public:
-	virtual void SetError(char * data_PTR, ...){};
-	virtual void SetWarning(char * data_PTR, ...){};
+	virtual void SetError(const char * data_PTR, ...){};
+	virtual void SetWarning(const char * data_PTR, ...){};
 	virtual VSTRING_CODEC * GetVSC(){return nullptr;}
 };
 
@@ -67,23 +67,23 @@ public:
 	bool GetPtr(uintptr_t& value);
 
 	void Set(float value);
-	void Set(char * value);
-	void Set(char * attribute_name, char * attribute_value);
+	void Set(const char * value);
+	void Set(const char * attribute_name, const char * attribute_value);
 	bool Get(long & value);
 	bool Get(float & value);
-	bool Get(char * & value);
-	bool Get(char * attribute_name, char * & value);
+	bool Get(const char * & value);
+	bool Get(const char * attribute_name, const char * & value);
 
 	bool Set(long value, uint32_t index);
 	bool Set(float value, uint32_t index);
-	bool Set(char * value, uint32_t index);
+	bool Set(const char * value, uint32_t index);
 
 	bool Get(long & value, uint32_t index);
 	bool Get(float & value, uint32_t index);
-	bool Get(char * & value, uint32_t index);
+	bool Get(const char * & value, uint32_t index);
 	
-	bool Set(char * attribute_name, char * attribute_value, uint32_t index);
-	bool Get(char * attribute_name, char * & value, uint32_t index);
+	bool Set(const char * attribute_name, const char * attribute_value, uint32_t index);
+	bool Get(const char * attribute_name, const char * & value, uint32_t index);
 
 	void Set(entid_t eid);
 	void Get(entid_t & eid);
@@ -96,7 +96,7 @@ public:
 
 	void SetType(S_TOKEN_TYPE type, uint32_t array_size = 1);
 	bool Convert(S_TOKEN_TYPE type);
-	void Error(char *);
+	void Error(const char *);
 	DATA * GetArrayElement(uint32_t index);
 
 	S_TOKEN_TYPE GetType(){return Data_type;};

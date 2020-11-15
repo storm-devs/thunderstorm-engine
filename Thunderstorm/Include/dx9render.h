@@ -119,22 +119,22 @@ public:
 	virtual bool TextureRelease(long texid) = 0;
 
 	// DX9Render: Fonts Section
-	virtual long Print(long x, long y, char* format,...) = 0;
-	virtual long Print(long nFontNum, uint32_t color, long x, long y, char* format,...) = 0;
+	virtual long Print(long x, long y, const  char* format,...) = 0;
+	virtual long Print(long nFontNum, uint32_t color, long x, long y, const char* format,...) = 0;
 	virtual long ExtPrint(long nFontNum, uint32_t foreColor, uint32_t backColor, int wAlignment,
 	                      bool bShadow, float fScale, long scrWidth, long scrHeight,
-	                      long x, long y, char* format,...) = 0;
-	virtual long StringWidth(char* string, long nFontNum = 0, float fScale = 1.f, long scrWidth = 0) = 0;
+	                      long x, long y, const char* format,...) = 0;
+	virtual long StringWidth(const char* string, long nFontNum = 0, float fScale = 1.f, long scrWidth = 0) = 0;
 	virtual long CharWidth(char ch, long nFontNum = 0, float fScale = 1.f, long scrWidth = 0) = 0;
 	virtual long CharHeight(long fontID) = 0;
-	virtual long LoadFont(char* fontName) = 0; // возвращает номер\идентификатор шрифта или -1 в случае ошибки
-	virtual bool UnloadFont(char* fontName) = 0; // возвращает истину если шрифт остался в использовании
+	virtual long LoadFont(const char* fontName) = 0; // возвращает номер\идентификатор шрифта или -1 в случае ошибки
+	virtual bool UnloadFont(const char* fontName) = 0; // возвращает истину если шрифт остался в использовании
 	virtual bool UnloadFont(long fontID) = 0; // возвращает истину если шрифт остался в использовании
-	virtual bool SetCurFont(char* fontName) = 0; // возвращает истину если установили данный шрифт
+	virtual bool SetCurFont(const char* fontName) = 0; // возвращает истину если установили данный шрифт
 	virtual bool SetCurFont(long fontID) = 0; // возвращает истину если установили данный шрифт
 	virtual long GetCurFont() = 0;
 	virtual char* GetFontIniFileName() = 0;
-	virtual bool SetFontIniFileName(char* iniName) = 0;
+	virtual bool SetFontIniFileName(const char* iniName) = 0;
 
 	// DX9Render: Techniques Section
 	virtual bool TechniqueExecuteStart(const char* cBlockName) = 0;
@@ -166,7 +166,7 @@ public:
 
 	// DX9Render: Video Section
 	virtual void PlayToTexture() = 0;
-	virtual CVideoTexture* GetVideoTexture(char* sVideoName) = 0;
+	virtual CVideoTexture* GetVideoTexture(const char* sVideoName) = 0;
 	virtual void ReleaseVideoTexture(CVideoTexture* pVTexture) = 0;
 
 	// DX9Render: Vertex/Index Buffers Section

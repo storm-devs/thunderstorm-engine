@@ -18,7 +18,7 @@ public:
 	void LockBuffers();
 	void UnlockBuffers();
 	void GetPointers(long _i, uint16_t** iPointer, void** vPointer, long* vOffset = nullptr);
-	void DrawBuffers(char* _technique);
+	void DrawBuffers(const char* _technique);
 
 private:
 	VDX9RENDER* renderer;

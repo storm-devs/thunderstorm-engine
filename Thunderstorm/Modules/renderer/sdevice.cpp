@@ -2666,7 +2666,7 @@ void DX9RENDER::RunEnd()
 
 char Buff_4k[4096];
 
-long DX9RENDER::Print(long x, long y, char* format, ...)
+long DX9RENDER::Print(long x, long y, const char* format, ...)
 {
 	//GUARD(DX9RENDER::Print)
 	if (idFontCurrent < 0 || idFontCurrent >= nFontQuantity) return 0;
@@ -2681,7 +2681,7 @@ long DX9RENDER::Print(long x, long y, char* format, ...)
 	//UNGUARD
 }
 
-long DX9RENDER::Print(long nFontNum, uint32_t color, long x, long y, char* format, ...)
+long DX9RENDER::Print(long nFontNum, uint32_t color, long x, long y, const char* format, ...)
 {
 	//GUARD(DX9RENDER::Print)
 	if (nFontNum < 0 || nFontNum >= nFontQuantity) return 0;
@@ -2700,7 +2700,7 @@ long DX9RENDER::Print(long nFontNum, uint32_t color, long x, long y, char* forma
 	//UNGUARD
 }
 
-long DX9RENDER::StringWidth(char* string, long nFontNum, float fScale, long scrWidth)
+long DX9RENDER::StringWidth(const char* string, long nFontNum, float fScale, long scrWidth)
 {
 	if (nFontNum < 0 || nFontNum >= nFontQuantity) return 0;
 	FONT* pFont = FontList[nFontNum].font;
@@ -2736,7 +2736,7 @@ long DX9RENDER::CharHeight(long fontID)
 
 long DX9RENDER::ExtPrint(long nFontNum, uint32_t foreColor, uint32_t backColor, int wAlign,
                          bool bShadow, float fScale, long scrWidth, long scrHeight,
-                         long x, long y, char* format, ...)
+                         long x, long y, const char* format, ...)
 {
 	//GUARD(DX9RENDER::ExtPrint)
 
@@ -2789,7 +2789,7 @@ long DX9RENDER::ExtPrint(long nFontNum, uint32_t foreColor, uint32_t backColor, 
 	//UNGUARD
 }
 
-long DX9RENDER::LoadFont(char* fontName)
+long DX9RENDER::LoadFont(const char* fontName)
 {
 	if (fontName == nullptr) return -1L;
 	char sDup[256];
@@ -2838,7 +2838,7 @@ long DX9RENDER::LoadFont(char* fontName)
 	return i;
 }
 
-bool DX9RENDER::UnloadFont(char* fontName)
+bool DX9RENDER::UnloadFont(const char* fontName)
 {
 	if (fontName == nullptr) return false;
 	char sDup[256];
@@ -2877,7 +2877,7 @@ bool DX9RENDER::UnloadFont(long fontID)
 	return true;
 }
 
-bool DX9RENDER::SetCurFont(char* fontName)
+bool DX9RENDER::SetCurFont(const char* fontName)
 {
 	if (fontName == nullptr) return false;
 	char sDup[256];
@@ -2919,7 +2919,7 @@ char* DX9RENDER::GetFontIniFileName()
 	return fontIniFileName;
 }
 
-bool DX9RENDER::SetFontIniFileName(char* iniName)
+bool DX9RENDER::SetFontIniFileName(const char* iniName)
 {
 	if (fontIniFileName != nullptr && iniName != nullptr && _stricmp(fontIniFileName, iniName) == 0) return true;
 
@@ -3681,7 +3681,7 @@ HRESULT DX9RENDER::GetDeviceCaps(D3DCAPS9* pCaps)
 	return CHECKD3DERR(d3d9->GetDeviceCaps(pCaps));
 }
 
-CVideoTexture* DX9RENDER::GetVideoTexture(char* sVideoName)
+CVideoTexture* DX9RENDER::GetVideoTexture(const char* sVideoName)
 {
 	if (sVideoName == nullptr) return nullptr;
 	CVideoTexture* retVal = nullptr;

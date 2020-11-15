@@ -603,7 +603,7 @@ protected:
 
 	//Таблица возможности смены одного действия другим
 	static uint8_t fightTbl[fgt_max][fgt_max];
-	static char* fightNamesTbl[fgt_max];
+	static const char* fightNamesTbl[fgt_max];
 
 	//Действие, которое необходимо проигрывать
 	ActionCharacter priorityAction;
@@ -669,7 +669,7 @@ protected:
 
 	//
 	long m_nHandLightID;
-	char* m_pcHandLightLocator;
+	const char* m_pcHandLightLocator;
 	CVECTOR GetHandLightPos();
 
 	bool CheckObstacle(float fx, float fz, float fzlen);

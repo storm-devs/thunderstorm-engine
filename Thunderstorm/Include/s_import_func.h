@@ -22,11 +22,11 @@ struct IFUNCINFO
 		nDeclLine = 0;
 	}
 	;
-	char* pFuncName;
-	char* pReturnValueName;
+	const char* pFuncName;
+	const char* pReturnValueName;
 	uint32_t nArguments;
 	SIMPORTFUNC pFuncAddress;
-	char* pDeclFileName;
+	const char* pDeclFileName;
 	uint32_t nDeclLine;
 };
 

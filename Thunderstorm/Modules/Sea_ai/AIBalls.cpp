@@ -374,7 +374,7 @@ uint32_t AIBalls::AttributeChanged(ATTRIBUTES* pAttributeChanged)
 		uint32_t dwIdx = 0;
 		while (pAPBalls && true)
 		{
-			char* pName = pAPBalls->GetAttributeName(dwIdx);
+			const char* pName = pAPBalls->GetAttributeName(dwIdx);
 			if (!pName) break;
 			ATTRIBUTES* pAP = pAPBalls->GetAttributeClass(pName);
 			if (!pAP) break;

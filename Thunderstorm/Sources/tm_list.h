@@ -39,18 +39,18 @@ public:
 	void SetPosition(RECT pos);
 	RECT GetPosition(){return Pos;};
 	void UpdatePosition();
-	void AddColumn(char * name, long length);
-	void AddItem(char * name);
-	void SetItemText(long Item_index, long Subitem_index, char * text);
-	void GetItemText(long Item_index, long Subitem_index, char * text, long max_size);
+	void AddColumn(const char * name, long length);
+	void AddItem(const char * name);
+	void SetItemText(long Item_index, long Subitem_index, const char * text);
+	void GetItemText(long Item_index, long Subitem_index, const char * text, long max_size);
 	void SetItemImage(long Item_index, long Subitem_index, long image_code);
 	void SetBindMask(uint32_t bind_mask) {Bind_Mask = bind_mask;};
 	long GetItemsCount();
 	char * GetSelectedName();
 	void ProcessMessageBase(uint64_t, uint64_t, uint64_t);
-	void SetCharID(char * text);
+	void SetCharID(const char * text);
 	char * GetCharID();
-	void SelectItem(char * name);
+	void SelectItem(const char * name);
 	void SetEditMask(uint32_t mask){EditMask = mask;}
 	virtual void ProcessMessage(uint32_t,uint32_t,uint32_t){};
 	virtual void ItemChanged(long Item_index, long Subitem_index)= 0;

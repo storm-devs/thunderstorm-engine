@@ -240,7 +240,7 @@ void XINTERFACE::SetDevice()
 	if (pvd != nullptr)
 	{
 		int nq = pvd->GetElementsNum();
-		char* pstr;
+		const char* pstr;
 		for (int i = 0; i < nq; i++)
 		{
 			pvd->Get(pstr, i);
@@ -797,7 +797,7 @@ uint64_t XINTERFACE::ProcessMessage(MESSAGE& message)
 		break;
 	case MSG_INTERFACE_GET_LANGUAGE_STRING:
 		{
-			char* lngStr;
+		  const char* lngStr;
 			message.ScriptVariablePointer()->Get(lngStr);
 			message.ScriptVariablePointer()->Set(pStringService->GetString(lngStr));
 		}
@@ -1144,9 +1144,9 @@ void XINTERFACE::LoadIni()
 	char section[256];
 
 #ifndef _XBOX
-	char* platform = "PC_SCREEN";
+	const char* platform = "PC_SCREEN";
 #else
-	char * platform = "XBOX_SCREEN";
+	const char * platform = "XBOX_SCREEN";
 #endif
 	INIFILE* ini;
 	ini = fio->OpenIniFile((char*)RESOURCE_FILENAME);
@@ -1281,7 +1281,7 @@ void XINTERFACE::LoadDialog(char* sFileName)
 	char crData[sizeof(CriptedName)];
 	SetOtherData(crData);
 
-	char* findName = "item";
+	const char * findName = "item";
 	if (ini->ReadString(section, findName, skey, sizeof(skey) - 1, ""))
 		while (true)
 		{
@@ -1396,7 +1396,7 @@ void XINTERFACE::LoadDialog(char* sFileName)
 	//UNGUARD
 }
 
-void XINTERFACE::CreateNode(char* sFileName, char* sNodeType, char* sNodeName, long priority)
+void XINTERFACE::CreateNode(const char* sFileName, const char* sNodeType, const char* sNodeName, long priority)
 {
 	INIFILE *ini, *ownerIni;
 
@@ -1421,7 +1421,7 @@ void XINTERFACE::CreateNode(char* sFileName, char* sNodeType, char* sNodeName, l
 	delete ownerIni;
 }
 
-void XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, char* sNodeType, char* sNodeName, long priority)
+void XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, const char* sNodeType, const char* sNodeName, long priority)
 {
 	if (!sNodeType || !sNodeType[0])
 	{
@@ -2583,9 +2583,9 @@ uint32_t XINTERFACE::AttributeChanged(ATTRIBUTES* patr)
 {
 	if (patr != nullptr && patr->GetParent() != nullptr && patr->GetParent()->GetParent() != nullptr)
 	{
-		char* sParentName = patr->GetParent()->GetParent()->GetThisName();
+		const char* sParentName = patr->GetParent()->GetParent()->GetThisName();
 		if (sParentName == nullptr || _stricmp(sParentName, "pictures") != 0) return 0;
-		char* sImageName = patr->GetParent()->GetThisName();
+		const char* sImageName = patr->GetParent()->GetThisName();
 		if (sImageName == nullptr) return 0;
 		// find this picture
 		IMAGE_Entity* pImList = m_imgLists;
@@ -3155,8 +3155,8 @@ char* AddAttributesStringsToBuffer(char* inBuffer, char* prevStr, ATTRIBUTES* pA
 		ATTRIBUTES* pA = pAttr->GetAttributeClass(k);
 		if (pA == nullptr) continue;
 
-		char* attrVal = pA->GetThisAttr();
-		char* attrName = pA->GetThisName();
+		const char* attrVal = pA->GetThisAttr();
+		const char* attrName = pA->GetThisName();
 		if (attrName && attrVal && attrVal[0])
 		{
 			int nadd = _countof("\n") - 1 + strlen(attrName) + _countof("=") - 1 + strlen(attrVal) + 1;
@@ -3360,7 +3360,7 @@ void XINTERFACE::GetContextHelpData()
 {
 	ReleaseContextHelpData();
 
-	char* texName = nullptr;
+	const char* texName = nullptr;
 
 	if (m_pCurNode)
 	{
@@ -3621,7 +3621,7 @@ bool CONTROLS_CONTAINER::CreateConteinerList(ATTRIBUTES* pA)
 	{
 		ATTRIBUTES* pAttr = pA->GetAttributeClass(i);
 		if (!pAttr) continue;
-		char* containerName = pAttr->GetThisName();
+		const char* containerName = pAttr->GetThisName();
 		if (!containerName) continue;
 		AddContainer(containerName);
 		SetContainerLimitVal(containerName, (float)atof(pAttr->GetThisAttr()));
@@ -3636,7 +3636,7 @@ bool CONTROLS_CONTAINER::CreateConteinerList(ATTRIBUTES* pA)
 	return true;
 }
 
-void CONTROLS_CONTAINER::AddContainer(char* container)
+void CONTROLS_CONTAINER::AddContainer(const char* container)
 {
 	if (!container) return;
 
@@ -3656,14 +3656,14 @@ void CONTROLS_CONTAINER::AddContainer(char* container)
 	memcpy(pContainers->resultName, container, len);
 }
 
-void CONTROLS_CONTAINER::SetContainerLimitVal(char* container, float fLimitVal)
+void CONTROLS_CONTAINER::SetContainerLimitVal(const char* container, float fLimitVal)
 {
 	CONTEINER_DESCR* pCont = FindContainer(container);
 	if (!pCont) return;
 	pCont->fMaxVal = fLimitVal;
 }
 
-void CONTROLS_CONTAINER::AddControlsToContainer(char* container, char* controlName, float fValLimit)
+void CONTROLS_CONTAINER::AddControlsToContainer(const char* container, const char* controlName, float fValLimit)
 {
 	if (!container || !controlName) return;
 	CONTEINER_DESCR* pCont = FindContainer(container);
@@ -3684,7 +3684,7 @@ void CONTROLS_CONTAINER::AddControlsToContainer(char* container, char* controlNa
 	memcpy(pCont->pControls->controlName, controlName, len);
 }
 
-CONTROLS_CONTAINER::CONTEINER_DESCR* CONTROLS_CONTAINER::FindContainer(char* sContainer)
+CONTROLS_CONTAINER::CONTEINER_DESCR* CONTROLS_CONTAINER::FindContainer(const char* sContainer)
 {
 	if (!sContainer) return nullptr;
 	CONTEINER_DESCR* pCont = pContainers;
@@ -3694,7 +3694,7 @@ CONTROLS_CONTAINER::CONTEINER_DESCR* CONTROLS_CONTAINER::FindContainer(char* sCo
 	return nullptr;
 }
 
-CONTROLS_CONTAINER::CONTEINER_DESCR::CONTROL_DESCR* CONTROLS_CONTAINER::CONTEINER_DESCR::FindControl(char* cntrlName)
+CONTROLS_CONTAINER::CONTEINER_DESCR::CONTROL_DESCR* CONTROLS_CONTAINER::CONTEINER_DESCR::FindControl(const char* cntrlName)
 {
 	if (!cntrlName) return nullptr;
 

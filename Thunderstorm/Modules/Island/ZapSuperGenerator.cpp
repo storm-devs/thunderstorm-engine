@@ -1,7 +1,7 @@
 #include "ISLAND.h"
 #include "tga.h"
 
-bool ISLAND::DoZapSuperGeneratorDecodeFile(char* sname)
+bool ISLAND::DoZapSuperGeneratorDecodeFile(const char* sname)
 {
 	HANDLE hFile = fio->_CreateFile(sname, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 	if (hFile != INVALID_HANDLE_VALUE)
@@ -22,7 +22,7 @@ bool ISLAND::DoZapSuperGeneratorDecodeFile(char* sname)
 	return true;
 }
 
-void ISLAND::DoZapSuperGeneratorInnerDecodeFiles(char* sub_dir, char* mask)
+void ISLAND::DoZapSuperGeneratorInnerDecodeFiles(const char* sub_dir, const char* mask)
 {
 	char file_mask[256];
 	WIN32_FIND_DATA wfd;

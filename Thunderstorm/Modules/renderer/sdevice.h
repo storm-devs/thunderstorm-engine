@@ -305,22 +305,22 @@ public:
 	bool TextureRelease(long texid) override;
 
 	// DX9Render: Fonts Section
-	long Print(long x, long y,char * format,...) override;
-	long Print(long nFontNum, uint32_t color, long x, long y,char * format,...) override;
+	long Print(long x, long y, const char * format,...) override;
+	long Print(long nFontNum, uint32_t color, long x, long y, const char * format,...) override;
 	long ExtPrint(long nFontNum, uint32_t foreColor, uint32_t backColor, int wAlignment,
 							 bool bShadow, float fScale, long scrWidth, long scrHeight,
-							 long x, long y,char * format,...) override;
-	long StringWidth(char * string, long nFontNum=0, float fScale=1.f, long scrWidth=0) override;
+							 long x, long y, const char * format,...) override;
+	long StringWidth(const char * string, long nFontNum=0, float fScale=1.f, long scrWidth=0) override;
 	long CharWidth(char ch, long nFontNum=0, float fScale=1.f, long scrWidth=0) override;
 	long CharHeight(long fontID) override;
-	long LoadFont(char * fontName) override; // возвращает номер\идентификатор шрифта или -1 в случае ошибки
-	bool UnloadFont(char * fontName) override; // возвращает истину если шрифт остался в использовании
+	long LoadFont(const char * fontName) override; // возвращает номер\идентификатор шрифта или -1 в случае ошибки
+	bool UnloadFont(const char * fontName) override; // возвращает истину если шрифт остался в использовании
 	bool UnloadFont(long fontID) override; // возвращает истину если шрифт остался в использовании
-	bool SetCurFont(char * fontName) override; // возвращает истину если установили данный шрифт
+	bool SetCurFont(const char * fontName) override; // возвращает истину если установили данный шрифт
 	bool SetCurFont(long fontID) override; // возвращает истину если установили данный шрифт
 	long GetCurFont() override;
 	char * GetFontIniFileName() override;
-	bool SetFontIniFileName(char * iniName) override;
+	bool SetFontIniFileName(const char * iniName) override;
 
 	// DX9Render: Techniques Section
 	bool TechniqueExecuteStart(const char * cBlockName) override;
@@ -340,7 +340,7 @@ public:
 
    	// DX9Render: Video Section
 	void				PlayToTexture() override;
-	CVideoTexture *		GetVideoTexture(char * sVideoName) override;
+	CVideoTexture *		GetVideoTexture(const char * sVideoName) override;
 	void				ReleaseVideoTexture(CVideoTexture * pVTexture) override;
 
 	// DX9Render: Vertex/Index Buffers Section

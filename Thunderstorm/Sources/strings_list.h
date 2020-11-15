@@ -30,9 +30,9 @@ public:
 
 	uint32_t  GetStringsCount();
 	char * GetString(uint32_t code);
-	uint32_t  GetStringCode(char * _char_PTR);
-	bool   AddString(char * _char_PTR);
-	bool   AddUnicalString(char * _char_PTR);
+	uint32_t  GetStringCode(const char * _char_PTR);
+	bool   AddString(const char * _char_PTR);
+	bool   AddUnicalString(const char * _char_PTR);
 	void   Release();
 	void   DeleteString(uint32_t code);
 

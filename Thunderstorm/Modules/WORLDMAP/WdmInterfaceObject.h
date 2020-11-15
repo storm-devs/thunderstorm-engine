@@ -45,7 +45,7 @@ protected:
 	//Заполнить 6 вершин цветом
 	static void FillRectColor(Vertex* vrt, uint32_t color = 0xffffffff);
 	//Нарисовать буффер прямоугольников
-	static void DrawRects(Vertex* vrt, long numRects, char* techName = nullptr);
+	static void DrawRects(Vertex* vrt, long numRects, const char* techName = nullptr);
 
 	//Заполнить 18 вершин скалирующегося прямоугольника
 	static void FillSRectCoord(Vertex* vrt, float x, float y, float w, float h, float ws);

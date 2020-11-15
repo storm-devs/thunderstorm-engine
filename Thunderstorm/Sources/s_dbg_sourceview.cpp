@@ -1164,7 +1164,8 @@ INT_PTR CALLBACK VarChangeDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 			col.mask = LVCF_FMT | LVCF_TEXT | LVCF_WIDTH;
 			col.fmt = LVCFMT_LEFT;
 			col.cx = 378;
-			col.pszText = "Variable name";
+			// ~!~ TODO
+			col.pszText = const_cast<LPSTR>("Variable name");
 			col.cchTextMax = strlen("Variable name");
 			ListView_InsertColumn(hwndList, 0, &col);
 			uint32_t dwOld = ListView_GetExtendedListViewStyle(hwndList);

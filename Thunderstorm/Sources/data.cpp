@@ -1,15 +1,15 @@
 #include "data.h"
 #include "Core.h"
 
-char* UNINIT_REF = {"Using reference variable without initializing"};
-char* INVALID_REF_OP = {"Invalid operation on reference object"};
-char* NO_INDEX = {"Missed array index"};
-char* INVALID_CONVERSATION = {"Invalid conversation"};
-char* INDEX_ON_SINGLE = {"Incorrect usage of index on single variable"};
-char* INCORRECT_TYPE_ASSIGMENT = {"Incorrect type assigment"};
-char* INCORRECT_INDEX = {"Incorrect index"};
-char* INVALID_TYPE = {"Invalid type"};
-char* INVALID_STRING = {"Invalid string"};
+const char* UNINIT_REF = {"Using reference variable without initializing"};
+const char* INVALID_REF_OP = {"Invalid operation on reference object"};
+const char* NO_INDEX = {"Missed array index"};
+const char* INVALID_CONVERSATION = {"Invalid conversation"};
+const char* INDEX_ON_SINGLE = {"Incorrect usage of index on single variable"};
+const char* INCORRECT_TYPE_ASSIGMENT = {"Incorrect type assigment"};
+const char* INCORRECT_INDEX = {"Incorrect index"};
+const char* INVALID_TYPE = {"Invalid type"};
+const char* INVALID_STRING = {"Invalid string"};
 
 extern VAPI* api;
 
@@ -171,7 +171,7 @@ DATA::~DATA()
 	}*/
 }
 
-void DATA::Error(char* text)
+void DATA::Error(const char* text)
 {
 	//DumpError(text);
 	pVCompiler->SetError(text);
@@ -280,7 +280,7 @@ void DATA::Set(float value)
 	if (_isnan(fValue)) Error("NAN ERROR");
 }
 
-void DATA::Set(char* value)
+void DATA::Set(const char* value)
 {
 	//if(bRef)
 	if (Data_type == VAR_REFERENCE)
@@ -308,7 +308,7 @@ void DATA::Set(char* value)
 	memcpy(sValue, value, len);
 }
 
-void DATA::Set(char* attribute_name, char* attribute_value)
+void DATA::Set(const char* attribute_name, const char* attribute_value)
 {
 	//if(bRef)
 	if (Data_type == VAR_REFERENCE)
@@ -470,7 +470,7 @@ bool DATA::Get(float& value)
 	return false;
 }
 
-bool DATA::Get(char* & value)
+bool DATA::Get(const char* & value)
 {
 	//if(bRef)
 	if (Data_type == VAR_REFERENCE)
@@ -496,7 +496,7 @@ bool DATA::Get(char* & value)
 	return false;
 }
 
-bool DATA::Get(char* attribute_name, char* & value)
+bool DATA::Get(const char* attribute_name, const char* & value)
 {
 	//if(bRef)
 	if (Data_type == VAR_REFERENCE)
@@ -588,7 +588,7 @@ bool DATA::Get(float& value, uint32_t index)
 	*/
 }
 
-bool DATA::Get(char* & value, uint32_t index)
+bool DATA::Get(const char* & value, uint32_t index)
 {
 	//if(bRef)
 	if (Data_type == VAR_REFERENCE)
@@ -690,7 +690,7 @@ bool DATA::Set(float value, uint32_t index)
 	return true;	*/
 }
 
-bool DATA::Set(char* value, uint32_t index)
+bool DATA::Set(const char* value, uint32_t index)
 {
 	//if(bRef)
 	if (Data_type == VAR_REFERENCE)
@@ -732,7 +732,7 @@ bool DATA::Set(char* value, uint32_t index)
 		return true;	*/
 }
 
-bool DATA::Set(char* attribute_name, char* attribute_value, uint32_t index)
+bool DATA::Set(const char* attribute_name, const char* attribute_value, uint32_t index)
 {
 	//if(bRef)
 	if (Data_type == VAR_REFERENCE)
@@ -767,7 +767,7 @@ bool DATA::Set(char* attribute_name, char* attribute_value, uint32_t index)
 		return true;*/
 }
 
-bool DATA::Get(char* attribute_name, char* & value, uint32_t index)
+bool DATA::Get(const char* attribute_name, const char* & value, uint32_t index)
 {
 	//if(bRef)
 	if (Data_type == VAR_REFERENCE)

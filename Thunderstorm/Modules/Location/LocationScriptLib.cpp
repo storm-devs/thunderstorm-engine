@@ -94,7 +94,7 @@ uint32_t slNativeFastFind(VS_STACK* pS, LocationFindCacheElement* cache, long ca
 {
 	//Получить строки
 	VDATA* pStr = (VDATA*)pS->Pop();
-	char* nm = nullptr;
+	const char* nm = nullptr;
 	if (!pStr->Get(nm)) return IFUNCRESULT_FAILED;
 	if (nm) charactersFindBuf.Set(nm);
 	else charactersFindBuf.Set("");
@@ -200,7 +200,7 @@ uint32_t slNativeSetReloadBackImage(VS_STACK* pS)
 {
 	//Получить строки
 	VDATA* pStr = (VDATA*)pS->Pop();
-	char* nm = nullptr;
+	const char* nm = nullptr;
 	if (!pStr->Get(nm)) return IFUNCRESULT_FAILED;
 	//Устанавливаем картинку
 	VDX9RENDER* rs = (VDX9RENDER *)api->CreateService("dx9render");
@@ -247,7 +247,7 @@ uint32_t slNativeExecuteTechnique(VS_STACK* pS)
 {
 	//Получить строку
 	VDATA* pStr = (VDATA*)pS->Pop();
-	char* nm = nullptr;
+	const char* nm = nullptr;
 	if (!pStr->Get(nm)) return IFUNCRESULT_FAILED;
 	//Исполить технику
 	if (nm && nm[0])

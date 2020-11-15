@@ -10,7 +10,7 @@ public:
 	CXI_SCROLLEDPICTURE();
 	~CXI_SCROLLEDPICTURE();
 	void Draw(bool bSelected, uint32_t Delta_Time) override;
-	bool Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+	bool Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
 	          XYPOINT& ScreenSize) override;
 	void ReleaseAll() override;
 	int CommandExecute(int wActCode) override;
@@ -27,7 +27,7 @@ public:
 	void ChangeUV(FXYRECT& frNewUV) override;
 
 protected:
-	void LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2) override;
+	void LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2) override;
 	void SetNewPicture(bool video, char* sNewTexName);
 	void SetNewPictureFromDir(char* dirName);
 	void RecalculateTexPerPixel();

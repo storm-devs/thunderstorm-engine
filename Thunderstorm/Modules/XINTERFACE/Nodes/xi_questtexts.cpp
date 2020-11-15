@@ -1,6 +1,6 @@
 #include "xi_questtexts.h"
 
-CXI_QUESTTEXTS::STRING_DESCRIBER::STRING_DESCRIBER(char* ls)
+CXI_QUESTTEXTS::STRING_DESCRIBER::STRING_DESCRIBER(const char* ls)
 {
 	const auto len = strlen(ls) + 1;
 	if (len == 1)
@@ -19,7 +19,7 @@ CXI_QUESTTEXTS::STRING_DESCRIBER::STRING_DESCRIBER(char* ls)
 	prev = nullptr;
 }
 
-CXI_QUESTTEXTS::STRING_DESCRIBER* CXI_QUESTTEXTS::STRING_DESCRIBER::Add(char* ls, bool complete)
+CXI_QUESTTEXTS::STRING_DESCRIBER* CXI_QUESTTEXTS::STRING_DESCRIBER::Add(const char* ls, bool complete)
 {
 	if (ls == nullptr) return nullptr;
 	auto* newSD = new STRING_DESCRIBER(ls);
@@ -195,7 +195,7 @@ void CXI_QUESTTEXTS::Draw(bool bSelected, uint32_t Delta_Time)
 	}
 }
 
-bool CXI_QUESTTEXTS::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+bool CXI_QUESTTEXTS::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                           XYPOINT& ScreenSize)
 {
 	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
@@ -276,7 +276,7 @@ void CXI_QUESTTEXTS::SaveParametersToIni()
 	delete pIni;
 }
 
-void CXI_QUESTTEXTS::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
+void CXI_QUESTTEXTS::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2)
 {
 	char param[255];
 
@@ -318,7 +318,7 @@ void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES* pA, int qn)
 
 	bool cFlag = pAttr->GetAttributeAsDword("Complete", 0) != 0;
 	ATTRIBUTES* pATextList = pAttr->GetAttributeClass("Text");
-	char* questLogName = pAttr->GetAttribute("LogName");
+	const char* questLogName = pAttr->GetAttribute("LogName");
 	if (!questLogName) questLogName = pAttr->GetThisName();
 
 	std::vector<std::string> asStringList;

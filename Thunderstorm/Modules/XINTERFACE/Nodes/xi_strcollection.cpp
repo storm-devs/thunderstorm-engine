@@ -42,7 +42,7 @@ void CXI_STRCOLLECTION::Draw(bool bSelected, uint32_t Delta_Time)
 	}
 }
 
-bool CXI_STRCOLLECTION::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+bool CXI_STRCOLLECTION::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                              XYPOINT& ScreenSize)
 {
 	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
@@ -52,7 +52,7 @@ bool CXI_STRCOLLECTION::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* na
 	return true;
 }
 
-void CXI_STRCOLLECTION::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
+void CXI_STRCOLLECTION::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2)
 {
 	int i;
 	char param[256];
@@ -60,7 +60,7 @@ void CXI_STRCOLLECTION::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char*
 	bool bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
 
 	INIFILE* ini = ini1;
-	char* name = name1;
+	const char* name = name1;
 	if (!ini1)
 	{
 		ini = ini2;

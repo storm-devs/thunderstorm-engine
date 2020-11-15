@@ -21,9 +21,9 @@ public:
 	virtual char* GetString(long strNum) = 0;
 	virtual char* GetStringName(long strNum) = 0;
 
-	virtual long OpenUsersStringFile(char* fileName) = 0;
+	virtual long OpenUsersStringFile(const char* fileName) = 0;
 	virtual void CloseUsersStringFile(long id) = 0;
-	virtual char* TranslateFromUsers(long id, char* inStr) = 0;
+	virtual char* TranslateFromUsers(long id, const char* inStr) = 0;
 };
 
 #endif

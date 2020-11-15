@@ -118,9 +118,10 @@ uint32_t S_CLASSTAB::AddClass(CLASSINFO& ci, bool bRegisterOnly)
 	pTable[nClassN].bClassRegistredOnly = bRegisterOnly;
 	pTable[nClassN].hash = hash;
 
-	const auto len = strlen(ci.name) + 1;
-	pTable[nClassN].name = new char[len];
-	memcpy(pTable[nClassN].name, ci.name, len);
+	//const auto len = strlen(ci.name) + 1;
+	//pTable[nClassN].name = new char[len];
+	//memcpy(pTable[nClassN].name, ci.name, len);
+	pTable[nClassN].name = _strdup(ci.name);
 
 	nClassesNum++;
 

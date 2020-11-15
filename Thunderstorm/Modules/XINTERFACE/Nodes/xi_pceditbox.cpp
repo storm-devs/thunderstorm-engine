@@ -74,7 +74,7 @@ void CXI_PCEDITBOX::Draw(bool bSelected, uint32_t Delta_Time)
 		api->Event("editexit", "s", m_nodeName);
 }
 
-bool CXI_PCEDITBOX::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+bool CXI_PCEDITBOX::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                          XYPOINT& ScreenSize)
 {
 	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
@@ -153,7 +153,7 @@ void CXI_PCEDITBOX::SaveParametersToIni()
 	delete pIni;
 }
 
-void CXI_PCEDITBOX::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
+void CXI_PCEDITBOX::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2)
 {
 	char param[2048];
 

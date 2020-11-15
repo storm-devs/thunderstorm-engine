@@ -25,7 +25,7 @@ struct CLASS_COMPONENT
 
 struct CLASSINFO
 {
-	char * name;
+	const char * name;
 	uint32_t hash;
 	uint32_t segment_id;
 	uint32_t nComponentsNum;

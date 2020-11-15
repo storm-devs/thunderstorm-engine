@@ -100,7 +100,7 @@ public:
 		return _stricmp(pVStringCodec->Convert(nNameCode), str) == 0;
 	};
 
-	char* GetThisName()
+	const char* GetThisName()
 	{
 		return pVStringCodec->Convert(nNameCode);
 	}
@@ -182,7 +182,7 @@ public:
 		return n >= pAttributes.size() ? nullptr : pAttributes[n]->Attribute;
 	};
 
-	char* GetAttributeName(uint32_t n)
+	const char* GetAttributeName(uint32_t n)
 	{
 		return n >= pAttributes.size() ? nullptr : pAttributes[n]->GetThisName();
 	};

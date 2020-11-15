@@ -17,7 +17,7 @@
 
 struct COMMANDDESCR
 {
-	char*	sName;
+	const char*	sName;
 	int		code;
 };
 extern COMMANDDESCR pCommandsList[COMMAND_QUANTITY];

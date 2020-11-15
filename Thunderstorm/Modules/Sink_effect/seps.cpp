@@ -806,7 +806,7 @@ float SEPS_PS::GetTrackValue(TRACK_EVENT* Track, long Time)
 }
 
 
-bool SEPS_PS::BuildTrack(INIFILE* ini, TRACK_EVENT* Track, char* psname, char* key_name)
+bool SEPS_PS::BuildTrack(INIFILE* ini, TRACK_EVENT* Track, const char* psname, const char* key_name)
 {
 	long n, i;
 	char buffer[MAX_PATH];

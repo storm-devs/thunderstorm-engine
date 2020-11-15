@@ -202,7 +202,7 @@ void WdmInterfaceObject::FillRectColor(Vertex* vrt, uint32_t color)
 }
 
 //Нарисовать буффер прямоугольников
-void WdmInterfaceObject::DrawRects(Vertex* vrt, long numRects, char* techName)
+void WdmInterfaceObject::DrawRects(Vertex* vrt, long numRects, const char* techName)
 {
 	wdmObjects->rs->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX2, numRects * 2, vrt,
 	                                sizeof(Vertex), techName);

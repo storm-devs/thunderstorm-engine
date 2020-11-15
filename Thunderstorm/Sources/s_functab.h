@@ -20,7 +20,7 @@ struct LVARINFO
 {
 	S_TOKEN_TYPE type;
 	uint32_t hash;
-	char * name;
+	const char * name;
 	uint32_t elements;
 	bool bArray;
 };
@@ -30,13 +30,13 @@ struct FUNCINFO
 	uint32_t segment_id;
 	uint32_t offset;
 	uint32_t hash;
-	char * name;
+	const char * name;
 	uint32_t arguments;
 	uint32_t var_num;
 	uint32_t stack_offset;
 	std::vector<LVARINFO> pLocal;
 	S_TOKEN_TYPE return_type;
-	char * decl_file_name;
+	const char * decl_file_name;
 	uint32_t  decl_line;
 	uint32_t  code;
 	double fTimeUsage;

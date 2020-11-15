@@ -472,8 +472,8 @@ DATA* COMPILER::BC_CallIntFunction(uint32_t func_code, DATA* & pVResult, uint32_
 	long TempLong1;
 	long TempLong2;
 	long TempLong;
-	char* pChar;
-	char* pChar2;
+	const char* pChar;
+	const char* pChar2;
 	entid_t TempEid;
 	entid_t pEid = 0;
 	uint32_t n;
@@ -2518,8 +2518,8 @@ bool COMPILER::CreateMessage(MESSAGE_SCRIPT* pMs, uint32_t s_off, uint32_t var_o
 	float TempFloat1;
 	entid_t TempEid;
 	ATTRIBUTES* pA;
-	char* Format_string;
-	char* pChar;
+	const char* Format_string;
+	const char* pChar;
 
 	if (pMs == nullptr) return false;
 

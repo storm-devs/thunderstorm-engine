@@ -314,19 +314,19 @@ void CXI_VIMAGESCROLL::Draw(bool bSelected, uint32_t Delta_Time)
 	}
 }
 
-bool CXI_VIMAGESCROLL::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+bool CXI_VIMAGESCROLL::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                             XYPOINT& ScreenSize)
 {
 	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
 	return true;
 }
 
-void CXI_VIMAGESCROLL::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
+void CXI_VIMAGESCROLL::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2)
 {
 	int i, n, k;
 	char param[256];
 	char param1[256];
-	char* tmpstr;
+	const char* tmpstr;
 
 	// Set space
 	m_rAbsolutePosition = GetIniLongRect(ini1, name1, ini2, name2, "position", m_hostRect);

@@ -122,7 +122,7 @@ void TIVBufferManager::GetPointers(long _i, uint16_t** iPointer, void** vPointer
 }
 
 //--------------------------------------------------------------------
-void TIVBufferManager::DrawBuffers(char* _technique)
+void TIVBufferManager::DrawBuffers(const char* _technique)
 {
 	if (locked || !count)
 		return;

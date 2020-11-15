@@ -925,9 +925,10 @@ bool COMPILER::BC_LoadSegment(const char* file_name)
 	//SegmentTable = (SEGMENT_DESC *)RESIZE(SegmentTable,SegmentsNum*sizeof(SEGMENT_DESC));
 	SegmentTable.resize(SegmentsNum);
 
-	const auto len = strlen(file_name) + 1;
-	SegmentTable[index].name = new char[len];
-	memcpy(SegmentTable[index].name, file_name, len);
+	//const auto len = strlen(file_name) + 1;
+	//SegmentTable[index].name = new char[len];
+	//memcpy(SegmentTable[index].name, file_name, len);
+	SegmentTable[index].name = _strdup(file_name);
 	SegmentTable[index].id = id;
 	SegmentTable[index].bUnload = false;
 	SegmentTable[index].pData = nullptr;
@@ -1891,9 +1892,10 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char* pInternalCode, uint32_t pInt
 				}
 				memset(&ci, 0, sizeof(ci));
 
-				const auto len = strlen(Token.GetData()) + 1;
-				ci.name = (char *)new char[len];
-				memcpy(ci.name, Token.GetData(), len);
+				//const auto len = strlen(Token.GetData()) + 1;
+				//ci.name = (char *)new char[len];
+				//memcpy(ci.name, Token.GetData(), len);
+				ci.name = _strdup(Token.GetData());
 
 				// start processing class components
 				if (SkipAuxiliaryTokens() != BLOCK_IN)
@@ -2176,7 +2178,7 @@ S_TOKEN_TYPE COMPILER::CompileAuxiliaryTokens(SEGMENT_DESC& Segment) //, bool & 
 	return Token_type;
 }
 
-void COMPILER::CopyOffsets(SEGMENT_DESC& Segment, STRINGS_LIST& srclist, STRINGS_LIST& dstlist, char* sname)
+void COMPILER::CopyOffsets(SEGMENT_DESC& Segment, STRINGS_LIST& srclist, STRINGS_LIST& dstlist, const char* sname)
 {
 	uint32_t n;
 	uint32_t i;
@@ -2207,7 +2209,7 @@ void COMPILER::CopyOffsets(SEGMENT_DESC& Segment, STRINGS_LIST& srclist, STRINGS
 }
 
 
-void COMPILER::UpdateOffsets(SEGMENT_DESC& Segment, STRINGS_LIST& list, uint32_t offset, char* sname)
+void COMPILER::UpdateOffsets(SEGMENT_DESC& Segment, STRINGS_LIST& list, uint32_t offset, const char* sname)
 {
 	uint32_t n;
 	uint32_t jump_voffset;
@@ -3939,7 +3941,7 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA* & pVReturnResult, const 
 	S_TOKEN_TYPE vtype;
 	DATA* pVV;
 	uint32_t var_code;
-	char* pAccess_string;
+	const char* pAccess_string;
 	//	long array_index;
 	//	DATA * pRef;
 	DATA* pVar;
@@ -5305,7 +5307,7 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA* & pVReturnResult, const 
 			if (pLeftOperandAClass != nullptr)
 			{
 				// set attribute class value
-				char* pChar;
+				const char* pChar;
 
 				// use ExpressionResult as temporary register
 				ExpressionResult.ClearType();
@@ -5698,7 +5700,7 @@ bool COMPILER::BC_Execute(uint32_t function_code, DATA* & pVReturnResult, const 
 
 			S_TOKEN_TYPE sttV = Token_type;
 
-			char* pChar;
+			const char* pChar;
 			if (!rAP)
 			{
 				SetError("null ap");
@@ -5810,7 +5812,7 @@ void COMPILER::CompileFloatNumber(SEGMENT_DESC& Segment)
 void COMPILER::CompileString(SEGMENT_DESC& Segment)
 {
 	uint32_t string_size;
-	char* pData = Token.GetData();
+	const char* pData = Token.GetData();
 	if (pData != nullptr)
 	{
 		string_size = strlen(Token.GetData()) + 1;
@@ -6107,7 +6109,7 @@ bool COMPILER::FindReferencedVariableByRootA(ATTRIBUTES* pA, uint32_t& var_index
 	return false;
 }
 
-ATTRIBUTES* COMPILER::TraceARoot(ATTRIBUTES* pA, char* & pAccess)
+ATTRIBUTES* COMPILER::TraceARoot(ATTRIBUTES* pA, const char* & pAccess)
 {
 	if (pA == nullptr) return nullptr; // error or invalid argument
 	if (pA->GetParent() == nullptr) return pA; // root found
@@ -6397,7 +6399,7 @@ void COMPILER::SaveVariable(DATA* pV, bool bdim)
 	long nLongValue;
 	uintptr_t ptrValue;
 	float fFloatValue;
-	char* pString;
+	const char* pString;
 	uint32_t var_index;
 	uint32_t array_index;
 	uint32_t n;

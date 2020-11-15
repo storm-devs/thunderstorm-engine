@@ -100,8 +100,8 @@ private:
 
 	// debug
 	void	DoZapSuperGenerator();
-	void	DoZapSuperGeneratorInnerDecodeFiles(char * sub_dir, char * mask);
-	bool	DoZapSuperGeneratorDecodeFile(char * sname);
+	void	DoZapSuperGeneratorInnerDecodeFiles(const char * sub_dir, const char * mask);
+	bool	DoZapSuperGeneratorDecodeFile(const char * sname);
 
 public:
 	 ISLAND();

@@ -25,7 +25,7 @@ void CXI_LINECOLLECTION::Draw(bool bSelected, uint32_t Delta_Time)
 	}
 }
 
-bool CXI_LINECOLLECTION::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+bool CXI_LINECOLLECTION::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                               XYPOINT& ScreenSize)
 {
 	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
@@ -35,7 +35,7 @@ bool CXI_LINECOLLECTION::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* n
 	return true;
 }
 
-void CXI_LINECOLLECTION::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
+void CXI_LINECOLLECTION::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2)
 {
 	char param[256];
 	char param1[256];

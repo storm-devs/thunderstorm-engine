@@ -199,7 +199,7 @@ class SEAFOAM_PS : VPARTICLE_SYSTEM
 public:
 	 SEAFOAM_PS();
 	~SEAFOAM_PS();
-	bool Init(INIFILE * ini, char * psname);
+	bool Init(INIFILE * ini, const char * psname);
 	void UpdateVertexBuffer();
 	void Realize(uint32_t DeltaTime);
 	void Execute(uint32_t DeltaTime);
@@ -210,7 +210,7 @@ public:
 	void SetParticlesTracks(uint32_t DeltaTime);
 
 	float GetTrackValue(TRACK_EVENT * Track, long Time);
-	bool  BuildTrack(INIFILE * ini, TRACK_EVENT * Track, char * psname, char * key_name);
+	bool  BuildTrack(INIFILE * ini, TRACK_EVENT * Track, const char * psname, const char * key_name);
 	void  SetEmitter(CVECTOR p, CVECTOR a);
 	void  LinkToObject(entid_t id, CVECTOR _LinkPos);
 	void  SetDelay(long _delay);

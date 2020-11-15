@@ -128,7 +128,7 @@ void SEAFOAM_PS::ProcessOrder(SEAFOAM_PS* * Root, SEAFOAM_PS* * Top)
 
 //----------------------------------------------------------------------------------
 
-bool SEAFOAM_PS::Init(INIFILE* ini, char* psname)
+bool SEAFOAM_PS::Init(INIFILE* ini, const char* psname)
 {
 	//GUARD(SEAFOAM_PS::Init)
 	if (!ini) return false;
@@ -740,7 +740,7 @@ float SEAFOAM_PS::GetTrackValue(TRACK_EVENT* Track, long Time)
 }
 
 
-bool SEAFOAM_PS::BuildTrack(INIFILE* ini, TRACK_EVENT* Track, char* psname, char* key_name)
+bool SEAFOAM_PS::BuildTrack(INIFILE* ini, TRACK_EVENT* Track, const char* psname, const char* key_name)
 {
 	long n, i;
 	char buffer[MAX_PATH];

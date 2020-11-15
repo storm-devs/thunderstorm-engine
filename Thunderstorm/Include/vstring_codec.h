@@ -14,7 +14,7 @@ public:
 	virtual uint32_t GetNum() { return 0; };
 	virtual uint32_t Convert(const char* pString) { return 0; };
 	virtual uint32_t Convert(const char* pString, long iLen) { return 0; };
-	virtual char* Convert(uint32_t code) { return nullptr; };
+	virtual const char* Convert(uint32_t code) { return nullptr; };
 
 	virtual void VariableChanged()
 	{

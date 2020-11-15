@@ -47,7 +47,7 @@ public:
 //	void  KeepNameMode(bool on){bKeepName = on;};
 	void  Release();
 	void  InvalidateBySegmentID(uint32_t segment_id);
-	uint32_t FindDef(char * def_name);
+	uint32_t FindDef(const char * def_name);
 	void UpdateHashTable(uint32_t code, uint32_t hash, bool in);
 };
 

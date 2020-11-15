@@ -60,7 +60,7 @@ protected:
 	void ReleaseAll();
 	void UpdateMiniMap();
 	void UpdateFireRangeBuffer();
-	void FillOneSideFireRange(BI_NOTEXTURE_VERTEX* pv, ATTRIBUTES* pShip, ATTRIBUTES* pChar, char* pstr);
+	void FillOneSideFireRange(BI_NOTEXTURE_VERTEX* pv, ATTRIBUTES* pShip, ATTRIBUTES* pChar, const char* pstr);
 	void UpdateCurrentCharge();
 
 	void UpdateWindParam();

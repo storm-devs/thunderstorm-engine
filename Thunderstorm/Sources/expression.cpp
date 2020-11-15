@@ -343,7 +343,7 @@ void COMPILER::BC_ProcessExpression_L5(DATA* value, bool bSkip)
 		else if (op == OP_BOOL_NEG)
 		{
 			long iVal;
-			char* sVal;
+			const char* sVal;
 
 			switch (value->GetType())
 			{
@@ -404,7 +404,7 @@ void COMPILER::BC_ProcessExpression_L7(DATA* value, bool bSkip)
 	Access.SetVCompiler(this);
 	DATA* pFuncResult;
 	ATTRIBUTES* pRoot;
-	char* pString;
+	const char* pString;
 	uint32_t func_code, ip;
 	S_TOKEN_TYPE vtype;
 

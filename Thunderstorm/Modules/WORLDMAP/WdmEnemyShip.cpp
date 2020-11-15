@@ -387,10 +387,9 @@ void WdmEnemyShip::SetLiveTime(float time)
 //Получить имя атрибута
 const char* WdmEnemyShip::GetAttributeName()
 {
-	static char* empty = "";
 	if (saveAttribute)
 	{
 		return saveAttribute->GetThisName();
 	}
-	return empty;
+	return "";
 }

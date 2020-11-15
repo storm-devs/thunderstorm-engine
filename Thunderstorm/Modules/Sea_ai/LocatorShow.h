@@ -27,9 +27,9 @@ class SeaLocatorShow : public Entity
 	CVECTOR GetLocatorPos(ATTRIBUTES* pA);
 	float GetLocatorAng(ATTRIBUTES* pA);
 	float GetLocatorRadius(ATTRIBUTES* pA);
-	char* GetRealLocatorName(ATTRIBUTES* pA);
-	char* GetLocatorName(ATTRIBUTES* pA);
-	char* GetLocatorGroupName(ATTRIBUTES* pA);
+	const char* GetRealLocatorName(ATTRIBUTES* pA);
+	const char* GetLocatorName(ATTRIBUTES* pA);
+	const char* GetLocatorGroupName(ATTRIBUTES* pA);
 
 	void PrintLocator(ATTRIBUTES* pA);
 	void ProcessLocators(ATTRIBUTES* pA);

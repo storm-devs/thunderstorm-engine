@@ -144,7 +144,7 @@ enum S_TOKEN_TYPE
 struct INTFUNCDESC
 {
 	uint32_t dwArgsNum;
-	char * pName;
+	const char * pName;
 	S_TOKEN_TYPE ReturnType;
 };
 
@@ -187,24 +187,24 @@ public:
 	S_TOKEN_TYPE Get(bool bKeepData = false);
 	S_TOKEN_TYPE ProcessToken(char* & pointer, bool bKeepData = false);
 	S_TOKEN_TYPE GetType();
-	void CacheToken(char * pointer);
+	void CacheToken(const char * pointer);
 	bool StepBack();
-	long SetTokenData(char * pointer, bool bKeepControlSymbols = false);
-	ptrdiff_t SetNTokenData(char * pointer, ptrdiff_t Data_size);
-	long StopArgument(char * pointer, bool bKeepControlSymbols = false);
+	long SetTokenData(const char * pointer, bool bKeepControlSymbols = false);
+	ptrdiff_t SetNTokenData(const char * pointer, ptrdiff_t Data_size);
+	long StopArgument(const char * pointer, bool bKeepControlSymbols = false);
 	void StartArgument(char* & pointer, bool bKeepControlSymbols = false);
-	char * GetTypeName(S_TOKEN_TYPE code);
-	char * GetTypeName();
-	char * GetData();
+	const char * GetTypeName(S_TOKEN_TYPE code);
+	const char * GetTypeName();
+	const char * GetData();
 	bool Is(S_TOKEN_TYPE ttype);
-	bool IsNumber(char * pointer);
-	bool IsFloatNumber(char * pointer);
+	bool IsNumber(const char * pointer);
+	bool IsFloatNumber(const char * pointer);
 	long TokenLines();
 	void LowCase();
 
 	S_TOKEN_TYPE FormatGet();
 
-	S_TOKEN_TYPE Keyword2TokenType(char * pString);
+	S_TOKEN_TYPE Keyword2TokenType(const char * pString);
 	uint32_t MakeHashValue(const char * string, uint32_t max_syms = 0);
 	bool InitializeHashTable();
 

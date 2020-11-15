@@ -95,7 +95,7 @@ bool MakeLineCode(char* buffer, uint32_t& nLineCode)
 	return false;
 }
 
-bool BREAKPOINTS_TABLE::ReadProject(char* filename)
+bool BREAKPOINTS_TABLE::ReadProject(const char* filename)
 {
 	char buffer[MAX_PATH];
 

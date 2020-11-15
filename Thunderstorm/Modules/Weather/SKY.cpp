@@ -290,7 +290,8 @@ void SKY::GenerateSky()
 
 void SKY::LoadTextures()
 {
-	char str[256], *names[SKY_NUM_TEXTURES] = {"sky_fr.tga", "sky_lf.tga", "sky_bk.tga", "sky_rt.tga", "sky_up.tga"};
+	char str[256];
+	const char *names[SKY_NUM_TEXTURES] = { "sky_fr.tga", "sky_lf.tga", "sky_bk.tga", "sky_rt.tga", "sky_up.tga" };
 
 	std::string sSkyDir, sSkyDirNext;
 	GetSkyDirStrings(sSkyDir, sSkyDirNext);
@@ -487,7 +488,7 @@ void SKY::FillSkyDirArray(ATTRIBUTES* pAttribute)
 	{
 		for (long n = 0; n < q; n++)
 		{
-			char* attrName = pAttribute->GetAttributeName(n);
+			const char* attrName = pAttribute->GetAttributeName(n);
 			if (attrName && attrName[0] == 'd' && attrName[1] >= '0' && attrName[1] <= '9')
 			{
 				long i = atol(&attrName[1]);
@@ -539,7 +540,8 @@ void SKY::UpdateTimeFactor()
 	{
 		// перечитываем текстуры
 
-		char str[256], *names[SKY_NUM_TEXTURES] =
+		char str[256];
+	  const char *names[SKY_NUM_TEXTURES] =
 			{"sky_fr.tga", "sky_lf.tga", "sky_bk.tga", "sky_rt.tga", "sky_up.tga"};
 
 		std::string sSkyDir, sSkyDirNext;

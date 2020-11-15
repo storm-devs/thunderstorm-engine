@@ -134,7 +134,7 @@ void CXI_QUESTTITLE::Draw(bool bSelected, uint32_t Delta_Time)
 	}
 }
 
-bool CXI_QUESTTITLE::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+bool CXI_QUESTTITLE::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                           XYPOINT& ScreenSize)
 {
 	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
@@ -226,7 +226,7 @@ void CXI_QUESTTITLE::SaveParametersToIni()
 	delete pIni;
 }
 
-void CXI_QUESTTITLE::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
+void CXI_QUESTTITLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2)
 {
 	char param[255];
 
@@ -345,7 +345,7 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES* pA, int topNum)
 			}
 			m_strList[i].dwSpecColor = pAttr->GetAttributeAsDword("color", 0);
 			m_strList[i].complete = pAttr->GetAttributeAsDword("Complete", 0) != 0;
-			char* pTmpQuestRecordID = pAttr->GetAttribute("LogName");
+			const char* pTmpQuestRecordID = pAttr->GetAttribute("LogName");
 			if (!pTmpQuestRecordID) pTmpQuestRecordID = pAttr->GetThisName();
 			if (ptrOwner->QuestFileReader()->GetQuestTitle(pTmpQuestRecordID, pAttr->GetThisName(), sizeof(param) - 1,
 			                                               param))

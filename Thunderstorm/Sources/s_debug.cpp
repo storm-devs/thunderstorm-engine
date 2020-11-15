@@ -510,11 +510,11 @@ bool S_DEBUG::SetOnDebugExpression(const char* pLValue, const char* pRValue)
 	return false;
 }
 
-char* S_DEBUG::ProcessExpression(const char* pExpression)
+const char* S_DEBUG::ProcessExpression(const char* pExpression)
 {
 	if (!pExpression || !strlen(pExpression)) return "";
 	DATA Result;
-	char* pC;
+	const char* pC;
 	Result.SetVCompiler(&Core.Compiler);
 	if (Core.Compiler.ProcessDebugExpression(pExpression, Result))
 	{

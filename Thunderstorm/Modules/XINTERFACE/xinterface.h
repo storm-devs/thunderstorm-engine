@@ -100,8 +100,8 @@ public:
 	}
 
 
-	void CreateNode(char* sFileName, char* sNodeType, char* sNodeName, long priority = 80);
-	void SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, char* sNodeType, char* sNodeName, long priority);
+	void CreateNode(const char* sFileName, const char* sNodeType, const char* sNodeName, long priority = 80);
+	void SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, const char* sNodeType, const char* sNodeName, long priority);
 	void DeleteNode(const char* pcNodeName);
 	CINODE* NewNode(const char* pcNodType);
 
@@ -362,7 +362,7 @@ class CONTROLS_CONTAINER : public Entity
 
 		CONTEINER_DESCR* next;
 
-		CONTROL_DESCR* FindControl(char* cntrlName);
+		CONTROL_DESCR* FindControl(const char* cntrlName);
 	}* pContainers;
 
 public:
@@ -391,11 +391,11 @@ public:
 
 protected:
 	bool CreateConteinerList(ATTRIBUTES* pA);
-	void AddContainer(char* container);
-	void SetContainerLimitVal(char* container, float fLimitVal);
-	void AddControlsToContainer(char* container, char* controlName, float fValLimit);
+	void AddContainer(const char* container);
+	void SetContainerLimitVal(const char* container, float fLimitVal);
+	void AddControlsToContainer(const char* container, const char* controlName, float fValLimit);
 
-	CONTEINER_DESCR* FindContainer(char* sContainer);
+	CONTEINER_DESCR* FindContainer(const char* sContainer);
 };
 
 /*#ifndef _XBOX

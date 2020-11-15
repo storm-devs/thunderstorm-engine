@@ -9,7 +9,7 @@ public:
 	CXI_WINDOW();
 	~CXI_WINDOW();
 
-	bool Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+	bool Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
 	          XYPOINT& ScreenSize) override;
 	void ChangePosition(XYRECT& rNewPos) override;
 	void SaveParametersToIni() override;
@@ -38,7 +38,7 @@ public:
 	};
 
 protected:
-	void LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2) override;
+	void LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2) override;
 
 protected:
 	std::vector<std::string> m_aNodeNameList;

@@ -99,8 +99,9 @@ uint32_t S_FUNCTAB::AddFunc(const FUNCINFO& fi)
 
 			delete pTable[n].decl_file_name;
 
-			pTable[n].decl_file_name = new char[len];
-			memcpy(pTable[n].decl_file_name, fi.decl_file_name, len);
+			//pTable[n].decl_file_name = new char[len];
+			//memcpy(pTable[n].decl_file_name, fi.decl_file_name, len);
+			pTable[n].decl_file_name = _strdup(fi.decl_file_name);
 			pTable[n].code = n;
 			UpdateHashTable(n, hash, true);
 			return n;
@@ -127,8 +128,10 @@ uint32_t S_FUNCTAB::AddFunc(const FUNCINFO& fi)
 	pTable[Func_num].fTimeUsage = 0;
 	pTable[Func_num].nNumberOfCalls = 0;
 
-	pTable[Func_num].decl_file_name = new char[len];
-	memcpy(pTable[Func_num].decl_file_name, fi.decl_file_name, len);
+	//pTable[Func_num].decl_file_name = new char[len];
+	//memcpy(pTable[Func_num].decl_file_name, fi.decl_file_name, len);
+	pTable[Func_num].decl_file_name = _strdup(fi.decl_file_name);
+
 	pTable[Func_num].code = Func_num;
 	pTable[Func_num].pImportedFunc = fi.pImportedFunc;
 
@@ -143,9 +146,10 @@ uint32_t S_FUNCTAB::AddFunc(const FUNCINFO& fi)
 	{
 		if (fi.name)
 		{
-			const auto len = strlen(fi.name) + 1;
-			pTable[Func_num].name = new char[len];
-			memcpy(pTable[Func_num].name, fi.name, len);
+			//const auto len = strlen(fi.name) + 1;
+			//pTable[Func_num].name = new char[len];
+			//memcpy(pTable[Func_num].name, fi.name, len);
+			pTable[Func_num].name = _strdup(fi.name);
 		}
 	}
 	Func_num++;
@@ -273,9 +277,10 @@ bool S_FUNCTAB::AddFuncVar(uint32_t func_code, LVARINFO& lvi)
 	pTable[func_code].pLocal[vindex].name = nullptr;
 	if constexpr (true) //bKeepName)
 	{
-		const auto len = strlen(lvi.name) + 1;
-		pTable[func_code].pLocal[vindex].name = new char[len];
-		memcpy(pTable[func_code].pLocal[vindex].name, lvi.name, len);
+		//const auto len = strlen(lvi.name) + 1;
+		//pTable[func_code].pLocal[vindex].name = new char[len];
+		//memcpy(pTable[func_code].pLocal[vindex].name, lvi.name, len);
+		pTable[func_code].pLocal[vindex].name = _strdup(lvi.name);
 	}
 	pTable[func_code].pLocal[vindex].bArray = lvi.bArray;
 	pTable[func_code].pLocal[vindex].hash = hash;

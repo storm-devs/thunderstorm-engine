@@ -145,7 +145,7 @@ void S_DEFTAB::InvalidateBySegmentID(uint32_t segment_id)
 	}
 }
 
-uint32_t S_DEFTAB::FindDef(char* def_name)
+uint32_t S_DEFTAB::FindDef(const char* def_name)
 {
 	if (def_name == nullptr) return INVALID_DEF_CODE;
 	uint32_t hash = MakeHashValue(def_name);

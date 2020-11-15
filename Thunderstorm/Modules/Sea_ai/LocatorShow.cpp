@@ -37,19 +37,19 @@ CVECTOR SeaLocatorShow::GetLocatorPos(ATTRIBUTES* pA)
 	return v;
 }
 
-char* SeaLocatorShow::GetRealLocatorName(ATTRIBUTES* pA)
+const char* SeaLocatorShow::GetRealLocatorName(ATTRIBUTES* pA)
 {
 	return pA->GetThisName();
 }
 
-char* SeaLocatorShow::GetLocatorName(ATTRIBUTES* pA)
+const char* SeaLocatorShow::GetLocatorName(ATTRIBUTES* pA)
 {
-	char* pName = pA->GetAttribute("name");
+	const char* pName = pA->GetAttribute("name");
 	if (!pName) pName = pA->GetThisName();
 	return pName;
 }
 
-char* SeaLocatorShow::GetLocatorGroupName(ATTRIBUTES* pA)
+const char* SeaLocatorShow::GetLocatorGroupName(ATTRIBUTES* pA)
 {
 	ATTRIBUTES* pAParent = pA->GetParent();
 	Assert(pAParent);
@@ -95,7 +95,7 @@ void SeaLocatorShow::PrintLocator(ATTRIBUTES* pA)
 	mtx.Projection(&vPos, &vrt, 1, fWidth, fHeight, sizeof(CVECTOR), sizeof(MTX_PRJ_VECTOR));
 	vPos = CVECTOR(vrt.x, vrt.y, vrt.z);
 
-	char *pName, *pGName;
+	const char *pName, *pGName;
 
 	if (pGName = GetLocatorGroupName(pA)) AIHelper::Print(vPos.x, vPos.y - fh * 0.8f, fScale, "grp: \"%s\"", pGName);
 	if (pName = GetLocatorName(pA)) AIHelper::Print(vPos.x, vPos.y, fScale, "loc: \"%s\"", pName);

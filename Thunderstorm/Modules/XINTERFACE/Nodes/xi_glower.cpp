@@ -68,7 +68,7 @@ void CXI_GLOWER::Draw(bool bSelected, uint32_t Delta_Time)
 	}
 }
 
-bool CXI_GLOWER::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+bool CXI_GLOWER::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                       XYPOINT& ScreenSize)
 {
 	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
@@ -114,7 +114,7 @@ void CXI_GLOWER::SaveParametersToIni()
 	delete pIni;
 }
 
-void CXI_GLOWER::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
+void CXI_GLOWER::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2)
 {
 	int i;
 	char param[255];

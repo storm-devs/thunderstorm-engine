@@ -157,7 +157,7 @@ VAI_INNEROBJ* AIHelper::FindAIInnerObj(ATTRIBUTES* pACharacter)
 	return pObj;
 }
 
-void AIHelper::Print(float x, float y, float fScale, char* pFormat, ...)
+void AIHelper::Print(float x, float y, float fScale, const char* pFormat, ...)
 {
 	char cBuffer[2048];
 
@@ -170,7 +170,7 @@ void AIHelper::Print(float x, float y, float fScale, char* pFormat, ...)
 	              cBuffer);
 }
 
-void AIHelper::Print3D(CVECTOR vPos, float dy, float fScale, char* pFormat, ...)
+void AIHelper::Print3D(CVECTOR vPos, float dy, float fScale, const char* pFormat, ...)
 {
 	CMatrix mtx, view, prj;
 	char Buff_4k[2048];

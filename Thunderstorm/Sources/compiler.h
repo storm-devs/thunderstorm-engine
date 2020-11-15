@@ -27,7 +27,7 @@
 
 struct SEGMENT_DESC
 {
-	char * name;
+	const char * name;
 	uint32_t  offset;
 	uint32_t  size;
 	uint32_t  id;
@@ -266,7 +266,7 @@ public:
 	bool CompileBlock(SEGMENT_DESC& Segment, bool & bFunctionBlock, uint32_t & inout,S_TOKEN_TYPE bound_type, uint32_t continue_jump, uint32_t break_offset, STRINGS_LIST & BreakTable);
 	S_TOKEN_TYPE CompileAuxiliaryTokens(SEGMENT_DESC& Segment);//, bool & bFunctionBlock, DWORD & inout);
 	bool BC_Jump(SEGMENT_DESC& Segment, uint32_t offset);
-	void UpdateOffsets(SEGMENT_DESC& Segment, STRINGS_LIST & list, uint32_t offset, char * sname = nullptr);
+	void UpdateOffsets(SEGMENT_DESC& Segment, STRINGS_LIST & list, uint32_t offset, const char * sname = nullptr);
 	S_TOKEN_TYPE DetectUnknown(uint32_t & code);
 
 	void DumpAttributes(ATTRIBUTES * pA, long level);
@@ -290,7 +290,7 @@ public:
 	bool ReadVariable(char * name, /*DWORD code,*/ bool bdim = false, uint32_t a_index = 0);
 	bool FindReferencedVariable(DATA * pRef, uint32_t & var_index, uint32_t & array_index);
 	bool FindReferencedVariableByRootA(ATTRIBUTES * pA, uint32_t & var_index, uint32_t & array_index);
-	ATTRIBUTES * TraceARoot(ATTRIBUTES * pA, char * & pAccess);
+	ATTRIBUTES * TraceARoot(ATTRIBUTES * pA, const char * & pAccess);
 	void SaveAttributesData(ATTRIBUTES * pRoot);
 	void ReadAttributesData(ATTRIBUTES * pRoot, ATTRIBUTES * pParent);
 	void WriteVDword(uint32_t v);
@@ -300,7 +300,7 @@ public:
 
 	void LoadPreprocess();
 
-	void CopyOffsets(SEGMENT_DESC& Segment, STRINGS_LIST & srclist, STRINGS_LIST & dstlist, char * sname);
+	void CopyOffsets(SEGMENT_DESC& Segment, STRINGS_LIST & srclist, STRINGS_LIST & dstlist, const char * sname);
 
 	void FormatDialog(char * file_name);
 	void FormatAllDialog(char * directory_name);

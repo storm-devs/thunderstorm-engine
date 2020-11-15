@@ -208,7 +208,7 @@ public:
 	void SetParticlesTracks(uint32_t DeltaTime);
 
 	float GetTrackValue(TRACK_EVENT * Track, long Time);
-	bool  BuildTrack(INIFILE * ini, TRACK_EVENT * Track, char * psname, char * key_name);
+	bool  BuildTrack(INIFILE * ini, TRACK_EVENT * Track, const char * psname, const char * key_name);
 	void  SetEmitter(CVECTOR p, CVECTOR a);
 	void  LinkToObject(entid_t id, CVECTOR _LinkPos);
 	void  SetDelay(long _delay);

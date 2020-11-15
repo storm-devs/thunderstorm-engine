@@ -179,12 +179,12 @@ private:
 	void DeleteSailGroup();
 	int FindGroupForCharacter(int chrIdx);
 	int GetCharacterForGroup(int grNum);
-	SAILONE* FindSailFromData(int gn, char* nodeName, char* grName);
+	SAILONE* FindSailFromData(int gn, const char* nodeName, const char* grName);
 	void SetSailTextures(long grNum, VDATA* pvd);
 	void DoRandomsSailsDmg(int chrIdx, int gn, float fDmg);
 
 	// обработка скриптовых запросов
-	uint32_t ScriptProcessing(char* name, MESSAGE& message);
+	uint32_t ScriptProcessing(const char* name, MESSAGE& message);
 
 	bool bFirstRun;
 	int wFirstIndx;

@@ -40,9 +40,9 @@ public:
 	char* GetString(long strNum) override;
 	char* GetStringName(long strNum) override;
 
-	long OpenUsersStringFile(char* fileName) override;
+	long OpenUsersStringFile(const char* fileName) override;
 	void CloseUsersStringFile(long id) override;
-	char* TranslateFromUsers(long id, char* inStr) override;
+	char* TranslateFromUsers(long id, const char* inStr) override;
 
 	void SetDialogSourceFile(const char* fileName);
 	char* TranslateForDialog(const char* str) { return TranslateFromUsers(m_nDialogSourceFile, (char*)str); }

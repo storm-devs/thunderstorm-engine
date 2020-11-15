@@ -1967,7 +1967,7 @@ void sailPrint(VDX9RENDER* rs, const CVECTOR& pos3D, float rad, long line, const
 	rs->ExtPrint(FONT_DEFAULT, color, 0x00000000, PR_ALIGN_CENTER, false, 1.0f, 0, 0, long(vrt.x), long(vrt.y), buf);
 }
 
-SAILONE* SAIL::FindSailFromData(int gn, char* nodeName, char* grName)
+SAILONE* SAIL::FindSailFromData(int gn, const char* nodeName, const char* grName)
 {
 	if (nodeName == nullptr || grName == nullptr) return nullptr;
 	int grNum;
@@ -2136,7 +2136,7 @@ int SAIL::GetSailStateForCharacter(int chrIdx)
 	return 0;
 }
 
-uint32_t SAIL::ScriptProcessing(char* name, MESSAGE& message)
+uint32_t SAIL::ScriptProcessing(const char* name, MESSAGE& message)
 {
 	if (name == nullptr) return 0;
 

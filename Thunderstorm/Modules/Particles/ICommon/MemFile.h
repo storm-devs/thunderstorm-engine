@@ -22,7 +22,7 @@ class MemFile
 
 public:
 
-	MemFile::MemFile()
+  MemFile()
 	{
 		DataIsMy = false;
 		Data = nullptr;
@@ -31,7 +31,7 @@ public:
 		BiggestWritePos = 0;
 	}
 
-	MemFile::~MemFile()
+  ~MemFile()
 	{
 		Close();
 	}
@@ -69,18 +69,18 @@ public:
 	}
 
 
-	uint32_t MemFile::Tell()
+	uint32_t Tell()
 	{
 		return CurPos;
 	}
 
-	uint32_t MemFile::GetLength()
+	uint32_t GetLength()
 	{
 		if (DataIsMy) return BiggestWritePos;
 		return MaxLen;
 	}
 
-	void MemFile::Seek(int NewPos, uint32_t flags)
+	void Seek(int NewPos, uint32_t flags)
 	{
 		switch (flags)
 		{
@@ -96,7 +96,7 @@ public:
 		}
 	}
 
-	void MemFile::Close()
+	void Close()
 	{
 		if (DataIsMy)
 		{
@@ -106,7 +106,7 @@ public:
 	}
 
 
-	uint32_t MemFile::Read(void* Buffer, uint32_t size)
+	uint32_t Read(void* Buffer, uint32_t size)
 	{
 		if (!Data) return 0;
 		uint32_t real_size = CurPos + size;
@@ -117,14 +117,14 @@ public:
 		return size;
 	}
 
-	uint32_t MemFile::WriteZeroByte()
+	uint32_t WriteZeroByte()
 	{
 		uint8_t Zero = 0;
 		return Write(&Zero, 1);
 	}
 
 
-	uint32_t MemFile::Write(const void* Buffer, uint32_t size)
+	uint32_t Write(const void* Buffer, uint32_t size)
 	{
 		if (!DataIsMy) return 0;
 		if (!Data) return 0;

@@ -109,7 +109,7 @@ void CXI_EDITBOX::Draw(bool bSelected, uint32_t Delta_Time)
 	                           m_screenSize.y, (m_rect.left + m_rect.right) / 2, m_nTopStringPos, "%s", tmpstr);
 }
 
-bool CXI_EDITBOX::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+bool CXI_EDITBOX::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                        XYPOINT& ScreenSize)
 {
 	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
@@ -314,7 +314,7 @@ void CXI_EDITBOX::SaveParametersToIni()
 	delete pIni;
 }
 
-void CXI_EDITBOX::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
+void CXI_EDITBOX::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2)
 {
 	int i, j, idx;
 	char param[512];

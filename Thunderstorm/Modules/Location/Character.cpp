@@ -93,7 +93,7 @@ uint8_t Character::fightTbl[fgt_max][fgt_max] =
 	{0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0}, //fgt_strafe_r Отскок право
 };
 
-char* Character::fightNamesTbl[fgt_max] =
+const char* Character::fightNamesTbl[fgt_max] =
 {
 	"fgt_none", //Нет никакого боевого действия
 	"fgt_attack_fast", //Быстрый удар
@@ -2478,7 +2478,7 @@ void Character::ActionEvent(Animation* animation, long playerIndex, const char* 
 			}
 			else if ((alliace = GetValueByPrefix(eventName, "itemaction_")) != nullptr)
 			{
-				char* pcActionName = nullptr;
+				const char* pcActionName = nullptr;
 				long nIdx = -1;
 				if (_strnicmp(alliace, "set", 3) == 0)
 				{

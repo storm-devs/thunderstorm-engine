@@ -33,7 +33,7 @@ void CXI_RECTANGLE::Draw(bool bSelected, uint32_t Delta_Time)
 	}
 }
 
-bool CXI_RECTANGLE::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+bool CXI_RECTANGLE::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                          XYPOINT& ScreenSize)
 {
 	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
@@ -49,7 +49,7 @@ int CXI_RECTANGLE::CommandExecute(int wActCode)
 	return -1;
 }
 
-void CXI_RECTANGLE::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
+void CXI_RECTANGLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2)
 {
 	// fill vertex positions
 	for (int i = 0; i < 4; i++)

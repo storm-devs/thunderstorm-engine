@@ -29,7 +29,7 @@ void CXI_IMGCOLLECTION::Draw(bool bSelected, uint32_t Delta_Time)
 	}
 }
 
-bool CXI_IMGCOLLECTION::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+bool CXI_IMGCOLLECTION::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                              XYPOINT& ScreenSize)
 {
 	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
@@ -81,7 +81,7 @@ void CXI_IMGCOLLECTION::AddImage(const char* pcPicName, uint32_t dwColor, XYRECT
 	UpdateBuffers();
 }
 
-void CXI_IMGCOLLECTION::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
+void CXI_IMGCOLLECTION::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2)
 {
 	char param[256];
 	long n;
@@ -138,7 +138,7 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char*
 				{
 					uint32_t dwColor = ARGB(255, 128, 128, 128);
 					char param2[256];
-					char* pStr = param;
+					const char* pStr = param;
 					n = m_aEditInfo.size();
 					m_aEditInfo.push_back(PicEditInfo());
 

@@ -97,7 +97,7 @@ void TM_LIST::Initialize(HWND hwnd, HINSTANCE hinst, uint32_t style, uint32_t st
 	ShowWindow(hOwn,SW_SHOWNORMAL);
 }
 
-void TM_LIST::AddColumn(char* name, long length)
+void TM_LIST::AddColumn(const char* name, long length)
 {
 	LVCOLUMN lvc;
 
@@ -117,7 +117,7 @@ void TM_LIST::AddColumn(char* name, long length)
 }
 
 
-void TM_LIST::AddItem(char* name)
+void TM_LIST::AddItem(const char* name)
 {
 	LVITEM lvi;
 	char string[MAX_STR_SIZE];
@@ -135,16 +135,18 @@ void TM_LIST::AddItem(char* name)
 	Items_Num++;
 }
 
-void TM_LIST::SetItemText(long Item_index, long Subitem_index, char* text)
+void TM_LIST::SetItemText(long Item_index, long Subitem_index, const char* text)
 {
-	if (text)
-	ListView_SetItemText(hOwn, Item_index, Subitem_index, text);
+	auto* fuck_winapi = const_cast<char*>(text);
+	if (fuck_winapi)
+	ListView_SetItemText(hOwn, Item_index, Subitem_index, fuck_winapi);
 }
 
-void TM_LIST::GetItemText(long Item_index, long Subitem_index, char* text, long max_size)
+void TM_LIST::GetItemText(long Item_index, long Subitem_index, const char* text, long max_size)
 {
-	if (text)
-	ListView_GetItemText(hOwn, Item_index, Subitem_index, text, max_size);
+	auto* fuck_winapi = const_cast<char*>(text);
+	if (fuck_winapi)
+	ListView_GetItemText(hOwn, Item_index, Subitem_index, fuck_winapi, max_size);
 }
 
 //if (text) for (long i=0, j=0; i<max_size && text[i]; i++) if (text[i] != '\n') text[j++] = text[i];
@@ -187,7 +189,7 @@ char* TM_LIST::GetSelectedName()
 	return TM_LIST_Buffer;
 }
 
-void TM_LIST::SelectItem(char* name)
+void TM_LIST::SelectItem(const char* name)
 {
 	if (!name) return;
 	long items = GetItemsCount();
@@ -389,7 +391,7 @@ long TM_LIST::GetItemsCount()
 	return ListView_GetItemCount(hOwn);
 }
 
-void TM_LIST::SetCharID(char* text)
+void TM_LIST::SetCharID(const char* text)
 {
 	if (text) strcpy_s(CharID, text);
 }

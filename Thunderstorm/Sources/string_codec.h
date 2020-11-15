@@ -110,7 +110,7 @@ public:
 
 	void VariableChanged();
 
-	char * Convert(uint32_t code)
+	const char * Convert(uint32_t code)
 	{
 		uint32_t nTableIndex = code >> 16;
 		if (nTableIndex >= HASH_TABLE_SIZE)

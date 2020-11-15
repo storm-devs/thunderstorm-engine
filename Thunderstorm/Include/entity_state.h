@@ -20,7 +20,7 @@ public:
 	{
 	};
 
-	virtual void _cdecl SetState(char* Format,...)
+	virtual void _cdecl SetState(const char* Format,...)
 	{
 	};
 };

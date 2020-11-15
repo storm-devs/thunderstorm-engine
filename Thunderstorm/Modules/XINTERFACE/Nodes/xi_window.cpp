@@ -13,7 +13,7 @@ CXI_WINDOW::~CXI_WINDOW()
 {
 }
 
-bool CXI_WINDOW::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+bool CXI_WINDOW::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                       XYPOINT& ScreenSize)
 {
 	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
@@ -130,7 +130,7 @@ void CXI_WINDOW::AddNode(const char* pcNodeName)
 	pNod->ChangePosition(r);
 }
 
-void CXI_WINDOW::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
+void CXI_WINDOW::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2)
 {
 	char param[1024];
 
@@ -139,7 +139,7 @@ void CXI_WINDOW::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
 	if (ini1 && ini1->ReadString(name1, "nodelist", param, sizeof(param), ""))
 		do
 		{
-			char* pcStr = param;
+			const char* pcStr = param;
 			char subparam[256];
 			while (pcStr && pcStr[0])
 			{

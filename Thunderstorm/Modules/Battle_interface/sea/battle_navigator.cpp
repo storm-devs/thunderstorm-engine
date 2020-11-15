@@ -376,7 +376,7 @@ void BATTLE_NAVIGATOR::UpdateFireRangeBuffer()
 	rs->UnLockVertexBuffer(m_idFireZoneVBuf);
 }
 
-void BATTLE_NAVIGATOR::FillOneSideFireRange(BI_NOTEXTURE_VERTEX* pv, ATTRIBUTES* pShip, ATTRIBUTES* pChar, char* pstr)
+void BATTLE_NAVIGATOR::FillOneSideFireRange(BI_NOTEXTURE_VERTEX* pv, ATTRIBUTES* pShip, ATTRIBUTES* pChar, const char* pstr)
 {
 	if (pv == nullptr || pShip == nullptr || pChar == nullptr || pstr == nullptr) return;
 

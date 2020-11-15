@@ -137,14 +137,14 @@ void CXI_SCROLLBAR::Draw(bool bSelected, uint32_t Delta_Time)
 	}
 }
 
-bool CXI_SCROLLBAR::Init(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+bool CXI_SCROLLBAR::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                          XYPOINT& ScreenSize)
 {
 	if (!CINODE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize)) return false;
 	return true;
 }
 
-void CXI_SCROLLBAR::LoadIni(INIFILE* ini1, char* name1, INIFILE* ini2, char* name2)
+void CXI_SCROLLBAR::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2)
 {
 	char param[255];
 	FXYPOINT fPnt;

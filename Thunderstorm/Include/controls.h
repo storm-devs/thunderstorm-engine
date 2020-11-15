@@ -11,7 +11,7 @@
 
 struct DEVICE_DESC
 {
-	char* name;
+	const char* name;
 };
 
 struct SYSTEM_CONTROL_DESC
@@ -25,7 +25,7 @@ struct SYSTEM_CONTROL_DESC
 	};
 
 	CONTROL_TYPE ControlType;
-	char* pControlName;
+	const char* pControlName;
 };
 
 enum CONTROL_STATE_TYPE
@@ -97,7 +97,7 @@ public:
 	{
 	};
 
-	virtual long CreateControl(char* control_name) { return 0; };
+	virtual long CreateControl(const char* control_name) { return 0; };
 	virtual long GetControlsNum() { return 0; };
 	virtual bool GetControlDesc(long code, USER_CONTROL& _user_desc_struct) { return false; };
 	virtual bool SetControlFlags(long code, uint32_t flags) { return true; }
@@ -135,13 +135,13 @@ public:
 		return false;
 	};
 
-	virtual bool GetControlState(char* control_name, CONTROL_STATE& _state_struct)
+	virtual bool GetControlState(const char* control_name, CONTROL_STATE& _state_struct)
 	{
 		memset(&_state_struct, 0, sizeof(_state_struct));
 		return false;
 	};
 
-	virtual bool SetControlState(char* control_name, CONTROL_STATE& _state_struct)
+	virtual bool SetControlState(const char* control_name, CONTROL_STATE& _state_struct)
 	{
 		memset(&_state_struct, 0, sizeof(_state_struct));
 		return false;
@@ -158,7 +158,7 @@ public:
 	{
 	};
 
-	virtual void LockControl(char* control_name, bool mode)
+	virtual void LockControl(const char* control_name, bool mode)
 	{
 	};
 

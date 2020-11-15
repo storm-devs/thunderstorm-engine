@@ -78,7 +78,7 @@ public:
 	void OpenNewFile();
 	void CloseDebugWindow();
 	bool IsDebug();
-	char * ProcessExpression(const char * pExpression);
+	const char * ProcessExpression(const char * pExpression);
 	bool SetOnDebugExpression(const char * pLValue, const char * pRValue);
 	uint32_t GetLineStatus(const char * _pFileName, uint32_t linecode);
 	bool BrowseFile(char * buffer, const char * filter);

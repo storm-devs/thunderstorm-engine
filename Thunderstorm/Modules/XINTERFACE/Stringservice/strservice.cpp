@@ -542,7 +542,7 @@ char* STRSERVICE::GetStringName(long strNum)
 	//UNGUARD
 }
 
-long STRSERVICE::OpenUsersStringFile(char* fileName)
+long STRSERVICE::OpenUsersStringFile(const char* fileName)
 {
 	int i;
 	if (fileName == nullptr) return -1;
@@ -674,7 +674,7 @@ void STRSERVICE::CloseUsersStringFile(long id)
 	delete pUSB;
 }
 
-char* STRSERVICE::TranslateFromUsers(long id, char* inStr)
+char* STRSERVICE::TranslateFromUsers(long id, const char* inStr)
 {
 	int i;
 	if (inStr == nullptr || id == -1) return nullptr;
@@ -885,7 +885,7 @@ uint32_t _Language_OpenFile(VS_STACK* pS)
 {
 	VDATA* pLngFileName = (VDATA*)pS->Pop();
 	if (!pLngFileName) return IFUNCRESULT_FAILED;
-	char* strLngFileName = nullptr;
+	const char* strLngFileName = nullptr;
 	pLngFileName->Get(strLngFileName);
 
 	// получим ID для заданного файла
@@ -916,7 +916,7 @@ uint32_t _Language_ConvertString(VS_STACK* pS)
 {
 	VDATA* pInStr = (VDATA*)pS->Pop();
 	if (!pInStr) return IFUNCRESULT_FAILED;
-	char* strInStr = nullptr;
+	const char* strInStr = nullptr;
 	pInStr->Get(strInStr);
 
 	auto* pLngFileID = (VDATA*)pS->Pop();
@@ -939,7 +939,7 @@ uint32_t _XI_ConvertString(VS_STACK* pS)
 {
 	auto* pInStr = (VDATA*)pS->Pop();
 	if (!pInStr) return IFUNCRESULT_FAILED;
-	char* strInStr = nullptr;
+	const char* strInStr = nullptr;
 	pInStr->Get(strInStr);
 
 	char* strOutStr = g_StringServicePointer->GetString(strInStr);
@@ -957,7 +957,7 @@ uint32_t _Language_SetLanguage(VS_STACK* pS)
 {
 	VDATA* pLngName = (VDATA*)pS->Pop();
 	if (!pLngName) return IFUNCRESULT_FAILED;
-	char* strLngName = nullptr;
+	const char* strLngName = nullptr;
 	pLngName->Get(strLngName);
 
 	g_StringServicePointer->SetLanguage(strLngName);
@@ -980,7 +980,7 @@ uint32_t _LanguageGetFaderPic(VS_STACK* pS)
 {
 	VDATA* pPicName = (VDATA*)pS->Pop();
 	if (!pPicName) return IFUNCRESULT_FAILED;
-	char* strPicName = nullptr;
+	const char* strPicName = nullptr;
 	pPicName->Get(strPicName);
 
 	char newPicName[MAX_PATH];
@@ -1074,7 +1074,7 @@ uint32_t _ControlMakeInvert(VS_STACK* pS)
 
 	VDATA* pControlName = (VDATA*)pS->Pop();
 	if (!pControlName) return IFUNCRESULT_FAILED;
-	char* sCntrlName = nullptr;
+	const char* sCntrlName = nullptr;
 	pControlName->Get(sCntrlName);
 	if (!sCntrlName) return IFUNCRESULT_FAILED;
 
@@ -1421,7 +1421,7 @@ uint32_t _IsKeyPressed(VS_STACK* pS)
 	// get input data
 	VDATA* pDat = (VDATA*)pS->Pop();
 	if (!pDat) return IFUNCRESULT_FAILED;
-	char* strKeyName = nullptr;
+	const char* strKeyName = nullptr;
 	pDat->Get(strKeyName);
 	// data process
 	bool bIsPressed = false;
@@ -1452,7 +1452,7 @@ uint32_t _RegistryExitKey(VS_STACK* pS)
 	// get input data
 	auto* pDat = (VDATA*)pS->Pop();
 	if (!pDat) return IFUNCRESULT_FAILED;
-	char* strKeyName = nullptr;
+	const char* strKeyName = nullptr;
 	pDat->Get(strKeyName);
 	if (XINTERFACE::pThis != nullptr)
 		XINTERFACE::pThis->RegistryExitKey(strKeyName);
@@ -1467,12 +1467,12 @@ uint32_t _AddControlTreeNode(VS_STACK* pS)
 
 	pDat = (VDATA*)pS->Pop();
 	if (!pDat) return IFUNCRESULT_FAILED;
-	char* pcOutControl;
+	const char* pcOutControl;
 	pDat->Get(pcOutControl);
 
 	pDat = (VDATA*)pS->Pop();
 	if (!pDat) return IFUNCRESULT_FAILED;
-	char* pcBaseControl;
+	const char* pcBaseControl;
 	pDat->Get(pcBaseControl);
 
 	pDat = (VDATA*)pS->Pop();
