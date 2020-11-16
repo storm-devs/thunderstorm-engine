@@ -515,7 +515,7 @@ bool DATA::Get(const char* attribute_name, const char* & value)
 	}
 	if (AttributesClass == nullptr) return false;
 	//pAValue = Attributes.GetAttribute(attribute_name);
-	char* pAValue = AttributesClass->GetAttribute(attribute_name);
+  auto pAValue = AttributesClass->GetAttribute(attribute_name);
 	if (pAValue == nullptr) return false;
 	value = pAValue;
 	return true;
@@ -1093,7 +1093,7 @@ void DATA::SetElementsNum(uint32_t _asize)
 
 	ArrayPTR.reserve(_asize);
 	//for(n=(Number_of_elements - 1);n<_asize;n++)
-	for (uint32_t n = Number_of_elements; n < _asize; n++)
+	for (auto n = Number_of_elements; n < _asize; n++)
 	{
 		//ArrayPTR[n] = new DATA(Data_type);
 		//new (&ArrayPTR[n]) DATA(Data_type);
@@ -1992,7 +1992,7 @@ bool DATA::Copy(DATA* pV)
 
 		if (Data_type == VAR_REFERENCE)
 		{
-			DATA* pVV = GetVarPointer();
+      auto pVV = GetVarPointer();
 			if (pVV == nullptr)
 			{
 				Error(UNINIT_REF);
@@ -2655,7 +2655,7 @@ bool DATA::RefConvert()
 		Error(UNINIT_REF);
 		return false;
 	}
-	DATA* pV = pReference->GetVarPointer();
+  auto pV = pReference->GetVarPointer();
 	if (!pV)
 	{
 		Error(UNINIT_REF);

@@ -85,8 +85,8 @@ long AnimationImp::SetEvent(AnimationEvent event, long index, AnimationEventList
 void AnimationImp::DelEvent(long eventID)
 {
 	if (eventID < 0) return;
-	long event = eventID >> 16;
-	long lindex = eventID & 0xffff;
+  auto event = eventID >> 16;
+  auto lindex = eventID & 0xffff;
 	Assert(event < ae_numevents);
 	Assert(lindex < ANIIMP_MAXLISTENERS);
 	Assert(ae_listeners[event][lindex]);
@@ -129,7 +129,7 @@ void AnimationImp::CopyPlayerState(long indexSrc, long indexDst, bool copyTimerS
 	action[indexDst].CopyState(action[indexSrc]);
 	for (long i = 0; i < ANI_MAX_ACTIONS; i++)
 	{
-		bool isInv = false;
+    auto isInv = false;
 		if (timer[i].IsUsedPlayer(indexSrc, &isInv))
 		{
 			timer[i].SetPlayer(indexDst, isInv);
@@ -147,7 +147,7 @@ float AnimationImp::GetFPS()
 //Автоматическая нормализация коэфициентов блендинга
 bool AnimationImp::SetAutoNormalize(bool isNormalize)
 {
-	bool b = isAutoNormalize;
+  auto b = isAutoNormalize;
 	isAutoNormalize = isNormalize;
 	return b;
 }
@@ -160,7 +160,7 @@ bool AnimationImp::GetAutoNormalize()
 //Разрешить использование пользовательских коэфициентов блендинга в ActionPlayer
 bool AnimationImp::UserBlend(bool isBlend)
 {
-	bool b = isUserBlend;
+  auto b = isUserBlend;
 	isUserBlend = isBlend;
 	return b;
 }
@@ -191,11 +191,11 @@ void AnimationImp::Execute(long dltTime)
 //Расчитать матрицы анимации
 void AnimationImp::BuildAnimationMatrices()
 {
-	long nFrames = aniInfo->GetAniNumFrames();
-	long nbones = aniInfo->NumBones();
+  auto nFrames = aniInfo->GetAniNumFrames();
+  auto nbones = aniInfo->NumBones();
 	//Посмотрим сколько плееров играет, считаем текущии коэфициенты блендинга
 	long plCnt = 0;
-	float normBlend = 0.0f;
+  auto normBlend = 0.0f;
 	for (long i = 0; i < ANI_MAX_ACTIONS; i++)
 		if (action[i].IsPlaying())
 		{
@@ -212,29 +212,29 @@ void AnimationImp::BuildAnimationMatrices()
 		{
 			normBlend = 1.0f / normBlend;
 
-			float frame0 = action[0].GetCurrentFrame();
-			long f0 = long(frame0);
-			float ki0 = frame0 - float(f0);
+      auto frame0 = action[0].GetCurrentFrame();
+      auto f0 = long(frame0);
+      auto ki0 = frame0 - float(f0);
 			if (f0 >= nFrames)
 			{
 				f0 = nFrames - 1;
 				ki0 = 0.0f;
 			}
 
-			float frame1 = action[1].GetCurrentFrame();
-			long f1 = long(frame1);
-			float ki1 = frame1 - float(f1);
+      auto frame1 = action[1].GetCurrentFrame();
+      auto f1 = long(frame1);
+      auto ki1 = frame1 - float(f1);
 			if (f1 >= nFrames)
 			{
 				f1 = nFrames - 1;
 				ki1 = 0.0f;
 			}
 
-			float kBlend = 1.0f - action[0].kBlendCurrent * normBlend;
+      auto kBlend = 1.0f - action[0].kBlendCurrent * normBlend;
 			//-------------------------------------------------------------------------
 			for (long j = 0; j < nbones; j++)
 			{
-				Bone& bn = aniInfo->GetBone(j);
+        auto& bn = aniInfo->GetBone(j);
 				CMatrix inmtx;
 				D3DXQUATERNION qt0, qt1, qt;
 				bn.BlendFrame(f0, ki0, qt0);
@@ -244,8 +244,8 @@ void AnimationImp::BuildAnimationMatrices()
 				inmtx.Pos() = bn.pos0;
 				if (j == 0)
 				{
-					CVECTOR p0 = bn.pos[f0] + ki0 * (bn.pos[f0 + 1] - bn.pos[f0]);
-					CVECTOR p1 = bn.pos[f1] + ki1 * (bn.pos[f1 + 1] - bn.pos[f1]);
+          auto p0 = bn.pos[f0] + ki0 * (bn.pos[f0 + 1] - bn.pos[f0]);
+          auto p1 = bn.pos[f1] + ki1 * (bn.pos[f1 + 1] - bn.pos[f1]);
 					inmtx.Pos() = p0 + kBlend * (p1 - p0);
 				}
 
@@ -255,9 +255,9 @@ void AnimationImp::BuildAnimationMatrices()
 		}
 		else if (action[0].IsPlaying())
 		{
-			float frame = action[0].GetCurrentFrame();
-			long f = long(frame);
-			float ki = frame - float(f);
+      auto frame = action[0].GetCurrentFrame();
+      auto f = long(frame);
+      auto ki = frame - float(f);
 			if (f >= nFrames)
 			{
 				f = nFrames - 1;
@@ -267,7 +267,7 @@ void AnimationImp::BuildAnimationMatrices()
 			//-------------------------------------------------------------------------
 			for (long j = 0; j < nbones; j++)
 			{
-				Bone& bn = aniInfo->GetBone(j);
+        auto& bn = aniInfo->GetBone(j);
 				CMatrix inmtx;
 				D3DXQUATERNION qt;
 				bn.BlendFrame(f, ki, qt);
@@ -281,9 +281,9 @@ void AnimationImp::BuildAnimationMatrices()
 		}
 		else if (action[1].IsPlaying())
 		{
-			float frame = action[1].GetCurrentFrame();
-			long f = long(frame);
-			float ki = frame - float(f);
+      auto frame = action[1].GetCurrentFrame();
+      auto f = long(frame);
+      auto ki = frame - float(f);
 			if (f >= nFrames)
 			{
 				f = nFrames - 1;
@@ -293,7 +293,7 @@ void AnimationImp::BuildAnimationMatrices()
 			//-------------------------------------------------------------------------
 			for (long j = 0; j < nbones; j++)
 			{
-				Bone& bn = aniInfo->GetBone(j);
+        auto& bn = aniInfo->GetBone(j);
 				CMatrix inmtx;
 				D3DXQUATERNION qt;
 				bn.BlendFrame(f, ki, qt);
@@ -316,7 +316,7 @@ void AnimationImp::BuildAnimationMatrices()
 		}
 	for (long j = 0; j < nbones; j++)
 	{
-		Bone& bn = aniInfo->GetBone(j);
+    auto& bn = aniInfo->GetBone(j);
 		matrix[j] = CMatrix(bn.start) * CMatrix(bn.matrix);
 	}
 }

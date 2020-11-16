@@ -63,9 +63,9 @@ void WdmEnemyShip::Update(float dltTime)
 	//Перемещение
 	Move(dltTime);
 	//Расстояние от нас до игрока
-	float dx = wdmObjects->playerShip->mtx.Pos().x - mtx.Pos().x;
-	float dz = wdmObjects->playerShip->mtx.Pos().z - mtx.Pos().z;
-	float d = sqrtf(dx * dx + dz * dz);
+  auto dx = wdmObjects->playerShip->mtx.Pos().x - mtx.Pos().x;
+  auto dz = wdmObjects->playerShip->mtx.Pos().z - mtx.Pos().z;
+  auto d = sqrtf(dx * dx + dz * dz);
 	//Видимость
 	//От удалённости от игрока
 	alpha = 1.0f - (d - wdmObjects->enemyshipViewDistMin) / (wdmObjects->enemyshipViewDistMax - wdmObjects->
@@ -98,7 +98,7 @@ void WdmEnemyShip::Update(float dltTime)
 			slowingAlfa = deleteAlpha;
 			if (deleteAlpha < 0.0f)
 			{
-				const char* delEnc = "";
+        auto delEnc = "";
 				if (saveAttribute)
 				{
 					delEnc = saveAttribute->GetThisName();
@@ -130,7 +130,7 @@ void WdmEnemyShip::LRender(VDX9RENDER* rs)
 {
 	if (isWMRender && wdmObjects->isDebug)
 	{
-		long a = long(alpha * 255.0f);
+    auto a = long(alpha * 255.0f);
 		if (a < 60) a = 60;
 		if (a > 255) a = 255;
 		a <<= 24;
@@ -177,10 +177,10 @@ void WdmEnemyShip::FindShipsForce()
 		if (ship == this) continue;
 		if (ship == wdmObjects->playerShip && !isLookOnPlayer) continue;
 		//Вертор от него до нас
-		float fx = mtx.Pos().x - ship->mtx.Pos().x;
-		float fz = mtx.Pos().z - ship->mtx.Pos().z;
+    auto fx = mtx.Pos().x - ship->mtx.Pos().x;
+    auto fz = mtx.Pos().z - ship->mtx.Pos().z;
 		//Дистанция
-		float fl = fx * fx + fz * fz - 25.0f * 25.0f;
+    auto fl = fx * fx + fz * fz - 25.0f * 25.0f;
 		if (fl > 25.0f * 25.0f) continue;
 		if (fl < 0.1f) fl = 0.1f;
 		fl = 0.2f / powf(fl, 0.5f);
@@ -195,7 +195,7 @@ void WdmEnemyShip::FindShipsForce()
 		sx += -fz * 0.01f;
 		sz += fx * 0.01f;
 	}
-	float sl = sx * sx + sz * sz;
+  auto sl = sx * sx + sz * sz;
 	if (sl > 1.0f)
 	{
 		sl = 1.0f / sqrtf(sl);
@@ -217,16 +217,16 @@ void WdmEnemyShip::Move(float dltTime)
 	//Результирующее
 	dx = 1.0f * mx + 1.5f * ix + 1.1f * sx;
 	dz = 1.0f * mz + 1.5f * iz + 1.1f * sz;
-	float dl = dx * dx + dz * dz;
+  auto dl = dx * dx + dz * dz;
 	//Наше направление
-	float vx = mtx.Vz().x;
-	float vz = mtx.Vz().z;
-	float vl = vx * vx + vz * vz;
+  auto vx = mtx.Vz().x;
+  auto vz = mtx.Vz().z;
+  auto vl = vx * vx + vz * vz;
 	//Синус угла между этой парой векторов
-	float sn = vz * dx - vx * dz;
+  auto sn = vz * dx - vx * dz;
 	if (dl * vl > 0.0f) sn /= sqrtf(dl * vl);
 	//Если игрок сзади, то вырабатываем поворот на полную катушку
-	float cs = vx * dx + vz * dz;
+  auto cs = vx * dx + vz * dz;
 	if (cs < 0.0f)
 	{
 		if (sn < 0.0f) sn = -1;
@@ -343,9 +343,9 @@ bool WdmEnemyShip::GeneratePosition(float objRadius, float brnDltAng, float& x, 
 {
 	//Позиция игрока
 	if (!wdmObjects->playerShip) return false;
-	float psx = wdmObjects->playerShip->mtx.Pos().x;
-	float psz = wdmObjects->playerShip->mtx.Pos().z;
-	float psay = ((WdmEnemyShip *)wdmObjects->playerShip)->ay;
+  auto psx = wdmObjects->playerShip->mtx.Pos().x;
+  auto psz = wdmObjects->playerShip->mtx.Pos().z;
+  auto psay = ((WdmEnemyShip *)wdmObjects->playerShip)->ay;
 	//Поля возможных вариантов
 	uint8_t field[32];
 	for (long i = 0; i < 32; i++) field[i] = 0;
@@ -356,11 +356,11 @@ bool WdmEnemyShip::GeneratePosition(float objRadius, float brnDltAng, float& x, 
 		long ang = rand() & 31;
 		if (field[ang] != 0xff)
 		{
-			float angle = psay + brnDltAng * (0.5f - ang / 31.0f);
+      auto angle = psay + brnDltAng * (0.5f - ang / 31.0f);
 			//Определяем радиус
 			long rad;
 			for (rad = rand() & 7; field[ang] & (1 << rad); rad = rand() & 7);
-			float radius = wdmObjects->enemyshipBrnDistMin + (wdmObjects->enemyshipBrnDistMax - wdmObjects->
+      auto radius = wdmObjects->enemyshipBrnDistMin + (wdmObjects->enemyshipBrnDistMax - wdmObjects->
 				enemyshipBrnDistMin) * rad / 7.0f;
 			//Координаты
 			x = psx + radius * sinf(angle);

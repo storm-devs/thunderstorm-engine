@@ -48,31 +48,31 @@ void AIFort::Execute(uint32_t Delta_Time)
 	Trace(vSrc, vDst);*/
 	fMinCannonDamageDistance = AttributesPointer->GetAttributeAsFloat("MinCannonDamageDistance");
 
-	float fDeltaTime = float(Delta_Time) * 0.001f;
+  auto fDeltaTime = float(Delta_Time) * 0.001f;
 	if (!aForts.size()) return;
 
-	bool bFiredTimer = dtFiredTimer.Update(fDeltaTime);
+  auto bFiredTimer = dtFiredTimer.Update(fDeltaTime);
 
 	for (uint32_t k = 0; k < aForts.size(); k++)
 	{
-		AI_FORT* pF = aForts[k];
+    auto pF = aForts[k];
 		if (pF->isDead()) continue;
 		if (!pF->isNormalMode()) continue;
 
-		float fSpeedV0 = 0.0f;
-		uint32_t dwCurrentCannonType = 0xFFFFFFFF;
-		uint32_t iMax = pF->GetAllCannonsNum(); // boal fix
+    auto fSpeedV0 = 0.0f;
+    auto dwCurrentCannonType = 0xFFFFFFFF;
+    auto iMax = pF->GetAllCannonsNum(); // boal fix
 		for (uint32_t i = 0; i < iMax; i++)
 		{
-			AICannon* pC = pF->GetCannon(i);
+      auto pC = pF->GetCannon(i);
 
-			uint32_t dwNewCurrentCannonType = pF->GetCannonType(i);
+      auto dwNewCurrentCannonType = pF->GetCannonType(i);
 
 			// update cannons parameters
 			if (dwCurrentCannonType != dwNewCurrentCannonType)
 			{
 				dwCurrentCannonType = dwNewCurrentCannonType;
-				ATTRIBUTES* pACannons = pF->GetACharacter()->FindAClass(pF->GetACharacter(), "Ship.Cannons");
+        auto pACannons = pF->GetACharacter()->FindAClass(pF->GetACharacter(), "Ship.Cannons");
 				if (!pACannons) pACannons = pF->GetACharacter()->CreateSubAClass(pF->GetACharacter(), "Ship.Cannons");
 				Assert(pACannons);
 				pACannons->SetAttributeUseDword("type", dwCurrentCannonType);
@@ -84,14 +84,14 @@ void AIFort::Execute(uint32_t Delta_Time)
 			if (!pC->isFired() && pC->isReady2Fire() && bFiredTimer)
 			{
 				AIShip* pFireAIShip = nullptr;
-				float fMinDistance = 1e10f;
-				CVECTOR vCPos = pC->GetPos();
-				float fMaxFireDistance = AICannon::CalcMaxFireDistance(vCPos.y, fSpeedV0, 0.35f); // FIX-ME
+        auto fMinDistance = 1e10f;
+        auto vCPos = pC->GetPos();
+        auto fMaxFireDistance = AICannon::CalcMaxFireDistance(vCPos.y, fSpeedV0, 0.35f); // FIX-ME
 				for (uint32_t j = 0; j < AIShip::AIShips.size(); j++)
 					if (!AIShip::AIShips[j]->isDead() && Helper.isEnemy(
 						pF->GetACharacter(), AIShip::AIShips[j]->GetACharacter()))
 					{
-						float fDistance = AIShip::AIShips[j]->GetDistance(vCPos);
+            auto fDistance = AIShip::AIShips[j]->GetDistance(vCPos);
 						if (fDistance > fMaxFireDistance) continue;
 						if (fDistance < fMinDistance)
 						{
@@ -164,20 +164,20 @@ bool AIFort::AddFort(ATTRIBUTES* pIslandAP, ATTRIBUTES* pFortLabelAP, ATTRIBUTES
 {
 	Assert(pFortLabelAP);
 
-	ATTRIBUTES* pFortAP = pFortLabelAP->FindAClass(pFortLabelAP, "fort");
+  auto pFortAP = pFortLabelAP->FindAClass(pFortLabelAP, "fort");
 	Assert(pFortAP);
-	ATTRIBUTES* pModelAP = pFortAP->FindAClass(pFortAP, "model");
+  auto pModelAP = pFortAP->FindAClass(pFortAP, "model");
 	Assert(pModelAP);
-	ATTRIBUTES* pLocatorsAP = pFortAP->FindAClass(pFortAP, "locators");
+  auto pLocatorsAP = pFortAP->FindAClass(pFortAP, "locators");
 	Assert(pLocatorsAP);
-	ATTRIBUTES* pModelsDirAP = pIslandAP->FindAClass(pIslandAP, "filespath.models");
+  auto pModelsDirAP = pIslandAP->FindAClass(pIslandAP, "filespath.models");
 	Assert(pModelsDirAP);
 
-	char* pModelName = pModelAP->GetThisAttr();
+  auto pModelName = pModelAP->GetThisAttr();
 	Assert(pModelName);
-	char* pLocatorsName = pLocatorsAP->GetThisAttr();
+  auto pLocatorsName = pLocatorsAP->GetThisAttr();
 	Assert(pLocatorsName);
-	char* pModelsDir = pModelsDirAP->GetThisAttr();
+  auto pModelsDir = pModelsDirAP->GetThisAttr();
 	Assert(pModelsDir);
 
 	auto* pFort = new AI_FORT(pFortLabelAP);
@@ -187,11 +187,11 @@ bool AIFort::AddFort(ATTRIBUTES* pIslandAP, ATTRIBUTES* pFortLabelAP, ATTRIBUTES
 	//pFort->pFortLabelAP = pFortLabelAP;
 	aForts.push_back(pFort);
 
-	ATTRIBUTES* pACannonsType1 = pFortCharacter->FindAClass(pFortCharacter, "Fort.Cannons.Type.1");
+  auto pACannonsType1 = pFortCharacter->FindAClass(pFortCharacter, "Fort.Cannons.Type.1");
 	Assert(pACannonsType1);
-	ATTRIBUTES* pACannonsType2 = pFortCharacter->FindAClass(pFortCharacter, "Fort.Cannons.Type.2");
+  auto pACannonsType2 = pFortCharacter->FindAClass(pFortCharacter, "Fort.Cannons.Type.2");
 	Assert(pACannonsType2);
-	ATTRIBUTES* pACannonsType3 = pFortCharacter->FindAClass(pFortCharacter, "Fort.Cannons.Type.3");
+  auto pACannonsType3 = pFortCharacter->FindAClass(pFortCharacter, "Fort.Cannons.Type.3");
 	Assert(pACannonsType3);
 	pFort->dwCannonType = pACannonsType1->GetAttributeAsDword();
 	pFort->dwCulverinType = pACannonsType2->GetAttributeAsDword();
@@ -201,13 +201,13 @@ bool AIFort::AddFort(ATTRIBUTES* pIslandAP, ATTRIBUTES* pFortLabelAP, ATTRIBUTES
 
 	ScanFortForCannons(pFort, pModelsDir, pLocatorsName);
 
-	ATTRIBUTES* pALights = pFortCharacter->FindAClass(GetACharacter(), "ship.lights");
-	ATTRIBUTES* pAFlares = pFortCharacter->FindAClass(GetACharacter(), "ship.flares");
+  auto pALights = pFortCharacter->FindAClass(GetACharacter(), "ship.lights");
+  auto pAFlares = pFortCharacter->FindAClass(GetACharacter(), "ship.flares");
 
-	bool bLights = (pALights) ? pALights->GetAttributeAsDword() != 0 : false;
-	bool bFlares = (pAFlares) ? pAFlares->GetAttributeAsDword() != 0 : false;
+  auto bLights = (pALights) ? pALights->GetAttributeAsDword() != 0 : false;
+  auto bFlares = (pAFlares) ? pAFlares->GetAttributeAsDword() != 0 : false;
 
-	entid_t eidTmp = EntityManager::GetEntityId("shiplights");
+  auto eidTmp = EntityManager::GetEntityId("shiplights");
 	pShipsLights = (IShipLights*)EntityManager::GetEntityPointer(eidTmp);
 	Assert(pShipsLights);
 
@@ -224,23 +224,23 @@ void AIFort::AddFortHit(long iCharacterIndex, CVECTOR& vHitPos)
 	uint32_t i, j, iMax;
 	for (i = 0; i < aForts.size(); i++)
 	{
-		AI_FORT* pF = aForts[i];
+    auto pF = aForts[i];
 
 		iMax = pF->GetAllCannonsNum(); // boal fix
 		for (j = 0; j < iMax; j++)
 		{
-			AICannon* pC = pF->GetCannon(j);
+      auto pC = pF->GetCannon(j);
 
 			if (pC->isDamaged()) continue;
 
-			CVECTOR vPos = pC->GetPos();
-			float fDistance = sqrtf(~(vPos - vHitPos));
+      auto vPos = pC->GetPos();
+      auto fDistance = sqrtf(~(vPos - vHitPos));
 			if (fDistance > fMinCannonDamageDistance) continue;
 
 			//VDATA * pVData = api->Event(FORT_CANNON_DAMAGE, "llallfffff", iCharacterIndex, GetIndex(pF->GetACharacter()), pF->pFortLabelAP, pF->GetAllCannonsNum(), pF->GetDamagedCannonsNum(), vPos.x, vPos.y, vPos.z, fDistance, pC->GetDamage()); Assert(pVData);
-			VDATA* pVData = api->Event(FORT_CANNON_DAMAGE, "llallfffff", iCharacterIndex, GetIndex(pF->GetACharacter()),
-			                           pF->pFortLabelAP, iMax, pF->GetDamagedCannonsNum(), vPos.x, vPos.y, vPos.z,
-			                           fDistance, pC->GetDamage());
+      auto pVData = api->Event(FORT_CANNON_DAMAGE, "llallfffff", iCharacterIndex, GetIndex(pF->GetACharacter()),
+                               pF->pFortLabelAP, iMax, pF->GetDamagedCannonsNum(), vPos.x, vPos.y, vPos.z,
+                               fDistance, pC->GetDamage());
 			Assert(pVData);
 
 			pC->SetDamage(pVData->GetFloat());
@@ -316,8 +316,8 @@ bool AIFort::ScanFortForCannons(AI_FORT* pFort, char* pModelsDir, char* pLocator
 	NODE* pNode;
 	//std::string		sLocatorsName;
 
-	fs::path path = fs::path() / pModelsDir / pLocatorsName;
-	std::string pathStr = path.string();
+  auto path = fs::path() / pModelsDir / pLocatorsName;
+  auto pathStr = path.string();
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//sLocatorsName.Format("%s\\%s", pModelsDir, pLocatorsName);
 	model_id = EntityManager::CreateEntity("MODELR");
@@ -394,15 +394,15 @@ float AIFort::Trace(const CVECTOR& vSrc, const CVECTOR& vDst)
 {
 	pLastTraceFort = nullptr;
 
-	float fBestRes = 2.0f;
-	float fBestDistance = 1e10f;
+  auto fBestRes = 2.0f;
+  auto fBestDistance = 1e10f;
 	for (uint32_t i = 0; i < GetNumForts(); i++)
 	{
 		auto* pModel = (MODEL*)EntityManager::GetEntityPointer(GetFort(i)->GetModelEID());
 		Assert(pModel);
-		float fRes = pModel->Trace(vSrc, vDst);
+    auto fRes = pModel->Trace(vSrc, vDst);
 		if (fRes > 1.0f) continue;
-		float fDistance = fRes * sqrtf(~(vDst - vSrc));
+    auto fDistance = fRes * sqrtf(~(vDst - vSrc));
 		if (fDistance < fBestDistance)
 		{
 			pLastTraceFort = GetFort(i);

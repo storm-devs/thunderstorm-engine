@@ -21,7 +21,7 @@ TButterflies::~TButterflies()
 //--------------------------------------------------------------------
 void TButterflies::LoadSettings()
 {
-	INIFILE* ini = fio->OpenIniFile(ANIMALS_INI_FILENAME);
+  auto ini = fio->OpenIniFile(ANIMALS_INI_FILENAME);
 	if (!ini)
 		return;
 
@@ -52,7 +52,7 @@ void TButterflies::Init()
 	                                 sizeof(tButterflyVertex),
 	                                 3 * 4, 6, butterfliesCount);
 
-	for (int i = 0; i < butterfliesCount; i++)
+	for (auto i = 0; i < butterfliesCount; i++)
 		butterflies[i].Initialize(CVECTOR(0.0f, 0.0f, 0.0f), maxDistance, ivManager->ReserveElement(), rand() % 4,
 		                          rand() % 4);
 
@@ -78,7 +78,7 @@ uint64_t TButterflies::ProcessMessage(long _code, MESSAGE& message)
 			static CVECTOR affectVector(0.f, 0.f, 0.f);
 			affectVector.x = message.Float();
 			affectVector.z = message.Float();
-			for (int i = 0; i < butterfliesCount; i++)
+			for (auto i = 0; i < butterfliesCount; i++)
 			{
 				butterflies[i].Effect(affectVector);
 			}
@@ -109,13 +109,13 @@ void TButterflies::Execute(uint32_t _dTime)
 	{
 		for (i = 0; i < butterfliesCount; i++)
 		{
-			static const float ALL_Y = 1000.0f;
-			CVECTOR topVector = butterflies[i].GetPosition();
-			CVECTOR bottomVector = butterflies[i].GetPosition();
+			static const auto ALL_Y = 1000.0f;
+      auto topVector = butterflies[i].GetPosition();
+      auto bottomVector = butterflies[i].GetPosition();
 			topVector.y = ALL_Y;
 			bottomVector.y = -ALL_Y;
 
-			float ray = collide->Trace(its, topVector, bottomVector, nullptr, 0);
+      auto ray = collide->Trace(its, topVector, bottomVector, nullptr, 0);
 			if (ray <= 1.0f)
 				butterflies[i].SetMinY(-ALL_Y + (1.f - ray) * 2.f * ALL_Y);
 			else

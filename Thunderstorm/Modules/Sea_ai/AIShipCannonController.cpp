@@ -25,24 +25,24 @@ AIShipCannonController::~AIShipCannonController()
 bool AIShipCannonController::Fire2Position(uint32_t dwBort, const CVECTOR& vFirePos, float fFireHeight)
 {
 	Assert(dwBort < aShipBorts.size());
-	AISHIP_BORT* pBort = &aShipBorts[dwBort];
+  auto pBort = &aShipBorts[dwBort];
 
-	bool bEnoughBalls = isHaveEnoughtBallsForBort(dwBort);
+  auto bEnoughBalls = isHaveEnoughtBallsForBort(dwBort);
 	if (!bEnoughBalls) bNotEnoughBalls = true;
 	if (!pBort->isCharged() || !pBort->aCannons.size() || pBort->isBortDamaged()) return false;
 
-	CVECTOR vFireDir = !(vFirePos - pOurAIShip->GetPos());
-	float fFireDist = sqrtf(~(vFirePos - pOurAIShip->GetPos()));
+  auto vFireDir = !(vFirePos - pOurAIShip->GetPos());
+  auto fFireDist = sqrtf(~(vFirePos - pOurAIShip->GetPos()));
 
-	CVECTOR vTempFirePos = vFirePos + CVECTOR(0.0f, fFireHeight, 0.0f);
+  auto vTempFirePos = vFirePos + CVECTOR(0.0f, fFireHeight, 0.0f);
 
-	VDATA* pVData = api->Event(SHIP_GET_BORT_FIRE_DELTA, "afff", GetAIShip()->GetACharacter(), vTempFirePos.x,
-	                           vTempFirePos.y, vTempFirePos.z);
-	float fRadius = pVData->GetFloat();
-	float fAng = FRAND(PIm2);
+  auto pVData = api->Event(SHIP_GET_BORT_FIRE_DELTA, "afff", GetAIShip()->GetACharacter(), vTempFirePos.x,
+                           vTempFirePos.y, vTempFirePos.z);
+  auto fRadius = pVData->GetFloat();
+  auto fAng = FRAND(PIm2);
 	vTempFirePos += CVECTOR(fRadius * sinf(fAng), 0.0f, fRadius * cosf(fAng));
 
-	CVECTOR vTempFireDir = !(vTempFirePos - pOurAIShip->GetPos());
+  auto vTempFireDir = !(vTempFirePos - pOurAIShip->GetPos());
 
 	api->Event(SHIP_BORT_FIRE, "lisffffff", GetIndex(GetAIShip()->GetACharacter()), GetAIShip()->GetShipEID(),
 	           (char*)aShipBorts[dwBort].sName.c_str(), vTempFirePos.x, vTempFirePos.y, vTempFirePos.z, vTempFireDir.x,
@@ -50,7 +50,7 @@ bool AIShipCannonController::Fire2Position(uint32_t dwBort, const CVECTOR& vFire
 
 	for (uint32_t j = 0; j < pBort->aCannons.size(); j++)
 	{
-		AICannon* pCannon = &pBort->aCannons[j];
+    auto pCannon = &pBort->aCannons[j];
 		if (pCannon->isDamaged()) continue;
 		pCannon->SetRechargeEnable(bEnoughBalls);
 		pCannon->Fire(pBort->fSpeedV0, vTempFirePos);
@@ -62,10 +62,10 @@ bool AIShipCannonController::Fire2Position(uint32_t dwBort, const CVECTOR& vFire
 
 bool AIShipCannonController::Fire(const CVECTOR& vFireCamPos, const CVECTOR& vFireDir)
 {
-	CVECTOR vOurPos = GetAIShip()->GetPos();
-	float fSpeedV0 = GetSpeedV0();
+  auto vOurPos = GetAIShip()->GetPos();
+  auto fSpeedV0 = GetSpeedV0();
 
-	CVECTOR vTempDir = !CVECTOR(vFireDir.x, 0.0f, vFireDir.z);
+  auto vTempDir = !CVECTOR(vFireDir.x, 0.0f, vFireDir.z);
 	float fAngle = acosf(Clamp(vTempDir | vFireDir));
 	if (vFireDir.y < 0) fAngle = -fAngle;
 

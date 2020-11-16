@@ -50,7 +50,7 @@ void HELPCHOOSER::Execute(uint32_t Delta_Time)
 	long newCurRect;
 	CONTROL_STATE cs;
 
-	bool bMouseMoved = MouseMove();
+  auto bMouseMoved = MouseMove();
 
 	api->Controls->GetControlState("HelpChooser_Cancel", cs);
 	if (cs.state == CST_ACTIVATED)
@@ -186,7 +186,7 @@ void HELPCHOOSER::AllRelease()
 	TEXTURE_RELEASE(rs, m_idBackTexture);
 	VERTEX_BUF_RELEASE(rs, m_idVBuf);
 	STORM_DELETE(m_pRectList);
-	for (int i = 0; i < m_nRectQ; i++)
+	for (auto i = 0; i < m_nRectQ; i++)
 	{
 		STORM_DELETE(m_psRectName[i]);
 	}
@@ -250,7 +250,7 @@ bool HELPCHOOSER::RunChooser(char* ChooserGroup)
 	for (i = 0; i < m_nRectQ; i++)
 	{
 		m_psRectName[i] = nullptr;
-		char* tmpStr = param;
+    auto tmpStr = param;
 
 		tmpStr = XI_ParseStr(tmpStr, param2, sizeof(param2));
 		for (j = strlen(param2) - 1; j >= 0; j--)
@@ -380,14 +380,14 @@ void HELPCHOOSER::SetRectangle(long newRectNum)
 long HELPCHOOSER::GetRectangleLeft()
 {
 	if (m_nCurRect < 0 || m_nCurRect >= m_nRectQ || m_pRectList == nullptr) return 0;
-	float left = m_pRectList[m_nCurRect].left;
-	float top = m_pRectList[m_nCurRect].top;
-	float right = m_pRectList[m_nCurRect].right;
-	float bottom = m_pRectList[m_nCurRect].bottom;
+  auto left = m_pRectList[m_nCurRect].left;
+  auto top = m_pRectList[m_nCurRect].top;
+  auto right = m_pRectList[m_nCurRect].right;
+  auto bottom = m_pRectList[m_nCurRect].bottom;
 
-	float fdist = 1.f;
+  auto fdist = 1.f;
 	float ftmp;
-	long nRectNum = m_nCurRect;
+  auto nRectNum = m_nCurRect;
 	while (true)
 	{
 		int i;
@@ -417,14 +417,14 @@ long HELPCHOOSER::GetRectangleLeft()
 long HELPCHOOSER::GetRectangleRight()
 {
 	if (m_nCurRect < 0 || m_nCurRect >= m_nRectQ || m_pRectList == nullptr) return 0;
-	float left = m_pRectList[m_nCurRect].left;
-	float top = m_pRectList[m_nCurRect].top;
-	float right = m_pRectList[m_nCurRect].right;
-	float bottom = m_pRectList[m_nCurRect].bottom;
+  auto left = m_pRectList[m_nCurRect].left;
+  auto top = m_pRectList[m_nCurRect].top;
+  auto right = m_pRectList[m_nCurRect].right;
+  auto bottom = m_pRectList[m_nCurRect].bottom;
 
-	float fdist = 1.f;
+  auto fdist = 1.f;
 	float ftmp;
-	long nRectNum = m_nCurRect;
+  auto nRectNum = m_nCurRect;
 	while (true)
 	{
 		int i;
@@ -454,14 +454,14 @@ long HELPCHOOSER::GetRectangleRight()
 long HELPCHOOSER::GetRectangleUp()
 {
 	if (m_nCurRect < 0 || m_nCurRect >= m_nRectQ || m_pRectList == nullptr) return 0;
-	float left = m_pRectList[m_nCurRect].left;
-	float top = m_pRectList[m_nCurRect].top;
-	float right = m_pRectList[m_nCurRect].right;
-	float bottom = m_pRectList[m_nCurRect].bottom;
+  auto left = m_pRectList[m_nCurRect].left;
+  auto top = m_pRectList[m_nCurRect].top;
+  auto right = m_pRectList[m_nCurRect].right;
+  auto bottom = m_pRectList[m_nCurRect].bottom;
 
-	float fdist = 1.f;
+  auto fdist = 1.f;
 	float ftmp;
-	long nRectNum = m_nCurRect;
+  auto nRectNum = m_nCurRect;
 	while (true)
 	{
 		int i;
@@ -491,14 +491,14 @@ long HELPCHOOSER::GetRectangleUp()
 long HELPCHOOSER::GetRectangleDown()
 {
 	if (m_nCurRect < 0 || m_nCurRect >= m_nRectQ || m_pRectList == nullptr) return 0;
-	float left = m_pRectList[m_nCurRect].left;
-	float top = m_pRectList[m_nCurRect].top;
-	float right = m_pRectList[m_nCurRect].right;
-	float bottom = m_pRectList[m_nCurRect].bottom;
+  auto left = m_pRectList[m_nCurRect].left;
+  auto top = m_pRectList[m_nCurRect].top;
+  auto right = m_pRectList[m_nCurRect].right;
+  auto bottom = m_pRectList[m_nCurRect].bottom;
 
-	float fdist = 1.f;
+  auto fdist = 1.f;
 	float ftmp;
-	long nRectNum = m_nCurRect;
+  auto nRectNum = m_nCurRect;
 	while (true)
 	{
 		int i;
@@ -527,8 +527,8 @@ long HELPCHOOSER::GetRectangleDown()
 
 bool HELPCHOOSER::MouseMove()
 {
-	float oldX = m_fCurMouseX;
-	float oldY = m_fCurMouseY;
+  auto oldX = m_fCurMouseX;
+  auto oldY = m_fCurMouseY;
 
 	CONTROL_STATE csv, csh;
 	api->Controls->GetControlState("ITurnV", csv);

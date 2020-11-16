@@ -59,7 +59,7 @@ WATCHER_LIST::WATCHER_LIST(HWND hwnd, HINSTANCE hinst)
 		else
 		{
 			// try read 11 elements
-			for (int n = 0; n < 11; n++)
+			for (auto n = 0; n < 11; n++)
 			{
 				sprintf_s(buffer, "E%d", n);
 				if (ini->ReadString(nullptr, buffer, buffer, sizeof(buffer), ""))

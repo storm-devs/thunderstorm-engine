@@ -153,9 +153,9 @@ bool WorldMap::Init()
 	rs->ProgressView();
 	//Создаём камеру
 	camera = new WdmCameraStdCtrl();
-	float camAy = 0.0f;
-	float camH = -1.0f;
-	bool camLock = false;
+  auto camAy = 0.0f;
+  auto camH = -1.0f;
+  auto camLock = false;
 	if (AttributesPointer)
 	{
 		camAy = AttributesPointer->GetAttributeAsFloat("wdmCameraAY", camAy);
@@ -177,10 +177,10 @@ bool WorldMap::Init()
 	ro = CreateModel(new WdmPlayerShip(), "Ship");
 	Assert(ro);
 	AddLObject(ro, 100);
-	float psX = 50.0f;
-	float psZ = 0.0f;
-	float psAy = 0.0f;
-	float psRad = 16.0f;
+  auto psX = 50.0f;
+  auto psZ = 0.0f;
+  auto psAy = 0.0f;
+  auto psRad = 16.0f;
 	if (AttributesPointer)
 	{
 		psX = AttributesPointer->GetAttributeAsFloat("playerShipX", psX);
@@ -207,7 +207,7 @@ bool WorldMap::Init()
 		wdmObjects->stormBrnDistMax = AttributesPointer->GetAttributeAsFloat(
 			"stormBrnDistMax", wdmObjects->stormBrnDistMax);
 		wdmObjects->stormZone = AttributesPointer->GetAttributeAsFloat("stormZone", wdmObjects->stormZone);
-		char* s = AttributesPointer->GetAttribute("debug");
+    auto s = AttributesPointer->GetAttribute("debug");
 		wdmObjects->isDebug = s && (_stricmp(s, "true") == 0);
 		saveData = AttributesPointer->CreateSubAClass(AttributesPointer, "encounters");
 	}
@@ -285,10 +285,10 @@ bool WorldMap::Init()
 	//Загружаем энкоунтеры, если таковы были
 	if (saveData)
 	{
-		uint32_t num = saveData->GetAttributesNum();
+    auto num = saveData->GetAttributesNum();
 		for (uint32_t i = 0; i < num; i++)
 		{
-			ATTRIBUTES* a = saveData->GetAttributeClass(i);
+      auto a = saveData->GetAttributeClass(i);
 			if (!a) continue;
 			const char* type = a->GetAttribute("type");
 			const char* modelName = a->GetAttribute("modelName");
@@ -315,13 +315,13 @@ bool WorldMap::Init()
 			}
 			if (_stricmp(type, "Warring") == 0 && modelName && modelName[0])
 			{
-				char* attacked = a->GetAttribute("attacked");
+        auto attacked = a->GetAttribute("attacked");
 				if (attacked)
 				{
-					ATTRIBUTES* a1 = saveData->FindAClass(saveData, attacked);
+          auto a1 = saveData->FindAClass(saveData, attacked);
 					if (a1)
 					{
-						char* modelName1 = a1->GetAttribute("modelName");
+            auto modelName1 = a1->GetAttribute("modelName");
 						if (modelName1 && modelName1[0])
 						{
 							if (!CreateWarringShips(modelName, modelName1, -1.0f, a, a1))
@@ -345,7 +345,7 @@ bool WorldMap::Init()
 			}
 			if (_stricmp(type, "Storm") == 0)
 			{
-				bool isTornado = (a->GetAttributeAsDword("isTornado", 0) != 0);
+        auto isTornado = (a->GetAttributeAsDword("isTornado", 0) != 0);
 				if (!CreateStorm(isTornado, -1.0f, a))
 				{
 					api->Trace("WoldMap: not loaded storm encounter.");
@@ -360,9 +360,9 @@ bool WorldMap::Init()
 
 
 	//Корректируем корабль игрока
-	WdmPlayerShip* playerShip = (WdmPlayerShip *)wdmObjects->playerShip;
+  auto playerShip = (WdmPlayerShip *)wdmObjects->playerShip;
 	playerShip->PushOutFromIsland();
-	ATTRIBUTES* atrData = AttributesPointer->FindAClass(AttributesPointer, "island");
+  auto atrData = AttributesPointer->FindAClass(AttributesPointer, "island");
 	if (atrData)
 	{
 		float x, z, ay;
@@ -389,7 +389,7 @@ void WorldMap::Realize(uint32_t delta_time)
 		CVECTOR wind(0.0f);
 		float x, z, ay;
 		wdmObjects->playerShip->GetPosition(x, z, ay);
-		float force = wdmObjects->GetWind(x, z, wind);
+    auto force = wdmObjects->GetWind(x, z, wind);
 		AttributesPointer->SetAttributeUseFloat("WindX", wind.x);
 		AttributesPointer->SetAttributeUseFloat("WindZ", wind.z);
 		AttributesPointer->SetAttributeUseFloat("WindF", force);
@@ -408,15 +408,15 @@ void WorldMap::Realize(uint32_t delta_time)
 		}
 	}
 	//---------------------------------------------------------
-	float dltTime = 0.001f * delta_time;
+  auto dltTime = 0.001f * delta_time;
 	//Обновляем дату
 	if (hour < 0.0f) hour = 0.0f;
 	hour += dltTime * timeScale;
-	long days = long(hour / 24.0f);
+  auto days = long(hour / 24.0f);
 	hour = (hour / 24.0f - days) * 24.0f;
-	long dtHour = long(hour);
-	long dtMin = long((hour - dtHour) * 60.0f);
-	long dtSec = long(((hour - dtHour) * 60.0f - dtMin) * 60.0f);
+  auto dtHour = long(hour);
+  auto dtMin = long((hour - dtHour) * 60.0f);
+  auto dtSec = long(((hour - dtHour) * 60.0f - dtMin) * 60.0f);
 	aDate->SetAttributeUseDword("sec", dtSec);
 	aDate->SetAttributeUseDword("min", dtMin);
 	aDate->SetAttributeUseDword("hour", dtHour);
@@ -452,7 +452,7 @@ void WorldMap::Realize(uint32_t delta_time)
 #endif
 	}
 	//
-	char* tmp = aDate->GetAttribute("sec");
+  auto tmp = aDate->GetAttribute("sec");
 	if (tmp) strcpy_s(wdmObjects->attrSec, tmp);
 	tmp = aDate->GetAttribute("min");
 	if (tmp) strcpy_s(wdmObjects->attrMin, tmp);
@@ -466,9 +466,9 @@ void WorldMap::Realize(uint32_t delta_time)
 	if (tmp) strcpy_s(wdmObjects->attrYear, tmp);
 	//---------------------------------------------------------
 	if (camera && !wdmObjects->isPause) camera->Move(dltTime, rs);
-	bool isKill = false;
+  auto isKill = false;
 	//Исполним все объекты
-	for (long i = firstObject; i >= 0; i = object[i].next)
+	for (auto i = firstObject; i >= 0; i = object[i].next)
 	{
 		if (!object[i].ro->killMe) object[i].ro->Update(object[i].ro->isEnablePause && wdmObjects->isPause
 			                                                ? 0.0f
@@ -478,7 +478,7 @@ void WorldMap::Realize(uint32_t delta_time)
 	//Удалим объекты если надо
 	if (isKill)
 	{
-		for (long i = firstObject; i >= 0;)
+		for (auto i = firstObject; i >= 0;)
 			if (object[i].ro->killMe)
 			{
 				DeleteObject(object[i].ro);
@@ -494,7 +494,7 @@ void WorldMap::Realize(uint32_t delta_time)
 	encTime += dltTime;
 	if (encTime >= 1.0f && wdmObjects->playerShip && !wdmObjects->isPause)
 	{
-		float psx = 0.0f, psz = 0.0f, psay = 0.0f;
+    auto psx = 0.0f, psz = 0.0f, psay = 0.0f;
 		wdmObjects->playerShip->GetPosition(psx, psz, psay);
 #ifndef ENCS_OFF
 		api->Event("WorldMap_EncounterCreate", "ffff", encTime, psx, psz, psay);
@@ -503,15 +503,15 @@ void WorldMap::Realize(uint32_t delta_time)
 	}
 	rs->SetRenderState(D3DRS_FOGENABLE, FALSE);
 	rs->SetRenderState(D3DRS_LIGHTING, FALSE);
-	for (long i = firstPrObject; i >= 0; i = object[i].next)
+	for (auto i = firstPrObject; i >= 0; i = object[i].next)
 	{
 		if (!object[i].ro->killMe) object[i].ro->PRender(rs);
 	}
-	for (long i = firstMrObject; i >= 0; i = object[i].next)
+	for (auto i = firstMrObject; i >= 0; i = object[i].next)
 	{
 		if (!object[i].ro->killMe) object[i].ro->MRender(rs);
 	}
-	for (long i = firstLrObject; i >= 0; i = object[i].next)
+	for (auto i = firstLrObject; i >= 0; i = object[i].next)
 	{
 		if (!object[i].ro->killMe) object[i].ro->LRender(rs);
 	}
@@ -539,7 +539,7 @@ uint64_t WorldMap::ProcessMessage(MESSAGE& message)
 	{
 	case MSG_WORLDMAP_CREATESTORM:
 		{
-			bool isTornado = message.Long() != 0;
+      auto isTornado = message.Long() != 0;
 			CreateStorm(isTornado);
 		}
 		break;
@@ -548,8 +548,8 @@ uint64_t WorldMap::ProcessMessage(MESSAGE& message)
 			message.String(sizeof(sName), sName);
 			message.String(sizeof(buf), buf);
 			message.String(sizeof(sName2), sName2);
-			float kSpeed = message.Float();
-			float timeOut = message.Float(); //boal
+      auto kSpeed = message.Float();
+      auto timeOut = message.Float(); //boal
 			return CreateMerchantShip(sName, buf, sName2, kSpeed, timeOut); //boal
 		}
 		break;
@@ -557,12 +557,12 @@ uint64_t WorldMap::ProcessMessage(MESSAGE& message)
 	case MSG_WORLDMAP_CREATEENC_MER_XZ:
 		{
 			message.String(sizeof(sName), sName);
-			float fx1 = message.Float();
-			float fz1 = message.Float();
-			float fx2 = message.Float();
-			float fz2 = message.Float();
-			float kSpeed = message.Float();
-			float timeOut = message.Float();
+      auto fx1 = message.Float();
+      auto fz1 = message.Float();
+      auto fx2 = message.Float();
+      auto fz2 = message.Float();
+      auto kSpeed = message.Float();
+      auto timeOut = message.Float();
 			return CreateMerchantShipXZ(sName, fx1, fz1, fx2, fz2, kSpeed, timeOut);
 		}
 		break;
@@ -570,8 +570,8 @@ uint64_t WorldMap::ProcessMessage(MESSAGE& message)
 	case MSG_WORLDMAP_CREATEENC_FLW:
 		{
 			message.String(sizeof(sName), sName);
-			float kSpeed = message.Float();
-			float timeOut = message.Float();
+      auto kSpeed = message.Float();
+      auto timeOut = message.Float();
 			return CreateFollowShip(sName, kSpeed, timeOut);
 		}
 		break;
@@ -579,7 +579,7 @@ uint64_t WorldMap::ProcessMessage(MESSAGE& message)
 		{
 			message.String(sizeof(sName), sName);
 			message.String(sizeof(sName), sName2);
-			float timeOut = message.Float();
+      auto timeOut = message.Float();
 			return CreateWarringShips(sName, sName2, timeOut);
 		}
 		break;
@@ -627,10 +627,10 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES* apnt)
 	}
 	else if (_stricmp(apnt->GetThisName(), "cur") == 0)
 	{
-		ATTRIBUTES* pa = apnt->GetParent();
+    auto pa = apnt->GetParent();
 		if (pa == aStorm)
 		{
-			long cur = long(pa->GetAttributeAsDword("cur"));
+      auto cur = long(pa->GetAttributeAsDword("cur"));
 			if (cur >= 0 && cur < wdmObjects->storms.size())
 			{
 				Assert(wdmObjects->storms[cur]);
@@ -646,7 +646,7 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES* apnt)
 		}
 		else if (pa == aEncounter)
 		{
-			long cur = long(pa->GetAttributeAsDword("cur"));
+      auto cur = long(pa->GetAttributeAsDword("cur"));
 			//Определим индекс энкоунтера
 			long i = 0;
 			for (long enc = 0; i < wdmObjects->ships.size(); i++)
@@ -662,7 +662,7 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES* apnt)
 				pa->SetAttributeUseFloat("x", x);
 				pa->SetAttributeUseFloat("z", z);
 				pa->SetAttributeUseFloat("ay", ay);
-				WdmEnemyShip* es = (WdmEnemyShip *)wdmObjects->ships[i];
+        auto es = (WdmEnemyShip *)wdmObjects->ships[i];
 				pa->SetAttributeUseFloat("time", es->GetLiveTime());
 				char buf[32];
 				sprintf_s(buf, "%i", es->type);
@@ -696,7 +696,7 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES* apnt)
 	}
 	else if (_stricmp(apnt->GetThisName(), "updateinfo") == 0)
 	{
-		ATTRIBUTES* pa = apnt->GetParent();
+    auto pa = apnt->GetParent();
 		if (pa == aInfo)
 		{
 			pa->SetAttributeUseDword("playerInStorm", long(wdmObjects->playarInStorm));
@@ -704,7 +704,7 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES* apnt)
 	}
 	else
 	{
-		for (ATTRIBUTES* pa = apnt; pa; pa = pa->GetParent())
+		for (auto pa = apnt; pa; pa = pa->GetParent())
 		{
 			if (_stricmp(pa->GetThisName(), "labels") == 0)
 			{
@@ -724,7 +724,7 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES* apnt)
 WdmRenderObject* WorldMap::AddObject(WdmRenderObject* obj, long level)
 {
 	if (!obj) return nullptr;
-	long i = GetObject(firstObject, level);
+  auto i = GetObject(firstObject, level);
 	object[i].ro = obj;
 	return obj;
 }
@@ -733,7 +733,7 @@ WdmRenderObject* WorldMap::AddObject(WdmRenderObject* obj, long level)
 void WorldMap::AddPObject(WdmRenderObject* obj, long level)
 {
 	if (!obj) return;
-	long i = GetObject(firstPrObject, level);
+  auto i = GetObject(firstPrObject, level);
 	object[i].ro = obj;
 }
 

@@ -97,12 +97,12 @@ void DECK_CAMERA::Move(uint32_t DeltaTime)
 	CMatrix rotMtx;
 	pathNode->glob_mtx.Get3X3(&rotMtx);
 	glbRotMtx *= rotMtx;
-	float cx = cosf(camera_ang.x);
-	float sx = sinf(camera_ang.x);
-	float cy = cosf(camera_ang.y);
-	float sy = sinf(camera_ang.y);
+  auto cx = cosf(camera_ang.x);
+  auto sx = sinf(camera_ang.x);
+  auto cy = cosf(camera_ang.y);
+  auto sy = sinf(camera_ang.y);
 	float xAng, yAng, zAng;
-	CVECTOR v = glbRotMtx * CVECTOR(0, 0, 1.f);
+  auto v = glbRotMtx * CVECTOR(0, 0, 1.f);
 	yAng = atan2f(v.x, v.z);
 	glbRotMtx.RotateY(-yAng);
 	v = glbRotMtx * CVECTOR(0, 0, 1.f);
@@ -116,9 +116,9 @@ void DECK_CAMERA::Move(uint32_t DeltaTime)
 	s_ang.z = zAng * fRockingZ;
 
 	// узнать новую позицию камеры
-	CVECTOR prev_pos = camera_pos;
-	float speed0 = DeltaTime * fSensivityDistance;
-	float speed = 0.f;
+  auto prev_pos = camera_pos;
+  auto speed0 = DeltaTime * fSensivityDistance;
+  auto speed = 0.f;
 	CVECTOR vShift;
 	vShift.x = cx * sy;
 	vShift.y = 0.f;
@@ -157,11 +157,11 @@ void DECK_CAMERA::Move(uint32_t DeltaTime)
 		CVECTOR src, dst;
 		src.y = 500.f;
 		dst.y = -500.f;
-		bool bNoFinded = true;
-		CVECTOR vRes = camera_pos;
-		float step = MEN_STEP_MIN;
+    auto bNoFinded = true;
+    auto vRes = camera_pos;
+    auto step = MEN_STEP_MIN;
 		float len;
-		CVECTOR prev_res = vRes;
+    auto prev_res = vRes;
 		CVECTOR p1, p2;
 		long trgNum = -1;
 		while (true)
@@ -187,7 +187,7 @@ void DECK_CAMERA::Move(uint32_t DeltaTime)
 					// определить высоту камеры
 					src.x = dst.x = vRes.x;
 					src.z = dst.z = vRes.z;
-					float tmp = MultiTrace(src, dst, camera_pos.y); //pathNode->geo->Trace(src,dst);
+          auto tmp = MultiTrace(src, dst, camera_pos.y); //pathNode->geo->Trace(src,dst);
 					if (tmp <= 1.f)
 					{
 						vRes.y = 500.f - 1000.f * tmp;
@@ -265,7 +265,7 @@ void DECK_CAMERA::Move(uint32_t DeltaTime)
 			// проверим на попадание камеры в приемлимое место
 			src.x = dst.x = vRes.x;
 			src.z = dst.z = vRes.z;
-			float fTmp = MultiTrace(src, dst, camera_pos.y);
+      auto fTmp = MultiTrace(src, dst, camera_pos.y);
 			//float fDist = 1000.f;
 			//if(fTmp<=1.f) fDist = src.y + fTmp*(dst.y-src.y) - camera_pos.y;
 			if (fTmp <= 1.f)
@@ -300,7 +300,7 @@ bool DECK_CAMERA::FindPath()
 	pModel = GetModelPointer();
 	Assert(pModel); // если есть адрес у объекта
 
-	NODE* pNewPathNode = pModel->FindNode("path");
+  auto pNewPathNode = pModel->FindNode("path");
 	Assert(pNewPathNode);
 	if (pathNode != pNewPathNode)
 	{
@@ -347,9 +347,9 @@ void DECK_CAMERA::SetStartPos()
 		camera_pos.z = 0.f;
 		camera_pos.y = -500.f;
 
-		for (int i = 0; i < 1000; i++)
+		for (auto i = 0; i < 1000; i++)
 		{
-			NODE* root = pModel->GetNode(i);
+      auto root = pModel->GetNode(i);
 			if (root == nullptr) break;
 			GEOS::INFO gi;
 			root->geo->GetInfo(gi);
@@ -375,7 +375,7 @@ void DECK_CAMERA::SetStartPos()
 		src.x = dst.x = camera_pos.x;
 		src.z = dst.z = camera_pos.z;
 
-		float tmp = pathNode->geo->Trace(src, dst);
+    auto tmp = pathNode->geo->Trace(src, dst);
 		if (tmp <= 1.f)
 		{
 			tmp = 500.f - tmp * 1000.f;
@@ -400,13 +400,13 @@ void DECK_CAMERA::SetStartPos()
 
 bool DECK_CAMERA::GetCrossXZ(CVECTOR& spos, CVECTOR& dv, CVECTOR& p1, CVECTOR& p2, CVECTOR& res)
 {
-	bool bNoCross = false;
+  auto bNoCross = false;
 
-	bool bXset = false;
-	bool bZset = false;
+  auto bXset = false;
+  auto bZset = false;
 
-	float xRes = 0.f;
-	float zRes = 0.f;
+  auto xRes = 0.f;
+  auto zRes = 0.f;
 
 	// проверка на dx=0 для направляющего вектора
 	if (!bNoCross)
@@ -582,7 +582,7 @@ float DECK_CAMERA::MultiTrace(const CVECTOR& cvUp, const CVECTOR& cvDown, float 
 {
 	if (pathNode == nullptr) return 2.f;
 
-	float fRet = 2.f;
+  auto fRet = 2.f;
 
 	float fTmp;
 	GEOS::VERTEX curUp, curDown;
@@ -593,7 +593,7 @@ float DECK_CAMERA::MultiTrace(const CVECTOR& cvUp, const CVECTOR& cvDown, float 
 	curDown.y = cvDown.y;
 	curDown.z = cvDown.z;
 
-	float fDist = MEN_STEP_UP;
+  auto fDist = MEN_STEP_UP;
 
 	while ((fTmp = pathNode->geo->Trace(curUp, curDown)) <= 1.f)
 	{

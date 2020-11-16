@@ -97,7 +97,7 @@ void LighterLights::SetDefLightParam(long i)
 void LighterLights::PostInit()
 {
 	//Соберём все существующие группы
-	char** grp = new char * [numLights + 1];
+  auto grp = new char * [numLights + 1];
 	long numGrp = 0;
 	for (long i = 0; i < numLights; i++)
 	{
@@ -113,7 +113,7 @@ void LighterLights::PostInit()
 		maxLights += numGrp + 4;
 		light.resize(maxLights);
 	}
-	long num = numLights;
+  auto num = numLights;
 	for (long i = 0; i < numGrp; i++)
 	{
 		memset(&light[numLights], 0, sizeof(light[numLights]));
@@ -124,7 +124,7 @@ void LighterLights::PostInit()
 		light[numLights].type = Light::t_group;
 		light[numLights].isOn = true;
 		//Собираем параметры
-		float nrm = 0.0f;
+    auto nrm = 0.0f;
 		for (long j = 0; j < numLights; j++)
 		{
 			if (light[j].group && _stricmp(light[j].group, grp[i]) == 0)

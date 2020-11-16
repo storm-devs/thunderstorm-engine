@@ -173,7 +173,7 @@ inline float Vector4::operator ~() const
 ///Получить отрицательный вектор
 inline Vector4 Vector4::operator -() const
 {
-	Vector4 v(*this);
+  auto v(*this);
 	v.x = -v.x;
 	v.y = -v.y;
 	v.z = -v.z;
@@ -223,7 +223,7 @@ inline Vector4& Vector4::operator =(const Vector4& v)
 //Нормализовать w компаненту
 inline void Vector4::Normalize()
 {
-	double k = 1.0 / w;
+  auto k = 1.0 / w;
 	x = float(k * x);
 	y = float(k * y);
 	z = float(k * z);

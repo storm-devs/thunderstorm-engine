@@ -161,13 +161,13 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
 	vSunDir = !vSunPos;
 	vSun = vCamPos + (vSunDir * Glow.fDist);
 
-	bool bTempVisibleFlare = true;
-	PLANE* pPlane = pRS->GetPlanes();
+  auto bTempVisibleFlare = true;
+  auto pPlane = pRS->GetPlanes();
 	if (pPlane)
 	{
 		for (long i = 0; i < 4; i++)
 		{
-			CVECTOR vpn = CVECTOR(pPlane[i].Nx, pPlane[i].Ny, pPlane[i].Nz);
+      auto vpn = CVECTOR(pPlane[i].Nx, pPlane[i].Ny, pPlane[i].Nz);
 			if ((vpn | vSunPos) < 0.0f)
 			{
 				bTempVisibleFlare = false;
@@ -180,8 +180,8 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
 	bVisible = true;
 	fMinAlphaValue = 0.0f;
 
-	float fSunTrace = LayerTrace(vCamPos, EntityManager::GetEntityIdIterators(SUN_TRACE));
-	float fSailTrace = LayerTrace(vCamPos, EntityManager::GetEntityIdIterators(SAILS_TRACE));
+  auto fSunTrace = LayerTrace(vCamPos, EntityManager::GetEntityIdIterators(SUN_TRACE));
+  auto fSailTrace = LayerTrace(vCamPos, EntityManager::GetEntityIdIterators(SAILS_TRACE));
 
 	if (fSunTrace <= 1.0f || fSailTrace <= 1.0f) bVisible = false;
 	if (fSailTrace <= 1.0f && fSunTrace > 1.0f)
@@ -207,9 +207,9 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
 	// calculate angle between camera dir.y and sun dir.y
 	vSunDir.y = 0.0f;
 	vCamDir = CVECTOR(cosf(vCamAng.y), 0.0f, sinf(vCamAng.y));
-	float fAngle = vSunDir | vCamDir;
+  auto fAngle = vSunDir | vCamDir;
 
-	float fSeaHeight = 0.f; //pWeather->GetFloat(whf_water_attenuation);//0.f;
+  auto fSeaHeight = 0.f; //pWeather->GetFloat(whf_water_attenuation);//0.f;
 	fBottomClip = fSeaHeight;
 
 	//float fGlowSize = bMoon ? Glow.fMoonSize : Glow.fSunSize;
@@ -230,7 +230,7 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
 
 		if (!bMoon)
 		{
-			float fGlowFadeout = fFadeout - (1.f - fFadeout) * 1.5f;
+      auto fGlowFadeout = fFadeout - (1.f - fFadeout) * 1.5f;
 			if (fGlowFadeout < 0.f) fGlowFadeout = 0.f;
 			pRS->TextureSet(0, iSunGlowTex);
 			CVECTOR vGlowColor = fAlpha * fGlowFadeout * COLOR2VECTOR(Glow.dwColor);
@@ -240,8 +240,8 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
 	}
 
 	View.Transposition();
-	CVECTOR vCamera = View.Vz();
-	float fDot = vCamera | (!vSun);
+  auto vCamera = View.Vz();
+  auto fDot = vCamera | (!vSun);
 
 	fMaxOverflowAlphaValue = (fDot > Overflow.fStart) ? (fDot - Overflow.fStart) / (1.0f - Overflow.fStart) : 0.0f;
 	if (bHaveOverflow)
@@ -262,16 +262,16 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
 	aRSR.clear();
 	if (Delta_Time && Flares.aFlares.size() && bHaveFlare)
 	{
-		CMatrix mCam = OldMatrix;
+    auto mCam = OldMatrix;
 		mCam.Transposition();
 
 		//CVECTOR vCenPos = CVECTOR(0.0f, 0.0f, Flares.fDist / 2.0f);
-		CVECTOR vCenPos = mCam.Vz() * Flares.fDist / 2.0f + mCam.Pos();
-		CVECTOR vDelta = Flares.fDist * !(vCenPos - vSun);
+    auto vCenPos = mCam.Vz() * Flares.fDist / 2.0f + mCam.Pos();
+    auto vDelta = Flares.fDist * !(vCenPos - vSun);
 		for (uint32_t i = 0; i < Flares.aFlares.size(); i++)
 		{
-			flare_t* pF = &Flares.aFlares[i];
-			uint32_t r = uint32_t(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor & 0xFF0000) >> 16L));
+      auto pF = &Flares.aFlares[i];
+      auto r = uint32_t(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor & 0xFF0000) >> 16L));
 			auto g = uint32_t(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor & 0xFF00) >> 8L));
 			auto b = uint32_t(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor & 0xFF) >> 0L));
 			//RS_RECT * pRSR = &aRSR[aRSR.Add()];
@@ -291,7 +291,7 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
 
 void SUNGLOW::DrawSunMoon()
 {
-	float fGlowSize = bMoon ? Glow.fMoonSize : Glow.fSunSize;
+  auto fGlowSize = bMoon ? Glow.fMoonSize : Glow.fSunSize;
 
 	float fFov;
 	CVECTOR vCamPos, vCamAng;
@@ -331,12 +331,12 @@ uint32_t SUNGLOW::AttributeChanged(ATTRIBUTES* pAttribute)
 		return 0;
 	}
 
-	ATTRIBUTES* pParent = pAttribute->GetParent();
+  auto pParent = pAttribute->GetParent();
 
 	if (*pParent == "Flares")
 	{
 		bHaveFlare = true;
-		char* pTemp = pAttribute->GetThisAttr();
+    auto pTemp = pAttribute->GetThisAttr();
 		//flare_t * pFlare = &Flares.aFlares[Flares.aFlares.Add()];
 		flare_t flare;
 		sscanf(pTemp, "%f,%f,%d,%x", &flare.fDist, &flare.fSize, &flare.dwSubTexIndex, &flare.dwColor);
@@ -536,9 +536,9 @@ void SUNGLOW::DrawReflection()
 	r_spr.fSize = Reflection.fSize;
 	r_spr.vPos = vSun;
 
-	float fSunHeightAngle = pWeather->GetFloat(whf_sun_height_angle);
-	float fCoeffX = Bring2Range(1.0f, 0.6f, 0.0f, 1.0f, fSunHeightAngle);
-	float fCoeffY = Bring2Range(2.0f, 1.0f, 0.0f, 1.0f, fSunHeightAngle);
+  auto fSunHeightAngle = pWeather->GetFloat(whf_sun_height_angle);
+  auto fCoeffX = Bring2Range(1.0f, 0.6f, 0.0f, 1.0f, fSunHeightAngle);
+  auto fCoeffY = Bring2Range(2.0f, 1.0f, 0.0f, 1.0f, fSunHeightAngle);
 
 	pRS->TextureSet(0, iReflTexture);
 	pRS->DrawRects(&r_spr, 1, Reflection.sTechnique.c_str(), 0, 0, (bSimpleSea) ? fCoeffX : 1.0f,
@@ -547,7 +547,7 @@ void SUNGLOW::DrawReflection()
 
 uint64_t SUNGLOW::ProcessMessage(MESSAGE& message)
 {
-	long iCode = message.Long();
+  auto iCode = message.Long();
 
 	switch (iCode)
 	{
@@ -568,8 +568,8 @@ void SUNGLOW::DrawRect(uint32_t dwColor, const CVECTOR& pos, float fSize, float 
 	static CMatrix camMtx;
 	pRS->GetTransform(D3DTS_VIEW, camMtx);
 	CVECTOR vx, vy, vp1, vp2, vp3, vp4;
-	float sn = sinf(fAngle);
-	float cs = cosf(fAngle);
+  auto sn = sinf(fAngle);
+  auto cs = cosf(fAngle);
 	camMtx.MulToInvNorm(CVECTOR(fSize, 0, 0) * cs + CVECTOR(0, fSize, 0) * sn, vx);
 	camMtx.MulToInvNorm(CVECTOR(0, fSize, 0) * cs - CVECTOR(fSize, 0, 0) * sn, vy);
 	vp1 = pos - vx + vy;
@@ -593,7 +593,7 @@ void SUNGLOW::DrawRect(uint32_t dwColor, const CVECTOR& pos, float fSize, float 
 		// добавляем точку пересечения с плоскостью отсечения между 1й и 2й точкой
 		if ((vp1.y >= fBClip) != (vp2.y >= fBClip))
 		{
-			float fK = vp2.y - vp1.y;
+      auto fK = vp2.y - vp1.y;
 			if (fK != 0.f)
 			{
 				fK = (fBClip - vp1.y) / fK;
@@ -619,7 +619,7 @@ void SUNGLOW::DrawRect(uint32_t dwColor, const CVECTOR& pos, float fSize, float 
 		// добавляем точку пересечения с плоскостью отсечения между 2й и 3й точкой
 		if ((vp2.y >= fBClip) != (vp3.y >= fBClip))
 		{
-			float fK = vp3.y - vp2.y;
+      auto fK = vp3.y - vp2.y;
 			if (fK != 0.f)
 			{
 				fK = (fBClip - vp2.y) / fK;
@@ -645,7 +645,7 @@ void SUNGLOW::DrawRect(uint32_t dwColor, const CVECTOR& pos, float fSize, float 
 		// добавляем точку пересечения с плоскостью отсечения между 3й и 4й точкой
 		if ((vp3.y >= fBClip) != (vp4.y >= fBClip))
 		{
-			float fK = vp4.y - vp3.y;
+      auto fK = vp4.y - vp3.y;
 			if (fK != 0.f)
 			{
 				fK = (fBClip - vp3.y) / fK;
@@ -671,7 +671,7 @@ void SUNGLOW::DrawRect(uint32_t dwColor, const CVECTOR& pos, float fSize, float 
 		// добавляем точку пересечения с плоскостью отсечения между 4й и 1й точкой
 		if ((vp3.y >= fBClip) != (vp4.y >= fBClip))
 		{
-			float fK = vp1.y - vp4.y;
+      auto fK = vp1.y - vp4.y;
 			if (fK != 0.f)
 			{
 				fK = (fBClip - vp4.y) / fK;

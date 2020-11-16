@@ -43,7 +43,7 @@ uint64_t BALLSPLASH::ProcessMessage(MESSAGE& message)
 {
 	//GUARD(BALLSPLASH::ProcessMessage)
 
-	long code = message.Long();
+  auto code = message.Long();
 	uint32_t outValue = 0;
 
 	switch (code)
@@ -90,8 +90,8 @@ void BALLSPLASH::Realize(uint32_t _dTime)
 	// draw bottom part
 	TSplash::startRender = true;
 	TSplash::topIndex = 0;
-	int lastProcessed = -1;
-	for (int i = 0; i < MAX_SPLASHES; ++i)
+  auto lastProcessed = -1;
+	for (auto i = 0; i < MAX_SPLASHES; ++i)
 		if (splashes[i].Process(_dTime))
 			lastProcessed = i;
 	if (lastProcessed != -1)
@@ -99,11 +99,11 @@ void BALLSPLASH::Realize(uint32_t _dTime)
 	splashes[lastProcessed].Realize(_dTime);
 
 	// draw top part
-	bool techniqueStarted = renderer->TechniqueExecuteStart("splash2");
+  auto techniqueStarted = renderer->TechniqueExecuteStart("splash2");
 	TSplash::startRender = true;
 	TSplash::topIndex = 0;
 	lastProcessed = -1;
-	for (int i = 0; i < MAX_SPLASHES; ++i)
+	for (auto i = 0; i < MAX_SPLASHES; ++i)
 	{
 		if (splashes[i].Process2(_dTime))
 			lastProcessed = i;
@@ -141,9 +141,9 @@ void BALLSPLASH::Execute(uint32_t dTime)
 //--------------------------------------------------------------------
 void BALLSPLASH::InitializeSplashes()
 {
-	INIFILE* psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
+  auto psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
 
-	for (int i = 0; i < MAX_SPLASHES; ++i)
+	for (auto i = 0; i < MAX_SPLASHES; ++i)
 	{
 		splashes[i].Release();
 		splashes[i].Initialize(psIni, nullptr, sea, renderer);
@@ -155,10 +155,10 @@ void BALLSPLASH::InitializeSplashes()
 //--------------------------------------------------------------------
 TSplash* BALLSPLASH::TryToAddSplash(const CVECTOR& _pos, const CVECTOR& _dir)
 {
-	CVECTOR backDir = !_dir;
+  auto backDir = !_dir;
 	backDir.y = -backDir.y;
 
-	for (int i = 0; i < MAX_SPLASHES; ++i)
+	for (auto i = 0; i < MAX_SPLASHES; ++i)
 	{
 		if (!splashes[i].Enabled())
 		{

@@ -44,13 +44,13 @@ bool CameraDialog::Init()
 
 inline float LerpAng(float a, float b, float k)
 {
-	static const float PI = 3.1415926535f;
+	static const auto PI = 3.1415926535f;
 
 
 	if (a < 0) a += PI * 2.0f;
 	if (b < 0) b += PI * 2.0f;
 
-	float delta = b - a;
+  auto delta = b - a;
 
 	if (delta < -PI) delta = 2 * PI + delta;
 	if (delta > PI) delta = -2 * PI + delta;
@@ -73,19 +73,19 @@ void CameraDialog::Execute(uint32_t Delta_Time)
 {
 	if (track == nullptr) return;
 
-	float dtime = 1.0f / float(api->EngineFps());
+  auto dtime = 1.0f / float(api->EngineFps());
 	time += Delta_Time * 0.001f;
 	//dtime = 0.001f*api->GetFloatDeltaTime();
 
-	CVECTOR prevPos = pos;
-	CVECTOR prevAng = ang;
+  auto prevPos = pos;
+  auto prevAng = ang;
 
-	MODEL* mdl = (MODEL*)EntityManager::GetEntityPointer(person);
+  auto mdl = (MODEL*)EntityManager::GetEntityPointer(person);
 	if (mdl == nullptr) return;
 
-	CMatrix perMtx = mdl->mtx;
+  auto perMtx = mdl->mtx;
 
-	ATTRIBUTES* atr = api->Entity_GetAttributeClass(personId, "act.type");
+  auto atr = api->Entity_GetAttributeClass(personId, "act.type");
 	if (atr == nullptr) perMtx.Pos().y += HDISP1;
 	else
 	{
@@ -98,9 +98,9 @@ void CameraDialog::Execute(uint32_t Delta_Time)
 
 	//--------------------------------------------------------------------------------
 
-	float FPS = 15.0f;
-	long fr = long(floorf(FPS * time)) % (frames - 1);
-	float u = FPS * time - floorf(FPS * time);
+  auto FPS = 15.0f;
+  auto fr = long(floorf(FPS * time)) % (frames - 1);
+  auto u = FPS * time - floorf(FPS * time);
 
 	pos.x = -(track[fr].pos.x * (1.0f - u) + track[fr + 1].pos.x * u);
 	pos.y = (track[fr].pos.y * (1.0f - u) + track[fr + 1].pos.y * u);
@@ -110,7 +110,7 @@ void CameraDialog::Execute(uint32_t Delta_Time)
 	ang.y = -(LerpAng(track[fr].ang.y, track[fr + 1].ang.y, u)) - 3.1415926535897932384f;
 	ang.z = -(LerpAng(track[fr].ang.z, track[fr + 1].ang.z, u));
 
-	CMatrix cm = CMatrix(ang.x, ang.y, ang.z, pos.x, pos.y, pos.z) * perMtx;
+  auto cm = CMatrix(ang.x, ang.y, ang.z, pos.x, pos.y, pos.z) * perMtx;
 	rs->SetCamera(cm.Pos(), cm.Pos() + cm.Vz(), CVECTOR(0.0f, 1.0f, 0.0f));
 }
 
@@ -120,7 +120,7 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 	auto* mdl = (MODEL*)EntityManager::GetEntityPointer(person);
 	if (mdl == nullptr) return;
 	//-------------------------------------------------------
-	static bool inited = false;
+	static auto inited = false;
 	static entid_t sMod[2];
 	if (!inited)
 	{
@@ -135,13 +135,13 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 		inited = true;
 	}
 	//draw locators
-	NODE* root = mdl->GetNode(0);
+  auto root = mdl->GetNode(0);
 	long sti = -1;
 	auto idSiber = root->geo->FindName("fall");
 	if ((sti = root->geo->FindLabelN(sti + 1, idSiber)) > -1)
 	{
-		Animation* ani = mdl->GetAnimation();
-		CMatrix* bones = &ani->GetAnimationMatrix(0);
+    auto ani = mdl->GetAnimation();
+    auto bones = &ani->GetAnimationMatrix(0);
 
 		GEOS::LABEL lb;
 		root->geo->GetLabel(sti, lb);
@@ -151,13 +151,13 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 		mt.Vz() = CVECTOR(lb.m[2][0], lb.m[2][1], lb.m[2][2]);
 		mt.Pos() = CVECTOR(lb.m[3][0], lb.m[3][1], lb.m[3][2]);
 
-		CMatrix bn = bones[lb.bones[0]];
-		CMatrix mbn = mt * bn;
+    auto bn = bones[lb.bones[0]];
+    auto mbn = mt * bn;
 		mbn.Pos().x *= -1.0f;
 		mbn.Vx().x *= -1.0f;
 		mbn.Vy().x *= -1.0f;
 		mbn.Vz().x *= -1.0f;
-		CMatrix perMtx = mbn * mdl->mtx;
+    auto perMtx = mbn * mdl->mtx;
 		auto* smdl = (MODEL*)EntityManager::GetEntityPointer(sMod[0]);
 		smdl->mtx = perMtx;
 	}
@@ -166,8 +166,8 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 	idSiber = root->geo->FindName("sabel");
 	if ((sti = root->geo->FindLabelN(sti + 1, idSiber)) > -1)
 	{
-		Animation* ani = mdl->GetAnimation();
-		CMatrix* bones = &ani->GetAnimationMatrix(0);
+    auto ani = mdl->GetAnimation();
+    auto bones = &ani->GetAnimationMatrix(0);
 
 		GEOS::LABEL lb;
 		root->geo->GetLabel(sti, lb);
@@ -177,13 +177,13 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 		mt.Vz() = CVECTOR(lb.m[2][0], lb.m[2][1], lb.m[2][2]);
 		mt.Pos() = CVECTOR(lb.m[3][0], lb.m[3][1], lb.m[3][2]);
 
-		CMatrix bn = bones[lb.bones[0]];
-		CMatrix mbn = mt * bn;
+    auto bn = bones[lb.bones[0]];
+    auto mbn = mt * bn;
 		mbn.Pos().x *= -1.0f;
 		mbn.Vx().x *= -1.0f;
 		mbn.Vy().x *= -1.0f;
 		mbn.Vz().x *= -1.0f;
-		CMatrix perMtx = mbn * mdl->mtx;
+    auto perMtx = mbn * mdl->mtx;
 		auto* smdl = (MODEL*)EntityManager::GetEntityPointer(sMod[1]);
 		smdl->mtx = perMtx;
 	}
@@ -213,7 +213,7 @@ uint64_t CameraDialog::ProcessMessage(MESSAGE& msg)
 			strcat_s(fname, trackName);
 			strcat_s(fname, ".cam");
 			//loading animation
-			HANDLE cam = fio->_CreateFile(fname);
+      auto cam = fio->_CreateFile(fname);
 			long nbytes = fio->_SetFilePointer(cam, 0, nullptr, FILE_END);
 			fio->_SetFilePointer(cam, 0, nullptr, FILE_BEGIN);
 			frames = nbytes / 6 / sizeof(float);

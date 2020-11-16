@@ -40,15 +40,15 @@ CINODE::~CINODE()
 		delete m_list;
 	}
 
-	for (int i = 0; i < COMMAND_QUANTITY; i++)
+	for (auto i = 0; i < COMMAND_QUANTITY; i++)
 	{
 		STORM_DELETE(m_pCommands[i].sRetControl);
 		STORM_DELETE(m_pCommands[i].sEventName);
 
-		COMMAND_REDIRECT* pContrl = m_pCommands[i].pNextControl;
+    auto pContrl = m_pCommands[i].pNextControl;
 		while (pContrl != nullptr)
 		{
-			COMMAND_REDIRECT* pOld = pContrl;
+      auto pOld = pContrl;
 			pContrl = pContrl->next;
 			delete pOld;
 		}
@@ -68,12 +68,12 @@ void CINODE::FrameProcess(uint32_t DeltaTime)
 		if (m_nDoDelay == 0)
 		{
 			// redirect command to subnodes
-			COMMAND_REDIRECT* pContrl = m_pCommands[m_nCurrentCommandNumber].pNextControl;
+      auto pContrl = m_pCommands[m_nCurrentCommandNumber].pNextControl;
 			while (pContrl != nullptr)
 			{
 				if (pContrl->sControlName)
 				{
-					CINODE* pTmpNod = ptrOwner->FindNode(pContrl->sControlName, nullptr);
+          auto pTmpNod = ptrOwner->FindNode(pContrl->sControlName, nullptr);
 					if (pTmpNod)
 						pTmpNod->CommandExecute(pContrl->command);
 				}
@@ -86,7 +86,7 @@ void CINODE::FrameProcess(uint32_t DeltaTime)
 
 			if (m_pCommands[m_nCurrentCommandNumber].sRetControl)
 			{
-				CINODE* pTmpNod = ptrOwner->FindNode(m_pCommands[m_nCurrentCommandNumber].sRetControl, nullptr);
+        auto pTmpNod = ptrOwner->FindNode(m_pCommands[m_nCurrentCommandNumber].sRetControl, nullptr);
 				if (pTmpNod)
 					api->Send_Message(g_idInterface, "lp",MSG_INTERFACE_SET_CURRENT_NODE, pTmpNod);
 			}
@@ -113,7 +113,7 @@ CINODE* CINODE::DoAction(int wActCode, bool& bBreakPress, bool bFirstPress)
 		if (pCommandsList[i].code == wActCode) break;
 	if (i == COMMAND_QUANTITY) return this;
 
-	int n = i;
+  auto n = i;
 	if (m_pCommands[i].bUse)
 	{
 		//if(m_pCommands[i].nSound!=0)
@@ -123,7 +123,7 @@ CINODE* CINODE::DoAction(int wActCode, bool& bBreakPress, bool bFirstPress)
 		// execute command
 		while (n != COMMAND_QUANTITY)
 		{
-			int ac = CommandExecute(pCommandsList[n].code);
+      auto ac = CommandExecute(pCommandsList[n].code);
 			if (ac == -1) break;
 
 			for (n = 0; n < COMMAND_QUANTITY; n++)
@@ -161,7 +161,7 @@ CINODE* CINODE::FindNode(CINODE* pNod, const char* sNodName)
 		if (pNod->m_nodeName && _stricmp(sNodName, pNod->m_nodeName) == 0) break;
 		if (pNod->m_list)
 		{
-			CINODE* pInsideNod = FindNode(pNod->m_list, sNodName);
+      auto pInsideNod = FindNode(pNod->m_list, sNodName);
 			if (pInsideNod) return pInsideNod;
 		}
 		pNod = pNod->m_next;
@@ -176,7 +176,7 @@ CINODE* CINODE::FindNode(CINODE* pNod, int nNodType)
 		if (pNod->m_nNodeType == nNodType) break;
 		if (pNod->m_list)
 		{
-			CINODE* pInsideNod = FindNode(pNod->m_list, nNodType);
+      auto pInsideNod = FindNode(pNod->m_list, nNodType);
 			if (pInsideNod) return pInsideNod;
 		}
 		pNod = pNod->m_next;
@@ -193,7 +193,7 @@ CINODE* CINODE::FindNode(CINODE* pNod, float x, float y)
 			break;
 		if (pNod->m_list)
 		{
-			CINODE* pInsideNod = FindNode(pNod->m_list, x, y);
+      auto pInsideNod = FindNode(pNod->m_list, x, y);
 			if (pInsideNod) return pInsideNod;
 		}
 		pNod = pNod->m_next;
@@ -264,7 +264,7 @@ const char* CINODE::GetSubStr(const char* inStr, char* buf, size_t bufSize, char
 		buf[0] = 0;
 		return nullptr;
 	}
-	int curSize = 0;
+  auto curSize = 0;
 	const char* curStr;
 	for (curStr = inStr; *curStr != 0; curStr++)
 	{
@@ -290,7 +290,7 @@ bool CINODE::GetMidStr(const char* inStr, char* buf, size_t bufSize, const char*
 	int lenEnd = strlen(endStr);
 
 	int i;
-	int fcn = -1, lcn = -1;
+  auto fcn = -1, lcn = -1;
 	for (i = 0; i <= lenIn - lenBeg; i++)
 		if (_strnicmp(&inStr[i], begStr, lenBeg) == 0)
 		{
@@ -358,7 +358,7 @@ const char* CINODE::GetDataStr(const char* inStr, const char* strOrder, ...)
 	va_list vl;
 	va_start(vl, strOrder);
 	char param[256];
-	for (int i = 0; strOrder[i] != 0; i++)
+	for (auto i = 0; strOrder[i] != 0; i++)
 	{
 		inStr = GetSubStr(inStr, param, sizeof(param));
 		switch (strOrder[i])
@@ -382,14 +382,14 @@ uint32_t CINODE::MessageProc(long msgcode, MESSAGE& message)
 	{
 	case 0: // Execute node command
 		{
-			long commCode = message.Long();
+      auto commCode = message.Long();
 			CommandExecute(commCode);
 		}
 		break;
 
 	case 1: // Set clickable status
 		{
-			long clickState = message.Long();
+      auto clickState = message.Long();
 			m_bClickable = clickState != 0;
 		}
 		break;
@@ -402,7 +402,7 @@ uint32_t CINODE::MessageProc(long msgcode, MESSAGE& message)
 		{
 			char param[256];
 			message.String(sizeof(param), param);
-			int commIdx = FindCommand(param);
+      auto commIdx = FindCommand(param);
 			if (commIdx >= 0) CommandExecute(pCommandsList[commIdx].code);
 		}
 		break;
@@ -496,7 +496,7 @@ bool CINODE::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char *
 float CINODE::GetIniFloat(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName, float fDefault)
 {
 	char param[256];
-	bool bYes = false;
+  auto bYes = false;
 	if (ini1 && name1 && ini1->ReadString(name1, keyName, param, sizeof(param), "")) bYes = true;
 	if (!bYes)
 		if (ini2 && name2 && ini2->ReadString(name2, keyName, param, sizeof(param), "")) bYes = true;
@@ -510,7 +510,7 @@ float CINODE::GetIniFloat(INIFILE* ini1, const char* name1, INIFILE* ini2, const
 long CINODE::GetIniLong(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName, long iDefault)
 {
 	char param[256];
-	bool bYes = false;
+  auto bYes = false;
 	if (ini1 && name1 && ini1->ReadString(name1, keyName, param, sizeof(param), "")) bYes = true;
 	if (!bYes)
 		if (ini2 && name2 && ini2->ReadString(name2, keyName, param, sizeof(param), "")) bYes = true;
@@ -524,7 +524,7 @@ long CINODE::GetIniLong(INIFILE* ini1, const char* name1, INIFILE* ini2, const c
 bool CINODE::ReadIniString(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName, char* buf,
                            size_t bufSize, const char* strDef)
 {
-	bool bYes = false;
+  auto bYes = false;
 	if (strDef == nullptr) strDef = "";
 	if (ini1 && name1 && ini1->ReadString(name1, keyName, buf, bufSize - 1, strDef)) bYes = true;
 	if (!bYes)
@@ -551,7 +551,7 @@ XYRECT CINODE::GetIniLongRect(INIFILE* ini1, const char* name1, INIFILE* ini2, c
 	const XYRECT& rectDefault)
 {
 	char param[256];
-	XYRECT outRect = rectDefault;
+  auto outRect = rectDefault;
 	if (ReadIniString(ini1, name1, ini2, name2, keyName, param, sizeof(param)))
 	{
 		GetDataStr(param, "llll", &outRect.left, &outRect.top, &outRect.right, &outRect.bottom);
@@ -563,7 +563,7 @@ FXYRECT CINODE::GetIniFloatRect(INIFILE* ini1, const char* name1, INIFILE* ini2,
 	const FXYRECT& rectDefault)
 {
 	char param[256];
-	FXYRECT outRect = rectDefault;
+  auto outRect = rectDefault;
 	if (ReadIniString(ini1, name1, ini2, name2, keyName, param, sizeof(param)))
 	{
 		GetDataStr(param, "ffff", &outRect.left, &outRect.top, &outRect.right, &outRect.bottom);
@@ -575,7 +575,7 @@ XYPOINT CINODE::GetIniLongPoint(INIFILE* ini1, const char* name1, INIFILE* ini2,
 	const XYPOINT& pntDefault)
 {
 	char param[256];
-	XYPOINT outPnt = pntDefault;
+  auto outPnt = pntDefault;
 	if (ReadIniString(ini1, name1, ini2, name2, keyName, param, sizeof(param)))
 	{
 		GetDataStr(param, "ll", &outPnt.x, &outPnt.y);
@@ -587,7 +587,7 @@ FXYPOINT CINODE::GetIniFloatPoint(INIFILE* ini1, const char* name1, INIFILE* ini
 	const FXYPOINT& pntDefault)
 {
 	char param[256];
-	FXYPOINT outPnt = pntDefault;
+  auto outPnt = pntDefault;
 	if (ReadIniString(ini1, name1, ini2, name2, keyName, param, sizeof(param)))
 	{
 		GetDataStr(param, "ff", &outPnt.x, &outPnt.y);

@@ -31,7 +31,7 @@ void CXI_CHECKBUTTONS::Draw(bool bSelected, uint32_t Delta_Time)
 	for (long n = 0; n < m_aButton.size(); n++)
 	{
 		// определяем цвет строки
-		uint32_t dwColor = m_dwNormalFontColor;
+    auto dwColor = m_dwNormalFontColor;
 		if (m_aButton[n]->bChoose) dwColor = m_dwSelectFontColor;
 		if (m_aButton[n]->bDisable) dwColor = m_dwDisableFontColor;
 
@@ -128,8 +128,8 @@ void CXI_CHECKBUTTONS::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2,
 		sprintf_s(pcKeyName, "section%d", n + 1);
 		if (!ReadIniString(ini1, name1, ini2, name2, pcKeyName, param, sizeof(param), "")) break;
 		const char* pTmpChar = param;
-		bool bSelect = CXI_UTILS::StringGetLong(pTmpChar) != 0;
-		bool bDisable = CXI_UTILS::StringGetLong(pTmpChar) != 0;
+    auto bSelect = CXI_UTILS::StringGetLong(pTmpChar) != 0;
+    auto bDisable = CXI_UTILS::StringGetLong(pTmpChar) != 0;
 		AddButton(pTmpChar, bDisable, bSelect);
 	}
 
@@ -220,7 +220,7 @@ void CXI_CHECKBUTTONS::SaveParametersToIni()
 	char pcWriteKeyName[128];
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -260,8 +260,8 @@ uint32_t CXI_CHECKBUTTONS::MessageProc(long msgcode, MESSAGE& message)
 		{
 			char param[1024];
 			message.String(sizeof(param), param);
-			bool bSelect = (message.Long() != 0);
-			bool bDisable = (message.Long() != 0);
+      auto bSelect = (message.Long() != 0);
+      auto bDisable = (message.Long() != 0);
 			AddButton(param, bDisable, bSelect);
 			UpdateTextInfo(m_aButton.size() - 1);
 		}
@@ -269,7 +269,7 @@ uint32_t CXI_CHECKBUTTONS::MessageProc(long msgcode, MESSAGE& message)
 
 	case 1: // установить новый текст на кнопку
 		{
-			long nButtonNum = message.Long() - 1;
+      auto nButtonNum = message.Long() - 1;
 			char param[1024];
 			message.String(sizeof(param), param);
 			ChangeText(nButtonNum, param);
@@ -279,7 +279,7 @@ uint32_t CXI_CHECKBUTTONS::MessageProc(long msgcode, MESSAGE& message)
 
 	case 2: // установить выбор на кнопку
 		{
-			long nButtonNum = message.Long() - 1;
+      auto nButtonNum = message.Long() - 1;
 			bool bChoose = (message.Long() != 0);
 			SetCheckToButton(nButtonNum, bChoose);
 		}

@@ -223,7 +223,7 @@ private:
 	uint32_t GetHoleDword()
 	{
 		uint32_t v = 0, t = 1;
-		for (int i = 0; i < 12; i++, t <<= 1)if (ss.hole[i])v |= t;
+		for (auto i = 0; i < 12; i++, t <<= 1)if (ss.hole[i])v |= t;
 		return v;
 	}
 

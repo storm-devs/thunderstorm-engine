@@ -95,7 +95,7 @@ void AnimationServiceImp::RunStart()
 #ifndef _XBOX
 	if (api->Controls->GetDebugAsyncKeyState(VK_F4)) return;
 #endif
-	uint32_t dltTime = api->GetDeltaTime();
+  auto dltTime = api->GetDeltaTime();
 	if (dltTime > 1000) dltTime = 1000;
 	//Просмотрим все анимации
 	for (long i = 0; i < ainfo.size(); i++)
@@ -111,7 +111,7 @@ void AnimationServiceImp::RunStart()
 			}
 		}
 	//Исполним все анимации
-	for (int i = 0; i < animations.size(); i++)
+	for (auto i = 0; i < animations.size(); i++)
 		if (animations[i])
 		{
 			long dt;
@@ -141,7 +141,7 @@ Animation* AnimationServiceImp::CreateAnimation(const char* animationName)
 		i = LoadAnimation(animationName);
 		if (i < 0) return nullptr;
 	}
-	long aniIndex = i;
+  auto aniIndex = i;
 	//Анимация загружена, создаём менеджер анимации
 	for (i = 0; i < animations.size(); i++)
 		if (!animations[i]) break;
@@ -178,7 +178,7 @@ long AnimationServiceImp::LoadAnimation(const char* animationName)
 	strcat_s(path, animationName);
 	strcat_s(path, ".ani");
 	//Открываем ini файл, описывающий анимацию
-	INIFILE* ani = fio->OpenIniFile(path);
+  auto ani = fio->OpenIniFile(path);
 	if (!ani)
 	{
 		api->Trace("Cannot open animation file %s", path);
@@ -206,9 +206,9 @@ long AnimationServiceImp::LoadAnimation(const char* animationName)
 	//Глобальные пользовательские данные
 	LoadUserData(ani, nullptr, info->GetUserData(), animationName);
 	//Зачитаем действия
-	for (bool isHaveSection = ani->GetSectionName(path, 63);
-	     isHaveSection;
-	     isHaveSection = ani->GetSectionNameNext(path, 63))
+	for (auto isHaveSection = ani->GetSectionName(path, 63);
+       isHaveSection;
+       isHaveSection = ani->GetSectionNameNext(path, 63))
 	{
 		//Обработка действия
 		if (path[0] == 0 || strlen(path) >= 64)
@@ -217,30 +217,30 @@ long AnimationServiceImp::LoadAnimation(const char* animationName)
 			continue;
 		}
 		//Зачитываем времена
-		long stime = ani->GetLong(path, ASKW_STIME, -1);
+    auto stime = ani->GetLong(path, ASKW_STIME, -1);
 		if (stime < 0)
 		{
 			api->Trace("Incorrect %s in action [%s] of animation file %s.ani", ASKW_STIME, path, animationName);
 			continue;
 		}
-		long etime = ani->GetLong(path, ASKW_ETIME, -1);
+    auto etime = ani->GetLong(path, ASKW_ETIME, -1);
 		if (etime < 0)
 		{
 			api->Trace("Incorrect %s in action [%s] of animation file %s.ani", ASKW_ETIME, path, animationName);
 			continue;
 		}
 		//Добавляем действие
-		ActionInfo* aci = info->AddAction(path, stime, etime);
+    auto aci = info->AddAction(path, stime, etime);
 		if (aci == nullptr)
 		{
 			api->Trace("Warning! Action [%s] of animation file %s.ani is repeated, skip it", path, animationName);
 			continue;
 		}
 		//Коэфициент скорости воспроизведения
-		float rate = ani->GetFloat(path, ASKW_RATE, 1.0f);
+    auto rate = ani->GetFloat(path, ASKW_RATE, 1.0f);
 		aci->SetRate(rate);
 		//Тип анимации
-		AnimationType type = at_normal;
+    auto type = at_normal;
 		if (ani->ReadString(path, ASKW_TYPE, key, 256, ASKWAT_NORMAL))
 		{
 			if (_stricmp(key, ASKWAT_NORMAL) == 0) type = at_normal;
@@ -255,7 +255,7 @@ long AnimationServiceImp::LoadAnimation(const char* animationName)
 		}
 		aci->SetAnimationType(type);
 		//Зацикленность анимации
-		bool isLoop = true;
+    auto isLoop = true;
 		if (ani->ReadString(path, ASKW_LOOP, key, 256, "false"))
 		{
 			if (_stricmp(key, ASKWAL_TRUE) == 0) isLoop = true;
@@ -315,7 +315,7 @@ long AnimationServiceImp::LoadAnimation(const char* animationName)
 					           key + 257, path, animationName);
 					continue;
 				}
-				char* em = key + p;
+        auto em = key + p;
 				//Ищем окончание числа
 				for (; key[p] >= '0' && key[p] <= '9'; p++);
 				float tm = 0;
@@ -337,7 +337,7 @@ long AnimationServiceImp::LoadAnimation(const char* animationName)
 				if (tm < stime) tm = float(stime);
 				if (tm > etime) tm = float(etime);
 				//Зачитываем тип события
-				ExtAnimationEventType ev = eae_normal;
+        auto ev = eae_normal;
 				if (key[p])
 				{
 					//Ищем начало
@@ -476,7 +476,7 @@ void AnimationServiceImp::LoadUserData(INIFILE* ani, const char* sectionName,
 				continue;
 			}
 			//Ищем окончание строки данных
-			char* uds = key + ++p;
+      auto uds = key + ++p;
 			for (; key[p] && key[p] != '"'; p++);
 			key[p] = 0;
 			//Добавляем данные
@@ -490,7 +490,7 @@ void AnimationServiceImp::LoadUserData(INIFILE* ani, const char* sectionName,
 //Загрузить AN
 bool AnimationServiceImp::LoadAN(const char* fname, AnimationInfo* info)
 {
-	HANDLE fl = INVALID_HANDLE_VALUE;
+  auto fl = INVALID_HANDLE_VALUE;
 	try
 	{
 		fl = fio->_CreateFile(fname, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
@@ -515,7 +515,7 @@ bool AnimationServiceImp::LoadAN(const char* fname, AnimationInfo* info)
 		//Заводим нужное число костей
 		info->CreateBones(header.nJoints);
 		//Устанавливаем родителей
-		long* prntIndeces = new long[header.nJoints];
+    auto prntIndeces = new long[header.nJoints];
 		if (!fio->_ReadFile(fl, prntIndeces, header.nJoints * sizeof(long), nullptr))
 		{
 			api->Trace("Incorrect parent indeces block in animation file: %s", fname);

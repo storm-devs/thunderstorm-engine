@@ -361,7 +361,7 @@ inline float Color::operator ~() const
 //Вернуть цвет с ограниченными компанентами 0..1
 inline Color Color::operator !() const
 {
-	Color c(*this);
+  auto c(*this);
 	c.Clamp();
 	return c;
 }
@@ -369,7 +369,7 @@ inline Color Color::operator !() const
 //Получить отрицательный цвет
 inline Color Color::operator -() const
 {
-	Color c(*this);
+  auto c(*this);
 	c.r = -c.r;
 	c.g = -c.g;
 	c.b = -c.b;
@@ -623,7 +623,7 @@ inline Color& Color::operator |=(const Color& c)
 //Получить упакованный цвет в long
 inline Color::operator uint32_t() const
 {
-	Color c(*this);
+  auto c(*this);
 	c.Clamp();
 	return long(c.GetDword());
 }
@@ -634,7 +634,7 @@ inline Color::operator uint32_t() const
 */
 inline Color operator +(const Color& c, float f)
 {
-	Color clr(c);
+  auto clr(c);
 	clr += f;
 	return clr;
 }
@@ -644,7 +644,7 @@ inline Color operator +(const Color& c, float f)
 */
 inline Color operator +(float f, const Color& c)
 {
-	Color clr(c);
+  auto clr(c);
 	clr += f;
 	return clr;
 }
@@ -654,7 +654,7 @@ inline Color operator +(float f, const Color& c)
 */
 inline Color operator +(const Color& c, uint32_t cl)
 {
-	Color clr(c);
+  auto clr(c);
 	clr += cl;
 	return clr;
 }
@@ -664,7 +664,7 @@ inline Color operator +(const Color& c, uint32_t cl)
 */
 inline Color operator +(uint32_t cl, const Color& c)
 {
-	Color clr(c);
+  auto clr(c);
 	clr += cl;
 	return clr;
 }
@@ -674,7 +674,7 @@ inline Color operator +(uint32_t cl, const Color& c)
 */
 inline Color operator +(const Color& c, const Vector& v)
 {
-	Color clr(c);
+  auto clr(c);
 	clr += v;
 	return clr;
 }
@@ -684,7 +684,7 @@ inline Color operator +(const Color& c, const Vector& v)
 */
 inline Color operator +(const Vector& v, const Color& c)
 {
-	Color clr(c);
+  auto clr(c);
 	clr += v;
 	return clr;
 }
@@ -694,7 +694,7 @@ inline Color operator +(const Vector& v, const Color& c)
 */
 inline Color operator +(const Color& c, const Vector4& v)
 {
-	Color clr(c);
+  auto clr(c);
 	clr += v;
 	return clr;
 }
@@ -704,7 +704,7 @@ inline Color operator +(const Color& c, const Vector4& v)
 */
 inline Color operator +(const Vector4& v, const Color& c)
 {
-	Color clr(c);
+  auto clr(c);
 	clr += v;
 	return clr;
 }
@@ -714,7 +714,7 @@ inline Color operator +(const Vector4& v, const Color& c)
 */
 inline Color operator +(const Color& c1, const Color& c2)
 {
-	Color clr(c1);
+  auto clr(c1);
 	clr += c2;
 	return clr;
 }
@@ -724,7 +724,7 @@ inline Color operator +(const Color& c1, const Color& c2)
 */
 inline Color operator -(const Color& c, float f)
 {
-	Color clr(c);
+  auto clr(c);
 	clr -= f;
 	return clr;
 }
@@ -744,7 +744,7 @@ inline Color operator -(float f, const Color& c)
 */
 inline Color operator -(const Color& c, uint32_t cl)
 {
-	Color clr(c);
+  auto clr(c);
 	clr -= cl;
 	return clr;
 }
@@ -764,7 +764,7 @@ inline Color operator -(uint32_t cl, const Color& c)
 */
 inline Color operator -(const Color& c, const Vector& v)
 {
-	Color clr(c);
+  auto clr(c);
 	clr -= v;
 	return clr;
 }
@@ -784,7 +784,7 @@ inline Color operator -(const Vector& v, const Color& c)
 */
 inline Color operator -(const Color& c, const Vector4& v)
 {
-	Color clr(c);
+  auto clr(c);
 	clr -= v;
 	return clr;
 }
@@ -804,7 +804,7 @@ inline Color operator -(const Vector4& v, const Color& c)
 */
 inline Color operator -(const Color& c1, const Color& c2)
 {
-	Color c(c1);
+  auto c(c1);
 	c -= c2;
 	return c;
 }
@@ -814,7 +814,7 @@ inline Color operator -(const Color& c1, const Color& c2)
 */
 inline Color operator *(const Color& c, float f)
 {
-	Color clr(c);
+  auto clr(c);
 	clr *= f;
 	return clr;
 }
@@ -824,7 +824,7 @@ inline Color operator *(const Color& c, float f)
 */
 inline Color operator *(float f, const Color& c)
 {
-	Color clr(c);
+  auto clr(c);
 	clr *= f;
 	return clr;
 }
@@ -834,7 +834,7 @@ inline Color operator *(float f, const Color& c)
 */
 inline Color operator *(const Color& c, uint32_t cl)
 {
-	Color clr(c);
+  auto clr(c);
 	clr *= cl;
 	return clr;
 }
@@ -844,7 +844,7 @@ inline Color operator *(const Color& c, uint32_t cl)
 */
 inline Color operator *(uint32_t cl, const Color& c)
 {
-	Color clr(c);
+  auto clr(c);
 	clr *= cl;
 	return clr;
 }
@@ -854,7 +854,7 @@ inline Color operator *(uint32_t cl, const Color& c)
 */
 inline Color operator *(const Color& c, const Vector& v)
 {
-	Color clr(c);
+  auto clr(c);
 	clr *= v;
 	return clr;
 }
@@ -864,7 +864,7 @@ inline Color operator *(const Color& c, const Vector& v)
 */
 inline Color operator *(const Vector& v, const Color& c)
 {
-	Color clr(c);
+  auto clr(c);
 	clr *= v;
 	return clr;
 }
@@ -874,7 +874,7 @@ inline Color operator *(const Vector& v, const Color& c)
 */
 inline Color operator *(const Color& c, const Vector4& v)
 {
-	Color clr(c);
+  auto clr(c);
 	clr *= v;
 	return clr;
 }
@@ -884,7 +884,7 @@ inline Color operator *(const Color& c, const Vector4& v)
 */
 inline Color operator *(const Vector4& v, const Color& c)
 {
-	Color clr(c);
+  auto clr(c);
 	clr *= v;
 	return clr;
 }
@@ -894,7 +894,7 @@ inline Color operator *(const Vector4& v, const Color& c)
 */
 inline Color operator *(const Color& c1, const Color& c2)
 {
-	Color clr(c1);
+  auto clr(c1);
 	clr *= c2;
 	return clr;
 }
@@ -904,7 +904,7 @@ inline Color operator *(const Color& c1, const Color& c2)
 */
 inline Color operator /(const Color& c, float f)
 {
-	Color clr(c);
+  auto clr(c);
 	clr /= f;
 	return clr;
 }
@@ -925,7 +925,7 @@ inline Color operator /(float f, const Color& c)
 */
 inline Color operator /(const Color& c, uint32_t cl)
 {
-	Color clr(c);
+  auto clr(c);
 	clr /= cl;
 	return clr;
 }
@@ -945,7 +945,7 @@ inline Color operator /(uint32_t cl, const Color& c)
 */
 inline Color operator /(const Color& c, const Vector& v)
 {
-	Color clr(c);
+  auto clr(c);
 	clr /= v;
 	return clr;
 }
@@ -965,7 +965,7 @@ inline Color operator /(const Vector& v, const Color& c)
 */
 inline Color operator /(const Color& c, const Vector4& v)
 {
-	Color clr(c);
+  auto clr(c);
 	clr /= v;
 	return clr;
 }
@@ -985,7 +985,7 @@ inline Color operator /(const Vector4& v, const Color& c)
 */
 inline Color operator /(const Color& c1, const Color& c2)
 {
-	Color clr(c1);
+  auto clr(c1);
 	clr /= c2;
 	return clr;
 }
@@ -995,7 +995,7 @@ inline Color operator /(const Color& c1, const Color& c2)
 */
 inline Color operator |(const Color& c1, const Color& c2)
 {
-	Color clr(c1);
+  auto clr(c1);
 	clr |= c2;
 	return clr;
 }
@@ -1114,14 +1114,14 @@ inline float Color::GetIntensity() const
 //Нормализовать rgb
 inline Color& Color::Normalize()
 {
-	float min = r;
-	float max = r;
+  auto min = r;
+  auto max = r;
 	if (min > g) min = g;
 	if (max < g) max = g;
 	if (min > b) min = b;
 	if (max < b) max = b;
 	if (min > 0.0f) min = 0.0f;
-	float dlt = max - min;
+  auto dlt = max - min;
 	r -= min;
 	g -= min;
 	b -= min;
@@ -1145,9 +1145,9 @@ inline float Color::GetDistance(const Color& c) const
 //Получить цветовую дистанцию между цветами в квадрате
 inline float Color::GetDistanceSqr(const Color& c) const
 {
-	float dr = (r - c.r) * 0.299f;
-	float dg = (g - c.g) * 0.587f;
-	float db = (b - c.b) * 0.114f;
+  auto dr = (r - c.r) * 0.299f;
+  auto dg = (g - c.g) * 0.587f;
+  auto db = (b - c.b) * 0.114f;
 	return dr * dr + dg * dg + db * db;
 }
 
@@ -1189,7 +1189,7 @@ inline Color& Color::MulAlpha(float k)
 //Поменять местами r,b
 inline Color& Color::SwapRB()
 {
-	float t = r;
+  auto t = r;
 	r = b;
 	b = t;
 	return *this;
@@ -1200,7 +1200,7 @@ inline uint32_t Color::GetDword() const
 {
 	/*	long l;*/
 	DColor color;
-	const float k = 255.0f;
+	const auto k = 255.0f;
 
 	color.r = uint8_t(fftoi(r * k));
 	color.g = uint8_t(fftoi(g * k));
@@ -1244,9 +1244,9 @@ inline unsigned short Color::Make565(uint32_t color)
 {
 	//   11111000 11111100 11111000
 	//           11111 111111 11111
-	uint32_t b = (color >> 3) & 0x1f;
-	uint32_t g = (color >> 5) & 0x7e0;
-	uint32_t r = (color >> 8) & 0xf800;
+  auto b = (color >> 3) & 0x1f;
+  auto g = (color >> 5) & 0x7e0;
+  auto r = (color >> 8) & 0xf800;
 	return (unsigned short)(r | g | b);
 }
 
@@ -1255,9 +1255,9 @@ inline unsigned short Color::Make555(uint32_t color)
 {
 	//   11111000 11111000 11111000
 	//           011111 11111 11111
-	uint32_t b = (color >> 3) & 0x1f;
-	uint32_t g = (color >> 6) & 0x3e0;
-	uint32_t r = (color >> 9) & 0x7c00;
+  auto b = (color >> 3) & 0x1f;
+  auto g = (color >> 6) & 0x3e0;
+  auto r = (color >> 9) & 0x7c00;
 	return (unsigned short)(r | g | b);
 }
 
@@ -1266,10 +1266,10 @@ inline unsigned short Color::Make1555(uint32_t color)
 {
 	//   11111000 11111000 11111000
 	//          1 11111 11111 11111
-	uint32_t b = (color >> 3) & 0x1f;
-	uint32_t g = (color >> 6) & 0x3e0;
-	uint32_t r = (color >> 9) & 0x7c00;
-	uint32_t a = (color >> 16) & 0x8000;
+  auto b = (color >> 3) & 0x1f;
+  auto g = (color >> 6) & 0x3e0;
+  auto r = (color >> 9) & 0x7c00;
+  auto a = (color >> 16) & 0x8000;
 	return (unsigned short)(r | g | b | a);
 }
 
@@ -1278,10 +1278,10 @@ inline unsigned short Color::Make4444(uint32_t color)
 {
 	//  11110000 11111000 11111000 11111000
 	//                  1111 1111 1111 1111
-	uint32_t b = (color >> 4) & 0xf;
-	uint32_t g = (color >> 8) & 0xf0;
-	uint32_t r = (color >> 12) & 0xf00;
-	uint32_t a = (color >> 16) & 0xf000;
+  auto b = (color >> 4) & 0xf;
+  auto g = (color >> 8) & 0xf0;
+  auto r = (color >> 12) & 0xf00;
+  auto a = (color >> 16) & 0xf000;
 	return (unsigned short)(r | g | b | a);
 }
 

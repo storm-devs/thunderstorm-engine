@@ -44,7 +44,7 @@ bool WaterRings::Init()
 
 	ringTexture = renderService->TextureCreate("ring.tga");
 
-	for (int i = 0; i < MAX_RINGS; i++)
+	for (auto i = 0; i < MAX_RINGS; i++)
 	{
 		rings[i].ivIndex = ivManager->ReserveElement();
 		rings[i].activeTime = 0;
@@ -69,7 +69,7 @@ void WaterRings::Realize(uint32_t _dTime)
 	uint16_t* iPointer;
 	RING_VERTEX* vPointer;
 	long vOffset;
-	for (int i = 0; i < MAX_RINGS; i++)
+	for (auto i = 0; i < MAX_RINGS; i++)
 	{
 		//check if ring needs to be removed
 		if (rings[i].activeTime > (FADE_IN_TIME + FADE_OUT_TIME))
@@ -91,7 +91,7 @@ void WaterRings::Realize(uint32_t _dTime)
 uint64_t WaterRings::ProcessMessage(MESSAGE& message)
 {
 	//add new ring
-	for (int i = 0; i < MAX_RINGS; i++)
+	for (auto i = 0; i < MAX_RINGS; i++)
 	{
 		if (!rings[i].active)
 		{
@@ -101,13 +101,13 @@ uint64_t WaterRings::ProcessMessage(MESSAGE& message)
 			rings[i].x = message.Float()/*+randCentered(0.15f)*/;
 			rings[i].z = message.Float()/*+randCentered(0.15f)*/;
 
-			float a = message.Float() + PI + randCentered(PId2 / 1.5f);
+      auto a = message.Float() + PI + randCentered(PId2 / 1.5f);
 			rings[i].cosA = cosf(a);
 			rings[i].sinA = sinf(a);
 
-			bool walk = message.Long() != 0;
-			bool run = message.Long() != 0;
-			bool swim = message.Long() != 0;
+      auto walk = message.Long() != 0;
+      auto run = message.Long() != 0;
+      auto swim = message.Long() != 0;
 			if (!(walk || run || swim))
 			{
 				rings[i].activeTime = 0;

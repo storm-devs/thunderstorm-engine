@@ -72,7 +72,7 @@ void CXI_PICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 
 	m_idTex = -1;
 
-	FXYRECT texRect = FXYRECT(0.f, 0.f, 1.f, 1.f);
+  auto texRect = FXYRECT(0.f, 0.f, 1.f, 1.f);
 
 	if (ReadIniString(ini1, name1, ini2, name2, "groupName", param, sizeof(param), ""))
 	{
@@ -96,12 +96,12 @@ void CXI_PICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 	if (ReadIniString(ini1, name1, ini2, name2, "videoName", param, sizeof(param), ""))
 		m_pTex = m_rs->GetVideoTexture(param);
 
-	uint32_t color = GetIniARGB(ini1, name1, ini2, name2, "color", ARGB(255, 128, 128, 128));
+  auto color = GetIniARGB(ini1, name1, ini2, name2, "color", ARGB(255, 128, 128, 128));
 
 	// Create rectangle
 	ChangePosition(m_rect);
 	ChangeUV(texRect);
-	for (int i = 0; i < 4; i++)
+	for (auto i = 0; i < 4; i++)
 	{
 		m_v[i].color = color;
 		m_v[i].pos.z = 1.f;
@@ -110,7 +110,7 @@ void CXI_PICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 	m_bMakeBlind = GetIniBool(ini1, name1, ini2, name2, "blind", false);
 	m_fCurBlindTime = 0.f;
 	m_bBlindUp = true;
-	float fTmp = GetIniFloat(ini1, name1, ini2, name2, "blindUpTime", 1.f);
+  auto fTmp = GetIniFloat(ini1, name1, ini2, name2, "blindUpTime", 1.f);
 	if (fTmp > 0.f) m_fBlindUpSpeed = 0.001f / fTmp;
 	fTmp = GetIniFloat(ini1, name1, ini2, name2, "blindDownTime", 1.f);
 	if (fTmp > 0.f) m_fBlindDownSpeed = 0.001f / fTmp;
@@ -156,7 +156,7 @@ void CXI_PICTURE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -190,7 +190,7 @@ void CXI_PICTURE::SetNewPictureFromDir(char* dirName)
 
 	sprintf_s(param, "resource\\textures\\%s\\*.tx", dirName);
 
-	HANDLE h = fio->_FindFirstFile(param, &wfd);
+  auto h = fio->_FindFirstFile(param, &wfd);
 	for (findQ = 0; h != INVALID_HANDLE_VALUE;)
 	{
 		findQ++;
@@ -268,7 +268,7 @@ uint32_t CXI_PICTURE::MessageProc(long msgcode, MESSAGE& message)
 
 	case 2: // Установить новую картинку или видео картинку
 		{
-			bool bVideo = message.Long() != 0;
+      auto bVideo = message.Long() != 0;
 			char param[256];
 			message.String(sizeof(param) - 1, param);
 			SetNewPicture(bVideo, param);
@@ -286,7 +286,7 @@ uint32_t CXI_PICTURE::MessageProc(long msgcode, MESSAGE& message)
 	case 4: // Установить новый цвет
 		{
 			uint32_t color = message.Long();
-			for (int i = 0; i < 4; i++) m_v[i].color = color;
+			for (auto i = 0; i < 4; i++) m_v[i].color = color;
 		}
 		break;
 

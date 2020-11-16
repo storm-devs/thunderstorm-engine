@@ -56,11 +56,11 @@ SEPS_PS::SEPS_PS()
 
 void SEPS_PS::Reset()
 {
-	float ChaosVal = 0.0001f;
+  auto ChaosVal = 0.0001f;
 
 	memset(Particle, 0, ParticlesNum * sizeof(PARTICLE));
 
-	for (int n = 0; n < ParticlesNum; n++)
+	for (auto n = 0; n < ParticlesNum; n++)
 	{
 		Particle[n].pos.x = Emitter.x + ESpace * (0.5f - (float)rand() / RAND_MAX);
 		Particle[n].pos.y = Emitter.y + ESpace * (0.5f - (float)rand() / RAND_MAX);
@@ -907,7 +907,7 @@ void SEPS_PS::SetFlowTrack(uint32_t index)
 	dest = pFlowTrack[Particle[index].flow_track_index];
 	dest = dest - Particle[index].pos;
 	Particle[index].ang = !dest;
-	float dist = ~dest;
+  auto dist = ~dest;
 	if (dist < fTrackPointRadius)
 	{
 		Particle[index].flow_track_index++;

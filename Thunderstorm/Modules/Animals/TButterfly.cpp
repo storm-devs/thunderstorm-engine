@@ -93,7 +93,7 @@ void TButterfly::Calculate(long _dTime, COLLIDE* _collide, EntityManager::LayerI
 		}
 	}
 
-	float timeDelta = ((float)_dTime) / 1000.0f;
+  auto timeDelta = ((float)_dTime) / 1000.0f;
 
 	// calculate new velocity
 	timeToNextDisplace -= _dTime;
@@ -104,21 +104,21 @@ void TButterfly::Calculate(long _dTime, COLLIDE* _collide, EntityManager::LayerI
 	}
 	centerVelocity = !(centerVelocity + (rand(DISPLACE_SPEED) * timeDelta) * displaceVector);
 
-	float activity = 1.0f - activeTime / fullActiveTime; //~!~
+  auto activity = 1.0f - activeTime / fullActiveTime; //~!~
 	if (activity < MIN_ACTIVITY)
 		activity = MIN_ACTIVITY;
 
-	float velocityDelta = /*activity * */VELOCITY * timeDelta;
+  auto velocityDelta = /*activity * */VELOCITY * timeDelta;
 	time = fmodf(time + activity * timeDelta * WINGS_TIME_K, PI);
-	float yDeltaAbs = fabsf(velocityDelta * Y_SPEED);
+  auto yDeltaAbs = fabsf(velocityDelta * Y_SPEED);
 
 	//trace and change velocity if needed
 	if ((activeTime < fullActiveTime) || (fabsf(centerPosition.y - minY) > (yDeltaAbs + MIN_Y_DELTA)))
 	{
-		float ray = _collide->Trace(its, centerPosition,
-		                            centerPosition + CVECTOR(velocityDelta * centerVelocity.x, 0.f,
-		                                                     velocityDelta * centerVelocity.z),
-		                            nullptr, 0);
+    auto ray = _collide->Trace(its, centerPosition,
+                               centerPosition + CVECTOR(velocityDelta * centerVelocity.x, 0.f,
+                                                        velocityDelta * centerVelocity.z),
+                               nullptr, 0);
 		if (ray <= 1.0f)
 			centerVelocity = -centerVelocity;
 	}
@@ -130,7 +130,7 @@ void TButterfly::Calculate(long _dTime, COLLIDE* _collide, EntityManager::LayerI
 
 	if (activity > 0.5f)
 	{
-		bool probable = ((rand() % RISE_IMPROBABILITY) != 1);
+    auto probable = ((rand() % RISE_IMPROBABILITY) != 1);
 		if (probable)
 			centerPosition.y += yDeltaAbs;
 		else
@@ -138,7 +138,7 @@ void TButterfly::Calculate(long _dTime, COLLIDE* _collide, EntityManager::LayerI
 	}
 	else
 	{
-		bool probable = ((rand() % FALL_IMPROBABILITY) != 1);
+    auto probable = ((rand() % FALL_IMPROBABILITY) != 1);
 		if (probable)
 			centerPosition.y -= yDeltaAbs;
 		else
@@ -150,7 +150,7 @@ void TButterfly::Calculate(long _dTime, COLLIDE* _collide, EntityManager::LayerI
 	if (centerPosition.y < minY)
 		activeTime = 0;
 
-	static float maxRemoteDistance2 = 1.7f * MAX_REMOTE_DISTANCE;
+	static auto maxRemoteDistance2 = 1.7f * MAX_REMOTE_DISTANCE;
 	if ((fabsf(centerPosition.x - center.x) + fabsf(centerPosition.z - center.z)) > maxRemoteDistance2)
 	{
 		//teleport near center
@@ -272,7 +272,7 @@ void TButterfly::Draw(TIVBufferManager* _ivManager)
 	}
 
 	//position = center + CVECTOR(0.2f, 1.f, 0.2f);
-	float alpha = atan2f(centerVelocity.z, centerVelocity.x);
+  auto alpha = atan2f(centerVelocity.z, centerVelocity.x);
 	static CVECTOR v0(-MODEL_SIDE, 0, -MODEL_SIDE);
 	static CVECTOR v1(-MODEL_SIDE, 0, MODEL_SIDE);
 	static CVECTOR v2(0, 0, -MODEL_SIDE);

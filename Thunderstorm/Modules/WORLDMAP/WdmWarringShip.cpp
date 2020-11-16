@@ -77,25 +77,25 @@ void WdmWarringShip::Update(float dltTime)
 	//Двигаем
 	for (long i = 0; i < numRects; i++)
 	{
-		MoveInfo& mi = move[i];
+    auto& mi = move[i];
 		mi.time += mi.kTime * dltTime;
 		if (mi.time >= 1.0f)
 		{
 			//Убиваем партикл
 			numRects--;
-			for (long j = i; j < numRects; j++)
+			for (auto j = i; j < numRects; j++)
 			{
 				rect[j] = rect[j + 1];
 				move[j] = move[j + 1];
 			}
 			continue;
 		}
-		float k = 1.0f - 12.0f * mi.time;
+    auto k = 1.0f - 12.0f * mi.time;
 		if (k < 0.0f) k = 0.0f;
 		rect[i].vPos += mi.v * k * k * dltTime;
 		rect[i].fAngle += mi.dAng * dltTime;
 		rect[i].fSize = 3.0f * (0.5f + mi.time * mi.time * 0.9f);
-		float alpha = sqrtf(mi.time);
+    auto alpha = sqrtf(mi.time);
 		alpha = 1.0f - 4.0f * (alpha - 0.5f) * (alpha - 0.5f);
 		Assert(alpha >= 0.0f && alpha <= 1.0f);
 		alpha *= 255.0f * 0.3f * this->alpha;

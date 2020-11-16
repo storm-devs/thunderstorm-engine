@@ -270,15 +270,15 @@ inline float Vector::operator ~() const
 //Вернуть нормализованный вектор
 inline Vector Vector::operator !() const
 {
-	Vector v(*this);
-	float length = v.Normalize();
+  auto v(*this);
+  auto length = v.Normalize();
 	//assert(fabsf(length) > 1e-20);
 	return v;
 }
 
 inline Vector Vector::operator -() const
 {
-	Vector v(*this);
+  auto v(*this);
 	v.x = -v.x;
 	v.y = -v.y;
 	v.z = -v.z;
@@ -396,7 +396,7 @@ inline Vector& Vector::operator *=(const Vector& v)
 //Покомпонентное деление с присваиванием
 inline Vector& Vector::operator /=(float f)
 {
-	double d = 1.0 / f;
+  auto d = 1.0 / f;
 	x = float(x * d);
 	y = float(y * d);
 	z = float(z * d);
@@ -433,9 +433,9 @@ inline Vector& Vector::operator |=(const Vector& v)
 //Векторное перемножение
 inline Vector& Vector::operator ^=(const Vector& v)
 {
-	float tx = y * v.z - z * v.y;
-	float ty = z * v.x - x * v.z;
-	float tz = x * v.y - y * v.x;
+  auto tx = y * v.z - z * v.y;
+  auto ty = z * v.x - x * v.z;
+  auto tz = x * v.y - y * v.x;
 	x = tx;
 	y = ty;
 	z = tz;
@@ -447,7 +447,7 @@ inline Vector& Vector::operator ^=(const Vector& v)
 */
 inline Vector operator +(const Vector& v, float f)
 {
-	Vector tv(v);
+  auto tv(v);
 	tv += f;
 	return tv;
 }
@@ -457,7 +457,7 @@ inline Vector operator +(const Vector& v, float f)
 */
 inline Vector operator +(float f, const Vector& v)
 {
-	Vector tv(v);
+  auto tv(v);
 	tv += f;
 	return tv;
 }
@@ -467,7 +467,7 @@ inline Vector operator +(float f, const Vector& v)
 */
 inline Vector operator +(const Vector& v, double d)
 {
-	Vector tv(v);
+  auto tv(v);
 	tv += d;
 	return tv;
 }
@@ -477,7 +477,7 @@ inline Vector operator +(const Vector& v, double d)
 */
 inline Vector operator +(double d, const Vector& v)
 {
-	Vector tv(v);
+  auto tv(v);
 	tv += d;
 	return tv;
 }
@@ -487,7 +487,7 @@ inline Vector operator +(double d, const Vector& v)
 */
 inline Vector operator +(const Vector& v1, const Vector& v2)
 {
-	Vector tv(v1);
+  auto tv(v1);
 	tv += v2;
 	return tv;
 }
@@ -497,7 +497,7 @@ inline Vector operator +(const Vector& v1, const Vector& v2)
 */
 inline Vector operator -(const Vector& v, float f)
 {
-	Vector tv(v);
+  auto tv(v);
 	tv -= f;
 	return tv;
 }
@@ -507,7 +507,7 @@ inline Vector operator -(const Vector& v, float f)
 */
 inline Vector operator -(float f, const Vector& v)
 {
-	Vector tv(v);
+  auto tv(v);
 	tv -= f;
 	return tv;
 }
@@ -517,7 +517,7 @@ inline Vector operator -(float f, const Vector& v)
 */
 inline Vector operator -(const Vector& v, double d)
 {
-	Vector tv(v);
+  auto tv(v);
 	tv -= d;
 	return tv;
 }
@@ -527,7 +527,7 @@ inline Vector operator -(const Vector& v, double d)
 */
 inline Vector operator -(double d, const Vector& v)
 {
-	Vector tv(v);
+  auto tv(v);
 	tv -= d;
 	return tv;
 }
@@ -537,7 +537,7 @@ inline Vector operator -(double d, const Vector& v)
 */
 inline Vector operator -(const Vector& v1, const Vector& v2)
 {
-	Vector tv(v1);
+  auto tv(v1);
 	tv -= v2;
 	return tv;
 }
@@ -547,7 +547,7 @@ inline Vector operator -(const Vector& v1, const Vector& v2)
 */
 inline Vector operator *(const Vector& v, float f)
 {
-	Vector tv(v);
+  auto tv(v);
 	tv *= f;
 	return tv;
 }
@@ -557,7 +557,7 @@ inline Vector operator *(const Vector& v, float f)
 */
 inline Vector operator *(float f, const Vector& v)
 {
-	Vector tv(v);
+  auto tv(v);
 	tv *= f;
 	return tv;
 }
@@ -567,7 +567,7 @@ inline Vector operator *(float f, const Vector& v)
 */
 inline Vector operator *(const Vector& v, double d)
 {
-	Vector tv(v);
+  auto tv(v);
 	tv *= d;
 	return tv;
 }
@@ -577,7 +577,7 @@ inline Vector operator *(const Vector& v, double d)
 */
 inline Vector operator *(double d, const Vector& v)
 {
-	Vector tv(v);
+  auto tv(v);
 	tv *= d;
 	return tv;
 }
@@ -587,7 +587,7 @@ inline Vector operator *(double d, const Vector& v)
 */
 inline Vector operator *(const Vector& v1, const Vector& v2)
 {
-	Vector tv(v1);
+  auto tv(v1);
 	tv *= v2;
 	return tv;
 }
@@ -597,7 +597,7 @@ inline Vector operator *(const Vector& v1, const Vector& v2)
 */
 inline Vector operator /(const Vector& v, float f)
 {
-	Vector tv(v);
+  auto tv(v);
 	tv /= f;
 	return tv;
 }
@@ -617,7 +617,7 @@ inline Vector operator /(float f, const Vector& v)
 */
 inline Vector operator /(const Vector& v, double d)
 {
-	Vector tv(v);
+  auto tv(v);
 	tv /= d;
 	return tv;
 }
@@ -637,7 +637,7 @@ inline Vector operator /(double d, const Vector& v)
 */
 inline Vector operator /(const Vector& v1, const Vector& v2)
 {
-	Vector tv(v1);
+  auto tv(v1);
 	tv /= v2;
 	return tv;
 }
@@ -722,10 +722,10 @@ inline bool operator !=(const Vector& v1, const Vector& v2)
 //Нормализовать вектор, и вернуть его бывшую длинну
 inline float Vector::Normalize()
 {
-	double len = sqrt(double(x) * double(x) + double(y) * double(y) + double(z) * double(z));
+  auto len = sqrt(double(x) * double(x) + double(y) * double(y) + double(z) * double(z));
 	if (len > 0.0)
 	{
-		double k = 1.0 / len;
+    auto k = 1.0 / len;
 		x = float(x * k);
 		y = float(y * k);
 		z = float(z * k);
@@ -737,10 +737,10 @@ inline float Vector::Normalize()
 inline float Vector::Normalize2D()
 {
 	y = 0.0f;
-	double len = sqrt(double(x) * double(x) + double(z) * double(z));
+  auto len = sqrt(double(x) * double(x) + double(z) * double(z));
 	if (len > 0.0)
 	{
-		double k = 1.0 / len;
+    auto k = 1.0 / len;
 		x = float(x * k);
 		z = float(z * k);
 	}
@@ -758,7 +758,7 @@ inline float Vector::ClampLength(float clampValue)
 	double len = sqrt(x * x + y * y + z * z);
 	if (len > clampValue)
 	{
-		double k = clampValue / len;
+    auto k = clampValue / len;
 		x = float(x * k);
 		y = float(y * k);
 		z = float(z * k);
@@ -847,10 +847,10 @@ inline Vector& Vector::Set(const Vector& v)
 //Получить угол между векторами
 inline float Vector::GetAngle(const Vector& v) const
 {
-	double len = double(x) * double(x) + double(y) * double(y) + double(z) * double(z);
+  auto len = double(x) * double(x) + double(y) * double(y) + double(z) * double(z);
 	len *= double(x) * double(x) + double(y) * double(y) + double(z) * double(z);
 	if (len <= 0.0) return 0.0f;
-	double cs = (x * v.x + y * v.y + z * v.z) / sqrt(len);
+  auto cs = (x * v.x + y * v.y + z * v.z) / sqrt(len);
 	if (cs > 1.0) cs = 1.0;
 	if (cs < -1.0) cs = -1.0;
 	return float(acos(cs));
@@ -859,7 +859,7 @@ inline float Vector::GetAngle(const Vector& v) const
 ///Получить знаковый угол между векторами в плоскости XZ
 inline float Vector::GetAngle2D(const Vector& v) const
 {
-	double len = double(x) * double(x) + double(z) * double(z);
+  auto len = double(x) * double(x) + double(z) * double(z);
 	len *= double(v.x) * double(v.x) + double(v.z) * double(v.z);
 	if (len <= 0.0) return 0.0f;
 	len = (x * v.x + z * v.z) / sqrt(len);
@@ -873,7 +873,7 @@ inline float Vector::GetAngle2D(const Vector& v) const
 //Получить угол поворота вектора вокруг оси Y
 inline float Vector::GetAY(float defAngle) const
 {
-	double len = double(x) * double(x) + double(z) * double(z);
+  auto len = double(x) * double(x) + double(z) * double(z);
 	if (len > 0.00000000001)
 	{
 		len = z / sqrt(len);
@@ -889,7 +889,7 @@ inline float Vector::GetAY(float defAngle) const
 //Получить синус между 2D векторами в плоскости XZ
 inline float Vector::Sin2D(const Vector& v) const
 {
-	double len = double(x) * double(x) + double(z) * double(z);
+  auto len = double(x) * double(x) + double(z) * double(z);
 	len *= double(v.x) * double(v.x) + double(v.z) * double(v.z);
 	if (len <= 0.0) return 0.0f;
 	len = (z * v.x - x * v.z) / sqrt(len);
@@ -899,7 +899,7 @@ inline float Vector::Sin2D(const Vector& v) const
 //Получить косинус между 2D векторами в плоскости XZ
 inline float Vector::Cos2D(const Vector& v) const
 {
-	double len = double(x) * double(x) + double(z) * double(z);
+  auto len = double(x) * double(x) + double(z) * double(z);
 	len *= double(v.x) * double(v.x) + double(v.z) * double(v.z);
 	if (len <= 0.0) return 1.0f;
 	len = (x * v.x + z * v.z) / sqrt(len);
@@ -960,8 +960,8 @@ inline Vector& Vector::Rotate(float angle)
 //Повернуть вектор в плоскости XZ на угол заданный cos, sin
 inline Vector& Vector::Rotate(float vcos, float vsin)
 {
-	float tx = x * vcos + z * vsin;
-	float tz = z * vcos - x * vsin;
+  auto tx = x * vcos + z * vsin;
+  auto tz = z * vcos - x * vsin;
 	x = tx;
 	z = tz;
 	return *this;
@@ -970,7 +970,7 @@ inline Vector& Vector::Rotate(float vcos, float vsin)
 //Повернуть вектор по часовой стрелке в плоскости XZ на угол PI/2
 inline Vector& Vector::Rotate_PI2_CW()
 {
-	float t = x;
+  auto t = x;
 	x = z;
 	z = -t;
 	return *this;
@@ -979,7 +979,7 @@ inline Vector& Vector::Rotate_PI2_CW()
 //Повернуть вектор против часовой стрелке в плоскости XZ на угол PI/2
 inline Vector& Vector::Rotate_PI2_CCW()
 {
-	float t = x;
+  auto t = x;
 	x = -z;
 	z = t;
 	return *this;
@@ -997,7 +997,7 @@ inline Vector& Vector::Lerp(const Vector& v1, const Vector& v2, float kBlend)
 //Расчитать отражённый вектор
 inline Vector& Vector::Reflection(const Vector& normal)
 {
-	float k = -2.0f * (x * normal.x + y * normal.y + z * normal.z);
+  auto k = -2.0f * (x * normal.x + y * normal.y + z * normal.z);
 	x += normal.x * k;
 	y += normal.y * k;
 	z += normal.z * k;
@@ -1041,10 +1041,10 @@ inline bool Vector::MoveByStep(const Vector& to, float step)
 {
 	if (step <= 0.0f) return false;
 	//Дистанция до точки
-	float dx = to.x - x;
-	float dy = to.y - y;
-	float dz = to.z - z;
-	float dist = dx * dx + dy * dy + dz * dz;
+  auto dx = to.x - x;
+  auto dy = to.y - y;
+  auto dz = to.z - z;
+  auto dist = dx * dx + dy * dy + dz * dz;
 	if (dist < 1e-20f)
 	{
 		x = to.x;
@@ -1073,9 +1073,9 @@ inline bool Vector::MoveByStep2D(const Vector& to, float step)
 {
 	if (step <= 0.0f) return false;
 	//Дистанция до точки
-	float dx = to.x - x;
-	float dz = to.z - z;
-	float dist = dx * dx + dz * dz;
+  auto dx = to.x - x;
+  auto dz = to.z - z;
+  auto dist = dx * dx + dz * dz;
 	if (dist < 1e-20f)
 	{
 		x = to.x;

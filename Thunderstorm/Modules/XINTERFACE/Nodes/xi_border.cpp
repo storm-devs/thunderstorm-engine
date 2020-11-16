@@ -74,7 +74,7 @@ void CXI_BORDER::ChangePosition(XYRECT& rNewPos)
 	// смещаем картинку заголовка
 	if (m_pCaptionImage && m_nCaptionHeight > 0)
 	{
-		XYRECT rCapRect = m_rCapRect;
+    auto rCapRect = m_rCapRect;
 		rCapRect.top += m_rect.top;
 		rCapRect.bottom = rCapRect.top + m_nCaptionHeight - rCapRect.bottom;
 		rCapRect.left += m_rect.left;
@@ -89,7 +89,7 @@ void CXI_BORDER::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());

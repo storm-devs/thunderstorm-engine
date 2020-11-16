@@ -109,7 +109,7 @@ void BillBoardProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velo
                                      const Matrix& matWorld, float EmitterTime, float EmitterLifeTime,
                                      FieldList* pFields, uint32_t* pActiveCount, uint32_t dwGUID)
 {
-	BB_ParticleData* pData = AllocParticle();
+  auto pData = AllocParticle();
 
 	//Сработает если партиклов будет > MAX_BILLBOARDS, столько их быть не должно :))))
 	if (!pData)
@@ -150,7 +150,7 @@ void BillBoardProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velo
 	pData->Spin = pFields->GetRandomGraphVal(PARTICLE_SPIN, EmitterTime, EmitterLifeTime);
 	pData->Spin = pData->Spin * MUL_DEGTORAD;
 
-	float VelocityPower = pFields->GetRandomGraphVal(PARTICLE_VELOCITY_POWER, EmitterTime, EmitterLifeTime);
+  auto VelocityPower = pFields->GetRandomGraphVal(PARTICLE_VELOCITY_POWER, EmitterTime, EmitterLifeTime);
 	pData->Velocity = pData->Velocity * VelocityPower;
 	pData->UMass = fabsf(pData->Mass);
 
@@ -182,7 +182,7 @@ void BillBoardProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velo
 	pData->KTrackZ = FRAND(1.0f);
 
 
-	const char* pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
+  auto pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
 	if (_stricmp(pEmitterName, "none") == 0)
 	{
 		pData->AttachedEmitter = nullptr;
@@ -207,8 +207,8 @@ void BillBoardProcessor::Process(float DeltaTime)
 	{
 		Particles[n]->ElapsedTime += DeltaTime;
 
-		float Time = Particles[n]->ElapsedTime;
-		float LifeTime = Particles[n]->LifeTime;
+    auto Time = Particles[n]->ElapsedTime;
+    auto LifeTime = Particles[n]->LifeTime;
 
 		//		_mm_prefetch ((const char *)Particles[n+1], _MM_HINT_T0);
 
@@ -224,13 +224,13 @@ void BillBoardProcessor::Process(float DeltaTime)
 			continue;
 		}
 
-		float Drag = Particles[n]->Graph_Drag->GetValue(Time, LifeTime, Particles[n]->DragK);
+    auto Drag = Particles[n]->Graph_Drag->GetValue(Time, LifeTime, Particles[n]->DragK);
 		Drag = 1.0f - (Drag * 0.01f);
 		if (Drag < 0.0f) Drag = 0.0f;
 		if (Drag > 1.0f) Drag = 1.0f;
 
 
-		float GravK = Particles[n]->graph_GravK->GetValue(Time, LifeTime, Particles[n]->GravKK);
+    auto GravK = Particles[n]->graph_GravK->GetValue(Time, LifeTime, Particles[n]->GravKK);
 
 		AddGravityForce(Particles[n]->ExternalForce, Particles[n]->Mass, GravK);
 		SolvePhysic(Particles[n]->PhysPos, Particles[n]->Velocity, Particles[n]->ExternalForce, Particles[n]->UMass,
@@ -238,7 +238,7 @@ void BillBoardProcessor::Process(float DeltaTime)
 		Particles[n]->ExternalForce = Vector(0.0f);
 
 		//FIX ME !!!
-		float SpinDrag = Particles[n]->Graph_SpinDrag->GetValue(Time, LifeTime, Particles[n]->SpinDragK);
+    auto SpinDrag = Particles[n]->Graph_SpinDrag->GetValue(Time, LifeTime, Particles[n]->SpinDragK);
 		SpinDrag = 1.0f - (SpinDrag * 0.01f);
 		if (SpinDrag < 0.0f) SpinDrag = 0.0f;
 		if (SpinDrag > 1.0f) SpinDrag = 1.0f;
@@ -252,7 +252,7 @@ void BillBoardProcessor::Process(float DeltaTime)
 		TrackPos = TrackPos * Particles[n]->matWorld;
 
 		//FIX ME !!!
-		float BlendPhys = Particles[n]->Graph_PhysBlend->GetValue(Time, LifeTime, Particles[n]->KPhysBlend);
+    auto BlendPhys = Particles[n]->Graph_PhysBlend->GetValue(Time, LifeTime, Particles[n]->KPhysBlend);
 		BlendPhys = 1.0f - (BlendPhys * DeltaTime);
 		if (BlendPhys < 0.0f) BlendPhys = 0.0f;
 		if (BlendPhys > 1.0f) BlendPhys = 1.0f;
@@ -339,22 +339,22 @@ void BillBoardProcessor::Draw()
 	uint32_t ParticlesCount = 0;
 	for (uint32_t j = 0; j < Particles.size(); j++)
 	{
-		BB_ParticleData* pR = Particles[j];
+    auto pR = Particles[j];
 
 		if (!pR->Visible) continue;
 
-		bool SpeedOriented = pR->SpeedOriented;
-		float fSize = pR->Graph_Size->GetValue(pR->ElapsedTime, pR->LifeTime, pR->SizeK);
+    auto SpeedOriented = pR->SpeedOriented;
+    auto fSize = pR->Graph_Size->GetValue(pR->ElapsedTime, pR->LifeTime, pR->SizeK);
 		if (fSize <= 0.000001f) continue;
 
 		//		_mm_prefetch ((const char *)Particles[j+1], _MM_HINT_T0);
 
 
-		float fAngle = pR->RenderAngle;
-		Vector vPos = pR->RenderPos;
+    auto fAngle = pR->RenderAngle;
+    auto vPos = pR->RenderPos;
 		uint32_t dwColor = pR->Graph_Color->GetValue(pR->ElapsedTime, pR->LifeTime, pR->ColorK);
 
-		float Alpha = pR->Graph_Transparency->GetValue(pR->ElapsedTime, pR->LifeTime, pR->AlphaK);
+    auto Alpha = pR->Graph_Transparency->GetValue(pR->ElapsedTime, pR->LifeTime, pR->AlphaK);
 		Alpha = Alpha * 0.01f;
 		Alpha = 1.0f - Alpha;
 		if (Alpha < 0.0f) Alpha = 0.0f;
@@ -362,7 +362,7 @@ void BillBoardProcessor::Draw()
 		Alpha = Alpha * 255.0f;
 
 
-		float AddPower = pR->graph_AddPower->GetValue(pR->ElapsedTime, pR->LifeTime, pR->AddPowerK);
+    auto AddPower = pR->graph_AddPower->GetValue(pR->ElapsedTime, pR->LifeTime, pR->AddPowerK);
 		AddPower = AddPower * 0.01f;
 		AddPower = 1.0f - AddPower;
 		if (AddPower < 0.0f) AddPower = 0.0f;
@@ -371,29 +371,29 @@ void BillBoardProcessor::Draw()
 		//AddPower = 0.0f;
 
 
-		float FrameIndex = pR->Graph_Frames->GetValue(pR->ElapsedTime, pR->LifeTime, pR->FrameK);
-		long FrameIndexLong = fftol(FrameIndex);
-		float FrameBlendK = 1.0f - (FrameIndex - FrameIndexLong);
-		const Vector4& UV_WH1 = pR->Graph_UV->GetValue(FrameIndexLong);
-		const Vector4& UV_WH2 = pR->Graph_UV->GetValue(FrameIndexLong + 1);
+    auto FrameIndex = pR->Graph_Frames->GetValue(pR->ElapsedTime, pR->LifeTime, pR->FrameK);
+    auto FrameIndexLong = fftol(FrameIndex);
+    auto FrameBlendK = 1.0f - (FrameIndex - FrameIndexLong);
+		const auto& UV_WH1 = pR->Graph_UV->GetValue(FrameIndexLong);
+		const auto& UV_WH2 = pR->Graph_UV->GetValue(FrameIndexLong + 1);
 
 		//Ограничитель максимального размера партиклов...
 		//=============================================================
-		float SizeK = pR->CamDistance / fSize;
+    auto SizeK = pR->CamDistance / fSize;
 		if (SizeK < PLOD) fSize = pR->CamDistance / PLOD;
 		//=============================================================
 
-		RECT_VERTEX* pV = &pVerts[Index * 4];
+    auto pV = &pVerts[Index * 4];
 		Index++;
 
-		float DirAngle = 0.0f;
-		float ScaleF = 1.0f;
+    auto DirAngle = 0.0f;
+    auto ScaleF = 1.0f;
 
 		if (SpeedOriented)
 		{
 			Matrix matView;
 			pRS->GetTransform(D3DTS_VIEW, matView);
-			Vector SpeedVector = pR->Velocity;
+      auto SpeedVector = pR->Velocity;
 			//pR->RenderPos - pR->OldRenderPos;
 			SpeedVector = matView.MulNormal(SpeedVector);
 			SpeedVector.Normalize();

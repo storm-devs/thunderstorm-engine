@@ -192,7 +192,7 @@ char* TM_LIST::GetSelectedName()
 void TM_LIST::SelectItem(const char* name)
 {
 	if (!name) return;
-	long items = GetItemsCount();
+  auto items = GetItemsCount();
 	for (long n = 0; n < items; n++)
 	{
 		GetItemText(n, 0, SearchName, sizeof(SearchName));
@@ -334,7 +334,7 @@ void TM_LIST::ProcessMessageBase(uint64_t iMsg, uint64_t wParam, uint64_t lParam
 					EditPos.left += subitem_spacing;
 					subitem_spacing = ListView_GetColumnWidth(GetWindowHandle(), lpnmlv->iSubItem);
 					EditPos.right = EditPos.left + subitem_spacing - 1;
-					RECT list_rect = GetPosition();
+          auto list_rect = GetPosition();
 					OffsetRect(&EditPos, list_rect.left + 2, list_rect.top + 2);
 					if (EditPos.right + 2 > list_rect.right) EditPos.right = list_rect.right - 2;
 					GetItemText(lpnmlv->iItem, lpnmlv->iSubItem, TextEditBuffer, sizeof(TextEditBuffer));
@@ -375,7 +375,7 @@ void TM_LIST::StartEditSelectedItem()
 	nmhdr->code = NM_DBLCLK;
 	nmhdr->hwndFrom = GetWindowHandle();
 
-	int iSelected = ListView_GetSelectionMark(GetWindowHandle());
+  auto iSelected = ListView_GetSelectionMark(GetWindowHandle());
 
 	if (iSelected >= 0)
 	{

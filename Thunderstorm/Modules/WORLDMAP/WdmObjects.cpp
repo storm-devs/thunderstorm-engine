@@ -149,7 +149,7 @@ GEOS* WdmObjects::CreateGeometry(const char* path)
 	modelPath = "WorldMap\\";
 	modelPath += path;
 	gs->SetTexturePath("WorldMap\\Geometry\\");
-	GEOS* geo = gs->CreateGeometry(modelPath.c_str(), "", 0);
+  auto geo = gs->CreateGeometry(modelPath.c_str(), "", 0);
 	gs->SetTexturePath("");
 	//Добавляем в таблицу
 	//Model & m = models[models.Add()];
@@ -204,21 +204,21 @@ void WdmObjects::DrawCircle(CMatrix& mtx, float radius, uint32_t color)
 
 void WdmObjects::DrawVector(const CVECTOR& start, const CVECTOR& end, uint32_t color)
 {
-	CVECTOR dir = end - start;
-	float len = ~dir;
+  auto dir = end - start;
+  auto len = ~dir;
 	if (len == 0.0f) return;
 	len = sqrtf(len);
 	dir *= 1.0f / len;
-	float p = 0.9f * len;
-	float r = 0.03f * len;
+  auto p = 0.9f * len;
+  auto r = 0.03f * len;
 
 	long t = 0;
 	for (long i = 0, imax = 8; i < imax; i++)
 	{
-		float y1 = r * sinf(2.0f * WdmObjects_myPI * i / float(imax));
-		float x1 = r * cosf(2.0f * WdmObjects_myPI * i / float(imax));
-		float y2 = r * sinf(2.0f * WdmObjects_myPI * (i + 1) / float(imax));
-		float x2 = r * cosf(2.0f * WdmObjects_myPI * (i + 1) / float(imax));
+    auto y1 = r * sinf(2.0f * WdmObjects_myPI * i / float(imax));
+    auto x1 = r * cosf(2.0f * WdmObjects_myPI * i / float(imax));
+    auto y2 = r * sinf(2.0f * WdmObjects_myPI * (i + 1) / float(imax));
+    auto x2 = r * cosf(2.0f * WdmObjects_myPI * (i + 1) / float(imax));
 		//Добавляем треугольники 1 линии
 		//0,0,0
 		vertex[t * 3 + 0].v.x = 0.0f;
@@ -286,7 +286,7 @@ void WdmObjects::DrawVector(const CVECTOR& start, const CVECTOR& end, uint32_t c
 	Assert(t*3*6 < sizeof(vertex)/sizeof(Vertex));
 	rs->TextureSet(0, -1);
 	rs->TextureSet(1, -1);
-	CVECTOR yBs = dir ^ CVECTOR(0.0f, 1.0f, 0.0f);
+  auto yBs = dir ^ CVECTOR(0.0f, 1.0f, 0.0f);
 	if (~yBs == 0.0f)
 	{
 		yBs = dir ^ CVECTOR(1.0f, 0.0f, 0.0f);
@@ -350,7 +350,7 @@ float WdmObjects::GetWind(float x, float z, CVECTOR& dir)
 {
 	windField.GetWind(x, z, dir.x, dir.z);
 	dir.y = 0.0f;
-	float len = sqrtf(dir.x * dir.x + dir.z * dir.z);
+  auto len = sqrtf(dir.x * dir.x + dir.z * dir.z);
 	if (len > 1e-20f)
 	{
 		dir.x /= len;
@@ -433,7 +433,7 @@ void WdmObjects::SetWindSaveString(const char* str)
 	auto* buf = (uint8_t *)&windField;
 	for (long i = 0; i < size; i++)
 	{
-		long data = GetDataFromString(str);
+    auto data = GetDataFromString(str);
 		if (data < 0)
 		{
 			windField.Reinit();

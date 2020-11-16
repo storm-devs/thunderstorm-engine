@@ -271,7 +271,7 @@ long BIShipIcon::AddTexture(const char* pcTextureName, long nCols, long nRows)
 
 void BIShipIcon::Recollect()
 {
-	long n = CalculateShipQuantity();
+  auto n = CalculateShipQuantity();
 	UpdateBuffers(n);
 }
 
@@ -283,7 +283,7 @@ bool BIShipIcon::IsActive()
 
 void BIShipIcon::SetActive(bool bActive)
 {
-	bool bSameActive = (IsActive() == bActive);
+  auto bSameActive = (IsActive() == bActive);
 	if (m_pCommandList) m_pCommandList->SetActive(bActive);
 	if (bSameActive) return;
 	m_nCommandMode = BI_COMMODE_COMMAND_SELECT;
@@ -326,7 +326,7 @@ void BIShipIcon::ExecuteCommand(CommandType command)
 	case Command_confirm:
 		if (m_pCommandList)
 		{
-			long nTmp = m_pCommandList->ExecuteConfirm();
+      auto nTmp = m_pCommandList->ExecuteConfirm();
 			if (nTmp != -1) m_nCommandMode = nTmp;
 		}
 		if (m_nCommandMode == 0)
@@ -452,8 +452,8 @@ long BIShipIcon::CalculateShipQuantity()
 
 void BIShipIcon::UpdateBuffers(long nShipQ)
 {
-	long nBackSquareQ = nShipQ;
-	long nShipStateSquareQ = nShipQ * 2;
+  auto nBackSquareQ = nShipQ;
+  auto nShipStateSquareQ = nShipQ * 2;
 	long nShipClassSquareQ = nShipQ;
 	long nShipSquareQ = nShipQ;
 

@@ -18,8 +18,8 @@ BIImage::~BIImage()
 void BIImage::FillBuffers(BI_IMAGE_VERTEX* pV, uint16_t* pT, long& nV, long& nT)
 {
 	long n;
-	long ni = nT * 3;
-	long nv = nV;
+  auto ni = nT * 3;
+  auto nv = nV;
 
 	// index buffer
 	if (m_eType == BIType_square)
@@ -130,15 +130,15 @@ void BIImage::CutClock(float fBegin, float fEnd, float fFactor)
 	fp.x = 0.5f;
 	fp.y = 0.5f;
 	m_aRelPos.push_back(fp);
-	float fEndAng = fBegin + (fEnd - fBegin) * fFactor;
+  auto fEndAng = fBegin + (fEnd - fBegin) * fFactor;
 	// первая/начальная точка на часах
 	m_aRelPos.push_back(GetClockPoint(fBegin, fp));
 	// следующие углы
 	if (fBegin < fEndAng)
-		for (float fAng = GetNextClockCorner(fBegin); fAng < fEndAng; fAng = GetNextClockCorner(fAng))
+		for (auto fAng = GetNextClockCorner(fBegin); fAng < fEndAng; fAng = GetNextClockCorner(fAng))
 			m_aRelPos.push_back(GetClockPoint(fAng, fp));
 	else if (fBegin > fEndAng)
-		for (float fAng = GetPrevClockCorner(fBegin); fAng > fEndAng; fAng = GetPrevClockCorner(fAng))
+		for (auto fAng = GetPrevClockCorner(fBegin); fAng > fEndAng; fAng = GetPrevClockCorner(fAng))
 			m_aRelPos.push_back(GetClockPoint(fAng, fp));
 	// последняя/конечная точка на часах
 	m_aRelPos.push_back(GetClockPoint(fEndAng, fp));
@@ -210,14 +210,14 @@ FPOINT& BIImage::GetClockPoint(float fAng, FPOINT& fp)
 
 float BIImage::GetNextClockCorner(float fAng)
 {
-	for (float f = -0.875f; f < 1.f; f += 0.25f)
+	for (auto f = -0.875f; f < 1.f; f += 0.25f)
 		if (fAng < f) return f;
 	return fAng + .25f;
 }
 
 float BIImage::GetPrevClockCorner(float fAng)
 {
-	for (float f = 0.875f; f > -1.f; f -= 0.25f)
+	for (auto f = 0.875f; f > -1.f; f -= 0.25f)
 		if (fAng > f) return f;
 	return fAng - .25f;
 }

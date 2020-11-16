@@ -80,7 +80,7 @@ SAILONE::~SAILONE()
 
 void SAILONE::goWave(SAILVERTEX* pv, uint32_t Delta_Time)
 {
-	bool trigger = false;
+  auto trigger = false;
 
 	if (ss.eSailType == SAIL_TREANGLE)
 	{
@@ -123,7 +123,7 @@ void SAILONE::goWave(SAILVERTEX* pv, uint32_t Delta_Time)
 			VertIdx = HorzIdx;
 			if (!sroll)
 			{
-				float delta = (float)Delta_Time * pp->FLEXSPEED;
+        auto delta = (float)Delta_Time * pp->FLEXSPEED;
 				if (WindUp)
 				{
 					SumWind -= delta;
@@ -147,10 +147,10 @@ void SAILONE::goWave(SAILVERTEX* pv, uint32_t Delta_Time)
 	}
 
 	// расчет бокса
-	int pn = 20;
+  auto pn = 20;
 	if (ss.eSailType == SAIL_TREANGLE) pn = 15;
 	ss.boxCenter = ss.boxSize = SailPnt[0];
-	for (int i = 1; i < pn; i++)
+	for (auto i = 1; i < pn; i++)
 	{
 		if (SailPnt[i].x < ss.boxCenter.x) ss.boxCenter.x = SailPnt[i].x;
 		if (SailPnt[i].y < ss.boxCenter.y) ss.boxCenter.y = SailPnt[i].y;
@@ -243,8 +243,8 @@ void SAILONE::FillIndex(uint16_t* pt)
 	{
 		if (bRolling && (ss.eSailType == SAIL_TREANGLE))
 		{
-			int v1 = idx + 6;
-			int v2 = idx + 10;
+      auto v1 = idx + 6;
+      auto v2 = idx + 10;
 
 			pt[noholeStart++] = v1;
 			pt[noholeStart++] = v2++;
@@ -269,8 +269,8 @@ void SAILONE::FillIndex(uint16_t* pt)
 			pt[noholeStart++] = v1;
 			v1++;
 			v2 += 22;
-			int vd1 = 1;
-			int vd2 = 2;
+      auto vd1 = 1;
+      auto vd2 = 2;
 
 			for (ix = 1; ix < 4; ix++)
 			{
@@ -450,12 +450,12 @@ void SAILONE::FillVertex(SAILVERTEX* pv)
 	CVECTOR dnorm;
 	CVECTOR dStart;
 
-	float tmpCol = 1.f / (float)(SAIL_COL_MAX - 1);
-	float tmpRow = 1.f / (float)(SAIL_ROW_MAX - 1);
+  auto tmpCol = 1.f / (float)(SAIL_COL_MAX - 1);
+  auto tmpRow = 1.f / (float)(SAIL_ROW_MAX - 1);
 
-	CVECTOR pStart = ss.hardPoints[0];
-	CVECTOR dVStart = sgeo.dVv;
-	CVECTOR dVhStart = sgeo.dVh;
+  auto pStart = ss.hardPoints[0];
+  auto dVStart = sgeo.dVv;
+  auto dVhStart = sgeo.dVh;
 
 	if (ss.eSailType == SAIL_TREANGLE)
 	{
@@ -727,7 +727,7 @@ bool SAILONE::SetSail()
 
 	// установка дырочных свойств паруса
 	ss.holeCount = 0;
-	for (int i = 0; i < hpq; i++)
+	for (auto i = 0; i < hpq; i++)
 	{
 		ss.hole[i] = false;
 		if (ss.hole[i])
@@ -758,17 +758,17 @@ void SAILONE::GoTWave(SAILVERTEX* pv)
 {
 	int iy, ix, idx;
 
-	float k = (sailWind.x * sgeo.normL.x + sailWind.y * sgeo.normL.y + sailWind.z * sgeo.normL.z);
+  auto k = (sailWind.x * sgeo.normL.x + sailWind.y * sgeo.normL.y + sailWind.z * sgeo.normL.z);
 	CVECTOR CenterFlex;
 	if (k < 0.f)
 		CenterFlex = k * sgeo.normL * ss.fDeepH;
 	else
 		CenterFlex = k * sgeo.normL * ss.fDeepZ;
 
-	CVECTOR pStart = ss.hardPoints[0];
-	CVECTOR pStartDelta = (ss.hardPoints[1] - ss.hardPoints[0]) / (float)(SAIL_ROW_MAX - 1);
+  auto pStart = ss.hardPoints[0];
+  auto pStartDelta = (ss.hardPoints[1] - ss.hardPoints[0]) / (float)(SAIL_ROW_MAX - 1);
 
-	float WindAmplitude = pp->TsailWindDepend * ss.boundSphere.r * (pp->globalWind.base + .3f) / (float)(SAIL_ROW_MAX -
+  auto WindAmplitude = pp->TsailWindDepend * ss.boundSphere.r * (pp->globalWind.base + .3f) / (float)(SAIL_ROW_MAX -
 		1) / (float)(SAIL_ROW_MAX - 1);
 
 	// учесть дырявость паруса в прогибе паруса
@@ -782,7 +782,7 @@ void SAILONE::GoTWave(SAILVERTEX* pv)
 		*sailtrope.pPos[0] = pStart;
 	}
 
-	int svNum = 0;
+  auto svNum = 0;
 
 	CVECTOR WindAdd, pcur, dV, ddV;
 	for (ix = 0; ix < SAIL_ROW_MAX;)
@@ -864,9 +864,9 @@ void SAILONE::GoVWave(SAILVERTEX* pv)
 	uint16_t iy, ix, idx;
 	CVECTOR pcur, dV, ddV, dddV;
 	float k;
-	bool trigger = false;
+  auto trigger = false;
 
-	float fWindBase = pp->globalWind.base;
+  auto fWindBase = pp->globalWind.base;
 	if (fWindBase > 1.f) fWindBase = 1.f;
 
 	CVECTOR wind;
@@ -883,7 +883,7 @@ void SAILONE::GoVWave(SAILVERTEX* pv)
 	}
 
 	// амплитуда движения паруса под воздействием ветра
-	float WindAmplitude = pp->SsailWindDepend * sailHeight * (fWindBase + pp->fWindAdding) / (pp->fWindAdding + 1.f) / (
+  auto WindAmplitude = pp->SsailWindDepend * sailHeight * (fWindBase + pp->fWindAdding) / (pp->fWindAdding + 1.f) / (
 		float)(SAIL_COL_MAX / 2 + 2);
 	if (ss.bYesLimitPoint)
 	{
@@ -902,11 +902,11 @@ void SAILONE::GoVWave(SAILVERTEX* pv)
 	SailDownVect.y = -windFlex;
 	SailDownVect.z = -windFlex * (ss.fDeepZ + ss.fDeepH);
 
-	CVECTOR dVH = (ss.hardPoints[1] - ss.hardPoints[3]) / (float)(SAIL_ROW_MAX + 1) * ss.fDeepVh; //*(1.f-fWindBase);
-	CVECTOR ddVH = sgeo.ddVh + dVH * 2.f / (float)(SAIL_COL_MAX - 1);
+  auto dVH = (ss.hardPoints[1] - ss.hardPoints[3]) / (float)(SAIL_ROW_MAX + 1) * ss.fDeepVh; //*(1.f-fWindBase);
+  auto ddVH = sgeo.ddVh + dVH * 2.f / (float)(SAIL_COL_MAX - 1);
 	dVH = sgeo.dVh - dVH;
-	CVECTOR StartPoint = ss.hardPoints[0];
-	CVECTOR StartDelta = (ss.hardPoints[1] - ss.hardPoints[0]) / (float)(SAIL_COL_MAX - 1);
+  auto StartPoint = ss.hardPoints[0];
+  auto StartDelta = (ss.hardPoints[1] - ss.hardPoints[0]) / (float)(SAIL_COL_MAX - 1);
 	if (m_dwCol == 7) StartDelta *= 2.f;
 	else if (m_dwCol == 4) StartDelta *= 4.f;
 	dddV = sgeo.dddVv;
@@ -920,7 +920,7 @@ void SAILONE::GoVWave(SAILVERTEX* pv)
 	if (sailtrope.pnttie[0])
 		*sailtrope.pPos[0] = StartPoint;
 
-	int svNum = 0;
+  auto svNum = 0;
 
 	for (ix = 0; ix < SAIL_COL_MAX;)
 	{
@@ -930,7 +930,7 @@ void SAILONE::GoVWave(SAILVERTEX* pv)
 			k = (float)(SAIL_COL_MAX - ix - 1) / (float)SAIL_COL_MAX;
 		if (sailtrope.pnttie[2]) k += .2f;
 
-		CVECTOR WindAdd = (pp->WindVect[VertIdx] * WindAmplitude * (k + 1.f / (float)SAIL_COL_MAX)) * wind;
+    auto WindAdd = (pp->WindVect[VertIdx] * WindAmplitude * (k + 1.f / (float)SAIL_COL_MAX)) * wind;
 
 		// установим координаты начальной точки и приращения к ним на каждом шаге
 		pcur = StartPoint;
@@ -1006,8 +1006,8 @@ void SAILONE::SetGeometry()
 	if (sroll != nullptr) pG = &sroll->oldgeo;
 	else pG = &sgeo;
 
-	float tmpCol = 1.f / (float)(SAIL_COL_MAX - 1);
-	float tmpRow = 1.f / (float)(SAIL_ROW_MAX - 1);
+  auto tmpCol = 1.f / (float)(SAIL_COL_MAX - 1);
+  auto tmpRow = 1.f / (float)(SAIL_ROW_MAX - 1);
 
 	if (ss.eSailType == SAIL_TREANGLE)
 	{
@@ -1069,7 +1069,7 @@ void SAILONE::SetRolling(bool bRoll)
 	bRolling = false;
 	if (!bRoll) // сделаем принудительный поворот паруса по ветру
 	{
-		CVECTOR locPos = hostNode->loc_mtx.Pos();
+    auto locPos = hostNode->loc_mtx.Pos();
 		hostNode->loc_mtx.SetPosition(0.f, 0.f, 0.f);
 		if (oldWindAngl < 0.f)
 		{
@@ -1099,7 +1099,7 @@ void SAILONE::DoRollingStep(uint32_t Delta_Time)
 {
 	if (!sroll) return; // нет сворачивания паруса
 
-	float delta = sroll->delta;
+  auto delta = sroll->delta;
 
 	// сворачивать парус
 	if (sroll->rollup)
@@ -1143,10 +1143,10 @@ void SAILONE::DoRollingStep(uint32_t Delta_Time)
 
 void SAILONE::TurnSail(float fTurnStep)
 {
-	CMatrix mtx = hostNode->parent->glob_mtx;
-	CMatrix tmtx = hostNode->loc_mtx;
+  auto mtx = hostNode->parent->glob_mtx;
+  auto tmtx = hostNode->loc_mtx;
 	// Get new local matrix
-	float windAng = -sailWind.x;
+  auto windAng = -sailWind.x;
 	//windAng*=pp->MAXTURNANGL;
 	if (windAng < 0) windAng *= m_fMinAngle;
 	else windAng *= m_fMaxAngle;
@@ -1159,7 +1159,7 @@ void SAILONE::TurnSail(float fTurnStep)
 		if (windAng > fTurnStep) windAng = fTurnStep;
 		if (windAng < -fTurnStep) windAng = -fTurnStep;
 		oldWindAngl += windAng;
-		CVECTOR locPos = hostNode->loc_mtx.Pos();
+    auto locPos = hostNode->loc_mtx.Pos();
 		hostNode->loc_mtx.SetPosition(0.f, 0.f, 0.f);
 		hostNode->loc_mtx.RotateY(-windAng);
 		hostNode->loc_mtx.SetPosition(locPos);
@@ -1174,11 +1174,11 @@ void SAILONE::TurnSail(float fTurnStep)
 		}
 		else if (ropeEI = EntityManager::GetEntityId("rope"))
 		{
-			bool bChange = false;
-			for (int i = 0; i < 2; i++)
+      auto bChange = false;
+			for (auto i = 0; i < 2; i++)
 				if (sailtrope.rrs[i])
 				{
-					int tieNum = sailtrope.rrs[i]->tiePoint;
+          auto tieNum = sailtrope.rrs[i]->tiePoint;
 					CVECTOR endVect;
 					((ROPE_BASE*)EntityManager::GetEntityPointer(ropeEI))->GetEndPoint(
 						&endVect, sailtrope.rrs[i]->ropenum, pp->gdata[HostNum].modelEI);
@@ -1224,7 +1224,7 @@ void SAILONE::TurnSail(float fTurnStep)
 
 void SAILONE::CalculateMirrorSailIndex()
 {
-	int num = 0;
+  auto num = 0;
 
 	if (ss.eSailType == SAIL_TREANGLE)
 	{
@@ -1370,7 +1370,7 @@ bool SAILONE::GetGrid(CVECTOR& cam, float perspect)
 
 		distance = sqrtf(pos.x * pos.x + pos.y * pos.y + pos.z * pos.z) * tanf(perspect * .5f); // with perspective
 
-		for (int i = 0; i < SAIL_FAR_IDX; i++)
+		for (auto i = 0; i < SAIL_FAR_IDX; i++)
 		{
 			dwCol = farGrid[i].col;
 			dwRow = farGrid[i].row;
@@ -1389,19 +1389,19 @@ void SAILONE::DoSRollSail(SAILVERTEX* pv)
 {
 	int i;
 
-	CVECTOR pcur = ss.hardPoints[0];
-	CVECTOR dp = (ss.hardPoints[1] - ss.hardPoints[0]) / (float)(m_dwCol - 1);
+  auto pcur = ss.hardPoints[0];
+  auto dp = (ss.hardPoints[1] - ss.hardPoints[0]) / (float)(m_dwCol - 1);
 
-	int p1 = (SAIL_ROW_MAX - 1) / 4;
-	int p2 = p1 * 2;
-	int p3 = p1 * 3;
-	int p4 = p1 * 4;
+  auto p1 = (SAIL_ROW_MAX - 1) / 4;
+  auto p2 = p1 * 2;
+  auto p3 = p1 * 3;
+  auto p4 = p1 * 4;
 
-	float windVal = pp->WindVect[VertIdx]; //sinf((float)VertIdx/(float)WINDVECTOR_QUANTITY*2.f*PI);
-	float dz = pp->ROLL_Z_VAL * sailHeight;
-	float dy = pp->ROLL_Y_VAL * sailHeight;
+  auto windVal = pp->WindVect[VertIdx]; //sinf((float)VertIdx/(float)WINDVECTOR_QUANTITY*2.f*PI);
+  auto dz = pp->ROLL_Z_VAL * sailHeight;
+  auto dy = pp->ROLL_Y_VAL * sailHeight;
 
-	int idx = 0;
+  auto idx = 0;
 	CVECTOR dv1, dv2, dv3, dv4;
 	dv1 = sgeo.normL * (.5f * dz);
 	dv1.y -= dy;
@@ -1433,12 +1433,12 @@ void SAILONE::DoTRollSail(SAILVERTEX* pv)
 {
 	int i;
 
-	CVECTOR pcur = ss.hardPoints[0];
-	CVECTOR dp = (ss.hardPoints[1] - ss.hardPoints[0]) * .25f;
+  auto pcur = ss.hardPoints[0];
+  auto dp = (ss.hardPoints[1] - ss.hardPoints[0]) * .25f;
 
-	float windVal = pp->WindVect[VertIdx];
-	float dx = pp->ROLL_Z_VAL * sailHeight;
-	float dy = pp->ROLL_Y_VAL * sailHeight;
+  auto windVal = pp->WindVect[VertIdx];
+  auto dx = pp->ROLL_Z_VAL * sailHeight;
+  auto dy = pp->ROLL_Y_VAL * sailHeight;
 	if (ss.turningSail)
 	{
 		dx *= pp->TR_FORM_MUL;
@@ -1453,14 +1453,14 @@ void SAILONE::DoTRollSail(SAILVERTEX* pv)
 	dv3.y -= dy;
 	dv4 = sgeo.normL * (-.5f * dx);
 
-	int idx = 6;
+  auto idx = 6;
 	pv[idx++].pos = pcur;
 	pv[idx++].pos = pcur + dv1 * pp->TSailRollForm[0];
 	pv[idx++].pos = pcur + dv3 * pp->TSailRollForm[0];
 	pv[idx++].pos = pcur + dv4 * pp->TSailRollForm[0];
 
 	pcur += dp;
-	int pd = 1;
+  auto pd = 1;
 	for (i = 1; i < 5; i++)
 	{
 		windVal = 1.f - pp->WindVect[VertIdx] * pp->ROLL_Z_DELTA;
@@ -1493,8 +1493,8 @@ float SAILONE::Trace(const CVECTOR& src, const CVECTOR& dst, bool bCannonTrace)
 	CVECTOR dv;
 	pMatWorld->MulToInv(dst, dv);
 
-	CVECTOR minp = ss.boxCenter - ss.boxSize;
-	CVECTOR maxp = ss.boxCenter + ss.boxSize;
+  auto minp = ss.boxCenter - ss.boxSize;
+  auto maxp = ss.boxCenter + ss.boxSize;
 
 	if (!(sv.x <= maxp.x && sv.x >= minp.x &&
 			sv.y <= maxp.y && sv.y >= minp.y &&
@@ -1504,7 +1504,7 @@ float SAILONE::Trace(const CVECTOR& src, const CVECTOR& dst, bool bCannonTrace)
 			dv.y <= maxp.y && dv.y >= minp.y &&
 			dv.z <= maxp.z && dv.z >= minp.z))
 	{
-		bool bYesTrace = false;
+    auto bYesTrace = false;
 		CVECTOR vmed;
 		// сечение по X:
 		if (sv.x < minp.x)
@@ -1563,20 +1563,20 @@ float SAILONE::Trace(const CVECTOR& src, const CVECTOR& dst, bool bCannonTrace)
 // Трассировка луча сквозь прямоугольный парус
 float SAILONE::SSailTrace(CVECTOR& src, CVECTOR& dst, bool bCannonTrace)
 {
-	float retVal = 2.f;
+  auto retVal = 2.f;
 	float tmpVal;
-	bool DoHole = false;
+  auto DoHole = false;
 
-	int i = 0;
-	int idx = 0;
-	for (int ix = 0; ix < 3; ix++, i++)
+  auto i = 0;
+  auto idx = 0;
+	for (auto ix = 0; ix < 3; ix++, i++)
 	{
-		for (int iy = 0; iy < 4; iy++, i++, idx++)
+		for (auto iy = 0; iy < 4; iy++, i++, idx++)
 		{
-			CVECTOR vA = SailPnt[i];
-			CVECTOR vB = SailPnt[i + 5];
-			CVECTOR vC = SailPnt[i + 1];
-			CVECTOR vD = SailPnt[i + 6];
+      auto vA = SailPnt[i];
+      auto vB = SailPnt[i + 5];
+      auto vC = SailPnt[i + 1];
+      auto vD = SailPnt[i + 6];
 
 			if ((tmpVal = CheckSailSquar(idx, vA, vB, vC, src, dst, bCannonTrace)) <= 1.f)
 			{
@@ -1598,7 +1598,7 @@ float SAILONE::SSailTrace(CVECTOR& src, CVECTOR& dst, bool bCannonTrace)
 		if (pp->gdata[HostNum].bDeleted != true && pp->gdata[HostNum].bYesShip)
 		{
 			auto* pVai = (VAI_OBJBASE*)EntityManager::GetEntityPointer(pp->gdata[HostNum].shipEI);
-			int charIdx = -1;
+      auto charIdx = -1;
 			if (pVai != nullptr && pVai->GetACharacter() != nullptr)
 				charIdx = pVai->GetACharacter()->GetAttributeAsDword("index");
 			if (charIdx != -1)
@@ -1615,10 +1615,10 @@ float SAILONE::SSailTrace(CVECTOR& src, CVECTOR& dst, bool bCannonTrace)
 // Трассировка луча сквозь треугольный парус
 float SAILONE::TSailTrace(CVECTOR& src, CVECTOR& dst, bool bCannonTrace)
 {
-	float retVal = 2.f;
+  auto retVal = 2.f;
 	float tmpVal;
 
-	bool DoHole = false;
+  auto DoHole = false;
 	int i, ix, iy;
 
 	//================================================
@@ -1628,9 +1628,9 @@ float SAILONE::TSailTrace(CVECTOR& src, CVECTOR& dst, bool bCannonTrace)
 	{
 		for (iy = 0; iy <= ix; iy++, i++)
 		{
-			CVECTOR vA = SailPnt[i];
-			CVECTOR vB = SailPnt[i + ix + 1];
-			CVECTOR vC = SailPnt[i + ix + 2];
+      auto vA = SailPnt[i];
+      auto vB = SailPnt[i + ix + 1];
+      auto vC = SailPnt[i + ix + 2];
 			CVECTOR vD;
 			if (iy > 0) vD = SailPnt[i - 1];
 
@@ -1654,7 +1654,7 @@ float SAILONE::TSailTrace(CVECTOR& src, CVECTOR& dst, bool bCannonTrace)
 		if (pp->gdata[HostNum].bDeleted != true && pp->gdata[HostNum].bYesShip)
 		{
 			auto* pVai = (VAI_OBJBASE*)EntityManager::GetEntityPointer(pp->gdata[HostNum].shipEI);
-			int charIdx = -1;
+      auto charIdx = -1;
 			if (pVai != nullptr && pVai->GetACharacter() != nullptr)
 				charIdx = pVai->GetACharacter()->GetAttributeAsDword("index");
 			if (charIdx != -1)
@@ -1713,14 +1713,14 @@ void SAILONE::CalculateSailWind()
 float SAILONE::CheckSailSquar(int i, CVECTOR& va, CVECTOR& vb, CVECTOR& vc, CVECTOR& vsrc, CVECTOR& vdst,
                               bool bCannonTrace)
 {
-	float retVal = 2.f;
+  auto retVal = 2.f;
 
-	CVECTOR d1 = vb - va;
-	CVECTOR d2 = vc - va;
+  auto d1 = vb - va;
+  auto d2 = vc - va;
 
 	// коэффициенты в ур-ии плоскости
-	float fA = d1.y * d2.z - d1.z * d2.y;
-	float fB = d1.z * d2.x - d1.x * d2.z;
+  auto fA = d1.y * d2.z - d1.z * d2.y;
+  auto fB = d1.z * d2.x - d1.x * d2.z;
 	float fC = d1.x * d2.y - d1.y * d2.x;
 	float fD = fA * va.x + fB * va.y + fC * va.z;
 

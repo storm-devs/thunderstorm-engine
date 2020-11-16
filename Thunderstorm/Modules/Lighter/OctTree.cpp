@@ -79,8 +79,8 @@ long OctTree::Check(OTNode* node, Vertex* v, long num)
 
 bool OctTree::AddVertex(OTNode* node, Vertex* v)
 {
-	CVECTOR& min = node->min;
-	CVECTOR& max = node->max;
+  auto& min = node->min;
+  auto& max = node->max;
 	if (v->p.x < min.x || v->p.x > max.x) return false;
 	if (v->p.y < min.y || v->p.y > max.y) return false;
 	if (v->p.z < min.z || v->p.z > max.z) return false;
@@ -93,7 +93,7 @@ bool OctTree::AddVertex(OTNode* node, Vertex* v)
 			return true;
 		}
 		//Переполнение, надо распределять по детям
-		CVECTOR cnt = (node->min + node->max) * 0.5f;
+    auto cnt = (node->min + node->max) * 0.5f;
 		node->node[0] = new OTNode(CVECTOR(min.x, min.y, min.z), CVECTOR(cnt.x, cnt.y, cnt.z));
 		node->node[1] = new OTNode(CVECTOR(min.x, min.y, cnt.z), CVECTOR(cnt.x, cnt.y, max.z));
 		node->node[2] = new OTNode(CVECTOR(cnt.x, min.y, cnt.z), CVECTOR(max.x, cnt.y, max.z));
@@ -161,8 +161,8 @@ void OctTree::FindVerts(const CVECTOR& pos, float r)
 //Поиск
 void OctTree::FindVerts(OTNode* node)
 {
-	CVECTOR& min = node->min;
-	CVECTOR& max = node->max;
+  auto& min = node->min;
+  auto& max = node->max;
 	//Предворительная проверка
 	if (vertsPosMin.x > max.x) return;
 	if (vertsPosMax.x < min.x) return;
@@ -181,7 +181,7 @@ void OctTree::FindVerts(OTNode* node)
 	{
 		for (long i = 0; i < node->num; i++)
 		{
-			float r = ~(node->vrt[i]->p - vertsPos);
+      auto r = ~(node->vrt[i]->p - vertsPos);
 			if (r < vertsR)
 			{
 				if (numVerts >= maxVerts)

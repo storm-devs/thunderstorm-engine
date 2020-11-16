@@ -840,7 +840,7 @@ void SEAFOAM_PS::SetFlowTrack(uint32_t index)
 	dest = pFlowTrack[Particle[index].flow_track_index];
 	dest = dest - Particle[index].pos;
 	Particle[index].ang = !dest;
-	float dist = ~dest;
+  auto dist = ~dest;
 	if (dist < fTrackPointRadius)
 	{
 		Particle[index].flow_track_index++;

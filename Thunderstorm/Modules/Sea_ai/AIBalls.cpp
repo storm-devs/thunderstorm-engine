@@ -29,10 +29,10 @@ AIBalls::~AIBalls()
 
 	for (i = 0; i < aBallTypes.size(); i++)
 	{
-		BALL_TYPE* pBallsType = &aBallTypes[i];
+    auto pBallsType = &aBallTypes[i];
 		for (j = 0; j < pBallsType->Balls.size(); j++)
 		{
-			BALL_PARAMS* pBall = &pBallsType->Balls[j];
+      auto pBall = &pBallsType->Balls[j];
 			if (pBall->pParticle)
 			{
 				STORM_DELETE(pBall->pParticle);
@@ -59,17 +59,17 @@ void AIBalls::FireBallFromCamera()
 {
 	auto* pMainCharIndex = (VDATA *)api->GetScriptVariable("nMainCharacterIndex");
 	if (!pMainCharIndex) return;
-	long iMainCharIndex = pMainCharIndex->GetLong();
+  auto iMainCharIndex = pMainCharIndex->GetLong();
 	if (iMainCharIndex < 0) return;
-	VDATA* pMainCharacter = (VDATA *)api->GetScriptVariable("Characters");
+  auto pMainCharacter = (VDATA *)api->GetScriptVariable("Characters");
 	if (!pMainCharacter) return;
-	ATTRIBUTES* pAMainCharacter = pMainCharacter->GetAClass(iMainCharIndex);
+  auto pAMainCharacter = pMainCharacter->GetAClass(iMainCharIndex);
 	if (!pAMainCharacter) return;
-	ATTRIBUTES* pACannonType = pAMainCharacter->FindAClass(pAMainCharacter, "Ship.Cannons.Type");
+  auto pACannonType = pAMainCharacter->FindAClass(pAMainCharacter, "Ship.Cannons.Type");
 	if (!pACannonType) return;
-	uint32_t dwCannonType = pACannonType->GetAttributeAsDword();
+  auto dwCannonType = pACannonType->GetAttributeAsDword();
 
-	ATTRIBUTES* pABall = pAMainCharacter->CreateAttribute("_err324__", "");
+  auto pABall = pAMainCharacter->CreateAttribute("_err324__", "");
 	if (!pABall) return;
 
 	/*AIHelper::pRS->GetTransform(D3DTS_VIEW, mView);
@@ -83,10 +83,10 @@ void AIBalls::FireBallFromCamera()
 	AIHelper::pRS->GetCamera(vCamPos, vCamAng, fFov);
 
 	CMatrix mView(vCamAng, vCamPos);
-	CMatrix mIView = mView;
+  auto mIView = mView;
 	//mIView.Transposition3X3();
-	float fY = atan2f(mIView.Vz().x, mIView.Vz().z);
-	float fX = SIGN(mIView.Vz().y) * acosf(mIView.Vz() | CVECTOR(mIView.Vz().x, 0.0f, mIView.Vz().z));
+  auto fY = atan2f(mIView.Vz().x, mIView.Vz().z);
+  auto fX = SIGN(mIView.Vz().y) * acosf(mIView.Vz() | CVECTOR(mIView.Vz().x, 0.0f, mIView.Vz().z));
 
 	pABall->SetAttribute("Type", "Balls");
 	pABall->SetAttributeUseDword("CharacterIndex", uint32_t(iMainCharIndex));
@@ -110,7 +110,7 @@ void AIBalls::FireBallFromCamera()
 
 void AIBalls::AddBall(ATTRIBUTES* pABall)
 {
-	char* pBallName = pABall->GetAttribute("Type");
+  auto pBallName = pABall->GetAttribute("Type");
 	Assert(pBallName);
 
 	uint32_t i;
@@ -119,7 +119,7 @@ void AIBalls::AddBall(ATTRIBUTES* pABall)
 
 	aBallTypes[i].Balls.push_back(BALL_PARAMS{});
 	//BALL_PARAMS * pBall = &aBallTypes[i].Balls[aBallTypes[i].Balls.Add()];
-	BALL_PARAMS* pBall = &aBallTypes[i].Balls.back();
+  auto pBall = &aBallTypes[i].Balls.back();
 
 	pBall->iBallOwner = pABall->GetAttributeAsDword("CharacterIndex");
 
@@ -134,10 +134,10 @@ void AIBalls::AddBall(ATTRIBUTES* pABall)
 	pBall->fTimeSpeedMultiply = GetAFloat("TimeSpeedMultiply");
 	pBall->dwCannonType = GetADword("CannonType");
 	pBall->fMaxFireDistance = GetAFloat("MaxFireDistance");
-	float fAngle = GetAFloat("Ang");
+  auto fAngle = GetAFloat("Ang");
 	pBall->fCosAngle = cosf(fAngle);
 	pBall->fSinAngle = sinf(fAngle);
-	float fDir = GetAFloat("Dir");
+  auto fDir = GetAFloat("Dir");
 	pBall->fDirX = cosf(fDir);
 	pBall->fDirZ = sinf(fDir);
 	pBall->pParticle = nullptr;
@@ -174,19 +174,19 @@ void AIBalls::Execute(uint32_t Delta_Time)
 
 	//if (!pVWForts) pVWForts = (VIDWALKER*)api->LayerGetWalker("fort_cannon_trace");
 
-	CMatrix mView = rs->GetView();
+  auto mView = rs->GetView();
 
-	float fDeltaTime = 0.001f * float(Delta_Time);
+  auto fDeltaTime = 0.001f * float(Delta_Time);
 
 	for (i = 0; i < aBallTypes.size(); i++)
 	{
-		BALL_TYPE* pBallsType = &aBallTypes[i];
+    auto pBallsType = &aBallTypes[i];
 
 		AttributesPointer->SetAttributeUseDword("CurrentBallType", pBallsType->dwGoodIndex);
 
 		for (j = 0; j < pBallsType->Balls.size(); j++)
 		{
-			BALL_PARAMS* pBall = &pBallsType->Balls[j];
+      auto pBall = &pBallsType->Balls[j];
 
 			vSrc = pBall->vPos;
 

@@ -11,8 +11,8 @@ static entid_t g_ILogAndActions;
 
 void CalculateTexturePos(FRECT& texRect, int hort, int vert, int numt)
 {
-	int vn = numt / hort;
-	int hn = numt - vn * hort;
+  auto vn = numt / hort;
+  auto hn = numt - vn * hort;
 	texRect.right = (texRect.left = (float)hn / hort) + 1.f / hort;
 	texRect.bottom = (texRect.top = (float)vn / vert) + 1.f / vert;
 }
@@ -66,7 +66,7 @@ void ILogAndActions::Execute(uint32_t delta_time)
 		api->Event("BI_FastCommand", "s", m_sActionName);
 
 	// погасим строки
-	float colDelta = delta_time * m_fBlendSpeed;
+  auto colDelta = delta_time * m_fBlendSpeed;
 	STRING_DESCR* prev_sd = nullptr;
 	STRING_DESCR* sd;
 	for (sd = m_sRoot; sd != nullptr;)
@@ -88,8 +88,8 @@ void ILogAndActions::Execute(uint32_t delta_time)
 	}
 
 	// пододвинуть строки на свободные позиции
-	float delta = delta_time * m_fShiftSpeed;
-	float top = 0.f;
+  auto delta = delta_time * m_fShiftSpeed;
+  auto top = 0.f;
 	for (sd = m_sRoot; sd != nullptr; sd = sd->next)
 	{
 		if (sd->offset > top)
@@ -107,7 +107,7 @@ uint64_t ILogAndActions::ProcessMessage(MESSAGE& message)
 	{
 	case LOG_ADD_STRING:
 		{
-			bool stringImmortal = message.Long() != 0;
+      auto stringImmortal = message.Long() != 0;
 			char param[256];
 			message.String(sizeof(param) - 1, param);
 			if (stringImmortal)
@@ -134,7 +134,7 @@ uint64_t ILogAndActions::ProcessMessage(MESSAGE& message)
 						if (last == m_sRoot) m_sRoot = m_sRoot->next;
 						else
 						{
-							for (STRING_DESCR* prev = m_sRoot; prev != nullptr && prev->next != last; prev = prev->next)
+							for (auto prev = m_sRoot; prev != nullptr && prev->next != last; prev = prev->next)
 								if (prev != nullptr && prev->next == last) //~!~
 								{
 									prev->next = last->next;
@@ -158,16 +158,16 @@ uint64_t ILogAndActions::ProcessMessage(MESSAGE& message)
 	case LOG_AND_ACTIONS_INIT:
 		{
 			m_sOldActionName[0] = '0';
-			long bfc = message.Long();
-			long bls = message.Long();
+      auto bfc = message.Long();
+      auto bls = message.Long();
 			Create(bfc != 0, bls != 0);
 		}
 		break;
 	case LOG_AND_ACTIONS_CHANGE:
 		{
 			m_sOldActionName[0] = '0';
-			long bfc = message.Long();
-			long bls = message.Long();
+      auto bfc = message.Long();
+      auto bls = message.Long();
 			ActionChange(bfc != 0, bls != 0);
 		}
 		break;
@@ -177,7 +177,7 @@ uint64_t ILogAndActions::ProcessMessage(MESSAGE& message)
 	case LI_CLEAR_STRINGS:
 		while (m_sRoot != nullptr)
 		{
-			STRING_DESCR* p = m_sRoot;
+      auto p = m_sRoot;
 			m_sRoot = p->next;
 			STORM_DELETE(p->str);
 			delete p;
@@ -246,15 +246,15 @@ void ILogAndActions::Realize(uint32_t delta_time)
 	if (m_bShowLogStrings)
 	{
 		if (m_sRoot == nullptr) return;
-		STRING_DESCR* ptr = m_sRoot;
+    auto ptr = m_sRoot;
 		long nAlign = PR_ALIGN_LEFT;
-		long strX = m_nWindowLeft;
+    auto strX = m_nWindowLeft;
 		if (m_nWindowRight >= 0)
 		{
 			strX = m_nWindowRight;
 			nAlign = PR_ALIGN_RIGHT;
 		}
-		long strY = m_nStringBegin;
+    auto strY = m_nStringBegin;
 		while (ptr != nullptr)
 		{
 			//rs->Print(m_fontID,m_dwColor,strX,strY,"%s",ptr->str);
@@ -278,7 +278,7 @@ void ILogAndActions::Create(bool bFastComShow, bool bLogStringShow)
 	m_bShowLogStrings = bLogStringShow;
 
 	// Установить параметры для иконки активного действия
-	ATTRIBUTES* pA = api->Entity_GetAttributeClass(g_ILogAndActions, "ActiveActions");
+  auto pA = api->Entity_GetAttributeClass(g_ILogAndActions, "ActiveActions");
 	if (pA != nullptr)
 	{
 		m_idIconTexture = rs->TextureCreate(pA->GetAttribute("TextureName"));

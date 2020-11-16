@@ -27,8 +27,8 @@ class ATTRIBUTES
 		char xBuffer_4k[4096];
 		if (data_PTR == nullptr) return;
 
-		HANDLE file_h = CreateFile("attributes.log",GENERIC_WRITE,FILE_SHARE_READ, nullptr,OPEN_ALWAYS,
-		                           FILE_ATTRIBUTE_NORMAL, nullptr);
+    auto file_h = CreateFile("attributes.log",GENERIC_WRITE,FILE_SHARE_READ, nullptr,OPEN_ALWAYS,
+                             FILE_ATTRIBUTE_NORMAL, nullptr);
 		SetFilePointer(file_h, 0, nullptr,FILE_END);
 		va_list args;
 
@@ -173,7 +173,7 @@ public:
 
 	ATTRIBUTES* VerifyAttributeClass(const char* name)
 	{
-		ATTRIBUTES* pTemp = GetAttributeClass(name);
+    auto pTemp = GetAttributeClass(name);
 		return (pTemp) ? pTemp : CreateAttribute(name, "");
 	};
 
@@ -297,7 +297,7 @@ public:
 		ReleaseLeafs();
 		for (const auto& attribute : pASource->pAttributes)
 		{
-			uint32_t i = SetAttribute(attribute->GetThisName(), attribute->Attribute);
+      auto i = SetAttribute(attribute->GetThisName(), attribute->Attribute);
 			pAttributes[i]->Copy(attribute);
 		}
 	};
@@ -318,7 +318,7 @@ public:
 				if (pAttributes[n] == pA)
 				{
 					delete pA;
-					for (uint32_t i = n; i < pAttributes.size() - 1; i++)
+					for (auto i = n; i < pAttributes.size() - 1; i++)
 						pAttributes[i] = pAttributes[i + 1];
 
 					pAttributes.pop_back();

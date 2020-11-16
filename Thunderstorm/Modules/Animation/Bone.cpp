@@ -86,10 +86,10 @@ void Bone::SetAngles(const D3DXQUATERNION* aArray, long numAng)
 	Assert(ang);
 	for (long i = 0; i < numAng; i++)
 	{
-		float x = Clamp(aArray[i].x, "Animation is break: qt.x < -1.0f or qt.x > 1.0f !!!");
-		float y = Clamp(aArray[i].y, "Animation is break: qt.y < -1.0f or qt.y > 1.0f !!!");
-		float z = Clamp(aArray[i].z, "Animation is break: qt.z < -1.0f or qt.z > 1.0f !!!");
-		float w = Clamp(aArray[i].w, "Animation is break: qt.w < -1.0f or qt.w > 1.0f !!!");
+    auto x = Clamp(aArray[i].x, "Animation is break: qt.x < -1.0f or qt.x > 1.0f !!!");
+    auto y = Clamp(aArray[i].y, "Animation is break: qt.y < -1.0f or qt.y > 1.0f !!!");
+    auto z = Clamp(aArray[i].z, "Animation is break: qt.z < -1.0f or qt.z > 1.0f !!!");
+    auto w = Clamp(aArray[i].w, "Animation is break: qt.w < -1.0f or qt.w > 1.0f !!!");
 		x = float(asin(x) / (PI * 0.5)) * 32767.0f;
 		y = float(asin(y) / (PI * 0.5)) * 32767.0f;
 		z = float(asin(z) / (PI * 0.5)) * 32767.0f;
@@ -136,7 +136,7 @@ inline void Bone::GetFrame(long f, D3DXQUATERNION & qt)
 
 inline float Bone::Clamp(float v, const char* str)
 {
-	bool isErr = false;
+  auto isErr = false;
 	if (v < -1.0f)
 	{
 		v = -1.0f;
@@ -177,8 +177,8 @@ void Bone::BuildStartMatrix()
 void Bone::BlendFrame(long frame, float kBlend, D3DXQUATERNION& res)
 {
 	if (numFrames <= 0) return;
-	long f0 = frame;
-	long f1 = frame + 1;
+  auto f0 = frame;
+  auto f1 = frame + 1;
 	if (f0 >= numFrames || f1 >= numFrames)
 	{
 		GetFrame(numFrames - 1, res);

@@ -60,7 +60,7 @@ void CXI_SCROLLIMAGE::Draw(bool bSelected, uint32_t Delta_Time)
 			if ((m_fCurrentDistance >= m_fMoveDistance && m_fDeltaMove >= 0.f) ||
 				(m_fCurrentDistance <= m_fMoveDistance && m_fDeltaMove <= 0.f))
 				m_fCurrentDistance = m_fMoveDistance;
-			float fDelta = ChangeDinamicParameters(m_fCurrentDistance);
+      auto fDelta = ChangeDinamicParameters(m_fCurrentDistance);
 			m_fCurrentDistance += fDelta;
 			m_fMoveDistance += fDelta;
 			if (m_fMoveDistance == m_fCurrentDistance)
@@ -69,7 +69,7 @@ void CXI_SCROLLIMAGE::Draw(bool bSelected, uint32_t Delta_Time)
 				m_bDoMove = false;
 
 				// Set new current image
-				ATTRIBUTES* tmpAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+        auto tmpAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 				if (tmpAttr != nullptr)
 					tmpAttr->SetAttributeUseDword("current", m_nCurImage);
 
@@ -127,7 +127,7 @@ void CXI_SCROLLIMAGE::Draw(bool bSelected, uint32_t Delta_Time)
 		// create select border
 		XI_ONLYONETEX_VERTEX pV[4];
 		FXYRECT textureRect;
-		for (int i = 0; i < 4; i++) pV[i].pos.z = 1.f;
+		for (auto i = 0; i < 4; i++) pV[i].pos.z = 1.f;
 		pPictureService->GetTexturePos(m_nBorderPicture, textureRect);
 		pV[0].tu = textureRect.left;
 		pV[0].tv = textureRect.top;
@@ -156,10 +156,10 @@ void CXI_SCROLLIMAGE::Draw(bool bSelected, uint32_t Delta_Time)
 
 		XI_ONETEX_VERTEX v[4];
 
-		int j = 0;
+    auto j = 0;
 		FXYRECT rectTex;
 		SCROLLEntity* pScroll;
-		int curShowOrder = m_nShowOrder;
+    auto curShowOrder = m_nShowOrder;
 		//if(m_bLockStatus) curShowOrder = m_nSlotsQnt-1;
 		if (curShowOrder >= m_nSlotsQnt) curShowOrder = m_nSlotsQnt - 1;
 		bool bDoShowBorder = false;

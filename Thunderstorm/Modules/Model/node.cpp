@@ -45,28 +45,28 @@ bool NODER::Clip()
 	if (isReleaed) return false;
 
 	//check for bounding spheres intersection
-	float sph_dist = ~(*clip_c - glob_mtx * center);
+  auto sph_dist = ~(*clip_c - glob_mtx * center);
 	if (sph_dist > (radius + clip_r) * (radius + clip_r)) return false;
 
-	bool retval = false;
+  auto retval = false;
 
 	if (flags & CLIP_ENABLE && sph_dist <= (geo_radius + clip_r) * (geo_radius + clip_r))
 	{
 		backtrans = &glob_mtx;
 		for (long p = 0; p < clip_nps; p++)
 		{
-			float x = clip_p[p].D * clip_p[p].Nx - glob_mtx.m[3][0];
-			float y = clip_p[p].D * clip_p[p].Ny - glob_mtx.m[3][1];
-			float z = clip_p[p].D * clip_p[p].Nz - glob_mtx.m[3][2];
-			float Nx = glob_mtx.m[0][0] * clip_p[p].Nx + glob_mtx.m[0][1] * clip_p[p].Ny + glob_mtx.m[0][2] * clip_p[p].
+      auto x = clip_p[p].D * clip_p[p].Nx - glob_mtx.m[3][0];
+      auto y = clip_p[p].D * clip_p[p].Ny - glob_mtx.m[3][1];
+      auto z = clip_p[p].D * clip_p[p].Nz - glob_mtx.m[3][2];
+      auto Nx = glob_mtx.m[0][0] * clip_p[p].Nx + glob_mtx.m[0][1] * clip_p[p].Ny + glob_mtx.m[0][2] * clip_p[p].
 				Nz;
-			float Ny = glob_mtx.m[1][0] * clip_p[p].Nx + glob_mtx.m[1][1] * clip_p[p].Ny + glob_mtx.m[1][2] * clip_p[p].
+      auto Ny = glob_mtx.m[1][0] * clip_p[p].Nx + glob_mtx.m[1][1] * clip_p[p].Ny + glob_mtx.m[1][2] * clip_p[p].
 				Nz;
-			float Nz = glob_mtx.m[2][0] * clip_p[p].Nx + glob_mtx.m[2][1] * clip_p[p].Ny + glob_mtx.m[2][2] * clip_p[p].
+      auto Nz = glob_mtx.m[2][0] * clip_p[p].Nx + glob_mtx.m[2][1] * clip_p[p].Ny + glob_mtx.m[2][2] * clip_p[p].
 				Nz;
-			float lx = glob_mtx.m[0][0] * x + glob_mtx.m[0][1] * y + glob_mtx.m[0][2] * z;
-			float ly = glob_mtx.m[1][0] * x + glob_mtx.m[1][1] * y + glob_mtx.m[1][2] * z;
-			float lz = glob_mtx.m[2][0] * x + glob_mtx.m[2][1] * y + glob_mtx.m[2][2] * z;
+      auto lx = glob_mtx.m[0][0] * x + glob_mtx.m[0][1] * y + glob_mtx.m[0][2] * z;
+      auto ly = glob_mtx.m[1][0] * x + glob_mtx.m[1][1] * y + glob_mtx.m[1][2] * z;
+      auto lz = glob_mtx.m[2][0] * x + glob_mtx.m[2][1] * y + glob_mtx.m[2][2] * z;
 			clip_gp[p].nrm.x = Nx;
 			clip_gp[p].nrm.y = Ny;
 			clip_gp[p].nrm.z = Nz;
@@ -105,8 +105,8 @@ float NODER::Update(CMatrix& mtx, CVECTOR& cnt)
 		if (next[l] != nullptr)
 		{
 			CVECTOR cnt; //~!~
-			float r = static_cast<NODER*>(next[l])->Update(glob_mtx, cnt);
-			float rad = sqrtf(~(cnt - center)) + r;
+      auto r = static_cast<NODER*>(next[l])->Update(glob_mtx, cnt);
+      auto rad = sqrtf(~(cnt - center)) + r;
 			if (rad > radius) radius = rad;
 		}
 
@@ -121,19 +121,19 @@ float NODER::Trace(const CVECTOR& src, const CVECTOR& dst)
 {
 	if (isReleaed) return 2.0f;
 	//check for bounding spheres intersection
-	CVECTOR lmn = dst - src;
-	float dist2ray2 = ~((glob_mtx * center - src) ^ lmn);
-	float dlmn = ~(lmn);
+  auto lmn = dst - src;
+  auto dist2ray2 = ~((glob_mtx * center - src) ^ lmn);
+  auto dlmn = ~(lmn);
 	//hierarchy test
 	if (dist2ray2 > dlmn * radius * radius) return 2.0f;
 
-	float best_dist = 2.0f;
+  auto best_dist = 2.0f;
 
 	if (flags & TRACE_ENABLE_TREE)
 		for (long n = 0; n < nnext; n++)
 		{
 			if (next[n] == nullptr) continue;
-			float d = static_cast<NODER*>(next[n])->Trace(src, dst);
+      auto d = static_cast<NODER*>(next[n])->Trace(src, dst);
 			if (d < best_dist)
 			{
 				best_dist = d;
@@ -146,7 +146,7 @@ float NODER::Trace(const CVECTOR& src, const CVECTOR& dst)
 		CVECTOR _src, _dst;
 		glob_mtx.MulToInv(src, _src);
 		glob_mtx.MulToInv(dst, _dst);
-		float ds = geo->Trace((GEOS::VERTEX&)_src, (GEOS::VERTEX&)_dst);
+    auto ds = geo->Trace((GEOS::VERTEX&)_src, (GEOS::VERTEX&)_dst);
 		if (ds < best_dist)
 		{
 			best_dist = ds;
@@ -207,7 +207,7 @@ bool NODER::Init(const char* lightPath, const char* pname, const char* oname, co
 	sys_lmPath = new char[len];
 	memcpy(sys_lmPath, lmPath, len);
 
-	const char* tPath = gs->GetTexturePath();
+  auto tPath = gs->GetTexturePath();
 	len = strlen(tPath) + 1;
 	sys_TexPath = new char[len];
 	memcpy(sys_TexPath, tPath, len);
@@ -313,9 +313,9 @@ void NODER::RestoreGeometry()
 {
 	if (!isReleaed) return;
 
-	const char* tPath = gs->GetTexturePath();
+  auto tPath = gs->GetTexturePath();
 	const auto len = strlen(tPath) + 1;
-	char* ttPath = new char[len];
+  auto ttPath = new char[len];
 	memcpy(ttPath, tPath, len);
 	gs->SetTexturePath(sys_TexPath);
 	geo = gs->CreateGeometry(sys_modelName, sys_LightPath, 0, sys_lmPath);
@@ -342,13 +342,13 @@ void NODER::Draw()
 {
 	if (isReleaed) return;
 
-	CVECTOR cnt = glob_mtx * center;
+  auto cnt = glob_mtx * center;
 
 	//visibility check
 	long p;
 	for (p = 0; p < 4; p++)
 	{
-		float dist = cnt.x * ViewPlane[p].nrm.x + cnt.y * ViewPlane[p].nrm.y + cnt.z * ViewPlane[p].nrm.z - ViewPlane[p]
+    auto dist = cnt.x * ViewPlane[p].nrm.x + cnt.y * ViewPlane[p].nrm.y + cnt.z * ViewPlane[p].nrm.z - ViewPlane[p]
 			.d;
 		if (dist > radius) break;
 	}

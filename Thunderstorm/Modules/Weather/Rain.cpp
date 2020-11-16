@@ -61,8 +61,8 @@ void RAIN::Release()
 
 void RAIN::GenerateRandomDrop(CVECTOR* vPos)
 {
-	float fDist = 1.5f + FRAND(fRainRadius);
-	float fAngle = FRAND(PIm2);
+  auto fDist = 1.5f + FRAND(fRainRadius);
+  auto fAngle = FRAND(PIm2);
 	vPos->x = fDist * cosf(fAngle);
 	vPos->z = fDist * sinf(fAngle);
 	vPos->y = fRainHeight - FRAND(fRainHeight*2.0f);
@@ -119,7 +119,7 @@ void RAIN::GenerateRain()
 		pRainBlocks[i].dwTime = dwRainTimeBlend;
 		pRainBlocks[i].vAng.y = FRAND(PIm2);
 
-		float jitter = fRainWindSpeedJitter; //Weather->GetFloat(whf_rain_wind_speed_jitter);
+    auto jitter = fRainWindSpeedJitter; //Weather->GetFloat(whf_rain_wind_speed_jitter);
 		pRainBlocks[i].fWindSpeedJitter = FRAND(jitter) - jitter / 2.0f;
 	}
 
@@ -127,7 +127,7 @@ void RAIN::GenerateRain()
 		CreateVertexBuffer(D3DRAINVERTEX_FORMAT, dwNumDrops * 2 * sizeof(RAINVERTEX),D3DUSAGE_WRITEONLY);
 	if (iVertexBuffer < 0) return;
 
-	RAINVERTEX* pVertBuf = (RAINVERTEX*)rs->LockVertexBuffer(iVertexBuffer);
+  auto pVertBuf = (RAINVERTEX*)rs->LockVertexBuffer(iVertexBuffer);
 	if (!pVertBuf) return;
 
 	for (i = 0; i < dwNumDrops; i++)
@@ -146,7 +146,7 @@ void RAIN::GenerateRain()
 	iVBSeaDrops = rs->CreateVertexBuffer(D3DSEADROPVERTEX_FORMAT, NUM_SEA_DROPS * 4 * sizeof(SEADROPVERTEX),
 	                                     D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
 
-	uint16_t* pI = (uint16_t *)rs->LockIndexBuffer(iIBSeaDrops);
+  auto pI = (uint16_t *)rs->LockIndexBuffer(iIBSeaDrops);
 	if (pI)
 	{
 		for (long i = 0; i < NUM_SEA_DROPS; i++)
@@ -201,7 +201,7 @@ void RAIN::Execute(uint32_t Delta_Time)
 
 void RAIN::InitialSomeBlockParameters(long iIdx)
 {
-	float fDist = 6.0f * 5.4f * fWindPower;
+  auto fDist = 6.0f * 5.4f * fWindPower;
 	pRainBlocks[iIdx].vPos.x = -fDist * sinf(fWindAngle);
 	pRainBlocks[iIdx].vPos.z = -fDist * cosf(fWindAngle);
 	pRainBlocks[iIdx].fWindFlaw = 0.0f;
@@ -209,9 +209,9 @@ void RAIN::InitialSomeBlockParameters(long iIdx)
 
 void RAIN::RealizeDrops(uint32_t Delta_Time)
 {
-	float fDeltaTime = float(Delta_Time) * 0.001f;
+  auto fDeltaTime = float(Delta_Time) * 0.001f;
 
-	static uint32_t dwShipName = MakeHashValue("SHIP");
+	static auto dwShipName = MakeHashValue("SHIP");
 
 	CMatrix mView;
 	rs->GetTransform(D3DTS_VIEW, (D3DXMATRIX*)&mView);
@@ -229,8 +229,8 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 
 	fDropsDeltaTime += fDeltaTime;
 
-	long iNumNewDrops1 = long(fDropsDeltaTime * float(dwDropsNearNum));
-	long iNumNewDrops2 = long(fDropsDeltaTime * float(dwDropsFarNum));
+  auto iNumNewDrops1 = long(fDropsDeltaTime * float(dwDropsNearNum));
+  auto iNumNewDrops2 = long(fDropsDeltaTime * float(dwDropsFarNum));
 	fDropsDeltaTime -= float(double(iNumNewDrops1 + iNumNewDrops2) / double(dwDropsNearNum + dwDropsFarNum));
 	if (fDropsDeltaTime < 0.0f) fDropsDeltaTime = 0.0f;
 
@@ -257,8 +257,8 @@ void RAIN::RealizeDrops(uint32_t Delta_Time)
 			vSrc = CVECTOR(vCamPos.x + fR * sinf(fA), vCamPos.y + 75.0f, vCamPos.z + fR * cosf(fA));
 			vDst = CVECTOR(vSrc.x, vCamPos.y - 75.0f, vSrc.z);
 
-			float fTest1 = cs->Trace(its, vSrc, vDst, nullptr, 0);
-			float fTest2 = 2.0f;
+      auto fTest1 = cs->Trace(its, vSrc, vDst, nullptr, 0);
+      auto fTest2 = 2.0f;
 
 			if (pSea)
 			{

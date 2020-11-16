@@ -41,7 +41,7 @@ rec_loop:;
 	sdst = (dst | node->norm) - node->pd;
 
 	//dist = ssrc/(ssrc - sdst);
-	double d = ssrc - sdst;
+  auto d = ssrc - sdst;
 	dist = ssrc / d;
 
 	if ((diss > EPSILON && dist <= diss - EPSILON) || d == 0.0 || dist <= 0.0)
@@ -111,7 +111,7 @@ rec_return:;
 		pface = (unsigned char*)&node->face;
 
 	loop0:
-		long face = (long(*(pface + 2)) << 16) | (long(*(pface + 1)) << 8) | (long(*(pface + 0)) << 0);
+    auto face = (long(*(pface + 2)) << 16) | (long(*(pface + 1)) << 8) | (long(*(pface + 0)) << 0);
 		long vindex[3];
 		vindex[0] = (btrg[face].vindex[0][0] << 0) | (btrg[face].vindex[0][1] << 8) | (btrg[face].vindex[0][2] << 16);
 		vindex[1] = (btrg[face].vindex[1][0] << 0) | (btrg[face].vindex[1][1] << 8) | (btrg[face].vindex[1][2] << 16);
@@ -121,10 +121,10 @@ rec_return:;
 
 		DVECTOR a = vrt[vindex[1]] - vrt[vindex[0]];
 		DVECTOR b = vrt[vindex[2]] - vrt[vindex[0]];
-		DVECTOR pvec = dirvec ^ b;
-		double det = a | pvec;
+    auto pvec = dirvec ^ b;
+    auto det = a | pvec;
 
-		DVECTOR c = src - vrt[vindex[0]];
+    auto c = src - vrt[vindex[0]];
 		double U = c | pvec;
 		double V = dirvec | (c ^ a);
 

@@ -38,7 +38,7 @@ void LocModelRealizer::Execute(uint32_t delta_time)
 void LocModelRealizer::Realize(uint32_t delta_time)
 {
 	if (!bShow) return;
-	Entity* pE = EntityManager::GetEntityPointer(eid_model);
+  auto pE = EntityManager::GetEntityPointer(eid_model);
 	if (pE)
 	{
 		BOOL bLight0Enable;

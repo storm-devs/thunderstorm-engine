@@ -80,9 +80,9 @@ void Player::Move(float dltTime)
 	}
 	//tuner.isVisible = !shootgunMode;
 
-	bool oldSGMode = shootgunMode;
+  auto oldSGMode = shootgunMode;
 	shootgunMode = false;
-	VDATA* vd = api->Event("EventSGMode", nullptr);
+  auto vd = api->Event("EventSGMode", nullptr);
 	if (vd)
 	{
 		long data = 0;
@@ -269,7 +269,7 @@ void Player::Update(float dltTime)
 		}
 	}
 #endif
-	bool aDialog = false;
+  auto aDialog = false;
 	if (task.task == npct_none)
 	{
 		if (!IsFight())
@@ -279,7 +279,7 @@ void Player::Update(float dltTime)
 			if (cs.state == CST_ACTIVATED) aDialog = true;
 			if (activatedDialog)
 			{
-				Character* chr = FindDialogCharacter();
+        auto chr = FindDialogCharacter();
 				if (chr)
 				{
 					Assert(AttributesPointer);
@@ -308,7 +308,7 @@ void Player::Update(float dltTime)
 			if (IsFireFindTarget())
 			{
 				float kDist;
-				Character* c = FindGunTarget(kDist);
+        auto c = FindGunTarget(kDist);
 				if (c) c->Select();
 			}
 		}
@@ -326,7 +326,7 @@ void Player::Update(float dltTime)
 		const auto location = GetLocation();
 		for (long i = 0; i < location->supervisor.numCharacters; i++)
 		{
-			Character* chr = location->supervisor.character[i].c;
+      auto chr = location->supervisor.character[i].c;
 			if (chr != this && chr)
 			{
 				chr->isPlayerEnemy = (api->Send_Message(eid, "sii", "IsEnemy", GetId(), chr->GetId()) != 0);
@@ -358,7 +358,7 @@ void Player::Rotate(float dltTime)
 	CONTROL_STATE cs;
 	if (!isSpecialMode)
 	{
-		float a = GetRotateH() * 0.01f;
+    auto a = GetRotateH() * 0.01f;
 		if (a > 0.3f) a = 0.3f;
 		if (a < -0.3f) a = -0.3f;
 		Turn(GetAY() + a);
@@ -367,9 +367,9 @@ void Player::Rotate(float dltTime)
 	{
 		if (!lockRotate)
 		{
-			float dx = GetRotateH() * 0.067f;
+      auto dx = GetRotateH() * 0.067f;
 			api->Controls->GetControlState("ChrTurnV", cs);
-			float dz = cs.fValue * 0.067f;
+      auto dz = cs.fValue * 0.067f;
 			if (api->Controls->GetControlState("ChrTurnV1", cs)) dz += cs.fValue * 0.067f;
 			if (api->Controls->GetControlState("ChrTurnV2", cs)) dz += cs.fValue * 0.067f;
 			if (dx * dx + dz * dz > 0.1f)
@@ -385,7 +385,7 @@ void Player::Rotate(float dltTime)
 				mtx.Vx() = !CVECTOR(mtx.Vx());
 				mtx.Vz() = !CVECTOR(mtx.Vz());
 				mtx.Pos() = 0.0f;
-				CVECTOR res = mtx * CVECTOR(dx, 0.0f, dz);
+        auto res = mtx * CVECTOR(dx, 0.0f, dz);
 				Turn(res.x, res.z);
 			}
 		}
@@ -397,16 +397,16 @@ bool Player::GoForward(float dltTime)
 	CONTROL_STATE cs;
 	if (!isSpecialMode)
 	{
-		bool res = false;
+    auto res = false;
 		api->Controls->GetControlState("ChrForward", cs);
 		if (cs.lValue != 0) res = true;
 		if (api->Controls->GetControlState("ChrForward1", cs) && cs.lValue != 0) res = true;
 		if (api->Controls->GetControlState("ChrForward2", cs) && cs.lValue != 0) res = true;
 		return res;
 	}
-	float dx = GetRotateH() * 0.067f;
+  auto dx = GetRotateH() * 0.067f;
 	api->Controls->GetControlState("ChrTurnV", cs);
-	float dz = cs.fValue * 0.067f;
+  auto dz = cs.fValue * 0.067f;
 	if (api->Controls->GetControlState("ChrTurnV1", cs)) dz += cs.fValue * 0.067f;
 	if (api->Controls->GetControlState("ChrTurnV2", cs)) dz += cs.fValue * 0.067f;
 	if (IsMove())
@@ -421,7 +421,7 @@ bool Player::GoBack(float dltTime)
 	if (!isSpecialMode)
 	{
 		CONTROL_STATE cs;
-		bool res = false;
+    auto res = false;
 		api->Controls->GetControlState("ChrBackward", cs);
 		if (cs.lValue != 0) res = true;
 		if (api->Controls->GetControlState("ChrBackward1", cs) && cs.lValue != 0) res = true;
@@ -439,9 +439,9 @@ bool Player::IsRunMode(float dltTime)
 		api->Controls->GetControlState("ChrRun", cs);
 		return !(cs.lValue != 0);
 	}
-	float dx = GetRotateH() * 0.067f;
+  auto dx = GetRotateH() * 0.067f;
 	api->Controls->GetControlState("ChrTurnV", cs);
-	float dz = cs.fValue * 0.067f;
+  auto dz = cs.fValue * 0.067f;
 	if (api->Controls->GetControlState("ChrTurnV1", cs)) dz += cs.fValue * 0.067f;
 	if (api->Controls->GetControlState("ChrTurnV2", cs)) dz += cs.fValue * 0.067f;
 	if (IsMove() && IsRun())
@@ -539,7 +539,7 @@ bool Player::IsDoBlock()
 bool Player::IsDoParry()
 {
 	CONTROL_STATE cs;
-	bool bPressed = false;
+  auto bPressed = false;
 	api->Controls->GetControlState("ChrParry", cs);
 	if (cs.state == CST_ACTIVATED) bPressed = true;
 	api->Controls->GetControlState("ChrParry2", cs);
@@ -550,7 +550,7 @@ bool Player::IsDoParry()
 bool Player::IsDoAttackForce()
 {
 	CONTROL_STATE cs;
-	bool bPressed = false;
+  auto bPressed = false;
 	api->Controls->GetControlState("ChrAttackForce", cs);
 	if (cs.state == CST_ACTIVATED) bPressed = true;
 	api->Controls->GetControlState("ChrAttackForce2", cs);
@@ -561,7 +561,7 @@ bool Player::IsDoAttackForce()
 bool Player::IsDoAttackFast()
 {
 	CONTROL_STATE cs;
-	bool bPressed = false;
+  auto bPressed = false;
 	api->Controls->GetControlState("ChrAttackFast", cs);
 	if (cs.state == CST_ACTIVATED) bPressed = true;
 	api->Controls->GetControlState("ChrAttackFast2", cs);
@@ -572,7 +572,7 @@ bool Player::IsDoAttackFast()
 bool Player::IsDoAttackRound()
 {
 	CONTROL_STATE cs;
-	bool bPressed = false;
+  auto bPressed = false;
 	api->Controls->GetControlState("ChrAttackRound", cs);
 	if (cs.state == CST_ACTIVATED) bPressed = true;
 	api->Controls->GetControlState("ChrAttackRound2", cs);
@@ -583,7 +583,7 @@ bool Player::IsDoAttackRound()
 bool Player::IsDoAttackBreak()
 {
 	CONTROL_STATE cs;
-	bool bPressed = false;
+  auto bPressed = false;
 	api->Controls->GetControlState("ChrAttackBreak", cs);
 	if (cs.state == CST_ACTIVATED) bPressed = true;
 	api->Controls->GetControlState("ChrAttackBreak2", cs);
@@ -594,7 +594,7 @@ bool Player::IsDoAttackBreak()
 bool Player::IsDoAttackFeint()
 {
 	CONTROL_STATE cs;
-	bool bPressed = false;
+  auto bPressed = false;
 	api->Controls->GetControlState("ChrAttackFient", cs);
 	if (cs.state == CST_ACTIVATED) bPressed = true;
 	api->Controls->GetControlState("ChrAttackFient2", cs);
@@ -628,16 +628,16 @@ Player* Player::FindAttackCharacter()
 	//Выбираем лутшего
 	float minDst;
 	long task = -1;
-	bool isFgt = false;
-	bool isEnemy = false;
-	float enemyCos = -1.0f;
-	float cdx = sinf(ay);
-	float cdz = cosf(ay);
+  auto isFgt = false;
+  auto isEnemy = false;
+  auto enemyCos = -1.0f;
+  auto cdx = sinf(ay);
+  auto cdz = cosf(ay);
 	long j = -1;
 	for (long i = 0; i < num; i++)
 	{
 		//Персонаж
-		Supervisor::FindCharacter& fc = fndCharacter[i];
+    auto& fc = fndCharacter[i];
 		//Невоюющих не смотрим
 		//if(!fc.c->IsFight()) continue;
 		auto* chr = (Player *)fc.c;
@@ -685,7 +685,7 @@ Player* Player::FindAttackCharacter()
 		//Этот гад на нас лезет
 		if (j >= 0)
 		{
-			float cs = -1.0f;
+      auto cs = -1.0f;
 			if (fc.d2 > 0.0f) cs = (fc.dx * cdx + fc.dz * cdz) / sqrtf(fc.d2);
 			if (cs > enemyCos)
 			{
@@ -716,13 +716,13 @@ void Player::FireFromShootgun()
 		api->Send_Message(peid, "lsllll", MSG_SOUND_PLAY, "OBJECTS\\sgboom.wav", 4, false, false, false);
 	}
 	//Получим позицию откуда стрелять
-	float dx = sinf(ay);
-	float dz = cosf(ay);
+  auto dx = sinf(ay);
+  auto dz = cosf(ay);
 	CMatrix mtx;
 	const auto location = GetLocation();
 	location->GetRS()->GetTransform(D3DTS_VIEW, mtx);
 	mtx.Transposition();
-	CVECTOR src = mtx.Pos() + mtx.Vz() * 0.7f;
+  auto src = mtx.Pos() + mtx.Vz() * 0.7f;
 	api->Send_Message(effects, "sffffff", "SGFireParticles", src.x, src.y - 0.35f, src.z, mtx.Vz().x, mtx.Vz().y,
 	                  mtx.Vz().z);
 
@@ -743,19 +743,19 @@ void Player::FireFromShootgun()
 	for (long i = 0; i < 6; i++)
 	{
 		//Получим позицию куда попадёт картечина
-		float r = rand() * 3.0f / RAND_MAX;
-		float a = rand() * 6.283185307f / (RAND_MAX + 1);
-		CVECTOR dst = mtx * CVECTOR(r * sinf(a), r * cosf(a), 25.0f);
+    auto r = rand() * 3.0f / RAND_MAX;
+    auto a = rand() * 6.283185307f / (RAND_MAX + 1);
+    auto dst = mtx * CVECTOR(r * sinf(a), r * cosf(a), 25.0f);
 		if (collide)
 		{
 			auto id = GetId();
-			float dist = collide->Trace(ids, src, dst, &id, 0);
+      auto dist = collide->Trace(ids, src, dst, &id, 0);
 			if (dist <= 1.0f && dist > (0.2f / 25.0f))
 			{
-				CVECTOR dir = !(src - dst);
+        auto dir = !(src - dst);
 				dst = src + (dst - src) * dist;
 				//Куда то попали
-				Entity* e = EntityManager::GetEntityPointer(collide->GetObjectID());
+        auto e = EntityManager::GetEntityPointer(collide->GetObjectID());
 				if (e && e != this)
 				{
 					long n, nm;
@@ -803,7 +803,7 @@ float Player::GetRotateH()
 {
 	CONTROL_STATE cs;
 	api->Controls->GetControlState("ChrCamSpecMode", cs);
-	float dx = 0.f;
+  auto dx = 0.f;
 	if (cs.state != CST_ACTIVE)
 	{
 		api->Controls->GetControlState("ChrTurnH", cs);

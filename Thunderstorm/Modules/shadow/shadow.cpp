@@ -85,14 +85,14 @@ CVECTOR camPos;
 
 bool AddPoly(const CVECTOR* vr, long nverts)
 {
-	CVECTOR norm = !((vr[1] - vr[0]) ^ (vr[2] - vr[0]));
+  auto norm = !((vr[1] - vr[0]) ^ (vr[2] - vr[0]));
 
-	float d = (norm | vr[0]);
-	float dc = (norm | camPos) - d;
-	float dl = (norm | lightPos) - d;
+  auto d = (norm | vr[0]);
+  auto dc = (norm | camPos) - d;
+  auto dl = (norm | lightPos) - d;
 	if (dc * dl < 0.0f) return true;
 
-	float d0 = (norm | objPos) - d;
+  auto d0 = (norm | objPos) - d;
 	if (d0 * dl < 0.0f) return true;
 
 	if (tot_verts + (nverts - 2) * 3 > vbuff_size) return false;
@@ -100,23 +100,23 @@ bool AddPoly(const CVECTOR* vr, long nverts)
 	for (v = 0; v < 3; v++)
 	{
 		shadvert[tot_verts].pos = vr[v];
-		float z = (trans.m[0][2] * vr[v].x + trans.m[1][2] * vr[v].y + trans.m[2][2] * vr[v].z + trans.m[3][2]);
-		float rhw = perspective * 0.5f / z;
+    auto z = (trans.m[0][2] * vr[v].x + trans.m[1][2] * vr[v].y + trans.m[2][2] * vr[v].z + trans.m[3][2]);
+    auto rhw = perspective * 0.5f / z;
 		shadvert[tot_verts].tu = rhw * (trans.m[0][0] * vr[v].x + trans.m[1][0] * vr[v].y + trans.m[2][0] * vr[v].z +
 			trans.m[3][0]) + 0.5f;
 		shadvert[tot_verts].tv = -rhw * (trans.m[0][1] * vr[v].x + trans.m[1][1] * vr[v].y + trans.m[2][1] * vr[v].z +
 			trans.m[3][1]) + 0.5f;
 		tot_verts++;
 	}
-	long start = tot_verts - 3;
+  auto start = tot_verts - 3;
 	for (; v < nverts; v++)
 	{
 		shadvert[tot_verts + 0] = shadvert[start];
 		shadvert[tot_verts + 1] = shadvert[tot_verts - 1];
 		tot_verts += 2;
 		shadvert[tot_verts].pos = vr[v];
-		float z = (trans.m[0][2] * vr[v].x + trans.m[1][2] * vr[v].y + trans.m[2][2] * vr[v].z + trans.m[3][2]);
-		float rhw = perspective * 0.5f / z;
+    auto z = (trans.m[0][2] * vr[v].x + trans.m[1][2] * vr[v].y + trans.m[2][2] * vr[v].z + trans.m[3][2]);
+    auto rhw = perspective * 0.5f / z;
 		shadvert[tot_verts].tu = rhw * (trans.m[0][0] * vr[v].x + trans.m[1][0] * vr[v].y + trans.m[2][0] * vr[v].z +
 			trans.m[3][0]) + 0.5f;
 		shadvert[tot_verts].tv = -rhw * (trans.m[0][1] * vr[v].x + trans.m[1][1] * vr[v].y + trans.m[2][1] * vr[v].z +
@@ -131,10 +131,10 @@ bool AddPoly(const CVECTOR* vr, long nverts)
 //------------------------------------------------------------------------------------
 void Shadow::Realize(uint32_t Delta_Time)
 {
-	MODEL* obj = (MODEL*)EntityManager::GetEntityPointer(entity);
+  auto obj = (MODEL*)EntityManager::GetEntityPointer(entity);
 	if (!obj) return;
 
-	VDATA* pV = api->Event("EWhr_GetShadowDensity");
+  auto pV = api->Event("EWhr_GetShadowDensity");
 	HEAD_DENSITY = ((VDATA*)pV->GetArrayElement(0))->GetLong();
 	DENSITY = ((VDATA*)pV->GetArrayElement(1))->GetLong();
 
@@ -142,16 +142,16 @@ void Shadow::Realize(uint32_t Delta_Time)
 	rs->GetViewport(&vp);
 
 	pV = api->Event("EWhr_GetFogDensity");
-	float fogDensity = pV->GetFloat();
+  auto fogDensity = pV->GetFloat();
 
 	//MODEL *obj = (MODEL*)EntityManager::GetEntityPointer(entity);
-	NODE* node = obj->GetNode(0);
+  auto node = obj->GetNode(0);
 	GEOS::INFO gi;
 	node->geo->GetInfo(gi);
 	objPos = obj->mtx.Pos();
 	ObjPos = objPos;
 	objPos.y += gi.radius;
-	CVECTOR headPos = objPos;
+  auto headPos = objPos;
 	headPos.y += gi.radius;
 
 	D3DLIGHT9 dLight;
@@ -162,7 +162,7 @@ void Shadow::Realize(uint32_t Delta_Time)
 
 	dLight.Position.y = lightPos.y;
 
-	CVECTOR light_pos = !CVECTOR(dLight.Direction.x, dLight.Direction.y, dLight.Direction.z);
+  auto light_pos = !CVECTOR(dLight.Direction.x, dLight.Direction.y, dLight.Direction.z);
 	if (light_pos.y > -0.6f) light_pos.y = -0.6f;
 	light_pos = -1000.0f * (!light_pos);
 

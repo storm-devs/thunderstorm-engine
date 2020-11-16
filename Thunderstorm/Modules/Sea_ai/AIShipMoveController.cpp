@@ -38,22 +38,22 @@ void AIShipMoveController::Execute(float fDeltaTime)
 	auto* pShip = (SHIP_BASE*)GetAIShip()->GetShipPointer();
 	Assert(pShip);
 
-	CVECTOR vCurPos = GetAIShip()->GetPos();
-	CVECTOR vCurAng = GetAIShip()->GetAng();
+  auto vCurPos = GetAIShip()->GetPos();
+  auto vCurAng = GetAIShip()->GetAng();
 
-	CVECTOR vMovePoint = vDestPoint;
+  auto vMovePoint = vDestPoint;
 
 	vDeflectForce.z = 1.0f; //FRAND(2.0f) - 1.0f;
 	//vDeflectForce.z = FRAND(2.0f) - 1.0f;
 
-	CVECTOR vCurDir = CVECTOR(sinf(vCurAng.y), 0.0f, cosf(vCurAng.y));
-	CVECTOR vDestDir = !(vMovePoint - vCurPos);
+  auto vCurDir = CVECTOR(sinf(vCurAng.y), 0.0f, cosf(vCurAng.y));
+  auto vDestDir = !(vMovePoint - vCurPos);
 
-	float fTime = 0.0f;
-	float fDist = sqrtf(~(vCurPos - vMovePoint));
-	float fBrakingDistance = pShip->GetBrakingDistance(&fTime);
+  auto fTime = 0.0f;
+  auto fDist = sqrtf(~(vCurPos - vMovePoint));
+  auto fBrakingDistance = pShip->GetBrakingDistance(&fTime);
 
-	float fSpeed = 1.0f;
+  auto fSpeed = 1.0f;
 	if (fBrakingDistance > fDist + 20.0f)
 	{
 		fSpeed = 1.0f - (fBrakingDistance - (fDist + 20.0f)) / 20.0f;
@@ -63,23 +63,23 @@ void AIShipMoveController::Execute(float fDeltaTime)
 	GetAIShip()->GetSpeedController()->AddSpeed(fSpeed);
 	//pShip->SetSpeed(fSpeed);
 
-	float fRotationAngle = pShip->GetRotationAngle(&fTime);
+  auto fRotationAngle = pShip->GetRotationAngle(&fTime);
 
-	float fTemp = ~vDeflectForce;
+  auto fTemp = ~vDeflectForce;
 	if (~vDeflectForce > 0.00001f)
 	{
-		CVECTOR vRotDir = !vDeflectForce;
+    auto vRotDir = !vDeflectForce;
 
-		float fDot = vCurDir | vDestDir;
-		float fRotAng = fabsf(acosf(Clamp(fDot)));
+    auto fDot = vCurDir | vDestDir;
+    auto fRotAng = fabsf(acosf(Clamp(fDot)));
 
-		CVECTOR vProd = vCurDir ^ vDestDir;
-		float fSignRot = ((vProd.y > 0.0f) ? 1.0f : -1.0f);
+    auto vProd = vCurDir ^ vDestDir;
+    auto fSignRot = ((vProd.y > 0.0f) ? 1.0f : -1.0f);
 		// check fSignRot with can Rotate in these direction
 		//float fBestRotate = GetAIShip()->GetTouchController()->GetBestRotateDirection();
 		//if (fBestRotate != 0.0f) fSignRot = fBestRotate;
-		float fMul = (fDot > 0.0f) ? Bring2Range(1.0f, 0.1f, 0.0f, 1.0f, fDot) : 1.0f;
-		float fAngRot = fSignRot;
+    auto fMul = (fDot > 0.0f) ? Bring2Range(1.0f, 0.1f, 0.0f, 1.0f, fDot) : 1.0f;
+    auto fAngRot = fSignRot;
 		if (fRotationAngle >= fRotAng) fAngRot = 0.0f;
 		GetAIShip()->GetRotateController()->AddRotate(fMul * fAngRot);
 		if (fMul > 0.3f) GetAIShip()->GetSpeedController()->MulSpeed(0.5f);
@@ -121,7 +121,7 @@ void AIShipMoveController::Realize(float fDeltaTime)
 
 void AIShipMoveController::Move(CVECTOR vMovePoint)
 {
-	float fDist = sqrtf(~(vMovePoint - vDestPoint));
+  auto fDist = sqrtf(~(vMovePoint - vDestPoint));
 	if (fMoveTime > 0.0f) return;
 	fMoveTime = 2.0f;
 	//if (fDist < 100.0f) return;
@@ -129,9 +129,9 @@ void AIShipMoveController::Move(CVECTOR vMovePoint)
 	if (AIHelper::pIsland)
 	{
 		CVECTOR vRealMovePoint;
-		CVECTOR vOurPos = GetAIShip()->GetPos();
+    auto vOurPos = GetAIShip()->GetPos();
 		vOurPos.y = vMovePoint.y = 0.0f;
-		bool b = AIHelper::pIsland->GetMovePoint(vOurPos, vMovePoint, vRealMovePoint);
+    auto b = AIHelper::pIsland->GetMovePoint(vOurPos, vMovePoint, vRealMovePoint);
 		if (b)
 		{
 			vMovePoint = vRealMovePoint;

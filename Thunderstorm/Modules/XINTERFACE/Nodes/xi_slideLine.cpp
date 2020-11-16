@@ -108,7 +108,7 @@ void CXI_SLIDELINE::ChangePosition(XYRECT& rNewPos)
 {
 	m_rect = rNewPos;
 
-	XI_ONLYONETEX_VERTEX* pv = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
+  auto pv = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
 	if (pv)
 	{
 		pv[0].pos.x = pv[1].pos.x = (float)m_rect.left;
@@ -116,8 +116,8 @@ void CXI_SLIDELINE::ChangePosition(XYRECT& rNewPos)
 		pv[0].pos.y = pv[2].pos.y = (float)m_rect.top;
 		pv[1].pos.y = pv[3].pos.y = (float)m_rect.bottom;
 
-		float left = (float)(m_rect.left + m_nBaseLeft - m_nPointerLeft);
-		float right = (float)(m_rect.right - m_nBaseLeft + m_nPointerLeft - m_nPointerWidth);
+    auto left = (float)(m_rect.left + m_nBaseLeft - m_nPointerLeft);
+    auto right = (float)(m_rect.right - m_nBaseLeft + m_nPointerLeft - m_nPointerWidth);
 		left = left + (right - left) / m_nGrateQuantity * m_nCurValue;
 
 		pv[4].pos.x = pv[5].pos.x = left;
@@ -133,7 +133,7 @@ void CXI_SLIDELINE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -152,13 +152,13 @@ void CXI_SLIDELINE::DoMouseControl()
 	if (!m_bClickable || !m_bSelected || m_bLockedNode) return;
 	CONTROL_STATE cs;
 	api->Controls->GetControlState("ILClick", cs);
-	FXYPOINT fmp = ptrOwner->GetMousePoint();
+  auto fmp = ptrOwner->GetMousePoint();
 	if (cs.state == CST_ACTIVATED)
 	{
 		if (fmp.x < m_rect.left) return;
 		if (fmp.x > m_rect.right) return;
 
-		float ftop = (m_rect.bottom + m_rect.top - m_nPointerHeight) / 2.f;
+    auto ftop = (m_rect.bottom + m_rect.top - m_nPointerHeight) / 2.f;
 		if (fmp.y < ftop) return;
 		if (fmp.y > ftop + m_nPointerHeight) return;
 
@@ -196,7 +196,7 @@ uint32_t CXI_SLIDELINE::MessageProc(long msgcode, MESSAGE& message)
 		{
 			m_nGrateQuantity = message.Long();
 			if (m_nGrateQuantity < 2) m_nGrateQuantity = 2;
-			ATTRIBUTES* pA = api->Entity_GetAttributeClass(g_idInterface, "nodes");
+      auto pA = api->Entity_GetAttributeClass(g_idInterface, "nodes");
 			if (pA) pA = pA->GetAttributeClass(m_nodeName);
 			if (pA)
 			{
@@ -245,7 +245,7 @@ void CXI_SLIDELINE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 	m_nSpeedSlide = GetIniLong(ini1, name1, ini2, name2, "speedSlide", 1);
 
 	m_nCurValue = 0;
-	ATTRIBUTES* pA = api->Entity_GetAttributeClass(g_idInterface, "nodes");
+  auto pA = api->Entity_GetAttributeClass(g_idInterface, "nodes");
 	if (pA != nullptr) pA = pA->GetAttributeClass(m_nodeName);
 	if (pA != nullptr) m_nCurValue = long(pA->GetAttributeAsFloat("value", 0.f) * m_nGrateQuantity);
 	m_nMinValue = m_nMaxValue = -1;

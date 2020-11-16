@@ -72,7 +72,7 @@ void AICharacter::Calculate(float dltTime)
 	CVECTOR slideForce;
 	location->GetPtcData().FindForce(currentNode, slideForce);
 	//Ограничим вектора
-	float l = ~separation;
+  auto l = ~separation;
 	if (l > 1.0f) separation *= 1.0f / sqrtf(l);
 	l = ~alignment;
 	if (l > 1.0f) alignment *= 1.0f / sqrtf(l);
@@ -239,9 +239,9 @@ void AICharacter::CmdProcessGotoPoint(float dltTime)
 	goForce.x = command.tpnt.x - curPos.x;
 	goForce.y = 0.0f;
 	goForce.z = command.tpnt.z - curPos.z;
-	float fl = sqrtf(~goForce);
-	float sn = sinf(ay);
-	float cs = cosf(ay);
+  auto fl = sqrtf(~goForce);
+  auto sn = sinf(ay);
+  auto cs = cosf(ay);
 	if (fl <= 0.0f)
 	{
 		goForce.x = command.pnt.x - curPos.x;
@@ -277,13 +277,13 @@ void AICharacter::CmdProcessGotoPoint(float dltTime)
 		StopMove();
 	}
 	//Если дошли, то надо остановиться
-	float dx = command.pnt.x - curPos.x;
-	float dz = command.pnt.z - curPos.z;
-	float d = dx * dx + dz * dz;
+  auto dx = command.pnt.x - curPos.x;
+  auto dz = command.pnt.z - curPos.z;
+  auto d = dx * dx + dz * dz;
 	const auto location = GetLocation();
 	if (location->IsDebugView())
 	{
-		float dist = sqrtf(d) * 10.0f;
+    auto dist = sqrtf(d) * 10.0f;
 		if (dist > 255.0f) dist = 255.0f;
 		uint32_t color = long(dist);
 		color |= (255 - color) << 16;
@@ -340,7 +340,7 @@ void AICharacter::CmdUpdateGotoPoint(float dltTime)
 		StartMove();
 		//if(location->IsDebugView()) location->DrawLine(curPos, 0xffff0000, curPos + force*2.0f, 0xffff0000, false);
 		Turn(force.x, force.z);
-		float l = force.x * force.x + force.z * force.z;
+    auto l = force.x * force.x + force.z * force.z;
 		if (l < 0.7f) kSpd = likeKSpd * l / 0.7f;
 		else kSpd = likeKSpd;
 		//Если скользим по краю - остановимся и подождём
@@ -402,7 +402,7 @@ void AICharacter::CmdProcessEscape(float dltTime)
 	goForce.x = curPos.x - command.pnt.x;
 	goForce.y = 0.0f;
 	goForce.z = curPos.z - command.pnt.z;
-	float l = goForce.x * goForce.x + goForce.z * goForce.z;
+  auto l = goForce.x * goForce.x + goForce.z * goForce.z;
 	if (l >= command.radius * command.radius)
 	{
 		goForce = 0.0f;
@@ -430,7 +430,7 @@ void AICharacter::CmdUpdateEscape(float dltTime)
 	const auto location = GetLocation();
 	if (location->IsDebugView()) location->DrawLine(curPos, 0xffff0000, curPos + force * 2.0f, 0xffff0000, false);
 	Turn(force.x, force.z);
-	float l = force.x * force.x + force.z * force.z;
+  auto l = force.x * force.x + force.z * force.z;
 	if (l < 0.7f) kSpd = likeKSpd * l / 0.7f;
 	else kSpd = likeKSpd;
 }
@@ -443,7 +443,7 @@ long AICharacter::FindNodeIndex(const CVECTOR& pos, float* hy)
 {
 	const auto location = GetLocation();
 	float yy;
-	long node = location->GetPtcData().FindNode(pos, yy);
+  auto node = location->GetPtcData().FindNode(pos, yy);
 	if (hy) *hy = yy;
 	return node;
 }
@@ -471,28 +471,28 @@ void AICharacter::CalcRepulsionForces()
 {
 	if (numColCharacter <= 0) return;
 	float k;
-	float kn = 1.0f / numColCharacter;
+  auto kn = 1.0f / numColCharacter;
 	for (long i = 0; i < numColCharacter; i++)
 	{
 		const auto location = GetLocation();
-		Supervisor::CharacterInfo& ci = location->supervisor.colchr[startColCharacter + i];
+    auto& ci = location->supervisor.colchr[startColCharacter + i];
 		if (ci.d == 0.0f) continue;
 		auto* c = (AICharacter *)ci.c;
 		if (command.exch == c || c->command.exch == this) continue;
-		float dx = c->curPos.x - curPos.x;
-		float dz = c->curPos.z - curPos.z;
-		float kd = 1.0f / ci.d;
-		float kr = kn * (ci.maxD - ci.d) / ci.maxD;
+    auto dx = c->curPos.x - curPos.x;
+    auto dz = c->curPos.z - curPos.z;
+    auto kd = 1.0f / ci.d;
+    auto kr = kn * (ci.maxD - ci.d) / ci.maxD;
 		//Сила расталкивания
-		float sx = dx * kr * kd * kd;
-		float sz = dz * kr * kd * kd;
+    auto sx = dx * kr * kd * kd;
+    auto sz = dz * kr * kd * kd;
 		separation.x -= sx;
 		separation.z -= sz;
 		c->separation.x += sx;
 		c->separation.z += sz;
 		//Сила выравнивания направлений
 		k = 1.0f - fabsf(goForce.x * c->goForce.x + goForce.z * c->goForce.z);
-		CVECTOR af = (goForce + c->goForce) * (kn * kr * kd * k);
+    auto af = (goForce + c->goForce) * (kn * kr * kd * k);
 		if (af.x * dx + af.z * dz < 0.0f)
 		{
 			alignment += af;
@@ -504,7 +504,7 @@ void AICharacter::CalcRepulsionForces()
 			c->alignment += af;
 		}
 		//Сила для обхода
-		float kcs = goForce.x * dx + goForce.z * dz;
+    auto kcs = goForce.x * dx + goForce.z * dz;
 		if (kcs > 0.0f)
 		{
 			k = kn * kr * kd * kcs;
@@ -521,14 +521,14 @@ void AICharacter::CalcRepulsionForces()
 bool AICharacter::FindIntersection(const CVECTOR& s, const CVECTOR& e, const CVECTOR& cur, const CVECTOR& to,
                                    CVECTOR& res)
 {
-	float deX = e.x - s.x;
-	float deZ = e.z - s.z;
-	float dX = to.x - cur.x;
-	float dZ = to.z - cur.z;
+  auto deX = e.x - s.x;
+  auto deZ = e.z - s.z;
+  auto dX = to.x - cur.x;
+  auto dZ = to.z - cur.z;
 	//Плоскасть проходящая через отрезок перемещения
-	float nx = dZ;
-	float nz = -dX;
-	float nl = nx * nx + nz * nz;
+  auto nx = dZ;
+  auto nz = -dX;
+  auto nl = nx * nx + nz * nz;
 	if (nl == 0.0f)
 	{
 		res = to;
@@ -537,15 +537,15 @@ bool AICharacter::FindIntersection(const CVECTOR& s, const CVECTOR& e, const CVE
 	nl = sqrtf(nl);
 	nx /= nl;
 	nz /= nl;
-	float d = cur.x * nx + cur.z * nz;
+  auto d = cur.x * nx + cur.z * nz;
 	//Расстояния вершин ребра до плоскости
-	float ds = nx * s.x + nz * s.z - d;
-	float de = nx * e.x + nz * e.z - d;
+  auto ds = nx * s.x + nz * s.z - d;
+  auto de = nx * e.x + nz * e.z - d;
 	//Решим что делать
 	if (ds != de)
 	{
 		//Пересекаем плоскость
-		float k = ds / (ds - de);
+    auto k = ds / (ds - de);
 		if (k < 0.0f) k = 0.0f;
 		if (k > 1.0f) k = 1.0f;
 		res = s + (e - s) * k;
@@ -571,7 +571,7 @@ bool AICharacter::FindIntersection(const CVECTOR& s, const CVECTOR& e, const CVE
 float AICharacter::Angle(double vx, double vz, float defAy)
 {
 	//Вычисляем угол
-	double l = vx * vx + vz * vz;
+  auto l = vx * vx + vz * vz;
 	if (l <= 0.0) return defAy;
 	vz = acos(vz / sqrt(l));
 	if (vx < 0) vz = -vz;

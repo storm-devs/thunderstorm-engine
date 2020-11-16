@@ -24,15 +24,15 @@ void DataCache::CacheSystem(const char* FileName)
 	//std::string LongFileName = "resource\\particles\\";
 	//LongFileName+=FileName;
 	//LongFileName.AddExtention(".xps");
-	fs::path path = fs::path() / "resource" / "particles" / FileName;
-	std::string pathStr = path.extension().string();
+  auto path = fs::path() / "resource" / "particles" / FileName;
+  auto pathStr = path.extension().string();
 	if (_stricmp(pathStr.c_str(), ".xps") != 0)
 		path += ".xps";
 	pathStr = path.string();
 	std::transform(pathStr.begin(), pathStr.end(), pathStr.begin(), tolower);
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 
-	HANDLE pSysFile = fio->_CreateFile(pathStr.c_str());
+  auto pSysFile = fio->_CreateFile(pathStr.c_str());
 
 	if (pSysFile == INVALID_HANDLE_VALUE)
 	{
@@ -40,7 +40,7 @@ void DataCache::CacheSystem(const char* FileName)
 		return;
 	}
 
-	uint32_t FileSize = fio->_GetFileSize(pSysFile, nullptr);
+  auto FileSize = fio->_GetFileSize(pSysFile, nullptr);
 
 	auto* pMemBuffer = new uint8_t[FileSize];
 	fio->_ReadFile(pSysFile, pMemBuffer, FileSize, nullptr);
@@ -57,7 +57,7 @@ void DataCache::CacheSystem(const char* FileName)
 //Сбросить кэш
 void DataCache::ResetCache()
 {
-	for (int n = 0; n < Cache.size(); n++)
+	for (auto n = 0; n < Cache.size(); n++)
 	{
 		if (Cache[n].pData) Cache[n].pData->Release();
 	}
@@ -72,13 +72,13 @@ DataSource* DataCache::GetParticleSystemDataSource(const char* FileName)
 	//NameWithExt.AddExtention(".xps");
 	//NameWithExt.Lower();
 	fs::path path = FileName;
-	std::string pathStr = path.extension().string();
+  auto pathStr = path.extension().string();
 	if (_stricmp(pathStr.c_str(), ".xps") != 0)
 		path += ".xps";
 	pathStr = path.string();
 	std::transform(pathStr.begin(), pathStr.end(), pathStr.begin(), tolower);
 
-	for (int n = 0; n < Cache.size(); n++)
+	for (auto n = 0; n < Cache.size(); n++)
 	{
 		if (Cache[n].FileName == pathStr) return Cache[n].pData;
 	}
@@ -89,7 +89,7 @@ DataSource* DataCache::GetParticleSystemDataSource(const char* FileName)
 //Проверить указатель на валидность
 bool DataCache::ValidatePointer(DataSource* pData)
 {
-	for (int n = 0; n < Cache.size(); n++)
+	for (auto n = 0; n < Cache.size(); n++)
 		if (Cache[n].pData == pData) //fix
 			return true;
 

@@ -43,7 +43,7 @@ bool LocEagle::Init()
 	if (!location) return false;
 	cnt = location->GetPtcData().middle + CVECTOR(0.0f, 30.0f, 0.0f);
 	//Путь для текстур
-	VGEOMETRY* gs = (VGEOMETRY *)api->CreateService("geometry");
+  auto gs = (VGEOMETRY *)api->CreateService("geometry");
 	if (!gs)
 	{
 		api->Trace("Can't create geometry service!");
@@ -64,7 +64,7 @@ bool LocEagle::Init()
 	//Запускаем проигрывание анимации
 	auto* m = (MODEL *)EntityManager::GetEntityPointer(mdl);
 	if (!m) return false;
-	Animation* ani = m->GetAnimation();
+  auto ani = m->GetAnimation();
 	if (!ani) return false;
 	if (!ani->Player(0).SetAction("flight")) return false;
 	if (!ani->Player(0).Play()) return false;
@@ -82,7 +82,7 @@ void LocEagle::Execute(uint32_t delta_time)
 	auto* m = (MODEL *)EntityManager::GetEntityPointer(mdl);
 	if (!m) return;
 	//Обновляем позицию
-	float dltTime = delta_time * 0.001f;
+  auto dltTime = delta_time * 0.001f;
 	time += kTime * dltTime;
 	if (time >= 1.0f)
 	{

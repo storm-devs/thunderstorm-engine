@@ -87,7 +87,7 @@ void CORE::ReleaseBase()
 bool CORE::LoCheck()
 {
 	// ~!~
-	entid_t test_eid = EntityManager::CreateEntity("LocationP");
+  auto test_eid = EntityManager::CreateEntity("LocationP");
 	if (!test_eid)
 		return false;
 	auto* pE = EntityManager::GetEntityPointer(test_eid);
@@ -99,7 +99,7 @@ bool CORE::LoCheck()
 
 bool CORE::Run()
 {
-	bool bDebugWindow = true;
+  auto bDebugWindow = true;
 	if (bDebugWindow && api->Controls && api->Controls->GetDebugAsyncKeyState(VK_F7) < 0)
 		DumpEntitiesInfo();
 	dwNumberScriptCommandsExecuted = 0;
@@ -178,7 +178,7 @@ bool CORE::Run()
 		for (long y = 0; y < nSplitScreenshotGrid; y++)
 			for (long x = 0; x < nSplitScreenshotGrid; x++)
 			{
-				CVECTOR tmpang = ang;
+        auto tmpang = ang;
 				tmpang.y += ((float)x - (nSplitScreenshotGrid - 1) * 0.5f) * (fPersp / nSplitScreenshotGrid);
 				tmpang.x += ((float)y - (nSplitScreenshotGrid - 1) * 0.5f) * (fPersp / nSplitScreenshotGrid);
 				pRender->SetCamera(pos, tmpang, fPersp / nSplitScreenshotGrid);
@@ -246,10 +246,10 @@ void CORE::ProcessEngineIniFile()
 
 	bEngineIniProcessed = true;
 
-	INIFILE* engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
+  auto engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
 	if (engine_ini == nullptr) throw std::exception("no 'engine.ini' file");
 
-	bool res = engine_ini->ReadString(nullptr, "program_directory", String, sizeof(String), "");
+  auto res = engine_ini->ReadString(nullptr, "program_directory", String, sizeof(String), "");
 	if (res)
 	{
 		Compiler.SetProgramDirectory(String);
@@ -325,14 +325,14 @@ void CORE::SetTimeScale(float _scale)
 uint64_t CORE::Send_Message(entid_t Destination, const char* Format,...)
 {
 	MESSAGE message;
-	entptr_t ptr = EntityManager::GetEntityPointer(Destination); // check for valid destination
+  auto ptr = EntityManager::GetEntityPointer(Destination); // check for valid destination
 	if (!ptr)
 		return 0;
 
 	message.Reset(Format); // reset message class
 	PZERO(&message.Sender_ID, sizeof(entid_t));
 	va_start(message.args, Format);
-	uint64_t rc = ((Entity *)ptr)->ProcessMessage(message); // transfer control
+  auto rc = ((Entity *)ptr)->ProcessMessage(message); // transfer control
 	va_end(message.args);
 	return rc;
 }
@@ -351,7 +351,7 @@ uint32_t CORE::PostEvent(const char* Event_name, uint32_t post_time, const char*
 		message.Reset(Format);
 		pMS->Reset(Format);
 
-		bool bAction = true;
+    auto bAction = true;
 		while (bAction)
 		{
 			switch (message.GetCurrentFormatType())
@@ -461,7 +461,7 @@ VMA* CORE::FindVMA(long hash)
 
 void* CORE::CreateService(const char* service_name)
 {
-	VMA* pClass = FindVMA(service_name);
+  auto pClass = FindVMA(service_name);
 	if (pClass == nullptr)
 	{
 		CheckAutoExceptions(0);
@@ -478,7 +478,7 @@ void* CORE::CreateService(const char* service_name)
 
 	auto* service_PTR = (SERVICE *)pClass->CreateClass();
 
-	uint32_t class_code = MakeHashValue(service_name);
+  auto class_code = MakeHashValue(service_name);
 	pClass->SetHash(class_code);
 
 	if (!service_PTR->Init())
@@ -509,7 +509,7 @@ void CORE::ProcessExecute()
 
 	ProcessRunStart(SECTION_EXECUTE);
 
-	uint32_t deltatime = Timer.GetDeltaTime();
+  auto deltatime = Timer.GetDeltaTime();
 	auto& entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::execute);
 	for (auto id : entIds)
 	{
@@ -527,7 +527,7 @@ void CORE::ProcessRealize()
 	uint64_t ticks;
 	ProcessRunStart(SECTION_REALIZE);
 
-	uint32_t deltatime = Timer.GetDeltaTime();
+  auto deltatime = Timer.GetDeltaTime();
 	auto& entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::realize);
 	for (auto id : entIds)
 	{
@@ -547,7 +547,7 @@ bool CORE::SaveState(const char* file_name)
 		return false;
 
 	fio->SetDrive(XBOXDRIVE_NONE);
-	HANDLE fh = fio->_CreateFile(file_name,GENERIC_WRITE | GENERIC_READ, 0,CREATE_ALWAYS);
+  auto fh = fio->_CreateFile(file_name,GENERIC_WRITE | GENERIC_READ, 0,CREATE_ALWAYS);
 	fio->SetDrive();
 
 	if (fh == INVALID_HANDLE_VALUE)

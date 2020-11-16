@@ -69,7 +69,7 @@ void WideScreen::Realize(uint32_t delta_time)
 	{
 		float x, y, z, rhw;
 	} buf[12];
-	const float hg = state * h * 0.1f;
+	const auto hg = state * h * 0.1f;
 	buf[0].x = 0.0f;
 	buf[0].y = 0.0f;
 	buf[0].z = 0.5f;

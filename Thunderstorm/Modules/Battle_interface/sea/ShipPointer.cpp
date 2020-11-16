@@ -53,7 +53,7 @@ bool SHIPPOINTER::Init()
 		rs->UnLockVertexBuffer(m_idVBuf);
 	}
 
-	ATTRIBUTES* pA = api->Entity_GetAttributeClass(GetId(), "textures");
+  auto pA = api->Entity_GetAttributeClass(GetId(), "textures");
 	if (pA == nullptr)
 	{
 		api->Trace("WARNING! object SHIPPOINTER hav`t attribute TEXTURES");
@@ -98,7 +98,7 @@ uint64_t SHIPPOINTER::ProcessMessage(MESSAGE& message)
 	{
 	case MSG_SP_CHANGESHIP:
 		{
-			long chrIdx = message.Long();
+      auto chrIdx = message.Long();
 			m_pShip = FindShipByChrIndex(chrIdx);
 			if (m_pShip == nullptr)
 			{
@@ -134,11 +134,11 @@ void SHIPPOINTER::UpdateShipPointer()
 		float camper;
 		rs->GetCamera(campos, camang, camper);
 
-		CVECTOR ourPos = m_pShip->GetPos() + CVECTOR(0.f, m_fShiftTop + m_fShiftAmp * sinf(m_fShiftVal), 0.f);
-		float k = camper * .05f * sqrtf(~(campos - ourPos));
+    auto ourPos = m_pShip->GetPos() + CVECTOR(0.f, m_fShiftTop + m_fShiftAmp * sinf(m_fShiftVal), 0.f);
+    auto k = camper * .05f * sqrtf(~(campos - ourPos));
 		if (k < 1.f) k = 1.f;
 
-		CVECTOR cvhorz = k * .5f * !((campos - ourPos) ^ CVECTOR(0.f, 1.f, 0.f));
+    auto cvhorz = k * .5f * !((campos - ourPos) ^ CVECTOR(0.f, 1.f, 0.f));
 		CVECTOR cvvert = k * CVECTOR(0.f, 1.f, 0.f);
 
 		ourPos.y += k * 1.0f;

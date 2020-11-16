@@ -8,7 +8,7 @@ static void SubRightWord(char* buf, int fontNum, int width, VDX9RENDER* rs)
 {
 	if (buf == nullptr) return;
 	long bufSize = strlen(buf);
-	for (char* pEnd = buf + bufSize; pEnd > buf; pEnd--)
+	for (auto pEnd = buf + bufSize; pEnd > buf; pEnd--)
 	{
 		if (*pEnd == ' ')
 		{
@@ -141,9 +141,9 @@ void CXI_FORMATEDTEXT::Draw(bool bSelected, uint32_t Delta_Time)
 		}
 	}
 
-	long curY = m_rect.top + m_nVAlignmentOffset;
-	int i = 0;
-	for (STRING_DESCRIBER* sd = m_listCur; sd != nullptr && i < m_allStrings; sd = sd->next, i++)
+  auto curY = m_rect.top + m_nVAlignmentOffset;
+  auto i = 0;
+	for (auto sd = m_listCur; sd != nullptr && i < m_allStrings; sd = sd->next, i++)
 	{
 		// отобразить строки
 		if (sd->lineStr != nullptr && sd->lineStr[0] != 0)
@@ -154,12 +154,12 @@ void CXI_FORMATEDTEXT::Draw(bool bSelected, uint32_t Delta_Time)
 				               "%s", sd->lineStr);
 			else
 			{
-				long nX = m_nPrintLeftOffset;
+        auto nX = m_nPrintLeftOffset;
 				std::vector<long> anWidth;
 				long nAllWidth = 0;
 				for (long n = 0; n < sd->m_tags.size(); n++)
 				{
-					long nCurWidth = m_rs->StringWidth((char*)sd->m_tags[n].str.c_str(), m_idFont, m_fFontScale);
+          auto nCurWidth = m_rs->StringWidth((char*)sd->m_tags[n].str.c_str(), m_idFont, m_fFontScale);
 					anWidth.push_back(nCurWidth);
 					nAllWidth += nCurWidth;
 				}
@@ -205,10 +205,10 @@ int CXI_FORMATEDTEXT::CommandExecute(int wActCode)
 	if (m_bUse && !m_bFrized)
 	{
 		if (m_listCur == nullptr) return -1;
-		STRING_DESCRIBER* pOldCur = m_listCur;
+    auto pOldCur = m_listCur;
 		if (wActCode == ACTION_MOUSECLICK || wActCode == ACTION_MOUSERCLICK)
 		{
-			FXYPOINT fpntMouse = ptrOwner->GetMousePoint();
+      auto fpntMouse = ptrOwner->GetMousePoint();
 			if (m_bUpEnable && m_idUpEnableTexture >= 0)
 			{
 				if (fpntMouse.x >= m_frUpPos.left && fpntMouse.x <= m_frUpPos.right &&
@@ -239,8 +239,8 @@ int CXI_FORMATEDTEXT::CommandExecute(int wActCode)
 				break;
 			case ACTION_SPEEDUP:
 				{
-					STRING_DESCRIBER* pStrDscr = m_listCur;
-					for (int i = 0; i < m_allStrings; i++)
+          auto pStrDscr = m_listCur;
+					for (auto i = 0; i < m_allStrings; i++)
 					{
 						if (pStrDscr->prev == nullptr) break;
 						pStrDscr = pStrDscr->prev;
@@ -251,7 +251,7 @@ int CXI_FORMATEDTEXT::CommandExecute(int wActCode)
 				break;
 			case ACTION_SPEEDDOWN:
 				{
-					STRING_DESCRIBER* pStrDscr = m_listCur;
+          auto pStrDscr = m_listCur;
 					for (int i = 0; i < m_allStrings; i++)
 					{
 						if (pStrDscr->next == nullptr) break;

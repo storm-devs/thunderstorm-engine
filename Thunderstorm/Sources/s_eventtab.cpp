@@ -56,7 +56,7 @@ void S_EVENTTAB::Release()
 bool S_EVENTTAB::GetEvent(EVENTINFO& ei, uint32_t event_code)
 {
 	auto ti = HASHT_INDEX(event_code);
-	uint32_t tc = HASHT_CODE(event_code);
+  auto tc = HASHT_CODE(event_code);
 	if (tc >= Event_num[ti]) return false;
 	ei = pTable[ti][tc];
 	return true;
@@ -67,7 +67,7 @@ uint32_t S_EVENTTAB::AddEventHandler(const char* event_name, uint32_t func_code,
 {
 	uint32_t i;
 
-	uint32_t hash = MakeHashValue(event_name);
+  auto hash = MakeHashValue(event_name);
 
 	auto ti = HASH2INDEX(hash);
 
@@ -144,7 +144,7 @@ uint32_t S_EVENTTAB::MakeHashValue(const char* string)
 	uint32_t hval = 0;
 	while (*string != 0)
 	{
-		char v = *string++;
+    auto v = *string++;
 		if ('A' <= v && v <= 'Z') v += 'a' - 'A'; // case independent
 		hval = (hval << 4) + (unsigned long int)v;
 		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
@@ -160,7 +160,7 @@ uint32_t S_EVENTTAB::MakeHashValue(const char* string)
 bool S_EVENTTAB::DelEventHandler(const char* event_name, uint32_t func_code)
 {
 	if (event_name == nullptr) return false;
-	uint32_t hash = MakeHashValue(event_name);
+  auto hash = MakeHashValue(event_name);
 
 	auto ti = HASH2INDEX(hash);
 
@@ -180,7 +180,7 @@ void S_EVENTTAB::SetStatus(const char* event_name, uint32_t func_code, uint32_t 
 {
 	if (event_name == nullptr) return;
 
-	uint32_t hash = MakeHashValue(event_name);
+  auto hash = MakeHashValue(event_name);
 	auto ti = HASH2INDEX(hash);
 
 	for (uint32_t n = 0; n < Event_num[ti]; n++)
@@ -210,7 +210,7 @@ bool S_EVENTTAB::DelEventHandler(uint8_t ti, uint32_t event_code, uint32_t func_
 		}
 	}
 
-	for (uint32_t n = func_code; n < (pTable[ti][event_code].elements - 1); n++)
+	for (auto n = func_code; n < (pTable[ti][event_code].elements - 1); n++)
 	{
 		pTable[ti][event_code].pFuncInfo[n] = pTable[ti][event_code].pFuncInfo[n + 1];
 	}
@@ -239,7 +239,7 @@ void S_EVENTTAB::InvalidateBySegmentID(uint32_t segment_id)
 uint32_t S_EVENTTAB::FindEvent(const char* event_name)
 {
 	if (event_name == nullptr) return INVALID_EVENT_CODE;
-	uint32_t hash = MakeHashValue(event_name);
+  auto hash = MakeHashValue(event_name);
 	auto ti = HASH2INDEX(hash);
 	for (uint32_t n = 0; n < Event_num[ti]; n++)
 	{

@@ -136,9 +136,9 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 					dwBytes = abs((long)CDebug.SourceView->nEndSelection - (long)CDebug.SourceView->nStartSelection) +
 						1;
 
-					HANDLE hMem = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, dwBytes);
+          auto hMem = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, dwBytes);
 
-					char* lptstrCopy = (char *)GlobalLock(hMem);
+          auto lptstrCopy = (char *)GlobalLock(hMem);
 					if (CDebug.SourceView->nEndSelection > CDebug.SourceView->nStartSelection)
 						memcpy(lptstrCopy,
 						       CDebug.SourceView->pSourceFile + CDebug.SourceView->pLineOffset[CDebug
@@ -168,7 +168,7 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 				POINT pnt;
 				GetCursorPos(&pnt);
 
-				bool bPointerInWatchWindow = WindowFromPoint(pnt) == CDebug.WatcherList->GetWindowHandle();
+        auto bPointerInWatchWindow = WindowFromPoint(pnt) == CDebug.WatcherList->GetWindowHandle();
 				SetCursor(LoadCursor(CDebug.SourceView->hInst,
 				                     (bPointerInWatchWindow)
 					                     ? MAKEINTRESOURCE(IDC_DRAGPOINTER)
@@ -182,7 +182,7 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 					for (long i = 0; i < iItemCount; i++)
 					{
 						RECT rect;
-						BOOL bRes = ListView_GetItemRect(CDebug.WatcherList->GetWindowHandle(), i, &rect, LVIR_BOUNDS);
+            auto bRes = ListView_GetItemRect(CDebug.WatcherList->GetWindowHandle(), i, &rect, LVIR_BOUNDS);
 						if (PtInRect(&rect, pnt))
 						{
 							ListView_SetItemState(CDebug.WatcherList->GetWindowHandle(), i, LVIS_SELECTED,
@@ -265,8 +265,8 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 			yPos = HIWORD(lParam);
 
 			{
-				RECT& r = CDebug.SourceView->CopyPasteRect;
-				bool bCursorInSelection = r.top < yPos && r.bottom > yPos &&
+        auto& r = CDebug.SourceView->CopyPasteRect;
+        auto bCursorInSelection = r.top < yPos && r.bottom > yPos &&
 					r.left < xPos && r.right > xPos;
 				if (bCursorInSelection)
 				{
@@ -344,9 +344,9 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 			else CDebug.SourceView->LineUpDown(true, 3);
 			return 0;
 		case WM_VSCROLL:
-			int nScrollCode = (int)LOWORD(wParam); // scroll bar value 
+      auto nScrollCode = (int)LOWORD(wParam); // scroll bar value 
 			int nPos = (short int)HIWORD(wParam); // scroll box position 
-			HWND hwndScrollBar = (HWND)lParam; // handle to scroll bar 
+      auto hwndScrollBar = (HWND)lParam; // handle to scroll bar 
 
 			switch (nScrollCode)
 			{
@@ -455,7 +455,7 @@ SOURCE_VIEW::SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst)
 	//OpenSourceFile("program\\ps.c");
 	//OpenSourceFile("program\\seadogs.c");
 
-	INIFILE* pI = fio->OpenIniFile(PROJECT_NAME);
+  auto pI = fio->OpenIniFile(PROJECT_NAME);
 	if (pI)
 	{
 		char buffer[1024];

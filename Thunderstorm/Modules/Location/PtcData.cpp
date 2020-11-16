@@ -70,7 +70,7 @@ bool PtcData::Load(const char* path)
 		delete buf;
 		return false;
 	}
-	PtcHeader& hdr = *(PtcHeader *)buf;
+  auto& hdr = *(PtcHeader *)buf;
 	if (hdr.id != PTC_ID)
 	{
 		api->Trace("Ptc(\"%s\") -> invalide file ID", path);
@@ -126,8 +126,8 @@ void PtcData::SFLB_PotectionLoad()
 #endif
 {
 	//Данные
-	char* buf = (char *)data;
-	PtcHeader& hdr = *(PtcHeader *)buf;
+  auto buf = (char *)data;
+  auto& hdr = *(PtcHeader *)buf;
 	//Треугольники
 	uint32_t tsize = sizeof(PtcHeader);
 	triangle = (PtcTriangle *)(buf + tsize);
@@ -176,8 +176,8 @@ void PtcData::SFLB_PotectionLoad()
 long PtcData::FindNode(const CVECTOR& pos, float& y)
 {
 	//Позиция на карте
-	long mapX = long((pos.x - min.x) / ws);
-	long mapZ = long((pos.z - min.z) / ls);
+  auto mapX = long((pos.x - min.x) / ws);
+  auto mapZ = long((pos.z - min.z) / ls);
 	if (mapX < 0 || mapX >= w) return -1;
 	if (mapZ < 0 || mapZ >= l) return -1;
 	//Перебираем треугольники

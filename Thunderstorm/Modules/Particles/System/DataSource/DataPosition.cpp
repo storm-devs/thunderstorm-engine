@@ -56,7 +56,7 @@ const char* DataPosition::GetName()
 
 void DataPosition::Write(MemFile* File)
 {
-	Vector vValue = GetValue();
+  auto vValue = GetValue();
 	//api->Trace("Write position %3.2f, %3.2f, %3.2f", vValue.x, vValue.y, vValue.z);
 	File->WriteType(vValue.x);
 	File->WriteType(vValue.y);
@@ -64,7 +64,7 @@ void DataPosition::Write(MemFile* File)
 
 	//save name
 	uint32_t NameLength = Name.size();
-	uint32_t NameLengthPlusZero = NameLength + 1;
+  auto NameLengthPlusZero = NameLength + 1;
 	File->WriteType(NameLengthPlusZero);
 	Assert(NameLength < 128);
 	File->Write(Name.c_str(), NameLength);

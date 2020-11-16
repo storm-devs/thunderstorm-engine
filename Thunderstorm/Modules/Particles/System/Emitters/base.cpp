@@ -35,22 +35,22 @@ BaseEmitter::~BaseEmitter()
 //Родить новые партиклы 
 void BaseEmitter::BornParticles(float DeltaTime)
 {
-	float SavedTime = ElapsedTime;
+  auto SavedTime = ElapsedTime;
 	if (!Visible) return;
 	Matrix matTransform;
 
-	float MatrixBlend = 0.0f;
-	float MatrixBlendInc = 1.0f / INTERPOLATION_STEPS;
+  auto MatrixBlend = 0.0f;
+  auto MatrixBlendInc = 1.0f / INTERPOLATION_STEPS;
 
-	for (int i = 0; i < (int)INTERPOLATION_STEPS; i++)
+	for (auto i = 0; i < (int)INTERPOLATION_STEPS; i++)
 	{
 		BlendMatrix(matWorldTransform, matWorldTransformOld, matWorldTransformNew, MatrixBlend);
 
-		Vector TransformPos = Position * matWorldTransform;
+    auto TransformPos = Position * matWorldTransform;
 		matWorldTransform.pos = TransformPos;
 		MatrixBlend += MatrixBlendInc;
 
-		float DeltaTimeDiv = DeltaTime / INTERPOLATION_STEPS;
+    auto DeltaTimeDiv = DeltaTime / INTERPOLATION_STEPS;
 		IncreaseTime(DeltaTimeDiv);
 
 		// Если запаузился эмиттер досрочный выход
@@ -66,11 +66,11 @@ void BaseEmitter::BornParticles(float DeltaTime)
 			if (!ParticleTypes[n].Visible) continue;
 
 
-			float EmissionRate = ParticleTypes[n].EmissionRate->GetRandomValue(ElapsedTime, LifeTime);
+      auto EmissionRate = ParticleTypes[n].EmissionRate->GetRandomValue(ElapsedTime, LifeTime);
 			EmissionRate *= DeltaTimeDiv;
 
 			// How many particles remain unemissed from last frame
-			float ParticlesRemain = ParticleTypes[n].Remain;
+      auto ParticlesRemain = ParticleTypes[n].Remain;
 
 			ParticlesRemain += EmissionRate;
 			ParticleTypes[n].Remain = ParticlesRemain;
@@ -80,9 +80,9 @@ void BaseEmitter::BornParticles(float DeltaTime)
 				ParticleTypes[n].Remain -= 1.0f;
 				if (ParticleTypes[n].ActiveCount < ParticleTypes[n].MaxParticlesCount)
 				{
-					Vector ParticlePos = GetNewParticlePosition(DeltaTime);
+          auto ParticlePos = GetNewParticlePosition(DeltaTime);
 					GetEmissionDirection(matTransform);
-					Vector VelDir = matTransform.vy;
+          auto VelDir = matTransform.vy;
 					switch (ParticleTypes[n].Type)
 					{
 					case BILLBOARD_PARTICLE:
@@ -150,7 +150,7 @@ void BaseEmitter::AttachToDataSource(DataSource::EmitterDesc* pEmitter)
 
 	for (uint32_t n = 0; n < pEmitter->Particles.size(); n++)
 	{
-		DataSource::ParticleDesc* pDesc = &pEmitter->Particles[n];
+    auto pDesc = &pEmitter->Particles[n];
 		switch (pDesc->Type)
 		{
 		case BILLBOARD_PARTICLE:
@@ -181,7 +181,7 @@ void BaseEmitter::CreateBillBoardParticle(FieldList& Fields)
 
 	ParticleTypes.push_back(structParticleType{});
 	//structParticleType* NewBillBoard = &ParticleTypes[ParticleTypes.Add()];
-	structParticleType* NewBillBoard = &ParticleTypes.back();
+  auto NewBillBoard = &ParticleTypes.back();
 	NewBillBoard->Type = BILLBOARD_PARTICLE;
 	NewBillBoard->EmissionRate = Fields.FindGraph(EMISSION_RATE);
 	NewBillBoard->MaxParticlesCount = Fields.GetFloatAsInt(MAX_PARTICLES_COUNT);
@@ -199,7 +199,7 @@ void BaseEmitter::CreateModelParticle(FieldList& Fields)
 
 	ParticleTypes.push_back(structParticleType{});
 	//structParticleType* NewModel = &ParticleTypes[ParticleTypes.Add()];
-	structParticleType* NewModel = &ParticleTypes.back();
+  auto NewModel = &ParticleTypes.back();
 	NewModel->Type = MODEL_PARTICLE;
 	NewModel->EmissionRate = Fields.FindGraph(PARTICLE_EMISSION_RATE);
 	NewModel->MaxParticlesCount = Fields.GetFloatAsInt(PARTICLE_MAX_COUNT);
@@ -280,8 +280,8 @@ void BaseEmitter::BlendMatrix(Matrix& result, const Matrix& mat1, const Matrix& 
 {
 	Quaternion qRot1(mat1);
 	Quaternion qRot2(mat2);
-	Vector vPos1 = mat1.pos;
-	Vector vPos2 = mat2.pos;
+  auto vPos1 = mat1.pos;
+  auto vPos2 = mat2.pos;
 
 	Quaternion qBlend;
 	qBlend.SLerp(qRot1, qRot2, BlendK);
@@ -403,7 +403,7 @@ void BaseEmitter::Editor_UpdateCachedData()
 
 void BaseEmitter::SetName(const char* Name)
 {
-	DataString* EmitterName = pEmitter->Fields.FindString(EMITTER_NAME);
+  auto EmitterName = pEmitter->Fields.FindString(EMITTER_NAME);
 	Assert(EmitterName);
 	EmitterName->SetValue(Name);
 	Editor_UpdateCachedData();

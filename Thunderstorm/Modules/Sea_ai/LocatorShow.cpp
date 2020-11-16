@@ -51,7 +51,7 @@ const char* SeaLocatorShow::GetLocatorName(ATTRIBUTES* pA)
 
 const char* SeaLocatorShow::GetLocatorGroupName(ATTRIBUTES* pA)
 {
-	ATTRIBUTES* pAParent = pA->GetParent();
+  auto pAParent = pA->GetParent();
 	Assert(pAParent);
 	return pAParent->GetThisName();
 }
@@ -73,12 +73,12 @@ void SeaLocatorShow::PrintLocator(ATTRIBUTES* pA)
 	if (!sphereNumTrgs) CreateSphere();
 	CMatrix mPos;
 
-	float d = view.Vz() | view.Pos();
+  auto d = view.Vz() | view.Pos();
 
-	long fh = long(AIHelper::pRS->CharHeight(FONT_DEFAULT) * fScale);
+  auto fh = long(AIHelper::pRS->CharHeight(FONT_DEFAULT) * fScale);
 
-	CVECTOR vPos = GetLocatorPos(pA);
-	float fAng = GetLocatorAng(pA);
+  auto vPos = GetLocatorPos(pA);
+  auto fAng = GetLocatorAng(pA);
 	if ((vPos | view.Vz()) < d) return;
 
 	vPos.y += 1.0f;
@@ -99,13 +99,13 @@ void SeaLocatorShow::PrintLocator(ATTRIBUTES* pA)
 
 	if (pGName = GetLocatorGroupName(pA)) AIHelper::Print(vPos.x, vPos.y - fh * 0.8f, fScale, "grp: \"%s\"", pGName);
 	if (pName = GetLocatorName(pA)) AIHelper::Print(vPos.x, vPos.y, fScale, "loc: \"%s\"", pName);
-	float fRadius = GetLocatorRadius(pA);
+  auto fRadius = GetLocatorRadius(pA);
 	AIHelper::Print(vPos.x, vPos.y + fh * 0.8f, fScale, "rad: %.2f", fRadius);
 	if (fRadius > 0.0f)
 	{
 		std::vector<SphVertex> Vrts;
-		CVECTOR vPos1 = GetLocatorPos(pA);
-		CVECTOR vCenter = CVECTOR(vPos1.x, 2.0f, vPos1.z);
+    auto vPos1 = GetLocatorPos(pA);
+    auto vCenter = CVECTOR(vPos1.x, 2.0f, vPos1.z);
 
 		//SphVertex* pVrt = &Vrts[Vrts.Add()];
 		//pVrt->v = vCenter;
@@ -113,7 +113,7 @@ void SeaLocatorShow::PrintLocator(ATTRIBUTES* pA)
 		Vrts.push_back(SphVertex{vCenter, 0x4F00FF00});
 		for (uint32_t i = 0; i < 32; i++)
 		{
-			float fAngle = float(i) / 31.0f * PIm2;
+      auto fAngle = float(i) / 31.0f * PIm2;
 			//pVrt = &Vrts[Vrts.Add()];			
 			//pVrt->v = vCenter + CVECTOR(sinf(fAngle) * fRadius, 0.0f, cosf(fAngle) * fRadius);
 			//pVrt->c = 0x0F00FF00
@@ -206,28 +206,28 @@ void SeaLocatorShow::CreateSphere()
 
 	if (sphereVertex) return;
 
-	const float myPI = 3.1415926535897932f;
+	const auto myPI = 3.1415926535897932f;
 	const long a1 = 32;
-	const long a2 = (a1 / 2);
+	const auto a2 = (a1 / 2);
 
 	sphereNumTrgs = a1 * a2 * 2;
 	sphereVertex = new SphVertex[sphereNumTrgs * 6];
 
-	CVECTOR light = !CVECTOR(0.0f, 0.0f, 1.0f);
+  auto light = !CVECTOR(0.0f, 0.0f, 1.0f);
 	float kColor;
 	//Заполняем вершины
 	for (long i = 0, t = 0; i < a2; i++)
 	{
-		float r1 = sinf(myPI * i / float(a2));
-		float y1 = cosf(myPI * i / float(a2));
-		float r2 = sinf(myPI * (i + 1) / float(a2));
-		float y2 = cosf(myPI * (i + 1) / float(a2));
+    auto r1 = sinf(myPI * i / float(a2));
+    auto y1 = cosf(myPI * i / float(a2));
+    auto r2 = sinf(myPI * (i + 1) / float(a2));
+    auto y2 = cosf(myPI * (i + 1) / float(a2));
 		for (long j = 0; j < a1; j++)
 		{
-			float x1 = sinf(2.0f * myPI * j / float(a1));
-			float z1 = cosf(2.0f * myPI * j / float(a1));
-			float x2 = sinf(2.0f * myPI * (j + 1) / float(a1));
-			float z2 = cosf(2.0f * myPI * (j + 1) / float(a1));
+      auto x1 = sinf(2.0f * myPI * j / float(a1));
+      auto z1 = cosf(2.0f * myPI * j / float(a1));
+      auto x2 = sinf(2.0f * myPI * (j + 1) / float(a1));
+      auto z2 = cosf(2.0f * myPI * (j + 1) / float(a1));
 			//0
 			sphereVertex[t * 3 + 0].v.x = r1 * x1;
 			sphereVertex[t * 3 + 0].v.y = y1;

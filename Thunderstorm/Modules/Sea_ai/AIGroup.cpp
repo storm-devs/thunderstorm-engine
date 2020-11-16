@@ -26,7 +26,7 @@ AIGroup::~AIGroup()
 
 void AIGroup::AddShip(entid_t eidShip, ATTRIBUTES* pACharacter, ATTRIBUTES* pAShip)
 {
-	ATTRIBUTES* pAMode = pACharacter->FindAClass(pACharacter, "Ship.Mode");
+  auto pAMode = pACharacter->FindAClass(pACharacter, "Ship.Mode");
 	AIShip* pShip = nullptr;
 	if (pAMode)
 	{
@@ -39,7 +39,7 @@ void AIGroup::AddShip(entid_t eidShip, ATTRIBUTES* pACharacter, ATTRIBUTES* pASh
 	}
 	if (!pShip) pShip = new AIShipWar();
 
-	CVECTOR vShipPos = CVECTOR(vInitGroupPos.x, vInitGroupPos.y, vInitGroupPos.z) - (aGroupShips.size() *
+  auto vShipPos = CVECTOR(vInitGroupPos.x, vInitGroupPos.y, vInitGroupPos.z) - (aGroupShips.size() *
 		fDistanceBetweenGroupShips) * CVECTOR(sinf(vInitGroupPos.y), 0.0f, cosf(vInitGroupPos.y));
 
 	pShip->CreateShip(eidShip, pACharacter, pAShip, &vShipPos);
@@ -64,7 +64,7 @@ bool AIGroup::isMainGroup()
 
 AIShip* AIGroup::GetMainShip()
 {
-	AIShip* pShip = AIShip::FindShip(GetCommanderACharacter());
+  auto pShip = AIShip::FindShip(GetCommanderACharacter());
 	//return AIShip::FindShip(GetCommanderACharacter());
 	/*if (aGroupShips.size() == 0) return null;
 	if (isMainGroup()) 
@@ -81,9 +81,9 @@ void AIGroup::Execute(float fDeltaTime)
 	{
 		if (!sLocationNearOtherGroup.empty())
 		{
-			float fNewAng = FRAND(PIm2);
-			AIGroup* pG = FindGroup(sLocationNearOtherGroup.c_str());
-			CVECTOR vNewGroupPos = pG->vInitGroupPos + ((100.0f + FRAND(200.0f)) * CVECTOR(
+      auto fNewAng = FRAND(PIm2);
+      auto pG = FindGroup(sLocationNearOtherGroup.c_str());
+      auto vNewGroupPos = pG->vInitGroupPos + ((100.0f + FRAND(200.0f)) * CVECTOR(
 				sinf(fNewAng), 0.0f, cosf(fNewAng)));
 			if (pG)
 				for (uint32_t i = 0; i < aGroupShips.size(); i++)
@@ -124,14 +124,14 @@ void AIGroup::Execute(float fDeltaTime)
 
 	if (!isMainGroup())
 	{
-		float fMinimalSpeed = 1e+10f;
+    auto fMinimalSpeed = 1e+10f;
 		for (uint32_t i = 0; i < aGroupShips.size(); i++)
 		{
-			float fCurSpeed = aGroupShips[i]->GetShipBasePointer()->GetCurrentSpeed();
+      auto fCurSpeed = aGroupShips[i]->GetShipBasePointer()->GetCurrentSpeed();
 			if (fCurSpeed < fMinimalSpeed) fMinimalSpeed = fCurSpeed;
 		}
 
-		bool bSetFixedSpeed = sCommand == "move";
+    auto bSetFixedSpeed = sCommand == "move";
 
 		for (uint32_t i = 0; i < aGroupShips.size(); i++)
 			aGroupShips[i]->GetShipBasePointer()->SetFixedSpeed(bSetFixedSpeed, fMinimalSpeed);
@@ -171,7 +171,7 @@ bool AIGroup::isDead()
 
 float AIGroup::GetPower()
 {
-	float fPower = 0.0f;
+  auto fPower = 0.0f;
 	for (uint32_t i = 0; i < aGroupShips.size(); i++) fPower += aGroupShips[i]->GetPower();
 	return fPower;
 }

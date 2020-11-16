@@ -157,7 +157,7 @@ public:
 			STORM_DELETE(sEventName);
 			while (pNextControl)
 			{
-				COMMAND_REDIRECT* pOld = pNextControl;
+        auto pOld = pNextControl;
 				pNextControl = pNextControl->next;
 				delete pOld;
 			}

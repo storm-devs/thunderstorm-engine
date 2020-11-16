@@ -222,7 +222,7 @@ void BISignIcon::Init(ATTRIBUTES* pRoot, ATTRIBUTES* pA)
 
 void BISignIcon::Recollect()
 {
-	long n = CalculateSignQuantity();
+  auto n = CalculateSignQuantity();
 	UpdateBuffers(n);
 }
 
@@ -300,12 +300,12 @@ long BISignIcon::CalculateSignQuantity()
 
 void BISignIcon::UpdateBuffers(long nQ)
 {
-	long nBackSquareQ = nQ;
-	long nSignStateSquareQ = nQ * 2;
-	long nSignStarSquareQ = nQ;
-	long nSignFaceSquareQ = nQ;
+  auto nBackSquareQ = nQ;
+  auto nSignStateSquareQ = nQ * 2;
+  auto nSignStarSquareQ = nQ;
+  auto nSignFaceSquareQ = nQ;
 
-	long nMaxSignQ = BIUtils::GetMaxFromFourLong(nBackSquareQ, nSignStateSquareQ, nSignStarSquareQ, nSignFaceSquareQ);
+  auto nMaxSignQ = BIUtils::GetMaxFromFourLong(nBackSquareQ, nSignStateSquareQ, nSignStarSquareQ, nSignFaceSquareQ);
 	if (m_nMaxSquareQ != nMaxSignQ)
 	{
 		m_nMaxSquareQ = nMaxSignQ;
@@ -395,8 +395,8 @@ long BISignIcon::WriteSquareToVBuff(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32
 
 	auto fLeft = (float)(center.x - size.x / 2);
 	auto fTop = (float)(center.y - size.y / 2);
-	float fRight = fLeft + size.x;
-	float fBottom = fTop + size.y;
+  auto fRight = fLeft + size.x;
+  auto fBottom = fTop + size.y;
 
 	pv[0].pos.x = fLeft;
 	pv[0].pos.y = fTop;
@@ -440,18 +440,18 @@ long BISignIcon::WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, const FRECT
 
 	auto fLeft = (float)(center.x - size.x / 2);
 	auto fTop = (float)(center.y - size.y / 2);
-	float fRight = fLeft + size.x;
-	float fBottom = fTop + size.y;
+  auto fRight = fLeft + size.x;
+  auto fBottom = fTop + size.y;
 
 	fLeft += size.x * fClampLeft;
 	fRight -= size.x * fClampRight;
 	fTop += size.y * fClampUp;
 	fBottom += size.y * fClampDown;
 
-	float fLeftUV = uv.left + (uv.right - uv.left) * fClampLeft;
-	float fRightUV = uv.right - (uv.right - uv.left) * fClampRight;
-	float fTopUV = uv.top + (uv.bottom - uv.top) * fClampUp;
-	float fBottomUV = uv.bottom - (uv.bottom - uv.top) * fClampDown;
+  auto fLeftUV = uv.left + (uv.right - uv.left) * fClampLeft;
+  auto fRightUV = uv.right - (uv.right - uv.left) * fClampRight;
+  auto fTopUV = uv.top + (uv.bottom - uv.top) * fClampUp;
+  auto fBottomUV = uv.bottom - (uv.bottom - uv.top) * fClampDown;
 
 	pv[0].pos.x = fLeft;
 	pv[0].pos.y = fTop;

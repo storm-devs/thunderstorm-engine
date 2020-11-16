@@ -16,12 +16,12 @@ bool GetStringLine(char* & pStr, char* bufer, long bufSize)
 	if (pStr == nullptr || bufer == nullptr || bufSize == 0) return false;
 	bufer[0] = 0;
 
-	char* ps = pStr;
+  auto ps = pStr;
 	while (*ps && (*ps == 32 || *ps == 9 || *ps == 10 || *ps == 13)) ps++;
-	char* pStart = ps;
+  auto pStart = ps;
 
 	while (*ps && *ps != 10 && *ps != 13) ps++;
-	char* pEnd = ps;
+  auto pEnd = ps;
 	pStr = pEnd;
 
 	if (pEnd == pStart && *ps == 0) return false;
@@ -45,7 +45,7 @@ void GetQuotedString(char* inBuf, char* outBuf, long bufSize)
 	while (*inBuf && *inBuf != '\"') inBuf++;
 	if (*inBuf) inBuf++;
 
-	int bufIdx = 0;
+  auto bufIdx = 0;
 	while (*inBuf && *inBuf != '\"' && bufIdx < bufSize - 1)
 	{
 		*outBuf = *inBuf;
@@ -145,8 +145,8 @@ void TMPTELEPORT::Realize(uint32_t Delta_Time)
 {
 	if (m_nStrQuantity > 0)
 	{
-		int j = 0;
-		long ftop = m_topPos;
+    auto j = 0;
+    auto ftop = m_topPos;
 		for (int i = m_nCurStr; i < m_nStrQuantity; i++)
 		{
 			if (j >= m_showStrQuantity) break;
@@ -164,7 +164,7 @@ void TMPTELEPORT::ReleaseAll()
 {
 	if (m_descrArray != nullptr)
 	{
-		for (int i = 0; i < m_nStrQuantity; i++)
+		for (auto i = 0; i < m_nStrQuantity; i++)
 		{
 			DELETE_PTR(m_descrArray[i].name);
 		}
@@ -181,7 +181,7 @@ uint64_t TMPTELEPORT::ProcessMessage(MESSAGE& message)
 	{
 	case 42222:
 		{
-			ATTRIBUTES* pA = message.AttributePointer();
+      auto pA = message.AttributePointer();
 			SetShowData(pA);
 			if (m_nStrQuantity == 0)
 				m_nShowType = 0;
@@ -205,9 +205,9 @@ void TMPTELEPORT::SetShowData(ATTRIBUTES* pA)
 		throw std::exception("Allocate memory error");
 	}
 
-	for (int i = 0; i < m_nStrQuantity; i++)
+	for (auto i = 0; i < m_nStrQuantity; i++)
 	{
-		char* tmpStr = pA->GetAttribute(i);
+    auto tmpStr = pA->GetAttribute(i);
 		m_descrArray[i].name = nullptr;
 		m_descrArray[i].num = i;
 		if (tmpStr == nullptr) continue;
@@ -225,11 +225,11 @@ void TMPTELEPORT::SetShowData(ATTRIBUTES* pA)
 void TMPTELEPORT::SortShowData()
 {
 	if (m_nStrQuantity == 0) return;
-	bool bContinueSort = true;
+  auto bContinueSort = true;
 	do
 	{
 		bContinueSort = false;
-		for (int i = 1; i < m_nStrQuantity; i++)
+		for (auto i = 1; i < m_nStrQuantity; i++)
 		{
 			if (m_descrArray[i - 1].name == nullptr) continue;
 			if (m_descrArray[i].name == nullptr)
@@ -250,11 +250,11 @@ void TMPTELEPORT::SortShowData()
 
 void TMPTELEPORT::XChange(TELEPORT_DESCR& d1, TELEPORT_DESCR& d2)
 {
-	int n = d1.num;
+  auto n = d1.num;
 	d1.num = d2.num;
 	d2.num = n;
 
-	char* nm = d1.name;
+  auto nm = d1.name;
 	d1.name = d2.name;
 	d2.name = nm;
 }
@@ -263,17 +263,17 @@ bool FINDFILESINTODIRECTORY::Init()
 {
 	if (AttributesPointer)
 	{
-		char* dirName = AttributesPointer->GetAttribute("dir");
-		char* maskName = AttributesPointer->GetAttribute("mask");
+    auto dirName = AttributesPointer->GetAttribute("dir");
+    auto maskName = AttributesPointer->GetAttribute("mask");
 		char fullName[512];
 		fullName[0] = 0;
 		if (dirName) sprintf_s(fullName, "%s\\", dirName);
 		if (maskName) strcat_s(fullName, maskName);
 		else strcat_s(fullName, "*.*");
 		WIN32_FIND_DATA finddat;
-		HANDLE hdl = fio->_FindFirstFile(fullName, &finddat);
-		ATTRIBUTES* pA = AttributesPointer->CreateSubAClass(AttributesPointer, "filelist");
-		for (int file_idx = 0; hdl != INVALID_HANDLE_VALUE; file_idx++)
+    auto hdl = fio->_FindFirstFile(fullName, &finddat);
+    auto pA = AttributesPointer->CreateSubAClass(AttributesPointer, "filelist");
+		for (auto file_idx = 0; hdl != INVALID_HANDLE_VALUE; file_idx++)
 		{
 			char sname[32];
 			sprintf_s(sname, "id%d", file_idx);
@@ -292,11 +292,11 @@ bool FINDDIALOGNODES::Init()
 {
 	if (AttributesPointer)
 	{
-		char* fileName = AttributesPointer->GetAttribute("file");
-		ATTRIBUTES* pA = AttributesPointer->CreateSubAClass(AttributesPointer, "nodelist");
+    auto fileName = AttributesPointer->GetAttribute("file");
+    auto pA = AttributesPointer->CreateSubAClass(AttributesPointer, "nodelist");
 		if (fileName && pA)
 		{
-			HANDLE hfile = fio->_CreateFile(fileName,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+      auto hfile = fio->_CreateFile(fileName,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 			if (hfile == INVALID_HANDLE_VALUE)
 			{
 				api->Trace("WARNING! Can`t dialog file %s", fileName);
@@ -311,7 +311,7 @@ bool FINDDIALOGNODES::Init()
 				return false;
 			}
 
-			char* fileBuf = new char[filesize + 1];
+      auto fileBuf = new char[filesize + 1];
 			if (fileBuf == nullptr)
 			{
 				api->Trace("Can`t create buffer for read dialog file %s", fileName);
@@ -332,10 +332,10 @@ bool FINDDIALOGNODES::Init()
 			fileBuf[filesize] = 0;
 
 			// теперь есть буфер - начнем его анализировать
-			char* pStr = fileBuf;
+      auto pStr = fileBuf;
 			char param[1024];
 
-			int nodIdx = 0;
+      auto nodIdx = 0;
 			while (GetStringLine(pStr, param, sizeof(param) - 1))
 			{
 				if (strlen(param) < 5 || _strnicmp(param, "case", 4)) continue;

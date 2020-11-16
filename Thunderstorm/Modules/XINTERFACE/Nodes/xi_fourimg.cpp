@@ -22,10 +22,10 @@ CXI_FOURIMAGE::~CXI_FOURIMAGE()
 
 int CXI_FOURIMAGE::CommandExecute(int wActCode)
 {
-	int retVal = -1;
+  auto retVal = -1;
 	if (m_bUse)
 	{
-		int newSelectItem = m_nSelectItem;
+    auto newSelectItem = m_nSelectItem;
 
 		switch (wActCode)
 		{
@@ -37,7 +37,7 @@ int CXI_FOURIMAGE::CommandExecute(int wActCode)
 			break;
 		case ACTION_UPSTEP:
 			{
-				VDATA* pvdat = api->Event("FI_UpCom", "l", m_nSelectItem);
+        auto pvdat = api->Event("FI_UpCom", "l", m_nSelectItem);
 				if (pvdat == nullptr || pvdat->GetLong() == 0) newSelectItem -= 2;
 			}
 			break;
@@ -82,7 +82,7 @@ int CXI_FOURIMAGE::CommandExecute(int wActCode)
 			m_nSelectItem = newSelectItem;
 
 		// set new current item
-		ATTRIBUTES* tmpAttr = api->Entity_GetAttributeClass(g_idInterface, "FourImage");
+    auto tmpAttr = api->Entity_GetAttributeClass(g_idInterface, "FourImage");
 		tmpAttr->SetAttributeUseDword("current", m_nSelectItem);
 	}
 	return retVal;
@@ -97,7 +97,7 @@ void CXI_FOURIMAGE::Draw(bool bSelected, uint32_t Delta_Time)
 		Update(bSelected, Delta_Time);
 
 		// draw one picture
-		for (int i = 0; i < 4; i++)
+		for (auto i = 0; i < 4; i++)
 		{
 			if (m_oneTexID[i] == -1 || m_oneTexID[i] >= m_nTexturesQuantity) continue;
 			if (m_oneImgID[i] == -1) m_rs->TextureSet(0, m_oneBadTexture);
@@ -110,7 +110,7 @@ void CXI_FOURIMAGE::Draw(bool bSelected, uint32_t Delta_Time)
 		{
 			XI_ONLYONETEX_VERTEX pV[4];
 			FXYRECT textureRect;
-			for (int i = 0; i < 4; i++) pV[i].pos.z = 1.f;
+			for (auto i = 0; i < 4; i++) pV[i].pos.z = 1.f;
 			pPictureService->GetTexturePos(m_nBorderPicture, textureRect);
 			pV[0].tu = textureRect.left;
 			pV[0].tv = textureRect.top;
@@ -135,7 +135,7 @@ void CXI_FOURIMAGE::Draw(bool bSelected, uint32_t Delta_Time)
 		}
 
 		// draw two picture
-		for (int i = 0; i < 4; i++)
+		for (auto i = 0; i < 4; i++)
 		{
 			if (m_twoTexID[i] == -1 || m_twoTexID[i] >= m_nTexturesQuantity) continue;
 			if (m_twoImgID[i] == -1) m_rs->TextureSet(0, m_twoBadTexture);
@@ -146,17 +146,17 @@ void CXI_FOURIMAGE::Draw(bool bSelected, uint32_t Delta_Time)
 		// out to screen the strings if that needed
 		if (bUseOneString || bUseTwoString)
 		{
-			int nAlignment1 = PR_ALIGN_CENTER, nAlignment2 = PR_ALIGN_CENTER;
+      auto nAlignment1 = PR_ALIGN_CENTER, nAlignment2 = PR_ALIGN_CENTER;
 			if (m_xOneOffset > 0) nAlignment1 = PR_ALIGN_RIGHT;
 			else if (m_xOneOffset < 0) nAlignment1 = PR_ALIGN_LEFT;
 			if (m_xTwoOffset > 0) nAlignment2 = PR_ALIGN_RIGHT;
 			else if (m_xTwoOffset < 0) nAlignment2 = PR_ALIGN_LEFT;
 
-			for (int i = 0; i < 4; i++)
+			for (auto i = 0; i < 4; i++)
 			{
 				long posX, posY;
 				posX = (m_imgRect[i].left + m_imgRect[i].right) / 2;
-				uint32_t color = 0xFFFFFFFF;
+        auto color = 0xFFFFFFFF;
 				/*if(i==m_nSelectItem) color=m_dwCurSelectColor;
 				else color=m_dwBaseColor;*/
 
@@ -290,7 +290,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 		m_xTwoOffset = 0;
 	}
 
-	ATTRIBUTES* pAttribute = api->Entity_GetAttributeClass(g_idInterface, "FourImage");
+  auto pAttribute = api->Entity_GetAttributeClass(g_idInterface, "FourImage");
 	if (pAttribute != nullptr)
 	{
 		m_nSelectItem = pAttribute->GetAttributeAsDword("current", 0);
@@ -304,7 +304,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 		else m_twoBadTexture = -1;
 
 		// get textures
-		ATTRIBUTES* pA = pAttribute->GetAttributeClass("ImagesGroup");
+    auto pA = pAttribute->GetAttributeClass("ImagesGroup");
 		if (pA == nullptr) m_nTexturesQuantity = 0;
 		else
 		{
@@ -317,7 +317,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 			}
 			for (i = 0; i < m_nTexturesQuantity; i++)
 			{
-				char* stmp = pA->GetAttribute(i);
+        auto stmp = pA->GetAttribute(i);
 				if (stmp == nullptr) m_sGroupName[i] = nullptr;
 				else
 				{
@@ -336,7 +336,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 		for (i = 0; i < 4; i++)
 		{
 			sprintf_s(param, "pic%d", i + 1);
-			ATTRIBUTES* pAttrTmp = pAttribute->GetAttributeClass(param);
+      auto pAttrTmp = pAttribute->GetAttributeClass(param);
 			if (pAttrTmp != nullptr)
 			{
 				m_bUsed[i] = pAttrTmp->GetAttributeAsDword("selected", 0) != 0;
@@ -348,7 +348,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 				if (m_twoTexID[i] != -1 && m_twoTexID[i] < m_nTexturesQuantity) m_twoImgID[i] = pPictureService->
 					GetImageNum(m_sGroupName[m_twoTexID[i]], pAttrTmp->GetAttribute("img2"));
 				else m_twoImgID[i] = -1;
-				char* tmps = pAttrTmp->GetAttribute("str1");
+        auto tmps = pAttrTmp->GetAttribute("str1");
 				if (tmps != nullptr && *tmps == '#')
 				{
 					const auto len = strlen(tmps);
@@ -393,7 +393,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 		}
 	}
 
-	bool bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle");
+  auto bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle");
 	for (i = 0; i < 4; i++)
 	{
 		sprintf_s(param, "position%d", i + 1);
@@ -463,9 +463,9 @@ void CXI_FOURIMAGE::FillVertex()
 	{
 		FXYRECT textRect1, textRect2;
 
-		for (int i = 0; i < 4; i++)
+		for (auto i = 0; i < 4; i++)
 		{
-			int idx = i * 4;
+      auto idx = i * 4;
 			// get texture rectangles
 			if (m_oneImgID[i] != -1)
 				pPictureService->GetTexturePos(m_oneImgID[i], textRect1);
@@ -515,7 +515,7 @@ void CXI_FOURIMAGE::FillVertex()
 			pVert[19 + idx].tu = textRect2.right;
 			pVert[19 + idx].tv = textRect2.bottom;
 
-			for (int j = 0; j < 4; j++, idx++)
+			for (auto j = 0; j < 4; j++, idx++)
 			{
 				if (i == m_nSelectItem) pVert[16 + idx].color = m_dwCurSelectColor;
 				else pVert[16 + idx].color = m_dwBaseColor;
@@ -534,9 +534,9 @@ void CXI_FOURIMAGE::Update(bool bSelected, uint32_t DeltaTime)
 	auto* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
 	if (pVert != nullptr)
 	{
-		int idx = 0;
-		uint32_t setColor = 0xFFFFFFFF;
-		for (int i = 0; i < 4; i++)
+    auto idx = 0;
+    auto setColor = 0xFFFFFFFF;
+		for (auto i = 0; i < 4; i++)
 		{
 			if (i == m_nSelectItem)
 			{
@@ -548,14 +548,14 @@ void CXI_FOURIMAGE::Update(bool bSelected, uint32_t DeltaTime)
 						m_bColorType = !m_bColorType;
 					}
 
-					uint32_t ad = ALPHA(m_dwDarkSelectColor);
-					uint32_t rd = RED(m_dwDarkSelectColor);
-					uint32_t gd = GREEN(m_dwDarkSelectColor);
-					uint32_t bd = BLUE(m_dwDarkSelectColor);
-					uint32_t al = ALPHA(m_dwLightSelectColor);
-					uint32_t rl = RED(m_dwLightSelectColor);
-					uint32_t gl = GREEN(m_dwLightSelectColor);
-					uint32_t bl = BLUE(m_dwLightSelectColor);
+          auto ad = ALPHA(m_dwDarkSelectColor);
+          auto rd = RED(m_dwDarkSelectColor);
+          auto gd = GREEN(m_dwDarkSelectColor);
+          auto bd = BLUE(m_dwDarkSelectColor);
+          auto al = ALPHA(m_dwLightSelectColor);
+          auto rl = RED(m_dwLightSelectColor);
+          auto gl = GREEN(m_dwLightSelectColor);
+          auto bl = BLUE(m_dwLightSelectColor);
 					uint32_t a, r, g, b;
 					if (m_bColorType)
 					{
@@ -579,7 +579,7 @@ void CXI_FOURIMAGE::Update(bool bSelected, uint32_t DeltaTime)
 			}
 			else setColor = m_dwBaseColor;
 
-			for (int j = 0; j < 4; j++, idx++)
+			for (auto j = 0; j < 4; j++, idx++)
 				if (m_twoTexID[i] != -1) pVert[16 + idx].color = setColor;
 				else pVert[idx].color = setColor;
 		}
@@ -590,7 +590,7 @@ void CXI_FOURIMAGE::Update(bool bSelected, uint32_t DeltaTime)
 
 bool CXI_FOURIMAGE::IsClick(int buttonID, long xPos, long yPos)
 {
-	for (int i = 0; i < 4; i++)
+	for (auto i = 0; i < 4; i++)
 		if (xPos >= m_imgRect[i].left && xPos <= m_imgRect[i].right &&
 			yPos >= m_imgRect[i].top && yPos <= m_imgRect[i].bottom && m_bClickable && m_bUse)
 		{
@@ -605,10 +605,10 @@ bool CXI_FOURIMAGE::IsClick(int buttonID, long xPos, long yPos)
 
 void CXI_FOURIMAGE::ChangePosition(XYRECT& rNewPos)
 {
-	long nXOffset = rNewPos.left - m_rect.left;
-	long nYOffset = rNewPos.top - m_rect.top;
-	long nXToGrow = rNewPos.right - m_rect.right;
-	long nYToGrow = rNewPos.bottom - m_rect.bottom;
+  auto nXOffset = rNewPos.left - m_rect.left;
+  auto nYOffset = rNewPos.top - m_rect.top;
+  auto nXToGrow = rNewPos.right - m_rect.right;
+  auto nYToGrow = rNewPos.bottom - m_rect.bottom;
 
 	m_rect = rNewPos;
 
@@ -647,7 +647,7 @@ void CXI_FOURIMAGE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -670,10 +670,10 @@ void CXI_FOURIMAGE::SaveParametersToIni()
 void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 {
 	char param[256];
-	ATTRIBUTES* pAttribute = api->Entity_GetAttributeClass(g_idInterface, "FourImage");
+  auto pAttribute = api->Entity_GetAttributeClass(g_idInterface, "FourImage");
 	if (pAttribute != nullptr)
 	{
-		for (int i = (nItemNum == -1 ? 0 : nItemNum); i < (nItemNum == -1 ? 4 : nItemNum + 1); i++)
+		for (auto i = (nItemNum == -1 ? 0 : nItemNum); i < (nItemNum == -1 ? 4 : nItemNum + 1); i++)
 		{
 			if (m_pOneStr[i] != nullptr)
 			{
@@ -686,7 +686,7 @@ void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 				m_pTwoStr[i] = nullptr;
 			}
 			sprintf_s(param, "pic%d", i + 1);
-			ATTRIBUTES* pAttrTmp = pAttribute->GetAttributeClass(param);
+      auto pAttrTmp = pAttribute->GetAttributeClass(param);
 			if (pAttrTmp != nullptr)
 			{
 				char* sptr;

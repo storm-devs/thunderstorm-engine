@@ -70,7 +70,7 @@ void CXI_STATUSLINE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, c
 	m_nIndx /= 3;
 
 	// Lock vertex and index buffers and get pointers to this
-	XI_ONLYONETEX_VERTEX* pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
+  auto pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
 	auto* pIBuf = (uint16_t*)m_rs->LockIndexBuffer(m_iBuf);
 
 	if (pVBuf != nullptr && pIBuf != nullptr)
@@ -79,14 +79,14 @@ void CXI_STATUSLINE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, c
 
 		// get lenght of filled status line
 		m_fLineOffset = GetIniFloat(ini1, name1, ini2, name2, "lineOffset", 0.f);
-		float fMediumX = float(m_rect.right - m_rect.left) - m_fLineOffset * 2.f;
-		ATTRIBUTES* pAttr = api->Entity_GetAttributeClass(g_idInterface, "StatusLine");
+    auto fMediumX = float(m_rect.right - m_rect.left) - m_fLineOffset * 2.f;
+    auto pAttr = api->Entity_GetAttributeClass(g_idInterface, "StatusLine");
 		if (pAttr != nullptr) pAttr = pAttr->GetAttributeClass(m_nodeName);
 		if (pAttr != nullptr)
 		{
-			float fMaxValue = pAttr->GetAttributeAsFloat("Max", 0);
-			float fMinValue = pAttr->GetAttributeAsFloat("Min", 0);
-			float fCurValue = pAttr->GetAttributeAsFloat("Value", 0);
+      auto fMaxValue = pAttr->GetAttributeAsFloat("Max", 0);
+      auto fMinValue = pAttr->GetAttributeAsFloat("Min", 0);
+      auto fCurValue = pAttr->GetAttributeAsFloat("Value", 0);
 			if (fMaxValue - fMinValue > 0 && fCurValue >= fMinValue)
 				fMediumX *= (fCurValue - fMinValue) / (fMaxValue - fMinValue);
 		}
@@ -125,7 +125,7 @@ void CXI_STATUSLINE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, c
 		pIBuf[11] = 7; // empty rectangle
 
 		// fill vertex buffer
-		for (int i = 0; i < m_nVert; i++)
+		for (auto i = 0; i < m_nVert; i++)
 			pVBuf[i].pos.z = 1.f;
 		// screen and texture coordinates for filled rectangle
 		pVBuf[0].pos.x = scrRect1.left;
@@ -184,7 +184,7 @@ void CXI_STATUSLINE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -213,13 +213,13 @@ void CXI_STATUSLINE::Refresh()
 	if (m_vBuf == -1) return;
 	auto* pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
 
-	ATTRIBUTES* pAttr = api->Entity_GetAttributeClass(g_idInterface, "StatusLine");
+  auto pAttr = api->Entity_GetAttributeClass(g_idInterface, "StatusLine");
 	if (pAttr != nullptr) pAttr = pAttr->GetAttributeClass(m_nodeName);
 	if (pAttr != nullptr)
 	{
-		float fMediumX = float(m_rect.right - m_rect.left) - m_fLineOffset * 2.f;
-		float fMaxValue = pAttr->GetAttributeAsFloat("Max", 0);
-		float fMinValue = pAttr->GetAttributeAsFloat("Min", 0);
+    auto fMediumX = float(m_rect.right - m_rect.left) - m_fLineOffset * 2.f;
+    auto fMaxValue = pAttr->GetAttributeAsFloat("Max", 0);
+    auto fMinValue = pAttr->GetAttributeAsFloat("Min", 0);
 		float fCurValue = pAttr->GetAttributeAsFloat("Value", 0);
 		if (fMaxValue > fMinValue && fCurValue >= fMinValue && fCurValue <= fMaxValue)
 			fMediumX *= (fCurValue - fMinValue) / (fMaxValue - fMinValue);

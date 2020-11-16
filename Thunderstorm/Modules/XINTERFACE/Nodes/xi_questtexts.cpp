@@ -40,7 +40,7 @@ CXI_QUESTTEXTS::STRING_DESCRIBER* CXI_QUESTTEXTS::STRING_DESCRIBER::Add(const ch
 bool GetNextIdFromList(char* & sptr, char* bufQuestID, size_t nSizeBufQuestID, char* buf, size_t bufSize, char* dataBuf)
 {
 	if (sptr == nullptr) return false;
-	char* sstart = sptr;
+  auto sstart = sptr;
 	long idSize = 0;
 	while (*sptr != 0)
 	{
@@ -107,7 +107,7 @@ static void SubRightWord(char* buf, int fontNum, int width, VDX9RENDER* rs)
 {
 	if (buf == nullptr) return;
 	long bufSize = strlen(buf);
-	for (char* pEnd = buf + bufSize; pEnd > buf; pEnd--)
+	for (auto pEnd = buf + bufSize; pEnd > buf; pEnd--)
 	{
 		if (*pEnd == ' ')
 		{
@@ -133,8 +133,8 @@ void CXI_QUESTTEXTS::ReleaseStringes()
 bool CXI_QUESTTEXTS::GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize)
 {
 	if (pInStr == nullptr || buf == nullptr) return false;
-	char* pStart = pInStr;
-	bool bYesEOL = false;
+  auto pStart = pInStr;
+  auto bYesEOL = false;
 	while (*pInStr != 0)
 	{
 		if (*pInStr == 0x0D || *pInStr == 0x0A) bYesEOL = true;
@@ -147,7 +147,7 @@ bool CXI_QUESTTEXTS::GetLineNext(int fontNum, char* & pInStr, char* buf, int buf
 
 	strncpy_s(buf, bufSize, pStart, lineSize);
 	buf[lineSize] = 0;
-	long strWidth = m_rs->StringWidth(buf, fontNum);
+  auto strWidth = m_rs->StringWidth(buf, fontNum);
 	if (strWidth <= m_rect.right - m_rect.left) return true;
 
 	SubRightWord(buf, fontNum, m_rect.right - m_rect.left, m_rs);
@@ -182,12 +182,12 @@ void CXI_QUESTTEXTS::Draw(bool bSelected, uint32_t Delta_Time)
 {
 	if (!m_bUse) return;
 
-	long curY = m_rect.top;
-	int i = 0;
-	for (STRING_DESCRIBER* sd = m_listCur; sd != nullptr && i < m_allStrings; sd = sd->next, i++)
+  auto curY = m_rect.top;
+  auto i = 0;
+	for (auto sd = m_listCur; sd != nullptr && i < m_allStrings; sd = sd->next, i++)
 	{
 		// отобразить строки
-		uint32_t curColor = sd->complete ? m_dwCompleteColor : m_dwNonCompleteColor;
+    auto curColor = sd->complete ? m_dwCompleteColor : m_dwNonCompleteColor;
 		if (sd->lineStr != nullptr && sd->lineStr[0] != 0)
 			m_rs->ExtPrint(m_idFont, curColor, 0,PR_ALIGN_LEFT, true, 1.f, m_screenSize.x, m_screenSize.y,
 			               m_rect.left, curY, "%s", sd->lineStr);
@@ -226,7 +226,7 @@ int CXI_QUESTTEXTS::CommandExecute(int wActCode)
 			break;
 		case ACTION_SPEEDUP:
 			{
-				for (int i = 0; i < m_allStrings; i++)
+				for (auto i = 0; i < m_allStrings; i++)
 				{
 					if (m_listCur->prev == nullptr) break;
 					m_listCur = m_listCur->prev;
@@ -235,7 +235,7 @@ int CXI_QUESTTEXTS::CommandExecute(int wActCode)
 			break;
 		case ACTION_SPEEDDOWN:
 			{
-				for (int i = 0; i < m_allStrings; i++)
+				for (auto i = 0; i < m_allStrings; i++)
 				{
 					if (m_listCur->next == nullptr) break;
 					m_listCur = m_listCur->next;
@@ -262,7 +262,7 @@ void CXI_QUESTTEXTS::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -313,11 +313,11 @@ void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES* pA, int qn)
 		STORM_DELETE(m_listCur);
 	}
 
-	ATTRIBUTES* pAttr = pA->GetAttributeClass(qn);
+  auto pAttr = pA->GetAttributeClass(qn);
 	if (pAttr == nullptr) return;
 
-	bool cFlag = pAttr->GetAttributeAsDword("Complete", 0) != 0;
-	ATTRIBUTES* pATextList = pAttr->GetAttributeClass("Text");
+  auto cFlag = pAttr->GetAttributeAsDword("Complete", 0) != 0;
+  auto pATextList = pAttr->GetAttributeClass("Text");
 	const char* questLogName = pAttr->GetAttribute("LogName");
 	if (!questLogName) questLogName = pAttr->GetThisName();
 
@@ -325,7 +325,7 @@ void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES* pA, int qn)
 	if (ptrOwner->QuestFileReader() && pATextList)
 	{
 		long q = pATextList->GetAttributesNum();
-		for (long n = q - 1; n >= 0; n--)
+		for (auto n = q - 1; n >= 0; n--)
 		{
 			ATTRIBUTES* pAttr = pATextList->GetAttributeClass(n);
 			if (!pAttr) continue;

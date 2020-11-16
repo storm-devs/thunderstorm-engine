@@ -40,13 +40,13 @@ void BITimer::Realize(uint32_t delta_time)
 
 uint64_t BITimer::ProcessMessage(MESSAGE& message)
 {
-	long nMsgCod = message.Long();
+  auto nMsgCod = message.Long();
 	switch (nMsgCod)
 	{
 	case 0:
 		{
 			char eventName[512];
-			float fTime = message.Float();
+      auto fTime = message.Float();
 			message.String(sizeof(eventName) - 1, eventName);
 			OpenTimer(fTime, eventName);
 		}
@@ -81,14 +81,14 @@ bool BITimer::ReadAndCreate()
 	BIUtils::ReadRectFromAttr(AttributesPointer, "timerforeuv", rForeUV, rForeUV);
 
 	// read texture & color
-	char* pcBackTexture = AttributesPointer ? AttributesPointer->GetAttribute("timerbacktexture") : nullptr;
-	char* pcForeTexture = AttributesPointer ? AttributesPointer->GetAttribute("timerforetexture") : nullptr;
-	uint32_t dwColorBack = AttributesPointer
-		                       ? AttributesPointer->GetAttributeAsDword("timerbackcolor", 0xFFFFFFFF)
-		                       : 0xFFFFFFFF;
-	uint32_t dwColorFore = AttributesPointer
-		                       ? AttributesPointer->GetAttributeAsDword("timerforecolor", 0xFFFFFFFF)
-		                       : 0xFFFFFFFF;
+  auto pcBackTexture = AttributesPointer ? AttributesPointer->GetAttribute("timerbacktexture") : nullptr;
+  auto pcForeTexture = AttributesPointer ? AttributesPointer->GetAttribute("timerforetexture") : nullptr;
+  auto dwColorBack = AttributesPointer
+                       ? AttributesPointer->GetAttributeAsDword("timerbackcolor", 0xFFFFFFFF)
+                       : 0xFFFFFFFF;
+  auto dwColorFore = AttributesPointer
+                       ? AttributesPointer->GetAttributeAsDword("timerforecolor", 0xFFFFFFFF)
+                       : 0xFFFFFFFF;
 
 	// create
 	if (pcBackTexture)

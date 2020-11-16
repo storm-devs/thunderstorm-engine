@@ -198,8 +198,8 @@ inline Plane Triangle::OrtoPlane(long start) const
 {
 	Plane plane;
 	//Вершины
-	const Vector& ps = p[start % 3];
-	const Vector& pe = p[NextIndex(start)];
+	const auto& ps = p[start % 3];
+	const auto& pe = p[NextIndex(start)];
 	//Нормаль
 	plane.n = !(((p3 - p1) ^ (p1 - p2)) ^ (ps - pe));
 	//Дистанция
@@ -251,20 +251,20 @@ inline bool Triangle::FindClosestPoint(const Vector& trgNormal, Vector& pointOnP
 	for (long i = 0; i < 3; i++)
 	{
 		//Ребро
-		const Vector& ps = p[i];
-		const Vector& pe = p[i + 1 < 3 ? i + 1 : 0];
-		Vector edge = pe - ps;
+		const auto& ps = p[i];
+		const auto& pe = p[i + 1 < 3 ? i + 1 : 0];
+    auto edge = pe - ps;
 		//Если треугольник имеет недопустимый размер ребра, не тестим больше его
-		float edgeLen = edge.Normalize();
+    auto edgeLen = edge.Normalize();
 		if (edgeLen < 1e-37f) return false;
 		//Ортоганальная плоскость
 		Plane orto(edge ^ trgNormal, ps);
 		//Определяем положение точки
-		float distToEdge = orto.Dist(pointOnPlane);
+    auto distToEdge = orto.Dist(pointOnPlane);
 		if (distToEdge > 0.0f)
 		{
 			//Определяем длинну проекции (pointOnPlane - ps) на ребре
-			float prjLength = edge | (pointOnPlane - ps);
+      auto prjLength = edge | (pointOnPlane - ps);
 			if (prjLength < 0.0f)
 			{
 				cPoint = &ps;
@@ -306,17 +306,17 @@ inline Triangle::CoIntersectionResult Triangle::IsCoplanarIntersection(const Tri
 	if (~(t.p1 - t.p2) < intsEps * intsEps || ~(t.p2 - t.p3) < intsEps * intsEps || ~(t.p3 - t.p1) < intsEps * intsEps)
 		return cir_deg_t;
 	//Получим нормали
-	Vector n = (p1 - p2) ^ (p1 - p3);
+  auto n = (p1 - p2) ^ (p1 - p3);
 	if (n.Normalize() < 0.0000001f) return cir_deg_cur;
-	Vector nt = (t.p1 - t.p2) ^ (t.p1 - t.p3);
+  auto nt = (t.p1 - t.p2) ^ (t.p1 - t.p3);
 	if (nt.Normalize() < 0.0000001f) return cir_deg_t;
 	//Проверим копланарность
-	float cs = n | nt;
-	static const float cosMin = cosf(0.5f * 3.141592654f / 180.0f);
+  auto cs = n | nt;
+	static const auto cosMin = cosf(0.5f * 3.141592654f / 180.0f);
 	if (cs < cosMin) return cir_none;
 	//Дистанция плоскостей
-	float d = n | p1;
-	float dt = n | t.p1;
+  auto d = n | p1;
+  auto dt = n | t.p1;
 	if (fabs(d - dt) > intsEps) return cir_none;
 	//Проверим на совпадение
 	if (~(p1 - t.p1) + ~(p2 - t.p2) + ~(p3 - t.p3) < intsEps * intsEps) return cir_equal;
@@ -336,8 +336,8 @@ inline Triangle::CoIntersectionResult Triangle::IsCoplanarIntersection(const Tri
 	if (!count) return cir_coplanar;
 	for (long s = 0; s < count; s++)
 	{
-		long e = s + 1 < count ? s + 1 : 0;
-		float dist = ~(poly2[e] - poly2[s]);
+    auto e = s + 1 < count ? s + 1 : 0;
+    auto dist = ~(poly2[e] - poly2[s]);
 		if (dist < intsEps * intsEps) return cir_coplanar;
 	}
 	return cir_intersection;
@@ -352,7 +352,7 @@ inline long Triangle::z_sysClipTriangleEdgePlane(Plane plane, Vector src[8], Vec
 		//Если в области, добавляем вершину
 		if (ds <= 0.0f) dst[c++] = src[s];
 		//Индекс следующего
-		long e = s + 1 < count ? s + 1 : 0;
+    auto e = s + 1 < count ? s + 1 : 0;
 		//Дистанции до плоскости
 		de = plane * src[e];
 		//Если с одной стороны, то продолжаем

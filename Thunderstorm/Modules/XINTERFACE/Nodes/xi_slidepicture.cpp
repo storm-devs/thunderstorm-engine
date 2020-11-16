@@ -12,16 +12,16 @@ void SetTextureCoordinate(XI_ONETEX_VERTEX v[4], FXYRECT tr, float angle)
 	}
 	else
 	{
-		float x = (tr.left + tr.right) * .5f;
-		float y = (tr.top + tr.bottom) * .5f;
-		float width = tr.right - tr.left;
-		float height = tr.bottom - tr.top;
-		float ca = cosf(angle);
-		float sa = sinf(angle);
-		float wca = width / 2 * ca;
-		float wsa = width / 2 * sa;
-		float hca = height / 2 * ca;
-		float hsa = height / 2 * sa;
+    auto x = (tr.left + tr.right) * .5f;
+    auto y = (tr.top + tr.bottom) * .5f;
+    auto width = tr.right - tr.left;
+    auto height = tr.bottom - tr.top;
+    auto ca = cosf(angle);
+    auto sa = sinf(angle);
+    auto wca = width / 2 * ca;
+    auto wsa = width / 2 * sa;
+    auto hca = height / 2 * ca;
+    auto hsa = height / 2 * sa;
 		v[0].tu = x + (-wca + hsa);
 		v[0].tv = y + (-wsa - hca);
 		v[1].tu = x + (-wca - hsa);
@@ -100,7 +100,7 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2,
 
 	m_texRect = GetIniFloatRect(ini1, name1, ini2, name2, "textureRect", FXYRECT(0.f, 0.f, 1.f, 1.f));
 
-	uint32_t color = GetIniARGB(ini1, name1, ini2, name2, "color", 0xFFFFFFFF);
+  auto color = GetIniARGB(ini1, name1, ini2, name2, "color", 0xFFFFFFFF);
 
 	// Create rectangle
 	m_v[0].pos.x = (float)m_rect.left;
@@ -135,7 +135,7 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2,
 	nSlideListSize = 0;
 	pSlideSpeedList = nullptr;
 
-	bool bUse1Ini = true;
+  auto bUse1Ini = true;
 	// Расчет размера таблицы скоростей
 	if (ini1->ReadString(name1, "speed", param, sizeof(param) - 1, ""))
 	{
@@ -219,7 +219,7 @@ void CXI_SLIDEPICTURE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -254,8 +254,8 @@ void CXI_SLIDEPICTURE::Update(uint32_t Delta_Time)
 		curRotate = minRotate + rand() * deltaRotate / RAND_MAX;
 	}
 
-	float xadd = pSlideSpeedList[nCurSlide].xspeed * (Delta_Time / 1000.f);
-	float yadd = pSlideSpeedList[nCurSlide].yspeed * (Delta_Time / 1000.f);
+  auto xadd = pSlideSpeedList[nCurSlide].xspeed * (Delta_Time / 1000.f);
+  auto yadd = pSlideSpeedList[nCurSlide].yspeed * (Delta_Time / 1000.f);
 
 	curAngle += curRotate * Delta_Time / 1000.f;
 

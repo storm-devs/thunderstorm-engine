@@ -40,7 +40,7 @@ void MousePointer::Update()
 void MousePointer::InitMouseCursors()
 {
 	m_nCurrentCursor = -1;
-	ATTRIBUTES* pACursors = m_pARoot ? m_pARoot->GetAttributeClass("cursors") : nullptr;
+  auto pACursors = m_pARoot ? m_pARoot->GetAttributeClass("cursors") : nullptr;
 	if (!pACursors) return;
 
 	BIUtils::ReadPosFromAttr(pACursors, "size", m_cursorsize.x, m_cursorsize.y, 32, 32);
@@ -54,7 +54,7 @@ void MousePointer::InitMouseCursors()
 	long q = pACursors->GetAttributesNum();
 	for (long n = 0; n < q; n++)
 	{
-		ATTRIBUTES* pA = pACursors->GetAttributeClass(n);
+    auto pA = pACursors->GetAttributeClass(n);
 		if (pA)
 		{
 			long i = pA->GetAttributeAsDword("index", -1);
@@ -78,7 +78,7 @@ void MousePointer::InitMouseCursors()
 void MousePointer::MoveCursor()
 {
 	CONTROL_STATE cs;
-	float fDeltaTime = api->GetDeltaTime() * 0.001f;
+  auto fDeltaTime = api->GetDeltaTime() * 0.001f;
 
 	api->Controls->GetControlState("ITurnH", cs);
 	m_mousepos.x += m_mousesensivity.x * fDeltaTime * cs.fValue;
@@ -111,7 +111,7 @@ void MousePointer::SetCurrentCursor()
 		m_pIcon->SetUV(m_aCursors[nNewCursor].uv);
 	}
 
-	RECT pos = GetCurrentCursorIconPos();
+  auto pos = GetCurrentCursorIconPos();
 	m_pIcon->SetPosition(pos.left, pos.top, pos.right, pos.bottom);
 }
 

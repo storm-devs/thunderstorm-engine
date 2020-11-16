@@ -36,7 +36,7 @@ bool BLAST::Init()
 		return false;
 	}
 
-	long RandomNum = ini->GetLong("geo", "randomnum", 0);
+  auto RandomNum = ini->GetLong("geo", "randomnum", 0);
 
 	char name[MAX_PATH];
 	if (ini->ReadString("geo", "file", name, sizeof(name), ""))
@@ -64,7 +64,7 @@ void BLAST::AddGeometry(char* name, long num)
 	//Item[n].geo = gs->CreateGeometry(name,0,0);
 
 	Item.resize(ItemsNum + num); //~!~
-	GEOS* gp = gs->CreateGeometry(name, nullptr, 0);
+  auto gp = gs->CreateGeometry(name, nullptr, 0);
 	for (long n = 0; n < num; n++)
 	{
 		if (n == 0) Item[n + ItemsNum].bDouble = false;
@@ -116,7 +116,7 @@ void BLAST::ProcessTime(uint32_t DT)
 	}
 
 	auto Delta_Time = (float)DT; //*0.1;
-	bool bStop = true;
+  auto bStop = true;
 	for (n = 0; n < ItemsNum; n++)
 	{
 		//if(Item[n].speed > 0) Item[n].speed -= 0.001f*Delta_Time;

@@ -163,7 +163,7 @@ void CXI_SCROLLER::MakeOwnedControl()
 {
 	for (long n = 0; n < (long)m_asOwnedNodes.size(); n++)
 	{
-		CINODE* pNode = ((XINTERFACE*)EntityManager::GetEntityPointer(g_idInterface))->FindNode(
+    auto pNode = ((XINTERFACE*)EntityManager::GetEntityPointer(g_idInterface))->FindNode(
 			m_asOwnedNodes[n].c_str(), nullptr);
 		if (!pNode) continue;
 		switch (pNode->m_nNodeType)
@@ -190,7 +190,7 @@ void CXI_SCROLLER::MakeOwnedControl()
 void CXI_SCROLLER::UpPress()
 {
 	api->Event("ScrollTopChange", "l", -1);
-	float fDelta = GetOwnedStep();
+  auto fDelta = GetOwnedStep();
 	if (fDelta != 0.f)
 	{
 		SetRollerPos(m_fPos - fDelta);
@@ -201,7 +201,7 @@ void CXI_SCROLLER::UpPress()
 void CXI_SCROLLER::DownPress()
 {
 	api->Event("ScrollTopChange", "l", 1);
-	float fDelta = GetOwnedStep();
+  auto fDelta = GetOwnedStep();
 	if (fDelta != 0.f)
 	{
 		SetRollerPos(m_fPos + fDelta);
@@ -271,7 +271,7 @@ void CXI_SCROLLER::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -314,7 +314,7 @@ void CXI_SCROLLER::FillVertexBuffer()
 	auto* pV = (XI_ONLYONETEX_VERTEX *)m_rs->LockVertexBuffer(m_idVBuf);
 	if (pV != nullptr)
 	{
-		for (int i = 0; i < 16; i++)
+		for (auto i = 0; i < 16; i++)
 			pV[i].pos.z = 1.f;
 
 		FXYRECT texRect;
@@ -373,12 +373,12 @@ void CXI_SCROLLER::FillVertexBuffer()
 
 void CXI_SCROLLER::MouseMove()
 {
-	FXYPOINT pntMouse = ptrOwner->GetMousePoint();
+  auto pntMouse = ptrOwner->GetMousePoint();
 	if (pntMouse.y != m_curMousePos.y)
 	{
 		m_curMousePos = pntMouse;
 
-		float fY = pntMouse.y;
+    auto fY = pntMouse.y;
 		if (fY < m_rollerPlace.top + m_rollerHeight * .5f)
 			fY = m_rollerPlace.top + m_rollerHeight * .5f;
 		if (fY > m_rollerPlace.bottom - m_rollerHeight * .5f)

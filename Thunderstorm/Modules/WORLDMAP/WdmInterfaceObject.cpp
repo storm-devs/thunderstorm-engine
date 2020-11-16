@@ -64,12 +64,12 @@ void WdmInterfaceObject::FillRectCoord(Vertex* vrt, float x, float y, float w, f
 	else
 	{
 		//С поворотом
-		float sn = -0.5f * sinf(ang);
-		float cs = -0.5f * cosf(ang);
-		float dwx = cs * w;
-		float dwy = sn * w;
-		float dhx = -sn * h;
-		float dhy = cs * h;
+    auto sn = -0.5f * sinf(ang);
+    auto cs = -0.5f * cosf(ang);
+    auto dwx = cs * w;
+    auto dwy = sn * w;
+    auto dhx = -sn * h;
+    auto dhy = cs * h;
 		x += 0.5f * w;
 		y += 0.5f * h;
 		vrt[0].x = x - dwx + dhx;
@@ -121,12 +121,12 @@ void WdmInterfaceObject::FillRectUV(Vertex* vrt, float tu, float tv, float tw, f
 	else
 	{
 		//С поворотом
-		float sn = 0.5f * sinf(ang);
-		float cs = 0.5f * cosf(ang);
-		float dwu = cs * tw;
-		float dwv = sn * tw;
-		float dhu = -sn * th;
-		float dhv = cs * th;
+    auto sn = 0.5f * sinf(ang);
+    auto cs = 0.5f * cosf(ang);
+    auto dwu = cs * tw;
+    auto dwv = sn * tw;
+    auto dhu = -sn * th;
+    auto dhv = cs * th;
 		tu += 0.5f * tw;
 		tv += 0.5f * th;
 		vrt[0].tu = tu - dwu + dhu;
@@ -166,12 +166,12 @@ void WdmInterfaceObject::FillRectUV1(Vertex* vrt, float tu, float tv, float tw, 
 	else
 	{
 		//С поворотом
-		float sn = 0.5f * sinf(ang);
-		float cs = 0.5f * cosf(ang);
-		float dwu = cs * tw;
-		float dwv = sn * tw;
-		float dhu = -sn * th;
-		float dhv = cs * th;
+    auto sn = 0.5f * sinf(ang);
+    auto cs = 0.5f * cosf(ang);
+    auto dwu = cs * tw;
+    auto dwv = sn * tw;
+    auto dhu = -sn * th;
+    auto dhv = cs * th;
 		tu += 0.5f * tw;
 		tv += 0.5f * th;
 		vrt[0].tu1 = tu - dwu + dhu;
@@ -237,7 +237,7 @@ void WdmInterfaceObject::FillSRectColor(Vertex* vrt, uint32_t color)
 void WdmInterfaceObject::Print(long font, long color, float xleft, float xright, float y, const char* format, ...)
 {
 	_vsnprintf_s(stringBuffer, sizeof(stringBuffer), format, ((char *)&format + sizeof(char *)));
-	long strw = wdmObjects->rs->StringWidth(stringBuffer, font);
-	float x = (xright + xleft - strw) * 0.5f;
+  auto strw = wdmObjects->rs->StringWidth(stringBuffer, font);
+  auto x = (xright + xleft - strw) * 0.5f;
 	wdmObjects->rs->Print(font, color, long(x), long(y), stringBuffer);
 }

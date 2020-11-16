@@ -79,7 +79,7 @@ void ControlTree::ControlChild::Process(float fDeltaTime, ControlTree* pControlT
 	}
 
 	// переходим к дочерним веткам
-	bool bChildActive = false;
+  auto bChildActive = false;
 	for (n = 0; n < aChild.size(); n++)
 	{
 		aChild[n].Process(fDeltaTime, pControlTree);
@@ -160,7 +160,7 @@ void ControlTree::Process()
 long ControlTree::AddControlChild(long nParentIdx, const char* pcControlName, const char* pcOutControlName,
                                   float fTimeOut)
 {
-	ControlChild* pParent = FindControlChild(nParentIdx);
+  auto pParent = FindControlChild(nParentIdx);
 	if (!pParent) return -1;
 	ControlChild child;
 	child.bActive = false;
@@ -197,7 +197,7 @@ void ControlTree::Release()
 ControlTree::ControlChild* ControlTree::FindControlChild(long idx)
 {
 	if (idx < 0 || idx >= m_nControlsNum) return &m_RootControl;
-	ControlChild* pCC = FindControlChild(idx, &m_RootControl);
+  auto pCC = FindControlChild(idx, &m_RootControl);
 	if (pCC) return pCC;
 	return &m_RootControl;
 }
@@ -208,7 +208,7 @@ ControlTree::ControlChild* ControlTree::FindControlChild(long idx, ControlChild*
 	if (pParent->index == idx) return pParent;
 	for (long n = 0; n < pParent->aChild.size(); n++)
 	{
-		ControlChild* pCC = FindControlChild(idx, &pParent->aChild[n]);
+    auto pCC = FindControlChild(idx, &pParent->aChild[n]);
 		if (pCC) return pCC;
 	}
 	return nullptr;
@@ -235,7 +235,7 @@ bool ControlTree::AddOutControl(const char* pcOutControlName, bool isActive)
 	}
 
 	// нажата контролка
-	CONTROL_STATE_TYPE cs_prev = m_aOutControlList[n].state;
+  auto cs_prev = m_aOutControlList[n].state;
 	if (isActive)
 	{
 		if (cs_prev == CST_INACTIVE || cs_prev == CST_INACTIVATED)

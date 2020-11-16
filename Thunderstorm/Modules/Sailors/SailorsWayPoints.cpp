@@ -82,7 +82,7 @@ void SailorsPoints::Draw(VDX9RENDER* rs, bool pointmode)
 	pRSR.fSize = 1;
 	pRSR.fAngle = PI * 2.0f * rand() / RAND_MAX;
 
-	for (int i = 0; i < points.count; i++)
+	for (auto i = 0; i < points.count; i++)
 	{
 		pRSR.vPos = CVECTOR(points.point[i].x, points.point[i].y, points.point[i].z);
 
@@ -134,7 +134,7 @@ void SailorsPoints::Draw(VDX9RENDER* rs, bool pointmode)
 
 	rs->SetTransform(D3DTS_WORLD, CMatrix());
 
-	for (int m = 0; m < links.count; m++)
+	for (auto m = 0; m < links.count; m++)
 	{
 		_v1 = CVECTOR(points.point[links.link[m].first].x, points.point[links.link[m].first].y,
 		              points.point[links.link[m].first].z);
@@ -167,7 +167,7 @@ void SailorsPoints::Draw_(VDX9RENDER* rs, bool pointmode)
 	pRSR.fSize = 1;
 	pRSR.fAngle = 0; //PI*2.0f*rand()/RAND_MAX;
 
-	for (int i = 0; i < points.count; i++)
+	for (auto i = 0; i < points.count; i++)
 	{
 		pRSR.vPos = CVECTOR(points.point[i].x, points.point[i].y, points.point[i].z);
 
@@ -188,7 +188,7 @@ void SailorsPoints::Draw_(VDX9RENDER* rs, bool pointmode)
 
 	rs->SetTransform(D3DTS_WORLD, CMatrix());
 
-	for (int m = 0; m < links.count; m++)
+	for (auto m = 0; m < links.count; m++)
 	{
 		_v1 = CVECTOR(points.point[links.link[m].first].x, points.point[links.link[m].first].y,
 		              points.point[links.link[m].first].z);
@@ -220,7 +220,7 @@ void SailorsPoints::DrawLinks(VDX9RENDER* rs)
 
 	rs->SetTransform(D3DTS_WORLD, CMatrix());
 
-	for (int m = 0; m < links.count; m++)
+	for (auto m = 0; m < links.count; m++)
 	{
 		_v1 = CVECTOR(points.point[links.link[m].first].x, points.point[links.link[m].first].y,
 		              points.point[links.link[m].first].z);
@@ -283,7 +283,7 @@ Path SailorsPoints::getPath(int src, int dst, int l)
 	if (PointsPassed[src] == 1) return mPath;
 	PointsPassed[src] = true;
 
-	for (int i = 0; i < points.count; i++)
+	for (auto i = 0; i < points.count; i++)
 	{
 		if (matrix[src][i] == 0) continue;
 
@@ -330,15 +330,15 @@ Path SailorsPoints::findPath(Path& path, int from, int to)
 
 void SailorsPoints::UpdateLinks()
 {
-	for (int m = 0; m < points.count; m++)
-		for (int i = 0; i < points.count; i++)
+	for (auto m = 0; m < points.count; m++)
+		for (auto i = 0; i < points.count; i++)
 			matrix[i][m] = false;
 
 
-	for (int m = 0; m < points.count; m++)
-		for (int i = 0; i < points.count; i++)
+	for (auto m = 0; m < points.count; m++)
+		for (auto i = 0; i < points.count; i++)
 
-			for (int _l = 0; _l < links.count; _l++)
+			for (auto _l = 0; _l < links.count; _l++)
 				if ( //!links.link[_l].disabled &&
 					((links.link[_l].first == m && links.link[_l].next == i) ||
 						(links.link[_l].first == i && links.link[_l].next == m)))
@@ -360,7 +360,7 @@ int SailorsPoints::WriteToFile(std::string fileName)
 {
 	//GUARD(SailorsPoints :: WriteToFile);
 
-	INIFILE* pIni = fio->OpenIniFile(fileName.c_str());
+  auto pIni = fio->OpenIniFile(fileName.c_str());
 	if (!pIni) pIni = fio->CreateIniFile(fileName.c_str(), false);
 
 	if (!pIni)
@@ -380,7 +380,7 @@ int SailorsPoints::WriteToFile(std::string fileName)
 	char str[64];
 
 
-	for (int i = 0; i < points.count; i++)
+	for (auto i = 0; i < points.count; i++)
 	{
 		sprintf_s(str, sizeof(str), "%s%d", "point ", i);
 		sprintf_s(buffer, sizeof(buffer), "%f,%f,%f,%d", points.point[i].x, points.point[i].y, points.point[i].z,
@@ -389,7 +389,7 @@ int SailorsPoints::WriteToFile(std::string fileName)
 	}
 
 
-	for (int i = 0; i < links.count; i++)
+	for (auto i = 0; i < links.count; i++)
 	{
 		sprintf_s(str, sizeof(str), "%s%d", "link ", i);
 		sprintf_s(buffer, sizeof(buffer), "%d,%d", links.link[i].first, links.link[i].next);
@@ -411,7 +411,7 @@ int SailorsPoints::ReadFromFile(std::string fileName)
 	char param[256];
 	char str[64];
 
-	INIFILE* pIni = fio->OpenIniFile(fileName.c_str());
+  auto pIni = fio->OpenIniFile(fileName.c_str());
 
 	if (!pIni)
 	{
@@ -426,7 +426,7 @@ int SailorsPoints::ReadFromFile(std::string fileName)
 	uint32_t type;
 
 	points.point.resize(points.count);
-	for (int i = 0; i < points.count; i++)
+	for (auto i = 0; i < points.count; i++)
 	{
 		//points.point.Add();
 		sprintf_s(str, sizeof(str), "%s%d", "point ", i);
@@ -446,7 +446,7 @@ int SailorsPoints::ReadFromFile(std::string fileName)
 	int first, next;
 
 	links.link.resize(links.count);
-	for (int i = 0; i < links.count; i++)
+	for (auto i = 0; i < links.count; i++)
 	{
 		//links.link.Add();
 

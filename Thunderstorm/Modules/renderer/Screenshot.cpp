@@ -37,7 +37,7 @@ void DX9RENDER::SaveCaptureBuffers()
 		TgaHead.width = (uint16_t)screen_size.x;
 		TgaHead.height = (uint16_t)screen_size.y;
 		sprintf_s(cFileName, "k3cap_%04d.tga", fi + i);
-		HANDLE hFile = fio->_CreateFile(cFileName, GENERIC_WRITE, FILE_SHARE_READ, CREATE_ALWAYS);
+    auto hFile = fio->_CreateFile(cFileName, GENERIC_WRITE, FILE_SHARE_READ, CREATE_ALWAYS);
 		WriteFile(hFile, &TgaHead, sizeof(TGA_H), (LPDWORD)&Written, nullptr);
 		WriteFile(hFile, aCaptureBuffers[i], screen_size.x * screen_size.y * sizeof(uint32_t), (LPDWORD)&Written,
 		          nullptr);

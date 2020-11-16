@@ -78,7 +78,7 @@ void CXI_TITLE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -98,7 +98,7 @@ void CXI_TITLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const 
 	char param[256];
 
 	// Get image color
-	uint32_t imgColor = GetIniARGB(ini1, name1, ini2, name2, "imageColor", 0xFFFFFFFF);
+  auto imgColor = GetIniARGB(ini1, name1, ini2, name2, "imageColor", 0xFFFFFFFF);
 
 	// Get font color
 	m_fontColor = GetIniARGB(ini1, name1, ini2, name2, "fontColor", 0xFFFFFFFF);
@@ -119,7 +119,7 @@ void CXI_TITLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const 
 	m_StringCenter.y = m_rect.top + GetIniLong(ini1, name1, ini2, name2, "stringOffset", 0);
 
 	// get title string
-	char* pChar = api->Entity_GetAttribute(g_idInterface, "title");
+  auto pChar = api->Entity_GetAttribute(g_idInterface, "title");
 	if (pChar != nullptr && pChar[0] != '#')
 		m_idString = pStringService->GetStringNum(pChar);
 	else
@@ -192,7 +192,7 @@ void CXI_TITLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const 
 	m_nIndx /= 3;
 
 	// fill index buffer
-	uint16_t* pIndex = (uint16_t*)m_rs->LockIndexBuffer(m_idIBuf);
+  auto pIndex = (uint16_t*)m_rs->LockIndexBuffer(m_idIBuf);
 	if (pIndex == nullptr)
 		throw std::exception("index buffer not create");
 	for (i = 0; i < rectangleQuantity; i++)
@@ -207,7 +207,7 @@ void CXI_TITLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const 
 	m_rs->UnLockIndexBuffer(m_idIBuf);
 
 	// fill vertex buffer
-	XI_ONETEX_VERTEX* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
+  auto pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
 	if (pVert == nullptr)
 		throw std::exception("vertex buffer not create");
 	for (i = 0; i < m_nVert; i++)

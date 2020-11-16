@@ -11,7 +11,7 @@ bool COMPILER::BC_ProcessExpression(DATA* value)
 	value->SetVCompiler(this);
 	value->ClearType();
 
-	bool check_equal = false;
+  auto check_equal = false;
 
 	while (BC_TokenGet() == DEBUG_LINE_CODE)
 	{
@@ -27,7 +27,7 @@ bool COMPILER::BC_ProcessExpression(DATA* value)
 	{
 		VARINFO vi;
 
-		S_TOKEN_TYPE Token_type = BC_TokenGet();
+    auto Token_type = BC_TokenGet();
 		if (TokenType() != VARIABLE)
 		{
 			if (TokenType() != LOCAL_VARIABLE)
@@ -37,7 +37,7 @@ bool COMPILER::BC_ProcessExpression(DATA* value)
 			}
 		}
 
-		uint32_t var_code = *((uint32_t *)&pRunCodeBase[TLR_DataOffset]);
+    auto var_code = *((uint32_t *)&pRunCodeBase[TLR_DataOffset]);
 		if (TokenType() == VARIABLE)
 		{
 			if (!VarTab.GetVar(vi, var_code))
@@ -143,7 +143,7 @@ void COMPILER::BC_ProcessExpression_L0(DATA* value)
 	BC_ProcessExpression_L1(value);
 	while (TokenIs(OP_BOOL_AND) || TokenIs(OP_BOOL_OR))
 	{
-		S_TOKEN_TYPE op = TokenType();
+    auto op = TokenType();
 		switch (op)
 		{
 		case SQUARE_CLOSE_BRACKET: break;
@@ -203,7 +203,7 @@ void COMPILER::BC_ProcessExpression_L1(DATA* value, bool bSkip)
 	while (TokenIs(OP_NOT_EQUAL) || TokenIs(OP_LESSER_OR_EQUAL) ||
 		TokenIs(OP_LESSER) || TokenIs(OP_GREATER_OR_EQUAL) || TokenIs(OP_GREATER) || TokenIs(OP_BOOL_EQUAL))
 	{
-		S_TOKEN_TYPE op = TokenType();
+    auto op = TokenType();
 		switch (op)
 		{
 		case SQUARE_CLOSE_BRACKET: break;
@@ -247,7 +247,7 @@ void COMPILER::BC_ProcessExpression_L2(DATA* value, bool bSkip)
 	BC_ProcessExpression_L3(value, bSkip);
 	while (TokenIs(OP_PLUS) || TokenIs(OP_MINUS))
 	{
-		S_TOKEN_TYPE op = TokenType();
+    auto op = TokenType();
 		while (BC_TokenGet() == DEBUG_LINE_CODE)
 		{
 		}

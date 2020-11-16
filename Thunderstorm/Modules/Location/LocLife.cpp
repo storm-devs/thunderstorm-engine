@@ -72,9 +72,9 @@ bool LocLife::Init(Location* loc)
 		location = nullptr;
 		return false;
 	}
-	NODE* node = m->GetNode(0);
+  auto node = m->GetNode(0);
 	if (node) node->SetTechnique("DLightModel");
-	Animation* ani = m->GetAnimation();
+  auto ani = m->GetAnimation();
 	if (!ani)
 	{
 		location = nullptr;
@@ -99,9 +99,9 @@ void LocLife::Update(float dltTime)
 	//Информация о модели и локации
 	auto* m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if (!m) return;
-	Animation* ani = m->GetAnimation();
+  auto ani = m->GetAnimation();
 	if (!ani) return;
-	PtcData& ptc = location->GetPtcData();
+  auto& ptc = location->GetPtcData();
 	if (node < 0)
 	{
 		IdleProcess(ani, dltTime);
@@ -109,7 +109,7 @@ void LocLife::Update(float dltTime)
 	else
 	{
 		//Перемещиемся
-		long cnode = FindPos();
+    auto cnode = FindPos();
 		if (cnode < 0)
 		{
 			StopMove();
@@ -122,7 +122,7 @@ void LocLife::Update(float dltTime)
 			return;
 		}
 		//Ищим направление
-		CVECTOR dir = pos;
+    auto dir = pos;
 		if (!ptc.FindPathDir(cnode, pos, node, npos, cnode, dir))
 		{
 			StopMove();
@@ -133,7 +133,7 @@ void LocLife::Update(float dltTime)
 		double dirl = ~dir;
 		double vx = dir.x;
 		double vz = dir.z;
-		double l = vx * vx + vz * vz;
+    auto l = vx * vx + vz * vz;
 		if (l <= 0.0)
 		{
 			StopMove();
@@ -154,12 +154,12 @@ long LocLife::FindPos()
 {
 	auto* m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if (!m) return -1;
-	PtcData& ptc = location->GetPtcData();
+  auto& ptc = location->GetPtcData();
 	//Направление
 	CVECTOR dir(sinf(ay), 0.0f, cosf(ay));
 	//Высоты
 	float yf, yc, yb;
-	long curnode = ptc.FindNode(pos, yc);
+  auto curnode = ptc.FindNode(pos, yc);
 	if (curnode < 0)
 	{
 		FindRandomPos(pos);
@@ -167,8 +167,8 @@ long LocLife::FindPos()
 		ay = rand() * (6.28f / RAND_MAX);
 		return ptc.FindNode(pos, yc);
 	}
-	CVECTOR p1 = pos + dir * 0.1f;
-	CVECTOR p2 = pos - dir * 0.1f;
+  auto p1 = pos + dir * 0.1f;
+  auto p2 = pos - dir * 0.1f;
 	if (ptc.FindNode(p1, yf) < 0) yf = yc;
 	if (ptc.FindNode(p2, yb) < 0) yb = yc;
 	pos.y = max(yf, max(yc, yb));
@@ -190,7 +190,7 @@ void LocLife::StartMove()
 	auto* m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if (!m) return;
 	//Запускаем проигрывание анимации
-	Animation* ani = m->GetAnimation();
+  auto ani = m->GetAnimation();
 	if (!ani) return;
 	node = FindRandomPos(npos);
 	IsStartMove(ani);
@@ -202,7 +202,7 @@ void LocLife::StopMove()
 	auto* m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if (!m) return;
 	//Запускаем проигрывание анимации
-	Animation* ani = m->GetAnimation();
+  auto ani = m->GetAnimation();
 	if (!ani) return;
 	IsStopMove(ani);
 }
@@ -222,9 +222,9 @@ bool LocLife::IsNearPlayer(float radius)
 
 long LocLife::FindRandomPos(CVECTOR& pos)
 {
-	PtcData& ptc = location->GetPtcData();
+  auto& ptc = location->GetPtcData();
 	if (!ptc.numTriangles) return -1;
-	long i = rand() % ptc.numTriangles;
+  auto i = rand() % ptc.numTriangles;
 	long i1 = ptc.triangle[i].i[0];
 	long i2 = ptc.triangle[i].i[1];
 	long i3 = ptc.triangle[i].i[2];

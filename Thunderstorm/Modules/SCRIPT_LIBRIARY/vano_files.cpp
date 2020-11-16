@@ -37,7 +37,7 @@ uint32_t _Clampf(VS_STACK* pS)
 uint32_t _Degree2Radian(VS_STACK* pS)
 {
 	auto* pValue = (VDATA*)pS->Pop();
-	VDATA* pVR = (VDATA*)pS->Push();
+  auto pVR = (VDATA*)pS->Push();
 	if (!pVR) return IFUNCRESULT_FAILED;
 
 	pVR->Set(PIm2 * pValue->GetFloat() / 360.0f);
@@ -47,10 +47,10 @@ uint32_t _Degree2Radian(VS_STACK* pS)
 
 uint32_t _Bring2Range(VS_STACK* pS)
 {
-	VDATA* pValue = (VDATA*)pS->Pop();
-	VDATA* pMax2 = (VDATA*)pS->Pop();
-	VDATA* pMin2 = (VDATA*)pS->Pop();
-	VDATA* pMax1 = (VDATA*)pS->Pop();
+  auto pValue = (VDATA*)pS->Pop();
+  auto pMax2 = (VDATA*)pS->Pop();
+  auto pMin2 = (VDATA*)pS->Pop();
+  auto pMax1 = (VDATA*)pS->Pop();
 	VDATA* pMin1 = (VDATA*)pS->Pop();
 
 	auto* pVR = (VDATA*)pS->Push();

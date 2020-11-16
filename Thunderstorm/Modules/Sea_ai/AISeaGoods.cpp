@@ -37,7 +37,7 @@ void AISeaGoods::SetDevice()
 
 void AISeaGoods::Execute(uint32_t dwDeltaTime)
 {
-	float fDeltaTime = float(dwDeltaTime) * 0.001f;
+  auto fDeltaTime = float(dwDeltaTime) * 0.001f;
 
 	if (!pSea)
 		pSea = (SEA_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
@@ -47,7 +47,7 @@ void AISeaGoods::Execute(uint32_t dwDeltaTime)
 	for (uint32_t i = 0; i < aGoods.size(); i++)
 		for (uint32_t j = 0; j < aGoods[i]->aItems.size(); j++)
 		{
-			item_t* pI = &aGoods[i]->aItems[j];
+      auto pI = &aGoods[i]->aItems[j];
 			pI->fTime -= fDeltaTime;
 
 			pI->vPos.y = pSea->WaveXZ(pI->vPos.x, pI->vPos.z, &pI->vNormal);
@@ -79,14 +79,14 @@ void AISeaGoods::Execute(uint32_t dwDeltaTime)
 				// check ships
 				for (uint32_t k = 0; k < aShips.size(); k++)
 				{
-					SHIP_BASE* pS = aShips[k];
-					ATTRIBUTES* pACharacter = pS->GetACharacter();
+          auto pS = aShips[k];
+          auto pACharacter = pS->GetACharacter();
 					int iCharacterIndex = GetIndex(pS->GetACharacter());
-					float fDistance = sqrtf(~(pS->State.vPos - pI->vPos));
+          auto fDistance = sqrtf(~(pS->State.vPos - pI->vPos));
 					if (fDistance <= pS->State.vBoxSize.z * fDistanceMultiply)
 					{
-						VDATA* pVData = api->Event(SHIP_EAT_SWIM_GOOD, "llsl", iCharacterIndex, pI->iCharIndex,
-						                           pI->sGoodName, pI->iQuantity);
+            auto pVData = api->Event(SHIP_EAT_SWIM_GOOD, "llsl", iCharacterIndex, pI->iCharIndex,
+                                     pI->sGoodName, pI->iQuantity);
 						if (pVData->GetLong() || bDeleteGoodAnyway)
 						{
 							//aGoods[i]->aItems.ExtractNoShift(j); 
@@ -111,7 +111,7 @@ void AISeaGoods::Realize(uint32_t dwDeltaTime)
 		if (aGoods[i]->pGeo)
 			for (uint32_t j = 0; j < aGoods[i]->aItems.size(); j++)
 			{
-				item_t* pI = &aGoods[i]->aItems[j];
+        auto pI = &aGoods[i]->aItems[j];
 
 				// set world matrix for item
 				CMatrix m;
@@ -126,7 +126,7 @@ void AISeaGoods::Realize(uint32_t dwDeltaTime)
 
 uint32_t AISeaGoods::AttributeChanged(ATTRIBUTES* pAttribute)
 {
-	ATTRIBUTES* pParent = pAttribute->GetParent();
+  auto pParent = pAttribute->GetParent();
 
 	if (*pAttribute == "Add")
 	{

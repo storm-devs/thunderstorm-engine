@@ -19,23 +19,23 @@ Color DataColor::GetValue(float Time, float LifeTime, float K_rand)
 
 	uint32_t Count = ColorGraph.size();
 	uint32_t StartIndex = 0;
-	for (uint32_t n = StartIndex; n < (Count - 1); n++)
+	for (auto n = StartIndex; n < (Count - 1); n++)
 	{
-		float FromTime = ColorGraph[n].Time;
-		float ToTime = ColorGraph[n + 1].Time;
+    auto FromTime = ColorGraph[n].Time;
+    auto ToTime = ColorGraph[n + 1].Time;
 
 		//Если время в нужном диапазоне...
 		if ((Time >= FromTime) && (Time <= ToTime))
 		{
-			float SegmentDeltaTime = ColorGraph[n + 1].Time - ColorGraph[n].Time;
-			float ValueDeltaTime = Time - ColorGraph[n].Time;
-			float blend_k = 0.0f;
+      auto SegmentDeltaTime = ColorGraph[n + 1].Time - ColorGraph[n].Time;
+      auto ValueDeltaTime = Time - ColorGraph[n].Time;
+      auto blend_k = 0.0f;
 			if (SegmentDeltaTime > 0.001f) blend_k = ValueDeltaTime / SegmentDeltaTime;
 
-			Color ValueFirstMax = ColorGraph[n].MaxValue;
-			Color ValueSecondMax = ColorGraph[n + 1].MaxValue;
-			Color ValueFirstMin = ColorGraph[n].MinValue;
-			Color ValueSecondMin = ColorGraph[n + 1].MinValue;
+      auto ValueFirstMax = ColorGraph[n].MaxValue;
+      auto ValueSecondMax = ColorGraph[n + 1].MaxValue;
+      auto ValueFirstMin = ColorGraph[n].MinValue;
+      auto ValueSecondMin = ColorGraph[n + 1].MinValue;
 
 			Color MaxVal;
 			MaxVal.Lerp(ValueFirstMax, ValueSecondMax, blend_k);
@@ -108,7 +108,7 @@ void DataColor::Load(MemFile* File)
 
 	for (uint32_t n = 0; n < dwColorCount; n++)
 	{
-		float Time = 0.0f;
+    auto Time = 0.0f;
 		File->ReadType(Time);
 
 		Color clrMax;
@@ -156,19 +156,19 @@ void DataColor::Write(MemFile* File)
 
 	for (uint32_t n = 0; n < dwColorCount; n++)
 	{
-		float Time = ColorGraph[n].Time;
+    auto Time = ColorGraph[n].Time;
 		File->WriteType(Time);
 
-		Color clrMax = ColorGraph[n].MaxValue;
+    auto clrMax = ColorGraph[n].MaxValue;
 		File->WriteType(clrMax);
 
-		Color clrMin = ColorGraph[n].MinValue;
+    auto clrMin = ColorGraph[n].MinValue;
 		File->WriteType(clrMin);
 	}
 
 	//save name
 	uint32_t NameLength = Name.size();
-	uint32_t NameLengthPlusZero = NameLength + 1;
+  auto NameLengthPlusZero = NameLength + 1;
 	File->WriteType(NameLengthPlusZero);
 	Assert(NameLength < 128);
 	File->Write(Name.c_str(), NameLength);

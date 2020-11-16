@@ -41,14 +41,14 @@ uint64_t SINKEFFECT::ProcessMessage(MESSAGE& message)
 {
 	//GUARD(SINKEFFECT::ProcessMessage)
 
-	long code = message.Long();
+  auto code = message.Long();
 	uint32_t outValue = 0;
 
 	switch (code)
 	{
 	case MSG_SHIP_DELETE:
 		{
-			ATTRIBUTES* attrs = message.AttributePointer();
+      auto attrs = message.AttributePointer();
 			if (attrs)
 			{
 				auto& entities = EntityManager::GetEntityIdVector("ship");
@@ -83,7 +83,7 @@ void SINKEFFECT::Realize(uint32_t _dTime)
 {
 	//GUARD(SINKEFFECT::Realize)
 
-	for (int i = 0; i < MAX_SINKS; ++i)
+	for (auto i = 0; i < MAX_SINKS; ++i)
 		sinks[i].Realize(_dTime);
 
 	//UNGUARD
@@ -115,7 +115,7 @@ void SINKEFFECT::Execute(uint32_t _dTime)
 			}
 		}
 	*/
-	for (int i = 0; i < MAX_SINKS; ++i)
+	for (auto i = 0; i < MAX_SINKS; ++i)
 		sinks[i].Process(_dTime);
 
 	//UNGUARD
@@ -124,9 +124,9 @@ void SINKEFFECT::Execute(uint32_t _dTime)
 //--------------------------------------------------------------------
 void SINKEFFECT::InitializeSinks()
 {
-	INIFILE* psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
+  auto psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
 
-	for (int i = 0; i < MAX_SINKS; ++i)
+	for (auto i = 0; i < MAX_SINKS; ++i)
 	{
 		sinks[i].Release();
 		sinks[i].Initialize(psIni, nullptr, sea, renderer);
@@ -138,7 +138,7 @@ void SINKEFFECT::InitializeSinks()
 //--------------------------------------------------------------------
 TSink* SINKEFFECT::TryToAddSink(const CVECTOR& _pos, float _r)
 {
-	for (int i = 0; i < MAX_SINKS; ++i)
+	for (auto i = 0; i < MAX_SINKS; ++i)
 	{
 		if (!sinks[i].Enabled())
 		{

@@ -77,12 +77,12 @@ const char* DataUV::GetName()
 
 void DataUV::Write(MemFile* File)
 {
-	uint32_t ElementCount = GetFrameCount();
+  auto ElementCount = GetFrameCount();
 	File->WriteType(ElementCount);
 	for (uint32_t n = 0; n < ElementCount; n++)
 	{
-		float w = Frames[n].z - Frames[n].x;
-		float h = Frames[n].w - Frames[n].y;
+    auto w = Frames[n].z - Frames[n].x;
+    auto h = Frames[n].w - Frames[n].y;
 		File->WriteType(Frames[n].x);
 		File->WriteType(Frames[n].y);
 		File->WriteType(w);
@@ -91,7 +91,7 @@ void DataUV::Write(MemFile* File)
 
 	//save name
 	uint32_t NameLength = Name.size();
-	uint32_t NameLengthPlusZero = NameLength + 1;
+  auto NameLengthPlusZero = NameLength + 1;
 	File->WriteType(NameLengthPlusZero);
 	Assert(NameLength < 128);
 	File->Write(Name.c_str(), NameLength);

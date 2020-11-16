@@ -55,9 +55,9 @@ void LightProcessor::Process()
 		if (shadowTriangle == -1)
 		{
 			//Нормализуем результат
-			Vertex* vrt = geometry->vrt.data();
-			long numVrt = geometry->numVrt;
-			long numLights = lights->Num();
+      auto vrt = geometry->vrt.data();
+      auto numVrt = geometry->numVrt;
+      auto numLights = lights->Num();
 			for (long i = 0; i < numVrt; i++)
 			{
 				for (long j = 0; j < numLights; j++)
@@ -118,9 +118,9 @@ void LightProcessor::Process()
 		window->isLockCtrl = true;
 		window->tracePrc = 0.0f;
 		//Сбрасываем состояние цветов
-		Vertex* vrt = geometry->vrt.data();
-		long numVrt = geometry->numVrt;
-		long numLights = lights->Num();
+    auto vrt = geometry->vrt.data();
+    auto numVrt = geometry->numVrt;
+    auto numLights = lights->Num();
 		for (long i = 0; i < numVrt; i++)
 		{
 			for (long j = 0; j < numLights; j++)
@@ -148,8 +148,8 @@ void LightProcessor::Process()
 	}
 	if (window->isResetBlurLight)
 	{
-		Vertex* vrt = geometry->vrt.data();
-		long numVrt = geometry->numVrt;
+    auto vrt = geometry->vrt.data();
+    auto numVrt = geometry->numVrt;
 		for (long i = 0; i < numVrt; i++) vrt[i].bc = 0.0f;
 		window->isResetBlurLight = false;
 		CalcLights();
@@ -168,20 +168,20 @@ void LightProcessor::Process()
 
 void LightProcessor::UpdateLightsParam()
 {
-	Vertex* vrt = geometry->vrt.data();
-	long numVrt = geometry->numVrt;
-	long numLights = lights->Num();
-	LighterLights& ls = *lights;
+  auto vrt = geometry->vrt.data();
+  auto numVrt = geometry->numVrt;
+  auto numLights = lights->Num();
+  auto& ls = *lights;
 	float cs, att;
 	float dst;
 	CVECTOR nrm;
 	for (long i = 0; i < numVrt; i++)
 	{
-		Vertex& v = vrt[i];
+    auto& v = vrt[i];
 		for (long j = 0; j < numLights; j++)
 		{
-			Light& lt = ls[j];
-			Shadow& swh = v.shadow[j];
+      auto& lt = ls[j];
+      auto& swh = v.shadow[j];
 			switch (lt.type)
 			{
 			case Light::t_amb:
@@ -243,9 +243,9 @@ void LightProcessor::CalcShadows()
 //Распределить затенение с треугольника на вершины
 void LightProcessor::ApplyTriangleShadows(Triangle& t)
 {
-	LighterLights& ls = *lights;
-	long num = ls.Num();
-	Vertex* vrt = geometry->vrt.data();
+  auto& ls = *lights;
+  auto num = ls.Num();
+  auto vrt = geometry->vrt.data();
 	for (long i = 0; i < num; i++)
 	{
 		//Нужно ли трейсить
@@ -255,7 +255,7 @@ void LightProcessor::ApplyTriangleShadows(Triangle& t)
 		vrt[t.i[1]].shadow[i].nrm += t.sq;
 		vrt[t.i[2]].shadow[i].nrm += t.sq;
 		//Точка откуда трейсить
-		CVECTOR pnt = (vrt[t.i[0]].p + vrt[t.i[1]].p + vrt[t.i[2]].p) / 3.0f;
+    auto pnt = (vrt[t.i[0]].p + vrt[t.i[1]].p + vrt[t.i[2]].p) / 3.0f;
 		pnt += t.n * 0.001f;
 		//Определяем затенённость
 		switch (ls[i].type)
@@ -277,8 +277,8 @@ void LightProcessor::ApplyTriangleShadows(Triangle& t)
 			if (t.n.y >= 0.0f)
 			{
 				float sky = 0.0;
-				float rad = geometry->radius;
-				float rdx = geometry->radius * 0.2f;
+        auto rad = geometry->radius;
+        auto rdx = geometry->radius * 0.2f;
 				if (geometry->Trace(pnt, pnt + CVECTOR(0.0f, rad, 0.0f)) > 1.0f) sky += 1.0f / 5.0f;
 				if (geometry->Trace(pnt, pnt + CVECTOR(rdx, rad, 0.0f)) > 1.0f) sky += 1.0f / 5.0f;
 				if (geometry->Trace(pnt, pnt + CVECTOR(-rdx, rad, 0.0f)) > 1.0f) sky += 1.0f / 5.0f;
@@ -314,20 +314,20 @@ void LightProcessor::ApplyTriangleShadows(Triangle& t)
 //Сгладить затенённость
 void LightProcessor::SmoothShadows()
 {
-	bool lookNorm = window->smoothNorm;
-	float smoothRad = window->smoothRad;
-	float kSmoothRad = 1.0f / smoothRad;
+  auto lookNorm = window->smoothNorm;
+  auto smoothRad = window->smoothRad;
+  auto kSmoothRad = 1.0f / smoothRad;
 	double smoothRad2 = smoothRad * smoothRad;
-	LighterLights& ls = *lights;
-	long num = ls.Num();
-	std::vector<Vertex>& vrt = geometry->vrt;
+  auto& ls = *lights;
+  auto num = ls.Num();
+  auto& vrt = geometry->vrt;
 	for (long i = 0; i < LIGHTPRC_SMOOTH_NUM && smoothVertex < geometry->numVrt; i++, smoothVertex++)
 	{
-		Vertex& v = vrt[smoothVertex];
+    auto& v = vrt[smoothVertex];
 		//Ищем окружающие вершины
 		octtree->FindVerts(v.p, smoothRad);
-		OctFndVerts* verts = octtree->verts.data();
-		long numVerts = octtree->numVerts;
+    auto verts = octtree->verts.data();
+    auto numVerts = octtree->numVerts;
 
 		/*if constexpr (false)
 		{
@@ -359,7 +359,7 @@ void LightProcessor::SmoothShadows()
 		for (long n = 0; n < num; n++)
 		{
 			//Обнуляем
-			double sm = 0.0;
+      auto sm = 0.0;
 			double kNorm = 0.0f;
 			//По всем вершинам
 			for (long j = 0; j < numVerts; j++)
@@ -384,42 +384,42 @@ void LightProcessor::SmoothShadows()
 //Сгладить освещение
 void LightProcessor::BlurLight()
 {
-	bool isTrace = window->isTraceBlur;
-	float blurRad = window->blurRad;
-	float kBlurRad = 1.0f / blurRad;
-	float pw = window->blurAtt;
-	float kCos = window->blurCos;
-	float kCos1 = 1.0f - window->blurCos;
+  auto isTrace = window->isTraceBlur;
+  auto blurRad = window->blurRad;
+  auto kBlurRad = 1.0f / blurRad;
+  auto pw = window->blurAtt;
+  auto kCos = window->blurCos;
+  auto kCos1 = 1.0f - window->blurCos;
 	double blurRad2 = blurRad * blurRad;
-	Vertex* vrt = geometry->vrt.data();
-	long numVrt = geometry->numVrt;
+  auto vrt = geometry->vrt.data();
+  auto numVrt = geometry->numVrt;
 	for (long i = 0; i < LIGHTPRC_BLUR_NUM && blurVertex < numVrt; i++, blurVertex++)
 	{
-		Vertex& v = vrt[blurVertex];
+    auto& v = vrt[blurVertex];
 		//Ищем окружающие вершины
 		octtree->FindVerts(v.p, blurRad);
-		OctFndVerts* verts = octtree->verts.data();
-		long numVerts = octtree->numVerts;
+    auto verts = octtree->verts.data();
+    auto numVerts = octtree->numVerts;
 
 		continue;
 
-		long step = (numVerts + 8) >> 4;
+    auto step = (numVerts + 8) >> 4;
 		if (step < 1) step = 1;
 		step = 1;
-		double r = 0.0, g = 0.0, b = 0.0, sum = 0.0;
+    auto r = 0.0, g = 0.0, b = 0.0, sum = 0.0;
 		//По всем вершинам
 		for (long j = 0; j < numVerts; j += step)
 		{
-			Vertex& vs = *verts[j].v;
+      auto& vs = *verts[j].v;
 			if (vs.c.x + vs.c.y + vs.c.z <= 0.0f) continue;
-			CVECTOR n = vs.p - v.p;
+      auto n = vs.p - v.p;
 			double css = -(n | vs.n);
 			if (css <= 0.0) continue;
 			double csd = n | v.n;
 			if (csd <= 0.0) continue;
 			double dst = sqrt(~n);
 			if (dst <= 0.0) continue;
-			double k = dst * kBlurRad;
+      auto k = dst * kBlurRad;
 			dst = 1.0f / dst;
 			n *= float(dst * 0.001);
 			if (isTrace && geometry->Trace(v.p + n, vs.p - n) <= 1.0f) continue;
@@ -442,7 +442,7 @@ void LightProcessor::BlurLight()
 			g *= sum;
 			b *= sum;
 		}
-		double max = r > g ? r : g;
+    auto max = r > g ? r : g;
 		if (max < b) max = b;
 		max = 1.0;
 		if (max > 0.0)
@@ -464,10 +464,10 @@ void LightProcessor::BlurLight()
 void LightProcessor::CalcLights(long lit, bool isCos, bool isAtt, bool isSdw)
 {
 	lights->UpdateLights(lit);
-	LighterLights& ls = *lights;
-	long num = ls.Num();
-	Vertex* vrt = geometry->vrt.data();
-	float kBlur = window->kBlur;
+  auto& ls = *lights;
+  auto num = ls.Num();
+  auto vrt = geometry->vrt.data();
+  auto kBlur = window->kBlur;
 	CVECTOR c;
 	for (long i = 0; i < num; i++)
 	{
@@ -479,16 +479,16 @@ void LightProcessor::CalcLights(long lit, bool isCos, bool isAtt, bool isSdw)
 	}
 	for (long n = 0; n < geometry->numVrt; n++)
 	{
-		Vertex& v = vrt[n];
+    auto& v = vrt[n];
 		if (!v.shadow) continue;
 		c = v.bc * (kBlur * kBlur * 2.0f);
 		float sw;
 		double vl;
 		for (long i = 0; i < num; i++)
 		{
-			Light& lt = ls[i];
+      auto& lt = ls[i];
 			if (!lt.isOn) continue;
-			Shadow& shw = v.shadow[i];
+      auto& shw = v.shadow[i];
 			if (!lt.isMark)
 			{
 				c += shw.c;

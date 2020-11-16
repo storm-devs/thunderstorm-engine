@@ -33,7 +33,7 @@ void BIImageMaterial::Render(long nBegPrior, long nEndPrior)
 		RemakeBuffers();
 
 	long nStartIndex = 0;
-	long nTriangleQuantity = m_nTriangleQuantity;
+  auto nTriangleQuantity = m_nTriangleQuantity;
 	if (!GetOutputRangeByPrioritet(nBegPrior, nEndPrior, nStartIndex, nTriangleQuantity)) return;
 
 	if (m_nTextureID >= 0 && m_nVBufID >= 0 && m_nIBufID >= 0)
@@ -196,12 +196,12 @@ bool BIImageMaterial::GetOutputRangeByPrioritet(long nBegPrior, long nEndPrior, 
 void BIImageMaterial::RecalculatePrioritetRange()
 {
 	if (m_apImage.size() == 0) return;
-	long oldMin = m_nMinPrioritet;
-	long oldMax = m_nMaxPrioritet;
+  auto oldMin = m_nMinPrioritet;
+  auto oldMax = m_nMaxPrioritet;
 	m_nMinPrioritet = m_nMaxPrioritet = m_apImage[0]->GetPrioritet();
 	for (long n = 1; n < m_apImage.size(); n++)
 	{
-		long p = m_apImage[n]->GetPrioritet();
+    auto p = m_apImage[n]->GetPrioritet();
 		if (p < m_nMinPrioritet) m_nMinPrioritet = p;
 		else if (p > m_nMaxPrioritet) m_nMaxPrioritet = p;
 	}
@@ -212,7 +212,7 @@ void BIImageMaterial::RecalculatePrioritetRange()
 void BIImageMaterial::InsertImageToList(BIImage* pImg)
 {
 	Assert(pImg);
-	long nPrior = pImg->GetPrioritet();
+  auto nPrior = pImg->GetPrioritet();
 	long n;
 	for (n = 0; n < m_apImage.size(); n++)
 		if (m_apImage[n]->GetPrioritet() > nPrior)

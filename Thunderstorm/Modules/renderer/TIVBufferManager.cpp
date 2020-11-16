@@ -22,7 +22,7 @@ TIVBufferManager::TIVBufferManager(VDX9RENDER* _renderer, long _vType, long _vSi
 	vBuffer = renderer->CreateVertexBuffer(vType, elementsCount * vCount * vSize, D3DUSAGE_WRITEONLY);
 	used = new bool[elementsCount];
 	ivIndexes = new long[elementsCount];
-	for (int i = 0; i < elementsCount; ++i)
+	for (auto i = 0; i < elementsCount; ++i)
 	{
 		ivIndexes[i] = -1;
 		used[i] = false;
@@ -44,11 +44,11 @@ TIVBufferManager::~TIVBufferManager()
 //--------------------------------------------------------------------
 long TIVBufferManager::ReserveElement()
 {
-	for (int i = 0; i < elementsCount; i++)
+	for (auto i = 0; i < elementsCount; i++)
 	{
 		if (ivIndexes[i] == -1)
 		{
-			for (int firstUnused = 0; firstUnused < elementsCount; firstUnused++)
+			for (auto firstUnused = 0; firstUnused < elementsCount; firstUnused++)
 			{
 				if (!used[firstUnused])
 				{
@@ -81,7 +81,7 @@ void TIVBufferManager::FreeElement(long _i)
 //--------------------------------------------------------------------
 void TIVBufferManager::FreeAll()
 {
-	for (int i = 0; i < elementsCount; ++i)
+	for (auto i = 0; i < elementsCount; ++i)
 	{
 		used[i] = false;
 		ivIndexes[i] = -1;

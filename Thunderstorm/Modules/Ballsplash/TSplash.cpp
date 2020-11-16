@@ -32,10 +32,10 @@ uint32_t ambientColor = 0;
 //--------------------------------------------------------------------
 uint32_t Desaturate(uint32_t _color, float _k)
 {
-	uint32_t r = (_color >> 16) & 0xFF;
-	uint32_t g = (_color >> 8) & 0xFF;
-	uint32_t b = (_color) & 0xFF;
-	uint32_t grayed = (r + g + b) / 3;
+  auto r = (_color >> 16) & 0xFF;
+  auto g = (_color >> 8) & 0xFF;
+  auto b = (_color) & 0xFF;
+  auto grayed = (r + g + b) / 3;
 
 	r = (uint32_t)(grayed * _k + r * (1.f - _k));
 	g = (uint32_t)(grayed * _k + g * (1.f - _k));
@@ -104,12 +104,12 @@ void TSplash::Initialize(INIFILE* _ini, IDirect3DDevice9* _device, SEA_BASE* _se
 		texture2 = renderer->TextureCreate("splash.tga");
 
 		// INDEXES 1
-		uint16_t* indexes = /*iBuffer*/ (uint16_t *)renderer->LockIndexBuffer(iBuffer);
+    auto indexes = /*iBuffer*/ (uint16_t *)renderer->LockIndexBuffer(iBuffer);
 
-		int startIndex = 0;
-		for (int i = 0; i < MAX_SPLASHES; i++, startIndex += GRID_STEPS * GRID_STEPS)
-			for (int z = 0; z < GRID_STEPS - 1; ++z)
-				for (int x = 0; x < GRID_STEPS - 1; ++x)
+    auto startIndex = 0;
+		for (auto i = 0; i < MAX_SPLASHES; i++, startIndex += GRID_STEPS * GRID_STEPS)
+			for (auto z = 0; z < GRID_STEPS - 1; ++z)
+				for (auto x = 0; x < GRID_STEPS - 1; ++x)
 				{
 					*(indexes++) = startIndex + GRID_STEPS * z + x;
 					*(indexes++) = startIndex + GRID_STEPS * (z + 1) + x;
@@ -124,8 +124,8 @@ void TSplash::Initialize(INIFILE* _ini, IDirect3DDevice9* _device, SEA_BASE* _se
 		// INDEXES 2
 		startIndex = 0;
 		indexes = /*iBuffer2*/(uint16_t *)renderer->LockIndexBuffer(iBuffer2);
-		for (int i = 0; i < MAX_SPLASHES; i++, startIndex += VPLANES_COUNT * 4)
-			for (int j = 0; j < VPLANES_COUNT; j++)
+		for (auto i = 0; i < MAX_SPLASHES; i++, startIndex += VPLANES_COUNT * 4)
+			for (auto j = 0; j < VPLANES_COUNT; j++)
 			{
 				*(indexes++) = startIndex + j * 4 + 0;
 				*(indexes++) = startIndex + j * 4 + 1;
@@ -158,7 +158,7 @@ void TSplash::Start(const CVECTOR& _pos, const CVECTOR& _dir)
 	distortDivider = rand(SPLASH_DISTORT_DIVIDER) + 10.0f;
 
 	height = randUpper(VPLANES_HEIGHT);
-	float a = 0.f;
+  auto a = 0.f;
 	width2 = randUpper(VPLANES_WIDTH / 2.f);
 
 	if (!ambientColor)
@@ -171,9 +171,9 @@ void TSplash::Start(const CVECTOR& _pos, const CVECTOR& _dir)
 //--------------------------------------------------------------------
 float TSplash::HeightF(uint32_t _time, float _r, float _k)
 {
-	float tPhase = ((float)_time) * (2.f * PId2 / (SPLASH_FRAME_DELAY * SPLASH_FRAMES_COUNT));
-	float rK = (GRID_LENGTH - _r) / GRID_LENGTH;
-	float k = ((float)_time) / SPLASH_FADE_TIME;
+  auto tPhase = ((float)_time) * (2.f * PId2 / (SPLASH_FRAME_DELAY * SPLASH_FRAMES_COUNT));
+  auto rK = (GRID_LENGTH - _r) / GRID_LENGTH;
+  auto k = ((float)_time) / SPLASH_FADE_TIME;
 	if (k > 1.0f)
 		k = 1.0f;
 	k = 1.f - k;
@@ -195,8 +195,8 @@ bool TSplash::Process(uint32_t _dTime)
 		return false;
 	}
 
-	float rho = rand(MAX_RHO);
-	float r = SPLASH_RADIUS;
+  auto rho = rand(MAX_RHO);
+  auto r = SPLASH_RADIUS;
 	int x, z;
 
 	static GRID_VERTEX* startVertices;
@@ -214,9 +214,9 @@ bool TSplash::Process(uint32_t _dTime)
 	uint64_t ticksFill;
 	RDTSC_B(ticksFill);
 
-	GRID_VERTEX* vertices = startVertices + topIndex * GRID_STEPS * GRID_STEPS;
-	float stepSize = ((float)GRID_LENGTH) / ((float)GRID_STEPS);
-	float halfSize = GRID_LENGTH / 2.0f;
+  auto vertices = startVertices + topIndex * GRID_STEPS * GRID_STEPS;
+  auto stepSize = ((float)GRID_LENGTH) / ((float)GRID_STEPS);
+  auto halfSize = GRID_LENGTH / 2.0f;
 	CVECTOR curPos;
 	float localHeight;
 
@@ -298,18 +298,18 @@ bool TSplash::Process2(uint32_t _dTime)
 	uint64_t ticksFill;
 	RDTSC_B(ticksFill);
 
-	GRID_VERTEX2* vertices = startVertices2 + topIndex * 4 * VPLANES_COUNT;
-	float u = dU * (int)(time / SPLASH_FRAME_DELAY);
+  auto vertices = startVertices2 + topIndex * 4 * VPLANES_COUNT;
+  auto u = dU * (int)(time / SPLASH_FRAME_DELAY);
 	if (u > (1.f - dU))
 		u = 1.f - dU;
 
 	auto alpha = (uint32_t)((((float)(time % SPLASH_FRAME_DELAY)) / SPLASH_FRAME_DELAY) * 0xFF);
 	alpha = (alpha << 24) | (0x00FFFFFF & ambientColor);
 
-	float a = 0.f;
-	float dx = VPLANES_WIDTH / 2.f;
-	float dy = 0.f;
-	for (int i = 0; i < VPLANES_COUNT; i++, a += PI / VPLANES_COUNT)
+  auto a = 0.f;
+  auto dx = VPLANES_WIDTH / 2.f;
+  auto dy = 0.f;
+	for (auto i = 0; i < VPLANES_COUNT; i++, a += PI / VPLANES_COUNT)
 	{
 		vertices->pos.x = center.x - width2 * cosf(a);
 		vertices->pos.z = center.z - width2 * sinf(a);

@@ -136,15 +136,15 @@ void LocationCamera::Realize(uint32_t delta_time)
 	api->Controls->GetControlState("ChrCamSpecMode", cs);
 	isSpecialMode = cs.state == CST_ACTIVE;
 	//Временной отрезок
-	float dltTime = delta_time * 0.001f;
+  auto dltTime = delta_time * 0.001f;
 	if (isSleep) return;
 	if (!Set()) return;
 	//Управление
-	float oldAx = ax;
+  auto oldAx = ax;
 	api->Controls->GetControlState("ChrCamTurnV", cs);
 	dAx = -cs.lValue * 0.05f; //*0.005f;
 	if (character->IsDead()) dAx = 0.0f;
-	float kvax = 8.0f * dltTime;
+  auto kvax = 8.0f * dltTime;
 	if (isLookMode && !character->IsFight())
 	{
 		vAx += 3.0f * dAx;
@@ -178,7 +178,7 @@ void LocationCamera::Realize(uint32_t delta_time)
 	character->LockMove(false);
 	character->LookFromEyes(false);
 	//Исполняем текущий режим
-	bool isELook = false;
+  auto isELook = false;
 
 	if (!isLockFPMode)
 	{
@@ -302,15 +302,15 @@ void LocationCamera::Realize(uint32_t delta_time)
 		}
 		isTeleport = false;
 	}
-	CVECTOR realPos = camPos;
-	SEA_BASE* sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
+  auto realPos = camPos;
+  auto sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
 	if (sb && wmode != cwm_free && location->IsSwimming())
 	{
-		float seaY = sb->WaveXZ(camPos.x, camPos.z) + 1.0f;
+    auto seaY = sb->WaveXZ(camPos.x, camPos.z) + 1.0f;
 		if (realPos.y < seaY) realPos.y = seaY;
 	}
 
-	CVECTOR vUp = CVECTOR(0.0f, 1.0f, 0.0f);
+  auto vUp = CVECTOR(0.0f, 1.0f, 0.0f);
 	if (dynamic_fog.isOn)
 		ProcessDynamicFov(api->GetDeltaTime() * .001f, realPos, lookTo, vUp);
 
@@ -393,12 +393,12 @@ uint64_t LocationCamera::ProcessMessage(MESSAGE& message)
 
 	case -1:
 		{
-			float fSpeed = message.Float();
-			float fTime = message.Float();
-			float fMin = message.Float();
-			float fMax = message.Float();
-			float fAngSpeed = message.Float();
-			float fAngMax = message.Float();
+      auto fSpeed = message.Float();
+      auto fTime = message.Float();
+      auto fMin = message.Float();
+      auto fMax = message.Float();
+      auto fAngSpeed = message.Float();
+      auto fAngMax = message.Float();
 			TurnOnDynamicFov(fSpeed, fTime, fMin, fMax, fAngSpeed, fAngMax);
 		}
 		break;
@@ -407,9 +407,9 @@ uint64_t LocationCamera::ProcessMessage(MESSAGE& message)
 		{
 			char trackname[MAX_PATH];
 			message.String(sizeof(trackname), trackname);
-			float fTrackTime = message.Float();
+      auto fTrackTime = message.Float();
 			LoadCameraTrack(trackname, fTrackTime);
-			ATTRIBUTES* pA = message.AttributePointer();
+      auto pA = message.AttributePointer();
 			//SetTrackCameraPauses(pA);
 		}
 		break;
@@ -464,11 +464,11 @@ void LocationCamera::SetMode(CameraWorkMode wm)
 void LocationCamera::ExecuteLook(float dltTime)
 {
 	//Определим точку размещения камеры
-	MODEL* mdl = character->Model();
+  auto mdl = character->Model();
 	if (!mdl) return;
-	NODE* node = mdl->GetNode(0);
+  auto node = mdl->GetNode(0);
 	if (!node || !node->geo) return;
-	Animation* ani = mdl->GetAnimation();
+  auto ani = mdl->GetAnimation();
 	long strIndex = -1;
 	auto idCamera = node->geo->FindName("camera");
 	if (ani && (strIndex = node->geo->FindLabelN(strIndex + 1, idCamera)) > -1)
@@ -482,7 +482,7 @@ void LocationCamera::ExecuteLook(float dltTime)
 		mtl.Vz() = CVECTOR(lb.m[2][0], lb.m[2][1], lb.m[2][2]);
 		mtl.Pos() = CVECTOR(lb.m[3][0], lb.m[3][1], lb.m[3][2]);
 		//Матрица кости
-		CMatrix ml = mtl * ani->GetAnimationMatrix(lb.bones[0]);
+    auto ml = mtl * ani->GetAnimationMatrix(lb.bones[0]);
 		ml.Pos().x *= -1.0f;
 		ml.Vx().x *= -1.0f;
 		ml.Vy().x *= -1.0f;
@@ -514,7 +514,7 @@ void LocationCamera::ExecuteFree(float dltTime)
 {
 	if (LOWORD(GetKeyState(VK_NUMLOCK)) != 0) return;
 
-	const float pi = 3.14159265359f;
+	const auto pi = 3.14159265359f;
 	freeAx -= dAx * 0.1f;
 	freeAy += dAy * 1.0f;
 	if (freeAx < -pi * 0.4f) freeAx = -pi * 0.4f;
@@ -621,8 +621,8 @@ void LocationCamera::ProcessDynamicFov(float fDeltaTime, const CVECTOR& vFrom, c
 			}
 		}
 
-		CVECTOR v = vTo - vFrom;
-		float fAng = atan2f(v.x, v.z);
+    auto v = vTo - vFrom;
+    auto fAng = atan2f(v.x, v.z);
 		CMatrix mrot(0.f, 0.f, dynamic_fog.fCurAngle);
 		mrot.RotateY(fAng);
 		vUp = mrot * vUp;
@@ -632,7 +632,7 @@ void LocationCamera::ProcessDynamicFov(float fDeltaTime, const CVECTOR& vFrom, c
 void LocationCamera::StoreRestoreDynamicFov(bool bStore)
 {
 	if (!AttributesPointer) return;
-	ATTRIBUTES* pA = AttributesPointer->GetAttributeClass("DynamicFov");
+  auto pA = AttributesPointer->GetAttributeClass("DynamicFov");
 	if (!pA) pA = AttributesPointer->CreateSubAClass(AttributesPointer, "DynamicFov");
 	if (!pA) return;
 
@@ -731,7 +731,7 @@ void LocationCamera::TurnOffTrackCamera()
 
 void LocationCamera::ProcessTrackCamera()
 {
-	float fTrackTime = TrackPauseProcess();
+  auto fTrackTime = TrackPauseProcess();
 
 	if (fTrackTime >= m_fTrackMaxTime)
 	{
@@ -754,7 +754,7 @@ void LocationCamera::ProcessTrackCamera()
 
 float LocationCamera::TrackPauseProcess()
 {
-	float fOldTime = m_fTrackCurTime;
+  auto fOldTime = m_fTrackCurTime;
 	m_fTrackCurTime += api->GetDeltaTime() * 0.001f;
 
 	//	for( long nPause=m_nCurPauseIndex+1; nPause<m_aTrackPauses; nPause++ )

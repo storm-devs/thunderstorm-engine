@@ -66,13 +66,13 @@ WdmWindUI::~WdmWindUI()
 void WdmWindUI::SetAttributes(ATTRIBUTES* apnt)
 {
 	if (!apnt) return;
-	ATTRIBUTES* ap = apnt->FindAClass(apnt, "date");
+  auto ap = apnt->FindAClass(apnt, "date");
 	if (ap)
 	{
 		//Font
-		char* s = ap->GetAttribute("font");
+    auto s = ap->GetAttribute("font");
 		if (s && s[0]) dateFont = wdmObjects->wm->GetRS()->LoadFont(s);
-		ATTRIBUTES* a = ap->FindAClass(ap, "monthnames");
+    auto a = ap->FindAClass(ap, "monthnames");
 		if (a)
 		{
 			char buf[4];
@@ -101,7 +101,7 @@ void WdmWindUI::LRender(VDX9RENDER* rs)
 {
 	if (wdmObjects->isNextDayUpdate)
 	{
-		VDATA* data = api->Event("WorldMap_GetMoral");
+    auto data = api->Event("WorldMap_GetMoral");
 		if (data)
 		{
 			morale = data->GetFloat() * 0.02f - 1.0f;
@@ -125,15 +125,15 @@ void WdmWindUI::LRender(VDX9RENDER* rs)
 	float x, y, ay;
 	wdmObjects->playerShip->GetPosition(x, y, ay);
 	CVECTOR windDir;
-	float widForce = wdmObjects->GetWind(x, y, windDir);
+  auto widForce = wdmObjects->GetWind(x, y, windDir);
 	auto ang = (float)atan2(windDir.x, windDir.z);
 	//Параметры экрана
 	float w, h;
 	wdmObjects->GetVPSize(w, h);
-	float kDef = rs->GetHeightDeformator();
+  auto kDef = rs->GetHeightDeformator();
 	//Центр штуки
-	float cx = (w - 128.0f - 16.0f) + 64.0f;
-	float cy = (-40.0f) + 128.0f;
+  auto cx = (w - 128.0f - 16.0f) + 64.0f;
+  auto cy = (-40.0f) + 128.0f;
 	//Буфер для рисования плашек
 	Vertex buf[(3 * 2) * 2];
 	//Небо
@@ -160,7 +160,7 @@ void WdmWindUI::LRender(VDX9RENDER* rs)
 	for (long i = 0; i < 6; i++)
 	{
 		CVECTOR v(buf[i].tu1, 0.0f, buf[i].tv1);
-		CVECTOR vrot = rot * v;
+    auto vrot = rot * v;
 		buf[i].tu1 = vrot.x;
 		buf[i].tv1 = vrot.z;
 	}
@@ -177,9 +177,9 @@ void WdmWindUI::LRender(VDX9RENDER* rs)
 	sprintf_s(tbuf, sizeof(tbuf) - 1, "%i %s %i", wdmObjects->wm->day, month[wdmObjects->wm->mon - 1],
 	          wdmObjects->wm->year);
 	tbuf[sizeof(tbuf) - 1] = 0;
-	long font = dateFont >= 0 ? dateFont : FONT_DEFAULT;
-	long fw = rs->StringWidth(tbuf, font);
-	long fh = rs->CharHeight(font);
+  auto font = dateFont >= 0 ? dateFont : FONT_DEFAULT;
+  auto fw = rs->StringWidth(tbuf, font);
+  auto fh = rs->CharHeight(font);
 	rs->Print(font, 0xffffffff, long(cx - fw * 0.5f), long(cy + 98.0f - fh * 0.5f), tbuf);
 	//Центр
 	cy += 128.0f + 32.0f;

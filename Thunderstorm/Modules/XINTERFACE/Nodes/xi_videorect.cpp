@@ -19,7 +19,7 @@ void CXI_VIDEORECT::Draw(bool bSelected, uint32_t Delta_Time)
 	{
 		if (auto ptr = EntityManager::GetEntityPointer(m_eiVideo))
 		{
-			IDirect3DTexture9* pTex = ((xiBaseVideo*)ptr)->GetCurrentVideoTexture();
+      auto pTex = ((xiBaseVideo*)ptr)->GetCurrentVideoTexture();
 			if (pTex != nullptr)
 			{
 				// Create rectangle
@@ -39,7 +39,7 @@ void CXI_VIDEORECT::Draw(bool bSelected, uint32_t Delta_Time)
 				v[3].pos.x = (float)m_rect.right, v[3].pos.y = (float)m_rect.bottom;
 				v[3].tu = m_rectTex.right;
 				v[3].tv = m_rectTex.top;
-				for (int i = 0; i < 4; i++)
+				for (auto i = 0; i < 4; i++)
 				{
 					v[i].color = m_dwColor;
 					v[i].pos.z = 1.f;
@@ -84,7 +84,7 @@ void CXI_VIDEORECT::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());

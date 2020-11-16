@@ -23,7 +23,7 @@ ParticleService::~ParticleService()
 	{
 		api->Trace("Unreleased particles managers found !\n");
 	}
-	for (int n = 0; n < CreatedManagers.size(); n++)
+	for (auto n = 0; n < CreatedManagers.size(); n++)
 	{
 		api->Trace("Manager created in %s, Line %d\n", CreatedManagers[n].FileName.c_str(), CreatedManagers[n].Line);
 		CreatedManagers[n].pManager->Release();
@@ -50,7 +50,7 @@ IParticleManager* ParticleService::CreateManagerEx(const char* ProjectName, cons
 void ParticleService::RemoveManagerFromList(IParticleManager* pManager)
 {
 	if (sysDelete) return;
-	for (int n = 0; n < CreatedManagers.size(); n++)
+	for (auto n = 0; n < CreatedManagers.size(); n++)
 	{
 		if (CreatedManagers[n].pManager == pManager)
 		{

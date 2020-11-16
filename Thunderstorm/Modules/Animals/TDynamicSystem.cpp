@@ -17,7 +17,7 @@ TDynamicSystem::~TDynamicSystem()
 //--------------------------------------------------------------------
 bool TDynamicSystem::AddAttractor(TDynamicObject* _obj)
 {
-	for (int i = 0; i < MAX_DYNAMIC_OBJECTS; i++)
+	for (auto i = 0; i < MAX_DYNAMIC_OBJECTS; i++)
 	{
 		if (!attractors[i])
 		{
@@ -32,7 +32,7 @@ bool TDynamicSystem::AddAttractor(TDynamicObject* _obj)
 //--------------------------------------------------------------------
 bool TDynamicSystem::AddDeflector(TDynamicObject* _obj)
 {
-	for (int i = 0; i < MAX_DYNAMIC_OBJECTS; i++)
+	for (auto i = 0; i < MAX_DYNAMIC_OBJECTS; i++)
 	{
 		if (!deflectors[i])
 		{
@@ -72,7 +72,7 @@ void TDynamicSystem::Draw(HDC _dc)
 //--------------------------------------------------------------------
 void TDynamicSystem::Recalculate()
 {
-	for (int i = 1; i < MAX_DYNAMIC_OBJECTS; i++)
+	for (auto i = 1; i < MAX_DYNAMIC_OBJECTS; i++)
 	{
 		if (attractors[i])
 		{

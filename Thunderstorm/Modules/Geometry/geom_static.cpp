@@ -20,7 +20,7 @@ GEOS* CreateGeometry(const char* fname, const char* lightname, GEOM_SERVICE& srv
 GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long flags) : srv(_srv)
 {
 	unsigned int* colData = nullptr;
-	int flsz = 0;
+  auto flsz = 0;
 	if (lightname != nullptr)
 	{
 		auto ltfl = srv.OpenFile(lightname);
@@ -52,12 +52,12 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 	srv.ReadFile(file, tname, rhead.ntextures * sizeof(long));
 
 	//read materials
-	RDF_MATERIAL* rmat = (RDF_MATERIAL*)srv.malloc(sizeof(RDF_MATERIAL) * rhead.nmaterials);
+  auto rmat = (RDF_MATERIAL*)srv.malloc(sizeof(RDF_MATERIAL) * rhead.nmaterials);
 	srv.ReadFile(file, rmat, sizeof(RDF_MATERIAL) * rhead.nmaterials);
 	material = (MATERIAL*)srv.malloc(sizeof(MATERIAL) * rhead.nmaterials);
 
 	//read lights
-	RDF_LIGHT* rlig = (RDF_LIGHT*)srv.malloc(sizeof(RDF_LIGHT) * rhead.nlights);
+  auto rlig = (RDF_LIGHT*)srv.malloc(sizeof(RDF_LIGHT) * rhead.nlights);
 	srv.ReadFile(file, rlig, sizeof(RDF_LIGHT) * rhead.nlights);
 	light = (LIGHT*)srv.malloc(sizeof(LIGHT) * rhead.nlights);
 	for (long l = 0; l < rhead.nlights; l++)
@@ -87,7 +87,7 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 	srv.free(rlig);
 
 	//read labels
-	RDF_LABEL* lab = (RDF_LABEL*)srv.malloc(sizeof(RDF_LABEL)* rhead.nlabels);
+  auto lab = (RDF_LABEL*)srv.malloc(sizeof(RDF_LABEL)* rhead.nlabels);
 	srv.ReadFile(file, lab, sizeof(RDF_LABEL)* rhead.nlabels);
 	label = (LABEL*)srv.malloc(sizeof(LABEL)* rhead.nlabels);
 	for (long lb = 0; lb < rhead.nlabels; lb++)
@@ -102,7 +102,7 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 	srv.free(lab);
 
 	//read objects
-	RDF_OBJECT* obj = (RDF_OBJECT*)srv.malloc(sizeof(RDF_OBJECT)* rhead.nobjects);
+  auto obj = (RDF_OBJECT*)srv.malloc(sizeof(RDF_OBJECT)* rhead.nobjects);
 	atriangles = (long*)srv.malloc(sizeof(long) * rhead.nobjects);
 	srv.ReadFile(file, obj, sizeof(RDF_OBJECT) * rhead.nobjects);
 	object = (OBJECT*)srv.malloc(sizeof(OBJECT) * rhead.nobjects);
@@ -127,13 +127,13 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 
 	//read triangles
 	idx_buff = srv.CreateIndexBuffer(rhead.ntriangles * sizeof(RDF_TRIANGLE));
-	RDF_TRIANGLE* trg = (RDF_TRIANGLE*)srv.LockIndexBuffer(idx_buff);
+  auto trg = (RDF_TRIANGLE*)srv.LockIndexBuffer(idx_buff);
 	srv.ReadFile(file, trg, sizeof(RDF_TRIANGLE) * rhead.ntriangles);
 	srv.UnlockIndexBuffer(idx_buff);
 
-	int nvertices = 0;
+  auto nvertices = 0;
 	//read vertex buffers
-	RDF_VERTEXBUFF* rvb = (RDF_VERTEXBUFF*)srv.malloc(rhead.nvrtbuffs * sizeof(RDF_VERTEXBUFF));
+  auto rvb = (RDF_VERTEXBUFF*)srv.malloc(rhead.nvrtbuffs * sizeof(RDF_VERTEXBUFF));
 	srv.ReadFile(file, rvb, rhead.nvrtbuffs * sizeof(RDF_VERTEXBUFF));
 	vbuff = (VERTEX_BUFFER*)srv.malloc(rhead.nvrtbuffs * sizeof(VERTEX_BUFFER));
 	long v;
@@ -148,7 +148,7 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 	}
 	srv.free(rvb);
 	//read vertices
-	unsigned int* _colData = colData;
+  auto _colData = colData;
 	if (lightname != nullptr && flsz / 4 != nvertices)
 	{
 		srv.free(colData);
@@ -253,14 +253,14 @@ void GEOM::Draw(const PLANE* pl, long np, MATERIAL_FUNC mtf) const
 		long cp;
 		for (cp = 0; cp < np; cp++)
 		{
-			float dist = object[o].center.x * pl[cp].nrm.x + object[o].center.y * pl[cp].nrm.y + object[o].center.z * pl
+      auto dist = object[o].center.x * pl[cp].nrm.x + object[o].center.y * pl[cp].nrm.y + object[o].center.z * pl
 				[cp].nrm.z - pl[cp].d;
 			if (dist > object[o].radius) break;
 			//if(dist<-object[o].radius)	break;
 		}
 		if (cp < np) continue;
 
-		VERTEX_BUFFER* vb = &vbuff[object[o].vertex_buff];
+    auto vb = &vbuff[object[o].vertex_buff];
 		srv.SetVertexBuffer(vb->stride, vb->dev_buff);
 		srv.SetMaterial(material[object[o].material]);
 		if (mtf != nullptr) mtf(material[object[o].material]);
@@ -288,10 +288,10 @@ bool GEOM::GetCollisionDetails(TRACE_INFO& ti) const
 	vindex[2] = (btrg[traceid].vindex[2][0] << 0) | (btrg[traceid].vindex[2][1] << 8) | (btrg[traceid].vindex[2][2] <<
 		16);
 
-	DVECTOR ve = dst - src;
+  auto ve = dst - src;
 	DVECTOR a = vrt[vindex[1]] - vrt[vindex[0]];
 	DVECTOR b = vrt[vindex[2]] - vrt[vindex[0]];
-	DVECTOR pvec = ve ^ b;
+  auto pvec = ve ^ b;
 	double det = a | pvec;
 	double invdet = 1.0 / det;
 	DVECTOR c = src - vrt[vindex[0]];

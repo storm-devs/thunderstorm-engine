@@ -106,10 +106,10 @@ void CAviPlayer::Realize(uint32_t delta_time)
 		hr = pTex->LockRect(0, &d3dlkRect, &lockRect, 0);
 		if (hr != S_OK) return;
 
-		int nPitch = d3dlkRect.Pitch;
-		char* pOutData = (char*)d3dlkRect.pBits;
-		char* pInData = (char*)ddsd.lpSurface;
-		long copySize = ddsd.lPitch < d3dlkRect.Pitch ? ddsd.lPitch : d3dlkRect.Pitch;
+    auto nPitch = d3dlkRect.Pitch;
+    auto pOutData = (char*)d3dlkRect.pBits;
+    auto pInData = (char*)ddsd.lpSurface;
+    auto copySize = ddsd.lPitch < d3dlkRect.Pitch ? ddsd.lPitch : d3dlkRect.Pitch;
 		for (i = 0; i < (int)ddsd.dwHeight; i++)
 		{
 			memcpy(pOutData, pInData, copySize);
@@ -155,7 +155,7 @@ uint64_t CAviPlayer::ProcessMessage(MESSAGE& message)
 
 bool CAviPlayer::PlayMedia(char* fileName)
 {
-	HRESULT hr = S_OK;
+  auto hr = S_OK;
 	DDSURFACEDESC ddsd;
 
 	WCHAR wPath[MAX_PATH]; // wide (32-bit) string name
@@ -213,11 +213,11 @@ bool CAviPlayer::PlayMedia(char* fileName)
 
 	RECT dstRect;
 	GetWindowRect(api->GetAppHWND(), &dstRect);
-	long dstWidth = dstRect.right - dstRect.left;
-	long dstHeight = dstRect.bottom - dstRect.top;
+  auto dstWidth = dstRect.right - dstRect.left;
+  auto dstHeight = dstRect.bottom - dstRect.top;
 
-	float horzK = (float)dstWidth / srcWidth;
-	float vertK = (float)dstHeight / srcHeight;
+  auto horzK = (float)dstWidth / srcWidth;
+  auto vertK = (float)dstHeight / srcHeight;
 	if (horzK < vertK) vertK = horzK;
 	else horzK = vertK;
 

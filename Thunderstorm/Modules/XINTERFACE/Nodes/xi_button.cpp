@@ -37,7 +37,7 @@ void CXI_BUTTON::Draw(bool bSelected, uint32_t Delta_Time)
 		XI_ONETEX_VERTEX vFace[4];
 		XI_ONETEX_VERTEX vShadow[4];
 
-		uint32_t dwFaceColor = m_dwFaceColor;
+    auto dwFaceColor = m_dwFaceColor;
 		if (bSelected && m_fBlindSpeed > 0.f)
 		{
 			dwFaceColor = ColorInterpolate(m_dwDarkColor, m_dwLightColor, m_fCurBlind);
@@ -55,7 +55,7 @@ void CXI_BUTTON::Draw(bool bSelected, uint32_t Delta_Time)
 			}
 		}
 
-		for (int i = 0; i < 4; i++)
+		for (auto i = 0; i < 4; i++)
 		{
 			vFace[i].color = dwFaceColor;
 			vFace[i].pos.z = 1.f;
@@ -81,7 +81,7 @@ void CXI_BUTTON::Draw(bool bSelected, uint32_t Delta_Time)
 		vFace[3].pos.x = (float)m_rect.right;
 		vFace[3].pos.y = (float)m_rect.bottom;
 
-		for (int i = 0; i < 4; i++)
+		for (auto i = 0; i < 4; i++)
 		{
 			if (nPressedDelay > 0)
 			{
@@ -267,7 +267,7 @@ void CXI_BUTTON::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());

@@ -102,7 +102,7 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2
 	m_xyCommonOffset = GetIniLongPoint(ini1, name1, ini2, name2, "offset", m_xyCommonOffset);
 
 	// Get images quantity
-	int imgQuantity = 0;
+  auto imgQuantity = 0;
 	if (ini1->ReadString(name1, "picture", param, sizeof(param) - 1, ""))
 		do
 		{
@@ -124,7 +124,7 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2
 
 		// Lock vertex and index buffers and get pointers to this
 		auto* pVBuf = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
-		uint16_t* pIBuf = (uint16_t*)m_rs->LockIndexBuffer(iBuf);
+    auto pIBuf = (uint16_t*)m_rs->LockIndexBuffer(iBuf);
 
 		if (pVBuf != nullptr && pIBuf != nullptr)
 		{
@@ -132,11 +132,11 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2
 			XYRECT scrRect;
 			// fill vetex and index buffers of image information
 			ini1->ReadString(name1, "picture", param, sizeof(param) - 1, "");
-			for (int i = 0; i < imgQuantity; i++)
+			for (auto i = 0; i < imgQuantity; i++)
 			{
 				if (_strnicmp(param, "editsection:", 12) != 0)
 				{
-					uint32_t dwColor = ARGB(255, 128, 128, 128);
+          auto dwColor = ARGB(255, 128, 128, 128);
 					char param2[256];
 					const char* pStr = param;
 					n = m_aEditInfo.size();
@@ -238,7 +238,7 @@ void CXI_IMGCOLLECTION::SetBuffers(XI_ONETEX_VERTEX* pVBuf, uint16_t* pIBuf, int
 	pVBuf->tv = texRect.bottom;
 	pVBuf->color = dwColor;
 
-	int idx = rectNum * 4;
+  auto idx = rectNum * 4;
 	*pIBuf++ = idx;
 	*pIBuf++ = idx + 1;
 	*pIBuf++ = idx + 2; // one triangle
@@ -251,8 +251,8 @@ void CXI_IMGCOLLECTION::UpdateBuffers()
 {
 	if (vBuf == -1 || iBuf == -1) return;
 
-	XI_ONETEX_VERTEX* pVBuf = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
-	uint16_t* pIBuf = (uint16_t*)m_rs->LockIndexBuffer(iBuf);
+  auto pVBuf = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
+  auto pIBuf = (uint16_t*)m_rs->LockIndexBuffer(iBuf);
 
 	if (pVBuf != nullptr && pIBuf != nullptr)
 	{
@@ -294,7 +294,7 @@ void CXI_IMGCOLLECTION::ChangePosition(XYRECT& rNewPos)
 		q = n + m_aSections[m_nCurSection].nQuantity;
 	}
 
-	XYRECT rOffset = rNewPos;
+  auto rOffset = rNewPos;
 	rOffset.left -= m_rect.left;
 	rOffset.top -= m_rect.top;
 	rOffset.right -= m_rect.right;
@@ -319,7 +319,7 @@ void CXI_IMGCOLLECTION::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -379,7 +379,7 @@ uint32_t CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 			// им€ картинки
 			message.String(sizeof(param) - 1, param);
 			// цвет картинки
-			long dwColor = message.Long();
+      auto dwColor = message.Long();
 			// позици€ картинки
 			XYRECT pos;
 			pos.left = message.Long();
@@ -424,7 +424,7 @@ uint32_t CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 
 	case 3: // установить цвет картинки
 		{
-			long nImgNum = message.Long();
+      auto nImgNum = message.Long();
 			uint32_t dwColor = message.Long();
 			if (nImgNum >= 0 && nImgNum < m_aEditInfo.size())
 			{
@@ -436,7 +436,7 @@ uint32_t CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 
 	case 4: // изменить картинку
 		{
-			long nImgNum = message.Long();
+      auto nImgNum = message.Long();
 			char param[256];
 			message.String(sizeof(param), param);
 			if (nImgNum >= 0 && nImgNum < m_aEditInfo.size())

@@ -29,7 +29,7 @@ MODELR::~MODELR()
 {
 	if (d3dDestVB != nullptr) d3dDestVB->Release();
 	delete root;
-	for (int i = 0; i < MODEL_ANI_MAXBUFFERS; i++)
+	for (auto i = 0; i < MODEL_ANI_MAXBUFFERS; i++)
 		delete aniVerts[i].v;
 	delete ani;
 
@@ -161,13 +161,13 @@ vrt_loop:	prefetcht0 [eax]
 	for (long v = 0; v < totVerts; v++)
 	{
 		//Вершина
-		GEOS::AVERTEX0& vrt = src[v];
-		GEOS::VERTEX0& dstVrt = dst[v];
+    auto& vrt = src[v];
+    auto& dstVrt = dst[v];
 		//Метрицы
-		CMatrix& m1 = bones[vrt.boneid & 0xff];
-		CMatrix& m2 = bones[(vrt.boneid >> 8) & 0xff];
+    auto& m1 = bones[vrt.boneid & 0xff];
+    auto& m2 = bones[(vrt.boneid >> 8) & 0xff];
 		//Инверсный коэфициент блендинга
-		float wNeg = 1.0f - vrt.weight;
+    auto wNeg = 1.0f - vrt.weight;
 		mtx.matrix[0] = -(m1.matrix[0] * vrt.weight + m2.matrix[0] * wNeg);
 		mtx.matrix[1] = m1.matrix[1] * vrt.weight + m2.matrix[1] * wNeg;
 		mtx.matrix[2] = m1.matrix[2] * vrt.weight + m2.matrix[2] * wNeg;

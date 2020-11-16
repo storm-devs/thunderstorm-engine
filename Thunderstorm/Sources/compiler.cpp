@@ -261,14 +261,14 @@ char* COMPILER::LoadFile(const char* file_name, uint32_t& file_size, bool bFullP
 		fh = fio->_CreateFile(buffer,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 
 	if (fh == INVALID_HANDLE_VALUE) return nullptr;
-	uint32_t fsize = fio->_GetFileSize(fh, nullptr);
+  auto fsize = fio->_GetFileSize(fh, nullptr);
 	if (fsize == INVALID_FILE_SIZE)
 	{
 		fio->_CloseHandle(fh);
 		return nullptr;
 	}
 
-	char* pData = (char *)new char[fsize + 1];
+  auto pData = (char *)new char[fsize + 1];
 	fio->_ReadFile(fh, pData, fsize, &dwR);
 	if (fsize != dwR)
 	{
@@ -291,8 +291,8 @@ void COMPILER::Trace(const char* data_PTR, ...)
 	//char LogBuffer[MAX_PATH + MAX_PATH];
 	char LogBuffer[4096];
 	if (data_PTR == nullptr) return;
-	HANDLE file_h = CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ, nullptr,OPEN_ALWAYS,
-	                           FILE_ATTRIBUTE_NORMAL, nullptr);
+  auto file_h = CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ, nullptr,OPEN_ALWAYS,
+                           FILE_ATTRIBUTE_NORMAL, nullptr);
 	SetFilePointer(file_h, 0, nullptr,FILE_END);
 	va_list args;
 	va_start(args, data_PTR);
@@ -315,7 +315,7 @@ void COMPILER::DTrace(const char* data_PTR, ...)
 	//char LogBuffer[MAX_PATH + MAX_PATH];
 	char LogBuffer[4096];
 	if (data_PTR == nullptr) return;
-	HANDLE file_h = fio->_CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
+  auto file_h = fio->_CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
 	fio->_SetFilePointer(file_h, 0, nullptr,FILE_END);
 	va_list args;
 	va_start(args, data_PTR);
@@ -350,7 +350,7 @@ void COMPILER::DTrace(const char* data_PTR, ...)
 bool COMPILER::AppendProgram(char* & pBase_program, uint32_t& Base_program_size, const char* pAppend_program,
                              uint32_t& Append_program_size, bool bAddLinefeed)
 {
-	uint32_t offset = Base_program_size;
+  auto offset = Base_program_size;
 	if (pAppend_program == nullptr) return false;
 	if (bAddLinefeed)
 	{
@@ -389,7 +389,7 @@ void COMPILER::SetError(const char* data_PTR, ...)
 	char LogBuffer[MAX_PATH + MAX_PATH];
 	char ErrorBuffer[MAX_PATH + MAX_PATH];
 	if (data_PTR == nullptr) return;
-	HANDLE file_h = fio->_CreateFile(COMPILER_ERRORLOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
+  auto file_h = fio->_CreateFile(COMPILER_ERRORLOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
 	fio->_SetFilePointer(file_h, 0, nullptr,FILE_END);
 	va_list args;
 	va_start(args, data_PTR);
@@ -433,7 +433,7 @@ void COMPILER::SetWarning(const char* data_PTR, ...)
 	char LogBuffer[MAX_PATH + MAX_PATH];
 	char ErrorBuffer[MAX_PATH + MAX_PATH];
 	if (data_PTR == nullptr) return;
-	HANDLE file_h = fio->_CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
+  auto file_h = fio->_CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
 	fio->_SetFilePointer(file_h, 0, nullptr,FILE_END);
 	va_list args;
 	va_start(args, data_PTR);

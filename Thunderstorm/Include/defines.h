@@ -8,10 +8,10 @@ namespace TOREMOVE
 		unsigned long hval = 0;
 		while (*str != '\0')
 		{
-			char c = *str++;
+      auto c = *str++;
 			if (c >= 'A' && c <= 'Z') c += 'a' - 'A';
 			hval = (hval << 4) + (unsigned long)c;
-			unsigned long g = hval & ((unsigned long)0xf << (32 - 4));
+      auto g = hval & ((unsigned long)0xf << (32 - 4));
 			if (g != 0)
 			{
 				hval ^= g >> (32 - 8);
@@ -156,14 +156,14 @@ T Bring2Range(T Min1, T Max1, T Min2, T Max2, T Value)
 {
 	if (Value < Min2) Value = Min2;
 	if (Value > Max2) Value = Max2;
-	float Delta = float(Value - Min2) / float(Max2 - Min2);
+  auto Delta = float(Value - Min2) / float(Max2 - Min2);
 	return Min1 + Delta * (Max1 - Min1);
 };
 
 template <class T>
 T Bring2RangeNoCheck(T Min1, T Max1, T Min2, T Max2, T Value)
 {
-	float Delta = float(Value - Min2) / float(Max2 - Min2);
+  auto Delta = float(Value - Min2) / float(Max2 - Min2);
 	return Min1 + Delta * (Max1 - Min1);
 };
 

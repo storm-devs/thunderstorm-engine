@@ -28,7 +28,7 @@ XI_TableLineDescribe::~XI_TableLineDescribe()
 
 void XI_TableLineDescribe::Draw(float fTop)
 {
-	float fX = (float)m_pTable->m_rect.left;
+  auto fX = (float)m_pTable->m_rect.left;
 	for (long n = 0; n < m_aCell.size(); n++)
 	{
 		m_aCell[n]->Draw(fX, fTop);
@@ -43,9 +43,9 @@ void XI_TableLineDescribe::DrawSpecColor(float fTop)
 		XI_NOTEX_VERTEX v[4];
 		v[0].color = v[1].color = v[2].color = v[3].color = m_dwSpecColor;
 		v[0].pos.z = v[1].pos.z = v[2].pos.z = v[3].pos.z = 1.f;
-		float fBottom = fTop + (float)m_pTable->m_anRowsHeights[m_nRowIndex];
-		float fLeft = (float)m_pTable->m_rect.left;
-		float fRight = (float)m_pTable->m_rect.right;
+    auto fBottom = fTop + (float)m_pTable->m_anRowsHeights[m_nRowIndex];
+    auto fLeft = (float)m_pTable->m_rect.left;
+    auto fRight = (float)m_pTable->m_rect.right;
 		v[0].pos.x = fLeft;
 		v[0].pos.y = fTop;
 		v[1].pos.x = fLeft;
@@ -81,7 +81,7 @@ void XI_TableLineDescribe::SetData(long nRowIndex, ATTRIBUTES* pLA, bool bHeader
 	for (c = 0; c < 10000; c++)
 	{
 		sprintf_s(pcAttrName, "td%d", c + 1);
-		ATTRIBUTES* pA = (pLA ? pLA->GetAttributeClass(pcAttrName) : nullptr);
+    auto pA = (pLA ? pLA->GetAttributeClass(pcAttrName) : nullptr);
 		if (!pA && c >= m_pTable->m_nColQuantity) break;
 		XI_TableCellDescribe* pTD = nullptr;
 		if (c >= m_aCell.size())
@@ -135,8 +135,8 @@ void XI_TableCellDescribe::Draw(float fLeft, float fTop)
 	fTop += m_pTable->m_pntSpaceSize.y;
 	if (m_aImage.size() > 0)
 	{
-		long nX = (long)fLeft + m_nLeftLineWidth;
-		long nY = (long)fTop + m_nTopLineHeight;
+    auto nX = (long)fLeft + m_nLeftLineWidth;
+    auto nY = (long)fTop + m_nTopLineHeight;
 		for (n = 0; n < m_aImage.size(); n++)
 			if (m_aImage[n].pImage)
 				m_aImage[n].pImage->Draw(nX + m_aImage[n].offset.x, nY + m_aImage[n].offset.y, IPType_LeftTop);
@@ -144,11 +144,11 @@ void XI_TableCellDescribe::Draw(float fLeft, float fTop)
 
 	fLeft += m_TextOffset.x;
 	fTop += m_TextOffset.y;
-	float fY = 0.f;
+  auto fY = 0.f;
 	for (n = 0; n < m_aStrings.size(); n++)
 	{
 		if (m_aStrings[n].offset.y != NOTUSE_OFFSET) fY = m_aStrings[n].offset.y;
-		float fNewY = fY + m_pTable->m_rs->CharHeight(m_nFontID) * m_fScale;
+    auto fNewY = fY + m_pTable->m_rs->CharHeight(m_nFontID) * m_fScale;
 		if (fNewY >= m_pLine->GetLineHeight()) break; // больше не влазит в таблицу
 
 		CXI_UTILS::PrintTextIntoWindow(m_pTable->m_rs,
@@ -237,7 +237,7 @@ void XI_TableCellDescribe::SetData(long nColIndex, ATTRIBUTES* pAttr, bool bHead
 		sscanf(pAttr->GetAttribute("textoffset"), "%f,%f", &m_TextOffset.x, &m_TextOffset.y);
 	m_TextOffset.y += m_nTopLineHeight;
 
-	long nWidth = m_pTable->m_anColsWidth[nColIndex] - 2 * m_pTable->m_pntSpaceSize.x - m_nLeftLineWidth - (long)
+  auto nWidth = m_pTable->m_anColsWidth[nColIndex] - 2 * m_pTable->m_pntSpaceSize.x - m_nLeftLineWidth - (long)
 		m_TextOffset.x;
 	if (nWidth <= 0)
 	{
@@ -250,7 +250,7 @@ void XI_TableCellDescribe::SetData(long nColIndex, ATTRIBUTES* pAttr, bool bHead
 
 	if (m_nVAlignment != ALIGN_TOP)
 	{
-		float fVOffset = (float)(m_pLine->GetLineHeight() - 2 * m_pTable->m_pntSpaceSize.y - m_nTopLineHeight) -
+    auto fVOffset = (float)(m_pLine->GetLineHeight() - 2 * m_pTable->m_pntSpaceSize.y - m_nTopLineHeight) -
 			m_fScale * m_pTable->m_rs->CharHeight(m_nFontID) * asStr.size();
 		if (m_nVAlignment == PR_ALIGN_CENTER)
 			fVOffset *= .5f;
@@ -303,7 +303,7 @@ void XI_TableCellDescribe::LoadImageParam(ImgDescribe* pImg, ATTRIBUTES* pA)
 		if (pA->GetAttribute("texturepointer"))
 			pImg->pImage->SetPointerToTexture((IDirect3DTexture9*)pA->GetAttributeAsPointer("texturepointer"));
 
-		float fL = 0.f, fT = 0.f, fR = 1.f, fB = 1.f;
+    auto fL = 0.f, fT = 0.f, fR = 1.f, fB = 1.f;
 		if (pA->GetAttribute("uv"))
 			sscanf(pA->GetAttribute("uv"), "%f,%f,%f,%f", &fL, &fT, &fR, &fB);
 		pImg->pImage->SetUV(fL, fT, fR, fB);
@@ -531,10 +531,10 @@ int CXI_TABLE::CommandExecute(int wActCode)
 			// boal -->
 		case ACTION_MOUSERCLICK: // просто спозиционировать курсор
 			{
-				long n = GetLineByPoint(ptrOwner->GetMousePoint());
+        auto n = GetLineByPoint(ptrOwner->GetMousePoint());
 				if (n >= 0 && n <= m_nLineQuantity - m_nTopIndex - (m_pHeader ? 0 : 1))
 				{
-					long nCol = GetColByX((long)ptrOwner->GetMousePoint().x);
+          auto nCol = GetColByX((long)ptrOwner->GetMousePoint().x);
 					if (m_bDoColsSelect) SelectRow(n, nCol);
 					else SelectRow(n);
 					//api->Event( "OnTableClick", "sll", m_nodeName, m_nSelectIndex, nCol+1 );
@@ -544,10 +544,10 @@ int CXI_TABLE::CommandExecute(int wActCode)
 			// boal <--
 		case ACTION_MOUSECLICK:
 			{
-				long n = GetLineByPoint(ptrOwner->GetMousePoint());
+        auto n = GetLineByPoint(ptrOwner->GetMousePoint());
 				if (n >= 0 && n <= m_nLineQuantity - m_nTopIndex - (m_pHeader ? 0 : 1))
 				{
-					long nCol = GetColByX((long)ptrOwner->GetMousePoint().x);
+          auto nCol = GetColByX((long)ptrOwner->GetMousePoint().x);
 					if (m_bDoColsSelect) SelectRow(n, nCol);
 					else SelectRow(n);
 					//api->Event( "OnTableClick", "sll", m_nodeName, (m_pHeader?n:(n+1)), nCol+1 );

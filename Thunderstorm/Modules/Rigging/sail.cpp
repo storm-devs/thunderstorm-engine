@@ -22,7 +22,7 @@ float GetSailSpeed(int holeQ, int holeMax, float maxSpeed, float fSailHoleDepend
 	if (holeMax <= 0) holeMax = 1;
 	if (holeQ <= 0)
 		return maxSpeed;
-	float curSpeed = maxSpeed * (1.f - (float)holeQ / holeMax * fSailHoleDepend);
+  auto curSpeed = maxSpeed * (1.f - (float)holeQ / holeMax * fSailHoleDepend);
 	if (curSpeed < 0.f) curSpeed = 0.f;
 	return curSpeed;
 }
@@ -170,13 +170,13 @@ SAIL::~SAIL()
 {
 	if (slist != nullptr)
 	{
-		for (int i = 0; i < sailQuantity; i++)
+		for (auto i = 0; i < sailQuantity; i++)
 		STORM_DELETE(slist[i]);
 		STORM_DELETE(slist);
 	}
 	if (gdata != nullptr)
 	{
-		for (int i = 0; i < groupQuantity; i++)
+		for (auto i = 0; i < groupQuantity; i++)
 		{
 			STORM_DELETE(gdata[i].sailIdx);
 		}
@@ -270,7 +270,7 @@ void SAIL::Execute(uint32_t Delta_Time)
 			{
 				char pcTmpMastName[256];
 				sprintf_s(pcTmpMastName, "mast%d", nTmpMastNum);
-				NODE* nod = pTmpMdl->FindNode(pcTmpMastName);
+        auto nod = pTmpMdl->FindNode(pcTmpMastName);
 				if (nod)
 				{
 					entid_t eiMastTmp;
@@ -295,9 +295,9 @@ void SAIL::Execute(uint32_t Delta_Time)
 		wFirstIndx = sailQuantity;
 	}
 
-	float fMaxTurnAngl = Delta_Time * TURNSTEPANGL;
+  auto fMaxTurnAngl = Delta_Time * TURNSTEPANGL;
 
-	bool bSailUpdate = false;
+  auto bSailUpdate = false;
 	m_nLastUpdate -= Delta_Time;
 	if (m_nLastUpdate <= 0)
 	{
@@ -310,10 +310,10 @@ void SAIL::Execute(uint32_t Delta_Time)
 		//====================================================
 		// Если был изменен ини-файл, то считать инфо из него
 		WIN32_FIND_DATA wfd;
-		HANDLE h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
+    auto h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
 		if (INVALID_HANDLE_VALUE != h)
 		{
-			FILETIME ft_new = wfd.ftLastWriteTime;
+      auto ft_new = wfd.ftLastWriteTime;
 			fio->_FindClose(h);
 
 			if (CompareFileTime(&ft_old, &ft_new) != 0)

@@ -56,7 +56,7 @@ void WdmRenderModel::PRender(VDX9RENDER* rs)
 
 void WdmRenderModel::MRender(VDX9RENDER* rs)
 {
-	CMatrix m(mtx);
+  auto m(mtx);
 	m.m[0][1] = -m.m[0][1];
 	m.m[1][1] = -m.m[1][1];
 	m.m[2][1] = -m.m[2][1];
@@ -108,7 +108,7 @@ void WdmRenderModel::SetTexture(long stage, long id)
 void WdmRenderModel::Render(VDX9RENDER* rs)
 {
 	if (!geo) return;
-	float a = alpha * 255.0f;
+  auto a = alpha * 255.0f;
 	if (wdmObjects->isDebug && a < 80.0f) a = 80.0f;
 	if (a < 1.0f) return;
 	//Риссуем
@@ -123,14 +123,14 @@ void WdmRenderModel::Render(VDX9RENDER* rs)
 		rs->SetRenderState(D3DRS_TEXTUREFACTOR, (long(a) << 24) | 0xffffff);
 	}
 	//Проверим на видимость
-	PLANE* plane = rs->GetPlanes();
+  auto plane = rs->GetPlanes();
 	static CMatrix mtx;
 	rs->GetTransform(D3DTS_WORLD, mtx);
-	CVECTOR v = mtx * center;
+  auto v = mtx * center;
 	for (long i = 0; i < 4; i++)
 	{
-		PLANE& p = plane[i];
-		float dist = v.x * p.Nx + v.y * p.Ny + v.z * p.Nz - p.D;
+    auto& p = plane[i];
+    auto dist = v.x * p.Nx + v.y * p.Ny + v.z * p.Nz - p.D;
 		if (dist < -radius) return;
 	}
 	geo->Draw(nullptr, 0, nullptr);

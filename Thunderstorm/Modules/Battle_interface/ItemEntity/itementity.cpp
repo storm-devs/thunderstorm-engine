@@ -31,13 +31,13 @@ void ItemEntity::Realize(uint32_t delta_time)
 
 uint64_t ItemEntity::ProcessMessage(MESSAGE& message)
 {
-	long nMsgCod = message.Long();
+  auto nMsgCod = message.Long();
 	switch (nMsgCod)
 	{
 	case 0: // Tie item to moving locator
 		{
 			DeleteParticle();
-			entid_t mdlEID = GetModelEIDFromCharacterEID(message.EntityID());
+      auto mdlEID = GetModelEIDFromCharacterEID(message.EntityID());
 			char locName[255];
 			message.String(sizeof(locName) - 1, locName);
 			m_bTieToLocator = TieToLocator(mdlEID, locName);
@@ -84,8 +84,8 @@ uint64_t ItemEntity::ProcessMessage(MESSAGE& message)
 	case 5:
 		{
 			DeleteParticle();
-			entid_t mdlID = GetModelEIDFromCharacterEID(message.EntityID());
-			entid_t mdlToTieID = GetModelEIDFromCharacterEID(message.EntityID());
+      auto mdlID = GetModelEIDFromCharacterEID(message.EntityID());
+      auto mdlToTieID = GetModelEIDFromCharacterEID(message.EntityID());
 			char sLocName[255];
 			message.String(sizeof(sLocName) - 1, sLocName);
 			char sStartEvntName[255];
@@ -105,8 +105,8 @@ bool ItemEntity::ReadAndCreate()
 	BIUtils::ReadVectorFormAttr(AttributesPointer, "pos.vx", m_mtxpos.Vx(), CVECTOR(0.f));
 	BIUtils::ReadVectorFormAttr(AttributesPointer, "pos.vy", m_mtxpos.Vy(), CVECTOR(0.f));
 	BIUtils::ReadVectorFormAttr(AttributesPointer, "pos.vz", m_mtxpos.Vz(), CVECTOR(0.f));
-	char* pcModelName = BIUtils::GetStringFromAttr(AttributesPointer, "model", "");
-	char* pcTechnique = BIUtils::GetStringFromAttr(AttributesPointer, "technique", "");
+  auto pcModelName = BIUtils::GetStringFromAttr(AttributesPointer, "model", "");
+  auto pcTechnique = BIUtils::GetStringFromAttr(AttributesPointer, "technique", "");
 	if (pcModelName)
 	{
 		if (m_eidModel = EntityManager::CreateEntity("modelr"))
@@ -157,7 +157,7 @@ void ItemEntity::SetTechnique(const char* pcTechnique)
 {
 	if (m_pModel)
 	{
-		NODE* pRootNod = m_pModel->GetNode(0);
+    auto pRootNod = m_pModel->GetNode(0);
 		if (pRootNod)
 		{
 			pRootNod->SetTechnique(pcTechnique);
@@ -217,8 +217,8 @@ void ItemEntity::DrawIntoLocator()
 
 		if ((sti = m_pMdlNode->geo->FindLabelN(sti + 1, idLoc)) > -1)
 		{
-			Animation* ani = pMdl->GetAnimation();
-			CMatrix* bones = &ani->GetAnimationMatrix(0);
+      auto ani = pMdl->GetAnimation();
+      auto bones = &ani->GetAnimationMatrix(0);
 
 			GEOS::LABEL lb;
 			m_pMdlNode->geo->GetLabel(sti, lb);
@@ -228,7 +228,7 @@ void ItemEntity::DrawIntoLocator()
 			mt.Vz() = CVECTOR(lb.m[2][0], lb.m[2][1], lb.m[2][2]);
 			mt.Pos() = CVECTOR(lb.m[3][0], lb.m[3][1], lb.m[3][2]);
 
-			CMatrix mbn = mt * bones[lb.bones[0]];
+      auto mbn = mt * bones[lb.bones[0]];
 			mbn.Pos().x *= -1.0f;
 			mbn.Vx().x *= -1.0f;
 			mbn.Vy().x *= -1.0f;
@@ -292,7 +292,7 @@ void ItemEntity::EventListener::Event(Animation* animation, long playerIndex, co
 		auto pMdl = (MODEL*)EntityManager::GetEntityPointer(m_eidListenedModel);
 		if (pMdl)
 		{
-			Animation* a = pMdl->GetAnimation();
+      auto a = pMdl->GetAnimation();
 			if (a) a->SetEventListener(nullptr);
 		}
 		item->EndEventProcess();

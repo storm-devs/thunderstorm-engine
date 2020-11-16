@@ -25,7 +25,7 @@ bool FirePlace::CreateParticle(const char* pParticleSmokeName, const char* pPart
 {
 	if (const auto eidParticle = EntityManager::GetEntityId("particles"))
 	{
-		CVECTOR vPos = GetPos();
+    auto vPos = GetPos();
 		pParticleSmoke = (VPARTICLE_SYSTEM*)api->Send_Message(eidParticle, "lsffffffl", PS_CREATE_RIC,
 		                                                      pParticleSmokeName, vPos.x, vPos.y, vPos.z, 0.0f, 1.0f,
 		                                                      0.0f, 0);
@@ -69,7 +69,7 @@ void FirePlace::Run(const char* pParticleSmokeName, const char* pParticleFireNam
 {
 	if (isActive()) return;
 	if (!CreateParticle(pParticleSmokeName, pParticleFireName)) return;
-	CVECTOR vPos = GetPos();
+  auto vPos = GetPos();
 	fRunTime = _fRunTime;
 	iSoundID = api->Send_Message(eidSound, "lsllllllfff", MSG_SOUND_PLAY, pSoundName, SOUND_WAV_3D, VOLUME_FX, false,
 	                             true, false, 0, vPos.x, vPos.y, vPos.z);
@@ -100,7 +100,7 @@ void FirePlace::Execute(float fDeltaTime)
 {
 	if (!isActive()) return;
 
-	CVECTOR vCurPos = GetPos();
+  auto vCurPos = GetPos();
 
 	fRunTime -= fDeltaTime;
 	if (fRunTime < 0) // || pSea->WaveXZ(vCurPos.x, vCurPos.z) > vCurPos.y)

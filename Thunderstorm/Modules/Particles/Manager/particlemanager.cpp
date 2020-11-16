@@ -102,8 +102,8 @@ bool ParticleManager::OpenProject(const char* FileName)
 	ShortProjectName = FileName;
 
 	//std::string LongFileName = "resource\\particles\\";
-	fs::path path = fs::path() / "resource" / "particles" / FileName;
-	std::string pathStr = path.extension().string();
+  auto path = fs::path() / "resource" / "particles" / FileName;
+  auto pathStr = path.extension().string();
 	if (_stricmp(pathStr.c_str(), ".prj") != 0)
 		path += ".prj";
 	pathStr = path.string();
@@ -112,7 +112,7 @@ bool ParticleManager::OpenProject(const char* FileName)
 	//LongFileName.AddExtention(".prj");
 
 
-	INIFILE* IniFile = fio->OpenIniFile((char*)pathStr.c_str());
+  auto IniFile = fio->OpenIniFile((char*)pathStr.c_str());
 	if (!IniFile)
 	{
 		api->Trace("Can't find project '%s'", pathStr.c_str());
@@ -142,12 +142,12 @@ bool ParticleManager::OpenProject(const char* FileName)
 	*/
 
 	//Загружаем данные
-	for (int n = 0; n < 9999; n++)
+	for (auto n = 0; n < 9999; n++)
 	{
 		char buf[64];
 		snprintf(buf, _countof(buf), "System_%04d", n);
 		//Section.Format("System_%04d", n);
-		bool ReadSuccess = IniFile->ReadString("Manager", buf, IniStringBuffer, 8192, "none");
+    auto ReadSuccess = IniFile->ReadString("Manager", buf, IniStringBuffer, 8192, "none");
 		if (!ReadSuccess) break;
 		pDataCache->CacheSystem(IniStringBuffer);
 	}
@@ -261,7 +261,7 @@ void ParticleManager::Execute(float DeltaTime)
 		D3DVIEWPORT9 ViewPort;
 		pRS->GetViewport(&ViewPort);
 		RS_SPRITE spr[4];
-		float x1 = -1.0f;
+    auto x1 = -1.0f;
 		float x2 = ((220.0f / (float)ViewPort.Width) * 2) - 1.0f;
 		float y1 = 1.0f - ((16.0f / (float)ViewPort.Height) * 2.0f);
 		float y2 = 1.0f - ((150.0f / (float)ViewPort.Height) * 2.0f);

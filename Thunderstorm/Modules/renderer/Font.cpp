@@ -89,7 +89,7 @@ bool FONT::Init(const char* font_name, const char* iniName, IDirect3DDevice9* _d
 		m_fAspectRatioV = 1.f;
 	}
 
-	float _fscale = 1.f;
+  auto _fscale = 1.f;
 #ifndef _XBOX
 	_fscale = ini->GetFloat(font_name, "pcscale", 1.f);
 #else
@@ -331,11 +331,11 @@ long FONT::Print(long x, long y, char* data_PTR)
 {
 	if (data_PTR == nullptr || techniqueName == nullptr) return 0;
 	long s_num;
-	long xoffset = 0L;
+  auto xoffset = 0L;
 	s_num = strlen(data_PTR);
 	if (s_num == 0) return 0;
 
-	bool bDraw = RenderService->TechniqueExecuteStart(techniqueName);
+  auto bDraw = RenderService->TechniqueExecuteStart(techniqueName);
 	if (!bDraw) return xoffset;
 
 	RenderService->TextureSet(0, TextureID);

@@ -37,7 +37,7 @@ bool PARTICLES::Init()
 
 uint64_t PARTICLES::ProcessMessage(MESSAGE& message)
 {
-	long code = message.Long();
+  auto code = message.Long();
 
 	static char ps_name[MAX_PATH];
 	CVECTOR pos, angles;
@@ -97,7 +97,7 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE& message)
 			angles.z = message.Float();
 			lifetime = message.Long();
 
-			PARTICLE_SYSTEM* pSystem = CreateSystem(ps_name, lifetime);
+      auto pSystem = CreateSystem(ps_name, lifetime);
 			if (!pSystem) return 0;
 
 			pSystem->SetEmitter(pos, angles);
@@ -125,7 +125,7 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE& message)
 			angles.z = message.Float();
 			lifetime = message.Long();
 
-			PARTICLE_SYSTEM* pSystem = CreateSystem(ps_name, lifetime);
+      auto pSystem = CreateSystem(ps_name, lifetime);
 			if (!pSystem) return 0;
 
 
@@ -153,7 +153,7 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE& message)
 			if (fLen)
 			{
 				angles.y = normal.GetAY();
-				double fDiv = -(normal.y / fLen);
+        auto fDiv = -(normal.y / fLen);
 				fDiv = Min(Max(fDiv, -1.0), 1.0);
 				angles.x = (float)asin(fDiv);
 			}
@@ -167,7 +167,7 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE& message)
 
 			lifetime = message.Long();
 
-			PARTICLE_SYSTEM* pSystem = CreateSystem(ps_name, lifetime);
+      auto pSystem = CreateSystem(ps_name, lifetime);
 			if (!pSystem) return 0;
 
 			pSystem->SetEmitter(pos, angles);
@@ -206,7 +206,7 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem(const char* pFileName, uint32_t LifeTim
 	//pFullFileName += pFileName;
 	//pFullFileName.AddExtention(".xps");
 	//__debugbreak(); //~!~
-	fs::path path = fs::path() / "resource" / "particles" / pFileName;
+  auto path = fs::path() / "resource" / "particles" / pFileName;
 	std::string pathStr = path.extension().string();
 	if (_stricmp(pathStr.c_str(), ".xps") != 0)
 		path += ".xps";

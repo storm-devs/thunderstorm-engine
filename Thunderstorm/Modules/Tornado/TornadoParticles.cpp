@@ -55,7 +55,7 @@ void TornadoParticles::SetSea()
 void TornadoParticles::Update(float dltTime)
 {
 	//Получим точку уровня моря
-	float seaLevel = 0.0f;
+  auto seaLevel = 0.0f;
 	if (txtGroundPrts >= 0 || txtPillarPrts >= 0)
 	{
 		auto* sea = (SEA_BASE *)EntityManager::GetEntityPointer(seaID);
@@ -68,7 +68,7 @@ void TornadoParticles::Update(float dltTime)
 	//Партиклы у земли
 	for (long i = 0; i < sizeof(groundPrt) / sizeof(GroundParticle); i++)
 	{
-		float k = pillarPrt[i].k;
+    auto k = pillarPrt[i].k;
 		//Время жизни частицы
 		groundPrt[i].dt += dltTime * 0.3f;
 		groundPrt[i].t += k * dltTime * groundPrt[i].dt;
@@ -77,14 +77,14 @@ void TornadoParticles::Update(float dltTime)
 			groundPrt[i].t -= long(groundPrt[i].t);
 			groundPrt[i].dt = 0.0f;
 		}
-		float t = groundPrt[i].t;
+    auto t = groundPrt[i].t;
 		if (t == 0) continue; //eddy. вылет по assert нам не нужен
 		//Assert(t);
 		//Вражение вокруг оси столба
 		groundPrt[i].a += k * dltTime * (0.5f + 5.0f * t);
 		if (groundPrt[i].a > TRND_PI * 2.0f) groundPrt[i].a -= TRND_PI * 2.0f;
 		//Позиция
-		float r = groundPrt[i].r * ((1.0f - t) * (1.0f - t) * 0.7f + 0.3f);
+    auto r = groundPrt[i].r * ((1.0f - t) * (1.0f - t) * 0.7f + 0.3f);
 		groundPrt[i].pos.y = seaLevel + 30.0f * powf(t, groundPrt[i].p);
 		groundPrt[i].pos.x = pillar.GetX(groundPrt[i].pos.y) + r * sinf(groundPrt[i].a);
 		groundPrt[i].pos.z = pillar.GetZ(groundPrt[i].pos.y) + r * cosf(groundPrt[i].a);
@@ -103,13 +103,13 @@ void TornadoParticles::Update(float dltTime)
 	//Партиклы столба
 	for (long i = 0; i < sizeof(pillarPrt) / sizeof(PillarParticle); i++)
 	{
-		float kh = pillar.GetKHeight(pillarPrt[i].pos.y);
-		float k = pillarPrt[i].k;
+    auto kh = pillar.GetKHeight(pillarPrt[i].pos.y);
+    auto k = pillarPrt[i].k;
 		pillarPrt[i].pos.y += k * dltTime * (20.0f + 40.0f * kh * kh);
 		if (pillarPrt[i].pos.y >= pillar.GetHeight()) pillarPrt[i].pos.y = 0.0f;
-		float x = pillar.GetX(pillarPrt[i].pos.y);
-		float z = pillar.GetZ(pillarPrt[i].pos.y);
-		float r = pillar.GetRaduis(pillarPrt[i].pos.y) - pillarPrt[i].size * 0.25f;
+    auto x = pillar.GetX(pillarPrt[i].pos.y);
+    auto z = pillar.GetZ(pillarPrt[i].pos.y);
+    auto r = pillar.GetRaduis(pillarPrt[i].pos.y) - pillarPrt[i].size * 0.25f;
 		pillarPrt[i].angle += k * dltTime * 3.5f;
 		if (pillarPrt[i].angle > TRND_PI * 2.0f) pillarPrt[i].angle -= TRND_PI * 2.0f;
 		pillarPrt[i].ang += k * dltTime * (19.0f - 10.0f * pillar.GetKHeight(pillarPrt[i].pos.y));
@@ -145,11 +145,11 @@ inline void TornadoParticles::DrawParticles(VDX9RENDER* rs, void* prts, long num
 	{
 		auto* parts = (Particle *)prts;
 		prts = (char *)prts + size;
-		CVECTOR pos = camMtx * parts->pos;
-		float size = parts->size * 0.5f;
-		float sn = sinf(parts->angle);
-		float cs = cosf(parts->angle);
-		long color = (long(parts->alpha * galpha) << 24) | 0x00ffffff;
+    auto pos = camMtx * parts->pos;
+    auto size = parts->size * 0.5f;
+    auto sn = sinf(parts->angle);
+    auto cs = cosf(parts->angle);
+    auto color = (long(parts->alpha * galpha) << 24) | 0x00ffffff;
 		buffer[n * 6 + 0].pos = pos + CVECTOR(size * (-cs + sn), size * (sn + cs), 0.0f);
 		buffer[n * 6 + 0].color = color;
 		buffer[n * 6 + 0].u = 0.0f;

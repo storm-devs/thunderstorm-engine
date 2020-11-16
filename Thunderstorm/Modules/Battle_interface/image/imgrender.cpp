@@ -38,7 +38,7 @@ uint64_t BIImageRender::ProcessMessage(MESSAGE& message)
 IBIImage* BIImageRender::CreateImage(BIImageType type, const char* pcTextureName, uint32_t color, const FRECT& uv, long nLeft,
                                      long nTop, long nRight, long nBottom, long nPrior, const char* pcTechniqueName)
 {
-	BIImageMaterial* pMaterial = CreateMaterial(pcTextureName, pcTechniqueName);
+  auto pMaterial = CreateMaterial(pcTextureName, pcTechniqueName);
 	if (pMaterial)
 		return (IBIImage*)pMaterial->CreateImage(type, color, uv, nLeft, nTop, nRight, nBottom, nPrior);
 	return nullptr;
@@ -47,7 +47,7 @@ IBIImage* BIImageRender::CreateImage(BIImageType type, const char* pcTextureName
 IBIImage* BIImageRender::CreateImage(BIImageType type, const char* pcTextureName, uint32_t color, const FRECT& uv, const RECT& pos,
                                      long nPrior, const char* pcTechniqueName)
 {
-	BIImageMaterial* pMaterial = CreateMaterial(pcTextureName, pcTechniqueName);
+  auto pMaterial = CreateMaterial(pcTextureName, pcTechniqueName);
 	if (pMaterial)
 		return (IBIImage*)pMaterial->CreateImage(type, color, uv, pos.left, pos.top, pos.right, pos.bottom, nPrior);
 	return nullptr;
@@ -64,8 +64,8 @@ BIImageMaterial* BIImageRender::FindMaterial(const char* pcTextureName, const ch
 
 BIImageMaterial* BIImageRender::CreateMaterial(const char* pcTextureName, const char* pcTechniqueName)
 {
-	BIImageMaterial* pMaterial = FindMaterial(pcTextureName,
-	                                          pcTechniqueName ? pcTechniqueName : "battle_tex_col_Rectangle");
+  auto pMaterial = FindMaterial(pcTextureName,
+                                pcTechniqueName ? pcTechniqueName : "battle_tex_col_Rectangle");
 	if (!pMaterial)
 	{
 		pMaterial = new BIImageMaterial(m_pRS, this);
@@ -110,7 +110,7 @@ long BIImageRender::GetImageQuantity()
 
 void BIImageRender::MaterialSorting()
 {
-	for (bool bContinue = true; bContinue;)
+	for (auto bContinue = true; bContinue;)
 	{
 		bContinue = false;
 		for (long n = 1; n < m_apMaterial.size(); n++)
@@ -169,7 +169,7 @@ void BIImageRender::CutPrioritetRangeByStrings()
 {
 	for (long n = 0; n < m_apStrings.size(); n++)
 	{
-		long iprior = ((BIString*)m_apStrings[n])->GetPrioritet();
+    auto iprior = ((BIString*)m_apStrings[n])->GetPrioritet();
 		if (iprior < m_nBeginOutputPrioritet) continue;
 		if (iprior > m_nEndOutputPrioritet) continue;
 		m_nEndOutputPrioritet = iprior;

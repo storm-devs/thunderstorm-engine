@@ -51,14 +51,14 @@ bool Lights::Init()
 	if (!rs) throw std::exception("No service: dx9render");
 	collide = (COLLIDE *)api->CreateService("COLL");
 	//Зачитаем параметры
-	INIFILE* ini = fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
+  auto ini = fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
 	if (!ini)
 	{
 		api->Trace("Location lights not inited -> RESOURCES\\Ini\\lights.ini not found");
 		return false;
 	}
 	char lName[256];
-	bool res = ini->GetSectionName(lName, sizeof(lName) - 1);
+  auto res = ini->GetSectionName(lName, sizeof(lName) - 1);
 	while (res)
 	{
 		lName[sizeof(lName) - 1] = 0;
@@ -156,10 +156,10 @@ void Lights::Execute(uint32_t delta_time)
 	for (long i = 0; i < numLights; i++)
 	{
 		//Смотрим что есть
-		LightType& l = types[lights[i].type];
+    auto& l = types[lights[i].type];
 		if (l.flicker == 0.0f && l.flickerSlow == 0.0f) continue;
 		//Обновляем состояние
-		Light& ls = lights[i];
+    auto& ls = lights[i];
 		//Частые мерцания
 		ls.time += delta_time * 0.001f;
 		if (ls.time > l.p)
@@ -169,7 +169,7 @@ void Lights::Execute(uint32_t delta_time)
 		}
 		//Плавные мерцания
 		ls.timeSlow += delta_time * 0.001f;
-		float k = ls.timeSlow * l.freqSlow;
+    auto k = ls.timeSlow * l.freqSlow;
 		if (k < 0.0f) k = 0.0f;
 		if (k >= 1.0f)
 		{
@@ -198,28 +198,28 @@ void Lights::Realize(uint32_t delta_time)
 	rs->GetTransform(D3DTS_VIEW, camMtx);
 	rs->SetTransform(D3DTS_VIEW, CMatrix());
 	rs->SetTransform(D3DTS_WORLD, CMatrix());
-	float camPDist = -(pos.x * camMtx.Vx().z + pos.y * camMtx.Vy().z + pos.z * camMtx.Vz().z);
+  auto camPDist = -(pos.x * camMtx.Vx().z + pos.y * camMtx.Vy().z + pos.z * camMtx.Vz().z);
 	for (long i = 0, n = 0; i < numLights; i++)
 	{
 		//Источник
-		Light& ls = lights[i];
-		LightType& l = types[ls.type];
+    auto& ls = lights[i];
+    auto& l = types[ls.type];
 		if (l.corona < 0) continue;
 		//Поподание в передний план
-		float dist = ls.pos.x * camMtx.Vx().z + ls.pos.y * camMtx.Vy().z + ls.pos.z * camMtx.Vz().z + camPDist;
+    auto dist = ls.pos.x * camMtx.Vx().z + ls.pos.y * camMtx.Vy().z + ls.pos.z * camMtx.Vz().z + camPDist;
 		if (dist < -2.0f * l.coronaSize) continue;
 		//Дистанция
-		float dx = ls.pos.x - pos.x;
-		float dy = ls.pos.y - pos.y;
-		float dz = ls.pos.z - pos.z;
-		float d = dx * dx + dy * dy + dz * dz;
-		bool isVisible = d < l.coronaRange2;
+    auto dx = ls.pos.x - pos.x;
+    auto dy = ls.pos.y - pos.y;
+    auto dz = ls.pos.z - pos.z;
+    auto d = dx * dx + dy * dy + dz * dz;
+    auto isVisible = d < l.coronaRange2;
 		if (!isVisible) continue;
 		//Видимость
 		if (collide)
 		{
-			float dist = collide->Trace(EntityManager::GetEntityIdIterators(SUN_TRACE), pos,
-			                            CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z), lampModels, numLampModels);
+      auto dist = collide->Trace(EntityManager::GetEntityIdIterators(SUN_TRACE), pos,
+                                 CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z), lampModels, numLampModels);
 			isVisible = dist > 1.0f;
 		}
 		ls.corona += isVisible ? 0.008f * delta_time : -0.008f * delta_time;
@@ -233,7 +233,7 @@ void Lights::Realize(uint32_t delta_time)
 		dist = sqrtf(d);
 		d = dist * l.invCoronaRange;
 		if (d > 1.0f) d = 1.0f;
-		float alpha = 1.0f;
+    auto alpha = 1.0f;
 		if (d < 0.3f) alpha *= 0.2f + 0.8f * d / 0.3f;
 		if (d > 0.4f)
 		{
@@ -247,13 +247,13 @@ void Lights::Realize(uint32_t delta_time)
 		if (d > 0.1f) d = 0.1f;
 		d += 1.0f;
 		//Текущий размер
-		float size = d * l.coronaSize;
+    auto size = d * l.coronaSize;
 		//Прозрачность
 		alpha *= d;
 		if (alpha < 0.0f) alpha = 0.0f;
 		if (alpha > 255.0f) alpha = 255.0f;
 		//Позиция
-		CVECTOR pos = camMtx * CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z);
+    auto pos = camMtx * CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z);
 		//Цвет
 		auto c = uint32_t(alpha);
 		c |= (c << 24) | (c << 16) | (c << 8);
@@ -261,9 +261,9 @@ void Lights::Realize(uint32_t delta_time)
 		float cs, sn;
 		if (dist > 0.0f)
 		{
-			float _cs = (dx * camMtx.Vx().z + dz * camMtx.Vz().z);
-			float _sn = (dx * camMtx.Vz().z - dz * camMtx.Vx().z);
-			float kn = _cs * _cs + _sn * _sn;
+      auto _cs = (dx * camMtx.Vx().z + dz * camMtx.Vz().z);
+      auto _sn = (dx * camMtx.Vz().z - dz * camMtx.Vx().z);
+      auto kn = _cs * _cs + _sn * _sn;
 			if (kn > 0.0f)
 			{
 				kn = 1.0f / sqrtf(kn);
@@ -397,7 +397,7 @@ long Lights::AddMovingLight(const char* type, const CVECTOR& pos)
 	}
 	if (idx == 1000) return -1;
 
-	long nType = FindLight(type);
+  auto nType = FindLight(type);
 	if (nType < 0) return -1;
 
 	MovingLight movingLight;
@@ -417,7 +417,7 @@ void Lights::UpdateMovingLight(long id, const CVECTOR& pos)
 	for (long n = 0; n < aMovingLight.size(); n++)
 		if (aMovingLight[n].id == id)
 		{
-			long i = aMovingLight[n].light;
+      auto i = aMovingLight[n].light;
 			if (i >= 0 && i < numLights)
 				lights[i].pos = *(D3DVECTOR*)&pos;
 			return;
@@ -431,7 +431,7 @@ void Lights::DelMovingLight(long id)
 		if (aMovingLight[n].id == id)
 		{
 			numLights--;
-			for (long i = aMovingLight[n].light; i < numLights; i++)
+			for (auto i = aMovingLight[n].light; i < numLights; i++)
 				lights[i] = lights[i + 1];
 			aMovingLight.erase(aMovingLight.begin() + n);
 			return;
@@ -464,10 +464,10 @@ void Lights::SetCharacterLights(const CVECTOR* const pos)
 			i = aLightsSort[n];
 
 			//Смотрим дистанцию
-			float dx = (pos->x - lights[i].pos.x);
-			float dy = (pos->y - lights[i].pos.y);
-			float dz = (pos->z - lights[i].pos.z);
-			float dst = dx * dx + dy * dy + dz * dz + 2.0f;
+      auto dx = (pos->x - lights[i].pos.x);
+      auto dy = (pos->y - lights[i].pos.y);
+      auto dz = (pos->z - lights[i].pos.z);
+      auto dst = dx * dx + dy * dy + dz * dz + 2.0f;
 			float rng = types[lights[i].type].dxLight.Range;
 
 			if (dst <= rng * rng)

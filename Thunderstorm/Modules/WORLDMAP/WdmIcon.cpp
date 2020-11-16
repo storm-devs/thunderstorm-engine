@@ -109,7 +109,7 @@ void WdmIcon::LRender(VDX9RENDER* rs)
 	float w, h;
 	wdmObjects->GetVPSize(w, h);
 	//»конка в верхнем углу
-	float kDef = rs->GetHeightDeformator();
+  auto kDef = rs->GetHeightDeformator();
 #ifndef _XBOX
 	FillRectCoord(vrt, 8.0f, 8.0f, 64.0f, 64.0f * kDef);
 #else

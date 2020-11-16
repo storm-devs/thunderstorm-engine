@@ -125,7 +125,7 @@ long ModelArray::CreateModel(const char* modelName, const char* technique, long 
 	{
 		for (long i = 0; i < 1024; i++)
 		{
-			NODE* nd = m->GetNode(i);
+      auto nd = m->GetNode(i);
 			if (!nd) break;
 			nd->SetTechnique(technique);
 		}
@@ -178,7 +178,7 @@ long ModelArray::FindModel(const char* modelName)
 		buf[MA_MAX_NAME_LENGTH - 1] = 0;
 	}
 	//»щем хэшь значение
-	uint32_t hash = CalcHashString(buf);
+  auto hash = CalcHashString(buf);
 	//»щем модельку
 	for (long i = 0; i < numModels; i++)
 	{
@@ -233,14 +233,14 @@ void ModelArray::SetUVSlide(long modelIndex, float u0, float v0, float u1, float
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
 	if (!model[modelIndex].slider) model[modelIndex].slider = new UVSlider;
-	UVSlider* sl = model[modelIndex].slider;
+  auto sl = model[modelIndex].slider;
 	sl->u0 = sl->v0 = 0.0f;
 	sl->u1 = sl->v1 = 0.0f;
 	sl->us0 = u0;
 	sl->vs0 = v0;
 	sl->us1 = u1;
 	sl->vs1 = v1;
-	MODEL* mdl = (*this)[modelIndex];
+  auto mdl = (*this)[modelIndex];
 	if (mdl) mdl->SetRenderTuner(sl);
 	else api->Trace("Location: Can't get model pointer for set RenderTuner");
 }
@@ -264,7 +264,7 @@ void ModelArray::SetReflection(long modelIndex, float scale)
 	if (scale > 1.0f) scale = 1.0f;
 	auto alpha = uint32_t(scale * 255.0f);
 	model[modelIndex].reflection->tfactor = (alpha << 24) | 0x00ffffff;
-	MODEL* mdl = (*this)[modelIndex];
+  auto mdl = (*this)[modelIndex];
 	if (mdl) mdl->SetRenderTuner(model[modelIndex].reflection);
 	else api->Trace("Location: Can't get model pointer for set RenderTuner");
 }
@@ -276,7 +276,7 @@ void ModelArray::Update(float dltTime)
 	{
 		if (model[i].slider)
 		{
-			UVSlider* sl = model[i].slider;
+      auto sl = model[i].slider;
 			sl->u0 += dltTime * sl->us0;
 			sl->v0 += dltTime * sl->vs0;
 			sl->u1 += dltTime * sl->us1;
@@ -326,10 +326,10 @@ uint32_t ModelArray::CalcHashString(const char* str)
 	unsigned long hval = 0;
 	while (*str != '\0')
 	{
-		char c = *str++;
+    auto c = *str++;
 		if (c >= 'A' && c <= 'Z') c += 'a' - 'A';
 		hval = (hval << 4) + (unsigned long int)c;
-		unsigned long g = hval & ((unsigned long int)0xf << (32 - 4));
+    auto g = hval & ((unsigned long int)0xf << (32 - 4));
 		if (g != 0)
 		{
 			hval ^= g >> (32 - 8);
@@ -413,13 +413,13 @@ bool ModelArray::VisibleTest(const CVECTOR& p1, const CVECTOR& p2)
 float ModelArray::Trace(const CVECTOR& src, const CVECTOR& dst)
 {
 	isHavecTrg = false;
-	float k = 2.0f;
+  auto k = 2.0f;
 	for (long i = 0; i < numModels; i++)
 	{
 		if (model[i].isVisible)
 		{
 			auto* mdl = (MODEL *)EntityManager::GetEntityPointer(model[i].id);
-			float km = mdl->Trace(src, dst);
+      auto km = mdl->Trace(src, dst);
 			if (k > km)
 			{
 				k = km;

@@ -157,7 +157,7 @@ void SoundService::ProcessFader(int idx)
 		return;
 	}
 
-	float fTime = api->GetDeltaTime() * 0.001f;
+  auto fTime = api->GetDeltaTime() * 0.001f;
 
 	PlayingSounds[idx].fFaderCurrentVolume += PlayingSounds[idx].fFaderDeltaInSec * fTime;
 
@@ -215,7 +215,7 @@ void SoundService::RunStart()
 
 
 	//ќсвобождаем звуки которые проигрались...
-	for (int i = 0; i < MAX_SOUNDS_SLOTS; i++)
+	for (auto i = 0; i < MAX_SOUNDS_SLOTS; i++)
 	{
 		if (PlayingSounds[i].bFree) continue;
 
@@ -260,7 +260,7 @@ void SoundService::RunStart()
 
 int SoundService::FindEmptySlot()
 {
-	for (int i = 2; i < MAX_SOUNDS_SLOTS; i++)
+	for (auto i = 2; i < MAX_SOUNDS_SLOTS; i++)
 	{
 		if (PlayingSounds[i].bFree) return i;
 	}
@@ -272,9 +272,9 @@ int SoundService::FindEmptySlot()
 //--------------------------------------------------------------------
 const char* SoundService::GetRandomName(tAlias* _alias)
 {
-	float randomFloat = rand(_alias->fMaxProbabilityValue);
-	int currentNameIndex = 0;
-	float currentFloat = 0.f;
+  auto randomFloat = rand(_alias->fMaxProbabilityValue);
+  auto currentNameIndex = 0;
+  auto currentFloat = 0.f;
 
 	for (;;)
 	{
@@ -332,7 +332,7 @@ TSD_ID SoundService::SoundPlay(const char* _name,
 	if (!strchr(_name, '\\'))
 	{
 		//ѕробуем найти в алиасах
-		int AliasIdx = GetAliasIndexByName(_name);
+    auto AliasIdx = GetAliasIndexByName(_name);
 		if (AliasIdx >= 0 && Aliases[AliasIdx].SoundFiles.size() > 0)
 		{
 			//»граем из алиаса звук...
@@ -356,7 +356,7 @@ TSD_ID SoundService::SoundPlay(const char* _name,
 
 
 	FMOD::Sound* sound = nullptr;
-	int SoundIdx = 0;
+  auto SoundIdx = 0;
 	if (_type == MP3_STEREO)
 	{
 		//—тримленые играем сразу, без кешировани€ и всегда в 0 слоте....
@@ -382,8 +382,8 @@ TSD_ID SoundService::SoundPlay(const char* _name,
 		}
 
 
-		int MusicIdx = 0;
-		int OldMusicIdx = 1;
+    auto MusicIdx = 0;
+    auto OldMusicIdx = 1;
 		if (FaderParity)
 		{
 			MusicIdx = 1;
@@ -416,7 +416,7 @@ TSD_ID SoundService::SoundPlay(const char* _name,
 	else
 	{
 		//ƒл€ всех остальных звуков берем из кеша
-		int CacheIdx = GetFromCache(SoundName.c_str(), _type);
+    auto CacheIdx = GetFromCache(SoundName.c_str(), _type);
 		if (CacheIdx < 0)
 		{
 			return 0;
@@ -450,7 +450,7 @@ TSD_ID SoundService::SoundPlay(const char* _name,
 
 	if (SoundIdx <= 1)
 	{
-		unsigned int OGGpos = GetOGGPosition(SoundName.c_str());
+    auto OGGpos = GetOGGPosition(SoundName.c_str());
 		PlayingSounds[SoundIdx].channel->setPosition(OGGpos, FMOD_TIMEUNIT_MS);
 
 		_prior = 0;
@@ -572,7 +572,7 @@ void SoundService::SoundSet3DParam(TSD_ID _id, eSoundMessage _message, const voi
 	if (PlayingSounds[_id].bFree) return;
 
 
-	CVECTOR vVelocity = CVECTOR(0.0f, 0.0f, 0.0f);
+  auto vVelocity = CVECTOR(0.0f, 0.0f, 0.0f);
 
 	switch (_message)
 	{
@@ -630,7 +630,7 @@ void SoundService::SoundSetVolume(TSD_ID _id, float _volume)
 {
 	if (_id == 0)
 	{
-		for (int i = 0; i < MAX_SOUNDS_SLOTS; i++)
+		for (auto i = 0; i < MAX_SOUNDS_SLOTS; i++)
 		{
 			if (PlayingSounds[i].bFree) continue;
 
@@ -717,7 +717,7 @@ void SoundService::SoundResume(TSD_ID _id, long _time/* = 0*/)
 {
 	if (_id == 0 || _id == 1 || _id == -1)
 	{
-		for (int i = 0; i < MAX_SOUNDS_SLOTS; i++)
+		for (auto i = 0; i < MAX_SOUNDS_SLOTS; i++)
 		{
 			if (PlayingSounds[i].bFree) continue;
 			CHECKFMODERR(PlayingSounds[i].channel->setPaused(false));
@@ -762,8 +762,8 @@ void SoundService::SetCameraPosition(const CVECTOR& _cameraPosition)
 //--------------------------------------------------------------------
 void SoundService::SetCameraOrientation(const CVECTOR& _nose, const CVECTOR& _head)
 {
-	CVECTOR nose = !_nose;
-	CVECTOR head = !_head;
+  auto nose = !_nose;
+  auto head = !_head;
 
 	vListenerForward.x = nose.x;
 	vListenerForward.y = nose.y;

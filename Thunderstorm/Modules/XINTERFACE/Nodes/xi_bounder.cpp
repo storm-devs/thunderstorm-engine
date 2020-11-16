@@ -91,18 +91,18 @@ void CXI_BOUNDER::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, const
 	pPictureService->GetTexturePos(m_idHorzLine, rectTmp);
 	auto fLineWidth = float(rectTmp.right - rectTmp.left + 1);
 
-	float fBoxWidth = float(m_rect.right - m_rect.left) - m_fAngleWidth * 2.f;
-	float fBoxHeight = float(m_rect.bottom - m_rect.top) - m_fAngleHeight * 2.f;
+  auto fBoxWidth = float(m_rect.right - m_rect.left) - m_fAngleWidth * 2.f;
+  auto fBoxHeight = float(m_rect.bottom - m_rect.top) - m_fAngleHeight * 2.f;
 
 	m_nHorzLineQuantity = int(fBoxWidth / fLineWidth);
 	if (m_nHorzLineQuantity * fLineWidth < fBoxWidth)
 		m_nHorzLineQuantity++;
-	float fHorzLineWidth = fBoxWidth / m_nHorzLineQuantity;
+  auto fHorzLineWidth = fBoxWidth / m_nHorzLineQuantity;
 
 	m_nVertLineQuantity = int(fBoxHeight / fLineWidth);
 	if (m_nVertLineQuantity * fLineWidth < fBoxHeight)
 		m_nVertLineQuantity++;
-	float fVertLineWidth = fBoxHeight / m_nVertLineQuantity;
+  auto fVertLineWidth = fBoxHeight / m_nVertLineQuantity;
 
 
 	// create index and vertex buffers
@@ -123,8 +123,8 @@ void CXI_BOUNDER::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, const
 		pVert[i].pos.z = 1.f;
 	}
 
-	int inum = 0;
-	int vnum = 0;
+  auto inum = 0;
+  auto vnum = 0;
 	// fill angle rectangles
 	FXYRECT texRectTmp;
 	FXYRECT fRectTmp;
@@ -194,9 +194,9 @@ void CXI_BOUNDER::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, const
 	FXYRECT tmpRect1, tmpRect2;
 	pPictureService->GetTexturePos(m_idHorzLine, tmpRect1);
 	pPictureService->GetTexturePos(TEXTURE_MODIFY_VERTFLIP, m_idHorzLine, tmpRect2);
-	float fXTop = m_rect.left + m_fAngleWidth;
-	float fYTop = m_rect.bottom - m_fAngleHeight;
-	int lineType = 0; // top horizontal line
+  auto fXTop = m_rect.left + m_fAngleWidth;
+  auto fYTop = m_rect.bottom - m_fAngleHeight;
+  auto lineType = 0; // top horizontal line
 	for (i = 0; i < m_nHorzLineQuantity * 2 + m_nVertLineQuantity * 2; i++)
 	{
 		if (i == m_nHorzLineQuantity)
@@ -330,11 +330,11 @@ void CXI_BOUNDER::ChangePosition(XYRECT& rNewPos)
 
 	m_rect = rNewPos;
 
-	float fBoxWidth = float(m_rect.right - m_rect.left) - m_fAngleWidth * 2.f;
-	float fBoxHeight = float(m_rect.bottom - m_rect.top) - m_fAngleHeight * 2.f;
-	float fHorzLineWidth = fBoxWidth / m_nHorzLineQuantity;
+  auto fBoxWidth = float(m_rect.right - m_rect.left) - m_fAngleWidth * 2.f;
+  auto fBoxHeight = float(m_rect.bottom - m_rect.top) - m_fAngleHeight * 2.f;
+  auto fHorzLineWidth = fBoxWidth / m_nHorzLineQuantity;
 
-	float fVertLineWidth = fBoxHeight / m_nVertLineQuantity;
+  auto fVertLineWidth = fBoxHeight / m_nVertLineQuantity;
 
 	for (i = 0; i < m_nVert; i++)
 	{
@@ -342,7 +342,7 @@ void CXI_BOUNDER::ChangePosition(XYRECT& rNewPos)
 		pVert[i].pos.z = 1.f;
 	}
 
-	int vnum = 0;
+  auto vnum = 0;
 	// fill angle rectangles
 	FXYRECT texRectTmp;
 	FXYRECT fRectTmp;
@@ -405,9 +405,9 @@ void CXI_BOUNDER::ChangePosition(XYRECT& rNewPos)
 	FXYRECT tmpRect1, tmpRect2;
 	pPictureService->GetTexturePos(m_idHorzLine, tmpRect1);
 	pPictureService->GetTexturePos(TEXTURE_MODIFY_VERTFLIP, m_idHorzLine, tmpRect2);
-	float fXTop = m_rect.left + m_fAngleWidth;
-	float fYTop = m_rect.bottom - m_fAngleHeight;
-	int lineType = 0; // top horizontal line
+  auto fXTop = m_rect.left + m_fAngleWidth;
+  auto fYTop = m_rect.bottom - m_fAngleHeight;
+  auto lineType = 0; // top horizontal line
 	for (i = 0; i < m_nHorzLineQuantity * 2 + m_nVertLineQuantity * 2; i++)
 	{
 		if (i == m_nHorzLineQuantity)
@@ -520,7 +520,7 @@ void CXI_BOUNDER::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());

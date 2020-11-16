@@ -103,7 +103,7 @@ void KEY_NODE::AttachTo(KEY_NODE* node, KEY_NODE* * Top)
 {
 	if (node == nullptr) throw "invalid node";
 	// save right node for object
-	KEY_NODE* RNode = node->GetRightNode();
+  auto RNode = node->GetRightNode();
 	// attach this node
 	node->SetRightNode(this);
 	// set left link for this node
@@ -145,7 +145,7 @@ SECTION::~SECTION()
 {
 	while (Root)
 	{
-		KEY_NODE* old_root = Root;
+    auto old_root = Root;
 		Root->Deattach(&Root, &Top);
 		delete old_root;
 	}
@@ -184,7 +184,7 @@ KEY_NODE* SECTION::AddNode()
 
 void SECTION::DelNode(KEY_NODE* _node)
 {
-	KEY_NODE* node = Root;
+  auto node = Root;
 	while (node)
 	{
 		if (node == _node)
@@ -210,14 +210,14 @@ KEY_NODE* SECTION::FindKey(KEY_NODE* from, const char* key_name, const char* key
 
 	while (node)
 	{
-		uint32_t flags = node->SetFlags(0);
+    auto flags = node->SetFlags(0);
 		if (flags & KNF_KEY)
 		{
 			if (_stricmp(key_name, node->GetName()) == 0)
 			{
 				if (key_value == nullptr) return node;
 
-				char* char_PTR = node->GetValue();
+        auto char_PTR = node->GetValue();
 				if (char_PTR != nullptr)
 				{
 					if (_stricmp(key_value, char_PTR) == 0) return node;
@@ -304,7 +304,7 @@ IFS::~IFS()
 	delete FileName;
 	while (SectionRoot)
 	{
-		SECTION* old_root = SectionRoot;
+    auto old_root = SectionRoot;
 		SectionRoot->Deattach(&SectionRoot, &SectionTop);
 		delete old_root;
 	}
@@ -340,10 +340,10 @@ bool IFS::LoadFile(const char* _file_name)
 	uint32_t dwR;
 
 	if (_file_name == nullptr) return false;
-	HANDLE fh = fs->_CreateFile(_file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+  auto fh = fs->_CreateFile(_file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	if (fh == INVALID_HANDLE_VALUE) return false;
 
-	uint32_t file_size = fs->_GetFileSize(fh, nullptr);
+  auto file_size = fs->_GetFileSize(fh, nullptr);
 	if (file_size == INVALID_FILE_SIZE)
 	{
 		fs->_CloseHandle(fh);
@@ -351,7 +351,7 @@ bool IFS::LoadFile(const char* _file_name)
 	}
 
 
-	char* file_data = new char[file_size + 1]; // +1 for zero at the end
+  auto file_data = new char[file_size + 1]; // +1 for zero at the end
 	if (file_data == nullptr)
 	{
 		fs->_CloseHandle(fh);
@@ -395,7 +395,7 @@ void IFS::Format(char* file_data, long file_size)
 	long forecount;
 
 
-	SECTION* Current_Section = new SECTION;
+  auto Current_Section = new SECTION;
 	Current_Section->Add(&SectionRoot, &SectionTop);
 
 	char* data_PTR = nullptr;
@@ -459,7 +459,7 @@ void IFS::Format(char* file_data, long file_size)
 				break;
 			}
 
-			KEY_NODE* node = Current_Section->AddNode();
+      auto node = Current_Section->AddNode();
 			//node = new KEY_NODE;
 			//if(node == 0) throw "node creation error";
 			//node->Add(&Root,&Top);
@@ -472,7 +472,7 @@ void IFS::Format(char* file_data, long file_size)
 				break;
 			}
 
-			bool keyname_set = false;
+      auto keyname_set = false;
 
 			// this is real key
 			node->SetFlags(KNF_KEY);
@@ -490,7 +490,7 @@ void IFS::Format(char* file_data, long file_size)
 					node->SetName(&data_PTR[i]); // set key name
 					keyname_set = true;
 
-					bool keyval_found = false;
+          auto keyval_found = false;
 					z++;
 					for (; data_PTR[z]; z++)
 					{
@@ -531,7 +531,7 @@ bool IFS::FlushFile()
 
 	fs->_SetFileAttributes(FileName,FILE_ATTRIBUTE_NORMAL);
 	fs->_DeleteFile(FileName);
-	HANDLE fh = fs->_CreateFile(FileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
+  auto fh = fs->_CreateFile(FileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
 	if (fh == INVALID_HANDLE_VALUE)
 	{
 		/*trace("file: (%s)",FileName);*/
@@ -540,7 +540,7 @@ bool IFS::FlushFile()
 
 	//node = Root;
 
-	SECTION* section_node = SectionRoot;
+  auto section_node = SectionRoot;
 	while (section_node)
 	{
 		if (section_node->GetName() != nullptr)
@@ -564,10 +564,10 @@ bool IFS::FlushFile()
 			if (dwR != 2) { throw std::exception(); }
 		}
 
-		KEY_NODE* node = section_node->GetRoot();
+    auto node = section_node->GetRoot();
 		while (node)
 		{
-			uint32_t flags = node->SetFlags(0);
+      auto flags = node->SetFlags(0);
 			if (flags & KNF_COMMENTARY)
 			{
 				// write commented line ---------------------------------------------------------------
@@ -630,7 +630,7 @@ KEY_NODE* IFS::FindKey(const char* section_name, const char* key_name)
 KEY_NODE* IFS::FindKey(const char* section_name, const char* key_name, const char* key_value)
 {
 	if (SectionRoot == nullptr) return nullptr;
-	SECTION* snode = FindSection(section_name);
+  auto snode = FindSection(section_name);
 	if (snode == nullptr) return nullptr;
 	return snode->FindKey(key_name, key_value);
 
@@ -650,7 +650,7 @@ KEY_NODE* IFS::FindKey(const char* section_name, const char* key_name, const cha
 SECTION* IFS::FindSection(const char* section_name)
 {
 	if (SectionRoot == nullptr) return nullptr;
-	SECTION* node = SectionRoot;
+  auto node = SectionRoot;
 
 	while (node)
 	{
@@ -671,7 +671,7 @@ SECTION* IFS::FindSection(const char* section_name, SECTION* snode)
 	if (SectionRoot == nullptr) return nullptr;
 
 	// atempt to search by section node pointer
-	SECTION* node = SectionRoot;
+  auto node = SectionRoot;
 	while (node)
 	{
 		if (node == snode)
@@ -708,7 +708,7 @@ SECTION* IFS::FindSection(const char* section_name, SECTION* snode)
 
 SECTION* IFS::CreateSection(const char* section_name)
 {
-	SECTION* node = FindSection(section_name);
+  auto node = FindSection(section_name);
 	if (node) return node;
 
 	node = new SECTION;
@@ -721,7 +721,7 @@ SECTION* IFS::CreateSection(const char* section_name)
 
 void IFS::DeleteSection(const char* section_name)
 {
-	SECTION* node = FindSection(section_name);
+  auto node = FindSection(section_name);
 	if (!node) return;
 	if (SectionSNode == node)
 	{
@@ -734,7 +734,7 @@ void IFS::DeleteSection(const char* section_name)
 
 bool IFS::TestSection(const char* section_name)
 {
-	SECTION* node = FindSection(section_name);
+  auto node = FindSection(section_name);
 	if (node) return true;
 	return false;
 }
@@ -742,7 +742,7 @@ bool IFS::TestSection(const char* section_name)
 
 bool IFS::TestKey(const char* section_name, const char* key_name, const char* key_value)
 {
-	SECTION* node = FindSection(section_name);
+  auto node = FindSection(section_name);
 	if (node == nullptr) return false;
 	if (node->FindKey(key_name, key_value) != nullptr) return true;
 	return false;
@@ -755,10 +755,10 @@ void IFS::DeleteKey(const char* section_name, const char* key_name)
 
 void IFS::DeleteKey(const char* section_name, const char* key_name, const char* key_value)
 {
-	SECTION* node = FindSection(section_name);
+  auto node = FindSection(section_name);
 	if (node)
 	{
-		KEY_NODE* knode = node->FindKey(key_name, key_value);
+    auto knode = node->FindKey(key_name, key_value);
 		if (knode)
 		{
 			node->DelNode(knode);
@@ -776,7 +776,7 @@ void IFS::ReadString(SEARCH_DATA* sd, const char* section_name, const char* key_
 bool IFS::ReadString(SEARCH_DATA* sd, const char* section_name, const char* key_name, char* buffer,
                      uint32_t buffer_size, const char* def_string)
 {
-	KEY_NODE* node = FindKey(section_name, key_name);
+  auto node = FindKey(section_name, key_name);
 	if (node == nullptr)
 	{
 		sd->Key = nullptr;
@@ -796,7 +796,7 @@ bool IFS::ReadString(SEARCH_DATA* sd, const char* section_name, const char* key_
 	sd->Section = FindSection(section_name);
 
 	if (buffer == nullptr) throw std::exception("zero buffer");
-	char* char_PTR = node->GetValue();
+  auto char_PTR = node->GetValue();
 	if (char_PTR == nullptr)
 	{
 		if (def_string == nullptr) throw std::exception("no key value");
@@ -814,12 +814,12 @@ bool IFS::ReadString(SEARCH_DATA* sd, const char* section_name, const char* key_
 bool IFS::ReadStringNext(SEARCH_DATA* sd, const char* section_name, const char* key_name, char* buffer,
                          uint32_t buffer_size)
 {
-	SECTION* snode = FindSection(section_name, sd->Section);
+  auto snode = FindSection(section_name, sd->Section);
 	//snode = sd->Section;
 	if (snode == nullptr) return false;
 
-	bool start = false;
-	KEY_NODE* node = snode->GetRoot();
+  auto start = false;
+  auto node = snode->GetRoot();
 	//node = sd->Key;
 	while (node)
 	{
@@ -830,7 +830,7 @@ bool IFS::ReadStringNext(SEARCH_DATA* sd, const char* section_name, const char* 
 			{
 				if (buffer == nullptr) throw std::exception("zero buffer");
 
-				char* char_PTR = node->GetValue();
+        auto char_PTR = node->GetValue();
 				if (char_PTR == nullptr)
 				{
 					buffer[0] = 0;
@@ -933,12 +933,12 @@ bool IFS::GetFloatNext(SEARCH_DATA* sd, const char* section_name, const char* ke
 void IFS::AddString(const char* section_name, const char* key_name, const char* string)
 {
 	if (key_name == nullptr) throw std::exception("zero key");
-	SECTION* snode = FindSection(section_name);
+  auto snode = FindSection(section_name);
 	if (snode == nullptr) CreateSection(section_name);
 	snode = FindSection(section_name);
 	if (snode == nullptr) throw std::exception("section create error");
 
-	KEY_NODE* node = snode->AddNode();
+  auto node = snode->AddNode();
 	node->SetName(key_name);
 	if (string) node->SetValue(string);
 	node->SetFlags(KNF_KEY);
@@ -949,9 +949,9 @@ void IFS::WriteString(const char* section_name, const char* key_name, const char
 {
 	if (string == nullptr) throw std::exception("zero key value");
 
-	SECTION* snode = CreateSection(section_name);
+  auto snode = CreateSection(section_name);
 	if (snode == nullptr) throw std::exception("section create error");
-	KEY_NODE* node = snode->FindKey(key_name);
+  auto node = snode->FindKey(key_name);
 	if (node != nullptr)
 	{
 		node->SetValue(string);
@@ -998,7 +998,7 @@ uint32_t IFS::CompareStrings(const char* s1, const char* s2)
 bool IFS::GetSectionName(char* section_name_buffer, long buffer_size)
 {
 	if (SectionRoot == nullptr) return false;
-	SECTION* node = SectionRoot;
+  auto node = SectionRoot;
 	node = node->GetRightNode(); // skip zero section (unnamed)
 	if (node == nullptr) return false;
 
@@ -1014,7 +1014,7 @@ bool IFS::GetSectionNameNext(char* section_name_buffer, long buffer_size)
 {
 	if (SectionRoot == nullptr) return false;
 	if (section_name_buffer == nullptr) throw "zero buffer";
-	SECTION* node = SectionRoot;
+  auto node = SectionRoot;
 	while (node)
 	{
 		if (node == SectionSNode)
@@ -1046,7 +1046,7 @@ bool IFS::Reload()
 {
 	while (SectionRoot)
 	{
-		SECTION* old_root = SectionRoot;
+    auto old_root = SectionRoot;
 		SectionRoot->Deattach(&SectionRoot, &SectionTop);
 		delete old_root;
 	}

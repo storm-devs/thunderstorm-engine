@@ -33,7 +33,7 @@ bool InfoHandler::Init()
 		return false;
 	}
 
-	bool isOk = false;
+  auto isOk = false;
 	D3DSURFACE_DESC desc;
 	if (m_pRenderTarget->GetDesc(&desc) == D3D_OK)
 	{
@@ -84,7 +84,7 @@ void InfoHandler::Realize(uint32_t delta_time)
 
 uint64_t InfoHandler::ProcessMessage(MESSAGE& message)
 {
-	long nMsgCode = message.Long();
+  auto nMsgCode = message.Long();
 	switch (nMsgCode)
 	{
 	case 1: Realize(0);
@@ -97,7 +97,7 @@ bool InfoHandler::DoPreOut()
 {
 	if (AttributesPointer == nullptr) return false;
 
-	bool isOK = false;
+  auto isOK = false;
 	uint32_t dwBCol, dwFCol;
 	char* inStrStart;
 	char outStr[1048];
@@ -115,7 +115,7 @@ bool InfoHandler::DoPreOut()
 		fScale = AttributesPointer->GetAttributeAsFloat("scale", 1.f);
 		nOutOffset = AttributesPointer->GetAttributeAsDword("offset", m_rs->CharHeight(0));
 	}
-	char* picTexureFile = AttributesPointer->GetAttribute("picfilename");
+  auto picTexureFile = AttributesPointer->GetAttribute("picfilename");
 
 	uint32_t TMP_VERTEX_FORMAT = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_TEXTUREFORMAT2);
 	struct TMP_VERTEX
@@ -137,7 +137,7 @@ bool InfoHandler::DoPreOut()
 
 	if (m_pRenderTarget->GetDesc(&desc) != D3D_OK) return false;
 
-	int ntmp = 0;
+  auto ntmp = 0;
 	char* ps = nullptr;
 	if (inStrStart)
 	{
@@ -160,7 +160,7 @@ bool InfoHandler::DoPreOut()
 	}
 
 	isOK = m_rs->IsInsideScene();
-	bool bMakeEndScene = false;
+  auto bMakeEndScene = false;
 	if (!isOK)
 	{
 		bMakeEndScene = true;
@@ -228,7 +228,7 @@ bool InfoHandler::DoPreOut()
 			int topY = (desc.Height - nRowQ * nOutOffset) / 2;
 			for (ps = inStrStart; ps != nullptr && *ps;)
 			{
-				char* oldps = ps;
+        auto oldps = ps;
 				ps = GetCutString(ps, nOutWidth, fScale);
 				if (!ps || ps == oldps) break;
 				StringToBufer(outStr, sizeof(outStr), oldps, ps - oldps);
@@ -247,7 +247,7 @@ bool InfoHandler::DoPreOut()
 
 char* InfoHandler::GetCutString(char* pstr, int nOutWidth, float fScale)
 {
-	bool spaceWait = false;
+  auto spaceWait = false;
 	char param[1024];
 
 	// удаляем первые переходы на новую строку

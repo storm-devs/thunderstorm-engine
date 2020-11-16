@@ -8,14 +8,14 @@ BOOL SHIP::BuildContour(CVECTOR* vContour, long& iNumVContour)
 {
 	iNumVContour = 0;
 
-	MODEL* pEnt = GetModel();
+  auto pEnt = GetModel();
 	Assert(pEnt);
 
 	CVECTOR vSrc, vDst, vP, vP1, vP2;
 	float fY, fRight, fLeft, fUp, fDown, fRes,
 	      fZMax, fZMin, fZStep, fZMinStep;
 
-	bool bDefaultContour = false;
+  auto bDefaultContour = false;
 	bool bRes = EntityManager::GetEntityPointer(model_id);
 	Assert(bRes);
 
@@ -74,13 +74,13 @@ BOOL SHIP::BuildContour(CVECTOR* vContour, long& iNumVContour)
 		fZMin = vP2.z;
 		fZMinStep = 2.0f;
 		fZStep = (fZMax - fZMin) / float(long((fZMax - fZMin) / fZMinStep));
-		long iNumSteps = long((fZMax - fZMin) / fZStep);
+    auto iNumSteps = long((fZMax - fZMin) / fZStep);
 
 		// trace left and right sides of ship
 		for (long i = 1; i < iNumSteps - 1; i++)
 		{
 			// left trace
-			float fZ = fZMax - float(i) * fZStep;
+      auto fZ = fZMax - float(i) * fZStep;
 
 			vSrc = CVECTOR(fLeft, fY, fZ);
 			vDst = CVECTOR(0.0f, fY, fZ);
@@ -102,8 +102,8 @@ BOOL SHIP::BuildContour(CVECTOR* vContour, long& iNumVContour)
 	}
 	else // setup default contour - wrong situation
 	{
-		float fDZ = State.vBoxSize.z / 2.0f;
-		float fDX = State.vBoxSize.x / 2.0f;
+    auto fDZ = State.vBoxSize.z / 2.0f;
+    auto fDX = State.vBoxSize.x / 2.0f;
 		vContour[0] = CVECTOR(0.0f, 0.0f, fDZ);
 		vContour[1] = CVECTOR(fDX * 0.8f, 0.0f, fDZ * 0.6f);
 		vContour[2] = CVECTOR(fDX * 1.0f, 0.0f, 0.0f);
@@ -124,7 +124,7 @@ BOOL SHIP::BuildContour(CVECTOR* vContour, long& iNumVContour)
 	{
 		// build keel contour
 		long iDZ = MAX_KEEL_POINTS / 2;
-		float fDZ = iDZ + 1.0f;
+    auto fDZ = iDZ + 1.0f;
 		for (long i = 0; i < MAX_KEEL_POINTS; i++)
 		{
 			float fZ;
@@ -149,28 +149,28 @@ bool SHIP::BuildMasts()
 {
 	char str[256];
 
-	MODEL* pEnt = GetModel();
+  auto pEnt = GetModel();
 	Assert(pEnt);
 
 	// build mast list
 	long iNum, iIdx = 0;
 	while (true)
 	{
-		NODE* pNode = (NODE*)pEnt->GetNode(iIdx);
+    auto pNode = (NODE*)pEnt->GetNode(iIdx);
 		if (!pNode) break;
-		const char* cNodeName = pNode->GetName();
+    auto cNodeName = pNode->GetName();
 		if (_strnicmp(cNodeName,MAST_IDENTIFY,_countof(MAST_IDENTIFY) - 1) == 0)
 		{
 			CVECTOR vBSize, vBCenter, vUp, vDown, vTemp;
 
-			ATTRIBUTES* pAMasts = GetACharacter()->FindAClass(GetACharacter(), "Ship.Masts");
+      auto pAMasts = GetACharacter()->FindAClass(GetACharacter(), "Ship.Masts");
 			if (!pAMasts)
 				pAMasts = GetACharacter()->CreateSubAClass(GetACharacter(), "Ship.Masts");
 
 			sscanf((const char*)&cNodeName[_countof(MAST_IDENTIFY) - 1], "%d", &iNum);
 			pMasts.resize(iNumMasts + 1);
 
-			mast_t* pM = &pMasts[iNumMasts];
+      auto pM = &pMasts[iNumMasts];
 			pM->iMastNum = iNum;
 			pM->bBroken = false;
 			pM->fDamage = 0.0f;
@@ -199,7 +199,7 @@ bool SHIP::BuildMasts()
 			}
 
 			sprintf_s(str, "%s", pNode->GetName());
-			ATTRIBUTES* pAMast = pAMasts->FindAClass(pAMasts, str);
+      auto pAMast = pAMasts->FindAClass(pAMasts, str);
 			if (pAMast && pAMast->GetAttributeAsFloat() >= 1.0f)
 			{
 				pM->fDamage = 1.0f;

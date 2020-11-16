@@ -72,7 +72,7 @@ void BIShipCommandList::Init()
 	m_nCommandTextureNum = -1;
 	m_nIconShowMaxQuantity = 8; // boal
 
-	ATTRIBUTES* pA = m_pARoot;
+  auto pA = m_pARoot;
 	if (pA) pA = pA->GetAttributeClass("CommandTextures");
 	if (pA)
 	{
@@ -98,17 +98,17 @@ long BIShipCommandList::ShipAdding(bool allLabel, bool bMyShip, bool bEnemy, boo
 	long retVal = 0;
 
 	// список кораблей
-	SHIP_DESCRIBE_LIST::SHIP_DESCR* sd = g_ShipList.GetShipRoot();
+  auto sd = g_ShipList.GetShipRoot();
 	if (sd == nullptr) return 0;
 
 	// дистанция отсечения корабля из списка
-	ATTRIBUTES* pA = GetCurrentCommandAttribute();
-	float sqrRadius = -1.f;
+  auto pA = GetCurrentCommandAttribute();
+  auto sqrRadius = -1.f;
 	if (pA) sqrRadius = pA->GetAttributeAsFloat("EffectRadius", sqrRadius);
 	if (sqrRadius < 0.f) allLabel = true;
 	sqrRadius *= sqrRadius;
 
-	SHIP_DESCRIBE_LIST::SHIP_DESCR* selShip = g_ShipList.FindShip(m_nCurrentCommandCharacterIndex);
+  auto selShip = g_ShipList.FindShip(m_nCurrentCommandCharacterIndex);
 	float selX, selZ;
 	if (selShip == nullptr)
 	{
@@ -122,7 +122,7 @@ long BIShipCommandList::ShipAdding(bool allLabel, bool bMyShip, bool bEnemy, boo
 		selZ = selShip->pShip->GetPos().z;
 	}
 
-	SHIP_DESCRIBE_LIST::SHIP_DESCR* main_sd = g_ShipList.GetMainCharacterShip();
+  auto main_sd = g_ShipList.GetMainCharacterShip();
 	if (bMyShip && main_sd != selShip)
 	{
 		n = AddToIconList(main_sd->textureNum, main_sd->pictureNum, main_sd->selectPictureNum, -1,
@@ -146,14 +146,14 @@ long BIShipCommandList::ShipAdding(bool allLabel, bool bMyShip, bool bEnemy, boo
 				// подходит под расстояние ?
 				if (!allLabel)
 				{
-					CVECTOR cv = sd->pShip->GetPos();
+          auto cv = sd->pShip->GetPos();
 					if (SQR(selX-cv.x) + SQR(selZ-cv.z) > sqrRadius) continue;
 				}
 				// проверка на допустимость корабля из скрипта
 				if (!m_sCurrentCommandName.empty())
 				{
-					VDATA* pvdat = api->Event("evntCheckEnableShip", "sl", m_sCurrentCommandName.c_str(),
-					                          sd->characterIndex);
+          auto pvdat = api->Event("evntCheckEnableShip", "sl", m_sCurrentCommandName.c_str(),
+                                  sd->characterIndex);
 					if (pvdat != nullptr && pvdat->GetLong() == 0) continue;
 				}
 				n = AddToIconList(sd->textureNum, sd->pictureNum, sd->selectPictureNum, -1,
@@ -172,19 +172,19 @@ long BIShipCommandList::ShipAdding(bool allLabel, bool bMyShip, bool bEnemy, boo
 
 long BIShipCommandList::FortAdding(bool allLabel, bool bFriend, bool bNeutral, bool bEnemy)
 {
-	ISLAND_DESCRIBER::LOCATOR_DESCR* pL = g_IslandDescr.GetFirstFort();
+  auto pL = g_IslandDescr.GetFirstFort();
 	if (pL == nullptr) return 0;
 	long retVal = 0;
 
-	ATTRIBUTES* pA = GetCurrentCommandAttribute();
-	float sqrRadius = pL->r;
+  auto pA = GetCurrentCommandAttribute();
+  auto sqrRadius = pL->r;
 	if (pA) sqrRadius = pA->GetAttributeAsFloat("EffectRadius", sqrRadius);
 	if (sqrRadius < 0.f) allLabel = true;
 	sqrRadius *= sqrRadius;
 
 	// Определим координаты принимающего команды корабля
-	long selectedCharacter = m_nCurrentCommandCharacterIndex;
-	SHIP_DESCRIBE_LIST::SHIP_DESCR* selShip = g_ShipList.FindShip(selectedCharacter);
+  auto selectedCharacter = m_nCurrentCommandCharacterIndex;
+  auto selShip = g_ShipList.FindShip(selectedCharacter);
 	float selX, selZ;
 	if (selShip == nullptr)
 	{
@@ -206,7 +206,7 @@ long BIShipCommandList::FortAdding(bool allLabel, bool bFriend, bool bNeutral, b
 		{
 			if (!allLabel)
 				if (SQR(pL->x-selX) + SQR(pL->z-selZ) > sqrRadius) continue;
-			VDATA* pvdat = api->Event("evntCheckEnableLocator", "sa", m_sCurrentCommandName.c_str(), pL->pA);
+      auto pvdat = api->Event("evntCheckEnableLocator", "sa", m_sCurrentCommandName.c_str(), pL->pA);
 			if (pvdat != nullptr && pvdat->GetLong() == 0) continue;
 			char* pLocName = nullptr;
 			if (pL->pA != nullptr) pLocName = pL->pA->GetAttribute("name");
@@ -223,19 +223,19 @@ long BIShipCommandList::FortAdding(bool allLabel, bool bFriend, bool bNeutral, b
 
 long BIShipCommandList::LandAdding(bool allLabel)
 {
-	ISLAND_DESCRIBER::LOCATOR_DESCR* pL = g_IslandDescr.GetFirstLand();
+  auto pL = g_IslandDescr.GetFirstLand();
 	if (pL == nullptr) return 0;
 	long retVal = 0;
 
-	ATTRIBUTES* pA = GetCurrentCommandAttribute();
-	float sqrRadius = pL->r;
+  auto pA = GetCurrentCommandAttribute();
+  auto sqrRadius = pL->r;
 	if (pA) sqrRadius = pA->GetAttributeAsFloat("EffectRadius", sqrRadius);
 	if (sqrRadius < 0.f) allLabel = true;
 	sqrRadius *= sqrRadius;
 
 	// Определим координаты принимающего команды корабля
-	long selectedCharacter = m_nCurrentCommandCharacterIndex;
-	SHIP_DESCRIBE_LIST::SHIP_DESCR* selShip = g_ShipList.FindShip(selectedCharacter);
+  auto selectedCharacter = m_nCurrentCommandCharacterIndex;
+  auto selShip = g_ShipList.FindShip(selectedCharacter);
 	float selX, selZ;
 	if (selShip == nullptr)
 	{
@@ -253,7 +253,7 @@ long BIShipCommandList::LandAdding(bool allLabel)
 	{
 		if (!allLabel)
 			if (SQR(pL->x-selX) + SQR(pL->z-selZ) > sqrRadius) continue;
-		VDATA* pvdat = api->Event("evntCheckEnableLocator", "sa", m_sCurrentCommandName.c_str(), pL->pA);
+    auto pvdat = api->Event("evntCheckEnableLocator", "sa", m_sCurrentCommandName.c_str(), pL->pA);
 		if (pvdat != nullptr && pvdat->GetLong() == 0) continue;
 		char* pLocName = nullptr;
 		if (pL->pA != nullptr) pLocName = pL->pA->GetAttribute("name");
@@ -268,20 +268,20 @@ long BIShipCommandList::CommandAdding()
 {
 	api->Event("BI_SetPossibleCommands", "l", m_nCurrentCommandCharacterIndex);
 	long retVal = 0;
-	ATTRIBUTES* pAttr = m_pARoot->GetAttributeClass("Commands");
+  auto pAttr = m_pARoot->GetAttributeClass("Commands");
 	if (!pAttr) return 0;
 	long attrQuant = pAttr->GetAttributesNum();
 
 	for (long i = 0; i < attrQuant; i++)
 	{
-		ATTRIBUTES* pA = pAttr->GetAttributeClass(i);
+    auto pA = pAttr->GetAttributeClass(i);
 		if (pA == nullptr) continue; // нет такого атрибута
 		if (pA->GetAttributeAsDword("enable", 0) == 0) continue; // команда недоступна
 		long pictureNum = pA->GetAttributeAsDword("picNum", 0);
 		long selPictureNum = pA->GetAttributeAsDword("selPicNum", 0);
 		long cooldownPictureNum = pA->GetAttributeAsDword("cooldownPicNum", -1);
 		long texNum = pA->GetAttributeAsDword("texNum", m_nCommandTextureNum);
-		char* eventName = pA->GetAttribute("event");
+    auto eventName = pA->GetAttribute("event");
 		retVal += AddToIconList(texNum, pictureNum, selPictureNum, cooldownPictureNum,
 		                        -1, eventName, -1, nullptr, pA->GetAttribute("note"));
 	}
@@ -292,23 +292,23 @@ long BIShipCommandList::CommandAdding()
 long BIShipCommandList::ChargeAdding()
 {
 	// Определим количество каждого заряда на борту
-	VDATA* tmpDat = api->Event("BI_GetChargeQuantity", "l", m_nCurrentCommandCharacterIndex);
+  auto tmpDat = api->Event("BI_GetChargeQuantity", "l", m_nCurrentCommandCharacterIndex);
 	if (tmpDat == nullptr) return 0;
 	long lIdx = 0; // количество типов заряда
 	tmpDat->Get(lIdx, 0);
 	if (lIdx <= 0) return 0;
 
-	ATTRIBUTES* pAList = m_pARoot->GetAttributeClass("charge");
+  auto pAList = m_pARoot->GetAttributeClass("charge");
 	long retVal = 0;
 	m_aChargeQuantity.clear();
-	for (int i = 0; i < lIdx; i++)
+	for (auto i = 0; i < lIdx; i++)
 	{
 		m_aChargeQuantity.push_back(0);
 		tmpDat->Get(m_aChargeQuantity[i], i + 1);
 
 		char param[128];
 		sprintf_s(param, sizeof(param), "charge%d", i + 1);
-		ATTRIBUTES* pA = pAList ? pAList->GetAttributeClass(param) : nullptr;
+    auto pA = pAList ? pAList->GetAttributeClass(param) : nullptr;
 		long nNormalPicIndex = pA ? pA->GetAttributeAsDword("picNum", -1) : -1;
 		long nSelectPicIndex = pA ? pA->GetAttributeAsDword("selPicNum", -1) : -1;
 		retVal += AddToIconList(m_nChargeTextureNum, nNormalPicIndex, nSelectPicIndex, -1, -1, nullptr, i + 1, nullptr,
@@ -320,13 +320,13 @@ long BIShipCommandList::ChargeAdding()
 long BIShipCommandList::UserIconsAdding()
 {
 	long retVal = 0;
-	ATTRIBUTES* pAttr = m_pARoot->GetAttributeClass("UserIcons");
+  auto pAttr = m_pARoot->GetAttributeClass("UserIcons");
 	if (!pAttr) return 0;
 	long attrQuant = pAttr->GetAttributesNum();
 
 	for (long i = 0; i < attrQuant; i++)
 	{
-		ATTRIBUTES* pA = pAttr->GetAttributeClass(i);
+    auto pA = pAttr->GetAttributeClass(i);
 		if (pA == nullptr) continue; // нет такого атрибута
 		if (pA->GetAttributeAsDword("enable", 0) == 0) continue; // команда недоступна
 		long pictureNum = pA->GetAttributeAsDword("pic", 0);
@@ -343,13 +343,13 @@ long BIShipCommandList::AbilityAdding()
 {
 	api->Event("evntSetUsingAbility", "l", m_nCurrentCommandCharacterIndex);
 	long retVal = 0;
-	ATTRIBUTES* pAttr = m_pARoot->GetAttributeClass("AbilityIcons");
+  auto pAttr = m_pARoot->GetAttributeClass("AbilityIcons");
 	if (!pAttr) return 0;
 	long attrQuant = pAttr->GetAttributesNum();
 
 	for (long i = 0; i < attrQuant; i++)
 	{
-		ATTRIBUTES* pA = pAttr->GetAttributeClass(i);
+    auto pA = pAttr->GetAttributeClass(i);
 		if (pA == nullptr) continue; // нет такого атрибута
 		if (pA->GetAttributeAsDword("enable", 0) == 0) continue; // команда недоступна
 		long pictureNum = pA->GetAttributeAsDword("picNum", 0);
@@ -357,7 +357,7 @@ long BIShipCommandList::AbilityAdding()
 		long textureNum = pA->GetAttributeAsDword("texNum", -1);
 		//retVal += AddToIconList( textureNum, pictureNum, selPictureNum, -1, -1, pA->GetThisName(), i, null, pA->GetAttribute("note") );
 		long cooldownPictureNum = pA->GetAttributeAsDword("cooldownPicNum", -1);
-		char* eventName = pA->GetAttribute("event");
+    auto eventName = pA->GetAttribute("event");
 		retVal += AddToIconList(textureNum, pictureNum, selPictureNum, cooldownPictureNum,
 		                        -1, eventName, -1, nullptr, pA->GetAttribute("note"));
 	}
@@ -367,7 +367,7 @@ long BIShipCommandList::AbilityAdding()
 
 long BIShipCommandList::AddCancelIcon()
 {
-	ATTRIBUTES* pA = m_pARoot->GetAttributeClass("Commands");
+  auto pA = m_pARoot->GetAttributeClass("Commands");
 	if (pA) pA = pA->GetAttributeClass("Cancel");
 	if (!pA) return 0;
 	long pictureNum = pA->GetAttributeAsDword("picNum", 0);
@@ -380,20 +380,20 @@ long BIShipCommandList::AddCancelIcon()
 long BIShipCommandList::TownAdding(bool allLabel, bool bDiseased, bool bNotDiseased, bool bEnemy, bool bNeutral,
                                    bool bFriend)
 {
-	ISLAND_DESCRIBER::LOCATOR_DESCR* pL = g_IslandDescr.GetFirstLocator();
+  auto pL = g_IslandDescr.GetFirstLocator();
 	if (pL == nullptr) return 0;
 	long retVal = 0;
 
 	// определяем радиус действия команды (все что не входит в него - не показывается)
-	ATTRIBUTES* pA = GetCurrentCommandAttribute();
-	float sqrRadius = pL->r;
+  auto pA = GetCurrentCommandAttribute();
+  auto sqrRadius = pL->r;
 	if (pA) sqrRadius = pA->GetAttributeAsFloat("EffectRadius", sqrRadius);
 	if (sqrRadius < 0.f) allLabel = true;
 	sqrRadius *= sqrRadius;
 
 	// Определим координаты принимающего команды корабля
-	long selectedCharacter = m_nCurrentCommandCharacterIndex;
-	SHIP_DESCRIBE_LIST::SHIP_DESCR* selShip = g_ShipList.FindShip(selectedCharacter);
+  auto selectedCharacter = m_nCurrentCommandCharacterIndex;
+  auto selShip = g_ShipList.FindShip(selectedCharacter);
 	float selX, selZ;
 	if (selShip == nullptr)
 	{
@@ -418,7 +418,7 @@ long BIShipCommandList::TownAdding(bool allLabel, bool bDiseased, bool bNotDisea
 		if (!pL->bDiseased && !bNotDiseased) continue;
 		if (!allLabel)
 			if (SQR(pL->x-selX) + SQR(pL->z-selZ) > sqrRadius) continue;
-		VDATA* pvdat = api->Event("evntCheckEnableLocator", "sa", m_sCurrentCommandName.c_str(), pL->pA);
+    auto pvdat = api->Event("evntCheckEnableLocator", "sa", m_sCurrentCommandName.c_str(), pL->pA);
 		if (pvdat != nullptr && pvdat->GetLong() == 0) continue;
 		char* pLocName = nullptr;
 		if (pL->pA != nullptr) pLocName = pL->pA->GetAttribute("name");
@@ -431,7 +431,7 @@ long BIShipCommandList::TownAdding(bool allLabel, bool bDiseased, bool bNotDisea
 
 void BIShipCommandList::AddFlagPictureToIcon(long nCharIdx)
 {
-	VDATA* pvdat = api->Event("evntGetSmallFlagData", "l", nCharIdx);
+  auto pvdat = api->Event("evntGetSmallFlagData", "l", nCharIdx);
 	if (!pvdat) return;
 	long nTex, nPic, nBackPic;
 	pvdat->Get(nTex, 0);

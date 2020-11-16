@@ -45,7 +45,7 @@ void Blood::Execute(uint32_t delta_time)
 {
 	if (nUsedTQ < ON_LIVETIME_BLOOD_TRIANGLES) return;
 
-	float fDeltaTime = delta_time * 0.001f;
+  auto fDeltaTime = delta_time * 0.001f;
 	for (long n = 0; n < aBlood.size(); n++)
 	{
 		aBlood[n].fLiveTime -= fDeltaTime;
@@ -157,19 +157,19 @@ void Blood::AddBlood(const CVECTOR& pos)
 	nClipTQ = 0;
 	normal = CVECTOR(0.f, 1.f, 0.f);
 
-	CVECTOR cpos = pos;
+  auto cpos = pos;
 
 	const auto its = EntityManager::GetEntityIdIterators(BLOOD);
 
-	CVECTOR src = pos;
+  auto src = pos;
 	src.y += 1.f;
-	CVECTOR dst = pos;
+  auto dst = pos;
 	dst.y -= 10.f;
-	float fTrace = pCol->Trace(its, src, dst, nullptr, 0);
+  auto fTrace = pCol->Trace(its, src, dst, nullptr, 0);
 	if (fTrace <= 1.f)
 		cpos.y = src.y + (dst.y - src.y) * fTrace;
 
-	long nThisBloodQ = CheckBloodQuantityInRadius(cpos,BLOOD_RADIUS, 4);
+  auto nThisBloodQ = CheckBloodQuantityInRadius(cpos,BLOOD_RADIUS, 4);
 	if (nThisBloodQ >= 4)
 	{
 		// уже много крови в этом месте
@@ -222,7 +222,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 	{
 		auto* m = (MODEL *)EntityManager::GetEntityPointer(it->second);
 		if (!m) continue;
-		NODE* root = m->GetNode(0);
+    auto root = m->GetNode(0);
 		m->Clip(p, 6, cpos, BLOOD_RADIUS, AddClipPoligon);
 	}
 
@@ -231,7 +231,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 	{
 		auto* m = (MODEL *)EntityManager::GetEntityPointer(aModels[n]);
 		if (!m) continue;
-		NODE* root = m->GetNode(0);
+    auto root = m->GetNode(0);
 		m->Clip(p, 6, cpos, BLOOD_RADIUS, AddClipPoligon);
 	}
 
@@ -321,7 +321,7 @@ void Blood::SetVertexByPos(BloodVertex& v, const CVECTOR& pos, const CVECTOR& vc
 
 long Blood::CheckBloodQuantityInRadius(const CVECTOR& cpos, float fDist, long nLimitQ)
 {
-	float fDistPow2 = fDist * fDist;
+  auto fDistPow2 = fDist * fDist;
 	long nCurQ = 0;
 	for (long n = 0; n < aBlood.size(); n++)
 	{

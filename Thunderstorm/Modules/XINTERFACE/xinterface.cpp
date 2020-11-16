@@ -83,7 +83,7 @@ char* XI_ParseStr(char* inStr, char* buf, size_t bufSize, char devChar = ',')
 		buf[0] = 0;
 		return nullptr;
 	}
-	int curSize = 0;
+  auto curSize = 0;
 	char* curStr;
 	for (curStr = inStr; *curStr != 0; curStr++)
 	{
@@ -236,12 +236,12 @@ void XINTERFACE::SetDevice()
 	{
 		throw std::exception("Not memory allocate");
 	}
-	VDATA* pvd = api->Event("GetQuestTextFileName", "");
+  auto pvd = api->Event("GetQuestTextFileName", "");
 	if (pvd != nullptr)
 	{
 		int nq = pvd->GetElementsNum();
 		const char* pstr;
-		for (int i = 0; i < nq; i++)
+		for (auto i = 0; i < nq; i++)
 		{
 			pvd->Get(pstr, i);
 			pQuestService->SetQuestTextFileName(pstr);
@@ -254,7 +254,7 @@ void XINTERFACE::SetDevice()
 
 	if (AttributesPointer)
 	{
-		ATTRIBUTES* pA = AttributesPointer->GetAttributeClass("GameTime");
+    auto pA = AttributesPointer->GetAttributeClass("GameTime");
 		if (pA)
 		{
 			m_dwGameTimeSec = pA->GetAttributeAsDword("sec", 0);
@@ -308,7 +308,7 @@ void XINTERFACE::Execute(uint32_t Delta_Time)
 		api->Event(m_pEvents->sEventName, "ls", m_pEvents->nCommandIndex, m_pEvents->sNodeName);
 		if (m_pEvents != nullptr)
 		{
-			EVENT_Entity* pE = m_pEvents;
+      auto pE = m_pEvents;
 			m_pEvents = m_pEvents->next;
 			delete pE;
 		}
@@ -329,7 +329,7 @@ void XINTERFACE::Execute(uint32_t Delta_Time)
 
 	DoControl();
 
-	CINODE* pNod = m_pNodes;
+  auto pNod = m_pNodes;
 	while (pNod != nullptr)
 	{
 		pNod->FrameProcess(Delta_Time);
@@ -364,7 +364,7 @@ void XINTERFACE::Realize(uint32_t Delta_Time)
 	DrawNode(m_pNodes, Delta_Time, 0, 80);
 
 	// Do mouse move
-	CINODE* pOldNode = m_pCurNode;
+  auto pOldNode = m_pCurNode;
 	MouseMove();
 	if (pOldNode != m_pCurNode)
 	{
@@ -373,8 +373,8 @@ void XINTERFACE::Realize(uint32_t Delta_Time)
 
 	// show dinamic pictures
 	XI_ONLYONETEX_VERTEX pV[4];
-	for (int i = 0; i < 4; i++) pV[i].pos.z = 1.f;
-	IMAGE_Entity* pImg = m_imgLists;
+	for (auto i = 0; i < 4; i++) pV[i].pos.z = 1.f;
+  auto pImg = m_imgLists;
 	uint32_t oldTFactor;
 	pRenderService->GetRenderState(D3DRS_TEXTUREFACTOR, &oldTFactor);
 	while (pImg != nullptr)
@@ -418,13 +418,13 @@ void XINTERFACE::Realize(uint32_t Delta_Time)
 	// Show dinamic stringes
 	if (m_nStringQuantity > 0)
 	{
-		ATTRIBUTES* tmpAttr = api->Entity_GetAttributeClass(g_idInterface, "strings");
+    auto tmpAttr = api->Entity_GetAttributeClass(g_idInterface, "strings");
 
 		if (tmpAttr != nullptr)
-			for (int i = 0; i < m_nStringQuantity; i++)
+			for (auto i = 0; i < m_nStringQuantity; i++)
 				if (m_stringes[i].bUsed)
 				{
-					char* tmps = tmpAttr->GetAttribute(m_stringes[i].sStringName);
+          auto tmps = tmpAttr->GetAttribute(m_stringes[i].sStringName);
 					pRenderService->ExtPrint(m_stringes[i].fontNum, m_stringes[i].dwColor, 0, m_stringes[i].eAlignment,
 					                         true, m_stringes[i].fScale, dwScreenWidth, dwScreenHeight, m_stringes[i].x,
 					                         m_stringes[i].y, "%s", tmpAttr->GetAttribute(m_stringes[i].sStringName));
@@ -463,7 +463,7 @@ long oldCurNum = -1L;
 
 uint64_t XINTERFACE::ProcessMessage(MESSAGE& message)
 {
-	long cod = message.Long();
+  auto cod = message.Long();
 
 	switch (cod)
 	{
@@ -473,10 +473,10 @@ uint64_t XINTERFACE::ProcessMessage(MESSAGE& message)
 			message.String(sizeof(param) - 1, param);
 			if (m_pNodes != nullptr)
 			{
-				CINODE* pNode = m_pNodes->FindNode(param);
+        auto pNode = m_pNodes->FindNode(param);
 				if (pNode != nullptr)
 				{
-					long msgCode = message.Long();
+          auto msgCode = message.Long();
 					if (msgCode == -1)
 					{
 						msgCode = message.Long();
@@ -506,7 +506,7 @@ uint64_t XINTERFACE::ProcessMessage(MESSAGE& message)
 		{
 			char param[256];
 			message.String(sizeof(param) - 1, param);
-			CINODE* pNewCurNode = (m_pNodes != nullptr ? m_pNodes->FindNode(param) : nullptr);
+      auto pNewCurNode = (m_pNodes != nullptr ? m_pNodes->FindNode(param) : nullptr);
 			if (pNewCurNode != nullptr)
 				SetCurNode(pNewCurNode);
 		}
@@ -517,7 +517,7 @@ uint64_t XINTERFACE::ProcessMessage(MESSAGE& message)
 			char param[256];
 			message.String(sizeof(param) - 1, param);
 			int nUsingCode = message.Long();
-			CINODE* pTmpNod = (m_pNodes != nullptr ? m_pNodes->FindNode(param) : nullptr);
+      auto pTmpNod = (m_pNodes != nullptr ? m_pNodes->FindNode(param) : nullptr);
 			if (pTmpNod != nullptr)
 				pTmpNod->SetUsing(nUsingCode != 0);
 		}
@@ -527,9 +527,9 @@ uint64_t XINTERFACE::ProcessMessage(MESSAGE& message)
 		{
 			char sNodeName[256];
 			message.String(sizeof(sNodeName) - 1, sNodeName);
-			long nItemNum = message.Long();
+      auto nItemNum = message.Long();
 
-			CINODE* pScrollNode = (m_pNodes != nullptr ? m_pNodes->FindNode(sNodeName) : nullptr);
+      auto pScrollNode = (m_pNodes != nullptr ? m_pNodes->FindNode(sNodeName) : nullptr);
 			if (pScrollNode != nullptr)
 			{
 				if (pScrollNode->m_nNodeType == NODETYPE_SCROLLIMAGE)
@@ -544,7 +544,7 @@ uint64_t XINTERFACE::ProcessMessage(MESSAGE& message)
 		{
 			char sNodeName[256];
 			message.String(sizeof(sNodeName) - 1, sNodeName);
-			long nItemNum = message.Long();
+      auto nItemNum = message.Long();
 
 			CINODE* pNode = (m_pNodes != nullptr ? m_pNodes->FindNode(sNodeName) : nullptr);
 			if (pNode != nullptr && pNode->m_nNodeType == NODETYPE_FOURIMAGE)

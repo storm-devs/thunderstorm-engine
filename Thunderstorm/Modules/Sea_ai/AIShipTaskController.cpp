@@ -42,17 +42,17 @@ void AIShipTaskController::SetDestinationPoint(CVECTOR vDestPnt)
 
 void AIShipTaskController::DoAttackRotate()
 {
-	CVECTOR vFirePos = GetCurrentTaskAIObj()->GetPos();
-	CVECTOR vOurDir = CVECTOR(sinf(GetAIShip()->GetAng().y), 0.0f, cosf(GetAIShip()->GetAng().y));
+  auto vFirePos = GetCurrentTaskAIObj()->GetPos();
+  auto vOurDir = CVECTOR(sinf(GetAIShip()->GetAng().y), 0.0f, cosf(GetAIShip()->GetAng().y));
 
-	AIShipCannonController* pCC = GetAIShip()->GetCannonController();
+  auto pCC = GetAIShip()->GetCannonController();
 
-	uint32_t dwBort = pCC->GetBestFireBortOnlyDistance(vFirePos, 20.0f + FRAND(50.0f));
+  auto dwBort = pCC->GetBestFireBortOnlyDistance(vFirePos, 20.0f + FRAND(50.0f));
 
 	if (INVALID_BORT_INDEX != dwBort)
 	{
-		CVECTOR vBortDir = pCC->GetBortDirection(dwBort);
-		float fRotate = ((vBortDir | vOurDir) > 0.0f) ? -1.2f : 1.2f;
+    auto vBortDir = pCC->GetBortDirection(dwBort);
+    auto fRotate = ((vBortDir | vOurDir) > 0.0f) ? -1.2f : 1.2f;
 		GetAIShip()->GetRotateController()->AddRotate(fRotate);
 		GetAIShip()->GetSpeedController()->AddSpeed(0.5f);
 	}
@@ -63,17 +63,17 @@ void AIShipTaskController::FindRunAwayPoint()
 	CVECTOR vRAPoint = 0.0f;
 	uint32_t iNumPoints = 0;
 
-	float fShipK = 1.0f; // коэффициент воздействия от кораблей
-	float fFortK = 1.0f; // коэффициент воздействия от форта
-	float fWindK = 10.0f; // коэффициент воздействия для ветра
+  auto fShipK = 1.0f; // коэффициент воздействия от кораблей
+  auto fFortK = 1.0f; // коэффициент воздействия от форта
+  auto fWindK = 10.0f; // коэффициент воздействия для ветра
 
 	// check ships
 	for (uint32_t i = 0; i < AIShip::AIShips.size(); i++)
 		if (GetAIShip() != AIShip::AIShips[i])
 		{
 			if (!Helper.isEnemy(AIShip::AIShips[i]->GetACharacter(), GetAIShip()->GetACharacter())) continue;
-			CVECTOR vDir = AIShip::AIShips[i]->GetPos() - GetAIShip()->GetPos();
-			float fDistance = sqrtf(~vDir);
+      auto vDir = AIShip::AIShips[i]->GetPos() - GetAIShip()->GetPos();
+      auto fDistance = sqrtf(~vDir);
 			vRAPoint += ((!vDir) * fShipK * Clamp(1.0f - fDistance / 1000.0f));
 			iNumPoints++;
 		}
@@ -83,12 +83,12 @@ void AIShipTaskController::FindRunAwayPoint()
 	{
 		for (uint32_t k = 0; k < AIFort::pAIFort->GetNumForts(); k++)
 		{
-			AIFort::AI_FORT* pFort = AIFort::pAIFort->GetFort(k);
+      auto pFort = AIFort::pAIFort->GetFort(k);
 			if (!Helper.isEnemy(pFort->GetACharacter(), GetAIShip()->GetACharacter())) continue;
 			if (!pFort->isNormalMode()) continue;
 
-			CVECTOR vDir = pFort->GetPos() - GetAIShip()->GetPos();
-			float fDistance = sqrtf(~vDir);
+      auto vDir = pFort->GetPos() - GetAIShip()->GetPos();
+      auto fDistance = sqrtf(~vDir);
 			if (fDistance > 2000.0f) continue;
 			vRAPoint += ((!vDir) * fFortK * Clamp(1.0f - fDistance / 2000.0f));
 			iNumPoints++;
@@ -101,10 +101,10 @@ void AIShipTaskController::FindRunAwayPoint()
 	if ((~vRAPoint) && iNumPoints)
 	{
 		// Получаем направление ветра
-		float fWindAngle = -PI;
-		ATTRIBUTES* pAWind = GetAIShip()->GetACharacter()->FindAClass(GetAIShip()->GetACharacter(), "SeaAI.WindAngle");
+    auto fWindAngle = -PI;
+    auto pAWind = GetAIShip()->GetACharacter()->FindAClass(GetAIShip()->GetACharacter(), "SeaAI.WindAngle");
 		if (pAWind) fWindAngle = pAWind->GetAttributeAsFloat();
-		CVECTOR vWindDir = CVECTOR(cosf(fWindAngle), 0.0f, sinf(fWindAngle));
+    auto vWindDir = CVECTOR(cosf(fWindAngle), 0.0f, sinf(fWindAngle));
 		//api->Trace("fWindAngle = %.3f", fWindAngle);
 
 		vRAPoint = !((-vRAPoint) + (fWindK * vWindDir));
@@ -114,8 +114,8 @@ void AIShipTaskController::FindRunAwayPoint()
 	else
 	{
 		// Если из скрипта возвращается 1 - то используем скриптовую точку
-		VDATA* pV = api->Event(SHIP_GET_RUNAWAY_POINT, "aff", GetAIShip()->GetACharacter(), vRAPoint.x, vRAPoint.z);
-		ATTRIBUTES* pARAP = GetAIShip()->GetACharacter()->FindAClass(GetAIShip()->GetACharacter(), "SeaAI.RunAwayPnt");
+    auto pV = api->Event(SHIP_GET_RUNAWAY_POINT, "aff", GetAIShip()->GetACharacter(), vRAPoint.x, vRAPoint.z);
+    auto pARAP = GetAIShip()->GetACharacter()->FindAClass(GetAIShip()->GetACharacter(), "SeaAI.RunAwayPnt");
 		vRAPoint.y = 0.0f;
 		vRAPoint.x = pARAP->GetAttributeAsFloat("x", 0.0f);
 		vRAPoint.z = pARAP->GetAttributeAsFloat("z", 0.0f);
@@ -132,8 +132,8 @@ void AIShipTaskController::FindRunAwayPoint()
 
 void AIShipTaskController::DoTask(float fDeltaTime)
 {
-	AITask* pTask = GetCurrentTask();
-	VAI_INNEROBJ* pTaskAIObj = GetCurrentTaskAIObj();
+  auto pTask = GetCurrentTask();
+  auto pTaskAIObj = GetCurrentTaskAIObj();
 
 	switch (pTask->dwTaskType)
 	{
@@ -171,7 +171,7 @@ void AIShipTaskController::Execute(float fDeltaTime)
 {
 	if (fDeltaTime <= 0.0f) return;
 
-	bool bTaskCompleted = CheckCurrentTaskComplete();
+  auto bTaskCompleted = CheckCurrentTaskComplete();
 	if (bTaskCompleted)
 	{
 		if (Secondary.isActive()) Secondary.SetActive(false);
@@ -189,7 +189,7 @@ void AIShipTaskController::Execute(float fDeltaTime)
 
 void AIShipTaskController::SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskType, CVECTOR& vPnt)
 {
-	AITask* pTask = GetTask(dwPriority);
+  auto pTask = GetTask(dwPriority);
 
 	pTask->SetActive(true);
 	pTask->dwTaskType = _dwNewTaskType;
@@ -200,7 +200,7 @@ void AIShipTaskController::SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskTy
 
 void AIShipTaskController::SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskType, ATTRIBUTES* _pATaskCharacter)
 {
-	AITask* pTask = GetTask(dwPriority);
+  auto pTask = GetTask(dwPriority);
 
 	pTask->SetActive(true);
 	pTask->pATaskCharacter = _pATaskCharacter;
@@ -209,7 +209,7 @@ void AIShipTaskController::SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskTy
 
 bool AIShipTaskController::isAttack(ATTRIBUTES* pAOtherCharacter)
 {
-	AITask* pTask = GetCurrentTask();
+  auto pTask = GetCurrentTask();
 	if (pTask && pTask->pATaskCharacter == pAOtherCharacter) //~!~
 	{
 		switch (pTask->dwTaskType)

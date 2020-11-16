@@ -77,11 +77,11 @@ void LocatorArray::SetNewMatrix(long locIndex, CMatrix& mtx)
 float LocatorArray::FindNearesLocator(float x, float y, float z, long* locIndex)
 {
 	if (locIndex) *locIndex = -1;
-	float dist = 1000000000.0f;
+  auto dist = 1000000000.0f;
 	CVECTOR v(x, y, z);
 	for (long i = 0; i < numLocators; i++)
 	{
-		float d = ~(locator[i].mtx.Pos() - v);
+    auto d = ~(locator[i].mtx.Pos() - v);
 		if (dist > d)
 		{
 			if (locIndex) *locIndex = i;
@@ -98,14 +98,14 @@ long LocatorArray::FindNearesLocatorCl(float x, float y, float z, float height2,
 	for (long i = 0; i < numLocators; i++)
 	{
 		//if(fabsf(y - locator[i].mtx.Pos().y) > height2) continue;
-		float r = GetLocatorRadius(i);
+    auto r = GetLocatorRadius(i);
 
 		if (fabsf(y - locator[i].mtx.Pos().y) > r) continue;
 
 		if (r <= 0.0f) continue;
-		float vx = locator[i].mtx.Pos().x - x;
-		float vz = locator[i].mtx.Pos().z - z;
-		float d = vx * vx + vz * vz;
+    auto vx = locator[i].mtx.Pos().x - x;
+    auto vz = locator[i].mtx.Pos().z - z;
+    auto d = vx * vx + vz * vz;
 		if (r * r <= d) continue;
 		if (locIndex >= 0)
 		{
@@ -128,7 +128,7 @@ long LocatorArray::FindNearesLocatorCl(float x, float y, float z, float height2,
 long LocatorArray::FindByName(const char* locName)
 {
 	if (!locName) return -1;
-	long hash = CalcHashString(locName);
+  auto hash = CalcHashString(locName);
 	for (long i = 0; i < numLocators; i++)
 	{
 		if (locator[i].name >= 0)
@@ -148,10 +148,10 @@ long LocatorArray::CalcHashString(const char* str)
 	unsigned long hval = 0;
 	while (*str != '\0')
 	{
-		char c = *str++;
+    auto c = *str++;
 		if (c >= 'A' && c <= 'Z') c += 'a' - 'A';
 		hval = (hval << 4) + (unsigned long int)c;
-		unsigned long g = hval & ((unsigned long int)0xf << (32 - 4));
+    auto g = hval & ((unsigned long int)0xf << (32 - 4));
 		if (g != 0)
 		{
 			hval ^= g >> (32 - 8);

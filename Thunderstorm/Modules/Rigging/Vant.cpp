@@ -85,10 +85,10 @@ void VANT::Execute(uint32_t Delta_Time)
 		//====================================================
 		// Если был изменен ини-файл, то считать инфо из него
 		WIN32_FIND_DATA wfd;
-		HANDLE h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
+    auto h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
 		if (INVALID_HANDLE_VALUE != h)
 		{
-			FILETIME ft_new = wfd.ftLastWriteTime;
+      auto ft_new = wfd.ftLastWriteTime;
 			fio->_FindClose(h);
 
 			if (CompareFileTime(&ft_old, &ft_new) != 0)
@@ -111,7 +111,7 @@ void VANT::Realize(uint32_t Delta_Time)
 		uint32_t ambient;
 		RenderService->GetRenderState(D3DRS_AMBIENT, &ambient);
 		RenderService->SetRenderState(D3DRS_TEXTUREFACTOR, ambient);
-		bool bDraw = RenderService->TechniqueExecuteStart("ShipVant");
+    auto bDraw = RenderService->TechniqueExecuteStart("ShipVant");
 		if (!bDraw) return;
 
 		// draw nature vants
@@ -119,7 +119,7 @@ void VANT::Realize(uint32_t Delta_Time)
 		float pr;
 		RenderService->GetCamera(cp, ca, pr);
 		pr = tanf(pr * .5f);
-		for (int gn = 0; gn < groupQuantity; gn++)
+		for (auto gn = 0; gn < groupQuantity; gn++)
 			if (gdata[gn].nIndx && nVert && (~(gdata[gn].pMatWorld->Pos() - cp)) * pr < fVantMaxDist)
 			{
 				((SHIP_BASE*)EntityManager::GetEntityPointer(gdata[gn].shipEI))->SetLightAndFog(true);
@@ -141,13 +141,13 @@ void VANT::Realize(uint32_t Delta_Time)
 
 uint64_t VANT::ProcessMessage(MESSAGE& message)
 {
-	long code = message.Long();
+  auto code = message.Long();
 
 	switch (code)
 	{
 	case MSG_VANT_INIT:
 		{
-			int oldvantQuantity = vantQuantity;
+      auto oldvantQuantity = vantQuantity;
 			if (gdata == nullptr)
 			{
 				if ((gdata = new GROUPDATA[1]) == nullptr)
@@ -156,7 +156,7 @@ uint64_t VANT::ProcessMessage(MESSAGE& message)
 			}
 			else
 			{
-				GROUPDATA* oldgdata = gdata;
+        auto oldgdata = gdata;
 				if ((gdata = new GROUPDATA[groupQuantity + 1]) == nullptr)
 					throw std::exception("Not memory allocation");
 				memcpy(gdata, oldgdata, sizeof(GROUPDATA) * groupQuantity);
@@ -201,7 +201,7 @@ uint64_t VANT::ProcessMessage(MESSAGE& message)
 				else
 				{
 					groupQuantity--;
-					GROUPDATA* oldgdata = gdata;
+          auto oldgdata = gdata;
 					gdata = new GROUPDATA[groupQuantity];
 					if (gdata == nullptr) gdata = oldgdata;
 					else
@@ -227,7 +227,7 @@ uint64_t VANT::ProcessMessage(MESSAGE& message)
 			gdata[groupQuantity - 1].vantIdx = new int[vantQuantity - oldvantQuantity];
 			if (gdata[groupQuantity - 1].vantIdx == nullptr) { throw std::exception("allocate memory error"); }
 
-			int idx = 0;
+      auto idx = 0;
 			for (int vn = oldvantQuantity; vn < vantQuantity; vn++)
 			{
 				gdata[groupQuantity - 1].vantIdx[idx++] = vn;

@@ -152,7 +152,7 @@ BOOL FILE_SERVICE::_WriteFile(HANDLE hFile, const void* lpBuffer, uint32_t nNumb
                               uint32_t* lpNumberOfBytesWritten)
 {
 	uint32_t dwR;
-	BOOL bRes = WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, (LPDWORD)&dwR, nullptr);
+  auto bRes = WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, (LPDWORD)&dwR, nullptr);
 	if (lpNumberOfBytesWritten != nullptr) *lpNumberOfBytesWritten = dwR;
 	//	if(dwR != nNumberOfBytesToWrite) if(Exceptions_Mask & _X_NO_FILE_WRITE) throw std::exception(_X_NO_FILE_WRITE);
 	return bRes;
@@ -161,7 +161,7 @@ BOOL FILE_SERVICE::_WriteFile(HANDLE hFile, const void* lpBuffer, uint32_t nNumb
 BOOL FILE_SERVICE::_ReadFile(HANDLE hFile, void* lpBuffer, uint32_t nNumberOfBytesToRead, uint32_t* lpNumberOfBytesRead)
 {
 	uint32_t dwR;
-	BOOL bRes = ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, (LPDWORD)&dwR, nullptr);
+  auto bRes = ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, (LPDWORD)&dwR, nullptr);
 	if (lpNumberOfBytesRead != nullptr) *lpNumberOfBytesRead = dwR;
 	//	if(dwR != nNumberOfBytesToRead) if(Exceptions_Mask & _X_NO_FILE_READ) throw std::exception(_X_NO_FILE_READ);
 	return bRes;
@@ -281,7 +281,7 @@ BOOL FILE_SERVICE::_SetFileAttributes(const char* lpFileName, uint32_t dwFileAtt
 
 BOOL FILE_SERVICE::FileExist(const char* file_name)
 {
-	HANDLE fh = _CreateFile(file_name);
+  auto fh = _CreateFile(file_name);
 	if (fh == INVALID_HANDLE_VALUE) return false;
 	CloseHandle(fh);
 	return true;
@@ -293,7 +293,7 @@ BOOL FILE_SERVICE::FileExist(const char* file_name)
 
 INIFILE* FILE_SERVICE::CreateIniFile(const char* file_name, bool fail_if_exist)
 {
-	HANDLE fh = _CreateFile(file_name,GENERIC_READ, 0,OPEN_EXISTING);
+  auto fh = _CreateFile(file_name,GENERIC_READ, 0,OPEN_EXISTING);
 	if (fh != INVALID_HANDLE_VALUE && fail_if_exist)
 	{
 		_CloseHandle(fh);
@@ -390,9 +390,9 @@ BOOL FILE_SERVICE::LoadFile(const char* file_name, char* * ppBuffer, uint32_t* d
 {
 	if (ppBuffer == nullptr) return false;
 
-	HANDLE hFile = _CreateFile(file_name);
+  auto hFile = _CreateFile(file_name);
 	if (INVALID_HANDLE_VALUE == hFile) return false;
-	uint32_t dwLowSize = _GetFileSize(hFile, nullptr);
+  auto dwLowSize = _GetFileSize(hFile, nullptr);
 	if (dwSize) *dwSize = dwLowSize;
 	if (dwLowSize == 0)
 	{

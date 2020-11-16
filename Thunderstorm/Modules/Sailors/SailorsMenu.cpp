@@ -3,7 +3,7 @@
 
 void Menu::Draw(VDX9RENDER* rs, SailorsPoints& sailorsPoints)
 {
-	for (int i = 0; i < count; i++)
+	for (auto i = 0; i < count; i++)
 		if (i != selected && i != blocked)
 			rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(100, 100, 100), 10, 20 + 20 * i, "%s", line[i].c_str());
 
@@ -112,10 +112,10 @@ void Menu::Draw(VDX9RENDER* rs, SailorsPoints& sailorsPoints)
 	}
 
 
-	int count = 0;
-	int reloaded = 0;
+  auto count = 0;
+  auto reloaded = 0;
 
-	for (int i = 0; i < sailrs->shipWalk[0].sailorsPoints.points.count; i++)
+	for (auto i = 0; i < sailrs->shipWalk[0].sailorsPoints.points.count; i++)
 		if (sailrs->shipWalk[0].sailorsPoints.points.point[i].pointType == PT_TYPE_CANNON_L ||
 			sailrs->shipWalk[0].sailorsPoints.points.point[i].pointType == PT_TYPE_CANNON_R ||
 			sailrs->shipWalk[0].sailorsPoints.points.point[i].pointType == PT_TYPE_CANNON_F ||
@@ -177,7 +177,7 @@ void Menu::ChangeControl1(int key, SailorsPoints& sailorsPoints) //Change people
 	{
 		if (!sailrs->shipWalk[0].crewCount)
 		{
-			for (int i = 0; i < 50; i++)
+			for (auto i = 0; i < 50; i++)
 				sailrs->shipWalk[0].CreateNewMan(sailrs->shipWalk[0].sailorsPoints);
 			Update(sailorsPoints);
 			return;
@@ -353,7 +353,7 @@ void Menu::ChangeControl2(int key, SailorsPoints& sailorsPoints) //Change points
 
 	if (key == VK_DELETE)
 	{
-		for (int i = 0; i < sailorsPoints.links.count; i++)
+		for (auto i = 0; i < sailorsPoints.links.count; i++)
 		{
 			if (sailorsPoints.links.link[i].first > sailorsPoints.points.selected)
 				sailorsPoints.links.link[i].first--;
@@ -435,7 +435,7 @@ void Menu::ChangeControl3(int key, SailorsPoints& sailorsPoints) //Change links
 
 	if (key == VK_F2)
 	{
-		int selLnk = sailorsPoints.links.selected;
+    auto selLnk = sailorsPoints.links.selected;
 
 		if (selLnk < sailorsPoints.links.count && selLnk >= 0)
 		{
@@ -456,7 +456,7 @@ void Menu::ChangeControl3(int key, SailorsPoints& sailorsPoints) //Change links
 
 	if (key == VK_F3)
 	{
-		int selLnk = sailorsPoints.links.selected;
+    auto selLnk = sailorsPoints.links.selected;
 
 		if (selLnk < sailorsPoints.links.count && selLnk >= 0)
 		{

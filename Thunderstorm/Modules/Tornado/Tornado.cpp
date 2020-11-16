@@ -92,7 +92,7 @@ bool Tornado::Init()
 //Исполнение
 void Tornado::Execute(uint32_t delta_time)
 {
-	float dltTime = delta_time * 0.001f * 1.0f;
+  auto dltTime = delta_time * 0.001f * 1.0f;
 	pillar.Update(dltTime);
 	particles.Update(dltTime);
 	noiseCloud.Update(dltTime);

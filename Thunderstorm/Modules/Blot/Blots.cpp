@@ -130,7 +130,7 @@ void Blots::AddBlot(long i, long rnd, const CVECTOR& lpos, const CVECTOR& dir, f
 	auto* m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if (!m) return;
 	blot[i].isUsed = false;
-	CVECTOR pos = m->mtx * CVECTOR(lpos);
+  auto pos = m->mtx * CVECTOR(lpos);
 	this->dir = m->mtx * CVECTOR(dir) - m->mtx.Pos();
 	//Описываюищй ящик
 	static PLANE p[6];
@@ -162,7 +162,7 @@ void Blots::AddBlot(long i, long rnd, const CVECTOR& lpos, const CVECTOR& dir, f
 	numClipTriangles = 0;
 	normal = -0.1f * dir;
 	//Неколизимся с патчём и мачтами
-	NODE* root = m->GetNode(0);
+  auto root = m->GetNode(0);
 	SetNodesCollision(root, true);
 	m->Clip(p, 6, pos, BLOTS_RADIUS, AddPolygon);
 	SetNodesCollision(root, false);
@@ -188,19 +188,19 @@ void Blots::AddBlot(long i, long rnd, const CVECTOR& lpos, const CVECTOR& dir, f
 	useVrt += numClipTriangles * 3;
 	Assert(useVrt < sizeof(vrt)/sizeof(Vertex));
 	//Преобразуем треугольники в локальную систему координат корабля
-	CMatrix mtx(m->mtx);
+  auto mtx(m->mtx);
 	mtx.Transposition();
-	Vertex* v = vrt + blot[i].startIndex;
+  auto v = vrt + blot[i].startIndex;
 	numClipTriangles *= 3;
-	float baseU = 0.0f;
-	float baseV = 0.0f;
+  auto baseU = 0.0f;
+  auto baseV = 0.0f;
 	if (rnd & 1) baseU += 0.5f;
 	if (rnd & 2) baseV += 0.5f;
 	for (long n = 0; n < numClipTriangles; n++)
 	{
 		v[n].pos = mtx * clipTriangles[n];
 		v[n].c = 0xffffffff;
-		CVECTOR uv = uvmtx * clipTriangles[n];
+    auto uv = uvmtx * clipTriangles[n];
 		uv.x = (0.5f + uv.x * 0.5f / BLOTS_RADIUS);
 		uv.y = (0.5f + uv.y * 0.5f / BLOTS_RADIUS);
 		if (uv.x < 0.0f) uv.x = 0.0f;
@@ -223,7 +223,7 @@ void Blots::SetNodesCollision(NODE* n, bool isSet)
 	{
 		n->flags &= 0x00ffffff;
 		n->flags |= n->flags << 24;
-		const char* name = n->GetName();
+    auto name = n->GetName();
 		if (name && name[0])
 		{
 			if (name[0] == 'r' || name[0] == 'R')
@@ -263,7 +263,7 @@ void Blots::SaveBlot(long i)
 	sprintf_s(name, "b%.3i", i);
 	if (blot[i].isUsed)
 	{
-		ATTRIBUTES* blt = blotsInfo->CreateSubAClass(blotsInfo, name);
+    auto blt = blotsInfo->CreateSubAClass(blotsInfo, name);
 		blt->SetAttributeUseDword("rnd", blot[i].rnd);
 		blt->SetAttributeUseFloat("x", blot[i].pos.x);
 		blt->SetAttributeUseFloat("y", blot[i].pos.y);
@@ -286,7 +286,7 @@ void Blots::LoadBlot(long i)
 	//Имя атрибута
 	char name[16];
 	sprintf_s(name, "b%.3i", i);
-	ATTRIBUTES* blt = blotsInfo->FindAClass(blotsInfo, name);
+  auto blt = blotsInfo->FindAClass(blotsInfo, name);
 	if (blt)
 	{
 		if (!blt->GetAttribute("rnd")) return;
@@ -298,13 +298,13 @@ void Blots::LoadBlot(long i)
 		if (!blt->GetAttribute("vz")) return;
 		if (!blt->GetAttribute("time")) return;
 		long rnd = blt->GetAttributeAsDword("rnd");
-		float x = blt->GetAttributeAsFloat("x");
-		float y = blt->GetAttributeAsFloat("y");
-		float z = blt->GetAttributeAsFloat("z");
-		float vx = blt->GetAttributeAsFloat("vx");
-		float vy = blt->GetAttributeAsFloat("vy");
-		float vz = blt->GetAttributeAsFloat("vz");
-		float time = blt->GetAttributeAsFloat("time");
+    auto x = blt->GetAttributeAsFloat("x");
+    auto y = blt->GetAttributeAsFloat("y");
+    auto z = blt->GetAttributeAsFloat("z");
+    auto vx = blt->GetAttributeAsFloat("vx");
+    auto vy = blt->GetAttributeAsFloat("vy");
+    auto vz = blt->GetAttributeAsFloat("vz");
+    auto time = blt->GetAttributeAsFloat("time");
 		AddBlot(i, rnd, CVECTOR(x, y, z), CVECTOR(vx, vy, vz), time);
 	}
 }
@@ -323,13 +323,13 @@ void Blots::Realize(uint32_t delta_time)
 	//Расстояние от камеры
 	CVECTOR pos, ang;
 	rs->GetCamera(pos, ang, ang.x);
-	float dist = ~(pos - m->mtx.Pos());
+  auto dist = ~(pos - m->mtx.Pos());
 	if (dist >= BLOTS_DIST * BLOTS_DIST) return;
 	//Прозрачность от расстояния до корабля
 	dist = (sqrtf(dist / (BLOTS_DIST * BLOTS_DIST)) - 0.5f) / 0.5f;
 	if (dist <= 0.0f) dist = 0.0f;
 	dist = (1.0f - dist) * 255.0f;
-	long color = long(dist);
+  auto color = long(dist);
 	rs->SetRenderState(D3DRS_TEXTUREFACTOR, (color << 24) | (color << 16) | (color << 8) | color);
 	//Настройки
 	rs->SetTransform(D3DTS_WORLD, m->mtx);
@@ -348,7 +348,7 @@ void Blots::Realize(uint32_t delta_time)
 		if (blot[i].liveTime >= BLOTS_TIME)
 		{
 			blot[i].isUsed = false;
-			long startIndex = blot[i].startIndex;
+      auto startIndex = blot[i].startIndex;
 			long numDelVerts = blot[i].numTrgs * 3;
 
 			//-----------------------------------------------
@@ -359,8 +359,8 @@ void Blots::Realize(uint32_t delta_time)
 			for (long n = 0; n < BLOTS_MAX; n++)
 			{
 				if (!blot[n].isUsed) continue;
-				Vertex* v1 = vr + n * BLOTS_NTRGS * 3;
-				Vertex* v2 = vrt + blot[n].startIndex;
+        auto v1 = vr + n * BLOTS_NTRGS * 3;
+        auto v2 = vrt + blot[n].startIndex;
 				for (long v = 0; v < blot[n].numTrgs * 3; v++) v1[v] = v2[v];
 			}
 			//!!! end Проверки
@@ -392,8 +392,8 @@ void Blots::Realize(uint32_t delta_time)
 			for (long n = 0; n < BLOTS_MAX; n++)
 			{
 				if (!blot[n].isUsed) continue;
-				Vertex* v1 = vr + n * BLOTS_NTRGS * 3;
-				Vertex* v2 = vrt + blot[n].startIndex;
+        auto v1 = vr + n * BLOTS_NTRGS * 3;
+        auto v2 = vrt + blot[n].startIndex;
 				for (long v = 0; v < blot[n].numTrgs * 3; v++)
 				{
 					Assert(v1[v].pos.x == v2[v].pos.x);
@@ -410,7 +410,7 @@ void Blots::Realize(uint32_t delta_time)
 			continue;
 		}
 		//Прозрачность от времени
-		float k = blot[i].liveTime / BLOTS_TIME;
+    auto k = blot[i].liveTime / BLOTS_TIME;
 		k = (k - 0.5f) / 0.5f;
 		if (k < 0.0f) k = 0.0f;
 		if (k > 1.0f) k = 1.0f;
@@ -423,7 +423,7 @@ void Blots::Realize(uint32_t delta_time)
 			//Количество
 			long numVrt = blot[i].numTrgs * 3;
 			//Массив
-			Vertex* v = vrt + blot[i].startIndex;
+      auto v = vrt + blot[i].startIndex;
 			for (long j = 0; j < numVrt; j++) v[j].c = color;
 		}
 	}
@@ -437,7 +437,7 @@ bool Blots::AddPolygon(const CVECTOR* v, long nv)
 	if (numClipTriangles >= BLOTS_NTRGS) return false;
 	if (nv < 3) return true;
 	//Нормаль
-	CVECTOR norm = (v[0] - v[1]) ^ (v[0] - v[2]);
+  auto norm = (v[0] - v[1]) ^ (v[0] - v[2]);
 	if ((norm | dir) >= 0.0f) return true;
 	normal += 100.0f * norm;
 	//Добавляем

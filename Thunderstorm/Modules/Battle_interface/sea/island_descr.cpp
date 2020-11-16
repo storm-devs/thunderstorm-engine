@@ -29,7 +29,7 @@ void ISLAND_DESCRIBER::SetIsland(ATTRIBUTES* pAIsland)
 	m_bYesIsland = true;
 	m_pIslandAttributes = pAIsland;
 	// создать список локаторов
-	ATTRIBUTES* pA = pAIsland->GetAttributeClass("reload");
+  auto pA = pAIsland->GetAttributeClass("reload");
 	if (pA == nullptr) return;
 	if ((m_nLocators = pA->GetAttributesNum()) == 0) return;
 	if ((m_pLocators = new LOCATOR_DESCR[m_nLocators]) == nullptr)
@@ -38,7 +38,7 @@ void ISLAND_DESCRIBER::SetIsland(ATTRIBUTES* pAIsland)
 	}
 	// пройтись по всем локаторам
 	ATTRIBUTES* pATmp;
-	for (int i = 0; i < m_nLocators; i++)
+	for (auto i = 0; i < m_nLocators; i++)
 	{
 		m_pLocators[i].pchr_note = nullptr;
 		if ((pATmp = m_pLocators[i].pA = pA->GetAttributeClass(i)) == nullptr) continue;
@@ -52,7 +52,7 @@ void ISLAND_DESCRIBER::SetIsland(ATTRIBUTES* pAIsland)
 		m_pLocators[i].texIdx = -1;
 		m_pLocators[i].characterIndex = -1;
 		m_pLocators[i].bDiseased = false;
-		VDATA* pvdat = api->Event("evntGetLandData", "a", pATmp);
+    auto pvdat = api->Event("evntGetLandData", "a", pATmp);
 		if (pvdat)
 		{
 			long lTmp;
@@ -195,10 +195,10 @@ ISLAND_DESCRIBER::LOCATOR_DESCR* ISLAND_DESCRIBER::FindLocator(LOCATOR_DESCR* p,
 ISLAND_DESCRIBER::LOCATOR_DESCR* ISLAND_DESCRIBER::FindLocatorByName(char* name)
 {
 	if (name == nullptr) return nullptr;
-	for (int i = 0; i < m_nLocators; i++)
+	for (auto i = 0; i < m_nLocators; i++)
 	{
 		if (m_pLocators[i].pA == nullptr) continue;
-		char* curName = m_pLocators[i].pA->GetAttribute("name");
+    auto curName = m_pLocators[i].pA->GetAttribute("name");
 		if (curName != nullptr && _stricmp(name, curName) == 0) return &m_pLocators[i];
 	}
 	return nullptr;
@@ -207,7 +207,7 @@ ISLAND_DESCRIBER::LOCATOR_DESCR* ISLAND_DESCRIBER::FindLocatorByName(char* name)
 void ISLAND_DESCRIBER::Refresh()
 {
 	if (m_pLocators == nullptr) return;
-	for (int i = 0; i < m_nLocators; i++)
+	for (auto i = 0; i < m_nLocators; i++)
 	{
 		if (m_pLocators[i].locatorType == ISLAND_LOCATOR_FORT)
 		{

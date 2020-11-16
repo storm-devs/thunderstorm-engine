@@ -86,7 +86,7 @@ void LocationEffects::Execute(uint32_t delta_time)
 
 void LocationEffects::Realize(uint32_t delta_time)
 {
-	float dltTime = delta_time * 0.001f;
+  auto dltTime = delta_time * 0.001f;
 	ProcessedFlys(dltTime);
 	ProcessedChrSplash(dltTime);
 	ProcessedShotgun(dltTime);
@@ -173,15 +173,15 @@ inline void LocationEffects::DrawParticles(void* prts, long num, long size, long
 	{
 		auto* parts = (Particle *)prts;
 		prts = (char *)prts + size;
-		CVECTOR pos = camMtx * parts->pos;
-		float size = parts->size * 0.5f;
-		float sn = sinf(parts->angle);
-		float cs = cosf(parts->angle);
-		long color = (long(parts->alpha) << 24);
+    auto pos = camMtx * parts->pos;
+    auto size = parts->size * 0.5f;
+    auto sn = sinf(parts->angle);
+    auto cs = cosf(parts->angle);
+    auto color = (long(parts->alpha) << 24);
 		if (!isEx) color |= 0x00ffffff;
 		else color |= 0x00ffffff & ((ParticleEx *)parts)->color;
-		float u1 = 0.0f;
-		float u2 = 1.0f;
+    auto u1 = 0.0f;
+    auto u2 = 1.0f;
 		if (isEx && numU)
 		{
 			u2 = 1.0f / float(numU);
@@ -237,14 +237,14 @@ void LocationEffects::CreateSplash(const CVECTOR& pos, float power)
 	if (power < 0.0f) power = 0.0f;
 	if (power > 1.0f) power = 1.0f;
 	//Инициализируем
-	ChrSplash& spl = chrSplash[i];
+  auto& spl = chrSplash[i];
 	spl.time = 0.0f;
 	spl.kTime = 1.4f;
 	for (i = 0; i < LFX_SPLASHES_P_NUM; i++)
 	{
-		float ang = rand() * (LFX_PI * 2.0f / RAND_MAX);
-		float r = rand() * (2.0f * LFX_SPLASHES_SRAD / float(RAND_MAX));
-		float s = 1.0f + rand() * (3.0f / float(RAND_MAX));
+    auto ang = rand() * (LFX_PI * 2.0f / RAND_MAX);
+    auto r = rand() * (2.0f * LFX_SPLASHES_SRAD / float(RAND_MAX));
+    auto s = 1.0f + rand() * (3.0f / float(RAND_MAX));
 		spl.prt[i].dir = CVECTOR(0.3f * sinf(ang), s, 0.3f * cosf(ang));
 		spl.prt[i].pos = pos + CVECTOR(r * sinf(ang), 0.0f, r * cosf(ang));
 		spl.prt[i].angle = 0.0f;
@@ -262,7 +262,7 @@ void LocationEffects::ProcessedChrSplash(float dltTime)
 	if (chrSplashRefCounter <= 0) return;
 	for (long i = 0; i < LFX_SPLASHES_NUM; i++)
 	{
-		ChrSplash& spl = chrSplash[i];
+    auto& spl = chrSplash[i];
 		//Смотрим время жизни
 		if (spl.time < 0.0f) continue;
 		if (spl.time >= 1.0f)

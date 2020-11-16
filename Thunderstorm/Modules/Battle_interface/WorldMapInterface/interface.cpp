@@ -94,7 +94,7 @@ void WM_INTERFACE::LoadIniFile()
 {
 	m_pShipIcon = new WMShipIcon(GetId(), rs);
 	Assert(m_pShipIcon);
-	ATTRIBUTES* pA = AttributesPointer ? AttributesPointer->GetAttributeClass("wm_sign") : nullptr;
+  auto pA = AttributesPointer ? AttributesPointer->GetAttributeClass("wm_sign") : nullptr;
 	m_pShipIcon->Init(AttributesPointer, pA);
 	m_nCommandListVerticalOffset = pA ? pA->GetAttributeAsDword("commandlistverticaloffset") : -48;
 
@@ -142,7 +142,7 @@ void WM_INTERFACE::ExecuteCommand(long command)
 	case BI_MSG_COMMAND_ACTIVATE:
 		if (m_pCommandList)
 		{
-			long nTmp = m_pCommandList->ExecuteConfirm();
+      auto nTmp = m_pCommandList->ExecuteConfirm();
 			if (nTmp != -1) m_nCommandMode = nTmp;
 			if (m_nCommandMode == 0)
 			{

@@ -47,9 +47,9 @@ WdmStorm::WdmStorm()
 	//Позиция шторма, направление перемещения время жизни
 	isActiveTime = 2.0f;
 	//Угл относительно корабля
-	float ang = rand() * 2.0f * 3.141592653589793f / (RAND_MAX + 1);
+  auto ang = rand() * 2.0f * 3.141592653589793f / (RAND_MAX + 1);
 	//Радиус до корабля
-	float r = wdmObjects->stormBrnDistMin + rand() * (wdmObjects->stormBrnDistMax - wdmObjects->stormBrnDistMin) /
+  auto r = wdmObjects->stormBrnDistMin + rand() * (wdmObjects->stormBrnDistMax - wdmObjects->stormBrnDistMin) /
 		RAND_MAX;
 	//Позиция
 	pos = CVECTOR(((WdmRenderModel *)wdmObjects->playerShip)->mtx.Pos().x + r * sinf(ang), 30.0f,
@@ -88,7 +88,7 @@ WdmStorm::WdmStorm()
 	for (long i = 0; i < 8; i++) w[i] = 0;
 	//Раскидываем облака
 	long x, z;
-	bool globSign = (rand() & 1) != 0;
+  auto globSign = (rand() & 1) != 0;
 	for (long i = 0; i < num; i++)
 	{
 		cloud[i] = (WdmCloud *)wdmObjects->wm->AddObject(new WdmCloud(), 101);
@@ -140,9 +140,9 @@ bool WdmStorm::CheckIntersection(float x, float z, float r)
 	for (long i = 0; i < num; i++)
 		if (cloud[i])
 		{
-			float cx = pos.x + cloudPos[i].x;
-			float cz = pos.z + cloudPos[i].z;
-			float d = (cx - x) * (cx - x) + (cz - z) * (cz - z);
+      auto cx = pos.x + cloudPos[i].x;
+      auto cz = pos.z + cloudPos[i].z;
+      auto d = (cx - x) * (cx - x) + (cz - z) * (cz - z);
 			if (d < r) return true;
 		}
 	return false;

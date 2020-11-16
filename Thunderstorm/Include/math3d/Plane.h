@@ -153,7 +153,7 @@ inline float operator *(const Plane& plane, const Vector& point)
 ///Ќормализовать
 inline Plane& Plane::Normalize()
 {
-	float d = normal.Normalize();
+  auto d = normal.Normalize();
 	if (d != 0.0f) dist /= d;
 	else dist = 0.0f;
 	return *this;
@@ -179,16 +179,16 @@ inline float Plane::Dist(const Vector& point) const
 //ѕроверить на пересечение отрезка и плоскости
 inline bool Plane::Intersection(const Vector& src, const Vector& dst) const
 {
-	float dsrc = *this * src;
-	float ddst = *this * dst;
+  auto dsrc = *this * src;
+  auto ddst = *this * dst;
 	return (dsrc * ddst <= 0.0f);
 }
 
 //Ќайти точку пересечени€ отрезка и плоскости
 inline bool Plane::Intersection(const Vector& src, const Vector& dst, Vector& res) const
 {
-	float dsrc = *this * src;
-	float ddst = *this * dst;
+  auto dsrc = *this * src;
+  auto ddst = *this * dst;
 	if (dsrc * ddst > 0.0f) return false;
 	ddst = dsrc - ddst;
 	res = src;
@@ -199,8 +199,8 @@ inline bool Plane::Intersection(const Vector& src, const Vector& dst, Vector& re
 //ѕроверить на пересечение линии и плоскости
 inline bool Plane::IntersectionLine(const Vector& src, const Vector& dst, float& k) const
 {
-	float dsrc = *this * src;
-	float ddst = *this * dst;
+  auto dsrc = *this * src;
+  auto ddst = *this * dst;
 	ddst = dsrc - ddst;
 	if (fabsf(ddst) <= 1e-30f) return false;
 	k = dsrc / ddst;

@@ -64,8 +64,8 @@ WdmSea::WdmSea()
 	Assert(triangle);
 	for (long j = 0, p = 0; j < WDM_SEA_SECTIONS_Z; j++)
 	{
-		Triangle* trg = triangle + j * WDM_SEA_SECTIONS_X * 2;
-		long base = j * (WDM_SEA_SECTIONS_X + 1);
+    auto trg = triangle + j * WDM_SEA_SECTIONS_X * 2;
+    auto base = j * (WDM_SEA_SECTIONS_X + 1);
 		for (long i = 0; i < WDM_SEA_SECTIONS_X; i++)
 		{
 			trg[i * 2 + 0].index[0] = uint16_t(base + i);
@@ -85,7 +85,7 @@ WdmSea::WdmSea()
 	{
 		for (long x = 0; x <= WDM_SEA_SECTIONS_X; x++, p++)
 		{
-			Vertex& v = vertex[p];
+      auto& v = vertex[p];
 			v.x = (x / float(WDM_SEA_SECTIONS_X) - 0.5f) * seaSizeX;
 			v.y = 0.0f;
 			v.z = (0.5f - z / float(WDM_SEA_SECTIONS_Z)) * seaSizeZ;
@@ -207,14 +207,14 @@ void WdmSea::Update(float dltTime)
 	long i;
 	for (i = 0; i < sizeof(flare) / sizeof(flare[0]); i++)
 	{
-		Flare& f = flare[i];
+    auto& f = flare[i];
 		if (f.index < 0) continue;
 		f.time += dltTime * f.k;
 		if (f.time >= 1.0f)
 		{
 			//Отжил своё, удаляем
 			flareCount--;
-			for (long j = f.index; j < flareCount; j++)
+			for (auto j = f.index; j < flareCount; j++)
 			{
 				flare[flareRect[j + 1].dwColor & 0xffff].index--;
 				flareRect[j] = flareRect[j + 1];
@@ -223,8 +223,8 @@ void WdmSea::Update(float dltTime)
 			continue;
 		}
 		//Обновляем параметры
-		RS_RECT& r = flareRect[f.index];
-		float k = 1.0f - (f.time - 0.5f) * (f.time - 0.5f) * 4.0f;
+    auto& r = flareRect[f.index];
+    auto k = 1.0f - (f.time - 0.5f) * (f.time - 0.5f) * 4.0f;
 		r.fSize = k * 0.3f;
 		r.dwColor = (r.dwColor & 0xffff) | (long(k * k * k * k * k * k * 255.0f) << 24);
 		r.fAngle += dltTime * 8.0f * sinf(f.phase + f.time * 6.0f);
@@ -232,7 +232,7 @@ void WdmSea::Update(float dltTime)
 	Assert(wdmObjects->playerShip);
 	float playerX, playerZ, playerAng;
 	wdmObjects->playerShip->GetPosition(playerX, playerZ, playerAng);
-	const float flareBurnTime = 0.0005f;
+	const auto flareBurnTime = 0.0005f;
 	for (flareCerateCounter += dltTime; flareCerateCounter > flareBurnTime; flareCerateCounter -= flareBurnTime)
 	{
 		if (rand() & 1)
@@ -246,14 +246,14 @@ void WdmSea::Update(float dltTime)
 			if (i >= sizeof(flare) / sizeof(flare[0])) break;
 			Assert(flareCount < sizeof(flareRect)/sizeof(flareRect[0]));
 			//Заполняем новыми параметрами
-			Flare& f = flare[i];
+      auto& f = flare[i];
 			f.index = flareCount++;
 			f.time = 0.0f;
 			f.k = 1.0f / (0.8f + 0.5f * rand() * (1.0f / RAND_MAX));
 			f.phase = rand() * (2.0f * PI / RAND_MAX);
-			RS_RECT& r = flareRect[f.index];
-			float pang = rand() * (2.0f * PI / RAND_MAX);
-			float prad = rand() * (300.0f / RAND_MAX);
+      auto& r = flareRect[f.index];
+      auto pang = rand() * (2.0f * PI / RAND_MAX);
+      auto prad = rand() * (300.0f / RAND_MAX);
 			r.vPos.x = playerX + prad * sinf(pang);
 			r.vPos.y = 0.0f;
 			r.vPos.z = playerZ + prad * cosf(pang);
@@ -288,10 +288,10 @@ void WdmSea::LRender(VDX9RENDER* rs)
 	Render(rs, "WdmSeaDraw2");
 	//Рисование анимированной текстуры
 	//Определяем пару кадров и коэфициент блендинга между ними
-	long curFrame = long(aniFrame);
-	long nextFrame = curFrame + 1;
+  auto curFrame = long(aniFrame);
+  auto nextFrame = curFrame + 1;
 	if (nextFrame >= sizeof(aniTextures) / sizeof(long)) nextFrame = 0;
-	float k = 255.0f * (aniFrame - long(aniFrame));
+  auto k = 255.0f * (aniFrame - long(aniFrame));
 	if (k < 0.0f) k = 0.0f;
 	if (k > 255.0f) k = 255.0f;
 	//Textures
@@ -313,15 +313,15 @@ void WdmSea::LRender(VDX9RENDER* rs)
 		CMatrix view;
 		rs->GetTransform(D3DTS_VIEW, view);
 		view.Transposition();
-		float y = view.Pos().y;
-		const float maxy = 130.0f;
-		const float miny = 80.0f;
+    auto y = view.Pos().y;
+		const auto maxy = 130.0f;
+		const auto miny = 80.0f;
 		if (y < maxy)
 		{
 			y = (y - miny) / (maxy - miny);
 			if (y < 0.0f) y = 0.0f;
 			y = (1.0f - y) * (1.0f - y);
-			long c = long(y * 255.0f) << 24;
+      auto c = long(y * 255.0f) << 24;
 			rs->TextureSet(0, flareTexture);
 			rs->SetRenderState(D3DRS_TEXTUREFACTOR, (c << 24) | (c << 16) | (c << 8) | c);
 			rs->DrawRects(flareRect, flareCount, "WdmSeaDrawFlare");

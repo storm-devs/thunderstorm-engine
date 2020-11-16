@@ -34,7 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 
 	/* Read config */
 	uint32_t dwMaxFPS = 0;
-	INIFILE* ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
+  auto ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
 	/*if (ini)
 	{
 		dwMaxFPS = (uint32_t)ini->GetLong(nullptr, "max_fps", 0);

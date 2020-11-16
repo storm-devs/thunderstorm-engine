@@ -61,7 +61,7 @@ void ActivePerkShower::Realize(uint32_t delta_time)
 	if (m_pTexDescr == nullptr) return;
 	rs->MakePostProcess();
 
-	for (int i = 0; i < m_nTextureQ; i++)
+	for (auto i = 0; i < m_nTextureQ; i++)
 	{
 		if (m_pTexDescr[i].m_nPicsQ == 0) continue;
 		rs->TextureSet(0, m_pTexDescr[i].m_idTexture);
@@ -80,7 +80,7 @@ uint64_t ActivePerkShower::ProcessMessage(MESSAGE& message)
 		{
 			char param[256];
 			message.String(sizeof(param), param);
-			ATTRIBUTES* pA = message.AttributePointer();
+      auto pA = message.AttributePointer();
 			if (_stricmp(param, "add") == 0) AddIconToList(pA);
 			else if (_stricmp(param, "del") == 0) DelIconFromList(pA);
 		}
@@ -102,9 +102,9 @@ bool ActivePerkShower::CreateTextures(ATTRIBUTES* pATextureRoot)
 		throw std::exception("allocate memory error");
 	}
 
-	for (int i = 0; i < q; i++)
+	for (auto i = 0; i < q; i++)
 	{
-		ATTRIBUTES* pA = pATextureRoot->GetAttributeClass(i);
+    auto pA = pATextureRoot->GetAttributeClass(i);
 		if (pA == nullptr)
 		{
 			m_pTexDescr[i].m_idTexture = -1;
@@ -175,11 +175,11 @@ bool ActivePerkShower::CreateShowPlaces(ATTRIBUTES* pAPlacesRoot)
 		throw std::exception("allocate memory error");
 	}
 
-	for (int ih = 0; ih < nHorzQ; ih++)
+	for (auto ih = 0; ih < nHorzQ; ih++)
 	{
-		for (int iv = 0; iv < nVertQ; iv++)
+		for (auto iv = 0; iv < nVertQ; iv++)
 		{
-			int idx = iv + ih * nVertQ;
+      auto idx = iv + ih * nVertQ;
 			m_pShowPlaces[idx].right = (float)(rectBound.right - ih * (m_nIconWidth + m_nSpaceHorz));
 			m_pShowPlaces[idx].left = (float)(m_pShowPlaces[idx].right - m_nIconWidth);
 			m_pShowPlaces[idx].top = (float)(rectBound.top + iv * (m_nIconHeight + m_nSpaceVert));
@@ -202,11 +202,11 @@ bool ActivePerkShower::InitIconsList(ATTRIBUTES* pAIconsRoot)
 	{
 		throw std::exception("allocate memory error");
 	}
-	for (int i = 0; i < q; i++)
+	for (auto i = 0; i < q; i++)
 	{
 		m_pIconsList[i].m_nPicNum = 0;
 		m_pIconsList[i].m_nPicTexIdx = 0;
-		ATTRIBUTES* pA = pAIconsRoot->GetAttributeClass(i);
+    auto pA = pAIconsRoot->GetAttributeClass(i);
 		if (pA != nullptr)
 		{
 			m_pIconsList[i].m_nPicNum = pA->GetAttributeAsDword("texture", 0);
@@ -224,7 +224,7 @@ void ActivePerkShower::AddIconToList(ATTRIBUTES* pAItemDescr)
 	int picNum = pAItemDescr->GetAttributeAsDword("pic_idx");
 	int texNum = pAItemDescr->GetAttributeAsDword("texture");
 
-	for (int i = 0; i < m_nIShowQ; i++)
+	for (auto i = 0; i < m_nIShowQ; i++)
 	{
 		if (texNum == m_pIconsList[i].m_nPicTexIdx && picNum == m_pIconsList[i].m_nPicNum)
 			return; // уже есть такая абилити
@@ -234,7 +234,7 @@ void ActivePerkShower::AddIconToList(ATTRIBUTES* pAItemDescr)
 	if (m_pIconsList == nullptr) m_pIconsList = new _PICTURE_DESCR[m_nIShowQ];
 	else
 	{
-		_PICTURE_DESCR* old_pIconsList = m_pIconsList;
+    auto old_pIconsList = m_pIconsList;
 		m_pIconsList = new _PICTURE_DESCR[m_nIShowQ];
 		if (m_pIconsList != nullptr)
 		{
@@ -255,8 +255,8 @@ void ActivePerkShower::DelIconFromList(ATTRIBUTES* pAIconDescr)
 	int picNum = pAIconDescr->GetAttributeAsDword("pic_idx");
 	int texNum = pAIconDescr->GetAttributeAsDword("texture");
 
-	int del_idx = m_nIShowQ;
-	for (int i = 0; i < m_nIShowQ; i++)
+  auto del_idx = m_nIShowQ;
+	for (auto i = 0; i < m_nIShowQ; i++)
 	{
 		if (i > del_idx)
 		{

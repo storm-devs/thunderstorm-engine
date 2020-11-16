@@ -62,7 +62,7 @@ WdmShip::~WdmShip()
 
 bool WdmShip::Load(const char* modelName)
 {
-	bool res = WdmRenderModel::Load(modelName);
+  auto res = WdmRenderModel::Load(modelName);
 	if (geo)
 	{
 		GEOS::INFO ginfo;
@@ -110,12 +110,12 @@ void WdmShip::Update(float dltTime)
 //Расчёты
 void WdmShip::ShipUpdate(float dltTime)
 {
-	const float pi2 = 3.14159265f * 2.0f;
+	const auto pi2 = 3.14159265f * 2.0f;
 	//Сбросим флажёк для рендера
 	isWMRender = false;
 	//Сохраним предыдущую позицию
-	float oay = ay;
-	CVECTOR opos = mtx.Pos();
+  auto oay = ay;
+  auto opos = mtx.Pos();
 	//Ограничем скорости
 	if (speed > WDM_SHIP_MAX_SPEED * kMaxSpeed) speed = WDM_SHIP_MAX_SPEED * kMaxSpeed;
 	if (speed < -0.4f * WDM_SHIP_MAX_SPEED * kMaxSpeed) speed = -0.4f * WDM_SHIP_MAX_SPEED * kMaxSpeed;
@@ -135,7 +135,7 @@ void WdmShip::ShipUpdate(float dltTime)
 	if (az < -pi2) az += pi2;
 	//Коэфициент зависимости скорости от ветра
 	CVECTOR windDir = 0.0f;
-	float kWind = wdmObjects->GetWind(mtx.Pos().x, mtx.Pos().z, windDir);
+  auto kWind = wdmObjects->GetWind(mtx.Pos().x, mtx.Pos().z, windDir);
 	kWind *= (sinf(ay) * windDir.x + cosf(ay) * windDir.z) * 0.5f + 0.5f;
 	kWind = wdmObjects->shipSpeedOppositeWind + (wdmObjects->shipSpeedOverWind - wdmObjects->shipSpeedOppositeWind) *
 		kWind;

@@ -109,11 +109,11 @@ ShipTracks::ShipTrack::~ShipTrack()
 
 bool ShipTracks::ShipTrack::Update(SHIP_BASE* pShip)
 {
-	ATTRIBUTES* pAChar = pShip->GetACharacter();
+  auto pAChar = pShip->GetACharacter();
 	Assert(pAChar);
-	ATTRIBUTES* pATrack = pAChar->FindAClass(pAChar, "Ship.Track");
-	ATTRIBUTES* pATrack1 = pAChar->FindAClass(pAChar, "Ship.Track1");
-	ATTRIBUTES* pATrack2 = pAChar->FindAClass(pAChar, "Ship.Track2");
+  auto pATrack = pAChar->FindAClass(pAChar, "Ship.Track");
+  auto pATrack1 = pAChar->FindAClass(pAChar, "Ship.Track1");
+  auto pATrack2 = pAChar->FindAClass(pAChar, "Ship.Track2");
 
 	if (!pATrack || !pATrack1 || !pATrack2) return false;
 	if (!pATrack->GetAttributeAsDword("Enable", 0)) return false;
@@ -165,7 +165,7 @@ bool ShipTracks::ShipTrack::Update(SHIP_BASE* pShip)
 
 bool ShipTracks::ShipTrack::Reserve1(uint32_t dwSize)
 {
-	uint32_t dwNewSize = (dwSize / (100) + 1) * (100);
+  auto dwNewSize = (dwSize / (100) + 1) * (100);
 
 	if (dwMaxBufferSize1 >= dwNewSize) return iVTmpBuffer1 != -1 && iITmpBuffer1 != -1;
 
@@ -211,7 +211,7 @@ bool ShipTracks::ShipTrack::Reserve1(uint32_t dwSize)
 
 bool ShipTracks::ShipTrack::Reserve2(uint32_t dwSize)
 {
-	uint32_t dwNewSize = (dwSize / (20) + 1) * (20);
+  auto dwNewSize = (dwSize / (20) + 1) * (20);
 
 	if (dwMaxBufferSize2 >= dwNewSize) return iVTmpBuffer2 != -1 && iITmpBuffer2 != -1;
 
@@ -269,17 +269,17 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 	float fFov;
 	CVECTOR vCamPos, vCamAng;
 	pRS->GetCamera(vCamPos, vCamAng, fFov);
-	float fCamDist = Clamp(sqrtf(~vCamPos) / 10000.0f);
-	float fWaveUP = fUP1 + fCamDist * (fUP2 - fUP1);
+  auto fCamDist = Clamp(sqrtf(~vCamPos) / 10000.0f);
+  auto fWaveUP = fUP1 + fCamDist * (fUP2 - fUP1);
 
-	CVECTOR vCurPos = pShip->GetPos();
-	CVECTOR vCurAng = pShip->GetAng();
+  auto vCurPos = pShip->GetPos();
+  auto vCurAng = pShip->GetAng();
 
-	CVECTOR vBoxSize = pShip->GetBoxsize();
+  auto vBoxSize = pShip->GetBoxsize();
 
-	CVECTOR vDist = vCurPos - vLastPos;
+  auto vDist = vCurPos - vLastPos;
 	vDist.y = 0.0;
-	float fCurrentDistance = sqrtf(~vDist);
+  auto fCurrentDistance = sqrtf(~vDist);
 	if (fCurrentDistance > 100.0f)
 	{
 		fCurrentDistance = 0.0f;
@@ -290,14 +290,14 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 	}
 	if (fCurrentDistance > fTrackDistance)
 	{
-		float fSpeed = Min(1.0f, pShip->GetCurrentSpeed() / 20.0f);
+    auto fSpeed = Min(1.0f, pShip->GetCurrentSpeed() / 20.0f);
 		for (long i = 0; i < long(fCurrentDistance / fTrackDistance); i++)
 		{
-			float fDistance = (i + 1) * fTrackDistance;
+      auto fDistance = (i + 1) * fTrackDistance;
 
 			// ~!~ optimize?
 			aTrack1.insert(aTrack1.begin(), Track{});
-			CVECTOR vDir = (vCurPos - vLastPos);
+      auto vDir = (vCurPos - vLastPos);
 			vDir.y = 0.0f;
 			vDir = !vDir;
 			aTrack1[0].vPos = vLastPos + vDir * (vBoxSize.z * fZStart1 + fDistance);
@@ -327,7 +327,7 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 
 	for (long i = 0; i < aTrack1.size(); i++)
 	{
-		Track& T = aTrack1[i];
+    auto& T = aTrack1[i];
 
 		T.fTime += fDeltaTime;
 		T.fAlpha = T.fInitialAlpha * Clamp(1.0f - T.fTime / fLifeTime1); //22.0f);
@@ -346,17 +346,17 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 			auto* pV = (TrackVertex *)pRS->LockVertexBuffer(iVTmpBuffer1, D3DLOCK_DISCARD);
 			for (long i = 0; i < aTrack1.size(); i++)
 			{
-				Track& T = aTrack1[i];
+        auto& T = aTrack1[i];
 				long xxx = 0;
 				for (float xx = 0; xx < fTrackStep1; xx++)
 				{
-					float k = xx / (fTrackStep1 - 1.0f);
-					float x = T.fWidth * (k - 0.5f);
-					float z = 0.0f;
+          auto k = xx / (fTrackStep1 - 1.0f);
+          auto x = T.fWidth * (k - 0.5f);
+          auto z = 0.0f;
 					RotateAroundY(x, z, T.fCos, T.fSin);
 					x += T.vPos.x;
 					z += T.vPos.z;
-					CVECTOR vPos = CVECTOR(x, fWaveUP * (1.4f - fabsf((k * 2.0f) - 1.0f)) + pSea->WaveXZ(x, z), z);
+          auto vPos = CVECTOR(x, fWaveUP * (1.4f - fabsf((k * 2.0f) - 1.0f)) + pSea->WaveXZ(x, z), z);
 					pV[i * dwTrackStep1 + xxx].vPos = vPos - vCurPos;
 					pV[i * dwTrackStep1 + xxx].tu = xx / (fTrackStep1 - 1.0f);
 					pV[i * dwTrackStep1 + xxx].tv = T.fTV;
@@ -369,7 +369,7 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 
 	for (long i = 0; i < aTrack2.size(); i++)
 	{
-		Track& T = aTrack2[i];
+    auto& T = aTrack2[i];
 
 		T.fTime += fDeltaTime;
 		T.fAlpha = T.fInitialAlpha * Clamp(1.0f - T.fTime / fLifeTime2); // 10.0f);
@@ -388,17 +388,17 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 			auto* pV = (TrackVertex *)pRS->LockVertexBuffer(iVTmpBuffer2, D3DLOCK_DISCARD);
 			for (long i = 0; i < aTrack2.size(); i++)
 			{
-				Track& T = aTrack2[i];
+        auto& T = aTrack2[i];
 				long xxx = 0;
 				for (float xx = 0; xx < fTrackStep2; xx++)
 				{
-					float k = xx / (fTrackStep2 - 1.0f);
-					float x = T.fWidth * (k - 0.5f);
-					float z = 0.0f;
+          auto k = xx / (fTrackStep2 - 1.0f);
+          auto x = T.fWidth * (k - 0.5f);
+          auto z = 0.0f;
 					RotateAroundY(x, z, T.fCos, T.fSin);
 					x += T.vPos.x;
 					z += T.vPos.z;
-					CVECTOR vPos = CVECTOR(x, fWaveUP + pSea->WaveXZ(x, z), z);
+          auto vPos = CVECTOR(x, fWaveUP + pSea->WaveXZ(x, z), z);
 					pV[i * dwTrackStep2 + xxx].vPos = vPos - vCurPos;
 					pV[i * dwTrackStep2 + xxx].tu = float(xx) / (fTrackStep2 - 1.0f);
 					pV[i * dwTrackStep2 + xxx].tv = T.fTV * 6.0f;

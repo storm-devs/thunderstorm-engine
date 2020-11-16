@@ -67,7 +67,7 @@ bool COLL::Clip(EntityManager::LayerIterators its, const PLANE* planes, long npl
                 float radius,
                 ADD_POLYGON_FUNC addpoly, const entid_t* exclude_list, long entities)
 {
-	bool retval = false;
+  auto retval = false;
 
 	for (auto it = its.first; it != its.second; ++it)
 	{

@@ -63,7 +63,7 @@ void ModelProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velocity
                                  const Matrix& matWorld, float EmitterTime, float EmitterLifeTime, FieldList* pFields,
                                  uint32_t* pActiveCount, uint32_t dwGUID)
 {
-	MDL_ParticleData* pData = AllocParticle();
+  auto pData = AllocParticle();
 
 	//Сработает если партиклов будет > MAX_BILLBOARDS, столько их быть не должно :))))
 	if (!pData)
@@ -72,8 +72,8 @@ void ModelProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velocity
 		return;
 	}
 
-	const char* GeomNames = pFields->GetString(PARTICLE_GEOM_NAMES);
-	const char* pGeomName = Parser.GetRandomName(GeomNames);
+  auto GeomNames = pFields->GetString(PARTICLE_GEOM_NAMES);
+  auto pGeomName = Parser.GetRandomName(GeomNames);
 	pData->pScene = pMasterManager->GetModel(pGeomName);
 
 
@@ -119,7 +119,7 @@ void ModelProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velocity
 	pData->Spin = pData->Spin * MUL_DEGTORAD;
 	//api->Trace("spin %3.2f, %3.2f, %3.2f [%3.2f, %3.2f]", pData->Spin.x, pData->Spin.y, pData->Spin.z, EmitterTime, EmitterLifeTime);
 
-	float VelocityPower = pFields->GetRandomGraphVal(PARTICLE_VELOCITY_POWER, EmitterTime, EmitterLifeTime);
+  auto VelocityPower = pFields->GetRandomGraphVal(PARTICLE_VELOCITY_POWER, EmitterTime, EmitterLifeTime);
 	pData->Velocity = pData->Velocity * VelocityPower;
 	pData->UMass = fabsf(pData->Mass);
 
@@ -144,7 +144,7 @@ void ModelProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velocity
 	pData->KTrackZ = FRAND(1.0f);
 
 
-	const char* pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
+  auto pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
 	if (_stricmp(pEmitterName, "none") == 0)
 	{
 		pData->AttachedEmitter = nullptr;
@@ -169,8 +169,8 @@ void ModelProcessor::Process(float DeltaTime)
 	{
 		Particles[n]->ElapsedTime += DeltaTime;
 
-		float Time = Particles[n]->ElapsedTime;
-		float LifeTime = Particles[n]->LifeTime;
+    auto Time = Particles[n]->ElapsedTime;
+    auto LifeTime = Particles[n]->LifeTime;
 
 		//		_mm_prefetch ((const char *)Particles[n+1], _MM_HINT_T0);
 
@@ -186,12 +186,12 @@ void ModelProcessor::Process(float DeltaTime)
 			continue;
 		}
 
-		float Drag = Particles[n]->Graph_Drag->GetValue(Time, LifeTime, Particles[n]->DragK);
+    auto Drag = Particles[n]->Graph_Drag->GetValue(Time, LifeTime, Particles[n]->DragK);
 		Drag = 1.0f - (Drag * 0.01f);
 		if (Drag < 0.0f) Drag = 0.0f;
 		if (Drag > 1.0f) Drag = 1.0f;
 
-		float GravK = Particles[n]->graph_GravK->GetValue(Time, LifeTime, Particles[n]->GravKK);
+    auto GravK = Particles[n]->graph_GravK->GetValue(Time, LifeTime, Particles[n]->GravKK);
 
 		AddGravityForce(Particles[n]->ExternalForce, Particles[n]->Mass, GravK);
 		SolvePhysic(Particles[n]->PhysPos, Particles[n]->Velocity, Particles[n]->ExternalForce, Particles[n]->UMass,
@@ -225,7 +225,7 @@ void ModelProcessor::Process(float DeltaTime)
 		TrackPos = TrackPos * Particles[n]->matWorld;
 
 		//FIX ME !!!
-		float BlendPhys = Particles[n]->Graph_PhysBlend->GetValue(Time, LifeTime, Particles[n]->KPhysBlend);
+    auto BlendPhys = Particles[n]->Graph_PhysBlend->GetValue(Time, LifeTime, Particles[n]->KPhysBlend);
 		BlendPhys = 1.0f - (BlendPhys * DeltaTime);
 		if (BlendPhys < 0.0f) BlendPhys = 0.0f;
 		if (BlendPhys > 1.0f) BlendPhys = 1.0f;
@@ -292,7 +292,7 @@ void ModelProcessor::Draw()
 {
 	for (uint32_t j = 0; j < Particles.size(); j++)
 	{
-		MDL_ParticleData* pR = Particles[j];
+    auto pR = Particles[j];
 
 
 		pMasterManager->Render()->SetTransform(D3DTS_WORLD, Matrix(pR->RenderAngle, pR->RenderPos));

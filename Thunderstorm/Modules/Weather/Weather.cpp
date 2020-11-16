@@ -92,7 +92,7 @@ void WEATHER::Execute(uint32_t Delta_Time)
 	*/
 	if (fFloats[whf_time_speed] != 0.f)
 	{
-		float fOldTimer = fFloats[whf_time_counter];
+    auto fOldTimer = fFloats[whf_time_counter];
 		fFloats[whf_time_counter] += api->GetDeltaTime() * fFloats[whf_time_speed];
 		// смена дня
 		if (fFloats[whf_time_counter] > 24.f)
@@ -112,7 +112,7 @@ void WEATHER::Execute(uint32_t Delta_Time)
 void WEATHER::UpdateSunMoonPos()
 {
 	// sun
-	float fK = (fFloats[whf_time_counter] - fSunBegTime) / (fSunEndTime - fSunBegTime);
+  auto fK = (fFloats[whf_time_counter] - fSunBegTime) / (fSunEndTime - fSunBegTime);
 	if (fK < 0.f || fK > 1.f)
 	{
 		bSunPresent = false;
@@ -271,16 +271,16 @@ void WEATHER::SetCommonStates()
 {
 	pRS->SetRenderState(D3DRS_FOGENABLE, GetLong(whi_fog_enable));
 
-	float fDensity = GetFloat(whf_fog_density);
+  auto fDensity = GetFloat(whf_fog_density);
 	pRS->SetRenderState(D3DRS_FOGCOLOR, GetColor(whc_fog_color));
 	pRS->SetRenderState(D3DRS_FOGDENSITY, *((uint32_t*)&fDensity));
 
-	uint32_t dwAmbient = GetColor(whc_sun_ambient);
+  auto dwAmbient = GetColor(whc_sun_ambient);
 	pRS->SetRenderState(D3DRS_AMBIENT, dwAmbient);
 
 	// setup sun light
-	float fSunHeightAngle = GetFloat(whf_sun_height_angle);
-	float fSunAzimuthAngle = GetFloat(whf_sun_azimuth_angle);
+  auto fSunHeightAngle = GetFloat(whf_sun_height_angle);
+  auto fSunAzimuthAngle = GetFloat(whf_sun_azimuth_angle);
 	CVECTOR vSun, vSunColor, vSunLight;
 	D3DLIGHT9 sun;
 
@@ -377,7 +377,7 @@ void WEATHER::GetVector(uint32_t dwCode, CVECTOR* vOut)
 
 uint32_t WEATHER::AttributeChanged(ATTRIBUTES* pAttribute)
 {
-	ATTRIBUTES* pParent = pAttribute->GetParent(); // if (*pAttribute == "Hour")
+  auto pParent = pAttribute->GetParent(); // if (*pAttribute == "Hour")
 	if (*pParent == "fog")
 	{
 		if (*pAttribute == "Enable")

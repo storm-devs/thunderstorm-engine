@@ -21,13 +21,13 @@ bool GetStringDescribe(char* inStr, char* strName, char* outStr)
 	}
 
 	char* ps1;
-	int strLenght = 0;
-	bool bDoEmpty = true;
+  auto strLenght = 0;
+  auto bDoEmpty = true;
 
 	// Get string name
 	for (ps1 = inStr; *ps1; ps1++)
 	{
-		char ch1 = *ps1;
+    auto ch1 = *ps1;
 		if (bDoEmpty && ch1 >= 0 && ch1 <= 32) continue;
 		bDoEmpty = false;
 
@@ -52,7 +52,7 @@ bool GetStringDescribe(char* inStr, char* strName, char* outStr)
 	bDoEmpty = true;
 	for (; *ps1; ps1++)
 	{
-		char ch1 = *ps1;
+    auto ch1 = *ps1;
 		if (bDoEmpty && ch1 != '\"') continue;
 		if (bDoEmpty)
 		{
@@ -114,7 +114,7 @@ STRSERVICE::~STRSERVICE()
 
 	while (m_pUsersBlocks != nullptr)
 	{
-		UsersStringBlock* pUSB = m_pUsersBlocks;
+    auto pUSB = m_pUsersBlocks;
 		m_pUsersBlocks = m_pUsersBlocks->next;
 		if (pUSB->psStrName != nullptr)
 		{
@@ -245,7 +245,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 	//==========================================================================
 	// reread fonts
 	//==========================================================================
-	VDX9RENDER* RenderService = (VDX9RENDER *)api->CreateService("dx9render");
+  auto RenderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if (RenderService)
 	{
 		char fullIniPath[512];
@@ -293,7 +293,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 	}
 
 	// get string quantity
-	int newSize = 0;
+  auto newSize = 0;
 	if (ini->ReadString(nullptr, "string", param, sizeof(param) - 1, ""))
 		do newSize++;
 		while (ini->ReadStringNext(nullptr, "string", param, sizeof(param) - 1));
@@ -360,9 +360,9 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 	//=======================================================================
 	// Перечитаем пользовательские файлы
 	//=======================================================================
-	UsersStringBlock* pOldURoot = m_pUsersBlocks;
+  auto pOldURoot = m_pUsersBlocks;
 	m_pUsersBlocks = nullptr;
-	for (UsersStringBlock* pUSB = pOldURoot; pUSB != nullptr; pUSB = pUSB->next)
+	for (auto pUSB = pOldURoot; pUSB != nullptr; pUSB = pUSB->next)
 	{
 		if (pUSB->nref <= 0) continue;
 		long newID = OpenUsersStringFile(pUSB->fileName);

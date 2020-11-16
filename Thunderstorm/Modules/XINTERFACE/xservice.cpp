@@ -51,7 +51,7 @@ long XSERVICE::GetTextureID(const char* sImageListName)
 {
 	if (sImageListName != nullptr)
 	{
-		for (int i = 0; i < m_dwListQuantity; i++)
+		for (auto i = 0; i < m_dwListQuantity; i++)
 			if (!_stricmp(m_pList[i].sImageListName, sImageListName))
 			{
 				if (m_pList[i].textureQuantity <= 0)
@@ -73,7 +73,7 @@ long XSERVICE::GetTextureID(const char* sImageListName)
 long XSERVICE::FindGroup(const char* sImageListName)
 {
 	if (!sImageListName) return -1;
-	for (int n = 0; n < m_dwListQuantity; n++)
+	for (auto n = 0; n < m_dwListQuantity; n++)
 		if (!_stricmp(m_pList[n].sImageListName, sImageListName))
 			return n;
 	return -1;
@@ -83,7 +83,7 @@ bool XSERVICE::ReleaseTextureID(const char* sImageListName)
 {
 	if (sImageListName == nullptr) return false;
 
-	for (int i = 0; i < m_dwListQuantity; i++)
+	for (auto i = 0; i < m_dwListQuantity; i++)
 		if (!_stricmp(m_pList[i].sImageListName, sImageListName))
 			if (--m_pList[i].textureQuantity == 0)
 			{
@@ -160,13 +160,13 @@ bool XSERVICE::GetTexturePos(int nTextureModify, long pictureNum, FXYRECT& texRe
 			rectTmp.bottom = (float)m_pImage[pictureNum].pTextureRect.bottom;
 			if (nTextureModify & TEXTURE_MODIFY_HORZFLIP)
 			{
-				float tmp = rectTmp.left + m_fWAdd * 2.f;
+        auto tmp = rectTmp.left + m_fWAdd * 2.f;
 				rectTmp.left = rectTmp.right - m_fWAdd * 2.f;
 				rectTmp.right = tmp;
 			}
 			if (nTextureModify & TEXTURE_MODIFY_VERTFLIP)
 			{
-				float tmp = rectTmp.top + m_fHAdd * 2.f;
+        auto tmp = rectTmp.top + m_fHAdd * 2.f;
 				rectTmp.top = rectTmp.bottom - m_fHAdd * 2.f;
 				rectTmp.bottom = tmp;
 			}
@@ -190,16 +190,16 @@ bool XSERVICE::GetTexturePos(int nTextureModify, const char* sImageListName, con
 void XSERVICE::GetTextureCutForSize(const char* pcImageListName, const FXYPOINT& pntLeftTopUV, const XYPOINT& pntSize,
                                     long nSrcWidth, long nSrcHeight, FXYRECT& outUV)
 {
-	long n = FindGroup(pcImageListName);
+  auto n = FindGroup(pcImageListName);
 	if (n >= 0)
 	{
 		if (nSrcWidth < m_pList[n].textureWidth) nSrcWidth = m_pList[n].textureWidth;
 		if (nSrcHeight < m_pList[n].textureHeight) nSrcHeight = m_pList[n].textureHeight;
 	}
-	float fW = 1.f;
+  auto fW = 1.f;
 	if (nSrcWidth > 0)
 		fW = (float)pntSize.x / nSrcWidth + pntLeftTopUV.x;
-	float fH = 1.f;
+  auto fH = 1.f;
 	if (nSrcHeight > 0)
 		fH = (float)pntSize.y / nSrcHeight + pntLeftTopUV.y;
 	if (fW > 1.f) fW = 1.f;
@@ -218,7 +218,7 @@ void XSERVICE::LoadAllPicturesInfo()
 
 	// initialize ini file
 	WIN32_FIND_DATA wfd;
-	HANDLE h = fio->_FindFirstFile(LISTS_INIFILE, &wfd);
+  auto h = fio->_FindFirstFile(LISTS_INIFILE, &wfd);
 	if (INVALID_HANDLE_VALUE != h)
 		fio->_FindClose(h);
 	ini = fio->OpenIniFile((char*)LISTS_INIFILE);
@@ -241,7 +241,7 @@ void XSERVICE::LoadAllPicturesInfo()
 
 	// fill lists
 	if (ini->GetSectionName(section, sizeof(section) - 1))
-		for (int i = 0; true; i++)
+		for (auto i = 0; true; i++)
 		{
 			m_pList[i].textureQuantity = 0;
 			m_pList[i].textureID = -1L;
@@ -266,7 +266,7 @@ void XSERVICE::LoadAllPicturesInfo()
 				while (ini->ReadStringNext(section, "picture", param, sizeof(param) - 1));
 
 			// resize image list
-			PICTUREDESCR* oldpImage = m_pImage;
+      auto oldpImage = m_pImage;
 			m_pImage = new PICTUREDESCR[m_dwImageQuantity + m_pList[i].pictureQuantity];
 			if (m_pImage == nullptr)
 				throw std::exception("allocate memory error");
@@ -308,7 +308,7 @@ void XSERVICE::ReleaseAll()
 {
 	if (m_pList != nullptr)
 	{
-		for (int i = 0; i < m_dwListQuantity; i++)
+		for (auto i = 0; i < m_dwListQuantity; i++)
 		{
 			if (m_pList[i].textureQuantity != 0)
 				m_pRS->TextureRelease(m_pList[i].textureID);
@@ -324,7 +324,7 @@ void XSERVICE::ReleaseAll()
 
 	if (m_pImage != nullptr)
 	{
-		for (int i = 0; i < m_dwImageQuantity; i++)
+		for (auto i = 0; i < m_dwImageQuantity; i++)
 		{
 			delete m_pImage[i].sPictureName;
 		}

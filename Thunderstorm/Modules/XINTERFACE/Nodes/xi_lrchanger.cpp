@@ -73,7 +73,7 @@ void CXI_LRCHANGER::Draw(bool bSelected, uint32_t Delta_Time)
 		                                         (float)m_dwCurBlindState / m_dwBlindDelay);
 		else curCol = m_dwFaceColor;
 
-		for (int i = 0; i < 4; i++)
+		for (auto i = 0; i < 4; i++)
 		{
 			vFace[i].color = curCol;
 			vFace[i].pos.z = 1.f;
@@ -128,7 +128,7 @@ void CXI_LRCHANGER::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 	char param[255];
 
 	// set buttons position
-	long nSpaceWidth = GetIniLong(ini1, name1, ini2, name2, "spaceWidth", 0);
+  auto nSpaceWidth = GetIniLong(ini1, name1, ini2, name2, "spaceWidth", 0);
 	m_posLRect.left = (float)m_rect.left;
 	m_posLRect.top = (float)m_rect.top;
 	m_posLRect.right = (float)m_rect.left + (m_rect.right - m_rect.left - nSpaceWidth) / 2.f;
@@ -239,7 +239,7 @@ bool CXI_LRCHANGER::IsClick(int buttonID, long xPos, long yPos)
 
 void CXI_LRCHANGER::ChangePosition(XYRECT& rNewPos)
 {
-	long nSpaceWidth = (long)((m_rect.right - m_rect.left) - (m_posLRect.right - m_posLRect.left) - (m_posRRect.right -
+  auto nSpaceWidth = (long)((m_rect.right - m_rect.left) - (m_posLRect.right - m_posLRect.left) - (m_posRRect.right -
 		m_posRRect.left));
 
 	m_rect = rNewPos;
@@ -259,7 +259,7 @@ void CXI_LRCHANGER::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());

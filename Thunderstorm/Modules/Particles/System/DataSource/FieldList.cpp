@@ -25,7 +25,7 @@ void FieldList::Load(MemFile* File)
 
 	for (uint32_t n = 0; n < DataFieldsCount; n++)
 	{
-		FieldType fldType = FIELD_UNKNOWN;
+    auto fldType = FIELD_UNKNOWN;
 		File->ReadType(fldType);
 
 		switch (fldType)
@@ -464,49 +464,49 @@ FieldList::FieldDesc* FieldList::FindField(const char* Name)
 
 float FieldList::GetFloat(const char* AttrName, float def_value)
 {
-	DataFloat* pFind = FindFloat(AttrName);
+  auto pFind = FindFloat(AttrName);
 	if (!pFind) return def_value;
 	return pFind->GetValue();
 }
 
 int FieldList::GetFloatAsInt(const char* AttrName, int def_value)
 {
-	float val = GetFloat(AttrName, (float)def_value);
+  auto val = GetFloat(AttrName, (float)def_value);
 	return (int)val;
 }
 
 
 bool FieldList::GetBool(const char* AttrName, bool def_value)
 {
-	DataBool* pFind = FindBool(AttrName);
+  auto pFind = FindBool(AttrName);
 	if (!pFind) return def_value;
 	return pFind->GetValue();
 }
 
 const char* FieldList::GetString(const char* AttrName, const char* def_value)
 {
-	DataString* pFind = FindString(AttrName);
+  auto pFind = FindString(AttrName);
 	if (!pFind) return def_value;
 	return pFind->GetValue();
 }
 
 const Vector& FieldList::GetPosition(const char* AttrName, const Vector& def_value)
 {
-	DataPosition* pFind = FindPosition(AttrName);
+  auto pFind = FindPosition(AttrName);
 	if (!pFind) return def_value;
 	return pFind->GetValue();
 }
 
 float FieldList::GetGraphVal(const char* AttrName, float Time, float LifeTime, float K_Rand, float def_value)
 {
-	DataGraph* pFind = FindGraph(AttrName);
+  auto pFind = FindGraph(AttrName);
 	if (!pFind) return def_value;
 	return pFind->GetValue(Time, LifeTime, K_Rand);
 }
 
 float FieldList::GetRandomGraphVal(const char* AttrName, float Time, float LifeTime, float def_value)
 {
-	DataGraph* pFind = FindGraph(AttrName);
+  auto pFind = FindGraph(AttrName);
 	if (!pFind) return def_value;
 	return pFind->GetRandomValue(Time, LifeTime);
 }
@@ -533,10 +533,10 @@ void FieldList::Convert(DataDescripion* pDataDescriptor)
 
 	for (uint32_t n = 0; n < NeedFieldsCount; n++)
 	{
-		const char* NeedFieldName = pDataDescriptor->GetFieldName(n);
-		FieldType NeedFieldType = pDataDescriptor->GetFieldType(n);
-		FieldDesc* pDesc = FindField(NeedFieldName);
-		bool FieldExist = false;
+    auto NeedFieldName = pDataDescriptor->GetFieldName(n);
+    auto NeedFieldType = pDataDescriptor->GetFieldType(n);
+    auto pDesc = FindField(NeedFieldName);
+    auto FieldExist = false;
 		if (pDesc)
 		{
 			if (pDesc->Type == NeedFieldType)
@@ -594,7 +594,7 @@ void FieldList::Convert(DataDescripion* pDataDescriptor)
 
 void FieldList::DeleteFieldData(const FieldDesc& pData)
 {
-	FieldType fldType = pData.Type;
+  auto fldType = pData.Type;
 
 	switch (fldType)
 	{

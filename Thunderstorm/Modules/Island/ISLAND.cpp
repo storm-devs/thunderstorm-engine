@@ -122,9 +122,9 @@ void ISLAND::Realize(uint32_t Delta_Time)
 	pRS->GetCamera(vCamPos, vCamAng, fPerspective);
 	pRS->GetNearFarPlane(fOldNear, fOldFar);
 
-	float fRadius = sqrtf(Sqr(vBoxSize.x / 2.0f) + Sqr(vBoxSize.z / 2.0f));
-	float fCamDistance = sqrtf(~(vCamPos - vBoxCenter));
-	float fMaxDistance = fCamDistance + fRadius;
+  auto fRadius = sqrtf(Sqr(vBoxSize.x / 2.0f) + Sqr(vBoxSize.z / 2.0f));
+  auto fCamDistance = sqrtf(~(vCamPos - vBoxCenter));
+  auto fMaxDistance = fCamDistance + fRadius;
 
 	fCurrentImmersion = 0.0f;
 	if (fCamDistance > fImmersionDistance)
@@ -176,7 +176,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 		for (uint32_t k = 0; k < aForts.size(); k++)
 		{
 			const auto ent = EntityManager::GetEntityPointer(aForts[k]);
-			CMatrix mOld = ((MODEL*)ent)->mtx;
+      auto mOld = ((MODEL*)ent)->mtx;
 			((MODEL*)ent)->mtx = mOld * mTemp;
 
 			api->Send_Message(AIFortEID, "li", AI_MESSAGE_FORT_SET_LIGHTS, aForts[k]);
@@ -197,7 +197,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 		pRS->SetRenderState(D3DRS_FOGENABLE, false);
 		//pRS->SetRenderState(D3DRS_AMBIENT, RGB(dwAmbient/4,dwAmbient/4,dwAmbient/4));
 
-		MODEL* pSeaBed = (MODEL*)EntityManager::GetEntityPointer(seabed_id);
+    auto pSeaBed = (MODEL*)EntityManager::GetEntityPointer(seabed_id);
 		if (pSeaBed)
 			pSeaBed->ProcessStage(Stage::realize, Delta_Time);
 	}
@@ -212,8 +212,8 @@ void ISLAND::Realize(uint32_t Delta_Time)
 	uint32_t i;
 	for (i = 0; i < aSpheres.size(); i++)
 	{
-		MODEL* pModel = (MODEL*)EntityManager::GetEntityPointer(aSpheres[i]);
-		CVECTOR vPos = AIPath.GetPointPos(i);
+    auto pModel = (MODEL*)EntityManager::GetEntityPointer(aSpheres[i]);
+    auto vPos = AIPath.GetPointPos(i);
 		if (pModel)
 			pModel->mtx.BuildPosition(vPos.x, 5.0f, vPos.z);
 	}

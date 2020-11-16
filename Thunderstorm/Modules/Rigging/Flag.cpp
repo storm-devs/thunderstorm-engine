@@ -81,10 +81,10 @@ void FLAG::Execute(uint32_t Delta_Time)
 		//====================================================
 		// Если был изменен ини-файл, то считать инфо из него
 		WIN32_FIND_DATA wfd;
-		HANDLE h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
+    auto h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
 		if (INVALID_HANDLE_VALUE != h)
 		{
-			FILETIME ft_new = wfd.ftLastWriteTime;
+      auto ft_new = wfd.ftLastWriteTime;
 			fio->_FindClose(h);
 
 			if (CompareFileTime(&ft_old, &ft_new) != 0)
@@ -107,8 +107,8 @@ void FLAG::Execute(uint32_t Delta_Time)
 		vertBuf = (FLAGLXVERTEX*)RenderService->LockVertexBuffer(vBuf);
 		if (vertBuf)
 		{
-			float dt = (float)Delta_Time * 0.02f;
-			for (int fn = 0; fn < flagQuantity; fn++)
+      auto dt = (float)Delta_Time * 0.02f;
+			for (auto fn = 0; fn < flagQuantity; fn++)
 				DoMove(flist[fn], dt);
 			RenderService->UnLockVertexBuffer(vBuf);
 		}
@@ -138,7 +138,7 @@ void FLAG::Realize(uint32_t Delta_Time)
 
 uint64_t FLAG::ProcessMessage(MESSAGE& message)
 {
-	long code = message.Long();
+  auto code = message.Long();
 
 	switch (code)
 	{
@@ -147,8 +147,8 @@ uint64_t FLAG::ProcessMessage(MESSAGE& message)
 		//----------------------
 	case MSG_FLAG_INIT:
 		{
-			entid_t eidModel = message.EntityID();
-			long nNation = message.Long();
+      auto eidModel = message.EntityID();
+      auto nNation = message.Long();
 
 			MODEL* host_mdl;
 			host_mdl = (MODEL*)EntityManager::GetEntityPointer(eidModel);
@@ -167,7 +167,7 @@ uint64_t FLAG::ProcessMessage(MESSAGE& message)
 			}
 			else
 			{
-				GROUPDATA* oldgdata = gdata;
+        auto oldgdata = gdata;
 				gdata = new GROUPDATA[groupQuantity + 1];
 				if (gdata == nullptr)
 					throw std::exception("Not memory allocation");
@@ -206,9 +206,9 @@ uint64_t FLAG::ProcessMessage(MESSAGE& message)
 
 	case MSG_FLAG_TO_NEWHOST: // format "lili" (msg_code,oldmodel_id,groupNum,newmodel_id)
 		{
-			entid_t oldModelID = message.EntityID();
-			long flagGroupNum = message.Long();
-			entid_t newModelID = message.EntityID();
+      auto oldModelID = message.EntityID();
+      auto flagGroupNum = message.Long();
+      auto newModelID = message.EntityID();
 			MoveOtherHost(newModelID, flagGroupNum, oldModelID);
 		}
 		break;
@@ -228,7 +228,7 @@ void FLAG::SetTextureCoordinate()
 		auto* pv = (FLAGLXVERTEX*)RenderService->LockVertexBuffer(vBuf);
 		if (pv)
 		{
-			for (int fn = 0; fn < flagQuantity; fn++)
+			for (auto fn = 0; fn < flagQuantity; fn++)
 			{
 				if (flist[fn] == nullptr) continue;
 				sIdx = flist[fn]->sv;
@@ -272,17 +272,17 @@ void FLAG::DoMove(FLAGDATA* pr, float delta_time)
 	CVECTOR cPos;
 	cPos = *pr->pMatWorld * pr->spos;
 
-	float xMul = globalWind.ang.x;
-	float zMul = globalWind.ang.z;
+  auto xMul = globalWind.ang.x;
+  auto zMul = globalWind.ang.z;
 
 	if ((pr->Alfa += (ALFA_DEPEND + ALFA_RAND * (float)rand() / (float)RAND_MAX) * delta_time) > PIm2) pr->Alfa = 0.f;
 	if ((pr->Beta += (BETA_DEPEND + BETA_RAND * (float)rand() / (float)RAND_MAX) * delta_time) > PIm2) pr->Beta = 0.f;
-	float Alfa = -pr->Alfa;
-	float Beta = -pr->Beta;
-	float sAlfa = sinf(Alfa);
-	float cAlfa = cosf(Alfa);
-	float sBeta = sinf(Beta);
-	float cBeta = cosf(Beta);
+  auto Alfa = -pr->Alfa;
+  auto Beta = -pr->Beta;
+  auto sAlfa = sinf(Alfa);
+  auto cAlfa = cosf(Alfa);
+  auto sBeta = sinf(Beta);
+  auto cBeta = cosf(Beta);
 
 	CVECTOR dhVect;
 	dhVect = *pr->pMatWorld * pr->dhv - pr->pMatWorld->Pos();
@@ -294,20 +294,20 @@ void FLAG::DoMove(FLAGDATA* pr, float delta_time)
 	incrVect.z = FLAGVECTORLEN * zMul;
 	incrVect.y = -DOWNVAL;
 
-	float oldSa = sAlfa;
-	float oldCa = cAlfa;
-	float oldSb = sBeta;
-	float oldCb = cBeta;
-	float hIncr = pr->dhv.y;
+  auto oldSa = sAlfa;
+  auto oldCa = cAlfa;
+  auto oldSb = sBeta;
+  auto oldCb = cBeta;
+  auto hIncr = pr->dhv.y;
 
-	float tmp = fAlfaStep + fAlfaMax / (float)pr->vectQuant;
-	float sa = sinf(tmp);
-	float ca = cosf(tmp);
+  auto tmp = fAlfaStep + fAlfaMax / (float)pr->vectQuant;
+  auto sa = sinf(tmp);
+  auto ca = cosf(tmp);
 	tmp = fBetaStep + fBetaMax / (float)pr->vectQuant;
-	float sb = sinf(tmp);
-	float cb = cosf(tmp);
+  auto sb = sinf(tmp);
+  auto cb = cosf(tmp);
 
-	for (int i = 0; i <= pr->vectQuant; i++)
+	for (auto i = 0; i <= pr->vectQuant; i++)
 	{
 		tmp = fWindAm * (sAlfa - oldSa);
 		dopVect.y = fWindAm * (cAlfa - oldCa);
@@ -339,7 +339,7 @@ void FLAG::DoMove(FLAGDATA* pr, float delta_time)
 		}
 		else
 		{
-			float fT = hIncr * hIncr - tmp * tmp;
+      auto fT = hIncr * hIncr - tmp * tmp;
 			if (fT < 0.f) fT = -fT;
 			dhVect.y = sqrtf(hIncr * hIncr - tmp * tmp);
 			dhVect.x = tmp * zMul;
@@ -405,7 +405,7 @@ void FLAG::AddLabel(GEOS::LABEL& gl, NODE* nod)
 		}
 		else
 		{
-			FLAGDATA** oldflist = flist;
+      auto oldflist = flist;
 			flist = new FLAGDATA*[flagQuantity + 1];
 			if (flist == nullptr)
 				throw std::exception("Not memory allocation");
@@ -455,7 +455,7 @@ void FLAG::SetTreangle()
 	auto* pt = (uint16_t*)RenderService->LockIndexBuffer(iBuf);
 	if (pt)
 	{
-		for (int fn = 0; fn < flagQuantity; fn++)
+		for (auto fn = 0; fn < flagQuantity; fn++)
 		{
 			if (flist[fn] == nullptr) continue;
 			idx = flist[fn]->st;
@@ -479,7 +479,7 @@ void FLAG::LoadIni()
 
 	INIFILE* ini;
 	WIN32_FIND_DATA wfd;
-	HANDLE h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
+  auto h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
 	if (INVALID_HANDLE_VALUE != h)
 	{
 		ft_old = wfd.ftLastWriteTime;
@@ -490,7 +490,7 @@ void FLAG::LoadIni()
 
 	sprintf_s(section, "FLAGS");
 
-	bool texChange = false;
+  auto texChange = false;
 	int tmp;
 	// load texture parameters
 	ini->ReadString(section, "TextureName", param, sizeof(param) - 1, "flagall.tga");
@@ -615,7 +615,7 @@ void FLAG::FirstRun()
 void FLAG::GroupSTORM_DELETE(entid_t m_id)
 {
 	// найдем группу соответствующую полученной модели
-	for (int gn = 0; gn < groupQuantity; gn++)
+	for (auto gn = 0; gn < groupQuantity; gn++)
 		if (gdata[gn].model_id == m_id)
 		{
 			gdata[gn].bDeleted = true; // пометим ее как удаленную
@@ -627,13 +627,13 @@ void FLAG::GroupSTORM_DELETE(entid_t m_id)
 void FLAG::DoSTORM_DELETE()
 {
 	// пройтись по всем удаленным группам и удалить содержащиеся в них флаги
-	int ngn = 0;
+  auto ngn = 0;
 	nVert = 0;
 	nIndx = 0;
-	for (int gn = 0; gn < groupQuantity; gn++)
+	for (auto gn = 0; gn < groupQuantity; gn++)
 	{
-		int gs = 0; // число неудаленных флагов в группе
-		for (int fn = 0; fn < flagQuantity; fn++)
+    auto gs = 0; // число неудаленных флагов в группе
+		for (auto fn = 0; fn < flagQuantity; fn++)
 			if (flist[fn] != nullptr && flist[fn]->HostGroup == gn)
 			{
 				// если флаг помечен удаленным, то удалить физически
@@ -660,8 +660,8 @@ void FLAG::DoSTORM_DELETE()
 		ngn++;
 	}
 
-	int nfn = 0;
-	for (int fn = 0; fn < flagQuantity; fn++)
+  auto nfn = 0;
+	for (auto fn = 0; fn < flagQuantity; fn++)
 	{
 		if (flist[fn] == nullptr) continue;
 		if (flist[fn]->bDeleted)
@@ -695,7 +695,7 @@ void FLAG::DoSTORM_DELETE()
 		flagQuantity = nfn;
 		groupQuantity = ngn;
 
-		FLAGDATA** oldflist = flist;
+    auto oldflist = flist;
 		flist = new FLAGDATA*[flagQuantity];
 		if (flist)
 		{
@@ -705,7 +705,7 @@ void FLAG::DoSTORM_DELETE()
 		else
 			flist = oldflist;
 
-		GROUPDATA* oldgdata = gdata;
+    auto oldgdata = gdata;
 		gdata = new GROUPDATA[groupQuantity];
 		if (gdata)
 		{
@@ -728,16 +728,16 @@ void FLAG::SetAdd(int flagNum)
 {
 	// set vertex and index buffers
 	nIndx *= 3;
-	for (int fn = flagNum; fn < flagQuantity; fn++)
+	for (auto fn = flagNum; fn < flagQuantity; fn++)
 	{
 		if (flist[fn] == nullptr) continue;
 		CVECTOR bmpos, empos;
 		float len;
 
-		CVECTOR p0 = flist[fn]->spos;
-		CVECTOR p1 = flist[fn]->dv;
-		CVECTOR p2 = flist[fn]->dhv;
-		CVECTOR p3 = flist[fn]->ddhv;
+    auto p0 = flist[fn]->spos;
+    auto p1 = flist[fn]->dv;
+    auto p2 = flist[fn]->dhv;
+    auto p3 = flist[fn]->ddhv;
 		flist[fn]->spos = bmpos = (p0 + p1) * .5f; // середина начального края флага
 		// вычислить середину конечного края флага
 		if (flist[fn]->triangle) empos = p2;
@@ -755,7 +755,7 @@ void FLAG::SetAdd(int flagNum)
 			}
 			else
 			{
-				FLAGDATA** oldflist = flist;
+        auto oldflist = flist;
 				flagQuantity--;
 				flist = new FLAGDATA*[flagQuantity];
 				if (flist == nullptr)
@@ -771,8 +771,8 @@ void FLAG::SetAdd(int flagNum)
 		else
 		{
 			// установить номер текстуры
-			VDATA* pvdat = api->Event("GetRiggingData", "sll", "GetFlagTexNum", flist[fn]->triangle,
-			                          gdata[flist[fn]->HostGroup].nation);
+      auto pvdat = api->Event("GetRiggingData", "sll", "GetFlagTexNum", flist[fn]->triangle,
+                              gdata[flist[fn]->HostGroup].nation);
 			if (pvdat == nullptr) flist[fn]->texNum = 0;
 			else flist[fn]->texNum = pvdat->GetLong();
 
@@ -823,7 +823,7 @@ void FLAG::MoveOtherHost(entid_t newm_id, long flagNum, entid_t oldm_id)
 	// если нет новой группы, то создаем ее
 	if (newgn == groupQuantity)
 	{
-		GROUPDATA* oldgdata = gdata;
+    auto oldgdata = gdata;
 		gdata = new GROUPDATA[groupQuantity + 1];
 		if (gdata == nullptr)
 			throw std::exception("Not memory allocation");

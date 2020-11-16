@@ -482,7 +482,7 @@ public:
 
 		/* assemble entity id */
 		const entid_stamp_t stamp = ms.count();
-		const entid_t id = static_cast<entid_t>(stamp) << 32 | idx;
+		const auto id = static_cast<entid_t>(stamp) << 32 | idx;
 
 		/* push entity data */
 		arr[idx] = {{}, {}, {}, ptr, id, hash};

@@ -54,7 +54,7 @@ void TCarcass::InitCircleMeasure(float _d,
 
 	t = 0;
 	tStep = PI / (measure.pointsCount - 1);
-	for (int i = 0; i < measure.pointsCount; i++)
+	for (auto i = 0; i < measure.pointsCount; i++)
 	{
 		x = (cosf(t) + 1) * 0.5f * _d;
 		y = sinf(t + 0.2f) * 0.5f * _d;
@@ -67,13 +67,13 @@ void TCarcass::InitCircleMeasure(float _d,
 //--------------------------------------------------------------------
 void TCarcass::RebuildIndexes(uint16_t* _iBuffer)
 {
-	int i = 0;
+  auto i = 0;
 
 	if (!normalsInverted)
 	{
-		for (int level = 0; level < (levelsCount - 1); level++)
+		for (auto level = 0; level < (levelsCount - 1); level++)
 		{
-			for (int leftMeasure = 0; leftMeasure < (measure.pointsCount - 1); leftMeasure++)
+			for (auto leftMeasure = 0; leftMeasure < (measure.pointsCount - 1); leftMeasure++)
 			{
 				_iBuffer[i++] = measure.pointsCount * level + leftMeasure;
 				_iBuffer[i++] = measure.pointsCount * (level + 1) + leftMeasure + 1;
@@ -87,9 +87,9 @@ void TCarcass::RebuildIndexes(uint16_t* _iBuffer)
 	}
 	else
 	{
-		for (int level = 0; level < (levelsCount - 1); level++)
+		for (auto level = 0; level < (levelsCount - 1); level++)
 		{
-			for (int leftMeasure = 0; leftMeasure < (measure.pointsCount - 1); leftMeasure++)
+			for (auto leftMeasure = 0; leftMeasure < (measure.pointsCount - 1); leftMeasure++)
 			{
 				_iBuffer[i++] = measure.pointsCount * level + leftMeasure;
 				_iBuffer[i++] = measure.pointsCount * (level + 1) + leftMeasure;
@@ -112,10 +112,10 @@ void TCarcass::RebuildLevels(tCarcassVertex* _vBuffer, bool _firstDraw, uint32_t
 	if (_firstDraw)
 		lengthK = 0.2f * sqrtf(~(levelStarts[(levelsCount - 1)/**measure.pointsCount*/] - levelStarts[0]));
 
-	for (int level = 0; level < (levelsCount); level++)
+	for (auto level = 0; level < (levelsCount); level++)
 	{
-		float levelK = ((float)level) / (levelsCount - 1);
-		for (int measurePoint = 0; measurePoint < measure.pointsCount; measurePoint++)
+    auto levelK = ((float)level) / (levelsCount - 1);
+		for (auto measurePoint = 0; measurePoint < measure.pointsCount; measurePoint++)
 		{
 			tempVertex = &_vBuffer[level * measure.pointsCount + measurePoint];
 			float heightK;
@@ -130,14 +130,14 @@ void TCarcass::RebuildLevels(tCarcassVertex* _vBuffer, bool _firstDraw, uint32_t
 				heightK * measure.deltaPointY[measurePoint], 0.f));
 			tempVertex->pos.y += .01f;
 
-			float measureK = 0.f;
+      auto measureK = 0.f;
 			//((float) abs(measurePoint - (measure.pointsCount >> 1))) / ((measure.pointsCount >> 1));
 			if (!measurePoint)
 				measureK = 1.f;
 			//if (measurePoint == (measure.pointsCount-1))
 			//	measureK = 1.f;
 
-			float levelA = 1.f;
+      auto levelA = 1.f;
 			if (level <= FRONT_FADE_LEVEL)
 				levelA = ((float)level) / FRONT_FADE_LEVEL;
 			else
@@ -145,7 +145,7 @@ void TCarcass::RebuildLevels(tCarcassVertex* _vBuffer, bool _firstDraw, uint32_t
 
 			if (_firstDraw)
 			{
-				float a = 3.f * speedA * sqrtf(levelA) * (1.f - measureK);
+        auto a = 3.f * speedA * sqrtf(levelA) * (1.f - measureK);
 				if (a > 1.f)
 					a = 1.f;
 				tempVertex->color = (((uint32_t)(a * 0xFF)) << 24) | 0x00FFFFFF;
@@ -155,8 +155,8 @@ void TCarcass::RebuildLevels(tCarcassVertex* _vBuffer, bool _firstDraw, uint32_t
 			else
 			{
 				tempVertex->color = (((uint32_t)(speedA * sqrtf(levelA) * (1.f - measureK) * 0xFF)) << 24) | 0x00FFFFFF;
-				float dv = fmodf(_dTime * vSpeed, 1.f);
-				float du = fmodf(_dTime * uSpeed, 1.f);
+        auto dv = fmodf(_dTime * vSpeed, 1.f);
+        auto du = fmodf(_dTime * uSpeed, 1.f);
 				tempVertex->u = tempVertex->u + du;
 				tempVertex->v = tempVertex->v - dv;
 			}
@@ -179,7 +179,7 @@ void TCarcass::Uninitialize()
 void TCarcass::Execute(uint32_t _dTime, CMatrix& _mtx, const CVECTOR* _starts)
 {
 	sceneMatrix = _mtx;
-	for (int level = 0; level < levelsCount; level++)
+	for (auto level = 0; level < levelsCount; level++)
 		levelStarts[level] = _starts[level];
 
 	auto* vBufferPointer = (tCarcassVertex *)renderer->LockVertexBuffer(vBuffer);

@@ -41,8 +41,8 @@ void CXI_LINECOLLECTION::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini
 	char param1[256];
 
 	// fill lines structure array
-	bool bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
-	int nCurLine = 0;
+  auto bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
+  auto nCurLine = 0;
 	if (ini1->ReadString(name1, "line", param, sizeof(param) - 1, ""))
 		do
 		{
@@ -91,7 +91,7 @@ void CXI_LINECOLLECTION::SaveParametersToIni()
 {
 	//	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -112,7 +112,7 @@ uint32_t CXI_LINECOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 	case 0: // сменить цвет для линии с номером или всех строк (если номер = -1)
 		{
 			uint32_t dwColor = message.Long();
-			long nLineNum = message.Long();
+      auto nLineNum = message.Long();
 			if (nLineNum < 0 || nLineNum >= (long)m_aLines.size() / 2)
 			{
 				for (long n = 0; n < m_aLines.size(); n++)
@@ -127,9 +127,9 @@ uint32_t CXI_LINECOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 	case 1: // добавить динию и вернуть ее номер
 		{
 			uint32_t dwColor = message.Long();
-			long nLeft = message.Long();
-			long nTop = message.Long();
-			long nRight = message.Long();
+      auto nLeft = message.Long();
+      auto nTop = message.Long();
+      auto nRight = message.Long();
 			long nBottom = message.Long();
 			//long nLineNum = m_aLines.Add() / 2;
 			//m_aLines.Add();

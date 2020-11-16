@@ -14,7 +14,7 @@ TFishSchools::TFishSchools()
 //--------------------------------------------------------------------
 TFishSchools::~TFishSchools()
 {
-	for (int i = 0; i < fishSchoolsCount; i++)
+	for (auto i = 0; i < fishSchoolsCount; i++)
 	{
 		if (fishSchools[i])
 			delete fishSchools[i];
@@ -26,7 +26,7 @@ TFishSchools::~TFishSchools()
 //--------------------------------------------------------------------
 void TFishSchools::LoadSettings()
 {
-	INIFILE* ini = fio->OpenIniFile(ANIMALS_INI_FILENAME);
+  auto ini = fio->OpenIniFile(ANIMALS_INI_FILENAME);
 	if (!ini)
 		return;
 
@@ -52,7 +52,7 @@ void TFishSchools::Init()
 		return;
 	}
 
-	for (int i = 0; i < fishSchoolsCount; i++)
+	for (auto i = 0; i < fishSchoolsCount; i++)
 	{
 		fishSchools[i] = new TFishSchool();
 		fishSchools[i]->Initialize(CVECTOR(0.0f, 0.0f, 0.0f), maxDistance);
@@ -99,8 +99,8 @@ void TFishSchools::Execute(uint32_t _dTime)
 	renderService->GetCamera(pos, ang, persp);
 
 	cameraObject.SetXYZ(pos);
-	float speedK = ((float)_dTime) / 1000.0f;
-	for (int i = 0; i < fishSchoolsCount; i++)
+  auto speedK = ((float)_dTime) / 1000.0f;
+	for (auto i = 0; i < fishSchoolsCount; i++)
 	{
 		//respawn near camera if needed
 		fishPos = fishSchools[i]->GetXYZ();
@@ -134,12 +134,12 @@ void TFishSchools::Realize(uint32_t _dTime)
 	if (!fishSchool)
 		return;
 
-	for (int i = 0; i < fishSchoolsCount; i++)
+	for (auto i = 0; i < fishSchoolsCount; i++)
 	{
-		static const float OSC_AMPLITUDE = 0.1f;
-		float fishSchoolAngle = fishSchools[i]->GetAngle();
-		CVECTOR fishSchoolPos = fishSchools[i]->GetXYZ();
-		float fishSchoolTime = fishSchools[i]->time / fishSchools[i]->timeDivider;
+		static const auto OSC_AMPLITUDE = 0.1f;
+    auto fishSchoolAngle = fishSchools[i]->GetAngle();
+    auto fishSchoolPos = fishSchools[i]->GetXYZ();
+    auto fishSchoolTime = fishSchools[i]->time / fishSchools[i]->timeDivider;
 		CVECTOR ang(
 			0.0f, PId2 - fishSchoolAngle - (fishSchools[i]->amplitude * (PId2 / 10.0f) / 0.1f) * cosf(fishSchoolTime),
 			0.0f);

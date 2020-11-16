@@ -277,7 +277,7 @@ long BIManSign::AddTexture(const char* pcTextureName, long nCols, long nRows)
 
 void BIManSign::Recollect()
 {
-	long n = CalculateManQuantity();
+  auto n = CalculateManQuantity();
 	UpdateBuffers(n);
 }
 
@@ -289,7 +289,7 @@ bool BIManSign::IsActive()
 
 void BIManSign::SetActive(bool bActive)
 {
-	bool bSameActive = (IsActive() == bActive);
+  auto bSameActive = (IsActive() == bActive);
 	if (m_pCommandList) m_pCommandList->SetActive(bActive);
 	if (bSameActive) return;
 	m_nCommandMode = BI_COMMODE_COMMAND_SELECT;
@@ -332,7 +332,7 @@ void BIManSign::ExecuteCommand(long command)
 	case BI_MSG_COMMAND_ACTIVATE:
 		if (m_pCommandList)
 		{
-			long nTmp = m_pCommandList->ExecuteConfirm();
+      auto nTmp = m_pCommandList->ExecuteConfirm();
 			if (nTmp != -1) m_nCommandMode = nTmp;
 		}
 		if (m_nCommandMode == 0)
@@ -401,14 +401,14 @@ long BIManSign::CalculateManQuantity()
 		m_Man[n].nShootCurrent = 0;
 	}
 
-	ATTRIBUTES* pAttr = m_pARoot ? m_pARoot->GetAttributeClass("data") : nullptr;
+  auto pAttr = m_pARoot ? m_pARoot->GetAttributeClass("data") : nullptr;
 	if (pAttr) pAttr = pAttr->GetAttributeClass("icons");
 	char attrname[128];
 	if (pAttr)
 		for (n = 0; n < MAX_MAN_QUANTITY; n++)
 		{
 			sprintf_s(attrname, sizeof(attrname), "id%d", n);
-			ATTRIBUTES* pA = pAttr->GetAttributeClass(attrname);
+      auto pA = pAttr->GetAttributeClass(attrname);
 			if (!pA) continue;
 			m_Man[m_nManQuantity].nCharacterIndex = -1;
 			m_Man[m_nManQuantity].nSlotIndex = n;
@@ -423,10 +423,10 @@ void BIManSign::UpdateBuffers(long nShipQ)
 	m_nBackSquareQ = nShipQ;
 	m_nManStateSquareQ = nShipQ * 2;
 	m_nGunChargeSquareQ = nShipQ * 2;
-	long nManSquareQ = nShipQ;
+  auto nManSquareQ = nShipQ;
 	long nAlarmSquareQ = (m_bIsAlarmOn && (nShipQ > 0)) ? 1 : 0;
 
-	long nMaxSquareQ = BIUtils::
+  auto nMaxSquareQ = BIUtils::
 		GetMaxFromFourLong(m_nBackSquareQ, m_nManStateSquareQ, m_nGunChargeSquareQ, nManSquareQ);
 	if (m_nMaxSquareQ != nMaxSquareQ)
 	{
@@ -527,8 +527,8 @@ long BIManSign::WriteSquareToVBuff(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_
 
 	auto fLeft = (float)(center.x - size.x / 2);
 	auto fTop = (float)(center.y - size.y / 2);
-	float fRight = fLeft + size.x;
-	float fBottom = fTop + size.y;
+  auto fRight = fLeft + size.x;
+  auto fBottom = fTop + size.y;
 
 	pv[0].pos.x = fLeft;
 	pv[0].pos.y = fTop;
@@ -573,18 +573,18 @@ long BIManSign::WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, const FRECT&
 
 	auto fLeft = (float)(center.x - size.x / 2);
 	auto fTop = (float)(center.y - size.y / 2);
-	float fRight = fLeft + size.x;
-	float fBottom = fTop + size.y;
+  auto fRight = fLeft + size.x;
+  auto fBottom = fTop + size.y;
 
 	fLeft += size.x * fClampLeft;
 	fRight -= size.x * fClampRight;
 	fTop += size.y * fClampUp;
 	fBottom += size.y * fClampDown;
 
-	float fLeftUV = uv.left + (uv.right - uv.left) * fClampLeft;
-	float fRightUV = uv.right - (uv.right - uv.left) * fClampRight;
-	float fTopUV = uv.top + (uv.bottom - uv.top) * fClampUp;
-	float fBottomUV = uv.bottom - (uv.bottom - uv.top) * fClampDown;
+  auto fLeftUV = uv.left + (uv.right - uv.left) * fClampLeft;
+  auto fRightUV = uv.right - (uv.right - uv.left) * fClampRight;
+  auto fTopUV = uv.top + (uv.bottom - uv.top) * fClampUp;
+  auto fBottomUV = uv.bottom - (uv.bottom - uv.top) * fClampDown;
 
 	pv[0].pos.x = fLeft;
 	pv[0].pos.y = fTop;
@@ -629,14 +629,14 @@ void BIManSign::UpdateCommandList()
 
 long BIManSign::GetCurrentCommandTopLine()
 {
-	long n = m_nCurrentManIndex;
+  auto n = m_nCurrentManIndex;
 	if (n < 0 || n >= m_nManQuantity) n = 0;
 	return (long)(m_Man[n].pntPos.y) + m_nCommandListVerticalOffset;
 }
 
 long BIManSign::GetCurrentCommandCharacterIndex()
 {
-	long n = m_nCurrentManIndex;
+  auto n = m_nCurrentManIndex;
 	if (n < 0 || n >= m_nManQuantity) n = 0;
 	return (long)m_Man[n].nCharacterIndex;
 }
@@ -678,7 +678,7 @@ float BIManSign::GetGunProgressByIndex(long nIdx)
 
 void BIManSign::CheckDataChange()
 {
-	ATTRIBUTES* pAttr = m_pARoot ? m_pARoot->GetAttributeClass("data") : nullptr;
+  auto pAttr = m_pARoot ? m_pARoot->GetAttributeClass("data") : nullptr;
 	if (pAttr && BoolACompare(pAttr, "alarm", m_bIsAlarmOn)) m_bMakeVertexFill = true;
 	if (pAttr) pAttr = pAttr->GetAttributeClass("icons");
 	if (!pAttr) return;
@@ -688,7 +688,7 @@ void BIManSign::CheckDataChange()
 	{
 		if (m_Man[n].nSlotIndex < 0) continue;
 		sprintf_s(attrname, sizeof(attrname), "id%d", m_Man[n].nSlotIndex);
-		ATTRIBUTES* pA = pAttr->GetAttributeClass(attrname);
+    auto pA = pAttr->GetAttributeClass(attrname);
 		if (!pA) continue;
 
 		if (LongACompare(pA, "chrindex", m_Man[n].nCharacterIndex)) m_bMakeVertexFill = true;

@@ -61,7 +61,7 @@ void DIALOG::DlgTextDescribe::ChangeText(const char* pcText)
 		if (pcText[n] == '\\' &&
 			(pcText[n + 1] == 'n' || pcText[n + 1] == 'N'))
 		{
-			char* pcTmp = new char[4 + n - i];
+      auto pcTmp = new char[4 + n - i];
 			Assert(pcTmp);
 			if (n - i > 0) memcpy(pcTmp, &pcText[i], (n - i) * sizeof(char));
 			memcpy(&pcTmp[n - i], "...", 4 * sizeof(char));
@@ -174,7 +174,7 @@ void DIALOG::DlgLinkDescribe::ChangeText(ATTRIBUTES* pALinks)
 
 	for (long n = 0; n < (long)pALinks->GetAttributesNum(); n++)
 	{
-		ATTRIBUTES* pA = pALinks->GetAttributeClass(n);
+    auto pA = pALinks->GetAttributeClass(n);
 		if (pA)
 		{
 			//long i = asText.Add();
@@ -266,10 +266,10 @@ void DIALOG::DlgLinkDescribe::Show(long nY)
 
 void DIALOG::DlgLinkDescribe::ShowEditMode(long nX, long nY, long nTextIdx)
 {
-	long nKeyQ = api->Controls->GetKeyBufferLength();
+  auto nKeyQ = api->Controls->GetKeyBufferLength();
 	if (nKeyQ > 0)
 	{
-		const KeyDescr* pKeys = api->Controls->GetKeyBuffer();
+    auto pKeys = api->Controls->GetKeyBuffer();
 		if (pKeys)
 		{
 			for (long n = 0; n < nKeyQ; n++)
@@ -326,7 +326,7 @@ void DIALOG::DlgLinkDescribe::ShowEditMode(long nX, long nY, long nTextIdx)
 		{
 			if (nEditCharIndex < (long)asText[nTextIdx].size())
 			{
-				char cTmp = asText[nTextIdx][nEditCharIndex];
+        auto cTmp = asText[nTextIdx][nEditCharIndex];
 				asText[nTextIdx][nEditCharIndex] = 0;
 				nW = rs->StringWidth((char*)asText[nTextIdx].c_str(), nFontID, fScale, 0);
 				asText[nTextIdx][nEditCharIndex] = cTmp;
@@ -339,7 +339,7 @@ void DIALOG::DlgLinkDescribe::ShowEditMode(long nX, long nY, long nTextIdx)
 
 	if (nEditVarIndex >= 0 && nEditVarIndex < 10)
 	{
-		VDATA* pDat = (VDATA*)api->GetScriptVariable("dialogEditStrings");
+    auto pDat = (VDATA*)api->GetScriptVariable("dialogEditStrings");
 		if (pDat) pDat->Set((char*)asText[nTextIdx].c_str(), nEditVarIndex);
 	}
 }
@@ -406,7 +406,7 @@ void DIALOG::CreateBack()
 	if (m_idIBufBack == -1)
 		m_idIBufBack = RenderService->CreateIndexBuffer(m_nIQntBack * sizeof(uint16_t));
 
-	uint16_t* pI = (uint16_t*)RenderService->LockIndexBuffer(m_idIBufBack);
+  auto pI = (uint16_t*)RenderService->LockIndexBuffer(m_idIBufBack);
 	if (pI)
 	{
 		for (long n = 0; n < nSquareQuantity; n++)
@@ -432,7 +432,7 @@ void DIALOG::FillBack()
 {
 	if (m_idVBufBack == -1) return;
 
-	XI_TEX_VERTEX* pV = (XI_TEX_VERTEX*)RenderService->LockVertexBuffer(m_idVBufBack);
+  auto pV = (XI_TEX_VERTEX*)RenderService->LockVertexBuffer(m_idVBufBack);
 	// center
 	SetVerticesForSquare(&pV[0], m_BackParams.m_frCenterUV,
 	                     m_BackParams.m_frBorderInt.left, m_BackParams.m_frBorderInt.top,

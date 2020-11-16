@@ -133,8 +133,8 @@ const char* CXI_UTILS::StringGetTokenID(char*& pcString, char* pcBuffer, long nB
 	StringLeftClamp(pcString);
 
 	long n = 0;
-	long q = nBufferSize - 1;
-	for (char cCur = pcString[0]; cCur && n < q; pcString++, cCur = pcString[0])
+  auto q = nBufferSize - 1;
+	for (auto cCur = pcString[0]; cCur && n < q; pcString++, cCur = pcString[0])
 	{
 		if (cCur == '=') break;
 		if (cCur == ',')
@@ -167,9 +167,9 @@ const char* CXI_UTILS::StringGetTokenString(char*& pcString, char* pcBuffer, lon
 	StringLeftClamp(pcString);
 
 	long n = 0;
-	long q = nBufferSize - 1;
+  auto q = nBufferSize - 1;
 	long nQuote = 0;
-	for (char cCur = pcString[0]; cCur && n < q; pcString++, cCur = pcString[0])
+	for (auto cCur = pcString[0]; cCur && n < q; pcString++, cCur = pcString[0])
 	{
 		if (cCur == ',' && nQuote == 0) break;
 		if (cCur == '(' || cCur == '{' || cCur == '[') nQuote++;
@@ -207,10 +207,10 @@ long CXI_UTILS::StringGetTokenCode(const char* pcTokenID)
 
 uint32_t CXI_UTILS::StringGetColor(const char* pcARGBString)
 {
-	long nA = StringGetLong(pcARGBString);
-	long nR = StringGetLong(pcARGBString);
-	long nG = StringGetLong(pcARGBString);
-	long nB = StringGetLong(pcARGBString);
+  auto nA = StringGetLong(pcARGBString);
+  auto nR = StringGetLong(pcARGBString);
+  auto nG = StringGetLong(pcARGBString);
+  auto nB = StringGetLong(pcARGBString);
 	return ARGB(nA, nR, nG, nB);
 }
 
@@ -289,7 +289,7 @@ void CXI_UTILS::StringFourFloat(const char* pcString, float& f1, float& f2, floa
 void CXI_UTILS::StringFillStringArray(const char* pcString, std::vector<std::string>& asStringsArray)
 {
 	char tmpstr[256];
-	char* pcSrcStr = (char*)pcString;
+  auto pcSrcStr = (char*)pcString;
 
 	// delete old
 	asStringsArray.clear();
@@ -307,7 +307,7 @@ long CXI_UTILS::SplitStringByWidth(const char* pcText, long nFontID, float fFont
                                    std::vector<std::string>& asOutStr)
 {
 	long nMaxUsingWidth = 0;
-	const char* pcSrcStr = pcText;
+  auto pcSrcStr = pcText;
 	if (pcSrcStr == nullptr) return nMaxUsingWidth;
 	auto* rs = (VDX9RENDER*)api->CreateService("dx9render");
 	asOutStr.clear();
@@ -327,7 +327,7 @@ long CXI_UTILS::SplitStringByWidth(const char* pcText, long nFontID, float fFont
 		}
 
 		param[nDst] = 0;
-		long nW = rs->StringWidth(param, nFontID, fFontScale);
+    auto nW = rs->StringWidth(param, nFontID, fFontScale);
 		if (nW < nWidth && nToken == StrTokenType_Space) // пробел но может не последний
 		{
 			nSrcPrev = nSrc;
@@ -443,9 +443,9 @@ void CXI_UTILS::PrintTextIntoWindow(VDX9RENDER* pRender,
                                     long scrWidth, long scrHeight, long x, long y,
                                     const char* pcString, long left, long top, long width, long height)
 {
-	long nStrWidth = pRender->StringWidth((char*)pcString, nFont, fScale, 0);
+  auto nStrWidth = pRender->StringWidth((char*)pcString, nFont, fScale, 0);
 	if (nStrWidth == 0) return;
-	long right = left + width;
+  auto right = left + width;
 
 	long nL, nR;
 	if (wAlignment == PR_ALIGN_RIGHT) nL = x - nStrWidth;

@@ -40,7 +40,7 @@ void ISPYGLASS::ImageParam::ChangeIcon(BIImageRender* pImgRender, const char* pc
 	}
 	else
 	{
-		long nPrior = pImage ? pImage->GetPrioritet() : ImagePrioritet_DefaultValue;
+    auto nPrior = pImage ? pImage->GetPrioritet() : ImagePrioritet_DefaultValue;
 		STORM_DELETE(pImage);
 		sTextureName = pcTextureName;
 		pImage = (BIImage*)pImgRender->CreateImage(BIType_square, sTextureName.c_str(), dwColor, rUV, rPos, nPrior);
@@ -170,7 +170,7 @@ void ISPYGLASS::Execute(uint32_t delta_time)
 	if (m_bIsOn)
 	{
 		UpdateCamera();
-		bool bFindNewTarget = false;
+    auto bFindNewTarget = false;
 		if (m_Camera.fCurUpdatingTime >= m_Camera.fUpdateTime) bFindNewTarget = true;
 		if (m_nInfoCharacterIndex >= 0 && m_fInfoKeepDelay > 0.f)
 		{
@@ -214,13 +214,13 @@ void ISPYGLASS::Realize(uint32_t delta_time)
 uint64_t ISPYGLASS::ProcessMessage(MESSAGE& message)
 {
 	char param[512];
-	long nMsgCode = message.Long();
+  auto nMsgCode = message.Long();
 
 	switch (nMsgCode)
 	{
 	case MSG_TELESCOPE_REQUEST:
 		{
-			long nIsOn = message.Long();
+      auto nIsOn = message.Long();
 			TurnOnTelescope(nIsOn != 0);
 		}
 		break;
@@ -228,9 +228,9 @@ uint64_t ISPYGLASS::ProcessMessage(MESSAGE& message)
 	case MSG_TELESCOPE_SET_TYPE: // "lsfll"
 		{
 			message.String(sizeof(param), param);
-			float fZoomScale = message.Float();
-			float fActivateTime = message.Long() * .001f;
-			float fUpdateTime = message.Long() * .001f;
+      auto fZoomScale = message.Float();
+      auto fActivateTime = message.Long() * .001f;
+      auto fUpdateTime = message.Long() * .001f;
 			ChangeTelescopeType(param, fZoomScale, fActivateTime, fUpdateTime);
 			m_pFortObj = nullptr;
 		}
@@ -241,26 +241,26 @@ uint64_t ISPYGLASS::ProcessMessage(MESSAGE& message)
 			char shipname[512], shiptype[512], captainname[1024], facetexture[1024];
 			message.String(sizeof(shipname), shipname); // ship name
 			message.String(sizeof(shiptype), shiptype); // ship type
-			float fRelativeHP = message.Long() * .01f;
-			float fRelativeSP = message.Long() * .01f;
-			long nShipCrew = message.Long();
-			float fShipSpeed = message.Float();
-			float fSailTo = message.Float(); //boal
-			long nCurCannons = message.Long();
-			long nMaxCannons = message.Long();
-			long nCharge = message.Long();
-			long nNation = message.Long();
+      auto fRelativeHP = message.Long() * .01f;
+      auto fRelativeSP = message.Long() * .01f;
+      auto nShipCrew = message.Long();
+      auto fShipSpeed = message.Float();
+      auto fSailTo = message.Float(); //boal
+      auto nCurCannons = message.Long();
+      auto nMaxCannons = message.Long();
+      auto nCharge = message.Long();
+      auto nNation = message.Long();
 
-			long nSailState = message.Long();
-			long nFace = message.Long();
-			long nFencingSkl = message.Long();
-			long nCannonSkl = message.Long();
-			long nAccuracySkl = message.Long();
-			long nNavigationSkl = message.Long();
-			long nBoardingSkl = message.Long();
+      auto nSailState = message.Long();
+      auto nFace = message.Long();
+      auto nFencingSkl = message.Long();
+      auto nCannonSkl = message.Long();
+      auto nAccuracySkl = message.Long();
+      auto nNavigationSkl = message.Long();
+      auto nBoardingSkl = message.Long();
 			message.String(sizeof(captainname), captainname); // ship type
 			message.String(sizeof(facetexture), facetexture); // face texture
-			long nShipClass = message.Long();
+      auto nShipClass = message.Long();
 			ChangeTargetData(shipname, shiptype, fRelativeHP, fRelativeSP, nShipCrew, fShipSpeed, fSailTo, nCurCannons,
 			                 nMaxCannons,
 			                 nCharge, nNation, nSailState, nFace,
@@ -422,12 +422,12 @@ void ISPYGLASS::FindNewTargetShip()
 
 	// find ships
 	long nFindedCharIndex = -1;
-	float fFindedDistance = 2.f;
-	SHIP_DESCRIBE_LIST::SHIP_DESCR* pMainSD = g_ShipList.GetMainCharacterShip();
-	for (SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD = g_ShipList.GetShipRoot(); pSD; pSD = pSD->next)
+  auto fFindedDistance = 2.f;
+  auto pMainSD = g_ShipList.GetMainCharacterShip();
+	for (auto pSD = g_ShipList.GetShipRoot(); pSD; pSD = pSD->next)
 	{
 		if (pMainSD == pSD) continue;
-		float fTrace = pSD->pShip->Trace(src, dst);
+    auto fTrace = pSD->pShip->Trace(src, dst);
 		if (fTrace <= 1.f && fTrace < fFindedDistance)
 		{
 			nFindedCharIndex = pSD->characterIndex;
@@ -436,7 +436,7 @@ void ISPYGLASS::FindNewTargetShip()
 	}
 
 	// find fort
-	VAI_OBJBASE* pFort = GetFort();
+  auto pFort = GetFort();
 	if (pFort)
 	{
 		float fTrace = pFort->Trace(src, dst);

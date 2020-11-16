@@ -55,7 +55,7 @@ bool CXI_CONTEXTHELP::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, con
 void CXI_CONTEXTHELP::ReleaseAll()
 {
 	if (m_pHelpList != nullptr)
-		for (int i = 0; i < m_helpQuantity; i++)
+		for (auto i = 0; i < m_helpQuantity; i++)
 		STORM_DELETE(m_pHelpList[i].nodeName);
 	STORM_DELETE(m_pHelpList);
 	m_helpQuantity = 0;
@@ -152,7 +152,7 @@ void CXI_CONTEXTHELP::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, 
 	// fill lines parameters
 	if (m_bBorder)
 	{
-		for (int i = 0; i < 8; i++)
+		for (auto i = 0; i < 8; i++)
 		{
 			m_pLines[i].vPos.z = 1.f;
 			m_pLines[i].dwColor = m_dwBorderColor;
@@ -196,7 +196,7 @@ void CXI_CONTEXTHELP::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -295,7 +295,7 @@ uint32_t CXI_CONTEXTHELP::MessageProc(long msgcode, MESSAGE& message)
 
 	case 1: // получить временную строку
 		{
-			VDATA* pvdat = message.ScriptVariablePointer();
+      auto pvdat = message.ScriptVariablePointer();
 			if (pvdat == nullptr) return 0;
 			if (m_sTempString == nullptr && m_idTempString == -1) return 0;
 
@@ -307,7 +307,7 @@ uint32_t CXI_CONTEXTHELP::MessageProc(long msgcode, MESSAGE& message)
 
 			if (m_idTempString >= 0)
 			{
-				char* pstr = pStringService->GetStringName(m_idTempString);
+        auto pstr = pStringService->GetStringName(m_idTempString);
 				if (pstr != nullptr)
 				{
 					pvdat->Set(pstr);

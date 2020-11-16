@@ -18,7 +18,7 @@ void SetRectanglePos(XI_NOTEX_VERTEX v[4], const FXYPOINT& center, const FXYPOIN
 
 void SetRectangleColor(XI_ONETEX_VERTEX v[4], uint32_t color)
 {
-	for (int i = 0; i < 4; i++) v[i].color = color;
+	for (auto i = 0; i < 4; i++) v[i].color = color;
 }
 
 CXI_TWOPICTURE::CXI_TWOPICTURE()
@@ -87,7 +87,7 @@ void CXI_TWOPICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, c
 	m_dwShadowColor = GetIniARGB(ini1, name1, ini2, name2, "argbShadowCol", ARGB(255, 48, 48, 48));
 
 	// текстурные координаты
-	FXYRECT texRect = GetIniFloatRect(ini1, name1, ini2, name2, "texPos", FXYRECT(0.f, 0.f, 1.f, 1.f));
+  auto texRect = GetIniFloatRect(ini1, name1, ini2, name2, "texPos", FXYRECT(0.f, 0.f, 1.f, 1.f));
 
 	// Create rectangle
 	m_vOne[0].tu = m_vTwo[0].tu = texRect.left;
@@ -98,7 +98,7 @@ void CXI_TWOPICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, c
 	m_vOne[2].tv = m_vTwo[2].tv = texRect.top;
 	m_vOne[3].tu = m_vTwo[3].tu = texRect.right;
 	m_vOne[3].tv = m_vTwo[3].tv = texRect.bottom;
-	for (int i = 0; i < 4; i++)
+	for (auto i = 0; i < 4; i++)
 	{
 		m_vOne[i].pos.z = m_vTwo[i].pos.z = m_vSOne[i].pos.z = m_vSTwo[i].pos.z = 1.f;
 		m_vSOne[i].color = m_vSTwo[i].color = m_dwShadowColor;
@@ -165,7 +165,7 @@ bool CXI_TWOPICTURE::IsClick(int buttonID, long xPos, long yPos)
 
 void CXI_TWOPICTURE::UpdateRectangles()
 {
-	ATTRIBUTES* pA = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+  auto pA = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 	if (m_bLeftSelect)
 	{
 		SetRectanglePos(m_vOne, m_leftPicCenter + m_PressOffset, m_picSize);
@@ -227,7 +227,7 @@ void CXI_TWOPICTURE::MouseThis(float fX, float fY)
 
 void CXI_TWOPICTURE::ChangePosition(XYRECT& rNewPos)
 {
-	float pictSpace = m_rect.right - m_rect.left - 2.f * m_picSize.x;
+  auto pictSpace = m_rect.right - m_rect.left - 2.f * m_picSize.x;
 	if (pictSpace < 0.f) pictSpace = 0.f;
 
 	m_rect = rNewPos;
@@ -246,7 +246,7 @@ void CXI_TWOPICTURE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());

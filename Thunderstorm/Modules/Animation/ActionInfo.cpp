@@ -28,7 +28,7 @@ ActionInfo::ActionInfo(const char* aname, long startframe, long endframe)
 	kRate = 1.0f;
 	type = at_normal;
 	isLoop = false;
-	for (int i = 0; i < 8; i++) bonesMask[0] = 0xffffffff;
+	for (auto i = 0; i < 8; i++) bonesMask[0] = 0xffffffff;
 	numEvents = 0;
 }
 

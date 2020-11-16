@@ -46,7 +46,7 @@ void TMP_LONG_STACK::Push(long data)
 			api->Trace("WARNING! push for TMP_LONG_STACK impossible - array grid <= 0");
 			return;
 		}
-		long* pold = ldat;
+    auto pold = ldat;
 		ldat = new long[datsize + sizeIncr];
 		if (ldat == nullptr) { throw std::exception("allocate memory error"); }
 		if (pold != nullptr)
@@ -66,7 +66,7 @@ long TMP_LONG_STACK::GetFore()
 		api->Trace("WARNING! GetFore from TMP_LONG_STACK is empty");
 		return defReturn;
 	}
-	long retVal = ldat[0];
+  auto retVal = ldat[0];
 	curidx--;
 	if (curidx == 0)
 	{
@@ -74,7 +74,7 @@ long TMP_LONG_STACK::GetFore()
 		ldat = nullptr;
 		datsize = 0;
 	}
-	else for (int i = 0; i < curidx; i++) ldat[i] = ldat[i + 1];
+	else for (auto i = 0; i < curidx; i++) ldat[i] = ldat[i + 1];
 	return retVal;
 }
 
@@ -85,7 +85,7 @@ long TMP_LONG_STACK::Pop()
 		api->Trace("WARNING! pop from TMP_LONG_STACK is empty");
 		return defReturn;
 	}
-	long retVal = ldat[--curidx];
+  auto retVal = ldat[--curidx];
 	if (curidx == 0)
 	{
 		delete ldat;
@@ -100,11 +100,11 @@ void SetNLongData(VDATA* pvd, int n, ...)
 	va_list args;
 	va_start(args, n);
 
-	for (int i = 0; i < n; i++)
+	for (auto i = 0; i < n; i++)
 	{
-		long* pIVal = va_arg(args, long*);
+    auto pIVal = va_arg(args, long*);
 		if (!pIVal) break;
-		long nDefVal = va_arg(args, long);
+    auto nDefVal = va_arg(args, long);
 		if (pvd) pvd->Get(*pIVal, i);
 		else *pIVal = nDefVal;
 	}
@@ -126,7 +126,7 @@ SHIP_DESCRIBE_LIST::~SHIP_DESCRIBE_LIST()
 
 void SHIP_DESCRIBE_LIST::ShipSink(long charIdx)
 {
-	SHIP_DESCR* sd = FindShip(charIdx);
+  auto sd = FindShip(charIdx);
 	if (sd == nullptr) return;
 	sd->isDead = true;
 }
@@ -136,7 +136,7 @@ void SHIP_DESCRIBE_LIST::Release(long charIdx)
 	if (charIdx == -1L) return;
 	if (root == nullptr) return;
 
-	SHIP_DESCR* sd = root;
+  auto sd = root;
 	if (root->characterIndex == charIdx)
 	{
 		root = root->next;
@@ -144,7 +144,7 @@ void SHIP_DESCRIBE_LIST::Release(long charIdx)
 		return;
 	}
 
-	SHIP_DESCR* pr = root->next;
+  auto pr = root->next;
 	while (pr != nullptr)
 	{
 		if (pr->characterIndex == charIdx)
@@ -181,7 +181,7 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES* pChAttr,
 	pr->pShip = nullptr;
 	pr->dwShipColor = dwShipColor;
 
-	ATTRIBUTES* pAttr = pChAttr->GetAttributeClass("Ship");
+  auto pAttr = pChAttr->GetAttributeClass("Ship");
 	assert(pAttr!=NULL);
 	pr->pAttr = pAttr;
 	long lTmp;
@@ -195,9 +195,9 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES* pChAttr,
 	auto& entities = EntityManager::GetEntityIdVector("ship");
 	for (auto ship : entities)
 	{
-		VAI_OBJBASE* vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);
+    auto vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);
 		if (vob == nullptr) continue;
-		ATTRIBUTES* pA = vob->GetACharacter();
+    auto pA = vob->GetACharacter();
 		if ((long)pA->GetAttributeAsDword("index") == chIdx)
 		{
 			pr->pShip = vob;
@@ -216,7 +216,7 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES* pChAttr,
 		}
 	} while( NetFindClassNext(false,&ei) );*/
 
-	SHIP_DESCR* ptmp = root;
+  auto ptmp = root;
 	if (ptmp == nullptr) root = pr;
 	else
 	{
@@ -236,7 +236,7 @@ void SHIP_DESCRIBE_LIST::ReleaseAll()
 {
 	while (root != nullptr)
 	{
-		SHIP_DESCR* ptmp = root;
+    auto ptmp = root;
 		root = root->next;
 		delete ptmp;
 	}
@@ -247,7 +247,7 @@ void SHIP_DESCRIBE_LIST::ReleaseAll()
 
 SHIP_DESCRIBE_LIST::SHIP_DESCR* SHIP_DESCRIBE_LIST::FindShip(long idxCharacter)
 {
-	for (SHIP_DESCR* ptmp = root; ptmp != nullptr; ptmp = ptmp->next)
+	for (auto ptmp = root; ptmp != nullptr; ptmp = ptmp->next)
 		if (ptmp->characterIndex == idxCharacter)
 			return ptmp;
 	return nullptr;
@@ -262,9 +262,9 @@ void SHIP_DESCRIBE_LIST::Refresh()
 	auto& entities = EntityManager::GetEntityIdVector("ship");
 	for (auto ship : entities)
 	{
-		VAI_OBJBASE* vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);
+    auto vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);
 		if (vob == nullptr) continue;
-		ATTRIBUTES* pA = vob->GetACharacter();
+    auto pA = vob->GetACharacter();
 		if (pA == nullptr) continue;
 		tls.Push((long)pA->GetAttributeAsDword("index"));
 	}
@@ -279,7 +279,7 @@ void SHIP_DESCRIBE_LIST::Refresh()
 	} while( NetFindClassNext(false,&ei) );*/
 	tls.Push(-1);
 
-	for (long chrIdx = tls.GetFore(); chrIdx >= 0; chrIdx = tls.GetFore())
+	for (auto chrIdx = tls.GetFore(); chrIdx >= 0; chrIdx = tls.GetFore())
 	{
 		api->Event("BI_CallUpdateShip", "l", chrIdx);
 	}

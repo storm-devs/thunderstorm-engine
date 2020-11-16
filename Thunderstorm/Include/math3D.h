@@ -123,7 +123,7 @@ inline float Clampfr(float& v, float min = 0.0f, float max = 1.0f)
 //Привести угол к диапазону 0..2PI
 inline float NormAngle2PI(float angle)
 {
-	static const float pi = 3.14159265358979323846f;
+	static const auto pi = 3.14159265358979323846f;
 	if (angle >= 0.0f && angle <= 2 * pi) return angle;
 	return (angle / (2.0f * pi) - long(angle / (2.0f * pi))) * 2.0f * pi;
 }
@@ -131,7 +131,7 @@ inline float NormAngle2PI(float angle)
 //Привести угол к диапазону -PI..PI
 inline float NormAnglePI(float angle)
 {
-	static const float pi = 3.14159265358979323846f;
+	static const auto pi = 3.14159265358979323846f;
 	if (angle >= -pi && angle <= pi) return angle;
 	return (angle / (2.0f * pi) - long(angle / (2.0f * pi))) * 2.0f * pi - pi;
 }

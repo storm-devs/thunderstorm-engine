@@ -76,19 +76,19 @@ void Supervisor::Update(float dltTime)
 		//Пропустим мёртвых
 		if (character[i].c->liveValue < 0 || character[i].c->deadName) continue;
 		character[i].c->startColCharacter = chr;
-		CVECTOR curPos(character[i].c->curPos);
-		float radius = character[i].c->radius;
-		for (long j = i + 1; j < numCharacters; j++)
+    auto curPos(character[i].c->curPos);
+    auto radius = character[i].c->radius;
+		for (auto j = i + 1; j < numCharacters; j++)
 		{
 			//Пропустим мёртвых
-			Character* ci = character[i].c;
-			Character* cj = character[j].c;
+      auto ci = character[i].c;
+      auto cj = character[j].c;
 			if (cj->liveValue < 0 || cj->deadName) continue;
 			//Расстояние между персонажами
-			float d = ~(curPos - cj->curPos);
+      auto d = ~(curPos - cj->curPos);
 			//Растояние взаимодействия персонажей
-			float r = radius + cj->radius;
-			float rr = r * 4.0f;
+      auto r = radius + cj->radius;
+      auto rr = r * 4.0f;
 			if (d > rr * rr) continue;
 			//Сохраняем характера
 			colchr[chr].c = cj;
@@ -99,8 +99,8 @@ void Supervisor::Update(float dltTime)
 			if (cj->curPos.y > ci->curPos.y + ci->height) continue;
 			if (ci->curPos.y > cj->curPos.y + cj->height) continue;
 			//Расталкиваем персонажей
-			float dx = curPos.x - cj->curPos.x;
-			float dz = curPos.z - cj->curPos.z;
+      auto dx = curPos.x - cj->curPos.x;
+      auto dz = curPos.z - cj->curPos.z;
 			d = dx * dx + dz * dz;
 			r *= 0.5f;
 			if (d >= r * r) continue;
@@ -112,12 +112,12 @@ void Supervisor::Update(float dltTime)
 				dz *= d;
 				ci->isCollision = true;
 				cj->isCollision = true;
-				bool moveI = ci->IsMove();
+        auto moveI = ci->IsMove();
 				if ((~ci->impulse) > 0.0001f && !moveI)
 				{
 					moveI = ((ci->impulse.x * dx + ci->impulse.z * dz) < 0.0f);
 				}
-				bool moveJ = cj->IsMove();
+        auto moveJ = cj->IsMove();
 				if ((~cj->impulse) > 0.0001f && !moveJ)
 				{
 					moveJ = ((cj->impulse.x * dx + cj->impulse.z * dz) > 0.0f);
@@ -215,7 +215,7 @@ void Supervisor::PostUpdate(float dltTime)
 		for (long i = 0; i < 5; i++)
 		{
 			if (curUpdate >= numCharacters) break;
-			float dlt = time - character[curUpdate].lastTime;
+      auto dlt = time - character[curUpdate].lastTime;
 			character[curUpdate].lastTime = time;
 			if (EntityManager::GetEntityPointer(character[curUpdate].c->GetId()))
 			{
@@ -252,9 +252,9 @@ bool Supervisor::CheckPosition(float x, float y, float z, Character* c)
 	for (long i = 0; i < numCharacters; i++)
 	{
 		if (character[i].c == c) continue;
-		float dx = x - character[i].c->curPos.x;
-		float dy = y - character[i].c->curPos.y;
-		float dz = z - character[i].c->curPos.z;
+    auto dx = x - character[i].c->curPos.x;
+    auto dy = y - character[i].c->curPos.y;
+    auto dz = z - character[i].c->curPos.z;
 		if (fabsf(dy) > character[i].c->height * 0.8f) continue;
 		if (dx * dx + dz * dz > character[i].c->radius * 0.8f) continue;
 		return false;
@@ -271,16 +271,16 @@ bool Supervisor::FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], long
 	//Радиус тестирования
 	radius *= radius;
 	//Позиция персонажа
-	float x = chr->curPos.x;
-	float y = chr->curPos.y;
-	float z = chr->curPos.z;
+  auto x = chr->curPos.x;
+  auto y = chr->curPos.y;
+  auto z = chr->curPos.z;
 	//Параметры для тестирования в секторе на x_z
 	CVECTOR N1, N2, N3;
 	float d1, d2, d3;
 	if (angTest > 0.0f)
 	{
 		CMatrix m(0.0f, chr->ay, 0.0f);
-		float ang = 0.5f * angTest * 3.141592654f / 180.0f;
+    auto ang = 0.5f * angTest * 3.141592654f / 180.0f;
 		N1 = m * CVECTOR(cosf(ang), 0.0f, sinf(ang));
 		d1 = N1 | chr->curPos;
 		N2 = m * CVECTOR(-cosf(-ang), 0.0f, -sinf(-ang));
@@ -297,7 +297,7 @@ bool Supervisor::FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], long
 	if (ax < 0.0f) ax = 0.0f;
 	if (ax > 1.0f) ax = 1.0f;
 	ax *= ax;
-	float testY = y + chr->height * 0.5f;
+  auto testY = y + chr->height * 0.5f;
 	//Просматриваем персонажей
 	for (long i = 0; i < numCharacters; i++)
 	{
@@ -306,23 +306,23 @@ bool Supervisor::FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], long
 		//Проверка на убитых
 		if (character[i].c->liveValue < 0 || character[i].c->deadName) continue;
 		//По дистанции
-		float dx = character[i].c->curPos.x - x;
-		float dz = character[i].c->curPos.z - z;
-		float d = dx * dx + dz * dz;
+    auto dx = character[i].c->curPos.x - x;
+    auto dz = character[i].c->curPos.z - z;
+    auto d = dx * dx + dz * dz;
 		if (d > radius) continue;
 		//По высоте
-		float dy = character[i].c->curPos.y + character[i].c->height - testY;
+    auto dy = character[i].c->curPos.y + character[i].c->height - testY;
 		if (dy < 0.0f && dy * dy > d * ax) continue;
 		dy = testY - character[i].c->curPos.y;
 		if (dy < 0.0f && dy * dy > d * ax) continue;
 		//В плоскости xz
-		float dist1 = 0.0f;
-		float dist2 = 0.0f;
-		float dist3 = 0.0f;
+    auto dist1 = 0.0f;
+    auto dist2 = 0.0f;
+    auto dist3 = 0.0f;
 		if (angTest > 0.0f && d > 1.0f) //eddy. при близком подходе со спины помещать в структуру
 		{
 			//Проверим расположение
-			float rad = !lookCenter ? -character[i].c->radius : 0.0f;
+      auto rad = !lookCenter ? -character[i].c->radius : 0.0f;
 			dist1 = (N1 | character[i].c->curPos) - d1;
 			if (dist1 < rad) continue;
 			dist2 = (N2 | character[i].c->curPos) - d2;
@@ -342,14 +342,14 @@ bool Supervisor::FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], long
 	{
 		for (long i = 0; i < numFndCharacters - 1; i++)
 		{
-			long k = i;
-			for (long j = i + 1; j < numFndCharacters; j++)
+      auto k = i;
+			for (auto j = i + 1; j < numFndCharacters; j++)
 			{
 				if (fndCharacter[k].d2 > fndCharacter[j].d2) k = j;
 			}
 			if (k != i)
 			{
-				FindCharacter fc = fndCharacter[i];
+        auto fc = fndCharacter[i];
 				fndCharacter[i] = fndCharacter[k];
 				fndCharacter[k] = fc;
 			}
@@ -362,7 +362,7 @@ bool Supervisor::FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], long
 long Supervisor::FindForvardLocator(LocatorArray* la, const CVECTOR& pos, const CVECTOR& norm, bool lookChr)
 {
 	if (!la) return -1;
-	long num = la->Num();
+  auto num = la->Num();
 	CVECTOR lpos;
 	float maxcs;
 	long l = -1;
@@ -375,7 +375,7 @@ long Supervisor::FindForvardLocator(LocatorArray* la, const CVECTOR& pos, const 
 		}
 		lpos -= pos;
 		lpos.y = 0.0f;
-		float cs = lpos.x * lpos.x + lpos.z * lpos.z;
+    auto cs = lpos.x * lpos.x + lpos.z * lpos.z;
 		if (cs <= 0.0f) continue;
 		lpos *= 1.0f / sqrtf(cs);
 		cs = lpos | norm;

@@ -100,8 +100,8 @@ bool PathTracks::GetPoint(float index, Vector& cp, Quaternion& cq)
 	Assert(point);
 	if (index < 0.0 || index >= 1.f) return false;
 	index *= numPoints;
-	long i1 = long(index);
-	long i2 = i1 + 1;
+  auto i1 = long(index);
+  auto i2 = i1 + 1;
 	if (i1 >= numPoints) i1 = numPoints - 1;
 	if (i2 >= numPoints) i2 = numPoints - 1;
 	cp.Lerp(point[i1].p, point[i2].p, index - i1);

@@ -50,7 +50,7 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER* rs, unsigned int blendValue, MODEL
 	{
 		CMatrix perMtx;
 
-		NODE* bladeNode = obj->GetNode(0);
+    auto bladeNode = obj->GetNode(0);
 		if ((blendValue & 0xff000000) == 0xff000000)
 		{
 			bladeNode->SetTechnique("EnvAmmoShader");
@@ -64,8 +64,8 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER* rs, unsigned int blendValue, MODEL
 
 		if ((sti = manNode->geo->FindLabelN(sti + 1, idBlade)) > -1)
 		{
-			Animation* ani = mdl->GetAnimation();
-			CMatrix* bones = &ani->GetAnimationMatrix(0);
+      auto ani = mdl->GetAnimation();
+      auto bones = &ani->GetAnimationMatrix(0);
 
 			GEOS::LABEL lb;
 			manNode->geo->GetLabel(sti, lb);
@@ -75,7 +75,7 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER* rs, unsigned int blendValue, MODEL
 			mt.Vz() = CVECTOR(lb.m[2][0], lb.m[2][1], lb.m[2][2]);
 			mt.Pos() = CVECTOR(lb.m[3][0], lb.m[3][1], lb.m[3][2]);
 
-			CMatrix mbn = mt * bones[lb.bones[0]];
+      auto mbn = mt * bones[lb.bones[0]];
 			mbn.Pos().x *= -1.0f;
 			mbn.Vx().x *= -1.0f;
 			mbn.Vy().x *= -1.0f;
@@ -108,7 +108,7 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER* rs, unsigned int blendValue, MODEL
 
 			first++;
 
-			float blend = (time - vrtTime[v + 1]) / lifeTime;
+      auto blend = (time - vrtTime[v + 1]) / lifeTime;
 
 			auto fcol0 = float((color[0] >> 24) & 0xFF);
 			auto fcol1 = float((color[1] >> 24) & 0xFF);
@@ -120,11 +120,11 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER* rs, unsigned int blendValue, MODEL
 
 			fcol0 = float((color[0] >> 8) & 0xFF);
 			fcol1 = float((color[1] >> 8) & 0xFF);
-			unsigned long g = (unsigned long)(fcol0 + blend * (fcol1 - fcol0));
+      auto g = (unsigned long)(fcol0 + blend * (fcol1 - fcol0));
 
 			fcol0 = float((color[0] >> 0) & 0xFF);
 			fcol1 = float((color[1] >> 0) & 0xFF);
-			unsigned long b = (unsigned long)(fcol0 + blend * (fcol1 - fcol0));
+      auto b = (unsigned long)(fcol0 + blend * (fcol1 - fcol0));
 
 			vrt[v * 2 + 2].diffuse = vrt[v * 2 + 3].diffuse = (a << 24) | (r << 16) | (g << 8) | b;
 		}
@@ -145,7 +145,7 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER* rs, unsigned int blendValue, MODEL
 				vrt[1].diffuse = color[0];
 				vrtTime[0] = time;
 
-				bool bDraw = rs->TechniqueExecuteStart("Blade");
+        auto bDraw = rs->TechniqueExecuteStart("Blade");
 				if (bDraw)
 				{
 					if (first > 0) rs->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, FVF, first * 2, &vrt[0], sizeof vrt[0]);
@@ -238,10 +238,10 @@ void BLADE::Realize(uint32_t Delta_Time)
 {
 	blade[0].time += 0.001f * (Delta_Time);
 
-	MODEL* mdl = (MODEL*)EntityManager::GetEntityPointer(man);
+  auto mdl = (MODEL*)EntityManager::GetEntityPointer(man);
 	if (!mdl) return;
 
-	NODE* manNode = mdl->GetNode(0);
+  auto manNode = mdl->GetNode(0);
 	rs->TextureSet(0, -1);
 	rs->TextureSet(1, -1);
 	rs->TextureSet(2, -1);
@@ -259,10 +259,10 @@ void BLADE::Realize(uint32_t Delta_Time)
 	//draw gun
 	CMatrix perMtx;
 	long sti;
-	MODEL* obj = (MODEL*)EntityManager::GetEntityPointer(gun);
+  auto obj = (MODEL*)EntityManager::GetEntityPointer(gun);
 	if (obj != nullptr)
 	{
-		NODE* gunNode = obj->GetNode(0);
+    auto gunNode = obj->GetNode(0);
 		if ((blendValue & 0xff000000) == 0xff000000)
 		{
 			gunNode->SetTechnique("EnvAmmoShader");
@@ -276,8 +276,8 @@ void BLADE::Realize(uint32_t Delta_Time)
 
 		if ((sti = manNode->geo->FindLabelN(sti + 1, idGun)) > -1)
 		{
-			Animation* ani = mdl->GetAnimation();
-			CMatrix* bones = &ani->GetAnimationMatrix(0);
+      auto ani = mdl->GetAnimation();
+      auto bones = &ani->GetAnimationMatrix(0);
 
 			GEOS::LABEL lb;
 			manNode->geo->GetLabel(sti, lb);
@@ -287,7 +287,7 @@ void BLADE::Realize(uint32_t Delta_Time)
 			mt.Vz() = CVECTOR(lb.m[2][0], lb.m[2][1], lb.m[2][2]);
 			mt.Pos() = CVECTOR(lb.m[3][0], lb.m[3][1], lb.m[3][2]);
 
-			CMatrix mbn = mt * bones[lb.bones[0]];
+      auto mbn = mt * bones[lb.bones[0]];
 			mbn.Pos().x *= -1.0f;
 			mbn.Vx().x *= -1.0f;
 			mbn.Vy().x *= -1.0f;
@@ -323,7 +323,7 @@ void BLADE::Realize(uint32_t Delta_Time)
 
 bool BLADE::LoadBladeModel(MESSAGE& message)
 {
-	long nBladeIdx = message.Long();
+  auto nBladeIdx = message.Long();
 	if (nBladeIdx < 0 || nBladeIdx >= BLADE_INFO_QUANTITY) return false;
 
 	man = message.EntityID();
@@ -370,7 +370,7 @@ bool BLADE::LoadGunModel(MESSAGE& message)
 void BLADE::GunFire()
 {
 	auto* mdl = (MODEL*)EntityManager::GetEntityPointer(man);
-	NODE* manNode = mdl->GetNode(0);
+  auto manNode = mdl->GetNode(0);
 
 	//------------------------------------------------------
 	//search gunfire
@@ -383,14 +383,14 @@ void BLADE::GunFire()
 
 	if (obj != nullptr)
 	{
-		NODE* gunNode = obj->GetNode(0);
+    auto gunNode = obj->GetNode(0);
 		sti = -1;
 		auto idGun = manNode->geo->FindName(gunLocName);
 
 		if ((sti = manNode->geo->FindLabelN(sti + 1, idGun)) > -1)
 		{
-			Animation* ani = mdl->GetAnimation();
-			CMatrix* bones = &ani->GetAnimationMatrix(0);
+      auto ani = mdl->GetAnimation();
+      auto bones = &ani->GetAnimationMatrix(0);
 
 			GEOS::LABEL lb;
 			manNode->geo->GetLabel(sti, lb);
@@ -400,7 +400,7 @@ void BLADE::GunFire()
 			mt.Vz() = CVECTOR(lb.m[2][0], lb.m[2][1], lb.m[2][2]);
 			mt.Pos() = CVECTOR(lb.m[3][0], lb.m[3][1], lb.m[3][2]);
 
-			CMatrix mbn = mt * bones[lb.bones[0]];
+      auto mbn = mt * bones[lb.bones[0]];
 			mbn.Pos().x *= -1.0f;
 			mbn.Vx().x *= -1.0f;
 			mbn.Vy().x *= -1.0f;
@@ -416,7 +416,7 @@ void BLADE::GunFire()
 			gunNode->geo->GetLabel(sti, lb);
 			CMatrix resm;
 			resm.EqMultiply(perMtx, *(CMatrix*)&lb.m);
-			CVECTOR rp = perMtx * CVECTOR(lb.m[3][0], lb.m[3][1], lb.m[3][2]);
+      auto rp = perMtx * CVECTOR(lb.m[3][0], lb.m[3][1], lb.m[3][2]);
 
 			api->Send_Message(EntityManager::GetEntityId("particles"), "lsffffffl", PS_CREATEX, "gunfire", rp.x, rp.y,
 			                  rp.z,
@@ -525,7 +525,7 @@ uint64_t BLADE::ProcessMessage(MESSAGE& message)
 
 void BLADE::AddTieItem(MESSAGE& message)
 {
-	long nItemIdx = message.Long();
+  auto nItemIdx = message.Long();
 
 	char mdlName[MAX_PATH];
 	message.String(sizeof(mdlName), mdlName);
@@ -533,7 +533,7 @@ void BLADE::AddTieItem(MESSAGE& message)
 	char locName[128];
 	message.String(sizeof(locName), locName);
 
-	long n = FindTieItemByIndex(nItemIdx);
+  auto n = FindTieItemByIndex(nItemIdx);
 	if (n >= 0)
 	{
 		api->Trace("Warning! BLADE::AddTieItem(%d,%s,%s) already set that item", nItemIdx, mdlName, locName);
@@ -556,7 +556,7 @@ void BLADE::AddTieItem(MESSAGE& message)
 
 void BLADE::DelTieItem(MESSAGE& message)
 {
-	long nItemIdx = message.Long();
+  auto nItemIdx = message.Long();
 	long n = FindTieItemByIndex(nItemIdx);
 	if (n >= 0) items[n].Release();
 }

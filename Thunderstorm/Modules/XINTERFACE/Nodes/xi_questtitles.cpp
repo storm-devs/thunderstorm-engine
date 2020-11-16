@@ -4,7 +4,7 @@ void SubRightWord(char* buf, int fontNum, int width, VDX9RENDER* rs)
 {
 	if (buf == nullptr) return;
 	long bufSize = strlen(buf);
-	for (char* pEnd = buf + bufSize; pEnd > buf; pEnd--)
+	for (auto pEnd = buf + bufSize; pEnd > buf; pEnd--)
 	{
 		if (*pEnd == ' ')
 		{
@@ -17,8 +17,8 @@ void SubRightWord(char* buf, int fontNum, int width, VDX9RENDER* rs)
 bool CXI_QUESTTITLE::GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize)
 {
 	if (pInStr == nullptr || buf == nullptr) return false;
-	char* pStart = pInStr;
-	bool bYesEOL = false;
+  auto pStart = pInStr;
+  auto bYesEOL = false;
 	while (*pInStr != 0)
 	{
 		if (*pInStr == 0x0D || *pInStr == 0x0A) bYesEOL = true;
@@ -30,8 +30,8 @@ bool CXI_QUESTTITLE::GetLineNext(int fontNum, char* & pInStr, char* buf, int buf
 
 	strncpy_s(buf, bufSize, pStart, lineSize);
 	buf[lineSize] = 0;
-	long strWidth = m_rs->StringWidth(buf, fontNum);
-	long needWidth = m_rect.right - m_rect.left - m_iconWidth;
+  auto strWidth = m_rs->StringWidth(buf, fontNum);
+  auto needWidth = m_rect.right - m_rect.left - m_iconWidth;
 	if (strWidth <= needWidth) return true;
 
 	SubRightWord(buf, fontNum, needWidth, m_rs);
@@ -75,8 +75,8 @@ void CXI_QUESTTITLE::Draw(bool bSelected, uint32_t Delta_Time)
 	int i, j;
 	if (!m_bUse) return;
 
-	long curY = m_rect.top;
-	int lineNum = 0;
+  auto curY = m_rect.top;
+  auto lineNum = 0;
 	for (i = 0; i < m_stringQuantity && lineNum < m_allStrings; i++)
 	{
 		// отобразить выделение
@@ -121,7 +121,7 @@ void CXI_QUESTTITLE::Draw(bool bSelected, uint32_t Delta_Time)
 		                      "iDinamicPictures");
 
 		// отобразить строки
-		uint32_t curColor = m_strList[i].complete ? m_dwCompleteColor : m_dwNonCompleteColor;
+    auto curColor = m_strList[i].complete ? m_dwCompleteColor : m_dwNonCompleteColor;
 		if (m_strList[i].dwSpecColor != 0) curColor = m_strList[i].dwSpecColor;
 		for (j = 0; j < m_strList[i].lineQuantity; j++)
 		{
@@ -146,8 +146,8 @@ void CXI_QUESTTITLE::ReleaseAll()
 {
 	FONT_RELEASE(m_rs, m_idFont);
 	if (m_strList != nullptr)
-		for (int i = 0; i < m_stringQuantity; i++)
-			for (int j = 0; j < m_strList[i].lineQuantity; j++)
+		for (auto i = 0; i < m_stringQuantity; i++)
+			for (auto j = 0; j < m_strList[i].lineQuantity; j++)
 			STORM_DELETE(m_strList[i].name[j]);
 	STORM_DELETE(m_strList);
 	STORM_DELETE(m_iconGroupName);
@@ -190,7 +190,7 @@ bool CXI_QUESTTITLE::IsClick(int buttonID, long xPos, long yPos)
 
 	long top, bottom;
 	top = m_rect.top;
-	for (int i = 0; i < m_stringQuantity; i++)
+	for (auto i = 0; i < m_stringQuantity; i++)
 	{
 		bottom = top + m_strList[i].lineQuantity * m_vertOffset;
 		if (i == m_curIdx)
@@ -212,7 +212,7 @@ void CXI_QUESTTITLE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -297,7 +297,7 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES* pA, int topNum)
 	if (m_strList != nullptr)
 	{
 		for (i = 0; i < m_stringQuantity; i++)
-			for (int j = 0; j < m_strList[i].lineQuantity; j++)
+			for (auto j = 0; j < m_strList[i].lineQuantity; j++)
 			STORM_DELETE(m_strList[i].name[j]);
 		STORM_DELETE(m_strList);
 		m_stringQuantity = 0;
@@ -331,12 +331,12 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES* pA, int topNum)
 			throw std::exception("allocate memory error");
 		}
 		// и заполнение этих строк
-		int lineNum = 0;
+    auto lineNum = 0;
 		for (i = 0; i < m_stringQuantity; i++)
 		{
 			m_strList[i].lineQuantity = 0;
 			m_strList[i].dwSpecColor = 0;
-			ATTRIBUTES* pAttr = pA->GetAttributeClass(topNum + i);
+      auto pAttr = pA->GetAttributeClass(topNum + i);
 			if (pAttr == nullptr)
 			{
 				m_strList[i].complete = false;
@@ -355,7 +355,7 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES* pA, int topNum)
 				else
 				{
 					char lineName[sizeof(param)];
-					char* pstr = param;
+          auto pstr = param;
 					int ln = 0;
 					while (GetLineNext(m_idFont, pstr, lineName, sizeof(lineName)))
 					{

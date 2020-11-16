@@ -202,11 +202,11 @@ bool SEA::Init()
 {
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	CreateVertexDeclaration();
-	INIFILE* pEngineIni = fio->OpenIniFile(api->EngineIniFileName());
-	bool bDisableHyperThreading = (pEngineIni) ? pEngineIni->GetLong(nullptr, "HyperThreading", 1) == 0 : false;
+  auto pEngineIni = fio->OpenIniFile(api->EngineIniFileName());
+  auto bDisableHyperThreading = (pEngineIni) ? pEngineIni->GetLong(nullptr, "HyperThreading", 1) == 0 : false;
 	bDisableSSE = (pEngineIni) ? pEngineIni->GetLong(nullptr, "DisableSSE", 0) != 0 : false;
 	bIniFoamEnable = (pEngineIni) ? pEngineIni->GetLong("Sea", "FoamEnable", 1) != 0 : false;
-	bool bEnableSSE = (pEngineIni) ? pEngineIni->GetLong(nullptr, "EnableSSE", 0) != 0 : false; //boal
+  auto bEnableSSE = (pEngineIni) ? pEngineIni->GetLong(nullptr, "EnableSSE", 0) != 0 : false; //boal
 	STORM_DELETE(pEngineIni);
 	if (bEnableSSE)
 	{
@@ -223,7 +223,7 @@ bool SEA::Init()
 		intel.CPUCount(&dwLogicals, &dwCores, &dwPhysicals);
 		api->Trace("Total logical: %d, Total cores: %d, Total physical: %d", dwLogicals, dwCores, dwPhysicals);
 
-		uint32_t dwNumThreads = dwLogicals * dwCores - 1;
+    auto dwNumThreads = dwLogicals * dwCores - 1;
 
 		for (uint32_t i = 0; i < dwNumThreads; i++)
 		{
@@ -232,7 +232,7 @@ bool SEA::Init()
 			aEventCalcBlock.push_back(CreateEvent(nullptr, false, false, nullptr));
 
 			aThreads.push_back(HANDLE{});
-			HANDLE& hThread = aThreads.back();
+      auto& hThread = aThreads.back();
 			hThread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)ThreadExecute, (void*)i, CREATE_SUSPENDED,
 			                       nullptr);
 			SetThreadPriority(hThread, THREAD_PRIORITY_NORMAL);
@@ -287,9 +287,9 @@ bool SEA::Init()
 			return false;
 		}
 
-		char* pFB = pFBuffer + sizeof(TGA_H);
+    auto pFB = pFBuffer + sizeof(TGA_H);
 
-		uint8_t* pBuffer = new uint8_t[XWIDTH * YWIDTH];
+    auto pBuffer = new uint8_t[XWIDTH * YWIDTH];
 		aTmpBumps.push_back(pBuffer);
 
 		for (uint32_t y = 0; y < YWIDTH; y++)
@@ -308,13 +308,13 @@ bool SEA::Init()
 
 	for (i = 0; i < FRAMES; i++)
 	{
-		uint8_t* pBuffer = new uint8_t[XWIDTH * YWIDTH];
+    auto pBuffer = new uint8_t[XWIDTH * YWIDTH];
 		aBumps.push_back(pBuffer);
 
 		for (uint32_t y = 0; y < YWIDTH; y++)
 			for (uint32_t x = 0; x < XWIDTH; x++)
 			{
-				uint32_t dwAddress = x + y * YWIDTH;
+        auto dwAddress = x + y * YWIDTH;
 				float b1, b2, b3, b4, b5; // -2 -1 0 1 2
 
 				b1 = 0.08f * float(aTmpBumps[(i - 2) & (FRAMES - 1)][dwAddress]);
@@ -359,7 +359,7 @@ void SEA::BuildVolumeTexture()
 	aBumpMaps.clear();
 
 	uint32_t dwTexelSize = 4;
-	char* pDst = (char*)new char[XWIDTH * YWIDTH * dwTexelSize];
+  auto pDst = (char*)new char[XWIDTH * YWIDTH * dwTexelSize];
 
 	// build normals
 

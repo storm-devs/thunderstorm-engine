@@ -219,8 +219,8 @@ Character::Detector::Detector(LocatorArray* _la)
 void Character::Detector::Check(float dltTime, Character* ch)
 {
 	const auto location = ch->GetLocation();
-	float dist = 0.0f;
-	long lIndex = la->FindNearesLocatorCl(ch->curPos.x, ch->curPos.y, ch->curPos.z, 1.0f, dist);
+  auto dist = 0.0f;
+  auto lIndex = la->FindNearesLocatorCl(ch->curPos.x, ch->curPos.y, ch->curPos.z, 1.0f, dist);
 	if (lIndex >= 0)
 	{
 		if (lastLocator >= 0)
@@ -283,7 +283,7 @@ Character::RTuner::RTuner()
 
 void Character::RTuner::Set(MODEL* model, VDX9RENDER* rs)
 {
-	NODE* n = model->GetNode(0);
+  auto n = model->GetNode(0);
 	if (!n) return;
 	if (n->GetTechnique()[0]) return;
 	if (alpha < 0.0f) alpha = 0.0f;
@@ -292,15 +292,15 @@ void Character::RTuner::Set(MODEL* model, VDX9RENDER* rs)
 	if (chrAlpha > 1.0f) chrAlpha = 1.0f;
 	if (camAlpha < 0.0f) camAlpha = 0.0f;
 	if (camAlpha > 1.0f) camAlpha = 1.0f;
-	float a = camAlpha * chrAlpha * alpha;
+  auto a = camAlpha * chrAlpha * alpha;
 	if (!isVisible) a = 0.0f;
 	if (a < 0.5f) rs->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	if (a > 1.0f) a = 1.0f;
 	if (selected < 0.0f) selected = 0.0f;
 	if (selected > 1.0f) selected = 1.0f;
-	long r = long(0x40 * selected);
-	long g = long(0x10 * selected);
-	long b = long(0x10 * selected);
+  auto r = long(0x40 * selected);
+  auto g = long(0x10 * selected);
+  auto b = long(0x10 * selected);
 	rs->SetRenderState(D3DRS_TEXTUREFACTOR, (uint32_t(a * 255.0f) << 24) | (r << 16) | (g << 8) | b);
 	if (selected > 0.0f)
 	{
@@ -326,7 +326,7 @@ void Character::RTuner::Set(MODEL* model, VDX9RENDER* rs)
 	}
 	if (const auto location = character->GetLocation())
 	{
-		Lights* ls = location->GetLights();
+    auto ls = location->GetLights();
 		if (ls)
 			ls->SetCharacterLights(&character->curPos);
 	}
@@ -336,13 +336,13 @@ void Character::RTuner::Restore(MODEL* model, VDX9RENDER* rs)
 {
 	if (const auto location = character->GetLocation())
 	{
-		Lights* ls = location->GetLights();
+    auto ls = location->GetLights();
 		if (ls)
 			ls->DelCharacterLights();
 	}
-	NODE* n = model->GetNode(0);
+  auto n = model->GetNode(0);
 	if (!n) return;
-	const char* chr = n->GetTechnique();
+  auto chr = n->GetTechnique();
 	if (*((uint32_t *)chr) != 'minA' || *((uint32_t *)(chr + 4)) != 'oita') return;
 	n->SetTechnique("");
 	rs->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
@@ -350,7 +350,7 @@ void Character::RTuner::Restore(MODEL* model, VDX9RENDER* rs)
 
 float Character::RTuner::GetAlpha()
 {
-	float a = camAlpha * chrAlpha * alpha;
+  auto a = camAlpha * chrAlpha * alpha;
 	if (a > 1.0f) a = 1.0f;
 	if (a < 0.0f) a = 0.0f;
 	return a;
@@ -360,7 +360,7 @@ float Character::RTuner::GetAlpha()
 void Character::EventListener::Event(Animation* animation, long index, long eventID, AnimationEvent event)
 {
 	if (!animation || index != 0) return;
-	const char* c = animation->Player(0).GetAction();
+  auto c = animation->Player(0).GetAction();
 	if (!c) return;
 	character->ActionEvent(c, animation, index, eventID, event);
 }
@@ -597,7 +597,7 @@ Character::~Character()
 	auto* m = (MODEL*)EntityManager::GetEntityPointer(mdl);
 	if (m)
 	{
-		Animation* a = m->GetAnimation();
+    auto a = m->GetAnimation();
 		if (a)
 		{
 			a->SetEventListener(nullptr);
@@ -669,7 +669,7 @@ uint64_t Character::ProcessMessage(MESSAGE& message)
 	{
 		return zPlaySound(message);
 	}
-	long messageID = message.Long();
+  auto messageID = message.Long();
 	if (messageID == MSG_CHARACTER_EX_MSG)
 	{
 		return zExMessage(message);

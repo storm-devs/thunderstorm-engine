@@ -68,7 +68,7 @@ void CXI_SCROLLBAR::Draw(bool bSelected, uint32_t Delta_Time)
 			{
 				m_bPrevSelectStatus = bSelected;
 				if (bSelected)
-					for (int idx = 0; idx < 6 * 12; idx += 12)
+					for (auto idx = 0; idx < 6 * 12; idx += 12)
 					{
 						pVert[idx + 4].tu = m_rectSelectCenterTex.left;
 						pVert[idx + 4].tv = m_rectSelectCenterTex.top;
@@ -80,7 +80,7 @@ void CXI_SCROLLBAR::Draw(bool bSelected, uint32_t Delta_Time)
 						pVert[idx + 7].tv = m_rectSelectCenterTex.bottom;
 					}
 				else
-					for (int idx = 0; idx < 6 * 12; idx += 12)
+					for (auto idx = 0; idx < 6 * 12; idx += 12)
 					{
 						pVert[idx + 4].tu = m_rectCenterTex.left;
 						pVert[idx + 4].tv = m_rectCenterTex.top;
@@ -118,13 +118,13 @@ void CXI_SCROLLBAR::Draw(bool bSelected, uint32_t Delta_Time)
 
 	if (m_bShowString)
 	{
-		ATTRIBUTES* pA = ptrOwner->AttributesPointer;
+    auto pA = ptrOwner->AttributesPointer;
 		if (pA)
 		{
 			pA = pA->GetAttributeClass(m_nodeName);
 			if (pA)
 			{
-				char* pcStr = pA->GetAttribute("str");
+        auto pcStr = pA->GetAttribute("str");
 				if (pcStr)
 				{
 					m_rs->ExtPrint(m_nFontID, m_dwFontColor, 0, PR_ALIGN_CENTER, true, m_fFontScale, m_screenSize.x,
@@ -210,8 +210,8 @@ void CXI_SCROLLBAR::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 		throw std::exception("can not create the index&vertex buffers");
 
 	// fill triangles buffer
-	int i = 0;
-	for (int tidx = 0; tidx < 3; tidx++)
+  auto i = 0;
+	for (auto tidx = 0; tidx < 3; tidx++)
 	{
 		pIndx[i + 0] = tidx * 4;
 		pIndx[i + 1] = tidx * 4 + 1;
@@ -266,7 +266,7 @@ void CXI_SCROLLBAR::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 	m_fStepValue = GetIniFloat(ini1, name1, ini2, name2, "valueStep", 1.f);
 	m_fSpeedMultiplay = GetIniFloat(ini1, name1, ini2, name2, "valueStepMultiply", 10.f);
 	m_fCurValue = m_fStartValue;
-	ATTRIBUTES* pA = ptrOwner->AttributesPointer;
+  auto pA = ptrOwner->AttributesPointer;
 	if (pA) pA = pA->GetAttributeClass(m_nodeName);
 	if (pA) m_fCurValue = pA->GetAttributeAsFloat("str", m_fStartValue);
 	WriteDataToAttribute();
@@ -362,7 +362,7 @@ void CXI_SCROLLBAR::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -378,7 +378,7 @@ void CXI_SCROLLBAR::SaveParametersToIni()
 
 XYRECT CXI_SCROLLBAR::GetCursorRect()
 {
-	XYRECT retRect = m_rect;
+  auto retRect = m_rect;
 	retRect.right += (long)m_fXShadow;
 	retRect.bottom += (long)m_fYShadow;
 	return retRect;
@@ -407,7 +407,7 @@ void CXI_SCROLLBAR::UpdatePosition()
 {
 	auto* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
 
-	int idx = 0;
+  auto idx = 0;
 	int sideWidth = m_nSideWidth;
 	if (sideWidth < 0)
 		sideWidth = (m_rect.right - m_rect.left - m_nBarWidth) / 2;
@@ -581,7 +581,7 @@ void CXI_SCROLLBAR::UpdatePosition()
 
 void CXI_SCROLLBAR::WriteDataToAttribute()
 {
-	ATTRIBUTES* pRoot = ptrOwner->AttributesPointer;
+  auto pRoot = ptrOwner->AttributesPointer;
 	if (!pRoot) return;
 	ATTRIBUTES* pA = pRoot->GetAttributeClass(m_nodeName);
 	if (!pA) pA = pRoot->CreateSubAClass(pRoot, m_nodeName);

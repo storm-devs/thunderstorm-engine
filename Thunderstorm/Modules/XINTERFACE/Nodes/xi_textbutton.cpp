@@ -302,8 +302,8 @@ void CXI_TEXTBUTTON::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, c
 		throw std::exception("can not create the index&vertex buffers");
 
 	// fill triangles buffer
-	int i = 0;
-	for (int tidx = 0; tidx < 3; tidx++)
+  auto i = 0;
+	for (auto tidx = 0; tidx < 3; tidx++)
 	{
 		pIndx[i + 0] = tidx * 4;
 		pIndx[i + 1] = tidx * 4 + 1;
@@ -343,8 +343,8 @@ void CXI_TEXTBUTTON::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, c
 		pVert[i + 7].tu = pVert[i + 3].tu = frectShadowUV.right;
 		pVert[i + 7].tv = pVert[i + 3].tv = frectShadowUV.bottom;
 
-		float fhorzoffset = (m_rect.right - m_rect.left) * (m_fShadowScale - 1.f) * .5f;
-		float fvertoffset = (m_rect.bottom - m_rect.top) * (m_fShadowScale - 1.f) * .5f;
+    auto fhorzoffset = (m_rect.right - m_rect.left) * (m_fShadowScale - 1.f) * .5f;
+    auto fvertoffset = (m_rect.bottom - m_rect.top) * (m_fShadowScale - 1.f) * .5f;
 
 		pVert[i + 0].pos.x = m_rect.left - fhorzoffset + m_fXShadow;
 		pVert[i + 0].pos.y = m_rect.top - fvertoffset + m_fYShadow;
@@ -401,7 +401,7 @@ void CXI_TEXTBUTTON::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, c
 	pVert[26].pos.y = pVert[27].pos.y = m_rect.bottom + m_fYDeltaPress;
 	pVert[38].pos.y = pVert[39].pos.y = m_rect.bottom + m_fYDeltaPress + m_fYShadowPress;
 	// fill right side of button
-	float fRightMiddle = m_rect.right - (fLeftMiddle - m_rect.left);
+  auto fRightMiddle = m_rect.right - (fLeftMiddle - m_rect.left);
 	m_idUnSelectRight = m_idSelectRight = -1;
 	if (ReadIniString(ini1, name1, ini2, name2, "buttonRight", param, sizeof(param), ""))
 		m_idUnSelectRight = pPictureService->GetImageNum(m_sGroupName, param);
@@ -562,7 +562,7 @@ void CXI_TEXTBUTTON::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -624,7 +624,7 @@ void CXI_TEXTBUTTON::SetUsing(bool bUsing)
 
 void CXI_TEXTBUTTON::MakeLClickPreaction()
 {
-	FXYPOINT mouse_pos = ptrOwner->GetMousePoint();
+  auto mouse_pos = ptrOwner->GetMousePoint();
 	if (mouse_pos.x >= m_rect.left && mouse_pos.x <= m_rect.right &&
 		mouse_pos.y >= m_rect.top && mouse_pos.y <= m_rect.bottom)
 	{
@@ -643,8 +643,8 @@ void CXI_TEXTBUTTON::FillPositionIntoVertices()
 	if (m_idShadowTex >= 0)
 	{
 		i = m_nVert - 8;
-		float fhorzoffset = (m_rect.right - m_rect.left) * (m_fShadowScale - 1.f) * .5f;
-		float fvertoffset = (m_rect.bottom - m_rect.top) * (m_fShadowScale - 1.f) * .5f;
+    auto fhorzoffset = (m_rect.right - m_rect.left) * (m_fShadowScale - 1.f) * .5f;
+    auto fvertoffset = (m_rect.bottom - m_rect.top) * (m_fShadowScale - 1.f) * .5f;
 
 		pVert[i + 0].pos.x = m_rect.left - fhorzoffset + m_fXShadow;
 		pVert[i + 0].pos.y = m_rect.top - fvertoffset + m_fYShadow;

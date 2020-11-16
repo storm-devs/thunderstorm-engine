@@ -44,7 +44,7 @@ bool LocRats::Init()
 //Сообщения
 uint64_t LocRats::ProcessMessage(MESSAGE& message)
 {
-	long num = message.Long();
+  auto num = message.Long();
 	if (num < 1) num = 1;
 	if (num > sizeof(rat) / sizeof(LocRat)) num = sizeof(rat) / sizeof(LocRat);
 	//Указатель на локацию
@@ -64,6 +64,6 @@ void LocRats::Execute(uint32_t delta_time)
 //Рисование
 void LocRats::Realize(uint32_t delta_time)
 {
-	float dltTime = delta_time * 0.001f;
+  auto dltTime = delta_time * 0.001f;
 	for (long i = 0; i < num; i++) rat[i].Update(dltTime);
 }

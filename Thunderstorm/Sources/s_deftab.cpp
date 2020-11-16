@@ -58,7 +58,7 @@ uint32_t S_DEFTAB::AddDef(DEFINFO& di)
 
 
 	if (di.name == nullptr) return INVALID_DEF_CODE;
-	uint32_t hash = MakeHashValue(di.name);
+  auto hash = MakeHashValue(di.name);
 
 	for (n = 0; n < Def_num; n++)
 	{
@@ -114,7 +114,7 @@ uint32_t S_DEFTAB::MakeHashValue(const char* string)
 	uint32_t hval = 0;
 	while (*string != 0)
 	{
-		char v = *string++;
+    auto v = *string++;
 		if ('A' <= v && v <= 'Z') v += 'a' - 'A'; // case independent
 		hval = (hval << 4) + (unsigned long int)v;
 		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
@@ -148,12 +148,12 @@ void S_DEFTAB::InvalidateBySegmentID(uint32_t segment_id)
 uint32_t S_DEFTAB::FindDef(const char* def_name)
 {
 	if (def_name == nullptr) return INVALID_DEF_CODE;
-	uint32_t hash = MakeHashValue(def_name);
+  auto hash = MakeHashValue(def_name);
 
-	uint32_t hash_index = DTMAKEHASHINDEX(hash);
+  auto hash_index = DTMAKEHASHINDEX(hash);
 	for (uint32_t n = 0; n < HashLine[hash_index].nNumElements; n++)
 	{
-		uint32_t ni = HashLine[hash_index].pElements[n];
+    auto ni = HashLine[hash_index].pElements[n];
 		if (pTable[ni].hash == hash) //return n;
 			if (_stricmp(pTable[ni].name, def_name) == 0) return ni;
 	}

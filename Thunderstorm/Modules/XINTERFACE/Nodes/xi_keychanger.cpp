@@ -33,8 +33,8 @@ void CXI_KEYCHANGER::Draw(bool bSelected, uint32_t Delta_Time)
 				if ((m_pbControlsStick[i] && cs.state == CST_INACTIVATED) ||
 					(!m_pbControlsStick[i] && (cs.fValue > 1.f || cs.fValue < -1.f)))
 				{
-					bool bAllowChange = false;
-					VDATA* pdat = api->Event("evntKeyChoose", "ll", i, cs.fValue > 0);
+          auto bAllowChange = false;
+          auto pdat = api->Event("evntKeyChoose", "ll", i, cs.fValue > 0);
 					if (pdat != nullptr) bAllowChange = pdat->GetLong() != 0;
 					if (bAllowChange)
 					{
@@ -66,7 +66,7 @@ void CXI_KEYCHANGER::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -86,7 +86,7 @@ uint32_t CXI_KEYCHANGER::MessageProc(long msgcode, MESSAGE& message)
 	{
 	case 0:
 		{
-			ATTRIBUTES* pA = message.AttributePointer();
+      auto pA = message.AttributePointer();
 			SetChoosingControls(pA);
 		}
 		break;
@@ -112,17 +112,17 @@ void CXI_KEYCHANGER::SetChoosingControls(ATTRIBUTES* pA)
 	}
 
 	char contrlName[128];
-	for (int i = 0; i < m_keysQuantity; i++)
+	for (auto i = 0; i < m_keysQuantity; i++)
 	{
 		sprintf_s(contrlName, "cntrl_%d", i);
 		m_pbControlsStick[i] = false;
 		m_pControlsID[i] = api->Controls->CreateControl(contrlName);
-		char* keyCode = pA->GetAttribute(i);
+    auto keyCode = pA->GetAttribute(i);
 		if (keyCode != nullptr)
 		{
 			api->Controls->MapControl(m_pControlsID[i], atoi(keyCode));
 		}
-		ATTRIBUTES* pAttr = pA->GetAttributeClass(i);
+    auto pAttr = pA->GetAttributeClass(i);
 		if (pAttr != nullptr)
 			if (pAttr->GetAttributeAsDword("stick", 0) != 1)
 				m_pbControlsStick[i] = true;

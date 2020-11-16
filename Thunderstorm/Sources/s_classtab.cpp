@@ -49,7 +49,7 @@ uint32_t S_CLASSTAB::AddClass(CLASSINFO& ci, bool bRegisterOnly)
 {
 	if (ci.name == nullptr) return INVALID_CLASS_CODE;
 
-	uint32_t hash = MakeHashValue(ci.name);
+  auto hash = MakeHashValue(ci.name);
 
 	for (uint32_t n = 0; n < nClassesNum; n++)
 	{
@@ -98,7 +98,7 @@ uint32_t S_CLASSTAB::AddClass(CLASSINFO& ci, bool bRegisterOnly)
 		pTable.resize(Buffer_size);
 	}
 
-	uint32_t nClassN = nClassesNum;
+  auto nClassN = nClassesNum;
 	if (bRegisterOnly)
 	{
 		pTable[nClassN].segment_id = 0xffffffff;
@@ -133,7 +133,7 @@ uint32_t S_CLASSTAB::MakeHashValue(const char* string)
 	uint32_t hval = 0;
 	while (*string != 0)
 	{
-		char v = *string++;
+    auto v = *string++;
 		if ('A' <= v && v <= 'Z') v += 'a' - 'A'; // case independent
 		hval = (hval << 4) + (unsigned long int)v;
 		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
@@ -162,7 +162,7 @@ void S_CLASSTAB::InvalidateBySegmentID(uint32_t segment_id)
 uint32_t S_CLASSTAB::FindClass(const char* class_name)
 {
 	if (class_name == nullptr) return INVALID_CLASS_CODE;
-	uint32_t hash = MakeHashValue(class_name);
+  auto hash = MakeHashValue(class_name);
 	for (uint32_t n = 0; n < nClassesNum; n++)
 	{
 		if (pTable[n].hash == hash)

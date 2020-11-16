@@ -249,7 +249,7 @@ void ShipInfoImages::UpdateShipList()
 void ShipInfoImages::UpdateShipData(long nShipNum, SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD)
 {
 	if (!pSD || nShipNum >= m_nCurMaxQuantity) return;
-	CVECTOR shippos = pSD->pShip->GetPos();
+  auto shippos = pSD->pShip->GetPos();
 	shippos.y += ((SHIP_BASE*)pSD->pShip)->State.vRealBoxSize.y + 5.f;
 
 	CalculateDirectingVectors(shippos);
@@ -304,7 +304,7 @@ float ShipInfoImages::GetProgressHull(SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD)
 {
 	if (!pSD || !pSD->pAttr) return 0.f;
 	if (pSD->maxHP <= 0) return 0.f;
-	float f = pSD->pAttr->GetAttributeAsFloat("HP", 0.f) / (float)pSD->maxHP;
+  auto f = pSD->pAttr->GetAttributeAsFloat("HP", 0.f) / (float)pSD->maxHP;
 	if (f < 0.f) f = 0.f;
 	if (f > 1.f) f = 1.f;
 	return f;
@@ -314,7 +314,7 @@ float ShipInfoImages::GetProgressSail(SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD)
 {
 	if (!pSD || !pSD->pAttr) return 0.f;
 	if (pSD->maxSP <= 0) return 0.f;
-	float f = pSD->pAttr->GetAttributeAsFloat("SP", 0.f) / (float)pSD->maxSP;
+  auto f = pSD->pAttr->GetAttributeAsFloat("SP", 0.f) / (float)pSD->maxSP;
 	if (f < 0.f) f = 0.f;
 	if (f > 1.f) f = 1.f;
 	return f;
@@ -324,9 +324,9 @@ float ShipInfoImages::GetProgressCrew(SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD)
 {
 	if (!pSD || !pSD->pAttr) return 0.f;
 	if (pSD->maxCrew <= 0) return 0.f;
-	ATTRIBUTES* pA = pSD->pAttr->GetAttributeClass("crew");
+  auto pA = pSD->pAttr->GetAttributeClass("crew");
 	if (!pA) return 0.f;
-	float f = pA->GetAttributeAsFloat("quantity", 0.f) / (float)pSD->maxCrew;
+  auto f = pA->GetAttributeAsFloat("quantity", 0.f) / (float)pSD->maxCrew;
 	if (f < 0.f) f = 0.f;
 	if (f > 1.f) f = 1.f;
 	return f;

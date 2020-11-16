@@ -86,7 +86,7 @@ bool SCRSHOTER::MakeScreenShot()
 	int n;
 	D3DLOCKED_RECT inRect, outRect;
 
-	HRESULT hr = D3D_OK;
+  auto hr = D3D_OK;
 
 	// Заставим видео карту отрисовать все незакоченные задания
 	hr = rs->EndScene();
@@ -135,8 +135,8 @@ bool SCRSHOTER::MakeScreenShot()
 	if (hr == D3D_OK)
 	{
 		// Создать набор отступов по ординатам
-		int* pHorzOff = new int[SS_TEXTURE_WIDTH];
-		int* pVertOff = new int[SS_TEXTURE_HEIGHT];
+    auto pHorzOff = new int[SS_TEXTURE_WIDTH];
+    auto pVertOff = new int[SS_TEXTURE_HEIGHT];
 		if (!pHorzOff || !pVertOff)
 		{
 			throw std::exception("allocate memory error");
@@ -162,7 +162,7 @@ bool SCRSHOTER::MakeScreenShot()
 		int vi, hi;
 		for (vi = 0; vi < SS_TEXTURE_HEIGHT; vi++)
 		{
-			uint8_t* pInPxl = (uint8_t*)pIn + inRect.Pitch * pVertOff[vi];
+      auto pInPxl = (uint8_t*)pIn + inRect.Pitch * pVertOff[vi];
 			auto* pOutPxl = (uint32_t*)((uint8_t*)pOut + outRect.Pitch * vi);
 			for (hi = 0; hi < SS_TEXTURE_WIDTH; hi++)
 			{
@@ -210,7 +210,7 @@ bool SCRSHOTER::MakeScreenShot()
 				float w;
 				float tu, tv;
 			} vert[4];
-			for (int i = 0; i < 4; i++)
+			for (auto i = 0; i < 4; i++)
 			{
 				vert[i].pos.z = 1.f;
 				vert[i].w = 0.5f;
@@ -276,8 +276,8 @@ uint64_t SCRSHOTER::ProcessMessage(MESSAGE& message)
 			message.String(sizeof(param2) - 1, param2);
 			pvdat = message.ScriptVariablePointer();
 
-			IDirect3DTexture9* pRetTex = AddSaveTexture(param, param2);
-			char* strDat = FindSaveData(param2);
+      auto pRetTex = AddSaveTexture(param, param2);
+      auto strDat = FindSaveData(param2);
 			if (pvdat)
 				if (!strDat) pvdat->Set("\0");
 				else pvdat->Set(strDat);
@@ -298,7 +298,7 @@ uint64_t SCRSHOTER::ProcessMessage(MESSAGE& message)
 IDirect3DTexture9* SCRSHOTER::FindSaveTexture(char* fileName)
 {
 	if (!fileName) return nullptr;
-	SAVETEXTURES* ps = m_list;
+  auto ps = m_list;
 	while (ps)
 	{
 		if (ps->fileName && _stricmp(fileName, ps->fileName) == 0) return ps->m_pTex;

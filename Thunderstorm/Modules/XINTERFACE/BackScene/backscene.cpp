@@ -17,7 +17,7 @@ InterfaceBackScene::LightParam::~LightParam()
 
 void InterfaceBackScene::LightParam::UpdateParams(float fTime)
 {
-	float fK = 0.f;
+  auto fK = 0.f;
 	fColorTimer += fTime;
 	long jjj = 0;
 	while (fColorTimer > fColorPeriod + fAddPeriod)
@@ -36,7 +36,7 @@ void InterfaceBackScene::LightParam::UpdateParams(float fTime)
 			__debugbreak();
 		}
 	}
-	float fPer = fColorPeriod + fAddPeriod;
+  auto fPer = fColorPeriod + fAddPeriod;
 	if (fColorTimer <= .5f * fPer) fK = 2.f * fColorTimer / fPer;
 	else fK = 2.f - 2.f * fColorTimer / fPer;
 	lightSource.Diffuse.a = colorMin.a + (colorMax.a - colorMin.a) * fK; // 1.f
@@ -47,7 +47,7 @@ void InterfaceBackScene::LightParam::UpdateParams(float fTime)
 	dwFlareColor = uint32_t(fMinFlareColor + (fMaxFlareColor - fMinFlareColor) * fK);
 	dwFlareColor = dwFlareColor | (dwFlareColor << 24) | (dwFlareColor << 16) | (dwFlareColor << 8);
 
-	CVECTOR vPos = vLightPos;
+  auto vPos = vLightPos;
 	if (pLightSrcNode)
 		vPos = pLightSrcNode->glob_mtx * vLightPos;
 
@@ -75,7 +75,7 @@ void InterfaceBackScene::MenuDescr::Set(CMatrix* pMtx, const char* pcActiveName,
 {
 	if (!pcTechniqueName) pcTechniqueName = "InterfaceBackScene_Menu";
 	sEventName = pcEvent;
-	VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
+  auto pGeo = (VGEOMETRY*)api->CreateService("Geometry");
 	if (pGeo)
 		if (pcPathName && pcPathName[0]) pGeo->SetTexturePath((std::string("MainMenu\\") + pcPathName + "\\").c_str());
 		else pGeo->SetTexturePath("MainMenu\\");
@@ -168,13 +168,13 @@ bool InterfaceBackScene::Init()
 
 void InterfaceBackScene::Execute(uint32_t Delta_Time)
 {
-	long nOldMenuIndex = m_nSelectMenuIndex;
+  auto nOldMenuIndex = m_nSelectMenuIndex;
 
-	FXYPOINT pntMouse = XINTERFACE::pThis->GetMousePoint();
+  auto pntMouse = XINTERFACE::pThis->GetMousePoint();
 	if (m_pntOldMouse.x != pntMouse.x || m_pntOldMouse.y != pntMouse.y)
 	{
 		m_pntOldMouse = pntMouse;
-		long n = CheckMousePos(pntMouse.x, pntMouse.y);
+    auto n = CheckMousePos(pntMouse.x, pntMouse.y);
 		if (n >= 0 && n != m_nSelectMenuIndex) SetNewMenu(n);
 	}
 
@@ -204,20 +204,20 @@ void InterfaceBackScene::Execute(uint32_t Delta_Time)
 	{
 		CMatrix mtx;
 		mtx.BuildMatrix(m_vCamAng);
-		CVECTOR vz = mtx * CVECTOR(0.f, 0.f, 1.f);
-		CVECTOR vx = mtx * CVECTOR(1.f, 0.f, 0.f);
+    auto vz = mtx * CVECTOR(0.f, 0.f, 1.f);
+    auto vx = mtx * CVECTOR(1.f, 0.f, 0.f);
 
-		float fForwardSpeed = 0.01f * Delta_Time;
+    auto fForwardSpeed = 0.01f * Delta_Time;
 		if (api->Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0) fForwardSpeed *= 10.f;
 		if (api->Controls->GetDebugAsyncKeyState(VK_MENU) < 0) fForwardSpeed *= 0.1f;
-		float fSideSpeed = 0.5f * fForwardSpeed;
+    auto fSideSpeed = 0.5f * fForwardSpeed;
 
 		if (api->Controls->GetDebugAsyncKeyState('W') < 0) m_vCamPos += vz * fForwardSpeed;
 		if (api->Controls->GetDebugAsyncKeyState('S') < 0) m_vCamPos -= vz * fForwardSpeed;
 		if (api->Controls->GetDebugAsyncKeyState('D') < 0) m_vCamPos += vx * fSideSpeed;
 		if (api->Controls->GetDebugAsyncKeyState('A') < 0) m_vCamPos -= vx * fSideSpeed;
 
-		float fRotateSpeed = 0.001f * Delta_Time;
+    auto fRotateSpeed = 0.001f * Delta_Time;
 		if (api->Controls->GetDebugAsyncKeyState(VK_UP) < 0) m_vCamAng.x += fRotateSpeed;
 		if (api->Controls->GetDebugAsyncKeyState(VK_DOWN) < 0) m_vCamAng.x -= fRotateSpeed;
 		if (api->Controls->GetDebugAsyncKeyState(VK_LEFT) < 0) m_vCamAng.y -= fRotateSpeed;
@@ -282,7 +282,7 @@ void InterfaceBackScene::Realize(uint32_t Delta_Time)
 
 uint64_t InterfaceBackScene::ProcessMessage(MESSAGE& message)
 {
-	long nMsgCode = message.Long();
+  auto nMsgCode = message.Long();
 	char param[1024];
 	switch (nMsgCode)
 	{
@@ -303,15 +303,15 @@ uint64_t InterfaceBackScene::ProcessMessage(MESSAGE& message)
 
 	case 3: // create menu list
 		{
-			long nStartIdx = message.Long();
-			ATTRIBUTES* pA = message.AttributePointer();
+      auto nStartIdx = message.Long();
+      auto pA = message.AttributePointer();
 			CreateMenuList(nStartIdx, pA);
 		}
 		break;
 
 	case 4: // controling of menu list
 		{
-			long nControlCode = message.Long();
+      auto nControlCode = message.Long();
 			if (nControlCode & 1) ChooseNextMenu();
 			else ChoosePrevMenu();
 		}
@@ -323,7 +323,7 @@ uint64_t InterfaceBackScene::ProcessMessage(MESSAGE& message)
 
 	case 6: // set current menu
 		{
-			long n = message.Long();
+      auto n = message.Long();
 			if (n < 0 || n >= m_aMenuDescr.size() || !m_aMenuDescr[n]->bSelectable) n = -1;
 			else m_nSelectMenuIndex = n;
 		}
@@ -331,8 +331,8 @@ uint64_t InterfaceBackScene::ProcessMessage(MESSAGE& message)
 
 	case 7: // set selectable flag for menu
 		{
-			long num = message.Long(); // menu number
-			long flag = message.Long(); // selectable state
+      auto num = message.Long(); // menu number
+      auto flag = message.Long(); // selectable state
 			SetMenuSelectableState(num, flag != 0);
 		}
 		break;
@@ -374,7 +374,7 @@ void InterfaceBackScene::LoadModel(const char* pcModelName)
 		EntityManager::EraseEntity(m_eiLocators);
 		m_pLocators = nullptr;
 	}
-	VGEOMETRY* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
+  auto pGeo = (VGEOMETRY*)api->CreateService("Geometry");
 	if (pGeo) pGeo->SetTexturePath(
 		(std::string("MainMenu\\") + XINTERFACE::pThis->StringService()->GetLanguage() + "\\").c_str());
 	// create model
@@ -386,7 +386,7 @@ void InterfaceBackScene::LoadModel(const char* pcModelName)
 	EntityManager::AddToLayer(RAIN_DROPS, m_eiModel, 100);
 	// create locators
 	m_eiLocators = EntityManager::CreateEntity("MODELR");
-	std::string sLocName = std::string(pcModelName) + "_locators";
+  auto sLocName = std::string(pcModelName) + "_locators";
 	api->Send_Message(m_eiLocators, "ls", MSG_MODEL_LOAD_GEO, sLocName.c_str());
 	m_pLocators = (MODEL*)EntityManager::GetEntityPointer(m_eiLocators);
 }
@@ -410,11 +410,11 @@ void InterfaceBackScene::SetShipPosition(const char* pcLocName, ATTRIBUTES* pACh
 {
 	if (!pcLocName || !pAChar || !m_pLocators) return;
 
-	ATTRIBUTES* pAPos = pAChar->FindAClass(pAChar, "Ship.Pos");
+  auto pAPos = pAChar->FindAClass(pAChar, "Ship.Pos");
 	if (!pAPos) pAPos = pAChar->CreateSubAClass(pAChar, "Ship.Pos");
 	Assert(pAPos);
 
-	ATTRIBUTES* pAAng = pAChar->FindAClass(pAChar, "Ship.Ang");
+  auto pAAng = pAChar->FindAClass(pAChar, "Ship.Ang");
 	if (!pAAng) pAAng = pAChar->CreateSubAClass(pAChar, "Ship.Ang");
 	Assert(pAAng);
 
@@ -434,7 +434,7 @@ bool InterfaceBackScene::FindLocator(const char* pcLocName, CMatrix* pMtx, CVECT
 	if (!pcLocName || !m_pLocators) return false;
 	for (long n = 0; n < 100; n++)
 	{
-		NODE* pNod = m_pLocators->GetNode(n);
+    auto pNod = m_pLocators->GetNode(n);
 		if (!pNod) break;
 		GEOS::INFO ginf;
 		pNod->geo->GetInfo(ginf);
@@ -472,7 +472,7 @@ void InterfaceBackScene::SetLocatorPosition(MODEL* pModel, const char* pcLocName
 	{
 		for (long n = 0; n < 100; n++)
 		{
-			NODE* pNod = pModel->GetNode(n);
+      auto pNod = pModel->GetNode(n);
 			if (!pNod) break;
 			GEOS::INFO ginf;
 			pNod->geo->GetInfo(ginf);

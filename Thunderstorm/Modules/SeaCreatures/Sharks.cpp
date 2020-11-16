@@ -80,8 +80,8 @@ Sharks::Shark::~Shark()
 bool Sharks::Shark::Init(float vp_x, float vp_z, bool isLoadModel)
 {
 	//Позиция
-	float radius = SHARK_PULL_DIST * (0.4f + rand() * 1.6f / RAND_MAX);
-	float ang = SHARK_PI * rand() * (2.0f / RAND_MAX);
+  auto radius = SHARK_PULL_DIST * (0.4f + rand() * 1.6f / RAND_MAX);
+  auto ang = SHARK_PI * rand() * (2.0f / RAND_MAX);
 	pos.x = vp_x + radius * cosf(ang);
 	pos.z = vp_z + radius * sinf(ang);
 	pos.y = SHARK_MIN_Y + (SHARK_MAX_Y - SHARK_MIN_Y) * rand() * 1.0f / RAND_MAX;
@@ -118,7 +118,7 @@ bool Sharks::Shark::Init(float vp_x, float vp_z, bool isLoadModel)
 	mdl->GetAnimation()->SetEvent(ae_end, 0, this);
 	mdl->GetAnimation()->Player(0).SetAction("stand");
 	mdl->GetAnimation()->Player(0).Play();
-	NODE* node = mdl->GetNode(0);
+  auto node = mdl->GetNode(0);
 	if (!node) return false;
 	node->SetTechnique("Shark");
 	return true;
@@ -129,9 +129,9 @@ inline void Sharks::Shark::Reset(float cam_x, float cam_z)
 	force = 0.0f;
 	fforce = 0.0f;
 	//Если дальше от камеры чем можно, то телепортируемся
-	float dx = cam_x - pos.x;
-	float dz = cam_z - pos.z;
-	const float max = SHARK_PULL_DIST * 4.0f;
+  auto dx = cam_x - pos.x;
+  auto dz = cam_z - pos.z;
+	const auto max = SHARK_PULL_DIST * 4.0f;
 	if (dx * dx + dz * dz > max * max)
 	{
 		Init(cam_x, cam_z, false);
@@ -142,8 +142,8 @@ inline void Sharks::Shark::Reset(float cam_x, float cam_z)
 
 inline void Sharks::Shark::Repulsion(Shark& shr)
 {
-	CVECTOR v = pos - shr.pos;
-	float k = ~v;
+  auto v = pos - shr.pos;
+  auto k = ~v;
 	if (k > 0.0f && k < SHARK_REPULSION_DIST * SHARK_REPULSION_DIST)
 	{
 		v *= SHARK_REPULSION / k;
@@ -162,13 +162,13 @@ inline void Sharks::Shark::Repulsion(Shark& shr)
 
 inline void Sharks::Shark::ShipApply(float x, float z, float r2)
 {
-	float dx = x - spos.x;
-	float dz = z - spos.z;
-	float d = dx * dx + dz * dz;
-	float fy = 0.0f;
+  auto dx = x - spos.x;
+  auto dz = z - spos.z;
+  auto d = dx * dx + dz * dz;
+  auto fy = 0.0f;
 	if (d < r2)
 	{
-		float k = sqrtf(d / r2);
+    auto k = sqrtf(d / r2);
 		fy = -(1.0f - k) * 100.0f;
 		shipY = SHARK_MIN_Y + (SHARK_MAX_Y - SHARK_MIN_Y) * k;
 	}
@@ -183,23 +183,23 @@ inline void Sharks::Shark::Coordination(float cam_x, float cam_z, float dltTime,
 	auto* mdl = (MODEL *)EntityManager::GetEntityPointer(model);
 	if (!mdl) return;
 	//Сила расталкивания
-	float l = ~force;
+  auto l = ~force;
 	if (l > 1600.0f) force *= 40.0f / sqrtf(l);
 	//Случайная сила
 	rTime -= dltTime;
 	if (rTime < 0.0f)
 	{
-		float radius = rand() * 10.0f / RAND_MAX;
-		float ang = SHARK_PI * rand() * (2.0f / RAND_MAX);
+    auto radius = rand() * 10.0f / RAND_MAX;
+    auto ang = SHARK_PI * rand() * (2.0f / RAND_MAX);
 		rForce.x = radius * sinf(ang);
 		rForce.z = radius * cosf(ang);
 		rTime = 1.0f + rand() * 10.0f;
 	}
 	force += rForce;
 	//Направление на камеру
-	float vx = cam_x - pos.x;
-	float vz = cam_z - pos.z;
-	float k = vx * vx + vz * vz;
+  auto vx = cam_x - pos.x;
+  auto vz = cam_z - pos.z;
+  auto k = vx * vx + vz * vz;
 	//Если ближе чем, то разгоняем точку
 	if (k < SHARK_REPPUL_DIST * SHARK_REPPUL_DIST)
 	{
@@ -239,13 +239,13 @@ inline void Sharks::Shark::Coordination(float cam_x, float cam_z, float dltTime,
 	dirTime -= dltTime;
 	if (dirTime <= 0.0f)
 	{
-		float p = rand() * 1.0f / RAND_MAX;
+    auto p = rand() * 1.0f / RAND_MAX;
 		yDir = SHARK_MIN_Y + (SHARK_MAX_Y - SHARK_MIN_Y) * (1.0f - p * p);
 		dirTime = 5.0f + 10.0f * rand() * 1.0f / RAND_MAX;
 	}
 	//Рыба
 	//Сила притяжения
-	CVECTOR fff = pos - spos;
+  auto fff = pos - spos;
 	l = ~fff;
 	if (l > 1.0f) fff *= 1.0f / sqrtf(l);
 	//Сила расталкивания
@@ -260,8 +260,8 @@ inline void Sharks::Shark::Coordination(float cam_x, float cam_z, float dltTime,
 		IslandCollision(ib, 8, 50.0f, 20.0f);
 	}
 	//Определим направление рыбы относительно точки следования
-	float sx = sinf(angs.y);
-	float sz = cosf(angs.y);
+  auto sx = sinf(angs.y);
+  auto sz = cosf(angs.y);
 	vx = fforce.x;
 	vz = fforce.z;
 	l = vx * vx + vz * vz;
@@ -276,8 +276,8 @@ inline void Sharks::Shark::Coordination(float cam_x, float cam_z, float dltTime,
 		vx = sx;
 		vz = sz;
 	}
-	float sn = sx * vz - sz * vx;
-	float cs = sx * vx + sz * vz;
+  auto sn = sx * vz - sz * vx;
+  auto cs = sx * vx + sz * vz;
 	turn -= 0.4f * sn * dltTime;
 	if (turn > SHARK_MAX_TURN) turn = SHARK_MAX_TURN;
 	if (turn < -SHARK_MAX_TURN) turn = -SHARK_MAX_TURN;
@@ -314,11 +314,11 @@ inline void Sharks::Shark::Coordination(float cam_x, float cam_z, float dltTime,
 	spos.x += speed * sinf(angs.y) * dltTime;
 	spos.y += imspd * dltTime;
 	spos.z += speed * cosf(angs.y) * dltTime;
-	CVECTOR rpos = spos;
+  auto rpos = spos;
 	if (sb)
 	{
 		CVECTOR n;
-		float seaY = sb->WaveXZ(spos.x, spos.z, &n);
+    auto seaY = sb->WaveXZ(spos.x, spos.z, &n);
 		if (rpos.y > seaY) rpos.y = seaY;
 	}
 	if (rpos.y > shipY) rpos.y = shipY;
@@ -351,18 +351,18 @@ inline void Sharks::Shark::Coordination(float cam_x, float cam_z, float dltTime,
 
 inline void Sharks::Shark::IslandCollision(ISLAND_BASE* ib, long numPnt, float rad, float frc)
 {
-	float step = 2.0f * SHARK_PI / numPnt;
-	float vx = 0.0f;
-	float vz = 0.0f;
+  auto step = 2.0f * SHARK_PI / numPnt;
+  auto vx = 0.0f;
+  auto vz = 0.0f;
 	auto* mdl = (MODEL *)EntityManager::GetEntityPointer(ib->GetSeabedEID());
 	if (!mdl) return;
 	for (long i = 0; i < numPnt; i++)
 	{
-		float x = sinf(i * step);
-		float z = cosf(i * step);
-		float xp = spos.x + rad * x;
-		float zp = spos.z + rad * z;
-		float h = mdl->Trace(CVECTOR(xp, 100.0f, zp), CVECTOR(xp, -50.0f, zp));
+    auto x = sinf(i * step);
+    auto z = cosf(i * step);
+    auto xp = spos.x + rad * x;
+    auto zp = spos.z + rad * z;
+    auto h = mdl->Trace(CVECTOR(xp, 100.0f, zp), CVECTOR(xp, -50.0f, zp));
 		if (h < 1.0f)
 		{
 			h -= 100.0f / 150.0f;
@@ -390,10 +390,10 @@ inline void Sharks::Shark::IslandCollision(ISLAND_BASE* ib, long numPnt, float r
 void Sharks::Shark::Event(Animation* animation, long index, long eventID, AnimationEvent event)
 {
 	if (aniTime > 0.0f) return;
-	static const char* actStand = "stand";
-	static const char* actSwim = "Shark_Swim";
-	static const char* actJump = "Shark_Jump";
-	const char* act = animation->Player(0).GetAction();
+	static auto actStand = "stand";
+	static auto actSwim = "Shark_Swim";
+	static auto actJump = "Shark_Jump";
+  auto act = animation->Player(0).GetAction();
 	long rnd = rand();
 	animation->Player(0).Stop();
 	if (angs.x > 0.0f && (rnd & 1) || speedUp)
@@ -429,13 +429,13 @@ long Sharks::Shark::GenerateTrack(uint16_t* inds, Vertex* vrt, uint16_t base, SE
 	//Получим модельку
 	auto* mdl = (MODEL *)EntityManager::GetEntityPointer(model);
 	if (!mdl) return 0;
-	float k = mdl->mtx.Pos().y;
+  auto k = mdl->mtx.Pos().y;
 	if (k <= -1.2f) return 0;
 	if (k > 0.0f) k = 0.0f;
 	k = (1.2f + k) / 1.2f;
 	//Параметры плавника
-	float length = 2.0f * 3.0f * k;
-	float width = 1.0f * 1.5f * k;
+  auto length = 2.0f * 3.0f * k;
+  auto width = 1.0f * 1.5f * k;
 	//Индексы
 	Assert(sizeof(indeces)/sizeof(uint16_t) == 30);
 	for (long i = 0; i < 30; i++) inds[i] = indeces[i] + base;
@@ -539,22 +539,22 @@ bool Sharks::Init()
 	auto* v = (VDATA *)api->GetScriptVariable("Environment");
 	if (v)
 	{
-		ATTRIBUTES* root = v->GetAClass();
+    auto root = v->GetAClass();
 		if (root)
 		{
-			float time = root->GetAttributeAsFloat("time");
+      auto time = root->GetAttributeAsFloat("time");
 			if (time > 9.0f && time < 20.0f)
 			{
 				root = root->FindAClass(root, "date");
 				if (root)
 				{
-					float year = root->GetAttributeAsFloat("year");
+          auto year = root->GetAttributeAsFloat("year");
 					if (year >= 1633.0f)
 					{
-						uint32_t month = root->GetAttributeAsDword("month");
+            auto month = root->GetAttributeAsDword("month");
 						if (month & 1)
 						{
-							uint32_t day = root->GetAttributeAsDword("day");
+              auto day = root->GetAttributeAsDword("day");
 							if (day == 7)
 							{
 								if ((GetTickCount() & 7) == 5)
@@ -577,13 +577,13 @@ void Sharks::Execute(uint32_t delta_time)
 	CVECTOR a;
 	if (delta_time & 1) rand();
 	rs->GetCamera(camPos, a, a.x);
-	float dltTime = delta_time * 0.001f;
-	const long num = numShakes;
+  auto dltTime = delta_time * 0.001f;
+	const auto num = numShakes;
 	//Сбросим состояния
 	for (long i = 0; i < num; i++) shark[i].Reset(camPos.x, camPos.z);
 	//Разчитаем силы
 	for (long i = 0; i < num - 1; i++)
-		for (long j = i + 1; j < num; j++) shark[i].Repulsion(shark[j]);
+		for (auto j = i + 1; j < num; j++) shark[i].Repulsion(shark[j]);
 	//Учитываем корабли
 
 	auto& entities = EntityManager::GetEntityIdVector("ship");
@@ -593,10 +593,10 @@ void Sharks::Execute(uint32_t delta_time)
 		auto* ship = (VAI_OBJBASE *)EntityManager::GetEntityPointer(ent);
 		if (!ship) break;
 		//Позиция корабля
-		CVECTOR shipPos = ship->GetMatrix()->Pos();
+    auto shipPos = ship->GetMatrix()->Pos();
 		//Размер корабля
-		CVECTOR s = ship->GetBoxsize();
-		float rd2 = (s.x * s.x + s.z * s.z) * 3.0f;
+    auto s = ship->GetBoxsize();
+    auto rd2 = (s.x * s.x + s.z * s.z) * 3.0f;
 		//Говорим акулам о короблях
 		for (long i = 0; i < num; i++) shark[i].ShipApply(shipPos.x, shipPos.z, rd2);
 	}

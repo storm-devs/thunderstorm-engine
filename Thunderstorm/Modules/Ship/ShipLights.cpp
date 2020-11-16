@@ -50,7 +50,7 @@ void ShipLights::Release(VAI_OBJBASE* pObject)
 float ShipLights::GetAttributeAsFloat(ATTRIBUTES* pA, const char* pName, float fDefault)
 {
 	if (!pName) return fDefault;
-	ATTRIBUTES* pAF = pA->FindAClass(pA, (char*)pName);
+  auto pAF = pA->FindAClass(pA, (char*)pName);
 	return pAF ? pAF->GetAttributeAsFloat() : fDefault;
 }
 
@@ -60,13 +60,13 @@ bool ShipLights::LoadLights()
 
 	bLoadLights = false;
 
-	ATTRIBUTES* pA = this->AttributesPointer;
-	ATTRIBUTES* pALights = pA->FindAClass(pA, "LightTypes");
+  auto pA = this->AttributesPointer;
+  auto pALights = pA->FindAClass(pA, "LightTypes");
 	if (!pALights) return false;
 
 	for (uint32_t i = 0; i < pALights->GetAttributesNum(); i++)
 	{
-		ATTRIBUTES* pAL = pALights->GetAttributeClass(i);
+    auto pAL = pALights->GetAttributeClass(i);
 
 		LightType lightType;
 		lightType.sLightType = pAL->GetThisName();
@@ -127,7 +127,7 @@ void ShipLights::AddDynamicLights(VAI_OBJBASE* pObject, const CVECTOR& vPos)
 	if (dwNum >= 4) return;
 
 	std::string sLightType = "cannondefault";
-	LightType* pLT = FindLightType(sLightType);
+  auto pLT = FindLightType(sLightType);
 	if (!pLT)
 	{
 		api->Trace("Can find ship light \"%s\"", sLightType.c_str());

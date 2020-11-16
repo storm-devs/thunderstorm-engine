@@ -23,18 +23,18 @@ CXI_SCROLLTEXT::~CXI_SCROLLTEXT()
 void CXI_SCROLLTEXT::Draw(bool bSelected, uint32_t Delta_Time)
 {
 	char param[MAX_PICE_STRING_SIZE];
-	long curX = 0L;
-	long curY = 0L;
+  auto curX = 0L;
+  auto curY = 0L;
 	if (m_bUse)
 	{
-		for (int i = 0; i < m_nPiceQuantity; i++)
+		for (auto i = 0; i < m_nPiceQuantity; i++)
 		{
 			switch (m_pStrList[i].type)
 			{
 			case PICE_TYPE_STRING:
 				{
-					long chStart = m_pStrList[i].data.strDescr.startOffset;
-					long chQuant = m_pStrList[i].data.strDescr.charQuantity;
+          auto chStart = m_pStrList[i].data.strDescr.startOffset;
+          auto chQuant = m_pStrList[i].data.strDescr.charQuantity;
 					if (chQuant > MAX_PICE_STRING_SIZE - 1) chQuant = MAX_PICE_STRING_SIZE - 1;
 					strncpy_s(param, &m_pText[chStart], chQuant);
 					param[chQuant] = 0;
@@ -86,7 +86,7 @@ void CXI_SCROLLTEXT::SetText(const char* newText)
 		memcpy(m_pText, newText, len);
 
 		// получить все части из текста
-		char* pCh = m_pText;
+    auto pCh = m_pText;
 		m_idFont = FONT_DEFAULT;
 		m_dwFontColor = ARGB(255, 255, 255, 255);
 		long idx = 0;
@@ -142,7 +142,7 @@ void CXI_SCROLLTEXT::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -181,18 +181,18 @@ long CXI_SCROLLTEXT::FillPices(char* pt, size_t beg, size_t size, long& idx, STR
 
 	char param[256];
 	char resStr[512];
-	long showWidth = m_rect.right - m_rect.left - wid;
+  auto showWidth = m_rect.right - m_rect.left - wid;
 	if (showWidth < 0) showWidth = m_rect.right - m_rect.left;
 
 	pt[size] = 0; // обозначим конец строки
 	while (true)
 	{
-		char* pstr = &pt[beg];
+    auto pstr = &pt[beg];
 		long chQuantity = 0;
 		resStr[0] = 0;
 		while (true)
 		{
-			long sw = GetStringWord(&pstr[chQuantity], param, sizeof(param) - 1);
+      auto sw = GetStringWord(&pstr[chQuantity], param, sizeof(param) - 1);
 			if (sw == 0) break;
 			chQuantity += sw;
 			strncpy_s(resStr, pstr, chQuantity);
@@ -219,7 +219,7 @@ long CXI_SCROLLTEXT::GetStringWord(char* pstr, char* buff, size_t size)
 {
 	unsigned long retVal = 0;
 
-	bool bSpace = false;
+  auto bSpace = false;
 	while (*pstr != 0)
 	{
 		if (*pstr == '^') break;

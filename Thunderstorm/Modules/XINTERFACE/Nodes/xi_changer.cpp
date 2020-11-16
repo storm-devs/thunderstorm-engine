@@ -78,7 +78,7 @@ void CXI_CHANGER::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 	char param[255];
 	FXYPOINT fPnt;
 
-	bool bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
+  auto bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
 
 	// get position quantity
 	m_nPlaceQuantity = 0;
@@ -148,7 +148,7 @@ void CXI_CHANGER::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 	m_pTexVert[6].tv = m_pTexVert[7].tv = m_pTexVert[2].tv = m_pTexVert[3].tv = 0.f;
 
 	m_nCurrentPos = 0;
-	ATTRIBUTES* pAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+  auto pAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 	if (pAttr != nullptr) m_nCurrentPos = pAttr->GetAttributeAsDword("current", 0);
 
 	SetRectanglesToPosition(0);
@@ -165,7 +165,7 @@ int CXI_CHANGER::CommandExecute(int wActCode)
 {
 	if (m_bUse)
 	{
-		bool bChangePosition = false;
+    auto bChangePosition = false;
 		switch (wActCode)
 		{
 		case ACTION_MOUSECLICK:
@@ -203,7 +203,7 @@ int CXI_CHANGER::CommandExecute(int wActCode)
 		{
 			SetRectanglesToPosition(m_nCurrentPos);
 			// set attribute to new position
-			ATTRIBUTES* pAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+      auto pAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 			if (pAttr != nullptr)
 				pAttr->SetAttributeUseDword("current", m_nCurrentPos);
 		}
@@ -244,7 +244,7 @@ bool CXI_CHANGER::IsClick(int buttonID, long xPos, long yPos)
 {
 	if (m_bClickable && m_bUse)
 	{
-		for (int i = 0; i < m_nPlaceQuantity; i++)
+		for (auto i = 0; i < m_nPlaceQuantity; i++)
 			if (xPos > m_pPlace[i].left && xPos < m_pPlace[i].right &&
 				yPos > m_pPlace[i].top && yPos < m_pPlace[i].bottom)
 			{
@@ -270,7 +270,7 @@ void CXI_CHANGER::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -314,7 +314,7 @@ uint32_t CXI_CHANGER::MessageProc(long msgcode, MESSAGE& message)
 				m_nCurrentPos = n;
 				SetRectanglesToPosition(m_nCurrentPos);
 				// set attribute to new position
-				ATTRIBUTES* pAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+        auto pAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 				if (pAttr != nullptr) pAttr->SetAttributeUseDword("current", m_nCurrentPos);
 			}
 		}

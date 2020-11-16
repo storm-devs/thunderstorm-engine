@@ -39,7 +39,7 @@ ROPE::~ROPE()
 	// очистка и удаление списка веревок
 	if (rlist)
 	{
-		for (int i = 0; i < ropeQuantity; i++)
+		for (auto i = 0; i < ropeQuantity; i++)
 		STORM_DELETE(rlist[i]);
 		STORM_DELETE(rlist);
 		ropeQuantity = 0;
@@ -47,7 +47,7 @@ ROPE::~ROPE()
 	// очистка и удаление списка групп
 	if (gdata)
 	{
-		for (int i = 0; i < groupQuantity; i++)
+		for (auto i = 0; i < groupQuantity; i++)
 		STORM_DELETE(gdata[i].ropeIdx);
 		STORM_DELETE(gdata);
 		groupQuantity = 0;
@@ -110,16 +110,16 @@ void ROPE::Execute(uint32_t Delta_Time)
 		vertBuf = (ROPEVERTEX*)RenderService->LockVertexBuffer(vBuf);
 		if (vertBuf)
 		{
-			float dtime = (float)Delta_Time * .02f;
-			for (int i = 0; i < ropeQuantity; i++)
+      auto dtime = (float)Delta_Time * .02f;
+			for (auto i = 0; i < ropeQuantity; i++)
 			{
 				if (rlist[i]->bUse && !gdata[rlist[i]->HostGroup].bDeleted)
 					SetVertexes(rlist[i], dtime);
 					//DoMove(rlist[i]);
 				else if (rlist[i]->len != 0.f) // set all vertex to point(0,0,0)
 				{
-					CVECTOR nulVect = CVECTOR(0.f, 0.f, 0.f);
-					for (uint32_t idx = rlist[i]->sv; idx < rlist[i]->sv + rlist[i]->nv; idx++)
+          auto nulVect = CVECTOR(0.f, 0.f, 0.f);
+					for (auto idx = rlist[i]->sv; idx < rlist[i]->sv + rlist[i]->nv; idx++)
 						vertBuf[idx].pos = nulVect;
 				}
 			}
@@ -151,11 +151,11 @@ void ROPE::Realize(uint32_t Delta_Time)
 			RenderService->GetCamera(cp, ca, pr);
 			pr = tanf(pr * .5f);
 
-			bool bDraw = RenderService->TechniqueExecuteStart("ShipRope");
+      auto bDraw = RenderService->TechniqueExecuteStart("ShipRope");
 
 			if (bDraw)
 			{
-				for (int i = 0; i < groupQuantity; i++)
+				for (auto i = 0; i < groupQuantity; i++)
 					if (!gdata[i].bDeleted && gdata[i].nt != 0 && nVert != 0)
 						if ((~(gdata[i].pMatWorld->Pos() - cp)) * pr < fMaxRopeDist)
 							// если расстояние до корабля не больше максимального
@@ -189,15 +189,15 @@ void ROPE::Realize(uint32_t Delta_Time)
 
 uint64_t ROPE::ProcessMessage(MESSAGE& message)
 {
-	long code = message.Long();
+  auto code = message.Long();
 	entid_t tmp_id;
 
 	switch (code)
 	{
 	case MSG_ROPE_INIT:
 		{
-			entid_t tmp_shipEI = message.EntityID();
-			entid_t tmp_modelEI = message.EntityID();
+      auto tmp_shipEI = message.EntityID();
+      auto tmp_modelEI = message.EntityID();
 			auto* mdl = (MODEL*)EntityManager::GetEntityPointer(tmp_modelEI);
 			if (mdl == nullptr)
 			{
@@ -205,10 +205,10 @@ uint64_t ROPE::ProcessMessage(MESSAGE& message)
 				return 0;
 			}
 
-			int wFirstRope = ropeQuantity;
+      auto wFirstRope = ropeQuantity;
 			if (gdata != nullptr)
 			{
-				GROUPDATA* oldgdata = gdata;
+        auto oldgdata = gdata;
 				gdata = new GROUPDATA[groupQuantity + 1];
 				if (gdata == nullptr)
 				{

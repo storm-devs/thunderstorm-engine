@@ -42,13 +42,13 @@ long GetToken(const char* & ps)
 	while (*ps == 32 || *ps == 9) ps++;
 
 	// получаем размер лексемы
-	const char* ptoken = ps;
+  auto ptoken = ps;
 	while (*ps != 0 && (unsigned)*ps > 0x20 && *ps != 0x0D && *ps != 0x0A)
 		ps++;
 	size_t tokensize = ps - ptoken;
 	if (tokensize == 0) return TOKEN_VOID;
 
-	for (int i = 0; i < TOKENTABLE_SIZE; i++)
+	for (auto i = 0; i < TOKENTABLE_SIZE; i++)
 		if (strncmp(TokenTable[i].token, ptoken, tokensize) == 0)
 			return TokenTable[i].cod;
 
@@ -87,7 +87,7 @@ static long GetLongFromString(char* & pInStr)
 	if (!IS_DIGIT(*pInStr))
 		return INVALID_LONG;
 
-	int retVal = 0;
+  auto retVal = 0;
 	while (IS_DIGIT(*pInStr))
 	{
 		retVal = retVal * 10 + GET_DIGIT(*pInStr);
@@ -117,8 +117,8 @@ static const char* GetNextString(const char* & pInStr)
 
 	while (true)
 	{
-		bool bYesCurierReturn = false;
-		bool bEmptyString = true;
+    auto bYesCurierReturn = false;
+    auto bEmptyString = true;
 		const char* pstart;
 		for (pstart = pInStr; *pInStr != 0; pInStr++)
 		{
@@ -142,21 +142,21 @@ static const char* GetTitleString(char* buf, const char* & ptr, size_t& slen)
 		return nullptr;
 	}
 	buf[0] = 0;
-	const char* startp = ptr;
+  auto startp = ptr;
 	while (ptr != nullptr)
 	{
 		// Возмем очередную строку
-		const char* cstr = GetNextString(ptr);
+    auto cstr = GetNextString(ptr);
 		if (ptr != cstr && cstr != nullptr)
 		{
 			// если полученная строка является заголовком квеста
-			const char* tmpstr = cstr;
+      auto tmpstr = cstr;
 			int tokType = GetToken(tmpstr);
 			if (tokType == TOKEN_QUEST)
 			{
 				// получим id этого квеста
 				GetSubStringFromString(tmpstr, buf, 256);
-				const char* retVal = ptr;
+        auto retVal = ptr;
 				// найдем конец заголовка квеста
 				while (ptr != nullptr)
 				{
@@ -202,14 +202,14 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 	{
 		for (long n = 0; n < m_aQuestFileName.size(); n++)
 		{
-			HANDLE hfile = fio->_CreateFile(m_aQuestFileName[n].c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
+      auto hfile = fio->_CreateFile(m_aQuestFileName[n].c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 			if (hfile == INVALID_HANDLE_VALUE)
 			{
 				api->Trace("WARNING! Can`t open quest log file %s", m_aQuestFileName[n].c_str());
 				continue;
 			}
 
-			uint32_t filesize = fio->_GetFileSize(hfile, nullptr);
+      auto filesize = fio->_GetFileSize(hfile, nullptr);
 			if (filesize == 0)
 			{
 				api->Trace("Empty quest log file %s", m_aQuestFileName[n].c_str());
@@ -263,7 +263,7 @@ bool QUEST_FILE_READER::GetQuestTitle(const char* questId, const char* questUniq
 
 	buffer[0] = 0;
 
-	long n = FindQuestByID(questId);
+  auto n = FindQuestByID(questId);
 	if (n < 0)
 	{
 		api->Trace("WARNING! Can`t find title whith ID = %s", questId);
@@ -277,8 +277,8 @@ bool QUEST_FILE_READER::GetQuestTitle(const char* questId, const char* questUniq
 void QUEST_FILE_READER::GetRecordTextList(std::vector<std::string>& asStringList, const char* pcQuestID,
                                           const char* pcTextID, const char* pcUserData)
 {
-	long nQuestIndex = FindQuestByID(pcQuestID);
-	long nTextIndex = FindTextByID(nQuestIndex, pcTextID);
+  auto nQuestIndex = FindQuestByID(pcQuestID);
+  auto nTextIndex = FindTextByID(nQuestIndex, pcTextID);
 	if (nQuestIndex < 0 || nTextIndex < 0) return;
 
 	m_sCurQuestTitle = "";
@@ -298,7 +298,7 @@ bool QUEST_FILE_READER::AssembleStringToBuffer(const char* pSrc, long nSrcSize, 
 
 	char insertID[256];
 	long nSrc, nDst, nIns;
-	bool bMakeID = false;
+  auto bMakeID = false;
 
 	for (nSrc = 0, nDst = 0; nSrc < nSrcSize && nDst < nBufSize - 1; nSrc++)
 	{
@@ -367,9 +367,9 @@ void QUEST_FILE_READER::ReadUserData(const char* sQuestName, long nRecordIndex)
 
 	if (!sQuestName) return;
 
-	VDATA* pVD = api->Event("evntQuestUserData", "sl", sQuestName, nRecordIndex);
+  auto pVD = api->Event("evntQuestUserData", "sl", sQuestName, nRecordIndex);
 	if (!pVD) return;
-	char* pStr = pVD->GetString();
+  auto pStr = pVD->GetString();
 	if (!pStr || pStr[0] == 0) return;
 
 	FillUserDataList(pStr, m_aQuestData);
@@ -383,8 +383,8 @@ void QUEST_FILE_READER::FillUserDataList(char* sStrData, std::vector<UserData>& 
 
 	q = strlen(sStrData);
 
-	bool bYesID = false;
-	bool bGetID = false;
+  auto bYesID = false;
+  auto bGetID = false;
 
 	for (n = 0; n < q; n++)
 	{

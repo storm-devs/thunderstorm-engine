@@ -59,18 +59,18 @@ long LCOLL::SetBox(const CVECTOR& boxSize, const CMatrix& transform, bool testOn
 	//transform planes
 	for (long p = 0; p < 6; p++)
 	{
-		float x = clip_p[p].D * clip_p[p].Nx - transform.m[3][0];
-		float y = clip_p[p].D * clip_p[p].Ny - transform.m[3][1];
-		float z = clip_p[p].D * clip_p[p].Nz - transform.m[3][2];
-		float Nx = transform.m[0][0] * clip_p[p].Nx + transform.m[0][1] * clip_p[p].Ny + transform.m[0][2] * clip_p[p].
+    auto x = clip_p[p].D * clip_p[p].Nx - transform.m[3][0];
+    auto y = clip_p[p].D * clip_p[p].Ny - transform.m[3][1];
+    auto z = clip_p[p].D * clip_p[p].Nz - transform.m[3][2];
+    auto Nx = transform.m[0][0] * clip_p[p].Nx + transform.m[0][1] * clip_p[p].Ny + transform.m[0][2] * clip_p[p].
 			Nz;
-		float Ny = transform.m[1][0] * clip_p[p].Nx + transform.m[1][1] * clip_p[p].Ny + transform.m[1][2] * clip_p[p].
+    auto Ny = transform.m[1][0] * clip_p[p].Nx + transform.m[1][1] * clip_p[p].Ny + transform.m[1][2] * clip_p[p].
 			Nz;
-		float Nz = transform.m[2][0] * clip_p[p].Nx + transform.m[2][1] * clip_p[p].Ny + transform.m[2][2] * clip_p[p].
+    auto Nz = transform.m[2][0] * clip_p[p].Nx + transform.m[2][1] * clip_p[p].Ny + transform.m[2][2] * clip_p[p].
 			Nz;
-		float lx = transform.m[0][0] * x + transform.m[0][1] * y + transform.m[0][2] * z;
-		float ly = transform.m[1][0] * x + transform.m[1][1] * y + transform.m[1][2] * z;
-		float lz = transform.m[2][0] * x + transform.m[2][1] * y + transform.m[2][2] * z;
+    auto lx = transform.m[0][0] * x + transform.m[0][1] * y + transform.m[0][2] * z;
+    auto ly = transform.m[1][0] * x + transform.m[1][1] * y + transform.m[1][2] * z;
+    auto lz = transform.m[2][0] * x + transform.m[2][1] * y + transform.m[2][2] * z;
 		plane[p].Nx = Nx;
 		plane[p].Ny = Ny;
 		plane[p].Nz = Nz;

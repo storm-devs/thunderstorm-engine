@@ -55,7 +55,7 @@ void WdmMerchantShip::Goto(float x, float z, float rad)
 	{
 		double sn = x - mtx.Pos().x;
 		double cs = z - mtx.Pos().z;
-		double l = sn * sn + cs * cs;
+    auto l = sn * sn + cs * cs;
 		if (l > 0.0) cs /= sqrt(l);
 		if (cs > 1.0) cs = 1.0;
 		if (cs < -1.0) cs = -1.0;
@@ -80,7 +80,7 @@ void WdmMerchantShip::FindMoveForce()
 	{
 		dir.x = gotoPos.x - mtx.Pos().x;
 		dir.z = gotoPos.z - mtx.Pos().z;
-		float dl = dir.x * dir.x + dz * dz;
+    auto dl = dir.x * dir.x + dz * dz;
 		if (dl > 1.0f)
 		{
 			dl = 1.0f / sqrtf(dl);
@@ -95,9 +95,9 @@ void WdmMerchantShip::FindMoveForce()
 //Проверка на завершение
 bool WdmMerchantShip::KillTest()
 {
-	float dx = gotoPos.x - mtx.Pos().x;
-	float dz = gotoPos.z - mtx.Pos().z;
-	float dl = dx * dx + dz * dz;
+  auto dx = gotoPos.x - mtx.Pos().x;
+  auto dz = gotoPos.z - mtx.Pos().z;
+  auto dl = dx * dx + dz * dz;
 	return dl <= gotoRad * gotoRad;
 }
 

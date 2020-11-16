@@ -41,7 +41,7 @@ void CXI_GLOWCURSOR::Draw(bool bSelected, uint32_t Delta_Time)
 					m_bShowGlow = m_pPrevNode->IsShowGlowCursor();
 					if (m_bShowGlow && m_pPrevNode->IsGlowChanged())
 					{
-						XYRECT rectXY = m_pPrevNode->GetCursorRect();
+            auto rectXY = m_pPrevNode->GetCursorRect();
 						if ((int)m_pTexVert[0].pos.x != rectXY.left ||
 							(int)m_pTexVert[0].pos.y != rectXY.top ||
 							(int)m_pTexVert[3].pos.x != rectXY.right ||
@@ -75,7 +75,7 @@ void CXI_GLOWCURSOR::Draw(bool bSelected, uint32_t Delta_Time)
 							m_bUpBlind = true;
 						}
 					}
-					for (int j = 0; j < 14; j++)
+					for (auto j = 0; j < 14; j++)
 					{
 						m_pTexVert[j].color = m_dwCurColor;
 					}
@@ -138,7 +138,7 @@ void CXI_GLOWCURSOR::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -216,8 +216,8 @@ void CXI_GLOWCURSOR::SetRectanglesToPosition(const XYRECT& rectXY)
 	if (fH < 1.f) m_bShowGlow = false;
 	if (!m_bShowGlow) return;
 
-	float fxOffset = m_xOffset;
-	float fyOffset = m_yOffset;
+  auto fxOffset = m_xOffset;
+  auto fyOffset = m_yOffset;
 	if (m_pPrevNode) m_pPrevNode->UpdateGlowOffsets(fxOffset, fyOffset);
 
 	fW = fW / (fW + fxOffset * 2.f);

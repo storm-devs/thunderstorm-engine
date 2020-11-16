@@ -136,8 +136,8 @@ int ShipMan::FindRandomPoint(SailorsPoints& sailorsPoints, ShipState& shipState)
 
 	int ran;
 	//Если боевой режим или перезарядка то ищем свободные пушки
-	for (int m = 0; m < sailorsPoints.points.count; m++)
-		for (int i = 0; i < sailorsPoints.points.count; i++)
+	for (auto m = 0; m < sailorsPoints.points.count; m++)
+		for (auto i = 0; i < sailorsPoints.points.count; i++)
 		{
 			ran = int(rand() * (sailorsPoints.points.count - 1) / float(RAND_MAX));
 
@@ -155,8 +155,8 @@ int ShipMan::FindRandomPoint(SailorsPoints& sailorsPoints, ShipState& shipState)
 	//Ищем свободные мачты
 	if (shipState.dead || rand() * 30 / float(RAND_MAX) <= 1)
 
-		for (int m = 0; m < sailorsPoints.points.count; m++)
-			for (int i = 0; i < sailorsPoints.points.count; i++)
+		for (auto m = 0; m < sailorsPoints.points.count; m++)
+			for (auto i = 0; i < sailorsPoints.points.count; i++)
 			{
 				ran = int(rand() * (sailorsPoints.points.count - 1) / float(RAND_MAX));
 
@@ -174,8 +174,8 @@ int ShipMan::FindRandomPoint(SailorsPoints& sailorsPoints, ShipState& shipState)
 
 
 	//Ищем простые незанятые точки
-	for (int m = 0; m < sailorsPoints.points.count; m++)
-		for (int i = 0; i < sailorsPoints.points.count; i++)
+	for (auto m = 0; m < sailorsPoints.points.count; m++)
+		for (auto i = 0; i < sailorsPoints.points.count; i++)
 		{
 			ran = int(rand() * (sailorsPoints.points.count - 1) / float(RAND_MAX));
 
@@ -195,8 +195,8 @@ int ShipMan::FindRandomPointWithoutType(SailorsPoints& sailorsPoints) //Найти лю
 	//GUARD_SAILORS(ShipMan::FindRandomPointWithoutType())
 
 	int ran;
-	for (int m = 0; m < sailorsPoints.points.count; m++)
-		for (int i = 0; i < sailorsPoints.points.count; i++)
+	for (auto m = 0; m < sailorsPoints.points.count; m++)
+		for (auto i = 0; i < sailorsPoints.points.count; i++)
 
 			ran = int(rand() * (sailorsPoints.points.count - 1) / float(RAND_MAX));
 	if (sailorsPoints.points.point[ran].pointType == PT_TYPE_NORMAL)
@@ -214,7 +214,7 @@ void ShipMan::FindNextPoint(SailorsPoints& sailorsPoints, ShipState& shipState)
 	//Найти ближайшую незаряженную пушку
 	if (moveTo != MOVE_TO_CANNON)
 	{
-		int cannon = GetNearestEmptyCannon(sailorsPoints);
+    auto cannon = GetNearestEmptyCannon(sailorsPoints);
 		if (cannon >= 0)
 		{
 			path.length = 0;
@@ -321,12 +321,12 @@ bool ShipMan::MoveToPosition(uint32_t& dltTime, SailorsPoints& sailorsPoints, Sh
 {
 	//GUARD_SAILORS(ShipMan::MoveToPosition())
 
-	float dNow = (float)
+  auto dNow = (float)
 		SQR(pos.x - ptTo.x)
 		+ SQR(pos.y - ptTo.y)
 		+ SQR(pos.z - ptTo.z);
 
-	float dFuture = (float)
+  auto dFuture = (float)
 		SQR(pos.x+manSpeed*dir.x - ptTo.x)
 		+ SQR(pos.y+manSpeed*dir.y - ptTo.y)
 		+ SQR(pos.z+manSpeed*dir.z - ptTo.z);
@@ -367,9 +367,9 @@ int ShipMan::GetNearestEmptyCannon(SailorsPoints& sailorsPoints)
 
 	float minDest = 999;
 	float dest;
-	int minIndex = -1;
+  auto minIndex = -1;
 
-	for (int i = 0; i < sailorsPoints.points.count; i++)
+	for (auto i = 0; i < sailorsPoints.points.count; i++)
 		if (sailorsPoints.points.point[i].IsCannon() &&
 			sailorsPoints.points.point[i].buisy == false &&
 			sailorsPoints.points.point[i].cannonReloaded == false &&
@@ -681,7 +681,7 @@ void ShipWalk::Free()
 {
 	//GUARD_SAILORS(ShipWalk::Free())
 
-	for (int i = 0; i < crewCount; i++)
+	for (auto i = 0; i < crewCount; i++)
 	{
 		shipMan[i].Free();
 	}
@@ -693,7 +693,7 @@ void ShipWalk::ReloadCannons(int bort)
 {
 	//GUARD_SAILORS(ShipWalk::ReloadCannons())
 
-	for (int i = 0; i < sailorsPoints.points.count; i++)
+	for (auto i = 0; i < sailorsPoints.points.count; i++)
 		if ((sailorsPoints.points.point[i].pointType == PT_TYPE_CANNON_L && (bort == 0 || bort == 1)) ||
 			(sailorsPoints.points.point[i].pointType == PT_TYPE_CANNON_R && (bort == 0 || bort == 2)) ||
 			(sailorsPoints.points.point[i].pointType == PT_TYPE_CANNON_F && (bort == 0 || bort == 3)) ||
@@ -803,12 +803,12 @@ void ShipWalk::Init(entid_t _shipID, int editorMode, char* shipType)
 		if (sailorsPoints.points.count <= 0 || sailorsPoints.links.count <= 0) return;
 
 		//Найти сломанные мачты
-		ATTRIBUTES* attr = ship->GetACharacter();
-		ATTRIBUTES* mastsAttr = attr->FindAClass(attr, "Ship.Masts");
+    auto attr = ship->GetACharacter();
+    auto mastsAttr = attr->FindAClass(attr, "Ship.Masts");
 
 		int iNumMasts = mastsAttr->GetAttributesNum();
 
-		for (int i = 0; i < iNumMasts; i++)
+		for (auto i = 0; i < iNumMasts; i++)
 		{
 			if (mastsAttr->GetAttributeClass(i)->GetAttributeAsFloat())
 				SetMastBroken(((iNumMasts - 1) - i) + 1); //??? Мачты расположены наоборот???
@@ -816,8 +816,8 @@ void ShipWalk::Init(entid_t _shipID, int editorMode, char* shipType)
 
 		// people count
 		//ATTRIBUTES *att = ship->GetACharacter();
-		ATTRIBUTES* paShip = ship->GetAShip();
-		int peopleCount = 5;
+    auto paShip = ship->GetAShip();
+    auto peopleCount = 5;
 		if (paShip)
 		{
 			peopleCount = paShip->GetAttributeAsDword("lowpolycrew", peopleCount);
@@ -828,7 +828,7 @@ void ShipWalk::Init(entid_t _shipID, int editorMode, char* shipType)
 		if (peopleCount > 100) peopleCount = 100;
 		if (peopleCount < 0) peopleCount = 0;
 
-		for (int i = 0; i < peopleCount; i++)
+		for (auto i = 0; i < peopleCount; i++)
 			CreateNewMan(sailorsPoints);
 	}
 	else //Режим редактора
@@ -843,7 +843,7 @@ void ShipWalk::SetMastBroken(int iMastIndex)
 {
 	//GUARD_SAILORS(ShipWalk::SetMastBroken())
 
-	for (int i = 0; i < sailorsPoints.points.count; i++)
+	for (auto i = 0; i < sailorsPoints.points.count; i++)
 	{
 		if (sailorsPoints.points.point[i].pointType == PT_TYPE_MAST_1 && iMastIndex == 1)
 			sailorsPoints.points.point[i].disabled = true;
@@ -861,7 +861,7 @@ void ShipWalk::SetMastBroken(int iMastIndex)
 			sailorsPoints.points.point[i].disabled = true;
 	}
 
-	for (int i = 0; i < crewCount; i++)
+	for (auto i = 0; i < crewCount; i++)
 		if (sailorsPoints.points.point[shipMan[i].newWayPoint].disabled ||
 			sailorsPoints.points.point[shipMan[i].lastWayPoint].disabled)
 		{
@@ -874,7 +874,7 @@ void ShipWalk::SetMastBroken(int iMastIndex)
 void ShipWalk::OnHullHit(const CVECTOR& v)
 {
 	//GUARD_SAILORS(ShipWalk::OnHullHit())
-	for (int i = 0; i < crewCount; i++)
+	for (auto i = 0; i < crewCount; i++)
 		if (10 * rand() / RAND_MAX < 3 && shipMan[i].mode != MAN_JUMP && shipMan[i].mode != MAN_SWIM)
 		{
 			CVECTOR pos;
@@ -907,7 +907,7 @@ void ShipWalk::CheckPosition(uint32_t& dltTime)
 {
 	//GUARD_SAILORS(ShipWalk::CheckPosition())
 
-	for (int m = 0; m < crewCount; m++)
+	for (auto m = 0; m < crewCount; m++)
 	{
 		shipMan[m].spos.x -= shipMan[m].spos.x / 100.0f * float(dltTime) / 10.0f;
 		shipMan[m].spos.z -= shipMan[m].spos.z / 100.0f * float(dltTime) / 10.0f;
@@ -915,8 +915,8 @@ void ShipWalk::CheckPosition(uint32_t& dltTime)
 
 	float d;
 
-	for (int m = 0; m < crewCount; m++)
-		for (int i = 0; i < crewCount; i++)
+	for (auto m = 0; m < crewCount; m++)
+		for (auto i = 0; i < crewCount; i++)
 
 			if (i != m && Dest(shipMan[m].pos, shipMan[i].pos, 1) &&
 				(shipMan[m].mode == MAN_WALK || shipMan[m].mode == MAN_RUN) &&
@@ -1022,7 +1022,7 @@ Sailors::~Sailors()
 {
 	//GUARD_SAILORS(Sailors::~Sailors())
 
-	for (int i = 0; i < shipsCount; i++)
+	for (auto i = 0; i < shipsCount; i++)
 	{
 		shipWalk[i].Free();
 	}
@@ -1071,7 +1071,7 @@ void Sailors::Realize(uint32_t dltTime)
 	}
 #endif
 
-	for (int m = 0; m < shipsCount; m++)
+	for (auto m = 0; m < shipsCount; m++)
 	{
 		//Если корабль и все люди умерли то удалить обьект
 		if (shipWalk[m].shipState.dead && shipWalk[m].crewCount <= 0)
@@ -1082,7 +1082,7 @@ void Sailors::Realize(uint32_t dltTime)
 		}
 
 		//Обновление и рисование
-		for (int i = 0; i < shipWalk[m].shipMan.size(); i++)
+		for (auto i = 0; i < shipWalk[m].shipMan.size(); i++)
 		{
 			shipWalk[m].shipMan[i].UpdatePos(dltTime, shipWalk[m].sailorsPoints, shipWalk[m].shipState);
 			shipWalk[m].shipMan[i].SetPos(shipWalk[m].shipModel, shipWalk[m].ship, dltTime, shipWalk[m].shipState);
@@ -1091,7 +1091,7 @@ void Sailors::Realize(uint32_t dltTime)
 				shipWalk[m].shipMan[i].model->ProcessStage(Stage::realize, dltTime);
 		}
 
-		for (int i = 0; i < shipWalk[m].shipMan.size(); i++)
+		for (auto i = 0; i < shipWalk[m].shipMan.size(); i++)
 		{
 			//Если умер то удалить
 			if (shipWalk[m].shipMan[i].dieTime > 10 || shipWalk[m].shipMan[i].pos.y < -100)
@@ -1110,8 +1110,8 @@ void Sailors::Realize(uint32_t dltTime)
 			if (shipWalk[m].ship && !shipWalk[m].shipState.dead && !editorMode)
 			{
 				///shipState
-				ATTRIBUTES* shipAttr = shipWalk[m].ship->GetACharacter();
-				ATTRIBUTES* shipModeAttr = shipAttr->FindAClass(shipAttr, "ship.POS.mode");
+        auto shipAttr = shipWalk[m].ship->GetACharacter();
+        auto shipModeAttr = shipAttr->FindAClass(shipAttr, "ship.POS.mode");
 
 				if (shipModeAttr)
 				{
@@ -1142,7 +1142,7 @@ uint64_t Sailors::ProcessMessage(MESSAGE& message)
 {
 	//GUARD_SAILORS(Sailors::ProcessMessage())
 
-	long code = message.Long();
+  auto code = message.Long();
 	uint32_t outValue = 0;
 	entid_t shipID;
 	char c[20];
@@ -1177,7 +1177,7 @@ uint64_t Sailors::ProcessMessage(MESSAGE& message)
 		char bortName[256];
 		message.String(256, (char *)bortName);
 
-		for (int i = 0; i < shipsCount; i++)
+		for (auto i = 0; i < shipsCount; i++)
 			if (shipID == shipWalk[i].shipID)
 			{
 				if (!strcmp(bortName, "cannonl"))
@@ -1213,10 +1213,10 @@ uint64_t Sailors::ProcessMessage(MESSAGE& message)
 		// Падение мачты
 	case MSG_PEOPLES_ON_SHIP_MASTFALL:
 		{
-			ATTRIBUTES* attrs = message.AttributePointer();
+      auto attrs = message.AttributePointer();
 			if (!attrs) return 0;
 
-			for (int m = 0; m < shipsCount; m++)
+			for (auto m = 0; m < shipsCount; m++)
 				if (attrs == shipWalk[m].ship->GetACharacter())
 				{
 					shipWalk[m].SetMastBroken(message.Long());
@@ -1229,15 +1229,15 @@ uint64_t Sailors::ProcessMessage(MESSAGE& message)
 		// Попадание ядра в корабль
 	case MSG_PEOPLES_ON_SHIP_HULLHIT:
 		{
-			ATTRIBUTES* attrs = message.AttributePointer();
+      auto attrs = message.AttributePointer();
 			if (!attrs) return 0;
 
-			for (int m = 0; m < shipsCount; m++)
+			for (auto m = 0; m < shipsCount; m++)
 				if (attrs == shipWalk[m].ship->GetACharacter())
 				{
-					float x = message.Float();
-					float y = message.Float();
-					float z = message.Float();
+          auto x = message.Float();
+          auto y = message.Float();
+          auto z = message.Float();
 
 					shipWalk[m].OnHullHit(CVECTOR(x, y, z));
 					return outValue;
@@ -1249,9 +1249,9 @@ uint64_t Sailors::ProcessMessage(MESSAGE& message)
 		// Удаление корабля
 	case MSG_SHIP_DELETE:
 		{
-			ATTRIBUTES* attrs = message.AttributePointer();
+      auto attrs = message.AttributePointer();
 			if (attrs)
-				for (int m = 0; m < shipsCount; m++)
+				for (auto m = 0; m < shipsCount; m++)
 					if (attrs == shipWalk[m].ship->GetACharacter())
 					{
 						shipWalk[m].shipState.dead = true;
@@ -1280,7 +1280,7 @@ uint32_t Sailors::AttributeChanged(ATTRIBUTES* _newAttr)
 
 		if (IsOnDeck)
 		{
-			for (int i = 0; i < shipsCount; i++)
+			for (auto i = 0; i < shipsCount; i++)
 			{
 				if (shipWalk[i].ship->GetACharacter()->GetAttribute("MainCharacter"))
 				{
@@ -1292,7 +1292,7 @@ uint32_t Sailors::AttributeChanged(ATTRIBUTES* _newAttr)
 		}
 		else
 		{
-			for (int i = 0; i < shipsCount; i++)
+			for (auto i = 0; i < shipsCount; i++)
 			{
 				shipWalk[i].bHide = false;
 			}

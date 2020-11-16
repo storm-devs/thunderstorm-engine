@@ -61,9 +61,9 @@ void SKY::SetDevice()
 
 uint32_t SKY::CalcFogDiffuse(CVECTOR& vPos)
 {
-	float fAlpha = vPos.y / 500.0f;
+  auto fAlpha = vPos.y / 500.0f;
 	fAlpha = CLAMP(fAlpha);
-	uint32_t dwAlpha = 255 - uint32_t(fAlpha * 255.0f);
+  auto dwAlpha = 255 - uint32_t(fAlpha * 255.0f);
 	return ARGB(dwAlpha, 167, 153, 196);
 }
 
@@ -71,7 +71,7 @@ void SKY::CreateFogSphere()
 {
 	long x, y, iNumLevels, iNumAngles, idx = 0;
 
-	float R = 2000.0f;
+  auto R = 2000.0f;
 	iNumLevels = 64;
 	iNumAngles = 8;
 	iFogNumVerts = iNumAngles * iNumLevels + 1;
@@ -85,15 +85,15 @@ void SKY::CreateFogSphere()
 	auto* pTrgs = (uint16_t*)pRS->LockIndexBuffer(iFogIndexID);
 	for (y = 0; y < iNumLevels; y++)
 	{
-		float h = y * R / iNumLevels;
-		float R1 = sqrtf(SQR(R) - SQR(h));
+    auto h = y * R / iNumLevels;
+    auto R1 = sqrtf(SQR(R) - SQR(h));
 		for (x = 0; x < iNumAngles; x++)
 		{
-			float fCos = cosf(float(x) / float(iNumAngles) * PIm2);
-			float fSin = sinf(float(x) / float(iNumAngles) * PIm2);
-			CVECTOR vPos = CVECTOR(R1 * fCos, h, R1 * fSin);
+      auto fCos = cosf(float(x) / float(iNumAngles) * PIm2);
+      auto fSin = sinf(float(x) / float(iNumAngles) * PIm2);
+      auto vPos = CVECTOR(R1 * fCos, h, R1 * fSin);
 			pVerts[idx].pos = vPos;
-			VDATA* pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
+      auto pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
 			Assert(pvData);
 			pVerts[idx].diffuse = (uint32_t)pvData->GetLong();
 			//pVerts[idx].diffuse = CalcFogDiffuse(pVerts[idx].pos);
@@ -117,9 +117,9 @@ void SKY::CreateFogSphere()
 			idx++;
 		}
 	}
-	CVECTOR vPos = CVECTOR(0.0f, R, 0.0f);
+  auto vPos = CVECTOR(0.0f, R, 0.0f);
 	pVerts[idx].pos = vPos;
-	VDATA* pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
+  auto pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
 	Assert(pvData);
 	pVerts[idx].diffuse = (uint32_t)pvData->GetLong();
 	if (pVerts) memcpy(pVertBuf, pVerts, iFogNumVerts * sizeof(FOGVERTEX));
@@ -136,23 +136,23 @@ void SKY::UpdateFogSphere()
 	long x, y, iNumLevels, iNumAngles, idx = 0;
 
 	CVECTOR vPos;
-	float R = 2000.0f;
+  auto R = 2000.0f;
 	iNumLevels = 64;
 	iNumAngles = 8;
 	iFogNumVerts = iNumAngles * iNumLevels + 1;
-	FOGVERTEX* pVertBuf = (FOGVERTEX*)pRS->LockVertexBuffer(iFogVertsID);
+  auto pVertBuf = (FOGVERTEX*)pRS->LockVertexBuffer(iFogVertsID);
 
 	for (y = 0; y < iNumLevels; y++)
 	{
-		float h = y * R / iNumLevels;
-		float R1 = sqrtf(SQR(R) - SQR(h));
+    auto h = y * R / iNumLevels;
+    auto R1 = sqrtf(SQR(R) - SQR(h));
 		for (x = 0; x < iNumAngles; x++)
 		{
-			float fCos = cosf(float(x) / float(iNumAngles) * PIm2);
-			float fSin = sinf(float(x) / float(iNumAngles) * PIm2);
+      auto fCos = cosf(float(x) / float(iNumAngles) * PIm2);
+      auto fSin = sinf(float(x) / float(iNumAngles) * PIm2);
 			vPos = CVECTOR(R1 * fCos, h, R1 * fSin);
 			pVertBuf[idx].pos = vPos;
-			VDATA* pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
+      auto pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
 			Assert(pvData);
 			pVertBuf[idx].diffuse = (uint32_t)pvData->GetLong();
 
@@ -161,7 +161,7 @@ void SKY::UpdateFogSphere()
 	}
 	vPos = CVECTOR(0.0f, R, 0.0f);
 	pVertBuf[idx].pos = vPos;
-	VDATA* pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
+  auto pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
 	Assert(pvData);
 	pVertBuf[idx].diffuse = (uint32_t)pvData->GetLong();
 	pRS->UnLockVertexBuffer(iFogVertsID);
@@ -184,13 +184,13 @@ void SKY::GenerateSky()
 	v[6].pos = CVECTOR(1.0f, 1.0f, 1.0f);
 	v[7].pos = CVECTOR(-1.0f, 1.0f, 1.0f);
 
-	float fpdelta = 1.0f / 1024.0f;
-	float fpdx = 1.0f - fpdelta; //.25f - fpdelta;
-	float fp0 = fpdelta;
-	float fp1 = 0.25f + fpdelta;
-	float fp2 = 0.5f + fpdelta;
-	float fp3 = 0.75f + fpdelta;
-	float fp4 = 1.0f - fpdelta;
+  auto fpdelta = 1.0f / 1024.0f;
+  auto fpdx = 1.0f - fpdelta; //.25f - fpdelta;
+  auto fp0 = fpdelta;
+  auto fp1 = 0.25f + fpdelta;
+  auto fp2 = 0.5f + fpdelta;
+  auto fp3 = 0.75f + fpdelta;
+  auto fp4 = 1.0f - fpdelta;
 
 	Verts[0] = v[1];
 	Verts[0].tu = fp4;
@@ -343,7 +343,7 @@ void SKY::Realize(uint32_t Delta_Time)
 	if (aSkyDirArray.size() > 1)
 	{
 		UpdateTimeFactor();
-		float fBlendFactor = fTimeFactor - (long)fTimeFactor;
+    auto fBlendFactor = fTimeFactor - (long)fTimeFactor;
 		if (fBlendFactor < 0.f) fBlendFactor = 0.f;
 		if (fBlendFactor > 1.f) fBlendFactor = 1.f;
 		uint32_t dwColor = (dwSkyColor & 0x00FFFFFF) | (((long)(0xFF000000 * fBlendFactor)) & 0xFF000000);
@@ -488,10 +488,10 @@ void SKY::FillSkyDirArray(ATTRIBUTES* pAttribute)
 	{
 		for (long n = 0; n < q; n++)
 		{
-			const char* attrName = pAttribute->GetAttributeName(n);
+      auto attrName = pAttribute->GetAttributeName(n);
 			if (attrName && attrName[0] == 'd' && attrName[1] >= '0' && attrName[1] <= '9')
 			{
-				long i = atol(&attrName[1]);
+        auto i = atol(&attrName[1]);
 				if (i < q)
 					aSkyDirArray[i] = pAttribute->GetAttribute(n);
 			}
@@ -508,12 +508,12 @@ void SKY::FillSkyDirArray(ATTRIBUTES* pAttribute)
 
 void SKY::GetSkyDirStrings(std::string& sSkyDir, std::string& sSkyDirNext)
 {
-	long n1 = (long)fTimeFactor;
+  auto n1 = (long)fTimeFactor;
 	if (n1 >= 0)
 	{
 		if (n1 >= (long)aSkyDirArray.size())
 			n1 -= aSkyDirArray.size();
-		long n2 = n1 + 1;
+    auto n2 = n1 + 1;
 		if (n2 >= (long)aSkyDirArray.size())
 			n2 -= aSkyDirArray.size();
 
@@ -526,7 +526,7 @@ void SKY::GetSkyDirStrings(std::string& sSkyDir, std::string& sSkyDirNext)
 
 void SKY::UpdateTimeFactor()
 {
-	long nPrev = (long)fTimeFactor;
+  auto nPrev = (long)fTimeFactor;
 
 	//fTimeFactor += api->GetDeltaTime() * 0.00005f;
 	entid_t eid;
@@ -535,7 +535,7 @@ void SKY::UpdateTimeFactor()
 	fTimeFactor *= (1.f / 24.f) * aSkyDirArray.size();
 
 	if ((long)fTimeFactor >= (long)aSkyDirArray.size()) fTimeFactor -= aSkyDirArray.size();
-	long nNext = (long)fTimeFactor;
+  auto nNext = (long)fTimeFactor;
 	if (nPrev != nNext)
 	{
 		// перечитываем текстуры
@@ -675,11 +675,11 @@ float SKY::CalculateAlphaForSun(const CVECTOR& vSunPos, float fSunSize)
 		// ищем альфу в текстуре
 		if (nTexNum != -1)
 		{
-			uint32_t dwCol1 = GetPixelColor((IDirect3DTexture9*)pRS->GetTextureFromID(TexturesID[nTexNum]), fu, fv);
-			uint32_t dwCol2 = GetPixelColor((IDirect3DTexture9*)pRS->GetTextureFromID(TexturesNextID[nTexNum]), fu, fv);
+      auto dwCol1 = GetPixelColor((IDirect3DTexture9*)pRS->GetTextureFromID(TexturesID[nTexNum]), fu, fv);
+      auto dwCol2 = GetPixelColor((IDirect3DTexture9*)pRS->GetTextureFromID(TexturesNextID[nTexNum]), fu, fv);
 
-			float fK = fTimeFactor - (long)fTimeFactor;
-			float fAlpha = (1.f - fK) * (dwCol1 >> 24) / 255.f + fK * (dwCol2 >> 24) / 255.f;
+      auto fK = fTimeFactor - (long)fTimeFactor;
+      auto fAlpha = (1.f - fK) * (dwCol1 >> 24) / 255.f + fK * (dwCol2 >> 24) / 255.f;
 			return fAlpha;
 		}
 	}
@@ -691,14 +691,14 @@ float SKY::CalculateAlphaForSun(const CVECTOR& vSunPos, float fSunSize)
 uint32_t SKY::GetPixelColor(IDirect3DTexture9* pTex, float fu, float fv)
 {
 	HRESULT hok;
-	uint32_t dwCol = 0xFFFFFFFF;
+  auto dwCol = 0xFFFFFFFF;
 
 	if (!pTex) return dwCol;
 
 	D3DSURFACE_DESC texdesc;
 	pRS->GetLevelDesc(pTex, 0, &texdesc);
-	long x = (long)(texdesc.Width * fu);
-	long y = (long)(texdesc.Height * fv);
+  auto x = (long)(texdesc.Width * fu);
+  auto y = (long)(texdesc.Height * fv);
 
 	D3DLOCKED_RECT lockRect;
 	if ((hok = pRS->LockRect(pTex, 0, &lockRect, nullptr, D3DLOCK_READONLY)) == D3D_OK)

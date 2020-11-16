@@ -102,7 +102,7 @@ void WATERFLARE::Realize(uint32_t Delta_Time)
 
 	for (long i = 0; i < iFlaresNum; i++)
 	{
-		float fDeltaTime = float(Delta_Time) * 0.001f;
+    auto fDeltaTime = float(Delta_Time) * 0.001f;
 		pfAlpha[i] += fDeltaTime;
 		if (pfAlpha[i] > 2.0f)
 		{

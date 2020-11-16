@@ -75,10 +75,10 @@ uint64_t BATTLE_LAND_INTERFACE::ProcessMessage(MESSAGE& message)
 	case BI_IN_SET_COMMAND_MODE:
 		if (m_bShowCommandos && m_pManSign)
 		{
-			long comMode = message.Long();
-			long startTextureNumber = message.Long();
-			long startPictureNumber = message.Long();
-			long characterNum = message.Long();
+      auto comMode = message.Long();
+      auto startTextureNumber = message.Long();
+      auto startPictureNumber = message.Long();
+      auto characterNum = message.Long();
 		}
 		break;
 
@@ -139,7 +139,7 @@ void BATTLE_LAND_INTERFACE::EndShow()
 
 void BATTLE_LAND_INTERFACE::SetShowParameters()
 {
-	ATTRIBUTES* pA = AttributesPointer ? AttributesPointer->GetAttributeClass("Parameters") : nullptr;
+  auto pA = AttributesPointer ? AttributesPointer->GetAttributeClass("Parameters") : nullptr;
 	m_bShowCommandos = 0 != BIUtils::GetLongFromAttr(pA, "DoShowCommandos", true);
 
 	m_pManSign = new BIManSign(GetId(), m_pRS);
@@ -155,7 +155,7 @@ void BATTLE_LAND_INTERFACE::SetShowParameters()
 
 void BATTLE_LAND_INTERFACE::UpdateCommandos()
 {
-	ATTRIBUTES* pA = AttributesPointer ? AttributesPointer->GetAttributeClass("data") : nullptr;
+  auto pA = AttributesPointer ? AttributesPointer->GetAttributeClass("data") : nullptr;
 	if (pA) pA = pA->GetAttributeClass("icons");
 	if (!pA) return;
 }

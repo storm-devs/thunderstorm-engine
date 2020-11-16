@@ -47,8 +47,8 @@ void NoiseCloud::Update(float dltTime)
 	for (long i = 0; i < sizeof(rect) / sizeof(Rect); i++)
 	{
 		if (rect[i].r >= TRND_CLDRADIUS) rect[i].r = 0.0f;
-		float k = rect[i].r / TRND_CLDRADIUS;
-		float rot = dltTime * (2.0f - powf(k, 0.3f) * 2.2f);
+    auto k = rect[i].r / TRND_CLDRADIUS;
+    auto rot = dltTime * (2.0f - powf(k, 0.3f) * 2.2f);
 		if (rot < 0.0f) rot = 0.0f;
 		rect[i].a += rot;
 		if (rect[i].a > 2.0f * TRND_PI) rect[i].a -= 2.0f * TRND_PI;
@@ -97,10 +97,10 @@ void NoiseCloud::Draw(VDX9RENDER* rs)
 	for (long i = 0; i < sizeof(rect) / sizeof(Rect); i++)
 	{
 		//Размер
-		float size = rect[i].size;
+    auto size = rect[i].size;
 		//Позиция
-		float sn = sinf(rect[i].angle);
-		float cs = cosf(rect[i].angle);
+    auto sn = sinf(rect[i].angle);
+    auto cs = cosf(rect[i].angle);
 		CVECTOR pos(pillar.X() + rect[i].r * sinf(rect[i].a), pillar.GetHeight(),
 		            pillar.Z() + rect[i].r * cosf(rect[i].a));
 		buf[i * 6 + 0].pos = pos + CVECTOR(size * (-cs + sn), 0.0f, size * (sn + cs));
@@ -122,8 +122,8 @@ void NoiseCloud::Draw(VDX9RENDER* rs)
 		buf[i * 6 + 5].u = 1.0f;
 		buf[i * 6 + 5].v = 1.0f;
 		//Цвет
-		float clr = rect[i].light * 200.0f;
-		long color = (long(clr * 1.0f) << 16) | (long(clr * 0.95f) << 8) | long(clr * 0.9f) | (long(
+    auto clr = rect[i].light * 200.0f;
+    auto color = (long(clr * 1.0f) << 16) | (long(clr * 0.95f) << 8) | long(clr * 0.9f) | (long(
 			rect[i].alpha * galpha * 0.4f) << 24);
 		buf[i * 6 + 0].color = color;
 		buf[i * 6 + 1].color = color;

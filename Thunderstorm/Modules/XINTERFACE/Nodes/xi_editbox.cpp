@@ -64,10 +64,10 @@ void CXI_EDITBOX::Draw(bool bSelected, uint32_t Delta_Time)
 
 	// Print buttons symbol
 	int i, j, idx;
-	float top = m_nTopOffset + m_fChrTopOffset;
+  auto top = m_nTopOffset + m_fChrTopOffset;
 	for (idx = j = 0; j < m_nVert; j++)
 	{
-		float left = float(m_rect.left + m_nLeftOffset) + m_fHAdd * .5f;
+    auto left = float(m_rect.left + m_nLeftOffset) + m_fHAdd * .5f;
 		for (i = 0; i < m_nHorz; i++)
 		{
 			switch (m_alpha[m_bUpChrRegistrOffset + idx])
@@ -102,7 +102,7 @@ void CXI_EDITBOX::Draw(bool bSelected, uint32_t Delta_Time)
 	}
 
 	// show out string
-	ATTRIBUTES* pA = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+  auto pA = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 	char* tmpstr = nullptr;
 	if (pA) tmpstr = pA->GetAttribute("strdata");
 	if (tmpstr) m_rs->ExtPrint(m_nStrFontNum, 0xFFFFFFFF, 0,PR_ALIGN_CENTER, true, m_fStrScale, m_screenSize.x,
@@ -139,18 +139,18 @@ int CXI_EDITBOX::CommandExecute(int wActCode)
 {
 	if (m_bUse)
 	{
-		int newNum = m_nCurAlphaNum;
+    auto newNum = m_nCurAlphaNum;
 		switch (wActCode)
 		{
 		case ACTION_ACTIVATE:
 		case ACTION_MOUSECLICK:
 			{
 				if (m_nCurAlphaNum < 0 || m_nCurAlphaNum >= m_nAlphaQuantity) break;
-				ATTRIBUTES* pA = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+        auto pA = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 				if (pA == nullptr) break;
 				char param[256];
 				param[0] = 0;
-				char* tmpstr = pA->GetAttribute("strdata");
+        auto tmpstr = pA->GetAttribute("strdata");
 				switch (m_alpha[m_bUpChrRegistrOffset + m_nCurAlphaNum])
 				{
 				case '*':
@@ -224,9 +224,9 @@ bool CXI_EDITBOX::IsClick(int buttonID, long xPos, long yPos)
 	if (xPos < m_rect.left + m_nLeftOffset) return false;
 	if (xPos > m_rect.right - m_nLeftOffset) return false;
 	if (yPos < m_nTopOffset) return false;
-	int y = int((yPos - m_nTopOffset) / m_fVAdd);
+  auto y = int((yPos - m_nTopOffset) / m_fVAdd);
 	if (y >= m_nVert) return false;
-	int x = int((xPos - m_rect.left - m_nLeftOffset) / m_fHAdd);
+  auto x = int((xPos - m_rect.left - m_nLeftOffset) / m_fHAdd);
 	if (x >= m_nHorz) return false;
 	if (x + y * m_nHorz >= m_nAlphaQuantity) return false;
 	return true;
@@ -237,9 +237,9 @@ void CXI_EDITBOX::MouseThis(float fX, float fY)
 	if (fX < m_rect.left + m_nLeftOffset) return;
 	if (fX > m_rect.right - m_nLeftOffset) return;
 	if (fY < m_nTopOffset) return;
-	int y = int((fY - m_nTopOffset) / m_fVAdd);
+  auto y = int((fY - m_nTopOffset) / m_fVAdd);
 	if (y >= m_nVert) return;
-	int x = int((fX - m_rect.left - m_nLeftOffset) / m_fHAdd);
+  auto x = int((fX - m_rect.left - m_nLeftOffset) / m_fHAdd);
 	if (x >= m_nHorz) return;
 	if (x + y * m_nHorz >= m_nAlphaQuantity) return;
 	SetNewCurSymbol(x, y);
@@ -274,7 +274,7 @@ void CXI_EDITBOX::ChangePosition(XYRECT& rNewPos)
 	idx = 0;
 	for (j = 0; j < m_nVert; j++)
 	{
-		float left = float(m_rect.left + m_nLeftOffset);
+    auto left = float(m_rect.left + m_nLeftOffset);
 		for (i = 0; i < m_nHorz; i++)
 		{
 			pvt[idx].pos.z = pvt[idx + 1].pos.z = pvt[idx + 2].pos.z = pvt[idx + 3].pos.z = 1.f;
@@ -300,7 +300,7 @@ void CXI_EDITBOX::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -356,7 +356,7 @@ void CXI_EDITBOX::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 
 	if (ReadIniString(ini1, name1, ini2, name2, "alphabet", param, sizeof(param) - 1, ""))
 	{
-		char* pTmpStr = pStringService->GetString(pStringService->GetStringNum(param));
+    auto pTmpStr = pStringService->GetString(pStringService->GetStringNum(param));
 		if (pTmpStr == nullptr) pTmpStr = param;
 		int nLen = strlen(pTmpStr);
 		if (nLen > sizeof(m_alpha) / 2 - 1) nLen = sizeof(m_alpha) / 2 - 1;
@@ -366,7 +366,7 @@ void CXI_EDITBOX::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 	}
 	if (ReadIniString(ini1, name1, ini2, name2, "alphabetUP", param, sizeof(param) - 1, ""))
 	{
-		char* pTmpStr = pStringService->GetString(pStringService->GetStringNum(param));
+    auto pTmpStr = pStringService->GetString(pStringService->GetStringNum(param));
 		if (pTmpStr == nullptr) pTmpStr = param;
 		auto len = strlen(pTmpStr) + 1;
 		if (len > sizeof(m_alpha) / 2 - 1) len = sizeof(m_alpha) / 2 - 1;
@@ -421,7 +421,7 @@ void CXI_EDITBOX::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 	m_fChrTopOffset = .5f * (m_fVAdd * HEIGHT_SCALE_USED - m_rs->CharHeight(m_nChrFontNum) * m_fChrScale);
 	m_fHAdd = (float)(m_rect.right - m_rect.left - m_nLeftOffset * 2) / m_nHorz;
 
-	XI_ONLYONETEX_VERTEX* pvt = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVB);
+  auto pvt = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVB);
 	auto topButtons = (float)m_nTopOffset;
 	idx = 0;
 	for (j = 0; j < m_nVert; j++)
@@ -468,7 +468,7 @@ void CXI_EDITBOX::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 
 void CXI_EDITBOX::SetNewCurSymbol(int h, int v)
 {
-	int newNum = h + v * m_nHorz;
+  auto newNum = h + v * m_nHorz;
 	if (newNum >= m_nAlphaQuantity) newNum = h;
 	if (newNum >= m_nAlphaQuantity) newNum = -1;
 	if (m_nCurAlphaNum == newNum) return;

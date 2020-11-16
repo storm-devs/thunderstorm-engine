@@ -45,6 +45,6 @@ void Lizards::Execute(uint32_t delta_time)
 //Рисование
 void Lizards::Realize(uint32_t delta_time)
 {
-	float dltTime = delta_time * 0.001f;
+  auto dltTime = delta_time * 0.001f;
 	for (long i = 0; i < num; i++) lizard[i].Update(dltTime);
 }

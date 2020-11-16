@@ -45,11 +45,11 @@ bool LIGHTNING::LoadState(ENTITY_STATE* state)
 
 void LIGHTNING::Execute(uint32_t Delta_Time)
 {
-	float fDeltaTime = float(Delta_Time) * 0.001f;
+  auto fDeltaTime = float(Delta_Time) * 0.001f;
 
 	for (uint32_t i = 0; i < aLightnings.size(); i++)
 	{
-		lightning_t* pL = &aLightnings[i];
+    auto pL = &aLightnings[i];
 		if (pL->fTime > 0.0f)
 		{
 			pL->fAlpha = (uint32_t(pL->fTime * 1000.0f) & pL->dwFlickerTime) ? 1.0f : 0.0f;
@@ -83,8 +83,8 @@ void LIGHTNING::Realize(uint32_t Delta_Time)
 		pRS->TextureSet(0, iLightningTexture);
 		for (i = 0; i < aLightnings.size(); i++)
 		{
-			lightning_t* pL = &aLightnings[i];
-			RS_RECT* pR = &rs_rect;
+      auto pL = &aLightnings[i];
+      auto pR = &rs_rect;
 
 			auto dwAlpha = uint32_t(255.0f * pL->fAlpha);
 			pR->dwSubTexture = pL->dwSubTexture;
@@ -101,8 +101,8 @@ void LIGHTNING::Realize(uint32_t Delta_Time)
 		pRS->TextureSet(0, iFlashTexture);
 		for (i = 0; i < aLightnings.size(); i++)
 		{
-			lightning_t* pL = &aLightnings[i];
-			RS_RECT* pR = &rs_rect;
+      auto pL = &aLightnings[i];
+      auto pR = &rs_rect;
 
 			auto dwAlpha = uint32_t(255.0f * pL->fAlpha * pL->fPower);
 			pR->dwColor = RGB(dwAlpha, dwAlpha, dwAlpha);
@@ -126,7 +126,7 @@ uint64_t LIGHTNING::ProcessMessage(MESSAGE& message)
 			// add new lightning
 			aLightnings.push_back(lightning_t{});
 			//lightning_t * pL = &aLightnings[aLightnings.Add()];
-			lightning_t* pL = &aLightnings.back();
+      auto pL = &aLightnings.back();
 
 			pL->dwSubTexture = message.Long();
 			message.String(sizeof(pL->sTechnique), pL->sTechnique);
@@ -162,11 +162,11 @@ void LIGHTNING::CalcFlashPower(lightning_t* pL)
 	vTrace[1] = pL->vPos;
 	vTrace[2] = CVECTOR(pL->vPos.x, pL->vPos.y - pL->fSize * 0.9f, pL->vPos.z);
 
-	float fPower = 1.0f;
+  auto fPower = 1.0f;
 
 	for (uint32_t i = 0; i < 3; i++)
 	{
-		float fRes = pCollide->Trace(EntityManager::GetEntityIdIterators(SUN_TRACE), vCamPos, vTrace[i], nullptr, 0);
+    auto fRes = pCollide->Trace(EntityManager::GetEntityIdIterators(SUN_TRACE), vCamPos, vTrace[i], nullptr, 0);
 		if (fRes <= 1.0f) fPower -= 0.31f;
 	}
 	pL->fPower = fPower;
@@ -176,7 +176,7 @@ uint32_t LIGHTNING::AttributeChanged(ATTRIBUTES* pAttribute)
 {
 	//std::string sTextureName;
 
-	ATTRIBUTES* pParent = pAttribute->GetParent();
+  auto pParent = pAttribute->GetParent();
 
 	if (*pAttribute == "Clear")
 	{

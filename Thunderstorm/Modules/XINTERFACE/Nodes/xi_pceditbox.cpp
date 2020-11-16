@@ -43,7 +43,7 @@ void CXI_PCEDITBOX::Draw(bool bSelected, uint32_t Delta_Time)
 	if (m_pRightImage) m_pRightImage->Draw();
 	if (m_pMiddleImage) m_pMiddleImage->Draw();
 
-	long x = m_rect.left + m_pntFontOffset.x;
+  auto x = m_rect.left + m_pntFontOffset.x;
 	if (m_nStringAlign == PR_ALIGN_CENTER)
 	{
 		x = (m_rect.left + m_rect.right) / 2;
@@ -104,9 +104,9 @@ void CXI_PCEDITBOX::ChangePosition(XYRECT& rNewPos)
 	//m_pntFontOffset.y += m_rect.top;
 
 	// update position
-	long nMiddleLeft = m_rect.left;
-	long nMiddleRight = m_rect.right;
-	long nHeight = m_rect.bottom - m_rect.top;
+  auto nMiddleLeft = m_rect.left;
+  auto nMiddleRight = m_rect.right;
+  auto nHeight = m_rect.bottom - m_rect.top;
 	if (m_pLeftImage)
 	{
 		if (m_pLeftImage->IsImagePresent())
@@ -139,7 +139,7 @@ void CXI_PCEDITBOX::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -209,9 +209,9 @@ void CXI_PCEDITBOX::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 	else m_sExcludeChars = "";
 
 	// update position
-	long nMiddleLeft = m_rect.left;
-	long nMiddleRight = m_rect.right;
-	long nHeight = m_rect.bottom - m_rect.top;
+  auto nMiddleLeft = m_rect.left;
+  auto nMiddleRight = m_rect.right;
+  auto nHeight = m_rect.bottom - m_rect.top;
 	if (m_pLeftImage)
 	{
 		if (m_pLeftImage->IsImagePresent())
@@ -252,7 +252,7 @@ void CXI_PCEDITBOX::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 		}
 	}
 
-	ATTRIBUTES* pA = ptrOwner->AttributesPointer->GetAttributeClass(m_nodeName);
+  auto pA = ptrOwner->AttributesPointer->GetAttributeClass(m_nodeName);
 	if (!pA) pA = ptrOwner->AttributesPointer->CreateSubAClass(ptrOwner->AttributesPointer, m_nodeName);
 	if (pA && !pA->GetAttribute("str")) pA->CreateAttribute("str", "");
 }

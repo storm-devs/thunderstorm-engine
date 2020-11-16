@@ -51,7 +51,7 @@ void GIEditor::Render()
 {
 	if (!m_bShowMode) return;
 
-	FXYPOINT pntMouse = m_pGIOwner->GetMousePoint();
+  auto pntMouse = m_pGIOwner->GetMousePoint();
 	m_pNodeList->CheckMouseInside(pntMouse.x, pntMouse.y);
 	if (m_bSubNameOn) m_pSubNameList->CheckMouseInside(pntMouse.x, pntMouse.y);
 
@@ -125,8 +125,8 @@ bool GIEditor::ProcessControl()
 
 	if (!m_pEditableNode) return false;
 
-	bool bMove = false;
-	bool bSize = false;
+  auto bMove = false;
+  auto bSize = false;
 	if (api->Controls->GetDebugAsyncKeyState(VK_CONTROL) < 0) // двигаем
 	{
 		bMove = true;
@@ -174,7 +174,7 @@ bool GIEditor::ProcessControl()
 
 		if (nHorz != 0 || nVert != 0)
 		{
-			XYRECT rectNew = m_pEditableNode->m_rect;
+      auto rectNew = m_pEditableNode->m_rect;
 			if (nHorz != 0)
 			{
 				rectNew.right += nHorz;
@@ -272,7 +272,7 @@ void GIEditor::DrawSizeBox()
 		// boal -->
 		// idFont, dwFCol, dwBCol, align, shadow, scale, sxs, sys,
 		//left, top, "%s", str
-		long m_fontID = m_pGIOwner->GetRenderService()->LoadFont("interface_normal");
+    auto m_fontID = m_pGIOwner->GetRenderService()->LoadFont("interface_normal");
 		m_pGIOwner->GetRenderService()->ExtPrint(m_fontID, 0xFFFFFFFF, 0, PR_ALIGN_LEFT, false, 1.0, 800, 600,
 		                                         10, 10, "(%d, %d) - (%d, %d) W - %d H - %d",
 		                                         (int)m_pEditableNode->m_rect.left,

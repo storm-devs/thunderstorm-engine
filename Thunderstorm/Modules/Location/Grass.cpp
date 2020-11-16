@@ -163,11 +163,11 @@ bool Grass::LoadData(const char* patchName)
 	{
 		//Проверим данные
 		if (size < sizeof(GRSHeader)) throw "invalide file size";
-		GRSHeader& hdr = *(GRSHeader *)load;
+    auto& hdr = *(GRSHeader *)load;
 		if (hdr.id != GRASS_ID) throw "invalide file id";
 		if (hdr.ver != GRASS_VER) throw "invalide file version";
-		long minisize = hdr.miniX * hdr.miniZ;
-		long elements = hdr.numElements;
+    auto minisize = hdr.miniX * hdr.miniZ;
+    auto elements = hdr.numElements;
 		if (size != sizeof(GRSHeader) + minisize * sizeof(GRSMiniMapElement) + elements * sizeof(GRSMapElement)) throw
 			"incorrect file data -> file size";
 		if (hdr.miniX <= 0 || hdr.miniX > 100000 || hdr.miniZ <= 0 || hdr.miniZ > 100000) throw
@@ -190,10 +190,10 @@ bool Grass::LoadData(const char* patchName)
 			translate[i] = uint8_t((i * 255) / 15);
 		}
 		block = new GRSMapElementEx[elements];
-		GRSMapElement* src = (GRSMapElement *)(load + sizeof(GRSHeader) + minisize * sizeof(GRSMiniMapElement));
+    auto src = (GRSMapElement *)(load + sizeof(GRSHeader) + minisize * sizeof(GRSMiniMapElement));
 		for (long i = 0; i < elements; i++)
 		{
-			GRSMapElement& sb = src[i];
+      auto& sb = src[i];
 			GRSMapElementEx& b = block[i];
 			b.x = sb.x * GRASS_STEP;
 			b.y = sb.y;

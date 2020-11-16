@@ -30,9 +30,9 @@ Lighter::~Lighter()
 bool Lighter::Init()
 {
 	//Проверяем, будем ли работать
-	INIFILE* ini = fio->OpenIniFile("resource\\ini\\loclighter.ini");
+  auto ini = fio->OpenIniFile("resource\\ini\\loclighter.ini");
 	if (!ini) return false;
-	long isLoading = ini->GetLong(nullptr, "loading", 0);
+  auto isLoading = ini->GetLong(nullptr, "loading", 0);
 	autoTrace = ini->GetLong(nullptr, "autotrace", 0) != 0;
 	autoSmooth = ini->GetLong(nullptr, "autosmooth", 0) != 0;
 	window.isSmallSlider = ini->GetLong(nullptr, "smallslider", 0) != 0;
@@ -58,7 +58,7 @@ bool Lighter::Init()
 //Исполнение
 void Lighter::Execute(uint32_t delta_time)
 {
-	float dltTime = delta_time * 0.001f;
+  auto dltTime = delta_time * 0.001f;
 	if (window.isSaveLight)
 	{
 		window.isSaveLight = false;
@@ -101,13 +101,13 @@ void Lighter::PreparingData()
 {
 	//Освещение
 	//Рассеяное
-	uint32_t amb = 0xff404040;
+  auto amb = 0xff404040;
 	rs->GetRenderState(D3DRS_AMBIENT, &amb);
 	CVECTOR clr;
 	clr.x = ((amb >> 16) & 0xff) / 255.0f;
 	clr.y = ((amb >> 8) & 0xff) / 255.0f;
 	clr.z = ((amb >> 0) & 0xff) / 255.0f;
-	float mx = clr.x > clr.y ? clr.x : clr.y;
+  auto mx = clr.x > clr.y ? clr.x : clr.y;
 	mx = mx > clr.z ? mx : clr.z;
 	if (mx > 0.0f) clr *= 1.0f / mx;
 	else clr = 1.0f;
@@ -115,7 +115,7 @@ void Lighter::PreparingData()
 	//Солнце
 	if (rs)
 	{
-		BOOL isLight = FALSE;
+    auto isLight = FALSE;
 		rs->GetLightEnable(0, &isLight);
 		D3DLIGHT9 lit;
 		if (isLight && rs->GetLight(0, &lit))
@@ -130,7 +130,7 @@ void Lighter::PreparingData()
 				dir.y = -lit.Direction.y;
 				dir.z = -lit.Direction.z;
 			}
-			float mx = dir.x > dir.y ? dir.x : dir.y;
+      auto mx = dir.x > dir.y ? dir.x : dir.y;
 			mx = mx > dir.z ? mx : dir.z;
 			if (mx > 0.0f) dir *= 1.0f / mx;
 			else dir = 1.0f;
@@ -207,7 +207,7 @@ void Lighter::MsgAddModel(MESSAGE& message)
 		api->Trace("Location lighter: no model name, skip it!");
 		return;
 	}
-	entid_t model = message.EntityID();
+  auto model = message.EntityID();
 	geometry.AddObject(name, model);
 }
 
@@ -239,11 +239,11 @@ void Lighter::MsgAddLight(MESSAGE& message)
 	clr.y = message.Float();
 	clr.z = message.Float();
 	//Затухание
-	float att0 = message.Float();
-	float att1 = message.Float();
-	float att2 = message.Float();
+  auto att0 = message.Float();
+  auto att1 = message.Float();
+  auto att2 = message.Float();
 	//Дистанция
-	float range = message.Float();
+  auto range = message.Float();
 	//Имя группы
 	char group[512];
 	message.String(511, group);

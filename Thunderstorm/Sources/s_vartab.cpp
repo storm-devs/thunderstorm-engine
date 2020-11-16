@@ -59,7 +59,7 @@ uint32_t S_VARTAB::AddVar(VARINFO& vi)
 
 	//trace("%s : %d",vi.name,(long)vi.bArray);
 
-	uint32_t hash = MakeHashValue(vi.name);
+  auto hash = MakeHashValue(vi.name);
 
 	for (uint32_t n = 0; n < Var_num; n++)
 	{
@@ -134,7 +134,7 @@ uint32_t S_VARTAB::MakeHashValue(const char* string)
 	uint32_t hval = 0;
 	while (*string != 0)
 	{
-		char v = *string++;
+    auto v = *string++;
 		if ('A' <= v && v <= 'Z') v += 'a' - 'A'; // case independent
 		hval = (hval << 4) + (unsigned long int)v;
 		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
@@ -160,11 +160,11 @@ void S_VARTAB::InvalidateBySegmentID(uint32_t segment_id)
 uint32_t S_VARTAB::FindVar(const char* var_name)
 {
 	if (var_name == nullptr) return INVALID_VAR_CODE;
-	uint32_t hash = MakeHashValue(var_name);
-	uint32_t hash_index = VTMAKEHASHINDEX(hash);
+  auto hash = MakeHashValue(var_name);
+  auto hash_index = VTMAKEHASHINDEX(hash);
 	for (uint32_t n = 0; n < HashLine[hash_index].nNumElements; n++)
 	{
-		uint32_t ni = HashLine[hash_index].pElements[n];
+    auto ni = HashLine[hash_index].pElements[n];
 		if (pTable[ni].hash == hash) //return n;
 			if (_stricmp(pTable[ni].name, var_name) == 0) return ni;
 	}
@@ -197,7 +197,7 @@ bool S_VARTAB::ArraySizeChanged(uint32_t nIndex, uint32_t nNewSize)
 
 void S_VARTAB::UpdateHashTable(uint32_t code, uint32_t hash, bool in)
 {
-	uint32_t hash_index = VTMAKEHASHINDEX(hash);
+  auto hash_index = VTMAKEHASHINDEX(hash);
 
 	for (uint32_t n = 0; n < HashLine[hash_index].nNumElements; n++)
 	{

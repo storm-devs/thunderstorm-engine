@@ -86,7 +86,7 @@ void Debris::Update(float dltTime)
 		}
 	}
 	//Полёт
-	float h = pillar.GetHeight();
+  auto h = pillar.GetHeight();
 	for (long i = 0; i < flyCounter; i++)
 	{
 		//Обновляем позицию по высоте
@@ -99,7 +99,7 @@ void Debris::Update(float dltTime)
 			continue;
 		}
 		//Обновляем радиус
-		float k = dltTime * 1.0f;
+    auto k = dltTime * 1.0f;
 		if (k > 1.0f) k = 1.0f;
 		fly[i].r += (pillar.GetRaduis(fly[i].y) - fly[i].r) * k;
 		//Обновляем угл
@@ -167,7 +167,7 @@ void Debris::AddModel(const char* modelName, float prt, float spd)
 	}
 	gs->SetTexturePath("");
 	//Настраиваем
-	NODE* node = m->GetNode(0);
+  auto node = m->GetNode(0);
 	if (node) node->SetTechnique("TornadoDebris");
 	//Сохраняем
 	mdl[numModels].mdl = m;
@@ -177,15 +177,15 @@ void Debris::AddModel(const char* modelName, float prt, float spd)
 
 void Debris::NormalazedModels()
 {
-	float sum = 0.0f;
+  auto sum = 0.0f;
 	for (long i = 0; i < numModels; i++) sum += mdl[i].prt;
 	for (long i = 0; i < numModels; i++) mdl[i].prt /= sum;
 }
 
 MODEL* Debris::SelectModel(float& maxSpd)
 {
-	float rnd = rand() * (1.0f / RAND_MAX);
-	float sum = 0.0f;
+  auto rnd = rand() * (1.0f / RAND_MAX);
+  auto sum = 0.0f;
 	long i;
 	for (i = 0; i < numModels - 1; i++)
 	{
@@ -215,7 +215,7 @@ bool Debris::IsShip()
 		Assert(ship->GetMatrix());
 		ship->GetMatrix()->MulToInv(p, pos);
 		//Проверим попадание в бокс
-		CVECTOR s = ship->GetBoxsize();
+    auto s = ship->GetBoxsize();
 		if (pos.x < -s.x - 6.0f || pos.x > s.x + 6.0f)
 			continue;
 		if (pos.z < -s.z - 6.0f || pos.z > s.z + 6.0f)

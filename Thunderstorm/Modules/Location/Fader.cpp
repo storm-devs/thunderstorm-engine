@@ -84,7 +84,7 @@ bool Fader::Init()
 	//Зачитаем количество типсов, если надо
 	if (!numberOfTips)
 	{
-		INIFILE* ini = fio->OpenIniFile(api->EngineIniFileName());
+    auto ini = fio->OpenIniFile(api->EngineIniFileName());
 		if (ini)
 		{
 			numberOfTips = ini->GetLong(nullptr, "numoftips", -1);
@@ -163,7 +163,7 @@ uint64_t Fader::ProcessMessage(MESSAGE& message)
 			if (numberOfTips > 0)
 			{
 				//sprintf_s(_name, "tips\\tips_%.4u.tga", rand() % numberOfTips);
-				char* pTipsName = rs->GetTipsImage();
+        auto pTipsName = rs->GetTipsImage();
 				if (pTipsName)
 				{
 					tipsID = rs->TextureCreate(pTipsName);
@@ -229,7 +229,7 @@ void Fader::Realize(uint32_t delta_time)
 			if (isStart)
 			{
 				//Надо снять шот
-				bool isOk = false;
+        auto isOk = false;
 				D3DSURFACE_DESC desc;
 				if (renderTarget->GetDesc(&desc) == D3D_OK)
 				{
@@ -269,7 +269,7 @@ void Fader::Realize(uint32_t delta_time)
 			eventEnd = true;
 		}
 	}
-	uint32_t color = (uint32_t((fadeIn ? (1.0f - alpha) : alpha) * 255.0f) << 24);
+  auto color = (uint32_t((fadeIn ? (1.0f - alpha) : alpha) * 255.0f) << 24);
 	if (textureID >= 0) color |= 0x00ffffff;
 	drawbuf[0].x = 0.0f;
 	drawbuf[0].y = 0.0f;

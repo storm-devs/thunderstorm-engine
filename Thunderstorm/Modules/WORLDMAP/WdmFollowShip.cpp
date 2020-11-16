@@ -39,7 +39,7 @@ bool WdmFollowShip::Load(const char* modelName)
 		//Определяем угл
 		double sn = wdmObjects->playerShip->mtx.Pos().x - mtx.Pos().x;
 		double cs = wdmObjects->playerShip->mtx.Pos().z - mtx.Pos().z;
-		double l = sn * sn + cs * cs;
+    auto l = sn * sn + cs * cs;
 		if (l > 0.0) cs /= sqrt(l);
 		if (cs > 1.0) cs = 1.0;
 		if (cs < -1.0) cs = -1.0;
@@ -68,7 +68,7 @@ void WdmFollowShip::FindMoveForce()
 		//Направление на игрока
 		dir.x -= mtx.Pos().x;
 		dir.z -= mtx.Pos().z;
-		float dl = dir.x * dir.x + dir.z * dir.z;
+    auto dl = dir.x * dir.x + dir.z * dir.z;
 		if (dl > 1.0f)
 		{
 			dl = 1.0f / sqrtf(dl);

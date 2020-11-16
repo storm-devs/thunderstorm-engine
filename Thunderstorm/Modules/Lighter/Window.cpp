@@ -112,8 +112,8 @@ bool Window::Init(VDX9RENDER* rs)
 				{
 					auto r = float(x);
 					auto g = float(y);
-					float b = float(255 - x);
-					float k = r > g ? r : g;
+          auto b = float(255 - x);
+          auto k = r > g ? r : g;
 					if (k < b) k = b;
 					k = 255.0f / k;
 					pnt[0] = uint8_t(b * k);
@@ -130,7 +130,7 @@ bool Window::Init(VDX9RENDER* rs)
 
 void Window::InitList(LighterLights& ls)
 {
-	long maxSize = ls.Num();
+  auto maxSize = ls.Num();
 	numElements = 7;
 	list = new ListElement[numElements + maxSize];
 	memset(list, 0, (numElements + maxSize) * sizeof(ListElement));
@@ -400,12 +400,12 @@ void Window::Draw(float dltTime)
 	//Подложка
 	DrawLRect(winx, winy, winx + winw, winy + winh + (selected >= 0 ? list[selected].h : 0), bkgColor, frmColor);
 	//Кнопка закрывашка
-	float clsx = winx + winw - 20.0f;
-	float clsy = winy + 5.0f;
-	float clsw = 15.0f;
-	float clsh = 15.0f;
-	uint32_t c = selColor;
-	uint32_t cl = frmColor;
+  auto clsx = winx + winw - 20.0f;
+  auto clsy = winy + 5.0f;
+  auto clsw = 15.0f;
+  auto clsh = 15.0f;
+  auto c = selColor;
+  auto cl = frmColor;
 	if (cursx >= clsx && cursx < clsx + clsw && cursy >= clsy && cursy < clsy + clsh)
 	{
 		c |= 0xff000000;
@@ -416,12 +416,12 @@ void Window::Draw(float dltTime)
 	DrawLine(clsx + 2.0f, clsy + 2.0f, clsx + clsw - 1.0f, clsy + clsh - 1.0f, cl);
 	DrawLine(clsx + clsw - 2.0f, clsy + 2.0f, clsx + 1.0f, clsy + clsh - 1.0f, cl);
 	//Заголовок списка
-	float lstx = winx + 5.0f;
-	float lsty = winy + 5.0f;
-	float lstw = 240.0f;
-	float lsth = 22.0f;
-	float lstbx = lstx + lstw;
-	float lstbw = lsth;
+  auto lstx = winx + 5.0f;
+  auto lsty = winy + 5.0f;
+  auto lstw = 240.0f;
+  auto lsth = 22.0f;
+  auto lstbx = lstx + lstw;
+  auto lstbw = lsth;
 	c = selColor;
 	cl = frmColor;
 	if (listWait <= 0.0f)
@@ -452,7 +452,7 @@ void Window::Draw(float dltTime)
 	long prs;
 	if (selected >= 0)
 	{
-		ListElement& le = list[selected];
+    auto& le = list[selected];
 		bool isOn;
 		updateLightCos = updateLightAtt = updateLightSdw = false;
 		switch (le.type)
@@ -553,7 +553,7 @@ void Window::Draw(float dltTime)
 		lsth = lsth * numLines;
 		DrawLRect(lstx, lsty, lstx + lstw + lstbw, lsty + lsth, 0xe0000000, frmColor);
 		DrawLine(lstbx, lsty, lstbx, lsty + lsth, frmColor);
-		bool isCheck = (cursx >= lstbx && cursx < lstbx + lstbw && cursy >= lsty && cursy < lsty + lsth);
+    auto isCheck = (cursx >= lstbx && cursx < lstbx + lstbw && cursy >= lsty && cursy < lsty + lsth);
 		c = selColor;
 		cl = frmColor;
 		if (isCheck && cursy <= lsty + lstbw)
@@ -589,7 +589,7 @@ void Window::Draw(float dltTime)
 		//Цикл отрисовки
 		if (listPos > numElements - numLines / 2) listPos = float(numElements - numLines / 2);
 		if (listPos < 0.0f) listPos = 0.0f;
-		long str = long(listPos);
+    auto str = long(listPos);
 		long sel = -1;
 		if (cursx >= lstx && cursx < lstx + lstw && cursy >= lsty && cursy < lsty + lsth)
 		{
@@ -602,7 +602,7 @@ void Window::Draw(float dltTime)
 		y = lsty;
 		for (long i = str, cnt = 0; i < numElements && cnt < numLines; i++, cnt++)
 		{
-			uint32_t clr = textColor;
+      auto clr = textColor;
 			if (cnt == sel)
 			{
 				DrawLRect(lstx + 3, y, lstx + lstw - 3, y + lstbw, 0xff808080, 0);
@@ -691,10 +691,10 @@ void Window::DrawLRect(float x1, float y1, float x2, float y2, uint32_t bkgColor
 void Window::Print(long color, float xleft, float xright, float y, float scale, bool isAlign, const char* format, ...)
 {
 	_vsnprintf_s(stringBuffer, sizeof(stringBuffer), format, ((char *)&format + sizeof(char *)));
-	float x = xleft;
+  auto x = xleft;
 	if (isAlign)
 	{
-		float strw = rs->StringWidth(stringBuffer, font) * scale;
+    auto strw = rs->StringWidth(stringBuffer, font) * scale;
 		x = (xright + xleft - strw) * 0.5f;
 	}
 	rs->ExtPrint(font, color, 0, 0, false, scale, 0, 0, long(x), long(y), stringBuffer);
@@ -703,8 +703,8 @@ void Window::Print(long color, float xleft, float xright, float y, float scale, 
 void Window::DrawCursor()
 {
 	Vertex v[3];
-	float p1x = cursx + 15.0f, p1y = cursy + 20.0f;
-	float p2x = cursx + 15.0f * 1.2f - 20.0f * 0.4f, p2y = cursy + 20.0f * 1.2f + 15.0f * 0.4f;
+  auto p1x = cursx + 15.0f, p1y = cursy + 20.0f;
+  auto p2x = cursx + 15.0f * 1.2f - 20.0f * 0.4f, p2y = cursy + 20.0f * 1.2f + 15.0f * 0.4f;
 	float p3x = cursx + 15.0f * 1.2f + 20.0f * 0.4f, p3y = cursy + 20.0f * 1.2f - 15.0f * 0.4f;
 	v[0].x = cursx;
 	v[0].y = cursy;

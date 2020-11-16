@@ -40,7 +40,7 @@ WdmCounter::WdmCounter()
 	y[0] = y[1] = y[2] = y[3] = nullptr;
 
 	Assert(wdmObjects->rs);
-	float kDef = wdmObjects->rs->GetHeightDeformator();
+  auto kDef = wdmObjects->rs->GetHeightDeformator();
 #ifndef _XBOX
 	mtx.BuildMatrix(-0.1f, 0.0f, 0.0f, 1.4f, 0.9f * kDef, 40.0f);
 #else
@@ -139,10 +139,10 @@ void WdmCounter::LRender(VDX9RENDER* rs)
 	//wdmObjects->wm->day = 31;
 	//wdmObjects->wm->mon = 12;
 	//wdmObjects->wm->hour = 9.0f;
-	float hr = (wdmObjects->wm->hour + 11.0f) * 2.0f / 24.0f;
-	long ofs = long(hr);
-	long one = skyCounter + ofs;
-	long two = one + 1;
+  auto hr = (wdmObjects->wm->hour + 11.0f) * 2.0f / 24.0f;
+  auto ofs = long(hr);
+  auto one = skyCounter + ofs;
+  auto two = one + 1;
 	one &= numSkys - 1;
 	two &= numSkys - 1;
 	hr = (hr - ofs - 0.5f);
@@ -159,12 +159,12 @@ void WdmCounter::LRender(VDX9RENDER* rs)
 	WdmRenderModel::LRender(rs);
 	//Öèôðû
 	//Äåíü
-	long day = wdmObjects->wm->day - 1;
-	long mon = wdmObjects->wm->mon - 1;
-	long days = wdmObjects->wm->month[mon + 1];
-	long year = wdmObjects->wm->year;
-	float kHeight = wdmObjects->wm->hour / 24.0f;
-	float kNext = 0.0f;
+  auto day = wdmObjects->wm->day - 1;
+  auto mon = wdmObjects->wm->mon - 1;
+  auto days = wdmObjects->wm->month[mon + 1];
+  auto year = wdmObjects->wm->year;
+  auto kHeight = wdmObjects->wm->hour / 24.0f;
+  auto kNext = 0.0f;
 	float low, dlt, kMove;
 	if (days == 30)
 	{

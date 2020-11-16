@@ -42,8 +42,8 @@ void CXI_ToolTip::Draw()
 		                             sizeof(XI_ONETEX_VERTEX), "iVideo");
 	}
 
-	long nX = (m_rPos.left + m_rPos.right) / 2;
-	long nY = m_rPos.top + m_pntTextOffset.y;
+  auto nX = (m_rPos.left + m_rPos.right) / 2;
+  auto nY = m_rPos.top + m_pntTextOffset.y;
 	for (long n = 0; n < m_aSubText.size(); n++)
 	{
 		m_rs->ExtPrint(m_nFontID, m_dwFontColor, 0, PR_ALIGN_CENTER, true, m_fFontScale,
@@ -67,10 +67,10 @@ void CXI_ToolTip::SetByFormatString(XYRECT& rectOwner, INIFILE* pDefIni, const c
 	sprintf_s(pcToolTipType, sizeof(pcToolTipType), "ToolTip");
 	long m_nMaxStrWidth = -1; //~!~
 
-	for (char* pcParam = (char*)pFmtStr; pcParam && pcParam[0];)
+	for (auto pcParam = (char*)pFmtStr; pcParam && pcParam[0];)
 	{
 		if (nullptr == CXI_UTILS::StringGetTokenID(pcParam, tokenID, sizeof(tokenID))) break;
-		long nTokenCode = CXI_UTILS::StringGetTokenCode(tokenID);
+    auto nTokenCode = CXI_UTILS::StringGetTokenCode(tokenID);
 		if (CXI_UTILS::StringGetTokenString(pcParam, tokenString, sizeof(tokenString)))
 		{
 			const char* pStr = tokenString;
@@ -154,7 +154,7 @@ void CXI_ToolTip::SetByFormatString(XYRECT& rectOwner, INIFILE* pDefIni, const c
 		TOREMOVE::trim(m_aSubText[n]);
 		TOREMOVE::rtrim(m_aSubText[n]);
 
-		long nW = m_rs->StringWidth((char*)m_aSubText[n].c_str(), m_nFontID, m_fFontScale, 0);
+    auto nW = m_rs->StringWidth((char*)m_aSubText[n].c_str(), m_nFontID, m_fFontScale, 0);
 		if (nW > m_nUseWidth) m_nUseWidth = nW;
 	}
 	m_nUseWidth += m_pntTextOffset.x * 2;
@@ -249,8 +249,8 @@ void CXI_ToolTip::UpdateVertexBuffer()
 
 void CXI_ToolTip::ReplaceRectangle(long x, long y)
 {
-	long top = y + m_nYRectangleOffsetUp;
-	long bottom = y + m_nYRectangleOffsetDown;
+  auto top = y + m_nYRectangleOffsetUp;
+  auto bottom = y + m_nYRectangleOffsetDown;
 	if (top > m_rActiveZone.top) top = m_rActiveZone.top;
 	if (bottom < m_rActiveZone.bottom) bottom = m_rActiveZone.bottom;
 

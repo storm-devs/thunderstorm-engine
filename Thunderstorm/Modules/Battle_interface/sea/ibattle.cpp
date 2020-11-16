@@ -250,11 +250,11 @@ uint64_t BATTLE_INTERFACE::ProcessMessage(MESSAGE& message)
 		break;
 	case BI_IN_CREATE_SHIP: // "laall"
 		{
-			long chIdx = message.Long();
-			ATTRIBUTES* pChAttr = message.AttributePointer();
-			ATTRIBUTES* pShipAttr = message.AttributePointer();
-			bool bMyShip = (message.Long() != 0L);
-			long relation = message.Long();
+      auto chIdx = message.Long();
+      auto pChAttr = message.AttributePointer();
+      auto pShipAttr = message.AttributePointer();
+      auto bMyShip = (message.Long() != 0L);
+      auto relation = message.Long();
 			uint32_t dwShipColor = message.GetCurrentFormatType() ? message.Long() : 0;
 			g_ShipList.Add(AttributesPointer ? AttributesPointer->GetAttributeAsDword("MainChrIndex", -1) : -1, chIdx,
 			               pChAttr, pShipAttr, bMyShip, relation, dwShipColor);
@@ -271,11 +271,11 @@ uint64_t BATTLE_INTERFACE::ProcessMessage(MESSAGE& message)
 		break;
 	case BI_IN_SET_COMMAND_MODE: // "lllll"
 		{
-			long comMode = message.Long();
-			long startTextureNumber = message.Long();
-			long startPictureNumber = message.Long();
-			long characterNum = message.Long();
-			long commandState = message.Long();
+      auto comMode = message.Long();
+      auto startTextureNumber = message.Long();
+      auto startPictureNumber = message.Long();
+      auto characterNum = message.Long();
+      auto commandState = message.Long();
 		}
 		break;
 	case BI_SET_VISIBLE: // "ll"
@@ -326,20 +326,20 @@ uint64_t BATTLE_INTERFACE::ProcessMessage(MESSAGE& message)
 
 void BATTLE_INTERFACE::CheckSeaState()
 {
-	SHIP_DESCRIBE_LIST::SHIP_DESCR* main_sd = g_ShipList.GetMainCharacterShip();
+  auto main_sd = g_ShipList.GetMainCharacterShip();
 	if (main_sd == nullptr) return;
 
 	long nReloadTargetIndex = -1;
-	float sqrRadius = api->Entity_GetAttributeAsFloat(BIUtils::idBattleInterface, "boardRadius", 0.f);
+  auto sqrRadius = api->Entity_GetAttributeAsFloat(BIUtils::idBattleInterface, "boardRadius", 0.f);
 	sqrRadius *= sqrRadius;
-	float minReloadRadius = sqrRadius;
-	float sqrFreeDistance = api->Entity_GetAttributeAsFloat(BIUtils::idBattleInterface, "freeDistance", 500.f);
+  auto minReloadRadius = sqrRadius;
+  auto sqrFreeDistance = api->Entity_GetAttributeAsFloat(BIUtils::idBattleInterface, "freeDistance", 500.f);
 	sqrFreeDistance *= sqrFreeDistance;
 
-	bool bSailTo = false, bLandTroops = false, bMap = true;
-	bool bAttack = false, bDefend = false, bReload = false;
+  auto bSailTo = false, bLandTroops = false, bMap = true;
+  auto bAttack = false, bDefend = false, bReload = false;
 
-	for (SHIP_DESCRIBE_LIST::SHIP_DESCR* ps = g_ShipList.GetShipRoot(); ps != nullptr; ps = ps->next)
+	for (auto ps = g_ShipList.GetShipRoot(); ps != nullptr; ps = ps->next)
 	{
 		if (ps == main_sd) continue;
 		bSailTo = true;

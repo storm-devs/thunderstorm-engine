@@ -39,15 +39,15 @@ void SEA::EnvMap_GetSideMatrix(D3DCUBEMAP_FACES Face, CMatrix& mView)
 
 bool SEA::SunRoad_Render2()
 {
-	CMatrix mOldView = rs->GetView();
-	CMatrix mOldProjection = rs->GetProjection();
+  auto mOldView = rs->GetView();
+  auto mOldProjection = rs->GetProjection();
 
 	rs->EndScene();
 	rs->PushRenderTarget();
 
 	//rs->SetProjection( CMatrix().BuildProjectionMatrix(PI / 2.0f, 256.0f, 256.0f, 1.0f, 4000.0f) );
 
-	float PlaneHeight = 0.5f;
+  auto PlaneHeight = 0.5f;
 
 	D3DXPLANE plane;
 	const D3DXVECTOR3 point(0, PlaneHeight, 0), normal(0, 1, 0);
@@ -56,9 +56,9 @@ bool SEA::SunRoad_Render2()
 	D3DXMATRIX matReflect;
 	D3DXMatrixReflect(&matReflect, &plane);
 
-	CMatrix mView = rs->GetView();
+  auto mView = rs->GetView();
 
-	CMatrix mViewNew = mView;
+  auto mViewNew = mView;
 
 	CMatrix Invertor;
 	memcpy(Invertor.m, matReflect.m, sizeof(float) * 16);
@@ -66,11 +66,11 @@ bool SEA::SunRoad_Render2()
 
 	rs->SetView(mViewNew);
 
-	CMatrix _mWorld = CMatrix();
-	CMatrix _mView = rs->GetView();
-	CMatrix _mProj = rs->GetProjection();
-	CMatrix _mWorldView = _mWorld * _mView;
-	CMatrix _mWorldViewProj = _mWorldView * _mProj;
+  auto _mWorld = CMatrix();
+  auto _mView = rs->GetView();
+  auto _mProj = rs->GetProjection();
+  auto _mWorldView = _mWorld * _mView;
+  auto _mWorldViewProj = _mWorldView * _mProj;
 
 	D3DXMATRIX mInv;
 	memcpy(mInv.m, _mWorldViewProj.m, sizeof(float) * 16);
@@ -134,14 +134,14 @@ bool SEA::SunRoad_Render2()
 
 bool SEA::EnvMap_Render2()
 {
-	CMatrix mOldView = rs->GetView();
-	CMatrix mOldProjection = rs->GetProjection();
+  auto mOldView = rs->GetView();
+  auto mOldProjection = rs->GetProjection();
 	rs->EndScene();
 	rs->PushRenderTarget();
 
 	//rs->SetProjection( CMatrix().BuildProjectionMatrix(PI / 2.0f, 256.0f, 256.0f, 1.0f, 4000.0f) );
 
-	float PlaneHeight = 0.5f;
+  auto PlaneHeight = 0.5f;
 
 	D3DXPLANE plane;
 	const D3DXVECTOR3 point(0, PlaneHeight, 0), normal(0, 1, 0);
@@ -150,7 +150,7 @@ bool SEA::EnvMap_Render2()
 	D3DXMATRIX matReflect;
 	D3DXMatrixReflect(&matReflect, &plane);
 
-	CMatrix mView = rs->GetView();
+  auto mView = rs->GetView();
 
 	CMatrix mViewNew = mView;
 

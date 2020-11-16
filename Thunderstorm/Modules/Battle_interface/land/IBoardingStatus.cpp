@@ -34,8 +34,8 @@ uint64_t IBoardingStatus::ProcessMessage(MESSAGE& message)
 		break;
 	case LOG_SET_CHARCTER_HP:
 		{
-			float myHP = message.Float();
-			float enemyHP = message.Float();
+      auto myHP = message.Float();
+      auto enemyHP = message.Float();
 			SetCharactersHP(myHP, enemyHP);
 		}
 		break;
@@ -56,7 +56,7 @@ void IBoardingStatus::Realize(uint32_t delta_time)
 void IBoardingStatus::Create()
 {
 	// Установить параметры для иконки активного действия
-	ATTRIBUTES* pA = api->Entity_GetAttributePointer(GetId());
+  auto pA = api->Entity_GetAttributePointer(GetId());
 	if (pA != nullptr)
 	{
 		m_myPos.x = (float)pA->GetAttributeAsDword("myLeft", 10);

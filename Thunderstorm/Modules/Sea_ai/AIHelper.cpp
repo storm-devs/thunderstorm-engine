@@ -90,8 +90,8 @@ void AIHelper::CalculateRelations()
 		for (x = 0; x < dwRelationSize; x++)
 			if (x != y)
 			{
-				VDATA* pData = api->Event(GET_RELATION_EVENT, "ll", GetIndex(aMainCharacters[y]),
-				                          GetIndex(aMainCharacters[x]));
+        auto pData = api->Event(GET_RELATION_EVENT, "ll", GetIndex(aMainCharacters[y]),
+                                GetIndex(aMainCharacters[x]));
 				Assert(pData);
 				*GetRelation(y, x) = uint32_t(pData->GetLong());
 			}
@@ -117,9 +117,9 @@ uint32_t AIHelper::GetRelationSafe(ATTRIBUTES* pA1, ATTRIBUTES* pA2) const
 {
 	Assert(pA1 && pA2);
 	if (dwRelationSize == 0) return RELATION_NEUTRAL;
-	uint32_t dw1 = FindIndex(pA1);
+  auto dw1 = FindIndex(pA1);
 	if (dw1 == INVALID_ARRAY_INDEX) return RELATION_NEUTRAL;
-	uint32_t dw2 = FindIndex(pA2);
+  auto dw2 = FindIndex(pA2);
 	if (dw2 == INVALID_ARRAY_INDEX) return RELATION_NEUTRAL;
 	return *GetRelation(dw1, dw2);
 }
@@ -127,9 +127,9 @@ uint32_t AIHelper::GetRelationSafe(ATTRIBUTES* pA1, ATTRIBUTES* pA2) const
 uint32_t AIHelper::GetRelation(ATTRIBUTES* pA1, ATTRIBUTES* pA2) const
 {
 	Assert(pA1 && pA2);
-	uint32_t dw1 = FindIndex(pA1);
+  auto dw1 = FindIndex(pA1);
 	Assert(dw1 != INVALID_ARRAY_INDEX);
-	uint32_t dw2 = FindIndex(pA2);
+  auto dw2 = FindIndex(pA2);
 	Assert(dw2 != INVALID_ARRAY_INDEX);
 	return *GetRelation(dw1, dw2);
 }
@@ -183,8 +183,8 @@ void AIHelper::Print3D(CVECTOR vPos, float dy, float fScale, const char* pFormat
 	view.Transposition();
 
 	pRS->GetViewport(&vp);
-	float fWidth = vp.Width * 0.5f;
-	float fHeight = vp.Height * 0.5f;
+  auto fWidth = vp.Width * 0.5f;
+  auto fHeight = vp.Height * 0.5f;
 
 	mtx.Projection(&vPos, &vrt, 1, fWidth, fHeight, sizeof(CVECTOR), sizeof(MTX_PRJ_VECTOR));
 	vPos = CVECTOR(vrt.x, vrt.y, vrt.z);
@@ -221,7 +221,7 @@ void AIHelper::Load(CSaveLoad* pSL)
 
 	pASeaCameras = pSL->LoadAPointer("seacameras");
 
-	uint32_t dwNum = pSL->LoadDword();
+  auto dwNum = pSL->LoadDword();
 	for (uint32_t i = 0; i < dwNum; i++) aCharacters.push_back(pSL->LoadAPointer("character"));
 
 	dwNum = pSL->LoadDword();

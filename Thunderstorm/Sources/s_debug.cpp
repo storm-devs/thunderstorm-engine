@@ -77,7 +77,7 @@ LRESULT CALLBACK DebugWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam
 		if (hMenu)
 		{
 			MENUITEMINFO mii;
-			HMENU hFileSubMenu = GetSubMenu(hMenu, 0);
+      auto hFileSubMenu = GetSubMenu(hMenu, 0);
 
 			for (uint32_t n = 0; n < (uint32_t)GetMenuItemCount(hFileSubMenu); n++)
 			{
@@ -564,7 +564,7 @@ bool S_DEBUG::BrowseFile(char* buffer, const char* filter)
 	ofn.nMaxFile = MAX_PATH;
 	ofn.lpstrDefExt = filter;
 	ofn.lpstrTitle = "Open script source file";
-	BOOL bRes = GetOpenFileName(&ofn);
+  auto bRes = GetOpenFileName(&ofn);
 	fio->_SetCurrentDirectory(DirectoryName);
 	if (bRes)
 	{
@@ -596,7 +596,7 @@ bool S_DEBUG::BrowseFileWP(char* buffer, const char* filter)
 	ofn.nMaxFile = MAX_PATH;
 	ofn.lpstrDefExt = filter;
 	ofn.lpstrTitle = "Open script source file";
-	BOOL bRes = GetOpenFileName(&ofn);
+  auto bRes = GetOpenFileName(&ofn);
 	fio->_SetCurrentDirectory(DirectoryName);
 	if (bRes)
 	{
@@ -782,8 +782,8 @@ bool S_DEBUG::ProcessRegistry_Open()
 	if (!hKey) if (RegCreateKey(HKEY_CURRENT_USER, "SDIIDEBUGGER", &hKey) != ERROR_SUCCESS) return false;
 
 	dwSize = sizeof(uint32_t);
-	long nRes = RegQueryValueEx(hKey, "Recent Files Num", nullptr, nullptr, (unsigned char *)&nRecentFilesNum,
-	                            (LPDWORD)&dwSize);
+  auto nRes = RegQueryValueEx(hKey, "Recent Files Num", nullptr, nullptr, (unsigned char *)&nRecentFilesNum,
+                              (LPDWORD)&dwSize);
 	if (nRes != ERROR_SUCCESS)
 	{
 		// write default value
@@ -803,7 +803,7 @@ bool S_DEBUG::ProcessRegistry_Open()
 		}
 	*/
 
-	HMENU hMenu = GetMenu(hMain);
+  auto hMenu = GetMenu(hMain);
 	if (hMenu)
 	{
 		MENUITEMINFO mii;

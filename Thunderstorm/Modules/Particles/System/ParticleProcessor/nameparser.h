@@ -46,14 +46,14 @@ public:
 			strcat_s(NamesString, ";");
 		StrLen = strlen(NamesString);
 
-		int FromChar = 0;
-		for (int n = 0; n < StrLen; n++)
+    auto FromChar = 0;
+		for (auto n = 0; n < StrLen; n++)
 		{
 			if (NamesString[n] == ';')
 			{
 				NamesString[n] = 0;
 
-				char* ModelName = NamesString + FromChar;
+        auto ModelName = NamesString + FromChar;
 				if (ModelName[0] != '\0')
 				{
 					Tokens.push_back(ModelName);

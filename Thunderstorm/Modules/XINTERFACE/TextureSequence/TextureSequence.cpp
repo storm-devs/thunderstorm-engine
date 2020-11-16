@@ -17,13 +17,13 @@ struct TS_VERTEX
 
 void GetRectFromNum(FRECT& texRect, int xq, int yq, int curNum, bool bHorzFlip, bool bVertFlip)
 {
-	int y = curNum / xq;
+  auto y = curNum / xq;
 	if (y >= yq) y = 0;
-	int x = curNum - y * xq;
+  auto x = curNum - y * xq;
 	if (x >= xq) x = 0;
 
-	float width = 1.f / xq;
-	float height = 1.f / yq;
+  auto width = 1.f / xq;
+  auto height = 1.f / yq;
 
 	if (bHorzFlip) texRect.left = width + (texRect.right = x * width);
 	else texRect.right = width + (texRect.left = x * width);
@@ -51,7 +51,7 @@ IDirect3DTexture9* TextureSequence::Initialize(VDX9RENDER* pRS, const char* cTSf
 	m_pRS = pRS;
 
 	// open ini file
-	INIFILE* ini = fio->OpenIniFile((char*)INI_FILENAME);
+  auto ini = fio->OpenIniFile((char*)INI_FILENAME);
 	if (!ini)
 	{
 		api->Trace("ini file %s not found!", INI_FILENAME);
@@ -128,7 +128,7 @@ bool TextureSequence::FrameUpdate()
 
 void TextureSequence::ToTextureRender(float blendValue)
 {
-	uint32_t newTFactor = ARGB(long(255.f*blendValue), long(255.f*blendValue), long(255.f*blendValue),
+  auto newTFactor = ARGB(long(255.f*blendValue), long(255.f*blendValue), long(255.f*blendValue),
 	                           long(255.f*blendValue));
 
 	// set texture as render target
@@ -148,7 +148,7 @@ void TextureSequence::ToTextureRender(float blendValue)
 
 				FRECT m_rectTex;
 				TS_VERTEX v[4];
-				for (int i = 0; i < 4; i++)
+				for (auto i = 0; i < 4; i++)
 				{
 					v[i].w = 0.5f;
 					v[i].pos.z = 1.f;

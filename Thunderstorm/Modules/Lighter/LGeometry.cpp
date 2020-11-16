@@ -79,7 +79,7 @@ void LGeometry::AddObject(const char* name, entid_t model)
 	strcat_s(object[numObjects].name, len, "_");
 	strcat_s(object[numObjects].name, len, lightPath);
 	strcat_s(object[numObjects].name, len, ".col");
-	char* str = object[numObjects].name;
+  auto str = object[numObjects].name;
 	for (long s = 0, d = 0; str[d]; s++)
 	{
 		if (str[s] >= 'a' && str[s] <= 'z') str[s] -= 'a' - 'A';
@@ -119,8 +119,8 @@ bool LGeometry::Process(VDX9RENDER* rs, long numLights)
 		//Пересчитать матрицы
 		object[i].m->Update();
 		//Получаем геометрию
-		NODE* node = object[i].m->GetNode(0);
-		GEOS* g = node->geo;
+    auto node = object[i].m->GetNode(0);
+    auto g = node->geo;
 		if (!g)
 		{
 			api->Trace("Location lighter: incorrent model %s (node not include geos)", object[i].nameReal);
@@ -142,12 +142,12 @@ bool LGeometry::Process(VDX9RENDER* rs, long numLights)
 		}
 		for (long vb = 0; vb < info.nvrtbuffs; vb++)
 		{
-			long vbID = g->GetVertexBuffer(vb);
+      auto vbID = g->GetVertexBuffer(vb);
 			if (vbID < 0) continue;
 			vbuffer[numVBuffers].vbID = vbID;
 			vbuffer[numVBuffers++].start = numVrt;
 			//Получаем вершины
-			IDirect3DVertexBuffer9* vbuf = rs->GetVertexBuffer(vbID);
+      auto vbuf = rs->GetVertexBuffer(vbID);
 			D3DVERTEXBUFFER_DESC desc;
 			if (!vbuf || vbuf->GetDesc(&desc) != D3D_OK)
 			{
@@ -155,7 +155,7 @@ bool LGeometry::Process(VDX9RENDER* rs, long numLights)
 				return false;
 			}
 			//Анализируем тип
-			bool isEnabledType = true;
+      auto isEnabledType = true;
 			isEnabledType &= ((desc.FVF & D3DFVF_POSITION_MASK) == D3DFVF_XYZ);
 			isEnabledType &= ((desc.FVF & D3DFVF_NORMAL) != 0);
 			isEnabledType &= ((desc.FVF & D3DFVF_DIFFUSE) != 0);
@@ -171,7 +171,7 @@ bool LGeometry::Process(VDX9RENDER* rs, long numLights)
 			stride += ((desc.FVF & D3DFVF_TEXCOUNT_MASK) >> D3DFVF_TEXCOUNT_SHIFT) * 2 * sizeof(float);
 			if (desc.FVF & D3DFVF_SPECULAR) stride += sizeof(uint32_t);
 			//Количество вершин
-			long num = desc.Size / stride;
+      auto num = desc.Size / stride;
 			if (num <= 0)
 			{
 				api->Trace("Location lighter: incorrect number of verteces in vertex buffer, model %s, vbID %i",
@@ -197,8 +197,8 @@ bool LGeometry::Process(VDX9RENDER* rs, long numLights)
 				vrt[numVrt].p = *pos;
 				auto* nrm = (CVECTOR *)(pnt + v * stride + 3 * sizeof(float));
 				vrt[numVrt].n = *nrm;
-				uint32_t color = *(uint32_t *)(pnt + v * stride + 6 * sizeof(float));
-				float l = ~vrt[numVrt].n;
+        auto color = *(uint32_t *)(pnt + v * stride + 6 * sizeof(float));
+        auto l = ~vrt[numVrt].n;
 				if (l > 0.0f)
 				{
 					if (l != 1.0f) vrt[numVrt].n *= 1.0f / sqrtf(l);
@@ -231,7 +231,7 @@ bool LGeometry::Process(VDX9RENDER* rs, long numLights)
 		}
 		object[i].lBufSize = cindex;
 		//Треугольники--------------------------------------------------------------------------------
-		long ibID = g->GetIndexBuffer();
+    auto ibID = g->GetIndexBuffer();
 		auto* idx = (uint16_t *)rs->LockIndexBuffer(ibID);
 		if (!idx)
 		{
@@ -254,7 +254,7 @@ bool LGeometry::Process(VDX9RENDER* rs, long numLights)
 			}
 			vb = vbuffer[vb].start + obj.start_vertex;
 			//Читаем треугольники
-			uint16_t* triangles = idx + obj.striangle * 3;
+      auto triangles = idx + obj.striangle * 3;
 			for (long t = 0; t < obj.ntriangles; t++)
 			{
 				//Относительные индексы
@@ -275,7 +275,7 @@ bool LGeometry::Process(VDX9RENDER* rs, long numLights)
 				Assert(i1 >= 0 && i1 < numVrt);
 				Assert(i2 >= 0 && i2 < numVrt);
 				Assert(i3 >= 0 && i3 < numVrt);
-				CVECTOR nrm = ((vrt[i2].p - vrt[i1].p) ^ (vrt[i3].p - vrt[i1].p));
+        auto nrm = ((vrt[i2].p - vrt[i1].p) ^ (vrt[i3].p - vrt[i1].p));
 				float sq = sqrtf(~nrm);
 				//Пропустим пустой треугольник
 				if (sq <= 0.0f)

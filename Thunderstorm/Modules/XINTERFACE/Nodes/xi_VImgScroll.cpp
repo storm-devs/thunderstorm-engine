@@ -58,7 +58,7 @@ void CXI_VIMAGESCROLL::Draw(bool bSelected, uint32_t Delta_Time)
 			if ((m_fCurrentDistance >= m_fMoveDistance && m_fDeltaMove >= 0.f) ||
 				(m_fCurrentDistance <= m_fMoveDistance && m_fDeltaMove <= 0.f))
 				m_fCurrentDistance = m_fMoveDistance;
-			float fDelta = ChangeDinamicParameters(m_fCurrentDistance);
+      auto fDelta = ChangeDinamicParameters(m_fCurrentDistance);
 			m_fCurrentDistance += fDelta;
 			m_fMoveDistance += fDelta;
 			if (m_fMoveDistance == m_fCurrentDistance)
@@ -67,7 +67,7 @@ void CXI_VIMAGESCROLL::Draw(bool bSelected, uint32_t Delta_Time)
 				m_bDoMove = false;
 
 				// Set new current image
-				ATTRIBUTES* tmpAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+        auto tmpAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 				if (tmpAttr != nullptr)
 					tmpAttr->SetAttributeUseDword("current", m_nCurImage);
 
@@ -125,7 +125,7 @@ void CXI_VIMAGESCROLL::Draw(bool bSelected, uint32_t Delta_Time)
 		// create select border
 		XI_ONLYONETEX_VERTEX pV[4];
 		FXYRECT textureRect;
-		for (int i = 0; i < 4; i++) pV[i].pos.z = 1.f;
+		for (auto i = 0; i < 4; i++) pV[i].pos.z = 1.f;
 		pPictureService->GetTexturePos(m_nBorderPicture, textureRect);
 		pV[0].tu = textureRect.left;
 		pV[0].tv = textureRect.top;
@@ -154,13 +154,13 @@ void CXI_VIMAGESCROLL::Draw(bool bSelected, uint32_t Delta_Time)
 
 		XI_ONETEX_VERTEX v[4];
 
-		int j = 0;
+    auto j = 0;
 		FXYRECT rectTex;
 		SCROLLEntity* pScroll;
-		int curShowOrder = m_nShowOrder;
+    auto curShowOrder = m_nShowOrder;
 		//if(m_bLockStatus) curShowOrder = m_nSlotsQnt-1;
 		if (curShowOrder >= m_nSlotsQnt) curShowOrder = m_nSlotsQnt - 1;
-		bool bDoShowBorder = false;
+    auto bDoShowBorder = false;
 
 		for (n = 0; n < m_nSlotsQnt; n++)
 		{
@@ -213,13 +213,13 @@ void CXI_VIMAGESCROLL::Draw(bool bSelected, uint32_t Delta_Time)
 				pos.bottom = (pos.top = pScroll->pCenter.y - m_ImageSize.y / 2.f + m_pPicOffset[n]) + m_ImageSize.y;
 				if (pos.top < m_rect.top)
 				{
-					float texCorrect = (m_rect.top - pos.top) / (pos.bottom - pos.top);
+          auto texCorrect = (m_rect.top - pos.top) / (pos.bottom - pos.top);
 					rectTex.top += texCorrect * (rectTex.bottom - rectTex.top);
 					pos.top = (float)m_rect.top;
 				}
 				if (pos.bottom > m_rect.bottom)
 				{
-					float texCorrect = (m_rect.bottom - pos.bottom) / (pos.bottom - pos.top);
+          auto texCorrect = (m_rect.bottom - pos.bottom) / (pos.bottom - pos.top);
 					rectTex.bottom += texCorrect * (rectTex.bottom - rectTex.top);
 					pos.bottom = (float)m_rect.bottom;
 				}
@@ -423,12 +423,12 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, 
 		m_pStrParam[i].m_dwBackColor = GetIniARGB(ini1, name1, ini2, name2, param1, 0);
 	}
 
-	ATTRIBUTES* pAttribute = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+  auto pAttribute = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 	if (pAttribute != nullptr)
 	{
 		// get special technique name and color
 		m_dwSpecTechniqueARGB = pAttribute->GetAttributeAsDword("SpecTechniqueColor");
-		char* sTechnique = pAttribute->GetAttribute("SpecTechniqueName");
+    auto sTechnique = pAttribute->GetAttribute("SpecTechniqueName");
 		if (sTechnique != nullptr)
 		{
 			const auto len = strlen(sTechnique) + 1;
@@ -455,7 +455,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, 
 			m_nCurImage = 0;
 
 		// get textures
-		ATTRIBUTES* pA = pAttribute->GetAttributeClass("ImagesGroup");
+    auto pA = pAttribute->GetAttributeClass("ImagesGroup");
 		if (pA != nullptr)
 		{
 			m_nGroupQuantity = pA->GetAttributesNum();
@@ -469,7 +469,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, 
 				}
 				for (i = 0; i < m_nGroupQuantity; i++)
 				{
-					char* stmp = pA->GetAttribute(i);
+          auto stmp = pA->GetAttribute(i);
 					if (stmp == nullptr) continue;
 					const auto len = strlen(stmp) + 1;
 					m_sGroupName[i] = new char[len];
@@ -523,7 +523,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, 
 			char attrName[256];
 			char* sStringName;
 			sprintf_s(attrName, "pic%d", i + 1);
-			ATTRIBUTES* pListEntity = pAttribute->GetAttributeClass(attrName);
+      auto pListEntity = pAttribute->GetAttributeClass(attrName);
 
 			// Fill image descriptor by default value
 			//------------------------------------------------------
@@ -655,17 +655,17 @@ float CXI_VIMAGESCROLL::ChangeDinamicParameters(float fYDelta)
 	int n;
 
 	float curScale;
-	bool bIncrement = true;
-	float curYCenter = m_pCenter.y + fYDelta;
-	int curImage = m_nCurImage;
-	long lbBorderDist = m_rect.bottom - m_pCenter.y;
-	long ltBorderDist = m_pCenter.y - m_rect.top;
+  auto bIncrement = true;
+  auto curYCenter = m_pCenter.y + fYDelta;
+  auto curImage = m_nCurImage;
+  auto lbBorderDist = m_rect.bottom - m_pCenter.y;
+  auto ltBorderDist = m_pCenter.y - m_rect.top;
 
-	int newCurImage = m_nCurImage;
-	float fNewCurCenter = curYCenter;
+  auto newCurImage = m_nCurImage;
+  auto fNewCurCenter = curYCenter;
 
 	SCROLLEntity* pPrevScroll = nullptr;
-	SCROLLEntity* pScroll = m_pScroll;
+  auto pScroll = m_pScroll;
 
 	while (true)
 	{
@@ -707,7 +707,7 @@ float CXI_VIMAGESCROLL::ChangeDinamicParameters(float fYDelta)
 				       sizeof(IMAGEDESCRIBE) * (m_nListSize - 1 - curImage));
 			m_nListSize--;
 			// Передвинем все уже используемые картинки
-			for (SCROLLEntity* pSTmp = m_pScroll; pSTmp != nullptr && pSTmp != pScroll; pSTmp = pSTmp->next)
+			for (auto pSTmp = m_pScroll; pSTmp != nullptr && pSTmp != pScroll; pSTmp = pSTmp->next)
 				if (pSTmp->imageNum > curImage)
 					pSTmp->imageNum--;
 			if (!bIncrement)
@@ -742,8 +742,8 @@ float CXI_VIMAGESCROLL::ChangeDinamicParameters(float fYDelta)
 		pScroll->pCenter.x = (float)m_pCenter.x;
 		pScroll->pCenter.y = curYCenter;
 
-		float tpos = curYCenter - m_ImageSize.y * .5f;
-		float bpos = curYCenter + m_ImageSize.y * .5f;
+    auto tpos = curYCenter - m_ImageSize.y * .5f;
+    auto bpos = curYCenter + m_ImageSize.y * .5f;
 
 		if (m_pCenter.y >= tpos && m_pCenter.y <= bpos)
 		{
@@ -820,7 +820,7 @@ float CXI_VIMAGESCROLL::ChangeDinamicParameters(float fYDelta)
 
 	if (pScroll->next != nullptr)
 	{
-		SCROLLEntity* pScr = pScroll->next;
+    auto pScr = pScroll->next;
 		pScroll->next = nullptr;
 		while (pScr != nullptr)
 		{

@@ -22,7 +22,7 @@ TSeagulls::~TSeagulls()
 //--------------------------------------------------------------------
 void TSeagulls::LoadSettings()
 {
-	INIFILE* ini = fio->OpenIniFile(ANIMALS_INI_FILENAME);
+  auto ini = fio->OpenIniFile(ANIMALS_INI_FILENAME);
 	if (!ini)
 	{
 		countAdd = SEAGULL_ADD_COUNT;
@@ -113,7 +113,7 @@ void TSeagulls::Execute(uint32_t _dTime)
 		{
 			frightened = false;
 			screamTime <<= 1;
-			for (int i = 0; i < count; i++)
+			for (auto i = 0; i < count; i++)
 			{
 				seagulls[i].va /= 2.0f;
 				//seagulls[i].circleTimePassed += _dTime;
@@ -122,7 +122,7 @@ void TSeagulls::Execute(uint32_t _dTime)
 	}
 
 	// <all_movements>
-	for (int i = 0; i < count; i++)
+	for (auto i = 0; i < count; i++)
 	{
 		// <scream>
 		if (seagulls[i].screamTime > 0)
@@ -147,30 +147,30 @@ void TSeagulls::Execute(uint32_t _dTime)
 			seagulls[i].circleTimePassed += _dTime;
 		else
 		{
-			float oldR = seagulls[i].radius;
+      auto oldR = seagulls[i].radius;
 			seagulls[i].radius = SEAGULL_MIN_RADIUS + rand(maxRadius);
 			seagulls[i].circleTimePassed = 0;
 			seagulls[i].circleTime = (long)rand((float)maxCircleTime);
 			if ((seagulls[i].circleTime) < (maxCircleTime / 20))
 				seagulls[i].circleTime = maxCircleTime / 20;
-			float sinA = sinf(seagulls[i].a);
-			float cosA = cosf(seagulls[i].a);
-			float newX1 = seagulls[i].center.x + sinA * (seagulls[i].radius + oldR);
-			float newZ1 = seagulls[i].center.z + cosA * (seagulls[i].radius + oldR);
-			float newX2 = seagulls[i].center.x + sinA * (oldR - seagulls[i].radius);
-			float newZ2 = seagulls[i].center.z + cosA * (oldR - seagulls[i].radius);
-			float distance1 = fabsf(cameraPos.x - newX1) + fabsf(cameraPos.z - newZ1);
-			float distance2 = fabsf(cameraPos.x - newX2) + fabsf(cameraPos.z - newZ2);
-			float oldVa = seagulls[i].va;
+      auto sinA = sinf(seagulls[i].a);
+      auto cosA = cosf(seagulls[i].a);
+      auto newX1 = seagulls[i].center.x + sinA * (seagulls[i].radius + oldR);
+      auto newZ1 = seagulls[i].center.z + cosA * (seagulls[i].radius + oldR);
+      auto newX2 = seagulls[i].center.x + sinA * (oldR - seagulls[i].radius);
+      auto newZ2 = seagulls[i].center.z + cosA * (oldR - seagulls[i].radius);
+      auto distance1 = fabsf(cameraPos.x - newX1) + fabsf(cameraPos.z - newZ1);
+      auto distance2 = fabsf(cameraPos.x - newX2) + fabsf(cameraPos.z - newZ2);
+      auto oldVa = seagulls[i].va;
 
 			seagulls[i].va *= oldR / seagulls[i].radius;
-			float deltaVa = randCentered(maxAngleSpeed / 5.0f);
+      auto deltaVa = randCentered(maxAngleSpeed / 5.0f);
 			if (((seagulls[i].va + deltaVa) * seagulls[i].va) < 0)
 				seagulls[i].va -= deltaVa;
 			else
 				seagulls[i].va += deltaVa;
 
-			float minRadius = maxRadius * maxAngleSpeed / seagulls[i].radius;
+      auto minRadius = maxRadius * maxAngleSpeed / seagulls[i].radius;
 			if (fabs(seagulls[i].va) < (minRadius / 2.0f))
 			{
 				if (seagulls[i].va > 0.0f)
@@ -211,12 +211,12 @@ void TSeagulls::Realize(uint32_t _dTime)
 	if (!seagull)
 		return;
 
-	for (int i = 0; i < count; i++)
+	for (auto i = 0; i < count; i++)
 	{
 		CVECTOR ang, pos;
 		ang.x = 0.0f;
 		ang.z = 0.0f;
-		float angle = seagulls[i].a;
+    auto angle = seagulls[i].a;
 		if (seagulls[i].va > 0.0f)
 			ang.y = seagulls[i].a + PI / 2;
 		else
@@ -238,7 +238,7 @@ void TSeagulls::Frighten()
 	frightened = true;
 	frightenTime = relaxTime;
 
-	for (int i = 0; i < count; i++)
+	for (auto i = 0; i < count; i++)
 	{
 		seagulls[i].va *= 2.0f;
 		seagulls[i].screamTime >>= 2;

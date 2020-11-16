@@ -25,8 +25,8 @@ CVECTOR g_externPos;
 
 void BATTLE_NAVIGATOR::CalculateTextureRect(FRECT& texRect, long num, long hq, long vq)
 {
-	long yNum = num / hq;
-	long xNum = num - yNum * hq;
+  auto yNum = num / hq;
+  auto xNum = num - yNum * hq;
 
 	texRect.left = 1.f / hq * xNum;
 	texRect.right = 1.f / hq * (xNum + 1);
@@ -364,8 +364,8 @@ void BATTLE_NAVIGATOR::UpdateFireRangeBuffer()
 	auto* pv = (BI_NOTEXTURE_VERTEX *)rs->LockVertexBuffer(m_idFireZoneVBuf);
 	if (pv == nullptr) return;
 
-	SHIP_DESCRIBE_LIST::SHIP_DESCR* psd = g_ShipList.GetMainCharacterShip();
-	ATTRIBUTES* pAttr = g_ShipList.GetMainCharacterShipAttr();
+  auto psd = g_ShipList.GetMainCharacterShip();
+  auto pAttr = g_ShipList.GetMainCharacterShipAttr();
 	if (psd != nullptr && pAttr != nullptr)
 	{
 		FillOneSideFireRange(&pv[0], pAttr, psd->pAttr, "cannonf");
@@ -380,7 +380,7 @@ void BATTLE_NAVIGATOR::FillOneSideFireRange(BI_NOTEXTURE_VERTEX* pv, ATTRIBUTES*
 {
 	if (pv == nullptr || pShip == nullptr || pChar == nullptr || pstr == nullptr) return;
 
-	float fDirAng = 0.f, fSizeAng = 0.f, fFireZone = 0.f;
+  auto fDirAng = 0.f, fSizeAng = 0.f, fFireZone = 0.f;
 	ATTRIBUTES* pA;
 	if ((pA = BIUtils::GetAttributesFromPath(pShip, "Cannons", "Borts", pstr, 0)) != nullptr)
 	{
@@ -393,9 +393,9 @@ void BATTLE_NAVIGATOR::FillOneSideFireRange(BI_NOTEXTURE_VERTEX* pv, ATTRIBUTES*
 	fFireZone *= m_fMapRadius / (m_fWorldRad * m_fCurScale);
 	if (fFireZone > m_fMapRadius) fFireZone = m_fMapRadius;
 
-	float curAng = fDirAng - fSizeAng / 2.f;
-	float dAng = fSizeAng / (float)(BI_ONESIDE_SIZE - 1);
-	for (int i = 0; i < BI_ONESIDE_SIZE; i++, curAng += dAng)
+  auto curAng = fDirAng - fSizeAng / 2.f;
+  auto dAng = fSizeAng / (float)(BI_ONESIDE_SIZE - 1);
+	for (auto i = 0; i < BI_ONESIDE_SIZE; i++, curAng += dAng)
 	{
 		pv[i + 1].pos.x = m_XNavigator + sinf(curAng) * fFireZone;
 		pv[i + 1].pos.y = m_YNavigator - cosf(curAng) * fFireZone * m_fAspectRatio;
@@ -422,7 +422,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER* RenderService, Entity* pOwnerEI)
 	//
 	m_fShipSpeedScale = api->Entity_GetAttributeAsFloat(BIUtils::idBattleInterface, "ShipSpeedScaler", 1.f);
 
-	ATTRIBUTES* pARoot = api->Entity_GetAttributeClass(BIUtils::idBattleInterface, "navigation");
+  auto pARoot = api->Entity_GetAttributeClass(BIUtils::idBattleInterface, "navigation");
 
 	m_fAspectRatio = BIUtils::GetFloatFromAttr(pARoot, "aspectRatio", 1.f);
 
@@ -630,7 +630,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER* RenderService, Entity* pOwnerEI)
 	m_nvShips = 0;
 
 	// fill constant value for vertex buffer
-	BI_ONETEXTURE_VERTEX* pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idEmptyVBuf);
+  auto pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idEmptyVBuf);
 	if (pV != nullptr)
 	{
 		for (i = 0; i < 12; i++)
@@ -685,7 +685,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER* RenderService, Entity* pOwnerEI)
 	auto* pv = (BI_NOTEXTURE_VERTEX*)rs->LockVertexBuffer(m_idFireZoneVBuf);
 	if (pv != nullptr)
 	{
-		CVECTOR vCenter = CVECTOR((float)m_XNavigator, (float)m_YNavigator, 1.f);
+    auto vCenter = CVECTOR((float)m_XNavigator, (float)m_YNavigator, 1.f);
 		for (i = 0; i < FIRERANGE_QUANTITY; i++)
 		{
 			pv[i].w = .5f;
@@ -765,12 +765,12 @@ long BATTLE_NAVIGATOR::SetRectangleVertexPos(BI_ONETEXTURE_VERTEX* v, float x, f
 	}
 	else
 	{
-		float ca = cosf(angle);
-		float sa = sinf(angle);
-		float wca = width / 2 * ca;
-		float wsa = width / 2 * sa;
-		float hca = height / 2 * ca;
-		float hsa = height / 2 * sa;
+    auto ca = cosf(angle);
+    auto sa = sinf(angle);
+    auto wca = width / 2 * ca;
+    auto wsa = width / 2 * sa;
+    auto hca = height / 2 * ca;
+    auto hsa = height / 2 * sa;
 		v[0].pos.x = x + (-wca + hsa);
 		v[0].pos.y = y + (-wsa - hca) * m_fAspectRatio;
 		v[1].pos.x = x + (-wca - hsa);
@@ -796,12 +796,12 @@ long BATTLE_NAVIGATOR::SetRectangleVertexTex(BI_ONETEXTURE_VERTEX* v, float x, f
 	}
 	else
 	{
-		float ca = cosf(angle);
-		float sa = sinf(angle);
-		float wca = width / 2 * ca;
-		float wsa = width / 2 * sa;
-		float hca = height / 2 * ca;
-		float hsa = height / 2 * sa;
+    auto ca = cosf(angle);
+    auto sa = sinf(angle);
+    auto wca = width / 2 * ca;
+    auto wsa = width / 2 * sa;
+    auto hca = height / 2 * ca;
+    auto hsa = height / 2 * sa;
 		v[0].tu = x + (-wca + hsa);
 		v[0].tv = y + (-wsa - hca);
 		v[1].tu = x + (-wca - hsa);
@@ -819,13 +819,13 @@ long BATTLE_NAVIGATOR::SetCircleVertexPos(BI_ONETEXTURE_VERTEX* v, float x, floa
 {
 	if (v == nullptr) return 0;
 
-	float addAngle = angle;
-	int idx = 0;
+  auto addAngle = angle;
+  auto idx = 0;
 	v[idx].pos.x = x;
 	v[idx].pos.y = y;
 	idx++;
 
-	for (int i = 0; i < RADIAL_QUANTITY + 1; i++)
+	for (auto i = 0; i < RADIAL_QUANTITY + 1; i++)
 	{
 		v[idx].pos.x = x + rad * sinf(addAngle);
 		v[idx].pos.y = y + rad * cosf(addAngle) * m_fAspectRatio;
@@ -842,13 +842,13 @@ long BATTLE_NAVIGATOR::SetCircleVertexTex(BI_ONETEXTURE_VERTEX* v, float x, floa
 {
 	if (v == nullptr) return 0;
 
-	float addAngle = angle;
-	int idx = 0;
+  auto addAngle = angle;
+  auto idx = 0;
 	v[idx].tu = x;
 	v[idx].tv = y;
 	idx++;
 
-	for (int i = 0; i < RADIAL_QUANTITY + 1; i++)
+	for (auto i = 0; i < RADIAL_QUANTITY + 1; i++)
 	{
 		v[idx].tu = x + rad * sinf(addAngle);
 		v[idx].tv = y + rad * cosf(addAngle);
@@ -867,7 +867,7 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 	m_fCurAnglRightCharge = 0;
 	m_fCurAnglForwardCharge = 0;
 	m_fCurAnglBackCharge = m_fBegAnglBackCharge;
-	SHIP_DESCRIBE_LIST::SHIP_DESCR* psd = g_ShipList.GetMainCharacterShip();
+  auto psd = g_ShipList.GetMainCharacterShip();
 	if (psd == nullptr) return;
 
 	// get map center
@@ -878,7 +878,7 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 	}
 	else
 	{
-		CVECTOR cPos = psd->pShip->GetPos();
+    auto cPos = psd->pShip->GetPos();
 		m_fXPos = cPos.x;
 		m_fYPos = cPos.z;
 	}
@@ -888,7 +888,7 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 		m_fCurScale = m_fDefaultScale; //m_fMaxScale;
 	}
 	// get ship y angle
-	CVECTOR cAng = psd->pShip->GetAng();
+  auto cAng = psd->pShip->GetAng();
 	m_fAngle = cAng.y;
 	m_fShipSpeed = ((SHIP_BASE*)psd->pShip)->State.vSpeed.z;
 	m_fShipSpeed *= m_fShipSpeedScale; // boal приведение скорости тут нужнее
@@ -910,7 +910,7 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 	m_fCurAnglRightCharge = m_fBegAnglRightCharge;
 	m_fCurAnglForwardCharge = m_fBegAnglForwardCharge;
 	m_fCurAnglBackCharge = m_fBegAnglBackCharge;
-	ATTRIBUTES* pBortsAttr = BIUtils::GetAttributesFromPath(psd->pAttr, "cannons", "borts", 0);
+  auto pBortsAttr = BIUtils::GetAttributesFromPath(psd->pAttr, "cannons", "borts", 0);
 	if (pBortsAttr != nullptr)
 	{
 		ATTRIBUTES* pTmpAttr;
@@ -954,25 +954,25 @@ void BATTLE_NAVIGATOR::SetAnotherShip()
 {
 	auto* pv = (BI_COLORONLY_VERTEX*)rs->LockVertexBuffer(m_idShipsVBuf);
 	if (pv == nullptr) return;
-	SHIP_DESCRIBE_LIST::SHIP_DESCR* pMainCharacter = g_ShipList.GetMainCharacterShip();
-	int idx = 0;
-	float fSqrMapRad = m_fMapRadius * m_fMapRadius;
+  auto pMainCharacter = g_ShipList.GetMainCharacterShip();
+  auto idx = 0;
+  auto fSqrMapRad = m_fMapRadius * m_fMapRadius;
 
 	m_nvShips = 0L;
 	// Fill ships buffer
-	for (SHIP_DESCRIBE_LIST::SHIP_DESCR* psd = g_ShipList.GetShipRoot(); psd != nullptr; psd = psd->next)
+	for (auto psd = g_ShipList.GetShipRoot(); psd != nullptr; psd = psd->next)
 	{
 		// не рисовать корабль основного героя
 		if (psd == pMainCharacter) continue;
 		// определить координаты корабля и если они за пределами карты, то не рисовать корабль
-		float fX = (psd->pShip->GetPos().x - m_fXPos) * m_fMapRadius / (m_fWorldRad * m_fCurScale);
-		float fY = (psd->pShip->GetPos().z - m_fYPos) * m_fMapRadius / (m_fWorldRad * m_fCurScale);
+    auto fX = (psd->pShip->GetPos().x - m_fXPos) * m_fMapRadius / (m_fWorldRad * m_fCurScale);
+    auto fY = (psd->pShip->GetPos().z - m_fYPos) * m_fMapRadius / (m_fWorldRad * m_fCurScale);
 		if (fX * fX + fY * fY > fSqrMapRad) continue;
-		float tmp = fX * cosf(m_fAngle) - fY * sinf(m_fAngle);
+    auto tmp = fX * cosf(m_fAngle) - fY * sinf(m_fAngle);
 		fY = m_YNavigator - (fY * cosf(m_fAngle) + fX * sinf(m_fAngle)) * m_fAspectRatio;
 		fX = tmp + m_XNavigator;
 		// определить цвет отображаемого корабля
-		uint32_t dwColor = 0xFFFFFFFF;
+    auto dwColor = 0xFFFFFFFF;
 		if (psd->dwShipColor == 0)
 		{
 			switch (psd->relation)
@@ -992,7 +992,7 @@ void BATTLE_NAVIGATOR::SetAnotherShip()
 		if (psd->isDead)
 			dwColor = m_dwDeadShipColor;
 		// определить угол корабля
-		float fAngle = psd->pShip->GetAng().y - m_fAngle;
+    auto fAngle = psd->pShip->GetAng().y - m_fAngle;
 		// заполнить буфер
 		pv[idx].col = pv[idx + 1].col = pv[idx + 2].col = dwColor;
 		pv[idx + 0].pos.x = fX + m_fShipShowRad * sinf(fAngle);
@@ -1092,32 +1092,32 @@ long BATTLE_NAVIGATOR::SetRectangleSegVertexPos(BI_ONETEXTURE_VERTEX* v, float x
 	while (endAngle < 0) endAngle += 2 * PI;
 	while (endAngle > 2 * PI) endAngle -= 2 * PI;
 
-	float alpha = atan2f(width / 2, height / 2);
+  auto alpha = atan2f(width / 2, height / 2);
 
-	int begseg = begAngle < alpha
-		             ? 0
-		             : begAngle < (PI - alpha)
-		             ? 1
-		             : begAngle < (PI + alpha)
-		             ? 2
-		             : begAngle < (2 * PI - alpha)
-		             ? 3
-		             : 0;
-	int endseg = endAngle < alpha
-		             ? 0
-		             : endAngle < (PI - alpha)
-		             ? 1
-		             : endAngle < (PI + alpha)
-		             ? 2
-		             : endAngle < (2 * PI - alpha)
-		             ? 3
-		             : 0;
+  auto begseg = begAngle < alpha
+                  ? 0
+                  : begAngle < (PI - alpha)
+                  ? 1
+                  : begAngle < (PI + alpha)
+                  ? 2
+                  : begAngle < (2 * PI - alpha)
+                  ? 3
+                  : 0;
+  auto endseg = endAngle < alpha
+                  ? 0
+                  : endAngle < (PI - alpha)
+                  ? 1
+                  : endAngle < (PI + alpha)
+                  ? 2
+                  : endAngle < (2 * PI - alpha)
+                  ? 3
+                  : 0;
 
 	v[0].pos.x = x;
 	v[0].pos.y = y;
 
-	int idx = 1;
-	int curSide = begseg;
+  auto idx = 1;
+  auto curSide = begseg;
 	while (true)
 	{
 		if (curSide == begseg)
@@ -1174,32 +1174,32 @@ long BATTLE_NAVIGATOR::SetRectangleSegVertexTex(BI_ONETEXTURE_VERTEX* v, float x
 	while (endAngle < 0) endAngle += 2 * PI;
 	while (endAngle > 2 * PI) endAngle -= 2 * PI;
 
-	float alpha = atan2f(width / 2, height / 2);
+  auto alpha = atan2f(width / 2, height / 2);
 
-	int begseg = begAngle < alpha
-		             ? 0
-		             : begAngle < (PI - alpha)
-		             ? 1
-		             : begAngle < (PI + alpha)
-		             ? 2
-		             : begAngle < (2 * PI - alpha)
-		             ? 3
-		             : 0;
-	int endseg = endAngle < alpha
-		             ? 0
-		             : endAngle < (PI - alpha)
-		             ? 1
-		             : endAngle < (PI + alpha)
-		             ? 2
-		             : endAngle < (2 * PI - alpha)
-		             ? 3
-		             : 0;
+  auto begseg = begAngle < alpha
+                  ? 0
+                  : begAngle < (PI - alpha)
+                  ? 1
+                  : begAngle < (PI + alpha)
+                  ? 2
+                  : begAngle < (2 * PI - alpha)
+                  ? 3
+                  : 0;
+  auto endseg = endAngle < alpha
+                  ? 0
+                  : endAngle < (PI - alpha)
+                  ? 1
+                  : endAngle < (PI + alpha)
+                  ? 2
+                  : endAngle < (2 * PI - alpha)
+                  ? 3
+                  : 0;
 
 	v[0].tu = x;
 	v[0].tv = y;
 
-	int idx = 1;
-	int curSide = begseg;
+  auto idx = 1;
+  auto curSide = begseg;
 	while (true)
 	{
 		if (curSide == begseg)
@@ -1264,21 +1264,21 @@ void BATTLE_NAVIGATOR::SetIsland()
 	{
 		pM->Update();
 		// Get island size
-		float xMin = 0.f, yMin = 0.f, zMin = 0.f, xMax = 0.f, yMax = 0.f, zMax = 0.f;
+    auto xMin = 0.f, yMin = 0.f, zMin = 0.f, xMax = 0.f, yMax = 0.f, zMax = 0.f;
 		posCenter = pM->mtx.Pos();
 		xMin = xMax = posCenter.x;
 		zMin = zMax = posCenter.z;
 		yMin = yMax = posCenter.y;
-		int i = 0;
-		for (NODE* pN = pM->GetNode(0); pN != nullptr; pN = pM->GetNode(++i))
+    auto i = 0;
+		for (auto pN = pM->GetNode(0); pN != nullptr; pN = pM->GetNode(++i))
 		{
 			GEOS::INFO gi;
 			pN->geo->GetInfo(gi);
 			posCenter = pN->glob_mtx * *(CVECTOR*)&gi.boxcenter;
-			float xmin = posCenter.x - gi.boxsize.x / 2;
-			float xmax = posCenter.x + gi.boxsize.x / 2;
-			float zmin = posCenter.z - gi.boxsize.z / 2;
-			float zmax = posCenter.z + gi.boxsize.z / 2;
+      auto xmin = posCenter.x - gi.boxsize.x / 2;
+      auto xmax = posCenter.x + gi.boxsize.x / 2;
+      auto zmin = posCenter.z - gi.boxsize.z / 2;
+      auto zmax = posCenter.z + gi.boxsize.z / 2;
 			if (xmin < xMin) xMin = xmin;
 			if (xmax > xMax) xMax = xmax;
 			if (zmin < zMin) zMin = zmin;

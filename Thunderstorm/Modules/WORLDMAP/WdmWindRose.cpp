@@ -42,7 +42,7 @@ void WdmWindRose::LRender(VDX9RENDER* rs)
 	oldView = view;
 	rs->GetTransform(D3DTS_PROJECTION, oldPrj);
 	view.Transposition();
-	float kDef = rs->GetHeightDeformator();
+  auto kDef = rs->GetHeightDeformator();
 #ifndef _XBOX
 	mtx.SetPosition(view * CVECTOR(0.34f, -0.247f * kDef, 10.0f));
 #else
@@ -56,8 +56,8 @@ void WdmWindRose::LRender(VDX9RENDER* rs)
 	rs->SetTransform(D3DTS_PROJECTION, prj);
 	WdmRenderModel::LRender(rs);
 	Vertex v[4];
-	float size = 5.5f;
-	float tsnap = 0.01f;
+  auto size = 5.5f;
+  auto tsnap = 0.01f;
 	v[0].x = -size;
 	v[0].z = size;
 	v[0].tu = 1.0f - tsnap;

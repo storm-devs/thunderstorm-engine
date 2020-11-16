@@ -56,7 +56,7 @@ uint64_t SEA_OPERATOR::ProcessMessage(MESSAGE& message)
 	if (!enabled)
 		return 0;
 
-	long code = message.Long();
+  auto code = message.Long();
 	uint32_t outValue = 0;
 
 	switch (code)
@@ -65,7 +65,7 @@ uint64_t SEA_OPERATOR::ProcessMessage(MESSAGE& message)
 		{
 			if (!IsTimeToActivate(false))
 				break;
-			entid_t firedShip = message.EntityID();
+      auto firedShip = message.EntityID();
 			if (myShip != (SHIP_BASE *)EntityManager::GetEntityPointer(firedShip))
 				break;
 
@@ -84,11 +84,11 @@ uint64_t SEA_OPERATOR::ProcessMessage(MESSAGE& message)
 		break;
 	case MSG_SEA_OPERATOR_BALL_UPDATE:
 		{
-			ATTRIBUTES* attr = message.AttributePointer();
+      auto attr = message.AttributePointer();
 			if (myShip->GetACharacter() != attr)
 				break;
 
-			bool ballAlive = message.Long() != 0;
+      auto ballAlive = message.Long() != 0;
 			if (ballAlive && !ballTracked)
 			{
 				StartNewAction();
@@ -123,7 +123,7 @@ uint64_t SEA_OPERATOR::ProcessMessage(MESSAGE& message)
 			ballPosition.y = message.Float();
 			ballPosition.z = message.Float();
 
-			ATTRIBUTES* shipAttr = message.AttributePointer();
+      auto shipAttr = message.AttributePointer();
 			if (shipAttr == myShip->GetACharacter())
 				HandleShipHit();
 		}
@@ -192,7 +192,7 @@ void SEA_OPERATOR::ProcessActions(uint32_t _dTime)
 {
 	if (active)
 	{
-		tAction* currentAction = actionBuffer.TopElement();
+    auto currentAction = actionBuffer.TopElement();
 		if ((currentAction->actionTime != -1) && (currentAction->timePassed >= currentAction->actionTime))
 		{
 			StartNewAction();
@@ -208,7 +208,7 @@ void SEA_OPERATOR::ProcessActions(uint32_t _dTime)
 //--------------------------------------------------------------------
 void SEA_OPERATOR::StartNewAction()
 {
-	tAction* currentAction = actionBuffer.TopElement();
+  auto currentAction = actionBuffer.TopElement();
 	if (active && !currentAction)
 	{
 		active = false;
@@ -242,7 +242,7 @@ void SEA_OPERATOR::SetIfMyShip(entid_t _shipID)
 	auto* ship = (SHIP_BASE *)EntityManager::GetEntityPointer(_shipID);
 	if (!ship)
 		return;
-	ATTRIBUTES* attr = ship->GetACharacter();
+  auto attr = ship->GetACharacter();
 	if (attr->GetAttribute("MainCharacter"))
 		myShip = ship;
 }
@@ -265,8 +265,8 @@ void SEA_OPERATOR::HandleShipIdle()
 	action.timeK = 1.0f;
 	action.actionTime = 15000;
 
-	float startAngle = randCentered(PId2);
-	float startDistance = randUpper(2.0f * myShip->GetCurrentSpeed() * action.actionTime / 1e3f);
+  auto startAngle = randCentered(PId2);
+  auto startDistance = randUpper(2.0f * myShip->GetCurrentSpeed() * action.actionTime / 1e3f);
 	action.direction = myShip->GetPos();
 	action.direction.z += startDistance * sinf(startAngle + myShip->GetAng().y);
 	action.direction.x += startDistance * cosf(startAngle + myShip->GetAng().y);
@@ -279,7 +279,7 @@ void SEA_OPERATOR::HandleShipIdle()
 void SEA_OPERATOR::HandleShipFire(entid_t _shipID, char* _bortName, const CVECTOR& _destination,
                                   const CVECTOR& _direction)
 {
-	BORT_TYPE bort = BORT_FRONT;
+  auto bort = BORT_FRONT;
 	auto* ship = (SHIP_BASE *)EntityManager::GetEntityPointer(_shipID);
 
 	if (!strcmp(_bortName, "cannonf"))
@@ -294,9 +294,9 @@ void SEA_OPERATOR::HandleShipFire(entid_t _shipID, char* _bortName, const CVECTO
 
 	tAction action;
 	//tTrack *track;
-	CVECTOR shipPosition = ship->GetPos();
-	CVECTOR shipDirection = CVECTOR(sinf(ship->GetAng().y), 0.0f, cosf(ship->GetAng().y));
-	CVECTOR shipDirectionPerp = CVECTOR(shipDirection.z, 0.0f, -1.0f * shipDirection.x);
+  auto shipPosition = ship->GetPos();
+  auto shipDirection = CVECTOR(sinf(ship->GetAng().y), 0.0f, cosf(ship->GetAng().y));
+  auto shipDirectionPerp = CVECTOR(shipDirection.z, 0.0f, -1.0f * shipDirection.x);
 	float chosenK;
 
 	srand(GetTickCount());
@@ -304,7 +304,7 @@ void SEA_OPERATOR::HandleShipFire(entid_t _shipID, char* _bortName, const CVECTO
 		chosenK = -1.0f;
 	else
 		chosenK = 1.0f;
-	float addY = 0.5f * ship->GetBoxsize().y;
+  auto addY = 0.5f * ship->GetBoxsize().y;
 
 	action.timeK = 0.15f;
 	action.timePassed = 0;
@@ -329,13 +329,13 @@ void SEA_OPERATOR::HandleShipFire(entid_t _shipID, char* _bortName, const CVECTO
 //--------------------------------------------------------------------
 void SEA_OPERATOR::ShowAttackerBort(tAction* _action)
 {
-	CVECTOR shipPosition = _action->attackerShip->GetPos();
-	float addY = 0.5f * _action->attackerShip->GetBoxsize().y;
-	float timeDistance = ((float)_action->timePassed) / 7e2f;
-	CVECTOR shipDirection = CVECTOR(sinf(_action->attackerShip->GetAng().y), 0.0f,
-	                                cosf(_action->attackerShip->GetAng().y));
-	CVECTOR shipDirectionPerp = CVECTOR(shipDirection.z, 0.0f, -1.0f * shipDirection.x);
-	CVECTOR directionPerp = CVECTOR(_action->direction.z, 0.0f, -1.0f * _action->direction.x);
+  auto shipPosition = _action->attackerShip->GetPos();
+  auto addY = 0.5f * _action->attackerShip->GetBoxsize().y;
+  auto timeDistance = ((float)_action->timePassed) / 7e2f;
+  auto shipDirection = CVECTOR(sinf(_action->attackerShip->GetAng().y), 0.0f,
+                               cosf(_action->attackerShip->GetAng().y));
+  auto shipDirectionPerp = CVECTOR(shipDirection.z, 0.0f, -1.0f * shipDirection.x);
+  auto directionPerp = CVECTOR(_action->direction.z, 0.0f, -1.0f * _action->direction.x);
 
 	cameraTargetPos = shipPosition;
 	cameraTargetPos.y += addY;
@@ -365,8 +365,8 @@ void SEA_OPERATOR::ShowFromBall(tAction* _action)
 	api->SetTimeScale(timeScale);
 	*/
 
-	float timeDistance = ((float)_action->timePassed) / 60.0f;
-	CVECTOR newCameraPos = 0.8f * ballPosition + 0.2f * _action->destination;
+  auto timeDistance = ((float)_action->timePassed) / 60.0f;
+  auto newCameraPos = 0.8f * ballPosition + 0.2f * _action->destination;
 	cameraTargetPos = ballPosition;
 	cameraPos = newCameraPos;
 	cameraTargetPos.x += 0.1f * sinf(timeDistance);
@@ -379,12 +379,12 @@ void SEA_OPERATOR::ShowFromBall(tAction* _action)
 //--------------------------------------------------------------------
 void SEA_OPERATOR::ShowAroundPoint(tAction* _action)
 {
-	CVECTOR deltaVector = _action->destination - _action->attackerShip->GetPos();
-	float aroundAngle = atan2f(deltaVector.z, deltaVector.x);
-	float timeK = ((float)_action->timePassed / _action->actionTime);
-	float angle = aroundAngle - 0.1f * (PId2 + PI * timeK);
-	float timeScale = MIN_TIME_DELTA + (1.0f - MIN_TIME_DELTA) * powf(timeK, 0.37f);
-	float radius = 15.0f;
+  auto deltaVector = _action->destination - _action->attackerShip->GetPos();
+  auto aroundAngle = atan2f(deltaVector.z, deltaVector.x);
+  auto timeK = ((float)_action->timePassed / _action->actionTime);
+  auto angle = aroundAngle - 0.1f * (PId2 + PI * timeK);
+  auto timeScale = MIN_TIME_DELTA + (1.0f - MIN_TIME_DELTA) * powf(timeK, 0.37f);
+  auto radius = 15.0f;
 
 	//cameraTargetPos = finalBallPosition;
 	if (~(cameraPos - cameraTargetPos) < 40.0f)
@@ -424,10 +424,10 @@ void SEA_OPERATOR::ShowAroundPoint(tAction* _action)
 void SEA_OPERATOR::ShowBallAtMyShip(tAction* _action)
 {
 	cameraTargetPos = myShip->GetPos();
-	float timeK = ((float)_action->timePassed / _action->actionTime);
+  auto timeK = ((float)_action->timePassed / _action->actionTime);
 	cameraPos = ballPosition + (0.5f + 0.5f * timeK) * myShip->GetBoxsize().z * !(ballPosition - myShip->GetPos());
-	float minY = 1.0f + sea->WaveXZ(cameraPos.x, cameraPos.z);
-	float timeScale = MIN_TIME_DELTA + (1.0f - MIN_TIME_DELTA) * powf(timeK, 0.37f);
+  auto minY = 1.0f + sea->WaveXZ(cameraPos.x, cameraPos.z);
+  auto timeScale = MIN_TIME_DELTA + (1.0f - MIN_TIME_DELTA) * powf(timeK, 0.37f);
 	if (cameraPos.y < minY)
 		cameraPos.y = minY;
 
@@ -440,7 +440,7 @@ void SEA_OPERATOR::ShowMyShipFromPoint(tAction* _action)
 	cameraTargetPos = myShip->GetPos();
 	//float timeK = ((float) _action->timePassed / _action->actionTime);
 	cameraPos = _action->direction;
-	float minY = 1.0f + sea->WaveXZ(cameraPos.x, cameraPos.z);
+  auto minY = 1.0f + sea->WaveXZ(cameraPos.x, cameraPos.z);
 	//float timeScale = MIN_TIME_DELTA + (1.0f - MIN_TIME_DELTA)*powf(timeK, 0.37f);
 	if (cameraPos.y < minY)
 		cameraPos.y = minY;

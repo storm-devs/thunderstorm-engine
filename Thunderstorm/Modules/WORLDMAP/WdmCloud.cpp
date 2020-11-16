@@ -57,7 +57,7 @@ WdmCloud::~WdmCloud()
 //Расчёты
 void WdmCloud::Update(float dltTime)
 {
-	const float pi2 = 2.0f * 3.14159265358979323846f;
+	const auto pi2 = 2.0f * 3.14159265358979323846f;
 	if (dltTime > 1.0f) dltTime = 1.0f;
 
 	if (GetKeyState(VK_NUMLOCK) != 0)
@@ -68,7 +68,7 @@ void WdmCloud::Update(float dltTime)
 	//Перемещение облака
 	Move(dltTime);
 	//Время для перемещения партиклов внутри облака
-	float dlt = dltTime * 0.1f;
+  auto dlt = dltTime * 0.1f;
 	for (long i = 0; i < numRects; i++)
 	{
 		rect[i].vPos = pos + move[i].pos;
@@ -78,7 +78,7 @@ void WdmCloud::Update(float dltTime)
 		if (rect[i].fAngle > pi2) rect[i].fAngle -= pi2;
 		if (rect[i].fAngle < -pi2) rect[i].fAngle += pi2;
 		//Определим цвет
-		float c = ~move[i].pos * 1.8f;
+    auto c = ~move[i].pos * 1.8f;
 		if (c > 255.0f) c = 255.0f;
 		if (c < 40.0f) c = 40.0f;
 		c *= constAlpha * globalAlpha;
@@ -89,11 +89,11 @@ void WdmCloud::Update(float dltTime)
 	}
 	if (curMove >= numRects) curMove = 0;
 	//Скорость партикла
-	long i = curMove++;
+  auto i = curMove++;
 	//Центровое воздействие
 	dltTime = move[i].dTime;
 	move[i].dTime = 0.0f;
-	float d = ~move[i].pos;
+  auto d = ~move[i].pos;
 	if (d < 100.0f)
 	{
 		move[i].v += (move[i].pos - move[i].cent) * (move[i].kSpd * dltTime);
@@ -112,9 +112,9 @@ void WdmCloud::Update(float dltTime)
 		move[i].v -= move[i].v * d;
 	}
 	//Расталкивающее воздействие
-	long l = i - 1;
+  auto l = i - 1;
 	if (l < 0) l = numRects - 1;
-	CVECTOR v = move[i].pos - move[l].pos;
+  auto v = move[i].pos - move[l].pos;
 	v.y = 0.0f;
 	d = ~v;
 	if (d > 0.0000001f && d < 40.0f) move[i].v += v * (0.8f * move[i].kSpd * dltTime / d);
@@ -158,7 +158,7 @@ void WdmCloud::Update(float dltTime)
 	//Дождик
 	for (long i = 0; i < sizeof(rain) / sizeof(rain[0]); i++)
 	{
-		Rain& r = rain[i];
+    auto& r = rain[i];
 		if (!r.isLive) continue;
 		if (r.pos.y > 3.0f)
 		{
@@ -171,7 +171,7 @@ void WdmCloud::Update(float dltTime)
 		{
 			r.alpha -= dltTime * 1.0f;
 			r.size += dltTime * 8.0f;
-			float k = dltTime * 2.0f;
+      auto k = dltTime * 2.0f;
 			if (k > 1.0f) k = 1.0f;
 			r.vy -= k * r.vy;
 			r.pos.y -= r.vy * dltTime;
@@ -187,11 +187,11 @@ void WdmCloud::Update(float dltTime)
 	{
 		for (long i = 0; i < sizeof(rain) / sizeof(rain[0]); i++)
 		{
-			Rain& r = rain[i];
+      auto& r = rain[i];
 			if (!r.isLive)
 			{
 				rainBurnTime += 0.01f;
-				long p = rand() % numRects;
+        auto p = rand() % numRects;
 				r.isLive = true;
 				r.pos = rect[p].vPos;
 				r.pos.y -= 10.0f;
@@ -226,9 +226,9 @@ long WdmCloud::FillRain(RS_RECT* rainRect, long rcnt)
 	//Рисуем дождь
 	for (long i = 0; i < sizeof(rain) / sizeof(rain[0]); i++)
 	{
-		Rain& r = rain[i];
+    auto& r = rain[i];
 		if (!r.isLive) continue;
-		RS_RECT& rct = rainRect[rcnt];
+    auto& rct = rainRect[rcnt];
 		rct.vPos = r.pos;
 		rct.fSize = r.size;
 		rct.fAngle = r.angle;
@@ -251,15 +251,15 @@ void WdmCloud::Render(VDX9RENDER* rs)
 	uint32_t lightningColor = (uint8_t(globalAlpha * 255.0f) << 24) | 0x00ffffff;
 	for (long i = 0; i < numRects; i++)
 	{
-		RS_RECT& r = rect[i];
+    auto& r = rect[i];
 		if (r.dwColor & 0x0000ff00)
 		{
 			if (r.dwColor & 0x00000400)
 			{
-				const float kFrames = 1.0f / 4.0f;
-				const float width = 10.0f;
-				float u = ((r.dwColor >> 8) & 3) * kFrames;
-				CVECTOR& vx = view.Vx();
+				const auto kFrames = 1.0f / 4.0f;
+				const auto width = 10.0f;
+        auto u = ((r.dwColor >> 8) & 3) * kFrames;
+        auto& vx = view.Vx();
 				lght[0].pos = r.vPos - vx * width - CVECTOR(0.0f, 3.0f, 0.0f);
 				lght[0].c = lightningColor;
 				lght[0].u = u;
@@ -348,7 +348,7 @@ void WdmCloud::FindPartPos(CVECTOR& v)
 
 inline float WdmCloud::Rnd()
 {
-	float f = powf(rand() * 1.0f / RAND_MAX, 0.1f);
+  auto f = powf(rand() * 1.0f / RAND_MAX, 0.1f);
 	if (rand() & 1) f = -f;
 	return f;
 }

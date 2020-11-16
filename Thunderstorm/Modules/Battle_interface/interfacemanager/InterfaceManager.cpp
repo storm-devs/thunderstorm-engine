@@ -41,7 +41,7 @@ bool BI_InterfaceManager::Init()
 	long nBaseYOffset = 0;
 	if (AttributesPointer)
 	{
-		ATTRIBUTES* pA = AttributesPointer->GetAttributeClass("BaseWindow");
+    auto pA = AttributesPointer->GetAttributeClass("BaseWindow");
 		if (pA)
 		{
 			nBaseWidth = pA->GetAttributeAsDword("width", nBaseWidth);

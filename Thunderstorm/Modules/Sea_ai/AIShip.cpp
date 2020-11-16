@@ -47,7 +47,7 @@ void AIShip::Unload()
 void AIShip::SetSeaAIAttributes(ATTRIBUTES* pAAttr, VAI_INNEROBJ* pObj)
 {
 	char str[256];
-	uint32_t dwIdx = pAAttr->GetAttributesNum();
+  auto dwIdx = pAAttr->GetAttributesNum();
 	sprintf_s(str, "l%d", dwIdx);
 	pAAttr = pAAttr->CreateAttribute(str, "");
 
@@ -61,20 +61,20 @@ void AIShip::SetSeaAIAttributes(ATTRIBUTES* pAAttr, VAI_INNEROBJ* pObj)
 	pAAttr->SetAttributeUseFloat("distance", GetDistance(*pObj));
 
 	// calc angle between our ship and other object
-	CVECTOR v1 = CVECTOR(sinf(GetAng().y), 0.0f, cosf(GetAng().y));
-	CVECTOR v2 = CVECTOR(sinf(pObj->GetAng().y), 0.0f, cosf(pObj->GetAng().y));
-	float fDot = v1 | v2;
+  auto v1 = CVECTOR(sinf(GetAng().y), 0.0f, cosf(GetAng().y));
+  auto v2 = CVECTOR(sinf(pObj->GetAng().y), 0.0f, cosf(pObj->GetAng().y));
+  auto fDot = v1 | v2;
 	pAAttr->SetAttributeUseFloat("d_ay", fDot);
 
 	// calc relative speed
 	if (pObj->GetObjType() != AIOBJ_FORT)
 	{
-		AIShip* pEnemyShip = ((AIShip*)pObj);
+    auto pEnemyShip = ((AIShip*)pObj);
 
-		float fOurCurSpeedZ = GetShipBasePointer()->GetCurrentSpeed();
-		float fEnemyCurSpeedZ = pEnemyShip->GetShipBasePointer()->GetCurrentSpeed();
+    auto fOurCurSpeedZ = GetShipBasePointer()->GetCurrentSpeed();
+    auto fEnemyCurSpeedZ = pEnemyShip->GetShipBasePointer()->GetCurrentSpeed();
 
-		float fRelativeSpeed = fOurCurSpeedZ - fDot * fEnemyCurSpeedZ;
+    auto fRelativeSpeed = fOurCurSpeedZ - fDot * fEnemyCurSpeedZ;
 		pAAttr->SetAttributeUseFloat("RelativeSpeed", fRelativeSpeed);
 	}
 }
@@ -83,7 +83,7 @@ void AIShip::Execute(float fDeltaTime)
 {
 	uint32_t i;
 
-	ATTRIBUTES* pAAIInit = GetACharacter()->FindAClass(GetACharacter(), "Ship.SeaAI.Init");
+  auto pAAIInit = GetACharacter()->FindAClass(GetACharacter(), "Ship.SeaAI.Init");
 
 	fAbordageDistance = (pAAIInit) ? pAAIInit->GetAttributeAsFloat("AbordageDistance", 30.0f) : 30.0f;
 	fFollowDistance = (pAAIInit) ? pAAIInit->GetAttributeAsFloat("FollowDistance", 200.0f) : 200.0f;
@@ -123,13 +123,13 @@ void AIShip::Execute(float fDeltaTime)
 	auto* pShip = (SHIP_BASE*)GetShipPointer();
 	Assert(pShip);
 
-	ATTRIBUTES* pASeaAIU = GetACharacter()->FindAClass(GetACharacter(), "SeaAI.Update");
+  auto pASeaAIU = GetACharacter()->FindAClass(GetACharacter(), "SeaAI.Update");
 	if (pASeaAIU) GetACharacter()->DeleteAttributeClassX(pASeaAIU);
 
 	if (dtUpdateSeaAIAttributes.Update(fDeltaTime) && !isMainCharacter())
 	{
-		ATTRIBUTES* pASeaAIU = GetACharacter()->CreateSubAClass(GetACharacter(), "SeaAI.Update");
-		ATTRIBUTES* pAShips = pASeaAIU->CreateAttribute("Ships", "");
+    auto pASeaAIU = GetACharacter()->CreateSubAClass(GetACharacter(), "SeaAI.Update");
+    auto pAShips = pASeaAIU->CreateAttribute("Ships", "");
 		for (i = 0; i < AIShips.size(); i++)
 			if (this != AIShips[i] && !AIShips[i]->isDead())
 			{
@@ -147,7 +147,7 @@ void AIShip::Execute(float fDeltaTime)
 
 		RDTSC_B(dw7);
 		// fill state for ships
-		ATTRIBUTES* pAShips = pASeaAIU->CreateAttribute("Ships", "");
+    auto pAShips = pASeaAIU->CreateAttribute("Ships", "");
 
 		for (i = 0; i < AIShips.size(); i++)
 			if (this != AIShips[i] && !AIShips[i]->isDead())
@@ -156,12 +156,12 @@ void AIShip::Execute(float fDeltaTime)
 			}
 
 		// fill state for forts
-		ATTRIBUTES* pAForts = pASeaAIU->CreateAttribute("Forts", "");
+    auto pAForts = pASeaAIU->CreateAttribute("Forts", "");
 
 		if (AIFort::pAIFort)
 			for (i = 0; i < AIFort::pAIFort->GetNumForts(); i++)
 			{
-				AIFort::AI_FORT* pFort = AIFort::pAIFort->GetFort(i);
+        auto pFort = AIFort::pAIFort->GetFort(i);
 
 				SetSeaAIAttributes(pAForts, pFort);
 			}
@@ -181,18 +181,18 @@ void AIShip::CheckSituation()
 	if (isDead()) return;
 	//if (isMainCharacter()) return;
 
-	float fMinEnemyDist = 1e9f;
+  auto fMinEnemyDist = 1e9f;
 	for (uint32_t i = 0; i < AIShips.size(); i++)
 		if (AIShips[i] != this)
 		{
-			float fDist = GetDistance(*AIShips[i]);
+      auto fDist = GetDistance(*AIShips[i]);
 			if (Helper.isEnemy(GetACharacter(), AIShips[i]->GetACharacter()))
 			{
 				if (fDist < fMinEnemyDist) { fMinEnemyDist = fDist; }
 			}
 		}
 
-	ATTRIBUTES* pACSituation = GetACharacter()->FindAClass(GetACharacter(), "SeaAI.Update.Situation");
+  auto pACSituation = GetACharacter()->FindAClass(GetACharacter(), "SeaAI.Update.Situation");
 	if (!pACSituation)
 	{
 		pACSituation = GetACharacter()->CreateSubAClass(GetACharacter(), "SeaAI.Update.Situation");
@@ -200,7 +200,7 @@ void AIShip::CheckSituation()
 	Assert(pACSituation);
 
 	pACSituation->SetAttributeUseFloat("MinEnemyDistance", fMinEnemyDist);
-	float fPower = GetPower();
+  auto fPower = GetPower();
 
 	api->Event(SHIP_CHECK_SITUATION, "ai", GetACharacter(), GetShipEID());
 }
@@ -238,7 +238,7 @@ void AIShip::CreateShip(entid_t _eidShip, ATTRIBUTES* _pACharacter, ATTRIBUTES* 
 
 	eidShip = _eidShip;
 	Assert(EntityManager::GetEntityPointer(eidShip));
-	VAI_OBJBASE* pObj = GetAIObjShipPointer();
+  auto pObj = GetAIObjShipPointer();
 	Assert(pObj);
 	SetACharacter(_pACharacter);
 	pObj->SetACharacter(GetACharacter());
@@ -267,13 +267,13 @@ void AIShip::CreateShip(entid_t _eidShip, ATTRIBUTES* _pACharacter, ATTRIBUTES* 
 
 bool AIShip::isCanPlace(CVECTOR vNewPos) const
 {
-	CVECTOR vBoxSize = GetBoxsize();
+  auto vBoxSize = GetBoxsize();
 	vBoxSize.x += 30.0f;
 	vBoxSize.z += 30.0f;
 	for (uint32_t i = 0; i < AIShips.size(); i++)
 		if (this != AIShips[i])
 		{
-			float fMinDist = (vBoxSize.z + AIShips[i]->GetBoxsize().z) / 2.0f;
+      auto fMinDist = (vBoxSize.z + AIShips[i]->GetBoxsize().z) / 2.0f;
 			if (AIShips[i]->GetDistance(vNewPos) < fMinDist) return false;
 		}
 	if (AIHelper::pIsland && AIHelper::pIsland->Check2DBoxDepth(vNewPos, vBoxSize, 0.0f, -14.0f)) return false;
@@ -282,11 +282,11 @@ bool AIShip::isCanPlace(CVECTOR vNewPos) const
 
 void AIShip::CheckStartPosition()
 {
-	CVECTOR vOurPos = GetPos();
-	CVECTOR vNewPos = vOurPos;
-	CVECTOR vBoxSize = GetBoxsize();
-	float fRadius = vBoxSize.z;
-	float fAng = 0.0f;
+  auto vOurPos = GetPos();
+  auto vNewPos = vOurPos;
+  auto vBoxSize = GetBoxsize();
+  auto fRadius = vBoxSize.z;
+  auto fAng = 0.0f;
 	while (!isCanPlace(vNewPos))
 	{
 		vNewPos = vOurPos + fRadius * CVECTOR(sinf(fAng), 0.0f, cosf(fAng));
@@ -343,7 +343,7 @@ bool AIShip::Fire(bool bCameraOutside)
 		for (i = 0; i < AIShips.size(); i++)
 			if (isEnemy(*AIShips[i]))
 			{
-				bool bCanFire = GetCannonController()->isCanFire(AIShips[i]);
+        auto bCanFire = GetCannonController()->isCanFire(AIShips[i]);
 				if (!isCanFire(AIShips[i]->GetPos())) continue;
 				if (bCanFire)
 				{
@@ -361,13 +361,13 @@ bool AIShip::Fire(bool bCameraOutside)
 		{
 			for (k = 0; k < AIFort::pAIFort->GetNumForts(); k++)
 			{
-				AIFort::AI_FORT* pFort = AIFort::pAIFort->GetFort(k);
+        auto pFort = AIFort::pAIFort->GetFort(k);
 				if (!Helper.isEnemy(pFort->GetACharacter(), GetACharacter())) continue;
 				if (!pFort->isNormalMode()) continue;
 				iMax = pFort->GetAllCannonsNum(); // boal fix
 				for (i = 0; i < iMax; i++)
 				{
-					AICannon* pC = pFort->GetCannon(i);
+          auto pC = pFort->GetCannon(i);
 					if (pC && !pC->isDamaged() && GetCannonController()->isCanFirePos(pC->GetPos()) && isCanFire(
 						pC->GetPos()))
 					{
@@ -389,7 +389,7 @@ bool AIShip::Fire(bool bCameraOutside)
 
 			for (i = 0; i < aShipFire.size(); i++)
 			{
-				can_fire_t* pFire = &aShipFire[i];
+        auto pFire = &aShipFire[i];
 				if (pFire->pShip) GetCannonController()->Fire(pFire->pShip);
 				if (pFire->pFortCannon) GetCannonController()->Fire(pFire->pFortCannon->GetPos());
 			}
@@ -416,17 +416,17 @@ void AIShip::ReleasePoint(VAI_INNEROBJ* pOtherObj)
 
 CVECTOR AIShip::GetAbordagePoint(VAI_INNEROBJ* pOtherObj)
 {
-	CVECTOR vDir = !(pOtherObj->GetPos() - GetPos());
-	CVECTOR vAdd = fAbordageDistance * vDir;
+  auto vDir = !(pOtherObj->GetPos() - GetPos());
+  auto vAdd = fAbordageDistance * vDir;
 
 	return vAdd;
 }
 
 CVECTOR AIShip::GetFollowPoint(VAI_INNEROBJ* pOtherObj)
 {
-	CVECTOR vDir = !(pOtherObj->GetPos() - GetPos());
+  auto vDir = !(pOtherObj->GetPos() - GetPos());
 	//float fAng = GetAng().y;
-	CVECTOR vAdd = fFollowDistance * vDir; //CVECTOR(0.0f, 0.0f, 200.0f);
+  auto vAdd = fFollowDistance * vDir; //CVECTOR(0.0f, 0.0f, 200.0f);
 	//RotateAroundY(vAdd.x,vAdd.z,cosf(fAng),sinf(fAng));
 
 	return vAdd;
@@ -447,25 +447,25 @@ CVECTOR AIShip::GetFollowPoint(VAI_INNEROBJ* pOtherObj)
 
 CVECTOR AIShip::GetAttackPoint(VAI_INNEROBJ* pOtherObj)
 {
-	CVECTOR vSrc = pOtherObj->GetPos();
+  auto vSrc = pOtherObj->GetPos();
 	vSrc.y = 0.0f;
 
-	CVECTOR vBestPos = GetPos();
-	float fBestDist = 1e16f;
+  auto vBestPos = GetPos();
+  auto fBestDist = 1e16f;
 	for (uint32_t i = 0; i < 16; i++)
 	{
-		float fAngle = FRAND(0.1f) + PIm2 * float(i) / 15.0f;
-		CVECTOR vRay = CVECTOR(0.0f, 0.0f, fAttackDistance);
+    auto fAngle = FRAND(0.1f) + PIm2 * float(i) / 15.0f;
+    auto vRay = CVECTOR(0.0f, 0.0f, fAttackDistance);
 		RotateAroundY(vRay.x, vRay.z, cosf(fAngle), sinf(fAngle));
 
 		//float fAng = GetAng().y;
 		//RotateAroundY(vDst.x, vDst.z, cosf(fAng), sinf(fAng));
 
-		CVECTOR vDst = GetPos() + vRay;
+    auto vDst = GetPos() + vRay;
 		vDst.y = 0.0f;
-		float fDist = ~(vSrc - vDst);
+    auto fDist = ~(vSrc - vDst);
 
-		float fDepth = -20.0f;
+    auto fDepth = -20.0f;
 		if (AIHelper::pIsland) AIHelper::pIsland->GetDepth(vDst.x, vDst.z, &fDepth);
 
 		if (fDist < fBestDist && fDepth < -4.0f)
@@ -500,8 +500,8 @@ void AIShip::GetPrediction(float fTime, CVECTOR* vPos, CVECTOR* vAng)
 {
 	if (vPos)
 	{
-		float fSpeed = GetShipBasePointer()->GetCurrentSpeed();
-		CVECTOR vDir = CVECTOR(sinf(GetAng().y), 0.0f, cosf(GetAng().y));
+    auto fSpeed = GetShipBasePointer()->GetCurrentSpeed();
+    auto vDir = CVECTOR(sinf(GetAng().y), 0.0f, cosf(GetAng().y));
 
 		*vPos = GetPos() + fTime * fSpeed * vDir;
 	}
@@ -509,7 +509,7 @@ void AIShip::GetPrediction(float fTime, CVECTOR* vPos, CVECTOR* vAng)
 
 float AIShip::GetShipHP()
 {
-	ATTRIBUTES* pAHP = GetACharacter()->FindAClass(GetACharacter(), "Ship.HP");
+  auto pAHP = GetACharacter()->FindAClass(GetACharacter(), "Ship.HP");
 	Assert(pAHP);
 	return pAHP->GetAttributeAsFloat();
 }
@@ -532,11 +532,11 @@ float AIShip::GetDefendHP()
 
 float AIShip::GetAttackHP(float fAttackDistance)
 {
-	float fHP = 0.0f;
+  auto fHP = 0.0f;
 	for (uint32_t i = 0; i < AIShips.size(); i++)
 		if (AIShips[i] != this)
 		{
-			float fHP1 = 0.0f;
+      auto fHP1 = 0.0f;
 			if (fAttackDistance <= 0.0f && AIShips[i]->isAttack(GetACharacter())) fHP1 = AIShips[i]->GetShipHP();
 			if (isEnemy(*AIShips[i]) && AIShips[i]->GetDistance(*AIShips[i]) <= fAttackDistance) fHP1 = AIShips[i]->
 				GetShipHP();
@@ -549,18 +549,18 @@ float AIShip::GetPower()
 {
 	Assert(GetAShip());
 	if (isDead()) return 0.0f;
-	float fHP = GetAShip()->GetAttributeAsFloat("HP");
-	uint32_t dwCannonsNum = GetCannonController()->GetCannonsNum();
+  auto fHP = GetAShip()->GetAttributeAsFloat("HP");
+  auto dwCannonsNum = GetCannonController()->GetCannonsNum();
 	return fHP + dwCannonsNum * 100.0f;
 };
 
 void AIShip::SwapShips(AIShip* pOtherShip)
 {
-	ATTRIBUTES* pAThisCharacter = GetACharacter();
+  auto pAThisCharacter = GetACharacter();
 	SetACharacter(pOtherShip->GetACharacter());
 	pOtherShip->SetACharacter(pAThisCharacter);
 
-	bool bThisDead = isDead();
+  auto bThisDead = isDead();
 	SetDead(pOtherShip->isDead());
 	pOtherShip->SetDead(bThisDead);
 
@@ -608,49 +608,49 @@ bool AIShip::ShipFire(ATTRIBUTES* pACharacter, bool bCameraOutside)
 
 void AIShip::ShipSetAttack(uint32_t dwPriority, ATTRIBUTES* pACharacter1, ATTRIBUTES* pACharacter2)
 {
-	AIShip* pShip = FindShip(pACharacter1);
+  auto pShip = FindShip(pACharacter1);
 	if (pShip) pShip->GetTaskController()->SetNewTask(dwPriority, AITASK_ATTACK, pACharacter2);
 }
 
 void AIShip::ShipSetRunAway(uint32_t dwPriority, ATTRIBUTES* pACharacter1)
 {
-	AIShip* pShip = FindShip(pACharacter1);
+  auto pShip = FindShip(pACharacter1);
 	if (pShip) pShip->GetTaskController()->SetNewTask(dwPriority, AITASK_RUNAWAY, nullptr);
 }
 
 void AIShip::ShipSetMove(uint32_t dwPriority, ATTRIBUTES* pACharacter1, ATTRIBUTES* pACharacter2)
 {
-	AIShip* pShip = FindShip(pACharacter1);
+  auto pShip = FindShip(pACharacter1);
 	if (pShip) pShip->GetTaskController()->SetNewTask(dwPriority, AITASK_MOVE, pACharacter2);
 }
 
 void AIShip::ShipSetMove(uint32_t dwPriority, ATTRIBUTES* pACharacter1, CVECTOR& vPnt)
 {
-	AIShip* pShip = FindShip(pACharacter1);
+  auto pShip = FindShip(pACharacter1);
 	if (pShip) pShip->GetTaskController()->SetNewTask(dwPriority, AITASK_MOVE, vPnt);
 }
 
 void AIShip::ShipSetDrift(uint32_t dwPriority, ATTRIBUTES* pACharacter1)
 {
-	AIShip* pShip = FindShip(pACharacter1);
+  auto pShip = FindShip(pACharacter1);
 	if (pShip) pShip->GetTaskController()->SetNewTask(dwPriority, AITASK_DRIFT, nullptr);
 }
 
 void AIShip::ShipSetDefend(uint32_t dwPriority, ATTRIBUTES* pACharacter1, ATTRIBUTES* pACharacter2)
 {
-	AIShip* pShip = FindShip(pACharacter1);
+  auto pShip = FindShip(pACharacter1);
 	if (pShip) pShip->GetTaskController()->SetNewTask(dwPriority, AITASK_DEFEND, pACharacter2);
 }
 
 void AIShip::ShipSetBrander(uint32_t dwPriority, ATTRIBUTES* pACharacter1, ATTRIBUTES* pACharacter2)
 {
-	AIShip* pShip = FindShip(pACharacter1);
+  auto pShip = FindShip(pACharacter1);
 	if (pShip) pShip->GetTaskController()->SetNewTask(dwPriority, AITASK_BRANDER, pACharacter2);
 }
 
 void AIShip::ShipSetAbordage(uint32_t dwPriority, ATTRIBUTES* pACharacter1, ATTRIBUTES* pACharacter2)
 {
-	AIShip* pShip = FindShip(pACharacter1);
+  auto pShip = FindShip(pACharacter1);
 	if (pShip) pShip->GetTaskController()->SetNewTask(dwPriority, AITASK_ABORDAGE, pACharacter2);
 }
 

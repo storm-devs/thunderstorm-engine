@@ -264,12 +264,12 @@ inline void CMatrix::SetIdentity()
 //Build matrix
 inline void CMatrix::BuildMatrix(float angX, float angY, float angZ, float x, float y, float z)
 {
-	float sinAx = sinf(angX);
-	float cosAx = cosf(angX);
-	float sinAy = sinf(angY);
-	float cosAy = cosf(angY);
-	float sinAz = sinf(angZ);
-	float cosAz = cosf(angZ);
+  auto sinAx = sinf(angX);
+  auto cosAx = cosf(angX);
+  auto sinAy = sinf(angY);
+  auto cosAy = cosf(angY);
+  auto sinAz = sinf(angZ);
+  auto cosAz = cosf(angZ);
 
 	//Создаём матрицу с порядком вращений rz*rx*ry
 	m[0][0] = cosAz * cosAy + sinAz * sinAx * sinAy;
@@ -295,12 +295,12 @@ inline void CMatrix::BuildMatrix(float angX, float angY, float angZ, float x, fl
 
 inline void CMatrix::BuildMatrixXYZ(float angX, float angY, float angZ, float x, float y, float z)
 {
-	float sinAx = sinf(angX);
-	float cosAx = cosf(angX);
-	float sinAy = sinf(angY);
-	float cosAy = cosf(angY);
-	float sinAz = sinf(angZ);
-	float cosAz = cosf(angZ);
+  auto sinAx = sinf(angX);
+  auto cosAx = cosf(angX);
+  auto sinAy = sinf(angY);
+  auto cosAy = cosf(angY);
+  auto sinAz = sinf(angZ);
+  auto cosAz = cosf(angZ);
 
 	m[0][0] = cosAy * cosAz;
 	m[1][0] = sinAx * sinAy * cosAz - cosAx * sinAz;
@@ -510,9 +510,9 @@ inline void CMatrix::MulToInvNorm(const CVECTOR& src, CVECTOR& res)
 //Transposition
 inline void CMatrix::Transposition()
 {
-	float x = Pos() | Vx();
-	float y = Pos() | Vy();
-	float z = Pos() | Vz();
+  auto x = Pos() | Vx();
+  auto y = Pos() | Vy();
+  auto z = Pos() | Vz();
 	Pos().x = -x;
 	Pos().y = -y;
 	Pos().z = -z;
@@ -766,9 +766,9 @@ inline CMatrix& CMatrix::BuildProjectionMatrix(float viewAngle, float vpWidth, f
 		mov		ecx, 16
 		rep		stosd
 	}*/
-	float cs = cosf(viewAngle * 0.5f);
-	float sn = sinf(viewAngle * 0.5f);
-	double Q = (double)zFar / (double)(zFar - zNear);
+  auto cs = cosf(viewAngle * 0.5f);
+  auto sn = sinf(viewAngle * 0.5f);
+  auto Q = (double)zFar / (double)(zFar - zNear);
 
 	matrix[0] = 1.0f / tanf(viewAngle * 0.5f);
 	matrix[5] = 1.0f / tanf((vpHeight / vpWidth) * viewAngle * 0.5f);
@@ -809,7 +809,7 @@ inline bool CMatrix::BuildViewMatrix(CVECTOR lookFrom, CVECTOR lookTo, CVECTOR u
 	SetIdentity();
 	//Нормализуем вектор смотрения
 	lookTo -= lookFrom;
-	float l = ~lookTo;
+  auto l = ~lookTo;
 	if (l == 0.0f)
 	{
 		//Ставим позицию для неповёрнутой матрици

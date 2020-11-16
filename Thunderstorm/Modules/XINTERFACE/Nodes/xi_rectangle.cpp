@@ -19,7 +19,7 @@ void CXI_RECTANGLE::Draw(bool bSelected, uint32_t Delta_Time)
 		if (m_bBorder)
 		{
 			RS_LINE pLines[8];
-			for (int i = 0; i < 8; i++)
+			for (auto i = 0; i < 8; i++)
 			{
 				pLines[i].vPos.z = 1.f;
 				pLines[i].dwColor = m_dwBorderColor;
@@ -52,7 +52,7 @@ int CXI_RECTANGLE::CommandExecute(int wActCode)
 void CXI_RECTANGLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2)
 {
 	// fill vertex positions
-	for (int i = 0; i < 4; i++)
+	for (auto i = 0; i < 4; i++)
 		m_pVert[i].pos.z = 1.f;
 	m_pVert[0].pos.x = (float)m_rect.left;
 	m_pVert[0].pos.y = (float)m_rect.top;
@@ -142,7 +142,7 @@ void CXI_RECTANGLE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());

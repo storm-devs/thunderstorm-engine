@@ -58,7 +58,7 @@ void DataString::Write(MemFile* File)
 
 	//save name
 	uint32_t NameLength = Name.size();
-	uint32_t NameLengthPlusZero = NameLength + 1;
+  auto NameLengthPlusZero = NameLength + 1;
 	File->WriteType(NameLengthPlusZero);
 	Assert(NameLength < 128);
 	File->Write(Name.c_str(), NameLength);

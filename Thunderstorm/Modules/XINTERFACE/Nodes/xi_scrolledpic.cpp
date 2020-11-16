@@ -27,7 +27,7 @@ void CXI_SCROLLEDPICTURE::Draw(bool bSelected, uint32_t Delta_Time)
 bool CXI_SCROLLEDPICTURE::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                                XYPOINT& ScreenSize)
 {
-	bool bSuccess = CXI_PICTURE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize);
+  auto bSuccess = CXI_PICTURE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize);
 	return bSuccess;
 }
 
@@ -55,16 +55,16 @@ void CXI_SCROLLEDPICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* in
 
 	m_nScaleNum = GetIniLong(ini1, name1, ini2, name2, "startscale", 0) - 1;
 
-	ATTRIBUTES* pAttribute = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+  auto pAttribute = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 	if (pAttribute)
 	{
-		ATTRIBUTES* pAttr = pAttribute->GetAttributeClass("imagelist");
+    auto pAttr = pAttribute->GetAttributeClass("imagelist");
 		if (pAttr)
 		{
 			long q = pAttr->GetAttributesNum();
 			for (n = 0; n < q; n++)
 			{
-				ATTRIBUTES* pA = pAttr->GetAttributeClass(n);
+        auto pA = pAttr->GetAttributeClass(n);
 				if (pA)
 				{
 					//long i = m_aImg.Add();
@@ -97,8 +97,8 @@ void CXI_SCROLLEDPICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* in
 
 		m_nScaleNum = pAttribute->GetAttributeAsDword("scale", m_nScaleNum);
 
-		float fx = pAttribute->GetAttributeAsFloat("centerX", m_fpBaseSize.x * .5f);
-		float fy = pAttribute->GetAttributeAsFloat("centerY", m_fpBaseSize.y * .5f);
+    auto fx = pAttribute->GetAttributeAsFloat("centerX", m_fpBaseSize.x * .5f);
+    auto fy = pAttribute->GetAttributeAsFloat("centerY", m_fpBaseSize.y * .5f);
 		SetPosToCenter(fx, fy);
 	}
 
@@ -157,8 +157,8 @@ uint32_t CXI_SCROLLEDPICTURE::MessageProc(long msgcode, MESSAGE& message)
 	{
 	case 10: // Установить новый центр
 		{
-			float fx = message.Float();
-			float fy = message.Float();
+      auto fx = message.Float();
+      auto fy = message.Float();
 			SetPosToCenter(fx, fy);
 		}
 		return 0;
@@ -171,8 +171,8 @@ void CXI_SCROLLEDPICTURE::MoveMouseOutScreen(float fX, float fY)
 {
 	if (fX == 0.f && fY == 0.f) return;
 
-	float fDeltaU = fX * m_fUTexPerPixel;
-	float fDeltaV = fY * m_fVTexPerPixel;
+  auto fDeltaU = fX * m_fUTexPerPixel;
+  auto fDeltaV = fY * m_fVTexPerPixel;
 
 	if (m_v[0].tu + fDeltaU < 0.f) fDeltaU = -m_v[0].tu;
 	if (m_v[0].tv + fDeltaV < 0.f) fDeltaV = -m_v[0].tv;
@@ -193,10 +193,10 @@ void CXI_SCROLLEDPICTURE::ChangeUV(FXYRECT& frNewUV)
 	CXI_PICTURE::ChangeUV(frNewUV);
 	RecalculateTexPerPixel();
 	UpdateBuildenImages();
-	ATTRIBUTES* pAttribute = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+  auto pAttribute = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 	if (pAttribute)
 	{
-		ATTRIBUTES* pA = pAttribute->GetAttributeClass("offset");
+    auto pA = pAttribute->GetAttributeClass("offset");
 		if (!pA) pA = pAttribute->CreateSubAClass(pAttribute, "offset");
 		if (pA)
 		{
@@ -237,8 +237,8 @@ void CXI_SCROLLEDPICTURE::UpdateBuildenImages()
 	{
 		m_aImg[n].bShow = false;
 
-		float fx = m_aImg[n].fpPos.x / m_fpBaseSize.x;
-		float fy = m_aImg[n].fpPos.y / m_fpBaseSize.y;
+    auto fx = m_aImg[n].fpPos.x / m_fpBaseSize.x;
+    auto fy = m_aImg[n].fpPos.y / m_fpBaseSize.y;
 		if (fx < m_v[0].tu || fy < m_v[0].tv || fx > m_v[3].tu || fy > m_v[3].tv ||
 			m_fUTexPerPixel <= 0.f || m_fVTexPerPixel <= 0.f)
 			continue;
@@ -253,10 +253,10 @@ void CXI_SCROLLEDPICTURE::SetPosToCenter(float fX, float fY)
 {
 	RecalculateTexPerPixel();
 
-	float fLeft = fX / m_fpBaseSize.x;
-	float fTop = fY / m_fpBaseSize.y;
-	float fWidth = (m_rect.right - m_rect.left) * m_fUTexPerPixel;
-	float fHeight = (m_rect.bottom - m_rect.top) * m_fVTexPerPixel;
+  auto fLeft = fX / m_fpBaseSize.x;
+  auto fTop = fY / m_fpBaseSize.y;
+  auto fWidth = (m_rect.right - m_rect.left) * m_fUTexPerPixel;
+  auto fHeight = (m_rect.bottom - m_rect.top) * m_fVTexPerPixel;
 
 	if (fLeft <= fWidth * .5f) fLeft = 0.f;
 	else fLeft -= fWidth * .5f;
@@ -288,11 +288,11 @@ void CXI_SCROLLEDPICTURE::SetScale(float fsx, float fsy)
 	if (fsy < 0.f) fsy = 0.f;
 	if (fsy > 1.f) fsy = 1.f;
 
-	float fCenterX = (m_v[3].tu + m_v[0].tu) * .5f;
-	float fCenterY = (m_v[3].tv + m_v[0].tv) * .5f;
+  auto fCenterX = (m_v[3].tu + m_v[0].tu) * .5f;
+  auto fCenterY = (m_v[3].tv + m_v[0].tv) * .5f;
 
-	float fLeft = fCenterX - fsx * .5f;
-	float fTop = fCenterY - fsy * .5f;
+  auto fLeft = fCenterX - fsx * .5f;
+  auto fTop = fCenterY - fsy * .5f;
 	if (fLeft < 0.f) fLeft = 0.f;
 	if (fTop < 0.f) fTop = 0.f;
 	if (fLeft + fsx > 1.f) fLeft = 1.f - fsx;

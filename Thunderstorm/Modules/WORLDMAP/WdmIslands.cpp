@@ -45,7 +45,7 @@ WdmIslands::WdmIslands()
 	baseModel->geo->GetInfo(ginfo);
 	//Находим размеры мира и перебираем локаторы
 	CVECTOR vmin, vmax, center = 0.0f, vmn, vmx;
-	bool isMin = false, isMax = false;
+  auto isMin = false, isMax = false;
 	for (long i = 0; i < ginfo.nlabels; i++)
 	{
 		baseModel->geo->GetLabel(i, label);
@@ -107,14 +107,14 @@ WdmIslands::WdmIslands()
 		name = "islands\\";
 		name += label.name;
 		//Загружаем
-		WdmRenderModel* model = (WdmRenderModel *)wdmObjects->wm->CreateModel(new WdmRenderModel(), name.c_str(), false,
-		                                                                      false, true, 2);
+    auto model = (WdmRenderModel *)wdmObjects->wm->CreateModel(new WdmRenderModel(), name.c_str(), false,
+                                                               false, true, 2);
 		if (model)
 		{
 			//Общее
 			islands.push_back(Islands{});
 			//Islands & isl = islands[islands.Add()];
-			Islands& isl = islands.back();
+      auto& isl = islands.back();
 			isl.model = model;
 			model->mtx = *((CMatrix *)label.m);
 			model->mtx.Pos() += center;
@@ -138,7 +138,7 @@ WdmIslands::WdmIslands()
 			                                                          true, 4, 800);
 			if (isl.palms)
 			{
-				static const char* techName = "WdmModelDrawStdAlphaTest";
+				static auto techName = "WdmModelDrawStdAlphaTest";
 				isl.palms->SetTech(techName, techName);
 			}
 			//Пена
@@ -184,9 +184,9 @@ WdmIslands::~WdmIslands()
 //Проверить на возможное столкновение
 bool WdmIslands::CollisionTest(CMatrix& objMtx, float length, float width, bool heighTest)
 {
-	const float maxHeightInTest = 0.5f;
+	const auto maxHeightInTest = 0.5f;
 	//Радиус прямоугольника на плоскости
-	float boxRadius = sqrtf(length * length + width * width);
+  auto boxRadius = sqrtf(length * length + width * width);
 	if (boxRadius < 0.0000001f) return false;
 	//Радиус ящика
 	float checkRadius = boxRadius + maxHeightInTest;

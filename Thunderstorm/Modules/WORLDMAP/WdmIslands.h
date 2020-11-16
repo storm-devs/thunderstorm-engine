@@ -166,7 +166,7 @@ public:
 
 inline CVECTOR WdmIslands::Norm2D(const CVECTOR& v)
 {
-	CVECTOR ret = v;
+  auto ret = v;
 	ret.y = 0.0f;
 	double len = ret.x * ret.x + ret.z * ret.z;
 	if (len >= 1e-30f)

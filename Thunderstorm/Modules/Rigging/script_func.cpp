@@ -10,7 +10,7 @@ uint32_t _ShipSailState(VS_STACK* pS)
 {
 	auto* pChrIdx = (VDATA*)pS->Pop();
 	if (!pChrIdx) return IFUNCRESULT_FAILED;
-	long nChrIdx = pChrIdx->GetLong();
+  auto nChrIdx = pChrIdx->GetLong();
 
 	auto* pVR = (VDATA*)pS->Push();
 	if (!pVR) return IFUNCRESULT_FAILED;
@@ -28,13 +28,13 @@ uint32_t _ShipSailState(VS_STACK* pS)
 
 uint32_t _GetAssembledString(VS_STACK* pS)
 {
-	VDATA* pAttrPnt = (VDATA*)pS->Pop();
+  auto pAttrPnt = (VDATA*)pS->Pop();
 	if (!pAttrPnt) return IFUNCRESULT_FAILED;
-	ATTRIBUTES* pAttr = pAttrPnt->GetAClass();
+  auto pAttr = pAttrPnt->GetAClass();
 
-	VDATA* pFormatStr = (VDATA*)pS->Pop();
+  auto pFormatStr = (VDATA*)pS->Pop();
 	if (!pFormatStr) return IFUNCRESULT_FAILED;
-	char* formatStr = pFormatStr->GetString();
+  auto formatStr = pFormatStr->GetString();
 
 	char retString[1024];
 	retString[0] = 0;

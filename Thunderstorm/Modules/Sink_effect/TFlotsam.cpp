@@ -20,7 +20,7 @@ TFlotsam::~TFlotsam()
 	--modelsInitialized;
 
 	if (!modelsInitialized)
-		for (int i = 0; i < FLOTSAM_MODELS_COUNT; i++)
+		for (auto i = 0; i < FLOTSAM_MODELS_COUNT; i++)
 			EntityManager::EraseEntity(modelIDs[i]);
 }
 
@@ -54,7 +54,7 @@ void TFlotsam::Initialize(SEA_BASE* _sea)
 		strcpy_s(modelNames[2], "particles\\palka03");
 		strcpy_s(modelNames[3], "particles\\palka04");
 
-		for (int i = 0; i < FLOTSAM_MODELS_COUNT; i++)
+		for (auto i = 0; i < FLOTSAM_MODELS_COUNT; i++)
 		{
 			modelIDs[i] = EntityManager::CreateEntity("MODELR");
 			api->Send_Message(modelIDs[i], "ls",MSG_MODEL_LOAD_GEO, modelNames[i]);
@@ -72,7 +72,7 @@ void TFlotsam::Process(uint32_t _dTime)
 	if (!enabled)
 		return;
 
-	float dTime = _dTime / 1000.0f; // msec -> sec
+  auto dTime = _dTime / 1000.0f; // msec -> sec
 
 	switch (state)
 	{

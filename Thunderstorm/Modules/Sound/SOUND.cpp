@@ -44,7 +44,7 @@ uint64_t SOUND::ProcessMessage(MESSAGE& message)
 	if (!soundService)
 		return 0;
 
-	long code = message.Long();
+  auto code = message.Long();
 	CVECTOR vector, vector2;
 	char tempString[SOUND_STRING_SIZE];
 	long temp, temp2, temp3, temp4, vt;

@@ -26,7 +26,7 @@ void CXI_STRCOLLECTION::Draw(bool bSelected, uint32_t Delta_Time)
 {
 	if (m_bUse)
 	{
-		for (int i = 0; i < m_nStr; i++)
+		for (auto i = 0; i < m_nStr; i++)
 			if (m_pStrDescr[i].strStr != nullptr)
 				m_rs->ExtPrint(m_pStrDescr[i].nFontNum, m_pStrDescr[i].foreColor,
 				               m_pStrDescr[i].backColor, m_pStrDescr[i].wAlignment, m_pStrDescr[i].bShadow,
@@ -57,10 +57,10 @@ void CXI_STRCOLLECTION::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2
 	int i;
 	char param[256];
 
-	bool bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
+  auto bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
 
-	INIFILE* ini = ini1;
-	const char* name = name1;
+  auto ini = ini1;
+  auto name = name1;
 	if (!ini1)
 	{
 		ini = ini2;
@@ -132,7 +132,7 @@ void CXI_STRCOLLECTION::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2
 
 void CXI_STRCOLLECTION::ReleaseAll()
 {
-	for (int i = 0; i < m_nStr; i++)
+	for (auto i = 0; i < m_nStr; i++)
 	{
 		STORM_DELETE(m_pStrDescr[i].strID);
 		STORM_DELETE(m_pStrDescr[i].strStr);
@@ -179,8 +179,8 @@ void CXI_STRCOLLECTION::SetInternalName(std::string& sName)
 
 void CXI_STRCOLLECTION::ChangePosition(XYRECT& rNewPos)
 {
-	long nX = rNewPos.left - m_rect.left;
-	long nY = rNewPos.top - m_rect.top;
+  auto nX = rNewPos.left - m_rect.left;
+  auto nY = rNewPos.top - m_rect.top;
 	if (nX != 0 || nY != 0)
 	{
 		if (m_nEditIndex >= 0 && m_nEditIndex < m_nStr)
@@ -201,7 +201,7 @@ void CXI_STRCOLLECTION::SaveParametersToIni()
 {
 	//	char pcWriteParam[2048];
 
-	INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -272,7 +272,7 @@ uint32_t CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 			char paramID[256], paramStr[512];
 			message.String(sizeof(paramID), paramID); // msg
 			message.String(sizeof(paramStr), paramStr); // msg
-			STRINGDESCR* pstr = CreateNewDinamicString(paramID, paramStr);
+      auto pstr = CreateNewDinamicString(paramID, paramStr);
 			if (pstr == nullptr) return -1;
 			// string font
 			char fontName[256];
@@ -308,7 +308,7 @@ uint32_t CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 		break;
 	case 1: // изменить строку по номеру
 		{
-			long n = message.Long() - 1;
+      auto n = message.Long() - 1;
 			char param[512];
 			message.String(sizeof(param), param);
 			ChangeString(n, param);
@@ -316,8 +316,8 @@ uint32_t CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 		break;
 	case 2: // скопировать строку с одного места на другое (первая строка имеет номер 1)
 		{
-			long nDst = message.Long() - 1;
-			long nSrc = message.Long() - 1;
+      auto nDst = message.Long() - 1;
+      auto nSrc = message.Long() - 1;
 			if (nDst >= 0 && nSrc >= 0 &&
 				nDst < m_nStr && nSrc < m_nStr)
 			{

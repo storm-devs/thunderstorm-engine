@@ -52,7 +52,7 @@ Location::Location()
 Location::~Location()
 {
 	if (!AttributesPointer) return;
-	ATTRIBUTES* atr = AttributesPointer->FindAClass(AttributesPointer, "locators");
+  auto atr = AttributesPointer->FindAClass(AttributesPointer, "locators");
 	if (atr) AttributesPointer->DeleteAttributeClassX(atr);
 #ifndef _XBOX
 	//EntityManager::EraseEntity(cubeShotMaker);
@@ -108,7 +108,7 @@ void Location::Execute(uint32_t delta_time)
 	//Обсчёт персонажей
 	if (!isDebugView) Update(delta_time);
 	//Обсчёт сообщений
-	float dltTime = delta_time * 0.001f;
+  auto dltTime = delta_time * 0.001f;
 	for (long i = 0; i < sizeof(message) / sizeof(DmgMessage); i++)
 	{
 		if (message[i].alpha <= 0.0f) continue;
@@ -116,7 +116,7 @@ void Location::Execute(uint32_t delta_time)
 		message[i].alpha -= dltTime * 0.4f;
 	}
 	//Обновление данных для травы
-	Grass* grs = (Grass *)EntityManager::GetEntityPointer(grass);
+  auto grs = (Grass *)EntityManager::GetEntityPointer(grass);
 	if (grs)
 	{
 		for (long i = 0; i < supervisor.numCharacters; i++)
@@ -138,7 +138,7 @@ void Location::Execute(uint32_t delta_time)
 
 void Location::Realize(uint32_t delta_time)
 {
-	float fDeltaTime = float(delta_time) * 0.001f;
+  auto fDeltaTime = float(delta_time) * 0.001f;
 
 	fCausticFrame += fDeltaTime * fCausticSpeed;
 
@@ -170,7 +170,7 @@ void Location::Realize(uint32_t delta_time)
 	//Обсчёт персонажей
 	if (isDebugView) Update(delta_time);
 	//Отрисовка сообщений
-	long i = curMessage;
+  auto i = curMessage;
 	for (long c = 0; c < sizeof(message) / sizeof(DmgMessage); c++, i--)
 	{
 		if (i < 0) i = sizeof(message) / sizeof(DmgMessage) - 1;
@@ -188,9 +188,9 @@ void Location::Update(uint32_t delta_time)
 	lights = (Lights *)EntityManager::GetEntityPointer(lightsid);
 
 	const uint32_t max_delta_time = 500;
-	const float maxDltTime = 0.1f;
+	const auto maxDltTime = 0.1f;
 	if (delta_time > max_delta_time) delta_time = max_delta_time;
-	float dltTime = delta_time * 0.001f;
+  auto dltTime = delta_time * 0.001f;
 	//Эффекты моделей
 	model.Update(dltTime);
 	//Персонажи
@@ -222,7 +222,7 @@ uint64_t Location::ProcessMessage(MESSAGE& message)
 			message.String(sizeof(tech), tech);
 			tech[sizeof(tech) - 1] = 0;
 			level = message.Long();
-			long dynamicLightsOn = message.Long();
+      auto dynamicLightsOn = message.Long();
 			lastLoadStaticModel = LoadStaticModel(name, tech, level, dynamicLightsOn == 1);
 			return lastLoadStaticModel >= 0;
 		}
@@ -406,7 +406,7 @@ uint64_t Location::ProcessMessage(MESSAGE& message)
 LocatorArray* Location::FindLocatorsGroup(const char* gName)
 {
 	if (!gName || !gName[0]) return nullptr;
-	long hash = LocatorArray::CalcHashString(gName);
+  auto hash = LocatorArray::CalcHashString(gName);
 	for (long i = 0; i < numLocators; i++)
 	{
 		if (locators[i]->CompareGroup(gName, hash)) return locators[i];
@@ -417,22 +417,22 @@ LocatorArray* Location::FindLocatorsGroup(const char* gName)
 long Location::LoadStaticModel(const char* modelName, const char* tech, long level, bool useDynamicLights)
 {
 	lights = (Lights *)EntityManager::GetEntityPointer(lightsid);
-	long im = model.CreateModel(modelName, tech, level, true, useDynamicLights ? GetLights() : nullptr);
+  auto im = model.CreateModel(modelName, tech, level, true, useDynamicLights ? GetLights() : nullptr);
 	if (im < 0) return -1;
 	//Указатель на геометрию
-	MODEL* mdl = model[im];
+  auto mdl = model[im];
 	if (!mdl)
 	{
 		model.DeleteModel(im);
 		return -1;
 	}
-	NODE* node = mdl->GetNode(0);
+  auto node = mdl->GetNode(0);
 	if (!node)
 	{
 		model.DeleteModel(im);
 		return -1;
 	}
-	GEOS* g = node->geo;
+  auto g = node->geo;
 	if (!g)
 	{
 		model.DeleteModel(im);
@@ -451,7 +451,7 @@ long Location::LoadStaticModel(const char* modelName, const char* tech, long lev
 	{
 		g->GetLabel(i, label);
 		if (!label.group_name || !label.group_name[0]) continue;
-		long hash = LocatorArray::CalcHashString(label.group_name);
+    auto hash = LocatorArray::CalcHashString(label.group_name);
 		long j;
 		for (j = 0; j < numLocators; j++)
 		{
@@ -467,10 +467,10 @@ long Location::LoadStaticModel(const char* modelName, const char* tech, long lev
 			numLocators++;
 			locators[j] = new LocatorArray(label.group_name);
 		}
-		long locIndex = locators[j]->FindByName(label.name);
+    auto locIndex = locators[j]->FindByName(label.name);
 		if (locIndex < 0)
 		{
-			CMatrix& mtxx = *((CMatrix *)label.m);
+      auto& mtxx = *((CMatrix *)label.m);
 #ifndef _XBOX
 			for (long me = 0; me < 16; me++)
 				if (_isnan(mtxx.matrix[me]))
@@ -505,7 +505,7 @@ bool Location::LoadCharacterPatch(const char* ptcName)
 	strcat_s(path, ptcName);
 	strcat_s(path, ".ptc");
 	//Загружаем патч
-	bool result = ptc.Load(path);
+  auto result = ptc.Load(path);
 	if (!result) api->Trace("Can't loaded patch data file %s.ptc for npc.", ptcName);
 	return result;
 }
@@ -548,9 +548,9 @@ bool Location::MessageEx(const char* name, MESSAGE& message)
 	else if (_stricmp(name, "AddFlys") == 0)
 	{
 		const auto effects = EntityManager::GetEntityId("LocationEffects");
-		float x = message.Float();
-		float y = message.Float();
-		float z = message.Float();
+    auto x = message.Float();
+    auto y = message.Float();
+    auto z = message.Float();
 		api->Send_Message(effects, "sfff", "AddFly", x, y, z);
 		return true;
 	}

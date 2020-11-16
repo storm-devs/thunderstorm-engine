@@ -35,11 +35,11 @@ DX9RENDER* DX9RENDER::pRS = nullptr;
 
 uint32_t DX9SetTexturePath(VS_STACK* pS)
 {
-	VDATA* pString = (VDATA*)pS->Pop();
-	VDATA* pNumber = (VDATA*)pS->Pop();
+  auto pString = (VDATA*)pS->Pop();
+  auto pNumber = (VDATA*)pS->Pop();
 
 	uintptr_t iNumber = pNumber->GetLong();
-	char* pStr = pString->GetString();
+  auto pStr = pString->GetString();
 
 	if (!DX9RENDER::pRS)
 	{
@@ -47,7 +47,7 @@ uint32_t DX9SetTexturePath(VS_STACK* pS)
 		Assert(DX9RENDER::pRS);
 	}
 
-	VDATA* pVR = (VDATA*)pS->Push();
+  auto pVR = (VDATA*)pS->Push();
 	if (!pVR || iNumber < 0 || iNumber >= 4)
 	{
 		pVR->Set(long(0));
@@ -65,7 +65,7 @@ uint32_t DX9SetTexturePath(VS_STACK* pS)
 
 uint32_t RPrint(VS_STACK* pS)
 {
-	VDATA* pString = (VDATA*)pS->Pop();
+  auto pString = (VDATA*)pS->Pop();
 	long y = ((VDATA*)pS->Pop())->GetLong();
 	long x = ((VDATA*)pS->Pop())->GetLong();
 

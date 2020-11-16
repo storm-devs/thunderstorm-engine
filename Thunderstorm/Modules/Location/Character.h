@@ -811,7 +811,7 @@ inline void Character::LockRotate(bool isLock)
 inline float Character::CameraTurnSpeed()
 {
 	if (camRotWait <= 0.0f || camRotMax <= 0.0f) return 1.0f;
-	float k = camRotWait / camRotMax;
+  auto k = camRotWait / camRotMax;
 	if (k > 1.0f) k = 1.0f;
 	return powf(1.0f - k, 1.8f);
 }

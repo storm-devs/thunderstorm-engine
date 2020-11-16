@@ -35,7 +35,7 @@ public:
 			for (uint32_t i = 0; i < dwCurSize; i++)
 				sprintf_s(&pFFSave[8 + i * 2], 3, "%.2x", uint8_t(pSaveBuffer[i]));
 
-			VDATA* pV = api->Event("SeaLoad_GetPointer", "sl", "seasave", -1);
+      auto pV = api->Event("SeaLoad_GetPointer", "sl", "seasave", -1);
 			if (pV)
 				pV->GetAClass()->SetAttribute("save", pFFSave);
 
@@ -59,8 +59,8 @@ public:
 		bLoad = true;
 		dwCurSize = 0;
 
-		VDATA* pV = api->Event("SeaLoad_GetPointer", "sl", "seasave", -1);
-		char* pSave = pV->GetAClass()->GetAttribute("save");
+    auto pV = api->Event("SeaLoad_GetPointer", "sl", "seasave", -1);
+    auto pSave = pV->GetAClass()->GetAttribute("save");
 		uint32_t dwSize;
 		char str[256];
 		strncpy_s(str, pSave, 8);
@@ -193,7 +193,7 @@ public:
 		uint32_t dwLen;
 		Read(&dwLen, sizeof(dwLen));
 		if (dwLen == 0) return std::string();
-		char* pBuffer = new char[dwLen];
+    auto pBuffer = new char[dwLen];
 		Read(pBuffer, dwLen);
 		str = pBuffer;
 		delete[] pBuffer;
@@ -224,10 +224,10 @@ public:
 
 	ATTRIBUTES* LoadAPointer(const char* pStr)
 	{
-		long iIndex = LoadLong();
-		std::string str = LoadString();
+    auto iIndex = LoadLong();
+    auto str = LoadString();
 		if (str == "character" && iIndex < 0) return nullptr;
-		VDATA* pV = api->Event("SeaLoad_GetPointer", "sl", pStr, iIndex);
+    auto pV = api->Event("SeaLoad_GetPointer", "sl", pStr, iIndex);
 		return (pV) ? pV->GetAClass() : nullptr;
 	}
 };

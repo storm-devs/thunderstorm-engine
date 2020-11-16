@@ -28,7 +28,7 @@ void BREAKPOINTS_TABLE::Release()
 	//if(nPoints)
 	if (ProjectName[0] != 0)
 	{
-		INIFILE* ini = fio->OpenIniFile(ProjectName);
+    auto ini = fio->OpenIniFile(ProjectName);
 		if (!ini) ini = fio->CreateIniFile(ProjectName, false);
 		if (ini)
 		{
@@ -61,7 +61,7 @@ void BREAKPOINTS_TABLE::UpdateProjectFile()
 
 	if (ProjectName[0] != 0)
 	{
-		INIFILE* ini = fio->OpenIniFile(ProjectName);
+    auto ini = fio->OpenIniFile(ProjectName);
 		if (!ini) ini = fio->CreateIniFile(ProjectName, false);
 		if (ini)
 		{
@@ -103,7 +103,7 @@ bool BREAKPOINTS_TABLE::ReadProject(const char* filename)
 
 	Release();
 
-	INIFILE* ini = fio->OpenIniFile(filename);
+  auto ini = fio->OpenIniFile(filename);
 	if (ini)
 	{
 		strcpy_s(ProjectName, filename);

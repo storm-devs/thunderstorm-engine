@@ -102,10 +102,10 @@ void MAST::Execute(uint32_t Delta_Time)
 		//====================================================
 		// Если был изменен ини-файл, то считать инфо из него
 		WIN32_FIND_DATA wfd;
-		HANDLE h = fio->_FindFirstFile(MAST_INI_FILE, &wfd);
+    auto h = fio->_FindFirstFile(MAST_INI_FILE, &wfd);
 		if (INVALID_HANDLE_VALUE != h)
 		{
-			FILETIME ft_new = wfd.ftLastWriteTime;
+      auto ft_new = wfd.ftLastWriteTime;
 			fio->_FindClose(h);
 
 			if (CompareFileTime(&ft_old, &ft_new) != 0)
@@ -114,7 +114,7 @@ void MAST::Execute(uint32_t Delta_Time)
 			}
 		}
 		doMove(Delta_Time);
-		MODEL* mdl = (MODEL*)EntityManager::GetEntityPointer(model_id);
+    auto mdl = (MODEL*)EntityManager::GetEntityPointer(model_id);
 		if (mdl) mdl->Update();
 	}
 	else
@@ -201,10 +201,10 @@ void MAST::Mount(entid_t modelEI, entid_t shipEI, NODE* mastNodePointer)
 	oldmodel_id = modelEI;
 	ship_id = shipEI;
 
-	entid_t ropeEI = EntityManager::GetEntityId("rope");
-	entid_t sailEI = EntityManager::GetEntityId("sail");
-	entid_t flagEI = EntityManager::GetEntityId("flag");
-	entid_t vantEI = EntityManager::GetEntityId("vant");
+  auto ropeEI = EntityManager::GetEntityId("rope");
+  auto sailEI = EntityManager::GetEntityId("sail");
+  auto flagEI = EntityManager::GetEntityId("flag");
+  auto vantEI = EntityManager::GetEntityId("vant");
 
 	// найдем аттрибуты
 	VAI_OBJBASE* pVAI = nullptr;

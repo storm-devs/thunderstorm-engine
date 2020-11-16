@@ -54,13 +54,13 @@ void Astronomy::STARS::Init(ATTRIBUTES* pAP)
 
 	pAP = pAP->FindAClass(pAP, "Stars");
 	if (!pAP) return;
-	ATTRIBUTES* pASpectrs = pAP->FindAClass(pAP, "Spectr");
+  auto pASpectrs = pAP->FindAClass(pAP, "Spectr");
 
 	if (pASpectrs)
 	{
 		for (uint32_t i = 0; i < pASpectrs->GetAttributesNum(); i++)
 		{
-			ATTRIBUTES* pAS = pASpectrs->GetAttributeClass(i);
+      auto pAS = pASpectrs->GetAttributeClass(i);
 			char str[2];
 			str[0] = pAS->GetThisName()[0];
 			str[1] = 0;
@@ -134,7 +134,7 @@ void Astronomy::STARS::Init(ATTRIBUTES* pAP)
 	fio->_CloseHandle(hFile);
 	}*/
 
-	HANDLE hFile = fio->_CreateFile(sCatalog);
+  auto hFile = fio->_CreateFile(sCatalog);
 	if (INVALID_HANDLE_VALUE != hFile)
 	{
 		uint32_t dwSize;
@@ -152,11 +152,11 @@ void Astronomy::STARS::Init(ATTRIBUTES* pAP)
 		iVertexBufferColors = pRS->CreateVertexBuffer(0, dwSize * sizeof(uint32_t),
 		                                              D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
 
-		CVECTOR* pVPos = (CVECTOR *)pRS->LockVertexBuffer(iVertexBuffer);
+    auto pVPos = (CVECTOR *)pRS->LockVertexBuffer(iVertexBuffer);
 		auto* pVColors = (uint32_t *)pRS->LockVertexBuffer(iVertexBufferColors);
 
-		bool bRecalculateData = true;
-		HANDLE hOutFile = fio->_CreateFile("resource\\star.dat");
+    auto bRecalculateData = true;
+    auto hOutFile = fio->_CreateFile("resource\\star.dat");
 		if (INVALID_HANDLE_VALUE != hOutFile)
 		{
 			uint32_t dwFileLen;
@@ -176,12 +176,12 @@ void Astronomy::STARS::Init(ATTRIBUTES* pAP)
 
 		if (bRecalculateData)
 		{
-			float fMinMag = -100.0f, fMaxMag = 100.0f;
+      auto fMinMag = -100.0f, fMaxMag = 100.0f;
 			for (uint32_t i = 0; i < dwSize; i++)
 			{
 				//Star & s = aStars[aStars.Add()];
 				aStars.push_back(Star{});
-				Star& s = aStars.back();
+        auto& s = aStars.back();
 
 				fio->_ReadFile(hFile, &s.fRA, sizeof(s.fRA), nullptr);
 				fio->_ReadFile(hFile, &s.fDec, sizeof(s.fDec), nullptr);
@@ -193,7 +193,7 @@ void Astronomy::STARS::Init(ATTRIBUTES* pAP)
 				if (s.fMag > fMinMag) fMinMag = s.fMag;
 
 				s.vPos = CVECTOR(cosf(s.fDec) * cosf(s.fRA), cosf(s.fDec) * sinf(s.fRA), sinf(s.fDec));
-				CVECTOR vPos = fRadius * s.vPos;
+        auto vPos = fRadius * s.vPos;
 				s.fAlpha = (vPos.y < fHeightFade) ? Clamp(vPos.y / fHeightFade) : 1.0f;
 
 				pVPos[i] = vPos;
@@ -228,10 +228,10 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 			entid_t eid;
 			if (eid = EntityManager::GetEntityId("weather"))
 			{
-				float fTime = ((WEATHER_BASE*)EntityManager::GetEntityPointer(eid))->GetFloat(whf_time_counter);
+        auto fTime = ((WEATHER_BASE*)EntityManager::GetEntityPointer(eid))->GetFloat(whf_time_counter);
 				if (fTime > fFadeTimeStart)
 				{
-					float fOldFadeValue = fFadeValue;
+          auto fOldFadeValue = fFadeValue;
 
 					if (fFadeTime > 0.f) fFadeValue = (fTime - fFadeTimeStart) / fFadeTime;
 					else fFadeValue = 1.f + (fTime - fFadeTimeStart) / fFadeTime;
@@ -259,7 +259,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 
 	//RDTSC_B(dw1);
 
-	float fMaxMag = Bring2Range(fTelescopeMagnitude, fVisualMagnitude, 0.14f, 1.285f, fFov);
+  auto fMaxMag = Bring2Range(fTelescopeMagnitude, fVisualMagnitude, 0.14f, 1.285f, fFov);
 
 	if (fabsf(fFov - fPrevFov) > 1e-5f)
 	{
@@ -274,12 +274,12 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour)
 		fTmpK[4] = 0.85f + 0.15f * sinf(m_fTwinklingTime * 7.f);
 		for (long n = 0; n < 7; n++) fTmpRnd[n] = 0.8f + FRAND(0.2f);
 		auto* pVColors = (uint32_t *)pRS->LockVertexBuffer(iVertexBufferColors, D3DLOCK_DISCARD);
-		size_t size = aStars.size();
+    auto size = aStars.size();
 		for (uint32_t i = 0; i < size; i++)
 		{
-			Star& s = aStars[i];
+      auto& s = aStars[i];
 
-			float fAlpha = fFadeValue * fTmpK[i % 5] * fTmpRnd[i % 7] * s.fAlpha * 255.0f * Bring2Range(
+      auto fAlpha = fFadeValue * fTmpK[i % 5] * fTmpRnd[i % 7] * s.fAlpha * 255.0f * Bring2Range(
 				1.0f, 0.01f, -2.0f, fMaxMag, s.fMag);
 
 			uint32_t dwAlpha = ftoi(fAlpha);
@@ -450,8 +450,8 @@ void Astronomy::STARS::TimeUpdate(ATTRIBUTES* pAP)
 	fPrevFov = -1.0f;
 	for (uint32_t i = 0; i < aStars.size(); i++)
 	{
-		Star& s = aStars[i];
-		CVECTOR vPos = fRadius * s.vPos;
+    auto& s = aStars[i];
+    auto vPos = fRadius * s.vPos;
 		s.fAlpha = (vPos.y < fHeightFade) ? Clamp(vPos.y / fHeightFade) : 1.0f;
 		pVPos[i] = vPos;
 	}

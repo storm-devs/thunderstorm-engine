@@ -24,7 +24,7 @@ void EnemyStatShower::Realize(uint32_t delta_time)
 
 uint64_t EnemyStatShower::ProcessMessage(MESSAGE& message)
 {
-	long nMsgCod = message.Long();
+  auto nMsgCod = message.Long();
 	switch (nMsgCod)
 	{
 	case 0: // add character for shower

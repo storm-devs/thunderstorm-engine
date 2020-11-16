@@ -137,7 +137,7 @@ bool NPCharacter::PostInit()
 	if (attackCur > 1000.0f) attackCur = 1000.0f;
 	if (defenceCur < 0.0f) defenceCur = 0.0f;
 	if (defenceCur > 1000.0f) defenceCur = 1000.0f;
-	float p = attackPrbFast + attackPrbForce + attackPrbRound + attackPrbBreak + attackPrbFeint;
+  auto p = attackPrbFast + attackPrbForce + attackPrbRound + attackPrbBreak + attackPrbFeint;
 	if (p > 0.0f)
 	{
 		p = 1.0f / p;
@@ -177,7 +177,7 @@ uint32_t NPCharacter::ChlProcessMessage(long messageID, MESSAGE& message)
 		if (fightLevel > 1.0f) fightLevel = 1.0f;
 		return 1;
 	case MSG_NPCHARACTER_GETTASK:
-		VDATA* v = message.ScriptVariablePointer();
+    auto v = message.ScriptVariablePointer();
 		if (!v) return 0;
 		v->Set((char *)GetTaskName(task.task));
 		return 1;
@@ -249,9 +249,9 @@ void NPCharacter::Update(float dltTime)
 	//Напишем отладочную информацию
 	if (location->IsDebugView())
 	{
-		bool isDebugEx = location->IsExDebugView();
+    auto isDebugEx = location->IsExDebugView();
 		//if(AttributesPointer && AttributesPointer->GetAttributeAsDword("hideInfo", 0)) return;
-		const float rad = 25.0f;
+		const auto rad = 25.0f;
 		const char* id = nullptr;
 		if (AttributesPointer) id = AttributesPointer->GetAttribute("id");
 		if (!id) id = "<none>";
@@ -279,7 +279,7 @@ void NPCharacter::Update(float dltTime)
 			command.pnt.x, command.pnt.y, command.pnt.z);
 		if (isDebugEx && AttributesPointer)
 		{
-			ATTRIBUTES* atr = AttributesPointer->FindAClass(AttributesPointer, "chr_ai.tmpl");
+      auto atr = AttributesPointer->FindAClass(AttributesPointer, "chr_ai.tmpl");
 			if (atr)
 			{
 				for (long i = atr->GetAttributesNum() - 1; i >= 0; i--)
@@ -347,7 +347,7 @@ void NPCharacter::SetEscapeTask(Character* c)
 	c->GetPosition(vPos);
 	GetPosition(vOurPos);
 
-	float fCurDist = sqrtf(~(vOurPos - vPos));
+  auto fCurDist = sqrtf(~(vOurPos - vPos));
 	CVECTOR vDir = !(vOurPos - vPos);
 
 	SetFightMode(false);
