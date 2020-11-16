@@ -206,9 +206,7 @@ public:
 //===========================================================
 
 //Пустой конструктор
-inline Vector::Vector()
-{
-}
+inline Vector::Vector() = default;
 
 //Заполнить числом
 inline Vector::Vector(float f)
@@ -221,9 +219,9 @@ inline Vector::Vector(float f)
 //Заполнить числом
 inline Vector::Vector(double d)
 {
-	x = float(d);
-	y = float(d);
-	z = float(d);
+	x = static_cast<float>(d);
+	y = static_cast<float>(d);
+	z = static_cast<float>(d);
 }
 
 //Заполнить все компоненты
