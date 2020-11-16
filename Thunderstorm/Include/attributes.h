@@ -24,6 +24,7 @@ class ATTRIBUTES
 {
 	void xtrace(const char* data_PTR,...)
 	{
+		
 		char xBuffer_4k[4096];
 		if (data_PTR == nullptr) return;
 
@@ -36,7 +37,7 @@ class ATTRIBUTES
 		_vsnprintf_s(xBuffer_4k, sizeof(xBuffer_4k) - 4, data_PTR, args);
 		strcat_s(xBuffer_4k, "\x0d\x0a");
 		uint32_t bytes;
-		WriteFile(file_h, xBuffer_4k, strlen(xBuffer_4k), (LPDWORD)&bytes, nullptr);
+		WriteFile(file_h, xBuffer_4k, (DWORD)strlen(xBuffer_4k), (LPDWORD)&bytes, nullptr);
 		va_end(args);
 		CloseHandle(file_h);
 		_flushall();
@@ -89,7 +90,7 @@ public:
 		this->bBreak = bBreak;
 	}
 
-	ATTRIBUTES* GetParent()
+	auto GetParent()
 	{
 		return pParent;
 	};
@@ -100,17 +101,18 @@ public:
 		return _stricmp(pVStringCodec->Convert(nNameCode), str) == 0;
 	};
 
-	const char* GetThisName()
+	auto GetThisName()
 	{
 		return pVStringCodec->Convert(nNameCode);
 	}
 
-	char* GetThisAttr() { return Attribute; };
+	auto GetThisAttr() { return Attribute; };
 
 	void SetName(const char* _name)
 	{
-		if (_name) nNameCode = pVStringCodec->Convert(_name);
-	};
+		if (_name) 
+			nNameCode = pVStringCodec->Convert(_name);
+	}
 
 	void SetValue(const char* _val)
 	{
@@ -128,7 +130,7 @@ public:
 		delete[] oldPtr;
 
 		if (bBreak) pVStringCodec->VariableChanged();
-	};
+	}
 
 	void Release()
 	{
@@ -156,7 +158,7 @@ public:
 		pAttributes.clear();
 	};
 
-	uint32_t GetAttributesNum() { return pAttributes.size(); }
+	auto GetAttributesNum() { return pAttributes.size(); }
 
 	ATTRIBUTES* GetAttributeClass(const char* name)
 	{
@@ -171,18 +173,18 @@ public:
 		return n >= pAttributes.size() ? nullptr : pAttributes[n];
 	};
 
-	ATTRIBUTES* VerifyAttributeClass(const char* name)
+	auto VerifyAttributeClass(const char* name)
 	{
     auto pTemp = GetAttributeClass(name);
 		return (pTemp) ? pTemp : CreateAttribute(name, "");
 	};
 
-	char* GetAttribute(uint32_t n)
+	char* GetAttribute(size_t n)
 	{
 		return n >= pAttributes.size() ? nullptr : pAttributes[n]->Attribute;
 	};
 
-	const char* GetAttributeName(uint32_t n)
+	const char* GetAttributeName(size_t n)
 	{
 		return n >= pAttributes.size() ? nullptr : pAttributes[n]->GetThisName();
 	};
@@ -194,9 +196,9 @@ public:
 			if (_stricmp(name, attribute->GetThisName()) == 0)
 				return attribute->Attribute;
 		return nullptr;
-	};
+	}
 
-	uint32_t GetAttributeAsDword(const char* name = nullptr, uint32_t def = 0)
+	auto GetAttributeAsDword(const char* name = nullptr, uint32_t def = 0)
 	{
 		uint32_t vDword;
 		char* pAttribute;
@@ -211,9 +213,9 @@ public:
 			vDword = atol(Attribute);
 		}
 		return vDword;
-	};
+	}
 
-	uintptr_t GetAttributeAsPointer(const char* name = nullptr, uintptr_t def = 0)
+	auto GetAttributeAsPointer(const char* name = nullptr, uintptr_t def = 0)
 	{
 		uintptr_t ptr;
 		char* pAttribute;
@@ -228,41 +230,41 @@ public:
 			ptr = atoll(Attribute);
 		}
 		return ptr;
-	};
+	}
 
-	FLOAT GetAttributeAsFloat(const char* name = nullptr, FLOAT def = 0)
+	auto GetAttributeAsFloat(const char* name = nullptr, float def = 0)
 	{
-		FLOAT vFloat;
+		float vFloat;
 		char* pAttribute;
 		vFloat = def;
 		if (name)
 		{
 			pAttribute = GetAttribute(name);
-			if (pAttribute) vFloat = (FLOAT)atof(pAttribute);
+			if (pAttribute) vFloat = (float)atof(pAttribute);
 		}
 		else
 		{
-			vFloat = (FLOAT)atof(Attribute);
+			vFloat = (float)atof(Attribute);
 		}
 		return vFloat;
 	};
 
-	BOOL SetAttributeUseDword(const char* name, uint32_t val)
+	auto SetAttributeUseDword(const char* name, uint32_t val)
 	{
 		char buffer[128];
 		_ultoa_s(val, buffer, 10);
 		if (name)
-			return SetAttribute(name, buffer);
+			return SetAttribute(name, buffer) != 0;
 		SetValue(buffer);
 		return true;
 	};
 
-	BOOL SetAttributeUseFloat(const char* name, FLOAT val)
+	auto SetAttributeUseFloat(const char* name, FLOAT val)
 	{
 		char buffer[128];
 		sprintf_s(buffer, "%g", val);
 		if (name)
-			return SetAttribute(name, buffer);
+			return SetAttribute(name, buffer) != 0;
 		SetValue(buffer);
 
 		return true;
@@ -286,7 +288,7 @@ public:
 		return attr;
 	};
 
-	uint32_t SetAttribute(const char* name, const char* attribute)
+	size_t SetAttribute(const char* name, const char* attribute)
 	{
 		return SetAttribute(pVStringCodec->Convert(name), attribute);
 	};
@@ -420,19 +422,19 @@ public:
 		return attr;
 	};
 
-	uint32_t GetALen(uint32_t dwLen)
+	size_t GetALen(size_t dwLen)
 	{
 		return (pParent) ? (1 + dwLen / 2) * 2 : (1 + dwLen / 8) * 8;
 	}
 
-	uint32_t GetLen(uint32_t dwLen, uint32_t dwAlign = 8)
+	size_t GetLen(size_t dwLen, uint8_t dwAlign = 8)
 	{
 		return (1 + dwLen / dwAlign) * dwAlign;
 	}
 
-	uint32_t SetAttribute(uint32_t name_code, const char* attribute)
+	size_t SetAttribute(uint32_t name_code, const char* attribute)
 	{
-		uint32_t len = 0;
+		size_t len = 0;
 		if (attribute)
 			len = GetLen(strlen(attribute) + 1);
 
@@ -493,6 +495,7 @@ public:
 
 		for (uint32_t n = 0; n < pA->GetAttributesNum(); n++)
 		{
+			//~!~
 			xtrace("%s%s = %s", buffer, pA->GetAttributeName(n), pA->GetAttribute(n));
 			Dump(pA->GetAttributeClass(pA->GetAttributeName(n)), level + 2);
 		}

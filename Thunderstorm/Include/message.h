@@ -94,7 +94,7 @@ public:
 	virtual void String(uint32_t dest_buffer_size, char* buffer)
 	{
 		char* mem_PTR;
-		uint32_t size;
+		size_t size;
 		if (!buffer) throw "zero string buffer";
 		ValidateFormat('s');
 		mem_PTR = va_arg(args, char*);
@@ -107,7 +107,7 @@ public:
 	virtual void MemoryBlock(uint32_t memsize, char* buffer)
 	{
 		char* mem_PTR;
-		uint32_t size;
+		size_t size;
 		if (!buffer) throw "zero mem buffer";
 		ValidateFormat('m');
 		size = va_arg(args, uint32_t);
@@ -119,7 +119,7 @@ public:
 	virtual void Struct(uint32_t sizeofstruct, char* s)
 	{
 		uint32_t a;
-		uint32_t size;
+		size_t size;
 		if (!s) throw "Invalid s buffer";
 		ValidateFormat('v');
 		size = va_arg(args, uint32_t);
