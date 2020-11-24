@@ -40,8 +40,8 @@ class ModelProcessor
 	std::vector<MDL_ParticleData*> Particles;
 
 
-	MDL_ParticleData* AllocParticle();
-	void FreeParticle(MDL_ParticleData* pItem);
+	MDL_ParticleData* AllocParticle() const;
+	void FreeParticle(MDL_ParticleData* pItem) const;
 
 
 public:
@@ -56,7 +56,7 @@ public:
 	void Process(float DeltaTime);
 	void Draw();
 
-	uint32_t GetCount();
+	uint32_t GetCount() const;
 
 	void DeleteWithGUID(uint32_t dwGUID, uint32_t GUIDRange = GUIDSTEP);
 

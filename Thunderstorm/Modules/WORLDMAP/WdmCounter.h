@@ -45,7 +45,7 @@ public:
 	//»нкапсул€ци€
 	//--------------------------------------------------------------------------------------------
 private:
-	bool LoadModel(WdmRenderModel* & pnt, const char* name, const char* tech);
+	bool LoadModel(WdmRenderModel* & pnt, const char* name, const char* tech) const;
 	void DrawNum(VDX9RENDER* rs, WdmRenderModel* m, float u, float v);
 
 

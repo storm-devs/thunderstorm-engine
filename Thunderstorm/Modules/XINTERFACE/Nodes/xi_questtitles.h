@@ -23,11 +23,11 @@ public:
 
 	void SetNewTopQuest(ATTRIBUTES* pA, int topNum);
 
-	float GetLineStep();
+	float GetLineStep() const;
 	void ScrollerChanged(float fPos);
 
 protected:
-	bool GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize);
+	bool GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize) const;
 	void LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2) override;
 
 	int m_iconWidth;

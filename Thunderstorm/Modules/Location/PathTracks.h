@@ -28,7 +28,7 @@ public:
 	//Нарисовать трек
 	void Draw(VDX9RENDER* render);
 	//Получить точку трека
-	bool GetPoint(float index, Vector& cp, Quaternion& cq);
+	bool GetPoint(float index, Vector& cp, Quaternion& cq) const;
 
 	//--------------------------------------------------------------------------------------------
 private:

@@ -53,8 +53,7 @@ void FREE_CAMERA::SetDevice()
 	EntityManager::AddToLayer(realize,sphere,10000);*/
 }
 
-bool FREE_CAMERA::CreateState(ENTITY_STATE_GEN* state_gen)
-{
+bool FREE_CAMERA::CreateState(ENTITY_STATE_GEN* state_gen) const {
 	state_gen->SetState("vv", sizeof(vPos), vPos, sizeof(vAng), vAng);
 	return true;
 }

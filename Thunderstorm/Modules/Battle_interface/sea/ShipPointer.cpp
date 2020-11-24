@@ -79,8 +79,7 @@ void SHIPPOINTER::Execute(uint32_t delta_time)
 	}
 }
 
-void SHIPPOINTER::Realize(uint32_t delta_time)
-{
+void SHIPPOINTER::Realize(uint32_t delta_time) const {
 	if (!m_bVisible) return;
 
 	CMatrix matw;
@@ -122,8 +121,7 @@ uint64_t SHIPPOINTER::ProcessMessage(MESSAGE& message)
 	return 0;
 }
 
-void SHIPPOINTER::UpdateShipPointer()
-{
+void SHIPPOINTER::UpdateShipPointer() const {
 	if (!m_bVisible) return;
 	if (m_pShip == nullptr) return;
 
@@ -152,8 +150,7 @@ void SHIPPOINTER::UpdateShipPointer()
 	}
 }
 
-VAI_OBJBASE* SHIPPOINTER::FindShipByChrIndex(long chrIdx)
-{
+VAI_OBJBASE* SHIPPOINTER::FindShipByChrIndex(long chrIdx) const {
 	if (chrIdx == -1) return nullptr;
 
 	auto& entities = EntityManager::GetEntityIdVector("ship");

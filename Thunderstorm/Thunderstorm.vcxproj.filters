@@ -1695,9 +1695,6 @@
     <ClInclude Include="Modules\Location\ptc.h">
       <Filter>Modules\Location\Location\Ptc</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\Location\PtcData.h">
-      <Filter>Modules\Location\Location\Ptc</Filter>
-    </ClInclude>
     <ClInclude Include="Modules\Location\LocationScriptLib.h">
       <Filter>Modules\Location\Location\LocationScriptLib</Filter>
     </ClInclude>

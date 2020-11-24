@@ -19,18 +19,18 @@ public:
 	virtual ~DataString();
 
 	//Получить значение
-	const char* GetValue();
+	const char* GetValue() const;
 
 	//Установить значение
 	void SetValue(const char* val);
 
 
 	void Load(MemFile* File);
-	void Write(MemFile* File);
+	void Write(MemFile* File) const;
 
 
 	void SetName(const char* szName);
-	const char* GetName();
+	const char* GetName() const;
 };
 
 

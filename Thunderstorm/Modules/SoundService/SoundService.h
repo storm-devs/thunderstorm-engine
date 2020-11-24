@@ -141,9 +141,9 @@ class SoundService : public VSoundService
 
 	std::vector<tAlias> Aliases;
 
-	const char* GetRandomName(tAlias* _alias);
+	const char* GetRandomName(tAlias* _alias) const;
 	int GetAliasIndexByName(const char* szAliasName);
-	void AnalyseNameStringAndAddToAlias(tAlias* _alias, const char* in_string);
+	void AnalyseNameStringAndAddToAlias(tAlias* _alias, const char* in_string) const;
 	void AddAlias(INIFILE* _iniFile, char* _sectionName);
 	void LoadAliasFile(const char* _filename) override;
 	void InitAliases();
@@ -172,7 +172,7 @@ class SoundService : public VSoundService
 
 	//----------------------------------------------------------------------------
 
-	int FindEmptySlot();
+	int FindEmptySlot() const;
 
 
 	float fFXVolume;
@@ -235,8 +235,8 @@ public:
 	void DebugDraw();
 
 	void DebugPrint3D(const CVECTOR& pos3D, float rad, long line, float alpha, uint32_t color, float scale,
-	                  const char* format, ...);
-	void Draw2DCircle(const CVECTOR& center, uint32_t dwColor, float fRadius, uint32_t dwColor2, float fRadius2);
+	                  const char* format, ...) const;
+	void Draw2DCircle(const CVECTOR& center, uint32_t dwColor, float fRadius, uint32_t dwColor2, float fRadius2) const;
 
 
 	void ProcessFader(int idx);

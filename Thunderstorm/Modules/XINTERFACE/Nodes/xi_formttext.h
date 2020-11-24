@@ -51,15 +51,15 @@ public:
 
 	void SetFormatedText(char* str);
 	void SetPointer(float fPos);
-	float GetLineStep();
-	float GetCurPos();
-	void SetColor(uint32_t dwCol);
+	float GetLineStep() const;
+	float GetCurPos() const;
+	void SetColor(uint32_t dwCol) const;
 
 	long GetAllHeight();
 
 protected:
-	bool GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize);
-	void GetOneLine(int fontNum, char* pStr, char* buf, int bufSize);
+	bool GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize) const;
+	void GetOneLine(int fontNum, char* pStr, char* buf, int bufSize) const;
 	void MakeTagChecking(bool& tagState, uint32_t& tagColor, uint32_t normColor, STRING_DESCRIBER* pStrDescr);
 	void LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2) override;
 	void ReleaseString(STRING_DESCRIBER* pCur);

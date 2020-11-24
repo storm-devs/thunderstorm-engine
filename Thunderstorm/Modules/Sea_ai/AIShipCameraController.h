@@ -19,7 +19,7 @@ private:
 	AIShip* pOurAIShip;
 	ATTRIBUTES* pACrosshair;
 
-	bool isCameraOutside() { return bCameraOutside; };
+	bool isCameraOutside() const { return bCameraOutside; };
 
 public:
 	void Realize(float fDeltaTime);
@@ -32,9 +32,9 @@ public:
 	~AIShipCameraController();
 
 	void SetAIShip(AIShip* pShip) { pOurAIShip = pShip; }
-	AIShip* GetAIShip() { return pOurAIShip; }
+	AIShip* GetAIShip() const { return pOurAIShip; }
 
-	void Save(CSaveLoad* pSL);
+	void Save(CSaveLoad* pSL) const;
 	void Load(CSaveLoad* pSL);
 };
 

@@ -33,11 +33,11 @@ public:
 	void Draw();
 	void Init(ATTRIBUTES* pRoot, ATTRIBUTES* pA);
 
-	long AddTexture(const char* pcTextureName, long nCols, long nRows);
+	long AddTexture(const char* pcTextureName, long nCols, long nRows) const;
 
 	void Recollect();
 	void SetUpdate() { m_bMakeUpdate = true; }
-	bool IsActive();
+	bool IsActive() const;
 	void SetActive(bool bActive);
 	void MakeControl();
 	void ExecuteCommand(CommandType command);
@@ -46,7 +46,7 @@ protected:
 	void Release();
 	long CalculateShipQuantity();
 	void UpdateBuffers(long nShipQ);
-	void FillIndexBuffer();
+	void FillIndexBuffer() const;
 	void FillVertexBuffer();
 	long WriteSquareToVBuff(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_t color, const BIFPOINT& center, const FPOINT& size);
 	long WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_t color, const BIFPOINT& center, const FPOINT& size,
@@ -55,10 +55,10 @@ protected:
 
 	long GetCurrentCommandTopLine();
 	long GetCurrentCommandCharacterIndex();
-	long GetCurrentCommandMode();
+	long GetCurrentCommandMode() const;
 
 	ATTRIBUTES* GetSailorQuantityAttribute(SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD);
-	float GetProgressShipHP(long nShipNum);
+	float GetProgressShipHP(long nShipNum) const;
 	float GetProgressShipSP(long nShipNum);
 	float GetProgressShipClass(long nShipNum);
 	void GetShipUVFromPictureIndex(long nPicIndex, FRECT& rUV);

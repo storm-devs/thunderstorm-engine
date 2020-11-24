@@ -59,8 +59,7 @@ void ISPYGLASS::TextParam::LoadFromAttr(VDX9RENDER* rs, ATTRIBUTES* pA, const ch
 	sText = BIUtils::GetStringFromAttr(pA, "text", pcDefText);
 }
 
-void ISPYGLASS::TextParam::Print()
-{
+void ISPYGLASS::TextParam::Print() const {
 	if (rs && !sText.empty())
 		rs->ExtPrint(nFontID, dwColor, 0, nAlign, true, fScale, 0, 0, pos.x, pos.y, "%s", sText.c_str());
 }
@@ -185,8 +184,7 @@ void ISPYGLASS::Execute(uint32_t delta_time)
 	}
 }
 
-void ISPYGLASS::Realize(uint32_t delta_time)
-{
+void ISPYGLASS::Realize(uint32_t delta_time) const {
 	if (m_bIsOn)
 	{
 		rs->MakePostProcess();
@@ -323,8 +321,7 @@ void ISPYGLASS::Release()
 	STORM_DELETE(m_pImgRender);
 }
 
-ATTRIBUTES* ISPYGLASS::GetAttr(const char* pcAttrName)
-{
+ATTRIBUTES* ISPYGLASS::GetAttr(const char* pcAttrName) const {
 	if (AttributesPointer) return AttributesPointer->FindAClass(AttributesPointer, pcAttrName);
 	return nullptr;
 }
@@ -719,8 +716,7 @@ void ISPYGLASS::ChangeTargetData(const char* pcShipName, const char* pcShipType,
 	m_TextCaptainName.sText = pcCaptainName;
 }
 
-void ISPYGLASS::FillUVArrayFromAttributes(std::vector<FRECT>& m_aUV, ATTRIBUTES* pA)
-{
+void ISPYGLASS::FillUVArrayFromAttributes(std::vector<FRECT>& m_aUV, ATTRIBUTES* pA) const {
 	m_aUV.clear();
 	if (!pA) return;
 	for (long n = 0; n < (long)pA->GetAttributesNum(); n++)

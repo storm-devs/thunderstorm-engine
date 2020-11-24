@@ -38,7 +38,7 @@ public:
 	//»нкапсул€ци€
 	//--------------------------------------------------------------------------------------------
 private:
-	bool GetCurFreeMode();
+	bool GetCurFreeMode() const;
 private:
 	bool isFree;
 	float mdx, mdy, mzoom;

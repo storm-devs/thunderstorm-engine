@@ -12,8 +12,7 @@ LIGHTNING::~LIGHTNING()
 	Release();
 }
 
-void LIGHTNING::Release()
-{
+void LIGHTNING::Release() const {
 	pRS->TextureRelease(iLightningTexture);
 	pRS->TextureRelease(iFlashTexture);
 }
@@ -151,8 +150,7 @@ uint64_t LIGHTNING::ProcessMessage(MESSAGE& message)
 	return 0;
 }
 
-void LIGHTNING::CalcFlashPower(lightning_t* pL)
-{
+void LIGHTNING::CalcFlashPower(lightning_t* pL) const {
 	CVECTOR vCamPos, vCamAng, vTrace[3];
 	float fFov;
 

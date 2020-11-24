@@ -454,8 +454,7 @@ void BIImagesInfo::Init(VDX9RENDER* rs, ATTRIBUTES* pA)
 	}
 }
 
-void BIImagesInfo::Draw()
-{
+void BIImagesInfo::Draw() const {
 	if (pImgRender)
 		pImgRender->Render();
 }

@@ -263,8 +263,7 @@ void BIShipIcon::Init(ATTRIBUTES* pRoot, ATTRIBUTES* pA)
 	m_bMakeUpdate = true;
 }
 
-long BIShipIcon::AddTexture(const char* pcTextureName, long nCols, long nRows)
-{
+long BIShipIcon::AddTexture(const char* pcTextureName, long nCols, long nRows) const {
 	if (m_pCommandList) return m_pCommandList->AddTexture(pcTextureName, nCols, nRows);
 	return -1;
 }
@@ -275,8 +274,7 @@ void BIShipIcon::Recollect()
 	UpdateBuffers(n);
 }
 
-bool BIShipIcon::IsActive()
-{
+bool BIShipIcon::IsActive() const {
 	if (!m_pCommandList) return false;
 	return m_pCommandList->GetActive();
 }
@@ -482,8 +480,7 @@ void BIShipIcon::UpdateBuffers(long nShipQ)
 	FillVertexBuffer();
 }
 
-void BIShipIcon::FillIndexBuffer()
-{
+void BIShipIcon::FillIndexBuffer() const {
 	if (m_nIBufID < 0) return;
 	auto* pI = (uint16_t*)m_pRS->LockIndexBuffer(m_nIBufID);
 	if (pI)
@@ -665,8 +662,7 @@ long BIShipIcon::GetCurrentCommandCharacterIndex()
 	return (long)m_Ship[n].nCharacterIndex;
 }
 
-long BIShipIcon::GetCurrentCommandMode()
-{
+long BIShipIcon::GetCurrentCommandMode() const {
 	return m_nCommandMode;
 }
 
@@ -678,8 +674,7 @@ ATTRIBUTES* BIShipIcon::GetSailorQuantityAttribute(SHIP_DESCRIBE_LIST::SHIP_DESC
 	return pA;
 }
 
-float BIShipIcon::GetProgressShipHP(long nShipNum)
-{
+float BIShipIcon::GetProgressShipHP(long nShipNum) const {
 	if (m_Ship[nShipNum].nMaxHP <= 0.f && !m_Ship[nShipNum].pAShip) return 0.f;
 	float f = m_Ship[nShipNum].pAShip->GetAttributeAsFloat("HP", 0.f) / m_Ship[nShipNum].nMaxHP;
 	if (f < 0.f) f = 0.f;

@@ -34,8 +34,8 @@ public:
 		long hash;
 
 		void operator =(const char* str);
-		operator const char *() { return name; };
-		bool Cmp(const char* str, long l, long h);
+		operator const char *() const { return name; };
+		bool Cmp(const char* str, long l, long h) const;
 		static long GetHash(const char* str);
 		static long GetLen(const char* str);
 	};
@@ -126,7 +126,7 @@ private:
 	//Проверить на действительность цель
 	bool MsgIsValidateTarget(MESSAGE& message);
 	//Найти оптимальную цель
-	bool MsgGetOptimalTarget(MESSAGE& message);
+	bool MsgGetOptimalTarget(MESSAGE& message) const;
 	//Враг ли данный персонаж
 	bool MsgIsEnemy(MESSAGE& message);
 	//Реакция групп на атаку
@@ -187,7 +187,7 @@ public:
 	long GetCharacterGroup(Character* c);
 
 	//Удалить все цели
-	void ClearAllTargets();
+	void ClearAllTargets() const;
 	//Сохранить даные в объект
 	void SaveData();
 	//Прочитать даные отношений из объекта

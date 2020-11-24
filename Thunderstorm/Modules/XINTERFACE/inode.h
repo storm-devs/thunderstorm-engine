@@ -185,8 +185,8 @@ public:
 	virtual void MouseThis(float fX, float fY) = 0;
 	virtual long GetClickState() { return 0; }
 	void SetPriority(long prior) { m_nPriority = prior; }
-	long GetPriority() { return m_nPriority; }
-	bool CheckCommandUsed(int comCode);
+	long GetPriority() const { return m_nPriority; }
+	bool CheckCommandUsed(int comCode) const;
 	bool IsCurrentNode() { return ptrOwner->GetCurrentNode() == this; }
 
 	void NotUsingTime(uint32_t Delta_Time)
@@ -208,7 +208,7 @@ public:
 	{
 	}
 
-	bool IsWeelActive() { return m_bMouseWeelReaction; }
+	bool IsWeelActive() const { return m_bMouseWeelReaction; }
 
 	virtual void ChangePosition(XYRECT& rNewPos) = 0;
 	virtual void SaveParametersToIni() = 0;
@@ -223,8 +223,7 @@ public:
 	void SetGlowCursor(bool bShowFlag) { m_bShowGlowCursor = bShowFlag; }
 	void SetGlowCursorToBack(bool bBackFlag) { m_bGlowCursorBack = bBackFlag; }
 
-	void UpdateGlowOffsets(float& fx, float& fy)
-	{
+	void UpdateGlowOffsets(float& fx, float& fy) const {
 		if (m_bUseUserGlowOffset)
 		{
 			fx = m_rectUserGlowOffset.x;
@@ -250,8 +249,8 @@ public:
 	static uint32_t GetIniARGB(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, const char* keyName,
 	                           uint32_t dwDefColor = 0);
 
-	void GetRelativeRect(XYRECT& rect);
-	void GetAbsoluteRect(XYRECT& rect, int at);
+	void GetRelativeRect(XYRECT& rect) const;
+	void GetAbsoluteRect(XYRECT& rect, int at) const;
 
 	static const char* GetSubStr(const char* inStr, char* buf, size_t bufSize, char devChar = ',');
 	static bool GetMidStr(const char* inStr, char* buf, size_t bufSize, const char* begStr, const char* endStr);
@@ -263,7 +262,7 @@ public:
 	}
 
 	virtual bool CheckByToolTip(float fX, float fY);
-	void ShowToolTip();
+	void ShowToolTip() const;
 
 	XINTERFACE_BASE* ptrOwner;
 

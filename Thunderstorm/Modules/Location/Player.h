@@ -44,7 +44,7 @@ public:
 
 	void Rotate(float dltTime);
 	bool GoForward(float dltTime);
-	bool GoBack(float dltTime);
+	bool GoBack(float dltTime) const;
 	bool IsRunMode(float dltTime);
 	void StrafeWhenMove(float dltTime);
 	void StrafeWhenStop(float dltTime);

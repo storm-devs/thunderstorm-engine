@@ -35,7 +35,7 @@ protected:
 	void ShowCursorPosition(std::string& str);
 	void InsertSymbol(std::string& str, char chr);
 	void DisguiseString(std::string& str);
-	bool IsExcludeChar(char chr);
+	bool IsExcludeChar(char chr) const;
 
 protected:
 	long m_nFontID; // font id

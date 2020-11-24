@@ -12,8 +12,8 @@ public:
 	BIImage(VDX9RENDER* rs, BIImageMaterial* pMaterial);
 	~BIImage();
 
-	long GetVertexQuantity() { return m_nVertexQuantity; }
-	long GetTriangleQuantity() { return m_nTriangleQuantity; }
+	long GetVertexQuantity() const { return m_nVertexQuantity; }
+	long GetTriangleQuantity() const { return m_nTriangleQuantity; }
 	void FillBuffers(BI_IMAGE_VERTEX* pV, uint16_t* pT, long& nV, long& nT);
 
 	void SetColor(uint32_t color) override;
@@ -28,12 +28,12 @@ public:
 	float GetNextClockCorner(float fAng);
 	float GetPrevClockCorner(float fAng);
 
-	long GetPrioritet() { return m_nPrioritet; }
+	long GetPrioritet() const { return m_nPrioritet; }
 	void SetPrioritet(long nPrior) { m_nPrioritet = nPrior; }
 
 protected:
 	float CalculateMidPos(float fMin, float fMax, float fK) { return fMin + fK * (fMax - fMin); }
-	void Release();
+	void Release() const;
 
 	VDX9RENDER* m_pRS;
 	BIImageMaterial* m_pMaterial;

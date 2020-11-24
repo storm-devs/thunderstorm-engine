@@ -88,16 +88,14 @@ void WdmRenderModel::SetTech(const char* t, const char* ta)
 	else techa = WDM_MODEL_TECHA;
 }
 
-long WdmRenderModel::GetTexture(long stage)
-{
+long WdmRenderModel::GetTexture(long stage) const {
 	if (stage >= 4 || stage < 0 || !geo) return -1;
 	GEOS::MATERIAL mtl;
 	geo->GetMaterial(0, mtl);
 	return mtl.texture[stage];
 }
 
-void WdmRenderModel::SetTexture(long stage, long id)
-{
+void WdmRenderModel::SetTexture(long stage, long id) const {
 	if (stage >= 4 || stage < 0 || !geo) return;
 	GEOS::MATERIAL mtl;
 	geo->GetMaterial(0, mtl);
@@ -105,8 +103,7 @@ void WdmRenderModel::SetTexture(long stage, long id)
 	geo->SetMaterial(0, mtl);
 }
 
-void WdmRenderModel::Render(VDX9RENDER* rs)
-{
+void WdmRenderModel::Render(VDX9RENDER* rs) const {
 	if (!geo) return;
   auto a = alpha * 255.0f;
 	if (wdmObjects->isDebug && a < 80.0f) a = 80.0f;

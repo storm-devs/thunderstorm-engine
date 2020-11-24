@@ -18,13 +18,11 @@ GIFont::~GIFont()
 	Release();
 }
 
-void GIFont::Release()
-{
+void GIFont::Release() const {
 	if (m_nFontID >= 0) m_pEditor->m_pRS->UnloadFont(m_nFontID);
 }
 
-void GIFont::Print(float x, float y, const char* pcFormat, ...)
-{
+void GIFont::Print(float x, float y, const char* pcFormat, ...) const {
 	char param[4096];
 	va_list args;
 	va_start(args, pcFormat);

@@ -209,18 +209,15 @@ void BaseEmitter::CreateModelParticle(FieldList& Fields)
 	NewModel->Visible = true;
 }
 
-ParticleSystem* BaseEmitter::GetMaster()
-{
+ParticleSystem* BaseEmitter::GetMaster() const {
 	return pMaster;
 }
 
-ParticleManager* BaseEmitter::GetManager()
-{
+ParticleManager* BaseEmitter::GetManager() const {
 	return pMaster->GetMaster();
 }
 
-void BaseEmitter::GetEmissionDirection(Matrix& matWorld)
-{
+void BaseEmitter::GetEmissionDirection(Matrix& matWorld) const {
 	Vector DirAngles;
 	DirAngles.x = EmissionDirX->GetRandomValue(ElapsedTime, LifeTime);
 	DirAngles.y = EmissionDirY->GetRandomValue(ElapsedTime, LifeTime);

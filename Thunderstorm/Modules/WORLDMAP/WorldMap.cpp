@@ -1097,8 +1097,7 @@ bool WorldMap::FindIslandPosition(const char* name, float& x, float& z, float& r
 	return false;
 }
 
-void WorldMap::ResetScriptInterfaces()
-{
+void WorldMap::ResetScriptInterfaces() const {
 	if (aStorm)
 	{
 		aStorm->SetAttributeUseDword("num", 0);

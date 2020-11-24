@@ -90,8 +90,7 @@ void CharactersGroups::String::operator =(const char* str)
 	}
 }
 
-bool CharactersGroups::String::Cmp(const char* str, long l, long h)
-{
+bool CharactersGroups::String::Cmp(const char* str, long l, long h) const {
 	if (!name || !name[0])
 	{
 		if (!str || !str[0]) return true;
@@ -507,8 +506,7 @@ bool CharactersGroups::MsgIsValidateTarget(MESSAGE& message)
 }
 
 //Найти оптимальную цель
-bool CharactersGroups::MsgGetOptimalTarget(MESSAGE& message)
-{
+bool CharactersGroups::MsgGetOptimalTarget(MESSAGE& message) const {
   auto chr = message.EntityID();
 	auto* c = (Character *)EntityManager::GetEntityPointer(chr);
 	if (!c) return false;
@@ -1061,8 +1059,7 @@ inline long CharactersGroups::GetCharacterGroup(Character* c)
 }
 
 //Удалить все цели
-void CharactersGroups::ClearAllTargets()
-{
+void CharactersGroups::ClearAllTargets() const {
 	//Обновим списки целей
 	for (long i = 0; i < location->supervisor.numCharacters; i++)
 	{

@@ -22,17 +22,17 @@ public:
 	virtual ~DataPosition();
 
 	//Получить значение (Текущее время, Коэфицент рандома[0..1])
-	const Vector& GetValue();
+	const Vector& GetValue() const;
 
 	//Установить значение
 	void SetValue(const Vector& val);
 
 
 	void Load(MemFile* File);
-	void Write(MemFile* File);
+	void Write(MemFile* File) const;
 
 	void SetName(const char* szName);
-	const char* GetName();
+	const char* GetName() const;
 };
 
 

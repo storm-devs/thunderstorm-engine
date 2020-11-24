@@ -308,8 +308,7 @@ bool AIFort::Mount(ATTRIBUTES* pAttribute)
 	return true;
 }
 
-bool AIFort::ScanFortForCannons(AI_FORT* pFort, char* pModelsDir, char* pLocatorsName)
-{
+bool AIFort::ScanFortForCannons(AI_FORT* pFort, char* pModelsDir, char* pLocatorsName) const {
 	entid_t model_id;
 	GEOS::LABEL label;
 	GEOS::INFO info;

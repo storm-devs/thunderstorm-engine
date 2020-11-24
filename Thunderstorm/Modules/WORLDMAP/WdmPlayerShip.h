@@ -33,9 +33,9 @@ public:
 	//Проверка при выходе из карты
 	bool ExitFromMap();
 	//Проверка на нахождении кораблика в шторме
-	long TestInStorm();
+	long TestInStorm() const;
 
-	float GetAy();
+	float GetAy() const;
 
 	bool canSkip;
 
@@ -54,8 +54,7 @@ private:
 	float stormEventTime;
 };
 
-inline float WdmPlayerShip::GetAy()
-{
+inline float WdmPlayerShip::GetAy() const {
 	return ay;
 }
 

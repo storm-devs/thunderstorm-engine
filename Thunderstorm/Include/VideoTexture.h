@@ -13,6 +13,6 @@ public:
 	virtual bool FrameUpdate() = 0;
 	virtual void Release() = 0;
 	IDirect3DTexture9* m_pTexture;
-	operator IDirect3DTexture9*() { return m_pTexture; }
-	operator IDirect3DBaseTexture9*() { return m_pTexture; }
+	operator IDirect3DTexture9*() const { return m_pTexture; }
+	operator IDirect3DBaseTexture9*() const { return m_pTexture; }
 };

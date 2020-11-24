@@ -59,8 +59,7 @@ void RAIN::Release()
 	iVBSeaDrops = -1;
 }
 
-void RAIN::GenerateRandomDrop(CVECTOR* vPos)
-{
+void RAIN::GenerateRandomDrop(CVECTOR* vPos) const {
   auto fDist = 1.5f + FRAND(fRainRadius);
   auto fAngle = FRAND(PIm2);
 	vPos->x = fDist * cosf(fAngle);
@@ -199,8 +198,7 @@ void RAIN::Execute(uint32_t Delta_Time)
 {
 }
 
-void RAIN::InitialSomeBlockParameters(long iIdx)
-{
+void RAIN::InitialSomeBlockParameters(long iIdx) const {
   auto fDist = 6.0f * 5.4f * fWindPower;
 	pRainBlocks[iIdx].vPos.x = -fDist * sinf(fWindAngle);
 	pRainBlocks[iIdx].vPos.z = -fDist * cosf(fWindAngle);

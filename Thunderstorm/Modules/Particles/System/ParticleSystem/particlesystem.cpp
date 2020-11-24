@@ -102,8 +102,7 @@ void ParticleSystem::DeleteAllEmitters()
 	Emitters.clear();
 }
 
-ParticleManager* ParticleSystem::GetMaster()
-{
+ParticleManager* ParticleSystem::GetMaster() const {
 	return pMaster;
 }
 
@@ -202,8 +201,7 @@ IEmitter* ParticleSystem::FindEmitter(const char* name)
 }
 
 
-uint32_t ParticleSystem::GetEmittersCount()
-{
+uint32_t ParticleSystem::GetEmittersCount() const {
 	return Emitters.size();
 }
 

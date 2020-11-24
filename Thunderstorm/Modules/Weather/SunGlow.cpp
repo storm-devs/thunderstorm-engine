@@ -135,8 +135,7 @@ void SUNGLOW::Execute(uint32_t Delta_Time)
 	}
 }
 
-float SUNGLOW::LayerTrace(CVECTOR& vSrc, EntityManager::LayerIterators its)
-{
+float SUNGLOW::LayerTrace(CVECTOR& vSrc, EntityManager::LayerIterators its) const {
 	if (its.first == its.second)
 		return 2.0f;
 
@@ -516,8 +515,7 @@ uint32_t SUNGLOW::AttributeChanged(ATTRIBUTES* pAttribute)
 	return 0;
 }
 
-void SUNGLOW::DrawReflection()
-{
+void SUNGLOW::DrawReflection() const {
 	if (!bHaveReflection) return;
 
 	float fFov;
@@ -561,8 +559,7 @@ uint64_t SUNGLOW::ProcessMessage(MESSAGE& message)
 }
 
 void SUNGLOW::DrawRect(uint32_t dwColor, const CVECTOR& pos, float fSize, float fAngle, const char* pcTechnique,
-                       float fBClip)
-{
+                       float fBClip) const {
 	if (idRectBuf == -1) return;
 
 	static CMatrix camMtx;

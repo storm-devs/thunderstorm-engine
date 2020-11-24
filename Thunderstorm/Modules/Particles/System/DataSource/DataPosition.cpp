@@ -13,8 +13,7 @@ DataPosition::~DataPosition()
 }
 
 //Получить значение (Текущее время, Коэфицент рандома[0..1])
-const Vector& DataPosition::GetValue()
-{
+const Vector& DataPosition::GetValue() const {
 	return Value;
 }
 
@@ -49,13 +48,11 @@ void DataPosition::SetName(const char* szName)
 	Name = szName;
 }
 
-const char* DataPosition::GetName()
-{
+const char* DataPosition::GetName() const {
 	return Name.c_str();
 }
 
-void DataPosition::Write(MemFile* File)
-{
+void DataPosition::Write(MemFile* File) const {
   auto vValue = GetValue();
 	//api->Trace("Write position %3.2f, %3.2f, %3.2f", vValue.x, vValue.y, vValue.z);
 	File->WriteType(vValue.x);

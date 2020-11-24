@@ -184,8 +184,7 @@ void Supervisor::Update(float dltTime)
 	for (i = 0; i < numCharacters; i++) character[i].c->Update(dltTime);
 }
 
-void Supervisor::PreUpdate(float dltTime)
-{
+void Supervisor::PreUpdate(float dltTime) const {
 	//Сбрасываем состояние персонажей
 	for (long i = 0; i < numCharacters; i++) character[i].c->Reset();
 	api->Event("CharactersStateUpdate", "f", dltTime);
@@ -227,8 +226,7 @@ void Supervisor::PostUpdate(float dltTime)
 }
 
 //Установить позиции для загрузки
-void Supervisor::SetSavePositions()
-{
+void Supervisor::SetSavePositions() const {
 	for (long i = 0; i < numCharacters; i++)
 	{
 		if (!character[i].c) continue;
@@ -237,8 +235,7 @@ void Supervisor::SetSavePositions()
 }
 
 //Удалить позиции для загрузки
-void Supervisor::DelSavePositions(bool isTeleport)
-{
+void Supervisor::DelSavePositions(bool isTeleport) const {
 	for (long i = 0; i < numCharacters; i++)
 	{
 		if (!character[i].c) continue;
@@ -247,8 +244,7 @@ void Supervisor::DelSavePositions(bool isTeleport)
 }
 
 //Проверить на свободность позицию
-bool Supervisor::CheckPosition(float x, float y, float z, Character* c)
-{
+bool Supervisor::CheckPosition(float x, float y, float z, Character* c) const {
 	for (long i = 0; i < numCharacters; i++)
 	{
 		if (character[i].c == c) continue;
@@ -264,8 +260,7 @@ bool Supervisor::CheckPosition(float x, float y, float z, Character* c)
 
 //Найти по радиусу персонажей
 bool Supervisor::FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], long& numFndCharacters, Character* chr,
-                                float radius, float angTest, float nearPlane, float ax, bool isSort, bool lookCenter)
-{
+                                float radius, float angTest, float nearPlane, float ax, bool isSort, bool lookCenter) const {
 	numFndCharacters = 0;
 	if (!chr || radius < 0.0f) return false;
 	//Радиус тестирования
@@ -359,8 +354,7 @@ bool Supervisor::FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], long
 }
 
 //Найти оптимальный локатор для продолжения прогулки персонажа
-long Supervisor::FindForvardLocator(LocatorArray* la, const CVECTOR& pos, const CVECTOR& norm, bool lookChr)
-{
+long Supervisor::FindForvardLocator(LocatorArray* la, const CVECTOR& pos, const CVECTOR& norm, bool lookChr) const {
 	if (!la) return -1;
   auto num = la->Num();
 	CVECTOR lpos;

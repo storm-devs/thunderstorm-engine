@@ -77,7 +77,7 @@ public:
 	void CreateFromDataSource(DataSource* pDataSource);
 
 
-	ParticleManager* GetMaster();
+	ParticleManager* GetMaster() const;
 
 	IEmitter* FindEmitter(const char* name);
 	IEmitter* FindEmitterByData(FieldList* Data);
@@ -92,7 +92,7 @@ public:
 
 
 public:
-	uint32_t GetEmittersCount();
+	uint32_t GetEmittersCount() const;
 	IEmitter* GetEmitterByIndex(uint32_t Index);
 	EmitterType GetEmitterTypeByIndex(uint32_t Index);
 

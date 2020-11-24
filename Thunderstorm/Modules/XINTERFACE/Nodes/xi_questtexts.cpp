@@ -130,8 +130,7 @@ void CXI_QUESTTEXTS::ReleaseStringes()
 	m_nAllTextStrings = 0;
 }
 
-bool CXI_QUESTTEXTS::GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize)
-{
+bool CXI_QUESTTEXTS::GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize) const {
 	if (pInStr == nullptr || buf == nullptr) return false;
   auto pStart = pInStr;
   auto bYesEOL = false;
@@ -363,8 +362,7 @@ void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES* pA, int qn)
 	api->Event("SetScrollerPos", "sf", m_nodeName, 0.f);
 }
 
-float CXI_QUESTTEXTS::GetLineStep()
-{
+float CXI_QUESTTEXTS::GetLineStep() const {
 	if (m_nAllTextStrings < 1) return 0.f;
 	return 1.f / (float)(m_nAllTextStrings);
 }
@@ -409,8 +407,7 @@ uint32_t CXI_QUESTTEXTS::MessageProc(long msgcode, MESSAGE& message)
 }
 
 void CXI_QUESTTEXTS::GetStringListForQuestRecord(std::vector<std::string>& asStringList, const char* pcRecText,
-                                                 const char* pcUserData)
-{
+                                                 const char* pcUserData) const {
 	char pcQuestID[1024];
 	char pcTextID[1024];
 	char pcDate[256];

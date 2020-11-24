@@ -33,7 +33,7 @@ class CXI_VIMAGESCROLL : public CINODE
 
 		void SetStringData(int nStr);
 		void Release(int nQnt, int nStr);
-		void Clear(int nQnt, int nStr);
+		void Clear(int nQnt, int nStr) const;
 	};
 
 public:
@@ -66,10 +66,10 @@ public:
 protected:
 	void LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2) override;
 	float ChangeDinamicParameters(float fYDelta);
-	int FindClickedImageNum();
-	int GetTopQuantity();
-	int GetBottomQuantity();
-	float GetShiftDistance(int shiftIdx);
+	int FindClickedImageNum() const;
+	int GetTopQuantity() const;
+	int GetBottomQuantity() const;
+	float GetShiftDistance(int shiftIdx) const;
 	void UpdateTexturesGroup();
 	int FindTexGroupFromOld(char* * pGroupList, char* groupName, int listSize);
 	long GetMousePointedPictureNum();

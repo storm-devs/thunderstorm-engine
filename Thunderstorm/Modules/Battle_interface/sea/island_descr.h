@@ -37,7 +37,7 @@ public:
 	};
 
 	void ReleaseAll();
-	bool YesIsland() { return m_bYesIsland; }
+	bool YesIsland() const { return m_bYesIsland; }
 	void SetIsland(ATTRIBUTES* pAIsland);
 	LOCATOR_DESCR* GetFirstLocator();
 	LOCATOR_DESCR* GetFirstLand();
@@ -47,9 +47,9 @@ public:
 	LOCATOR_DESCR* GetFirstEnemyFort();
 	LOCATOR_DESCR* GetFirstBrokenFort();
 	LOCATOR_DESCR* GetNext();
-	LOCATOR_DESCR* FindLocatorByName(char* name);
+	LOCATOR_DESCR* FindLocatorByName(char* name) const;
 
-	void Refresh();
+	void Refresh() const;
 
 protected:
 	LOCATOR_DESCR* FindLocator(LOCATOR_DESCR* p, int nMax);

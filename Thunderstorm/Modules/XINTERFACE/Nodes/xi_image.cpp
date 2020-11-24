@@ -311,8 +311,7 @@ void CXI_IMAGE::Unload()
 	STORM_DELETE(m_pcPictureListName);
 }
 
-bool CXI_IMAGE::IsPointInside(long nX, long nY)
-{
+bool CXI_IMAGE::IsPointInside(long nX, long nY) const {
 	if (nX < m_pntLeftTop.x || nY < m_pntLeftTop.y ||
 		nX > m_pntLeftTop.x + m_pntSize.x || nY > m_pntLeftTop.y + m_pntSize.y)
 		return false;

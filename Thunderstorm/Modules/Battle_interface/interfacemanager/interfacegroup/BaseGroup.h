@@ -24,8 +24,8 @@ public:
 
 	virtual long Event(const char* pcEventName) = 0;
 
-	BI_ManagerBase* Manager() { return m_pManager; }
-	const std::vector<BI_ManagerNodeBase*>& Nodes() { return m_aNodes; }
+	BI_ManagerBase* Manager() const { return m_pManager; }
+	const std::vector<BI_ManagerNodeBase*>& Nodes() const { return m_aNodes; }
 
 protected:
 	BI_ManagerBase* m_pManager;

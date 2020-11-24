@@ -32,8 +32,7 @@ ModelProcessor::~ModelProcessor()
 	delete pMemArray;
 }
 
-MDL_ParticleData* ModelProcessor::AllocParticle()
-{
+MDL_ParticleData* ModelProcessor::AllocParticle() const {
 	for (uint32_t n = 0; n < MAX_MODELS; n++)
 	{
 		if (pMemArray[n].Free)
@@ -46,8 +45,7 @@ MDL_ParticleData* ModelProcessor::AllocParticle()
 	return nullptr;
 }
 
-void ModelProcessor::FreeParticle(MDL_ParticleData* pItem)
-{
+void ModelProcessor::FreeParticle(MDL_ParticleData* pItem) const {
 	for (uint32_t n = 0; n < MAX_MODELS; n++)
 	{
 		if (&pMemArray[n].pData == pItem)
@@ -265,8 +263,7 @@ void ModelProcessor::Process(float DeltaTime)
 }
 
 
-uint32_t ModelProcessor::GetCount()
-{
+uint32_t ModelProcessor::GetCount() const {
 	return Particles.size();
 }
 

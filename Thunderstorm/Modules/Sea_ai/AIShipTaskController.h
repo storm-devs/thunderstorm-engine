@@ -28,10 +28,9 @@ public:
 	CVECTOR vTaskPnt;
 
 	void SetActive(bool _bActive) { bActive = _bActive; };
-	bool isActive() { return bActive; };
+	bool isActive() const { return bActive; };
 
-	void Save(CSaveLoad* pSL)
-	{
+	void Save(CSaveLoad* pSL) const {
 		pSL->SaveDword(bActive);
 		pSL->SaveDword(dwTaskType);
 		pSL->SaveAPointer("character", pATaskCharacter);
@@ -56,8 +55,8 @@ private:
 
 	AITask* GetTask(uint32_t dwPriority) { return (dwPriority == PRIMARY_TASK) ? &Primary : &Secondary; };
 	VAI_INNEROBJ* GetCurrentTaskAIObj() { return AIHelper::FindAIInnerObj(GetCurrentTask()->pATaskCharacter); };
-	bool isCurrentTaskSecondary() { return Secondary.isActive(); };
-	bool isCurrentTaskPrimary() { return !Secondary.isActive(); };
+	bool isCurrentTaskSecondary() const { return Secondary.isActive(); };
+	bool isCurrentTaskPrimary() const { return !Secondary.isActive(); };
 
 	AIShip* pOurAIShip; // our AI ship pointer
 
@@ -83,7 +82,7 @@ public:
 
 	// set our ship pointer
 	void SetAIShip(AIShip* pShip) { pOurAIShip = pShip; };
-	AIShip* GetAIShip() { return pOurAIShip; };
+	AIShip* GetAIShip() const { return pOurAIShip; };
 
 	AIShipTaskController(AIShip* pShip);
 	virtual ~AIShipTaskController();

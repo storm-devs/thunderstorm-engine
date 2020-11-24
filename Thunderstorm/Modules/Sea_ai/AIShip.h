@@ -91,8 +91,8 @@ public:
 		return bOldDead;
 	};
 
-	bool operator ==(const ATTRIBUTES* pOtherAICharacter) { return (GetACharacter() == pOtherAICharacter); };
-	bool operator ==(const VAI_INNEROBJ& OtherAIObj) { return GetACharacter() == OtherAIObj.GetACharacter(); };
+	bool operator ==(const ATTRIBUTES* pOtherAICharacter) const { return (GetACharacter() == pOtherAICharacter); };
+	bool operator ==(const VAI_INNEROBJ& OtherAIObj) const { return GetACharacter() == OtherAIObj.GetACharacter(); };
 
 	virtual void ReleasePoint(VAI_INNEROBJ*)
 	{
@@ -135,7 +135,7 @@ private:
 		AICannon* pFortCannon;
 		float fDistance;
 
-		bool operator <(can_fire_t& other) { return fDistance < other.fDistance; };
+		bool operator <(can_fire_t& other) const { return fDistance < other.fDistance; };
 	};
 
 	struct AI_POINT
@@ -171,7 +171,7 @@ private:
 	static std::vector<can_fire_t> aShipFire;
 	std::vector<AI_POINT> aFollowPoints, aAttackPoints;
 
-	void SetSeaAIAttributes(ATTRIBUTES* pAAttr, VAI_INNEROBJ* pObj);
+	void SetSeaAIAttributes(ATTRIBUTES* pAAttr, VAI_INNEROBJ* pObj) const;
 
 public:
 
@@ -200,11 +200,11 @@ public:
 	// AI section
 	void SwapShips(AIShip* pOtherShip);
 
-	bool isAttack(ATTRIBUTES* pAOtherCharacter);
+	bool isAttack(ATTRIBUTES* pAOtherCharacter) const;
 	void CheckSituation();
-	float GetPower();
-	float GetShipHP();
-	float GetShipBaseHP();
+	float GetPower() const;
+	float GetShipHP() const;
+	float GetShipBaseHP() const;
 	float GetAttackHP(float fDistance);
 	float GetDefendHP();
 
@@ -264,12 +264,12 @@ public:
 	AIShip(AI_OBJTYPE);
 	virtual ~AIShip();
 
-	void Unload();
+	void Unload() const;
 	void CreateShip(entid_t _eidShip, ATTRIBUTES* _pACharacter, ATTRIBUTES* _pAShip, CVECTOR* vInitPos);
-	void CheckStartPosition();
+	void CheckStartPosition() const;
 	bool isCanPlace(CVECTOR vNewPos) const;
 
-	void Save(CSaveLoad* pSL);
+	void Save(CSaveLoad* pSL) const;
 	void Load(CSaveLoad* pSL);
 };
 

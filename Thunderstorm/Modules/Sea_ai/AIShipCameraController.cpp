@@ -188,8 +188,7 @@ void AIShipCameraController::Realize(float fDeltaTime)
 	AIHelper::pRS->SetTransform(D3DTS_VIEW, mOldView);
 }
 
-void AIShipCameraController::Save(CSaveLoad* pSL)
-{
+void AIShipCameraController::Save(CSaveLoad* pSL) const {
 	pSL->SaveDword(dwTarget);
 	pSL->SaveFloat(fDelta);
 	pSL->SaveDword(bCameraOutside);

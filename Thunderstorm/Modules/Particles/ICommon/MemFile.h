@@ -69,13 +69,11 @@ public:
 	}
 
 
-	uint32_t Tell()
-	{
+	uint32_t Tell() const {
 		return CurPos;
 	}
 
-	uint32_t GetLength()
-	{
+	uint32_t GetLength() const {
 		if (DataIsMy) return BiggestWritePos;
 		return MaxLen;
 	}
@@ -152,8 +150,7 @@ public:
 		return Read(&Val, sizeof(TYPE));
 	}
 
-	void* GetBuffer()
-	{
+	void* GetBuffer() const {
 		return Data;
 	}
 };

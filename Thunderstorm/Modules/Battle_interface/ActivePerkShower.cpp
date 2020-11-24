@@ -56,8 +56,7 @@ void ActivePerkShower::Execute(uint32_t delta_time)
 {
 }
 
-void ActivePerkShower::Realize(uint32_t delta_time)
-{
+void ActivePerkShower::Realize(uint32_t delta_time) const {
 	if (m_pTexDescr == nullptr) return;
 	rs->MakePostProcess();
 
@@ -321,8 +320,7 @@ void ActivePerkShower::FillRectData(void* vbuf, const FRECT& rectPos, const FREC
 	ptmp[3].tv = rectTex.bottom;
 }
 
-FRECT ActivePerkShower::GetTextureRect(int textIdx, int picIdx)
-{
+FRECT ActivePerkShower::GetTextureRect(int textIdx, int picIdx) const {
 	FRECT retRect;
 
 	int vIdx = picIdx / m_pTexDescr[textIdx].m_nCol;

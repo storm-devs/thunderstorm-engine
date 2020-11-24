@@ -38,7 +38,7 @@ public:
 	}
 
 	void SetMasterSoundService(SoundService* pSoundService);
-	void Wakeup();
+	void Wakeup() const;
 };
 
 

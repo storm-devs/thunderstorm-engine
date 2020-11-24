@@ -180,15 +180,13 @@ GEOS* WdmObjects::CreateGeometry(const char* path)
 WdmObjects::Vertex WdmObjects::vertex[1024];
 
 
-void WdmObjects::DrawCircle(const CVECTOR& pos, float radius, uint32_t color)
-{
+void WdmObjects::DrawCircle(const CVECTOR& pos, float radius, uint32_t color) const {
 	static CMatrix mtx;
 	mtx.SetPosition(pos.x, pos.y, pos.z);
 	DrawCircle(mtx, radius, color);
 }
 
-void WdmObjects::DrawCircle(CMatrix& mtx, float radius, uint32_t color)
-{
+void WdmObjects::DrawCircle(CMatrix& mtx, float radius, uint32_t color) const {
 	for (long i = 0; i < 64; i++)
 	{
 		vertex[i].v.x = radius * sinf(2.0f * WdmObjects_myPI * i / 63);
@@ -202,8 +200,7 @@ void WdmObjects::DrawCircle(CMatrix& mtx, float radius, uint32_t color)
 	rs->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, D3DFVF_XYZ | D3DFVF_DIFFUSE, 62, vertex, sizeof(vertex[0]), "WdmDebugDraw");
 }
 
-void WdmObjects::DrawVector(const CVECTOR& start, const CVECTOR& end, uint32_t color)
-{
+void WdmObjects::DrawVector(const CVECTOR& start, const CVECTOR& end, uint32_t color) const {
   auto dir = end - start;
   auto len = ~dir;
 	if (len == 0.0f) return;
@@ -302,8 +299,7 @@ void WdmObjects::DrawVector(const CVECTOR& start, const CVECTOR& end, uint32_t c
 	rs->DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, t, vertex, sizeof(vertex[0]), "WdmDebugDraw");
 }
 
-void WdmObjects::DrawLine(const CVECTOR& start, const CVECTOR& end, uint32_t color)
-{
+void WdmObjects::DrawLine(const CVECTOR& start, const CVECTOR& end, uint32_t color) const {
 	vertex[0].v = start;
 	vertex[0].c = color;
 	vertex[1].v = end;
@@ -313,8 +309,7 @@ void WdmObjects::DrawLine(const CVECTOR& start, const CVECTOR& end, uint32_t col
 	rs->DrawPrimitiveUP(D3DPT_LINELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, 1, vertex, sizeof(vertex[0]), "WdmDebugDraw");
 }
 
-void WdmObjects::DrawBox2D(CMatrix& mtx, float l, float w, uint32_t color)
-{
+void WdmObjects::DrawBox2D(CMatrix& mtx, float l, float w, uint32_t color) const {
 	vertex[0].v = CVECTOR(-w, 0.2f, l);
 	vertex[0].c = color;
 	vertex[1].v = CVECTOR(w, 0.2f, l);
@@ -336,8 +331,7 @@ void WdmObjects::DrawBox2D(CMatrix& mtx, float l, float w, uint32_t color)
 }
 
 //Получить размеры vp
-void WdmObjects::GetVPSize(float& w, float& h)
-{
+void WdmObjects::GetVPSize(float& w, float& h) const {
 	//Получим текущие размеры vp
 	D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);

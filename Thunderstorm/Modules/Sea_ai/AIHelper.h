@@ -33,7 +33,7 @@ public:
 	static float fGravity;
 
 	bool SetDevice();
-	bool Init();
+	bool Init() const;
 	bool Uninit();
 	void AddCharacter(ATTRIBUTES* pACharacter, ATTRIBUTES* pAMainCharacter);
 	void CalculateRelations();

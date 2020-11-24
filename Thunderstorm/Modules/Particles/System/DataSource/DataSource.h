@@ -83,7 +83,7 @@ public:
 
 	//---------- Создание/удаление --------------------
 	DataSource(IParticleManager* Master);
-	bool Release();
+	bool Release() const;
 
 
 	// ========================= Load & Save =======================================

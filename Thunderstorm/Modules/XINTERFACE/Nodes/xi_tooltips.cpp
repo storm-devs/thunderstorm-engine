@@ -220,8 +220,7 @@ void CXI_ToolTip::CreateVertexBuffer()
 	}
 }
 
-void CXI_ToolTip::UpdateIndexBuffer()
-{
+void CXI_ToolTip::UpdateIndexBuffer() const {
 	if (!m_pI) return;
 	for (long n = 0; n < m_nSquareQ; n++)
 	{

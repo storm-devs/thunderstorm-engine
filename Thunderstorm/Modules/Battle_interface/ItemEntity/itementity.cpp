@@ -141,8 +141,7 @@ void ItemEntity::Release()
 	DeleteParticle();
 }
 
-void ItemEntity::SetModelToPosition(const CMatrix& mtx)
-{
+void ItemEntity::SetModelToPosition(const CMatrix& mtx) const {
 	if (m_pModel)
 	{
 		api->Send_Message(m_eidModel, "lffffffffffff",MSG_MODEL_SET_POSITION,
@@ -153,8 +152,7 @@ void ItemEntity::SetModelToPosition(const CMatrix& mtx)
 	}
 }
 
-void ItemEntity::SetTechnique(const char* pcTechnique)
-{
+void ItemEntity::SetTechnique(const char* pcTechnique) const {
 	if (m_pModel)
 	{
     auto pRootNod = m_pModel->GetNode(0);

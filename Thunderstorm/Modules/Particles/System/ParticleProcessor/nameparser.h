@@ -27,8 +27,7 @@ public:
 	}
 
 
-	uint32_t GetTokensCount()
-	{
+	uint32_t GetTokensCount() const {
 		return Tokens.size();
 	}
 

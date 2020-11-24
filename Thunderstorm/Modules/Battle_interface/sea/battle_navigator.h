@@ -22,7 +22,7 @@ public:
 	BATTLE_NAVIGATOR();
 	~BATTLE_NAVIGATOR();
 
-	void Draw();
+	void Draw() const;
 	void Update();
 	void Init(VDX9RENDER* RenderService, Entity* pOwnerEI);
 	void SetIsland();
@@ -45,9 +45,9 @@ public:
 
 protected:
 	void CalculateTextureRect(FRECT& texRect, long num, long hq, long vq);
-	long SetCircleVertexPos(BI_ONETEXTURE_VERTEX* v, float x, float y, float rad, float angle = 0);
+	long SetCircleVertexPos(BI_ONETEXTURE_VERTEX* v, float x, float y, float rad, float angle = 0) const;
 	long SetCircleVertexTex(BI_ONETEXTURE_VERTEX* v, float x = .5f, float y = .5f, float rad = .5f, float angle = 0);
-	long SetRectangleVertexPos(BI_ONETEXTURE_VERTEX* v, float x, float y, float width, float height, float angle = 0);
+	long SetRectangleVertexPos(BI_ONETEXTURE_VERTEX* v, float x, float y, float width, float height, float angle = 0) const;
 	long SetRectangleVertexTex(BI_ONETEXTURE_VERTEX* v, float x = .5f, float y = .5f, float width = 1.f,
 	                           float height = 1.f, float angle = 0);
 	long SetRectangleSegVertexPos(BI_ONETEXTURE_VERTEX* v, float x, float y, float width, float height, float begAngle,
@@ -61,8 +61,8 @@ protected:
 	void SetAnotherShip();
 	void ReleaseAll();
 	void UpdateMiniMap();
-	void UpdateFireRangeBuffer();
-	void FillOneSideFireRange(BI_NOTEXTURE_VERTEX* pv, ATTRIBUTES* pShip, ATTRIBUTES* pChar, const char* pstr);
+	void UpdateFireRangeBuffer() const;
+	void FillOneSideFireRange(BI_NOTEXTURE_VERTEX* pv, ATTRIBUTES* pShip, ATTRIBUTES* pChar, const char* pstr) const;
 	void UpdateCurrentCharge();
 
 	void UpdateWindParam();

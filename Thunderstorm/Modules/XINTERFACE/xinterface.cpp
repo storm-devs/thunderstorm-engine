@@ -1929,8 +1929,7 @@ void XINTERFACE::RestoreNodeLocks(long nStoreCode)
 	m_aLocksArray.erase(m_aLocksArray.begin() + n);
 }
 
-void XINTERFACE::DrawNode(CINODE* nod, uint32_t Delta_Time, long startPrior, long endPrior)
-{
+void XINTERFACE::DrawNode(CINODE* nod, uint32_t Delta_Time, long startPrior, long endPrior) const {
 	for (; nod != nullptr; nod = nod->m_next)
 	{
 		if (nod->GetPriority() < startPrior) continue;
@@ -2445,8 +2444,7 @@ void XINTERFACE::MouseDeClick()
 	}
 }
 
-CINODE* XINTERFACE::GetClickNode(CINODE* searchNod, long xPos, long yPos)
-{
+CINODE* XINTERFACE::GetClickNode(CINODE* searchNod, long xPos, long yPos) const {
 	CINODE* findNod = nullptr;
 
 	while (searchNod != nullptr)
@@ -2648,8 +2646,7 @@ uint32_t XINTERFACE::AttributeChanged(ATTRIBUTES* patr)
 	return 0;
 }
 
-bool XINTERFACE::SFLB_DoSaveFileData(char* saveName, char* saveData)
-{
+bool XINTERFACE::SFLB_DoSaveFileData(char* saveName, char* saveData) const {
 	if (saveName == nullptr || saveData == nullptr) return false;
 	long slen = strlen(saveData) + 1;
 	if (slen <= 1)
@@ -2763,8 +2760,7 @@ void XINTERFACE::Sorting_FindData()
 	}
 }
 
-XINTERFACE::SAVE_FIND_DATA* XINTERFACE::GetSaveDataByIndex(int n)
-{
+XINTERFACE::SAVE_FIND_DATA* XINTERFACE::GetSaveDataByIndex(int n) const {
 	SAVE_FIND_DATA* p = m_pSaveFindRoot;
 	for (int i = 0; i < n; i++)
 		if (p)
@@ -2851,8 +2847,7 @@ char* XINTERFACE::SaveFileFind(long saveNum, char* buffer, size_t bufSize, long&
 	return buffer;
 }
 
-bool XINTERFACE::NewSaveFileName(char* fileName)
-{
+bool XINTERFACE::NewSaveFileName(char* fileName) const {
 	if (fileName == nullptr) return false;
 
 #ifdef _XBOX

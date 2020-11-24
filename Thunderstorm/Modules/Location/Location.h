@@ -106,23 +106,23 @@ public:
 
 	//Протрейсит луч через локацию
 	float Trace(const CVECTOR& src, const CVECTOR& dst);
-	bool GetCollideTriangle(TRIANGLE& trg);
+	bool GetCollideTriangle(TRIANGLE& trg) const;
 	void Clip(PLANE* p, long numPlanes, CVECTOR& cnt, float rad, bool (* fnc)(const CVECTOR* vtx, long num));
 
-	Lights* GetLights();
+	Lights* GetLights() const;
 
-	VDX9RENDER* GetRS();
-	void DrawLine(const CVECTOR& s, uint32_t cs, const CVECTOR& d, uint32_t cd, bool useZ = true);
+	VDX9RENDER* GetRS() const;
+	void DrawLine(const CVECTOR& s, uint32_t cs, const CVECTOR& d, uint32_t cd, bool useZ = true) const;
 	//Написать текст
 	void Print(const CVECTOR& pos3D, float rad, long line, float alpha, uint32_t color, float scale, const char* format,
-	           ...);
+	           ...) const;
 
 	bool IsDebugView();
 	bool IsExDebugView();
 
-	bool IsPaused();
+	bool IsPaused() const;
 
-	bool IsSwimming();
+	bool IsSwimming() const;
 
 	//Добавить сообщение о повреждении
 	void AddDamageMessage(const CVECTOR& pos3D, float hit, float curhp, float maxhp);
@@ -140,7 +140,7 @@ private:
 	void Update(uint32_t delta_time);
 	long LoadStaticModel(const char* modelName, const char* tech, long level, bool useDynamicLights);
 	bool LoadCharacterPatch(const char* ptcName);
-	void LoadCaustic();
+	void LoadCaustic() const;
 	bool LoadJumpPatch(const char* modelName);
 	bool LoadGrass(const char* modelName, const char* texture);
 	bool MessageEx(const char* name, MESSAGE& message);
@@ -220,8 +220,7 @@ inline MODEL* Location::JmpPatch()
 	return model[patchJump];
 }
 
-inline VDX9RENDER* Location::GetRS()
-{
+inline VDX9RENDER* Location::GetRS() const {
 	return rs;
 }
 
@@ -231,8 +230,7 @@ inline bool Location::VisibleTest(const CVECTOR& p1, const CVECTOR& p2)
 	return model.VisibleTest(p1, p2);
 }
 
-inline Lights* Location::GetLights()
-{
+inline Lights* Location::GetLights() const {
 	return lights;
 }
 
@@ -242,8 +240,7 @@ inline float Location::Trace(const CVECTOR& src, const CVECTOR& dst)
 	return model.Trace(src, dst);
 }
 
-inline bool Location::GetCollideTriangle(TRIANGLE& trg)
-{
+inline bool Location::GetCollideTriangle(TRIANGLE& trg) const {
 	return model.GetCollideTriangle(trg);
 }
 
@@ -253,8 +250,7 @@ inline void Location::Clip(PLANE* p, long numPlanes, CVECTOR& cnt, float rad,
 	model.Clip(p, numPlanes, cnt, rad, fnc);
 }
 
-inline bool Location::IsPaused()
-{
+inline bool Location::IsPaused() const {
 	return isPause;
 }
 

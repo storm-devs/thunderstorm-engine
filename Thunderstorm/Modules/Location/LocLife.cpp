@@ -207,8 +207,7 @@ void LocLife::StopMove()
 	IsStopMove(ani);
 }
 
-bool LocLife::IsNearPlayer(float radius)
-{
+bool LocLife::IsNearPlayer(float radius) const {
 	if (location->supervisor.player)
 	{
 		CVECTOR playerPos;
@@ -220,8 +219,7 @@ bool LocLife::IsNearPlayer(float radius)
 	return false;
 }
 
-long LocLife::FindRandomPos(CVECTOR& pos)
-{
+long LocLife::FindRandomPos(CVECTOR& pos) const {
   auto& ptc = location->GetPtcData();
 	if (!ptc.numTriangles) return -1;
   auto i = rand() % ptc.numTriangles;

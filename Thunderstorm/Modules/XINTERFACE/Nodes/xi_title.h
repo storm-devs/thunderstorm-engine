@@ -26,7 +26,7 @@ public:
 
 protected:
 	void LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2) override;
-	void FillVertexBuffer();
+	void FillVertexBuffer() const;
 
 protected:
 	char* m_sGroupName;

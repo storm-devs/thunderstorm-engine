@@ -269,8 +269,7 @@ void BIManSign::Init(ATTRIBUTES* pRoot, ATTRIBUTES* pA)
 	m_bMakeUpdate = true;
 }
 
-long BIManSign::AddTexture(const char* pcTextureName, long nCols, long nRows)
-{
+long BIManSign::AddTexture(const char* pcTextureName, long nCols, long nRows) const {
 	if (m_pCommandList) return m_pCommandList->AddTexture(pcTextureName, nCols, nRows);
 	return -1;
 }
@@ -281,8 +280,7 @@ void BIManSign::Recollect()
 	UpdateBuffers(n);
 }
 
-bool BIManSign::IsActive()
-{
+bool BIManSign::IsActive() const {
 	if (!m_pCommandList) return false;
 	return m_pCommandList->GetActive();
 }
@@ -448,8 +446,7 @@ void BIManSign::UpdateBuffers(long nShipQ)
 	//FillVertexBuffer();
 }
 
-void BIManSign::FillIndexBuffer()
-{
+void BIManSign::FillIndexBuffer() const {
 	if (m_nIBufID < 0) return;
 	auto* pI = (uint16_t*)m_pRS->LockIndexBuffer(m_nIBufID);
 	if (pI)
@@ -621,39 +618,33 @@ long BIManSign::WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, const FRECT&
 	return 4;
 }
 
-void BIManSign::UpdateCommandList()
-{
+void BIManSign::UpdateCommandList() const {
 	if (m_pCommandList)
 		m_pCommandList->Update(GetCurrentCommandTopLine(), GetCurrentCommandCharacterIndex(), GetCurrentCommandMode());
 }
 
-long BIManSign::GetCurrentCommandTopLine()
-{
+long BIManSign::GetCurrentCommandTopLine() const {
   auto n = m_nCurrentManIndex;
 	if (n < 0 || n >= m_nManQuantity) n = 0;
 	return (long)(m_Man[n].pntPos.y) + m_nCommandListVerticalOffset;
 }
 
-long BIManSign::GetCurrentCommandCharacterIndex()
-{
+long BIManSign::GetCurrentCommandCharacterIndex() const {
   auto n = m_nCurrentManIndex;
 	if (n < 0 || n >= m_nManQuantity) n = 0;
 	return (long)m_Man[n].nCharacterIndex;
 }
 
-long BIManSign::GetCurrentCommandMode()
-{
+long BIManSign::GetCurrentCommandMode() const {
 	return m_nCommandMode;
 }
 
-float BIManSign::GetProgressManHP(long nIdx)
-{
+float BIManSign::GetProgressManHP(long nIdx) const {
 	if (nIdx < 0 || nIdx >= m_nManQuantity) return 1.f;
 	return 1.f - m_Man[nIdx].fHealth;
 }
 
-float BIManSign::GetProgressManEnergy(long nIdx)
-{
+float BIManSign::GetProgressManEnergy(long nIdx) const {
 	if (nIdx < 0 || nIdx >= m_nManQuantity) return 1.f;
 	return 1.f - m_Man[nIdx].fEnergy;
 }

@@ -101,12 +101,12 @@ public:
 	bool isPause;
 	bool isDebug;
 
-	void DrawCircle(const CVECTOR& pos, float radius, uint32_t color);
-	void DrawCircle(CMatrix& mtx, float radius, uint32_t color);
-	void DrawVector(const CVECTOR& start, const CVECTOR& end, uint32_t color);
-	void DrawLine(const CVECTOR& start, const CVECTOR& end, uint32_t color);
-	void DrawBox2D(CMatrix& mtx, float l, float w, uint32_t color);
-	void GetVPSize(float& w, float& h);
+	void DrawCircle(const CVECTOR& pos, float radius, uint32_t color) const;
+	void DrawCircle(CMatrix& mtx, float radius, uint32_t color) const;
+	void DrawVector(const CVECTOR& start, const CVECTOR& end, uint32_t color) const;
+	void DrawLine(const CVECTOR& start, const CVECTOR& end, uint32_t color) const;
+	void DrawBox2D(CMatrix& mtx, float l, float w, uint32_t color) const;
+	void GetVPSize(float& w, float& h) const;
 
 	float shipSpeedOppositeWind; //Относительная скорость корабля против ветра
 	float shipSpeedOverWind; //Относительная скорость корабля по ветру

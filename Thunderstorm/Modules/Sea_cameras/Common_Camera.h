@@ -38,26 +38,25 @@ public:
 		return false;
 	}
 
-	MODEL* GetModelPointer()
-	{
+	MODEL* GetModelPointer() const {
 		return (MODEL*)EntityManager::GetEntityPointer(eidObject);
 	}
 
 	void SetAIObj(VAI_OBJBASE* _pAIObj) { pAIObj = _pAIObj; }
-	VAI_OBJBASE* GetAIObj() { return pAIObj; }
+	VAI_OBJBASE* GetAIObj() const { return pAIObj; }
 	void SetEID(entid_t pEID) { eidObject = pEID; };
-	entid_t GetEID() { return eidObject; };
+	entid_t GetEID() const { return eidObject; };
 
 	virtual void SetCharacter(ATTRIBUTES* _pACharacter) { pACharacter = _pACharacter; };
 
 	void SetPerspective(float _fPerspective) { fPerspective = _fPerspective; };
-	float GetPerspective() { return fPerspective; };
+	float GetPerspective() const { return fPerspective; };
 
 	void SetOn(bool bOnOff) { bOn = bOnOff; };
 	void SetActive(bool bNewActive) { bActive = bNewActive; };
 
-	bool isOn() { return bOn; };
-	bool isActive() { return bActive; };
+	bool isOn() const { return bOn; };
+	bool isActive() const { return bActive; };
 
 	virtual void Save(CSaveLoad* pSL) = 0;
 	virtual void Load(CSaveLoad* pSL) = 0;

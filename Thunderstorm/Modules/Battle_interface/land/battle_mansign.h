@@ -18,11 +18,11 @@ public:
 	void Draw();
 	void Init(ATTRIBUTES* pRoot, ATTRIBUTES* pA);
 
-	long AddTexture(const char* pcTextureName, long nCols, long nRows);
+	long AddTexture(const char* pcTextureName, long nCols, long nRows) const;
 
 	void Recollect();
 	void SetUpdate() { m_bMakeUpdate = true; }
-	bool IsActive();
+	bool IsActive() const;
 	void SetActive(bool bActive);
 	void MakeControl();
 	void ExecuteCommand(long command);
@@ -31,19 +31,19 @@ protected:
 	void Release();
 	long CalculateManQuantity();
 	void UpdateBuffers(long nShipQ);
-	void FillIndexBuffer();
+	void FillIndexBuffer() const;
 	void FillVertexBuffer();
 	long WriteSquareToVBuff(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_t color, const BIFPOINT& center, const FPOINT& size);
 	long WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_t color, const BIFPOINT& center, const FPOINT& size,
 	                                    float fClampUp, float fClampDown, float fClampLeft, float fClampRight);
-	void UpdateCommandList();
+	void UpdateCommandList() const;
 
-	long GetCurrentCommandTopLine();
-	long GetCurrentCommandCharacterIndex();
-	long GetCurrentCommandMode();
+	long GetCurrentCommandTopLine() const;
+	long GetCurrentCommandCharacterIndex() const;
+	long GetCurrentCommandMode() const;
 
-	float GetProgressManHP(long nIdx);
-	float GetProgressManEnergy(long nIdx);
+	float GetProgressManHP(long nIdx) const;
+	float GetProgressManEnergy(long nIdx) const;
 	float GetProgressGunChargeMax(long nIdx);
 	float GetProgressGunCharge(long nIdx);
 

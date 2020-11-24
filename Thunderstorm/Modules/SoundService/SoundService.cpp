@@ -258,8 +258,7 @@ void SoundService::RunStart()
 	ProcessSoundSchemes();
 }
 
-int SoundService::FindEmptySlot()
-{
+int SoundService::FindEmptySlot() const {
 	for (auto i = 2; i < MAX_SOUNDS_SLOTS; i++)
 	{
 		if (PlayingSounds[i].bFree) return i;
@@ -270,8 +269,7 @@ int SoundService::FindEmptySlot()
 
 
 //--------------------------------------------------------------------
-const char* SoundService::GetRandomName(tAlias* _alias)
-{
+const char* SoundService::GetRandomName(tAlias* _alias) const {
   auto randomFloat = rand(_alias->fMaxProbabilityValue);
   auto currentNameIndex = 0;
   auto currentFloat = 0.f;
@@ -999,8 +997,7 @@ void SoundService::SoundStop(TSD_ID _id, long _time)
 }
 
 
-void SoundService::AnalyseNameStringAndAddToAlias(tAlias* _alias, const char* in_string)
-{
+void SoundService::AnalyseNameStringAndAddToAlias(tAlias* _alias, const char* in_string) const {
 	static char tempString2[COMMON_STRING_LENGTH];
 	strncpy_s(tempString2, in_string, COMMON_STRING_LENGTH);
 
@@ -1329,8 +1326,7 @@ int SoundService::GetFromCache(const char* szName, eSoundType _type)
 
 //Написать текст
 void SoundService::DebugPrint3D(const CVECTOR& pos3D, float rad, long line, float alpha, uint32_t color, float scale,
-                                const char* format, ...)
-{
+                                const char* format, ...) const {
 	static char buf[256];
 	//Печатаем в буфер
 	long len = _vsnprintf_s(buf, sizeof(buf) - 1, format, (char *)(&format + 1));
@@ -1369,8 +1365,7 @@ void SoundService::DebugPrint3D(const CVECTOR& pos3D, float rad, long line, floa
 }
 
 void SoundService::Draw2DCircle(const CVECTOR& center, uint32_t dwColor, float fRadius, uint32_t dwColor2,
-                                float fRadius2)
-{
+                                float fRadius2) const {
 	float fDelta = 0.2f;
 	RS_LINE line[2];
 	CVECTOR vStart;

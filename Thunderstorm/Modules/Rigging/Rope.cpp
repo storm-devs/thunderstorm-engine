@@ -339,8 +339,7 @@ uint64_t ROPE::ProcessMessage(MESSAGE& message)
 	return 0;
 }
 
-void ROPE::SetIndex()
-{
+void ROPE::SetIndex() const {
 	int i, j;
 	int ti, vi;
 
@@ -416,8 +415,7 @@ void ROPE::SetVertexes()
 	}
 }
 
-void ROPE::SetVertexes(ROPEDATA* pr, float dtime)
-{
+void ROPE::SetVertexes(ROPEDATA* pr, float dtime) const {
 	// установить параметры формы веревки
 	float deepVal;
 	pr->segnum = 0;
@@ -865,8 +863,7 @@ void ROPE::FirstRun()
 	wRopeLast = ropeQuantity;
 }
 
-void ROPE::SetTextureGrid(ROPEDATA* pv)
-{
+void ROPE::SetTextureGrid(ROPEDATA* pv) const {
 	int iv = pv->sv;
 
 	float tvMax = sqrtf(~(*pv->eMatWorld * pv->pEnd - *pv->bMatWorld * pv->pBeg));

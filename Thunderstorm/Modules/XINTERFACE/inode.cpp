@@ -237,16 +237,14 @@ CINODE* CINODE::FindNode(float x,float y)
 	return null;
 }*/
 
-void CINODE::GetRelativeRect(XYRECT& rect)
-{
+void CINODE::GetRelativeRect(XYRECT& rect) const {
 	rect.left += m_hostRect.left;
 	rect.top += m_hostRect.top;
 	rect.right += m_hostRect.left;
 	rect.bottom += m_hostRect.top;
 }
 
-void CINODE::GetAbsoluteRect(XYRECT& rect, int at)
-{
+void CINODE::GetAbsoluteRect(XYRECT& rect, int at) const {
 	if (!(at & ABSOLUTE_LEFT)) rect.left += m_hostRect.left;
 	if (at & ABSOLUTE_RIGHT) rect.right += m_screenSize.x - m_hostRect.right + m_hostRect.left;
 	else rect.right += m_hostRect.left;
@@ -346,8 +344,7 @@ bool CINODE::CheckByToolTip(float fX, float fY)
 	return false;
 }
 
-void CINODE::ShowToolTip()
-{
+void CINODE::ShowToolTip() const {
 	if (m_pToolTip)
 		m_pToolTip->Draw();
 }
@@ -421,8 +418,7 @@ uint32_t CINODE::MessageProc(long msgcode, MESSAGE& message)
 	return 0;
 }
 
-bool CINODE::CheckCommandUsed(int comCode)
-{
+bool CINODE::CheckCommandUsed(int comCode) const {
 	int i;
 	for (i = 0; i < COMMAND_QUANTITY; i++)
 		if (pCommandsList[i].code == comCode) break;

@@ -84,7 +84,7 @@ public:
 	//--------------------------------------------------------------------------------------------
 public:
 	//Получить атакуещего персонажа
-	Character* GetAttackedCharacter();
+	Character* GetAttackedCharacter() const;
 
 	//--------------------------------------------------------------------------------------------
 	//Задачи
@@ -119,9 +119,9 @@ protected:
 	void DoFightBlock(bool needParry = false);
 
 	//Получить энергию
-	float GetEnergy();
+	float GetEnergy() const;
 	//Получить энергию для действия
-	float GetActEnergy(const char* act);
+	float GetActEnergy(const char* act) const;
 
 	//События
 
@@ -147,7 +147,7 @@ protected:
 	//--------------------------------------------------------------------------------------------
 private:
 	//Невозможно дальнейшее выполнение команды
-	void FailureCommand(NPCTask task);
+	void FailureCommand(NPCTask task) const;
 	//Принятие решений
 	void FightTick();
 	//Получить тип задачи по имени
@@ -209,8 +209,7 @@ private:
 };
 
 //Получить атакуещего персонажа
-inline Character* NPCharacter::GetAttackedCharacter()
-{
+inline Character* NPCharacter::GetAttackedCharacter() const {
 	if (task.task != npct_fight) return nullptr;
 	return (Character *)EntityManager::GetEntityPointer(task.target);
 }

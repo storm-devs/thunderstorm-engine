@@ -246,8 +246,7 @@ void WdmCounter::LRender(VDX9RENDER* rs)
 	rs->SetTransform(D3DTS_VIEW, view);
 }
 
-bool WdmCounter::LoadModel(WdmRenderModel* & pnt, const char* name, const char* tech)
-{
+bool WdmCounter::LoadModel(WdmRenderModel* & pnt, const char* name, const char* tech) const {
 	pnt = new WdmRenderModel();
 	if (!pnt->Load(name)) return false;
 	pnt->mtx = mtx;

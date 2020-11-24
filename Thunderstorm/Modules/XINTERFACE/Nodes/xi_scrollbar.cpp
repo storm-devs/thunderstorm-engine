@@ -403,8 +403,7 @@ uint32_t CXI_SCROLLBAR::MessageProc(long msgcode, MESSAGE& message)
 	return 0;
 }
 
-void CXI_SCROLLBAR::UpdatePosition()
-{
+void CXI_SCROLLBAR::UpdatePosition() const {
 	auto* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
 
   auto idx = 0;
@@ -579,8 +578,7 @@ void CXI_SCROLLBAR::UpdatePosition()
 	m_rs->UnLockVertexBuffer(m_idVBuf);
 }
 
-void CXI_SCROLLBAR::WriteDataToAttribute()
-{
+void CXI_SCROLLBAR::WriteDataToAttribute() const {
   auto pRoot = ptrOwner->AttributesPointer;
 	if (!pRoot) return;
 	ATTRIBUTES* pA = pRoot->GetAttributeClass(m_nodeName);

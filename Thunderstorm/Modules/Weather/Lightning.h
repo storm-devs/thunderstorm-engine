@@ -46,8 +46,8 @@ class LIGHTNING : public Entity
 	VDX9RENDER* pRS;
 	COLLIDE* pCollide;
 
-	void Release();
-	void CalcFlashPower(lightning_t* pL);
+	void Release() const;
+	void CalcFlashPower(lightning_t* pL) const;
 
 public:
 	LIGHTNING();

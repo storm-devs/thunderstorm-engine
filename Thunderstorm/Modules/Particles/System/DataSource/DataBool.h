@@ -19,7 +19,7 @@ public:
 	virtual ~DataBool();
 
 	//Получить значение
-	bool GetValue();
+	bool GetValue() const;
 
 	//Установить значение
 	void SetValue(bool val);
@@ -27,11 +27,11 @@ public:
 
 	//Сохранить/загрузить...
 	void Load(MemFile* File);
-	void Write(MemFile* File);
+	void Write(MemFile* File) const;
 
 
 	void SetName(const char* szName);
-	const char* GetName();
+	const char* GetName() const;
 };
 
 

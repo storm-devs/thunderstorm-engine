@@ -192,8 +192,7 @@ ISLAND_DESCRIBER::LOCATOR_DESCR* ISLAND_DESCRIBER::FindLocator(LOCATOR_DESCR* p,
 	return nullptr;
 }
 
-ISLAND_DESCRIBER::LOCATOR_DESCR* ISLAND_DESCRIBER::FindLocatorByName(char* name)
-{
+ISLAND_DESCRIBER::LOCATOR_DESCR* ISLAND_DESCRIBER::FindLocatorByName(char* name) const {
 	if (name == nullptr) return nullptr;
 	for (auto i = 0; i < m_nLocators; i++)
 	{
@@ -204,8 +203,7 @@ ISLAND_DESCRIBER::LOCATOR_DESCR* ISLAND_DESCRIBER::FindLocatorByName(char* name)
 	return nullptr;
 }
 
-void ISLAND_DESCRIBER::Refresh()
-{
+void ISLAND_DESCRIBER::Refresh() const {
 	if (m_pLocators == nullptr) return;
 	for (auto i = 0; i < m_nLocators; i++)
 	{

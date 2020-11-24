@@ -43,11 +43,11 @@ public:
 
 	//Установить/получить могут быть отрицательные значения в графике или нет...
 	void SetNegative(bool _bNegative);
-	bool GetNegative();
+	bool GetNegative() const;
 
 	//Установить/получить относительный график или нет...
 	void SetRelative(bool _bRelative);
-	bool GetRelative();
+	bool GetRelative() const;
 
 
 	//Получить значение (Текущее время, Коэфицент рандома[0..1])
@@ -64,10 +64,10 @@ public:
 
 
 	//Получить кол-во в графике минимума
-	uint32_t GetMinCount();
+	uint32_t GetMinCount() const;
 
 	//Получить кол-во в графике максимума
-	uint32_t GetMaxCount();
+	uint32_t GetMaxCount() const;
 
 	//Получить значение по индексу из графика минимума
 	const GraphVertex& GetMinVertex(uint32_t Index);
@@ -80,7 +80,7 @@ public:
 	void Write(MemFile* File);
 
 	void SetName(const char* szName);
-	const char* GetName();
+	const char* GetName() const;
 
 
 	float GetMaxTime();

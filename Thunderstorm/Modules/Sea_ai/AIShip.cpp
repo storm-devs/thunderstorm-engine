@@ -39,13 +39,11 @@ AIShip::~AIShip()
 	aShipFire.clear();
 }
 
-void AIShip::Unload()
-{
+void AIShip::Unload() const {
 	GetCannonController()->Unload();
 }
 
-void AIShip::SetSeaAIAttributes(ATTRIBUTES* pAAttr, VAI_INNEROBJ* pObj)
-{
+void AIShip::SetSeaAIAttributes(ATTRIBUTES* pAAttr, VAI_INNEROBJ* pObj) const {
 	char str[256];
   auto dwIdx = pAAttr->GetAttributesNum();
 	sprintf_s(str, "l%d", dwIdx);
@@ -280,8 +278,7 @@ bool AIShip::isCanPlace(CVECTOR vNewPos) const
 	return true;
 }
 
-void AIShip::CheckStartPosition()
-{
+void AIShip::CheckStartPosition() const {
   auto vOurPos = GetPos();
   auto vNewPos = vOurPos;
   auto vBoxSize = GetBoxsize();
@@ -507,20 +504,17 @@ void AIShip::GetPrediction(float fTime, CVECTOR* vPos, CVECTOR* vAng)
 	}
 }
 
-float AIShip::GetShipHP()
-{
+float AIShip::GetShipHP() const {
   auto pAHP = GetACharacter()->FindAClass(GetACharacter(), "Ship.HP");
 	Assert(pAHP);
 	return pAHP->GetAttributeAsFloat();
 }
 
-float AIShip::GetShipBaseHP()
-{
+float AIShip::GetShipBaseHP() const {
 	return GetAShip()->GetAttributeAsFloat("HP");
 }
 
-bool AIShip::isAttack(ATTRIBUTES* pAOtherCharacter)
-{
+bool AIShip::isAttack(ATTRIBUTES* pAOtherCharacter) const {
 	if (isDead()) return false;
 	return GetTaskController()->isAttack(pAOtherCharacter);
 }
@@ -545,8 +539,7 @@ float AIShip::GetAttackHP(float fAttackDistance)
 	return fHP;
 }
 
-float AIShip::GetPower()
-{
+float AIShip::GetPower() const {
 	Assert(GetAShip());
 	if (isDead()) return 0.0f;
   auto fHP = GetAShip()->GetAttributeAsFloat("HP");
@@ -654,8 +647,7 @@ void AIShip::ShipSetAbordage(uint32_t dwPriority, ATTRIBUTES* pACharacter1, ATTR
 	if (pShip) pShip->GetTaskController()->SetNewTask(dwPriority, AITASK_ABORDAGE, pACharacter2);
 }
 
-void AIShip::Save(CSaveLoad* pSL)
-{
+void AIShip::Save(CSaveLoad* pSL) const {
 	GetShipBasePointer()->Save(pSL);
 
 	pSL->SaveAPointer("character", GetACharacter());

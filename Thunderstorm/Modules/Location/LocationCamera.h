@@ -76,7 +76,7 @@ public:
 
 
 	void LockFPMode(bool isLock);
-	float GetAx();
+	float GetAx() const;
 
 	//--------------------------------------------------------------------------------------------
 	//Инкапсуляция
@@ -99,9 +99,9 @@ private:
 	bool MoveFollow(CVECTOR& pos, const CVECTOR& cpos, const CVECTOR& to);
 
 	//Протрейсит луч через локацию
-	float Trace(const CVECTOR& src, const CVECTOR& dst);
-	bool GetCollideTriangle(TRIANGLE& trg);
-	void Clip(PLANE* p, long numPlanes, CVECTOR& cnt, float rad, bool (* fnc)(const CVECTOR* vtx, long num));
+	float Trace(const CVECTOR& src, const CVECTOR& dst) const;
+	bool GetCollideTriangle(TRIANGLE& trg) const;
+	void Clip(PLANE* p, long numPlanes, CVECTOR& cnt, float rad, bool (* fnc)(const CVECTOR* vtx, long num)) const;
 
 
 private:
@@ -215,8 +215,7 @@ inline void LocationCamera::LockFPMode(bool isLock)
 	isLockFPMode = isLock;
 }
 
-inline float LocationCamera::GetAx()
-{
+inline float LocationCamera::GetAx() const {
 	return ax;
 }
 

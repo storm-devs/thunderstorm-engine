@@ -37,15 +37,15 @@ public:
 	void LRender(VDX9RENDER* rs) override;
 
 	void SetTech(const char* t, const char* ta);
-	long GetTexture(long stage);
-	void SetTexture(long stage, long id);
+	long GetTexture(long stage) const;
+	void SetTexture(long stage, long id) const;
 
 
 	CMatrix mtx;
 	float alpha;
 
 public:
-	void Render(VDX9RENDER* rs);
+	void Render(VDX9RENDER* rs) const;
 
 	GEOS* geo;
 	const char* tech;

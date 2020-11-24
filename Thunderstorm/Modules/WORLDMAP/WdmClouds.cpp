@@ -219,8 +219,7 @@ long WdmClouds::Cloud::FillRects(RS_RECT* rects, long cnt, float galpha)
 }
 
 //Получить центр сферы и радиус
-float WdmClouds::Cloud::GetBound(CVECTOR& _center)
-{
+float WdmClouds::Cloud::GetBound(CVECTOR& _center) const {
 	if (!count)
 	{
 		_center = 0.0f;

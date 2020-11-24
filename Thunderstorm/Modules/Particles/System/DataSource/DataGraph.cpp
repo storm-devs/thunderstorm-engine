@@ -91,14 +91,12 @@ void DataGraph::SetDefaultValue(float MaxValue, float MinValue)
 
 
 //Получить кол-во в графике минимума
-uint32_t DataGraph::GetMinCount()
-{
+uint32_t DataGraph::GetMinCount() const {
 	return MinGraph.size();
 }
 
 //Получить кол-во в графике максимума
-uint32_t DataGraph::GetMaxCount()
-{
+uint32_t DataGraph::GetMaxCount() const {
 	return MaxGraph.size();
 }
 
@@ -207,8 +205,7 @@ void DataGraph::SetNegative(bool _bNegative)
 	bNegative = _bNegative;
 }
 
-bool DataGraph::GetNegative()
-{
+bool DataGraph::GetNegative() const {
 	return bNegative;
 }
 
@@ -218,8 +215,7 @@ void DataGraph::SetRelative(bool _bRelative)
 	bRelative = _bRelative;
 }
 
-bool DataGraph::GetRelative()
-{
+bool DataGraph::GetRelative() const {
 	return bRelative;
 }
 
@@ -229,8 +225,7 @@ void DataGraph::SetName(const char* szName)
 	Name = szName;
 }
 
-const char* DataGraph::GetName()
-{
+const char* DataGraph::GetName() const {
 	return Name.c_str();
 }
 

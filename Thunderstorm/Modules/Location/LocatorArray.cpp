@@ -162,8 +162,7 @@ long LocatorArray::CalcHashString(const char* str)
 }
 
 //Сравнить имена групп
-bool LocatorArray::CompareGroup(const char* groupName, long ghash)
-{
+bool LocatorArray::CompareGroup(const char* groupName, long ghash) const {
 	if (hash != ghash) return false;
 	if (!groupName) return group[0] == 0;
 	return _stricmp(group, groupName) == 0;

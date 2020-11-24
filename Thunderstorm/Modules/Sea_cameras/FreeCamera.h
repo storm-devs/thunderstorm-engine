@@ -25,7 +25,7 @@ public:
 	bool Init() override;
 	void Move(uint32_t DeltaTime);
 	void Execute(uint32_t Delta_Time);
-	bool CreateState(ENTITY_STATE_GEN* state_gen);
+	bool CreateState(ENTITY_STATE_GEN* state_gen) const;
 	bool LoadState(ENTITY_STATE* state);
 
 	void ProcessStage(Stage stage, uint32_t delta) override

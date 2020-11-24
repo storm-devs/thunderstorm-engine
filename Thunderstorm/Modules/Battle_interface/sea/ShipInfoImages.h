@@ -25,16 +25,16 @@ protected:
 	void CheckAndRecreateBuffers(long nShipQ);
 	void UpdateShipList();
 	void UpdateShipData(long nShipNum, SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD);
-	bool IsEnableShowShipInfo(SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD);
+	bool IsEnableShowShipInfo(SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD) const;
 
-	const FRECT& GetUVForRelation(long nRelation);
+	const FRECT& GetUVForRelation(long nRelation) const;
 	float GetProgressHull(SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD);
 	float GetProgressSail(SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD);
 	float GetProgressCrew(SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD);
 
 	void CalculateDirectingVectors(const CVECTOR& pos);
 	void WriteSquareVertex(SII_VERTEX* pV, const CVECTOR& center, const CVECTOR& offset, const FPOINT& size,
-	                       const FRECT& uv, float fProgress);
+	                       const FRECT& uv, float fProgress) const;
 
 protected:
 	VDX9RENDER* pRS;

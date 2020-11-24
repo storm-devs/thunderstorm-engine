@@ -28,15 +28,15 @@ public:
 
 	void StartQuestShow(ATTRIBUTES* pA, int qn);
 
-	float GetLineStep();
+	float GetLineStep() const;
 	void ScrollerChanged(float fPos);
 
 protected:
-	bool GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize);
+	bool GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize) const;
 	void LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2) override;
 	void ReleaseStringes();
 	void GetStringListForQuestRecord(std::vector<std::string>& asStringList, const char* pcRecText,
-	                                 const char* pcUserData);
+	                                 const char* pcUserData) const;
 
 	long m_idFont;
 	uint32_t m_dwNonCompleteColor;

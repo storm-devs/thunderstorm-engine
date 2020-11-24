@@ -69,9 +69,9 @@ public:
 	//--------------------------------------------------------------------------------------------
 private:
 	//Нарисовать
-	void Render(VDX9RENDER* rs, const char* tech = nullptr);
+	void Render(VDX9RENDER* rs, const char* tech = nullptr) const;
 	//Настроить преобразования текстурных координат
-	void PresetMain(VDX9RENDER* rs);
+	void PresetMain(VDX9RENDER* rs) const;
 
 private:
 	//Буфера для геометрии

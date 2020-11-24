@@ -19,8 +19,8 @@ public:
 	bool IsMouseClickReaction() override { return false; }
 	bool IsMouseMoveReaction() override { return false; }
 
-	BI_ManagerBase* Manager() { return m_pManager; }
-	VDX9RENDER* Render() { return m_pRS; }
+	BI_ManagerBase* Manager() const { return m_pManager; }
+	VDX9RENDER* Render() const { return m_pRS; }
 
 protected:
 	BI_ManagerBase* m_pManager;

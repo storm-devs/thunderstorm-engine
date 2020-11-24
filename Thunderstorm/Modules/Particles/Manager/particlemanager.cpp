@@ -356,13 +356,11 @@ ParticleSystem* ParticleManager::CreateParticleSystemFromDataSource(DataSource* 
 	return pSys;
 }
 
-BillBoardProcessor* ParticleManager::GetBBProcessor()
-{
+BillBoardProcessor* ParticleManager::GetBBProcessor() const {
 	return BB_Processor;
 }
 
-ModelProcessor* ParticleManager::GetMDLProcessor()
-{
+ModelProcessor* ParticleManager::GetMDLProcessor() const {
 	return MDL_Processor;
 }
 
@@ -383,13 +381,11 @@ bool ParticleManager::ValidateSystem(IParticleSystem* pSystem)
 	return false;
 }
 
-GEOS* ParticleManager::GetModel(const char* FileName)
-{
+GEOS* ParticleManager::GetModel(const char* FileName) const {
 	return pGeomCache->GetModel(FileName);
 }
 
-uint32_t ParticleManager::GetCreatedSystemCount()
-{
+uint32_t ParticleManager::GetCreatedSystemCount() const {
 	return Systems.size();
 }
 

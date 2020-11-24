@@ -42,8 +42,8 @@ protected:
 	void SetBeginData();
 	void Release();
 
-	void SetModelToPosition(const CMatrix& mtx);
-	void SetTechnique(const char* pcTechnique);
+	void SetModelToPosition(const CMatrix& mtx) const;
+	void SetTechnique(const char* pcTechnique) const;
 	bool TieToLocator(entid_t mdlEID, const char* pcLocName);
 	void UnTieFromLocator();
 	void EndEventProcess();

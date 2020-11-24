@@ -67,8 +67,7 @@ void AIShipSpeedController::SetGlobalMultiply(float _fGlobalMultiply)
 		fGlobalMultiply = _fGlobalMultiply;
 }
 
-void AIShipSpeedController::Save(CSaveLoad* pSL)
-{
+void AIShipSpeedController::Save(CSaveLoad* pSL) const {
 	pSL->SaveDword(dwSpeedNum);
 	pSL->SaveFloat(fSpeedSmooth);
 	pSL->SaveFloat(fSpeed);

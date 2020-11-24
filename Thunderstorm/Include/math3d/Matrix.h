@@ -234,9 +234,9 @@ public:
 	                long srcSize = sizeof(Vector), long dstSize = sizeof(Vector4)) const;
 
 	//ѕолучить углы из нескалированной матрицы поворота
-	void GetAngles(float& ax, float& ay, float& az);
+	void GetAngles(float& ax, float& ay, float& az) const;
 	//ѕолучить углы из нескалированной матрицы поворота
-	void GetAngles(Vector& ang);
+	void GetAngles(Vector& ang) const;
 
 	///ƒоступитьс€ до элементов матрицы через скобки
 	float& operator ()(long i, long j);
@@ -1433,8 +1433,7 @@ inline void Matrix::Projection(Vector4* dstArray, Vector* srcArray, long num, fl
 }
 
 //ѕолучить углы из нескалированной матрицы поворота
-inline void Matrix::GetAngles(float& ax, float& ay, float& az)
-{
+inline void Matrix::GetAngles(float& ax, float& ay, float& az) const {
 	if (vz.y < 1.0f)
 	{
 		if (vz.y > -1.0f)
@@ -1457,8 +1456,7 @@ inline void Matrix::GetAngles(float& ax, float& ay, float& az)
 }
 
 //ѕолучить углы из нескалированной матрицы поворота
-inline void Matrix::GetAngles(Vector& ang)
-{
+inline void Matrix::GetAngles(Vector& ang) const {
 	GetAngles(ang.x, ang.y, ang.z);
 }
 

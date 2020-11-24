@@ -92,7 +92,7 @@ private:
 	void GetSkyDirStrings(std::string& sSkyDir, std::string& sSkyDirNext);
 	void UpdateTimeFactor();
 
-	uint32_t GetPixelColor(IDirect3DTexture9* pTex, float fu, float fv);
+	uint32_t GetPixelColor(IDirect3DTexture9* pTex, float fu, float fv) const;
 };
 
 #endif

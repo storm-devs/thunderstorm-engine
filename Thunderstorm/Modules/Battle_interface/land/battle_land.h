@@ -13,7 +13,7 @@ public:
 	BATTLE_LAND_INTERFACE();
 	~BATTLE_LAND_INTERFACE();
 	bool Init() override;
-	void Execute(uint32_t delta_time);
+	void Execute(uint32_t delta_time) const;
 	void Realize(uint32_t delta_time);
 	uint64_t ProcessMessage(MESSAGE& message) override;
 
@@ -37,7 +37,7 @@ public:
 protected:
 	void SetShowParameters();
 	void SetParameters();
-	void UpdateCommandos();
+	void UpdateCommandos() const;
 	void UpdateAlarm();
 	void EndShow();
 	void Release();

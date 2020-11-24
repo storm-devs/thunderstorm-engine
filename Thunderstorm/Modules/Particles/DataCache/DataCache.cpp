@@ -113,8 +113,7 @@ void DataCache::CreateDataSource(void* pBuffer, uint32_t BufferSize, const char*
 	delete ReadFile;
 }
 
-uint32_t DataCache::GetCachedCount()
-{
+uint32_t DataCache::GetCachedCount() const {
 	return Cache.size();
 }
 

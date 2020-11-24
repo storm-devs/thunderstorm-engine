@@ -262,8 +262,7 @@ void CXI_BORDER::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const
 	FillVertexBuffers();
 }
 
-void CXI_BORDER::FillIndexBuffers()
-{
+void CXI_BORDER::FillIndexBuffers() const {
 	if (m_idIBuf < 0) return;
 	auto* pI = (uint16_t*)m_rs->LockIndexBuffer(m_idIBuf);
 

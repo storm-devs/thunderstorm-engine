@@ -1404,8 +1404,7 @@ void CXI_SCROLLIMAGE::RefreshScroll()
 	ChangeDinamicParameters(0);
 }
 
-int CXI_SCROLLIMAGE::FindClickedImageNum()
-{
+int CXI_SCROLLIMAGE::FindClickedImageNum() const {
 	int n;
 	int i = 0;
 
@@ -1445,8 +1444,7 @@ int CXI_SCROLLIMAGE::FindClickedImageNum()
 	return i - 1;
 }
 
-int CXI_SCROLLIMAGE::GetRightQuantity()
-{
+int CXI_SCROLLIMAGE::GetRightQuantity() const {
 	if (m_pScroll == nullptr || m_Image == nullptr) return 0;
 	int q = 0;
 	for (SCROLLEntity* pscr = m_pScroll; pscr != nullptr; pscr = pscr->next) q++;
@@ -1469,8 +1467,7 @@ int CXI_SCROLLIMAGE::GetRightQuantity()
 	return n - 1;
 }
 
-int CXI_SCROLLIMAGE::GetLeftQuantity()
-{
+int CXI_SCROLLIMAGE::GetLeftQuantity() const {
 	if (m_pScroll == nullptr || m_Image == nullptr) return 0;
 	int q = 0;
 	for (SCROLLEntity* pscr = m_pScroll; pscr != nullptr; pscr = pscr->next) q++;
@@ -1493,8 +1490,7 @@ int CXI_SCROLLIMAGE::GetLeftQuantity()
 	return n - 1;
 }
 
-float CXI_SCROLLIMAGE::GetShiftDistance(int shiftIdx)
-{
+float CXI_SCROLLIMAGE::GetShiftDistance(int shiftIdx) const {
 	int i = 0;
 	int n = shiftIdx < 0 ? -shiftIdx : shiftIdx;
 
@@ -1681,8 +1677,7 @@ uint32_t CXI_SCROLLIMAGE::MessageProc(long msgcode, MESSAGE& message)
 	return 0;
 }
 
-long CXI_SCROLLIMAGE::GetMousePointedPictureNum()
-{
+long CXI_SCROLLIMAGE::GetMousePointedPictureNum() const {
 	FXYPOINT mp = ptrOwner->GetMousePoint();
 	if (mp.x < m_rect.left || mp.x > m_rect.right ||
 		mp.y < m_rect.top || mp.y > m_rect.bottom)

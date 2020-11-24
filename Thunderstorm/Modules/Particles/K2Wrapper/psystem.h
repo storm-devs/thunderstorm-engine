@@ -29,7 +29,7 @@ public:
 
 public:
 	void SetManager(PARTICLES* _pManager);
-	IParticleSystem* GetSystem();
+	IParticleSystem* GetSystem() const;
 };
 
 

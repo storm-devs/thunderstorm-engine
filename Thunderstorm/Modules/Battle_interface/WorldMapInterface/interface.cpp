@@ -186,29 +186,24 @@ void WM_INTERFACE::ExecuteCommand(long command)
 	}
 }
 
-void WM_INTERFACE::UpdateCommandList()
-{
+void WM_INTERFACE::UpdateCommandList() const {
 	if (m_pCommandList)
 		m_pCommandList->Update(GetCurrentCommandTopLine(), GetCurrentCommandCharacterIndex(), GetCurrentCommandMode());
 }
 
-long WM_INTERFACE::GetCurrentCommandTopLine()
-{
+long WM_INTERFACE::GetCurrentCommandTopLine() const {
 	return m_pShipIcon->GetLineY(0) + m_nCommandListVerticalOffset;
 }
 
-long WM_INTERFACE::GetCurrentCommandCharacterIndex()
-{
+long WM_INTERFACE::GetCurrentCommandCharacterIndex() const {
 	return m_nMainCharIndex;
 }
 
-long WM_INTERFACE::GetCurrentCommandMode()
-{
+long WM_INTERFACE::GetCurrentCommandMode() const {
 	return m_nCommandMode;
 }
 
-bool WM_INTERFACE::IsCommandMenuActive()
-{
+bool WM_INTERFACE::IsCommandMenuActive() const {
 	if (!m_pCommandList) return false;
 	return m_pCommandList->GetActive();
 }

@@ -31,8 +31,7 @@ void DataUV::SetValues(const Vector4* _Frames, uint32_t FramesCount)
 }
 
 //Получить кол-во кадров
-uint32_t DataUV::GetFrameCount()
-{
+uint32_t DataUV::GetFrameCount() const {
 	return Frames.size();
 }
 
@@ -70,8 +69,7 @@ void DataUV::SetName(const char* szName)
 	Name = szName;
 }
 
-const char* DataUV::GetName()
-{
+const char* DataUV::GetName() const {
 	return Name.c_str();
 }
 

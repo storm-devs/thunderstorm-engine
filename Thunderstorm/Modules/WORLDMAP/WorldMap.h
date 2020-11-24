@@ -97,7 +97,7 @@ public:
 
 	//--------------------------------------------------------------------------------------------
 
-	VDX9RENDER* GetRS();
+	VDX9RENDER* GetRS() const;
 
 	//--------------------------------------------------------------------------------------------
 	//Инкапсуляция
@@ -132,7 +132,7 @@ private:
 	//Найти координаты и радиус по месту назначения
 	bool FindIslandPosition(const char* name, float& x, float& z, float& r);
 
-	void ResetScriptInterfaces();
+	void ResetScriptInterfaces() const;
 
 private:
 	//Сервис рендера
@@ -175,8 +175,7 @@ public:
 	static long month[];
 };
 
-inline VDX9RENDER* WorldMap::GetRS()
-{
+inline VDX9RENDER* WorldMap::GetRS() const {
 	return rs;
 }
 

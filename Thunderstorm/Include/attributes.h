@@ -22,8 +22,7 @@
 
 class ATTRIBUTES
 {
-	void xtrace(const char* data_PTR,...)
-	{
+	void xtrace(const char* data_PTR,...) const {
 		
 		char xBuffer_4k[4096];
 		if (data_PTR == nullptr) return;
@@ -90,23 +89,20 @@ public:
 		this->bBreak = bBreak;
 	}
 
-	auto GetParent()
-	{
+	auto GetParent() const {
 		return pParent;
 	};
 
-	bool operator ==(const char* str)
-	{
+	bool operator ==(const char* str) const {
 		if (!str || !str[0]) return false;
 		return _stricmp(pVStringCodec->Convert(nNameCode), str) == 0;
 	};
 
-	auto GetThisName()
-	{
+	auto GetThisName() const {
 		return pVStringCodec->Convert(nNameCode);
 	}
 
-	auto GetThisAttr() { return Attribute; };
+	auto GetThisAttr() const { return Attribute; };
 
 	void SetName(const char* _name)
 	{
@@ -158,7 +154,7 @@ public:
 		pAttributes.clear();
 	};
 
-	auto GetAttributesNum() { return pAttributes.size(); }
+	auto GetAttributesNum() const { return pAttributes.size(); }
 
 	ATTRIBUTES* GetAttributeClass(const char* name)
 	{

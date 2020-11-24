@@ -245,8 +245,7 @@ void SHIP_DESCRIBE_LIST::ReleaseAll()
 	pMainShipAttr = nullptr;
 }
 
-SHIP_DESCRIBE_LIST::SHIP_DESCR* SHIP_DESCRIBE_LIST::FindShip(long idxCharacter)
-{
+SHIP_DESCRIBE_LIST::SHIP_DESCR* SHIP_DESCRIBE_LIST::FindShip(long idxCharacter) const {
 	for (auto ptmp = root; ptmp != nullptr; ptmp = ptmp->next)
 		if (ptmp->characterIndex == idxCharacter)
 			return ptmp;

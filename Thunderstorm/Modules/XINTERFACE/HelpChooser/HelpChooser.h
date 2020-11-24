@@ -15,7 +15,7 @@ public:
 	void SetDevice();
 	bool Init() override;
 	void Execute(uint32_t Delta_Time);
-	void Realize(uint32_t Delta_Time);
+	void Realize(uint32_t Delta_Time) const;
 	uint64_t ProcessMessage(MESSAGE& message) override;
 
 	void ProcessStage(Stage stage, uint32_t delta) override
@@ -39,12 +39,12 @@ protected:
 	void AllRelease();
 	bool RunChooser(char* ChooserGroup);
 	void SetRectangle(long newRectNum);
-	long GetRectangleLeft();
-	long GetRectangleRight();
-	long GetRectangleUp();
-	long GetRectangleDown();
+	long GetRectangleLeft() const;
+	long GetRectangleRight() const;
+	long GetRectangleUp() const;
+	long GetRectangleDown() const;
 	bool MouseMove();
-	long GetRectangleFromPos(float x, float y);
+	long GetRectangleFromPos(float x, float y) const;
 
 protected:
 	long m_idMouseTexture;

@@ -14,7 +14,7 @@ public:
 	BIString(BIImageRender* pImgRender, VDX9RENDER* rs);
 	~BIString();
 
-	long GetPrioritet() { return m_nPrioritet; }
+	long GetPrioritet() const { return m_nPrioritet; }
 	void SetPrioritet(long nPrior) { m_nPrioritet = nPrior; }
 
 	void Render();

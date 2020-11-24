@@ -208,8 +208,7 @@ uint32_t CXI_STATUSLINE::MessageProc(long msgcode, MESSAGE& message)
 	return 0;
 }
 
-void CXI_STATUSLINE::Refresh()
-{
+void CXI_STATUSLINE::Refresh() const {
 	if (m_vBuf == -1) return;
 	auto* pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
 

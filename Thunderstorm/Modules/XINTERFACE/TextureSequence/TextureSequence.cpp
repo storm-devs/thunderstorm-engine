@@ -126,8 +126,7 @@ bool TextureSequence::FrameUpdate()
 	return true;
 }
 
-void TextureSequence::ToTextureRender(float blendValue)
-{
+void TextureSequence::ToTextureRender(float blendValue) const {
   auto newTFactor = ARGB(long(255.f*blendValue), long(255.f*blendValue), long(255.f*blendValue),
 	                           long(255.f*blendValue));
 
@@ -209,8 +208,7 @@ void TextureSequence::Release()
 	}
 }
 
-void TextureSequence::LostRender()
-{
+void TextureSequence::LostRender() const {
 	m_pRS->Release(m_pTexture);
 }
 

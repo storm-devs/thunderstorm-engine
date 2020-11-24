@@ -308,8 +308,7 @@ AIShip* AIGroup::ExtractShip(ATTRIBUTES* pACharacter)
 	return nullptr;
 }
 
-ATTRIBUTES* AIGroup::GetCommanderACharacter()
-{
+ATTRIBUTES* AIGroup::GetCommanderACharacter() const {
 	Assert(pACommander);
 	return pACommander;
 }

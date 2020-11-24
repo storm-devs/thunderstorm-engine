@@ -438,8 +438,7 @@ FRECT& BICommandList::GetPictureUV(long nTextureNum, long nPictureNum, FRECT& uv
 	return uv;
 }
 
-RECT& BICommandList::GetCurrentPos(long num, RECT& rpos)
-{
+RECT& BICommandList::GetCurrentPos(long num, RECT& rpos) const {
 	rpos.left = m_LeftTopPoint.x + num * (m_IconSize.x + m_nIconSpace);
 	rpos.right = rpos.left + m_IconSize.x;
 	rpos.top = m_LeftTopPoint.y;
@@ -532,8 +531,7 @@ void BICommandList::SetNote(const char* pcNote, long nX, long nY)
 	m_NotePos.y = nY + m_NoteOffset.y;
 }
 
-ATTRIBUTES* BICommandList::GetCurrentCommandAttribute()
-{
+ATTRIBUTES* BICommandList::GetCurrentCommandAttribute() const {
 	if (m_sCurrentCommandName.empty()) return nullptr;
 
 	ATTRIBUTES* pAR = nullptr;

@@ -96,8 +96,7 @@ void WATERFLARE::GenerateFlares()
 	}
 }
 
-void WATERFLARE::Realize(uint32_t Delta_Time)
-{
+void WATERFLARE::Realize(uint32_t Delta_Time) const {
 	//GUARD(void WATERFLARE::Realize(uint32_t Delta_Time))
 
 	for (long i = 0; i < iFlaresNum; i++)

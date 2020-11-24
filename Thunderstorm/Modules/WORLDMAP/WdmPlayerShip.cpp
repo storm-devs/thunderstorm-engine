@@ -261,8 +261,7 @@ bool WdmPlayerShip::ExitFromMap()
 }
 
 
-long WdmPlayerShip::TestInStorm()
-{
+long WdmPlayerShip::TestInStorm() const {
   auto inStormZone = false;
   auto isTornado = false;
 	for (long i = 0; i < wdmObjects->storms.size(); i++)

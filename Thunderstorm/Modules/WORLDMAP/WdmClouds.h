@@ -47,7 +47,7 @@ class WdmClouds : public WdmRenderObject
 		//Заполнить массив прямоугольников
 		long FillRects(RS_RECT* rects, long cnt, float galpha);
 		//Получить центр сферы и радиус
-		float GetBound(CVECTOR& _center);
+		float GetBound(CVECTOR& _center) const;
 		//Запустить механизм удаления облака если есть пересечение
 		void Kill(const Cloud& cld);
 

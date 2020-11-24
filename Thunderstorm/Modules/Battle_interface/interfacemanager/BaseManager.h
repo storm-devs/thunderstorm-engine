@@ -48,9 +48,9 @@ public:
 	{
 	}
 
-	VDX9RENDER* GetDX9Render() { return m_pRS; }
-	BIImageRender* GetImageRender() { return m_pImgRender; }
-	BI_MousePointerBase* GetMouse() { return m_pMouse; }
+	VDX9RENDER* GetDX9Render() const { return m_pRS; }
+	BIImageRender* GetImageRender() const { return m_pImgRender; }
+	BI_MousePointerBase* GetMouse() const { return m_pMouse; }
 
 	virtual BI_ManagerNodeBase* CreateImageNode(const char* texture, const FRECT& uv, const RECT& pos, uint32_t color,
 	                                            long nPrioritet) = 0;

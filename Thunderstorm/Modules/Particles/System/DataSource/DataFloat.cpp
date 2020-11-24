@@ -13,8 +13,7 @@ DataFloat::~DataFloat()
 }
 
 //Получить значение
-float DataFloat::GetValue()
-{
+float DataFloat::GetValue() const {
 	return Value;
 }
 
@@ -45,13 +44,11 @@ void DataFloat::SetName(const char* szName)
 	Name = szName;
 }
 
-const char* DataFloat::GetName()
-{
+const char* DataFloat::GetName() const {
 	return Name.c_str();
 }
 
-void DataFloat::Write(MemFile* File)
-{
+void DataFloat::Write(MemFile* File) const {
   auto fValue = GetValue();
 	File->WriteType(fValue);
 

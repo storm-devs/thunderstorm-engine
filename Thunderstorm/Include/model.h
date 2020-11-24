@@ -86,7 +86,7 @@ public:
 	};
 
 	void SetRenderTuner(RenderTuner* rt) { renderTuner = rt; };
-	RenderTuner* GetRenderTuner(RenderTuner* rt) { return renderTuner; };
+	RenderTuner* GetRenderTuner(RenderTuner* rt) const { return renderTuner; };
 protected:
 	RenderTuner* renderTuner;
 public:

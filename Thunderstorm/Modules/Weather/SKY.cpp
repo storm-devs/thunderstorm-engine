@@ -688,8 +688,7 @@ float SKY::CalculateAlphaForSun(const CVECTOR& vSunPos, float fSunSize)
 	return 1.f;
 }
 
-uint32_t SKY::GetPixelColor(IDirect3DTexture9* pTex, float fu, float fv)
-{
+uint32_t SKY::GetPixelColor(IDirect3DTexture9* pTex, float fu, float fv) const {
 	HRESULT hok;
   auto dwCol = 0xFFFFFFFF;
 

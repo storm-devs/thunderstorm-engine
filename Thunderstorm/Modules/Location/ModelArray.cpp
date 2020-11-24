@@ -194,8 +194,7 @@ long ModelArray::FindModel(const char* modelName)
 }
 
 //Количество моделий
-long ModelArray::Models()
-{
+long ModelArray::Models() const {
 	return numModels;
 }
 
@@ -430,8 +429,7 @@ float ModelArray::Trace(const CVECTOR& src, const CVECTOR& dst)
 	return k;
 }
 
-bool ModelArray::GetCollideTriangle(TRIANGLE& trg)
-{
+bool ModelArray::GetCollideTriangle(TRIANGLE& trg) const {
 	trg = ctrg;
 	return isHavecTrg;
 }

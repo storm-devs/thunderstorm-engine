@@ -84,7 +84,7 @@ private:
 		uint32_t AttributeChanged(ATTRIBUTES* pAttribute);
 		void TimeUpdate(ATTRIBUTES* pAP);
 
-		bool IsEnable() { return bEnable; };
+		bool IsEnable() const { return bEnable; };
 
 	private:
 		const char *sCatalog, *sTexture;

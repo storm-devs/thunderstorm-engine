@@ -618,8 +618,7 @@ void CXI_FORMATEDTEXT::ReleaseStringes()
 	m_nAllTextStrings = 0;
 }
 
-bool CXI_FORMATEDTEXT::GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize)
-{
+bool CXI_FORMATEDTEXT::GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize) const {
 	if (pInStr == nullptr || buf == nullptr) return false;
 	char* pStart = pInStr;
 	int bYesEOL = 0;
@@ -707,8 +706,7 @@ bool CXI_FORMATEDTEXT::GetLineNext(int fontNum, char* & pInStr, char* buf, int b
 	return true;
 }
 
-void CXI_FORMATEDTEXT::GetOneLine(int fontNum, char* pStr, char* buf, int bufSize)
-{
+void CXI_FORMATEDTEXT::GetOneLine(int fontNum, char* pStr, char* buf, int bufSize) const {
 	if (pStr == nullptr || buf == nullptr) return;
 
 	char* pStart = pStr;
@@ -772,8 +770,7 @@ void CXI_FORMATEDTEXT::SetPointer(float fPos)
 	api->Event("FTChange", "sf", m_nodeName, GetCurPos());
 }
 
-float CXI_FORMATEDTEXT::GetLineStep()
-{
+float CXI_FORMATEDTEXT::GetLineStep() const {
 	if (m_bSelectableCursor)
 	{
 		if (m_nStringGroupQuantity > 1)
@@ -786,8 +783,7 @@ float CXI_FORMATEDTEXT::GetLineStep()
 	return 0.f;
 }
 
-float CXI_FORMATEDTEXT::GetCurPos()
-{
+float CXI_FORMATEDTEXT::GetCurPos() const {
 	if (m_bSelectableCursor)
 	{
 		if (m_nStringGroupQuantity > 1)
@@ -800,8 +796,7 @@ float CXI_FORMATEDTEXT::GetCurPos()
 	return 0.f;
 }
 
-void CXI_FORMATEDTEXT::SetColor(uint32_t dwCol)
-{
+void CXI_FORMATEDTEXT::SetColor(uint32_t dwCol) const {
 	for (STRING_DESCRIBER* dscrTmp = m_listRoot; dscrTmp; dscrTmp = dscrTmp->next)
 	{
 		dscrTmp->color = dwCol;

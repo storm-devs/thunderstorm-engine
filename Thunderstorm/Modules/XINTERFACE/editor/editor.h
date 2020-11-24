@@ -19,19 +19,19 @@ public:
 
 	void Release();
 
-	void Render();
+	void Render() const;
 	bool ProcessControl();
 
-	bool IsShowMode();
+	bool IsShowMode() const;
 	void MakeShowMode(bool bShow);
 
 	void SetEditNode(CINODE* pNode);
 
-	void ReCreate();
-	void AddNode(CINODE* pNode);
-	void DelNode(CINODE* pNode);
+	void ReCreate() const;
+	void AddNode(CINODE* pNode) const;
+	void DelNode(CINODE* pNode) const;
 
-	void DrawSizeBox();
+	void DrawSizeBox() const;
 
 protected:
 	bool m_bShowMode;
@@ -49,7 +49,7 @@ public:
 	XINTERFACE* m_pGIOwner;
 
 	void ChangeNodeName();
-	void ChangeSubNodeName();
+	void ChangeSubNodeName() const;
 };
 
 #endif

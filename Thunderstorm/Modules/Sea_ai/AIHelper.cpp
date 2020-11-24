@@ -44,8 +44,7 @@ bool AIHelper::SetDevice()
 	return true;
 }
 
-bool AIHelper::Init()
-{
+bool AIHelper::Init() const {
 	pIsland = (ISLAND_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("island"));
 
 	return true;

@@ -47,8 +47,7 @@ void GIEditor::Release()
 	STORM_DELETE(m_pSubNameList);
 }
 
-void GIEditor::Render()
-{
+void GIEditor::Render() const {
 	if (!m_bShowMode) return;
 
   auto pntMouse = m_pGIOwner->GetMousePoint();
@@ -202,8 +201,7 @@ bool GIEditor::ProcessControl()
 	return false;
 }
 
-bool GIEditor::IsShowMode()
-{
+bool GIEditor::IsShowMode() const {
 	return m_bShowMode;
 }
 
@@ -217,29 +215,25 @@ void GIEditor::SetEditNode(CINODE* pNode)
 	m_pEditableNode = pNode;
 }
 
-void GIEditor::ReCreate()
-{
+void GIEditor::ReCreate() const {
 	m_pNodeList->RemoveAllStrings();
 	std::string sStr = "Nothing";
 	m_pNodeList->AddString(sStr);
 	m_pNodeList->SetSelectIndex(0);
 }
 
-void GIEditor::AddNode(CINODE* pNode)
-{
+void GIEditor::AddNode(CINODE* pNode) const {
 	if (!pNode) return;
 	std::string sStr = pNode->m_nodeName;
 	m_pNodeList->AddString(sStr);
 }
 
-void GIEditor::DelNode(CINODE* pNode)
-{
+void GIEditor::DelNode(CINODE* pNode) const {
 	if (!pNode) return;
 	m_pNodeList->RemoveString(pNode->m_nodeName);
 }
 
-void GIEditor::DrawSizeBox()
-{
+void GIEditor::DrawSizeBox() const {
 	if (!m_pEditableNode) return;
 	if (api->Controls->GetDebugAsyncKeyState(VK_CONTROL) < 0) // показываем
 	{
@@ -299,8 +293,7 @@ void GIEditor::ChangeNodeName()
 	m_pEditableNode = m_pGIOwner->FindNode(m_pNodeList->GetSelectString().c_str(), nullptr);
 }
 
-void GIEditor::ChangeSubNodeName()
-{
+void GIEditor::ChangeSubNodeName() const {
 	if (!m_bSubNameOn) return;
 	if (!m_pEditableNode) return;
 

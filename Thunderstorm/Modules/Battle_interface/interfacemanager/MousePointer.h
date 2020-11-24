@@ -40,7 +40,7 @@ protected:
 	void InitMouseCursors();
 	void MoveCursor();
 	void SetCurrentCursor();
-	RECT GetCurrentCursorIconPos();
+	RECT GetCurrentCursorIconPos() const;
 };
 
 #endif

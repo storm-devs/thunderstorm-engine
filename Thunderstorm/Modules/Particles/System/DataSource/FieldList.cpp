@@ -511,8 +511,7 @@ float FieldList::GetRandomGraphVal(const char* AttrName, float Time, float LifeT
 	return pFind->GetRandomValue(Time, LifeTime);
 }
 
-uint32_t FieldList::GetFieldCount()
-{
+uint32_t FieldList::GetFieldCount() const {
 	return Fields.size();
 }
 

@@ -101,8 +101,7 @@ void VANT::Execute(uint32_t Delta_Time)
 	}
 }
 
-void VANT::Realize(uint32_t Delta_Time)
-{
+void VANT::Realize(uint32_t Delta_Time) const {
 	if (bUse)
 	{
 		// _asm rdtsc _asm mov rtm,eax
@@ -279,8 +278,7 @@ uint64_t VANT::ProcessMessage(MESSAGE& message)
 	return 0;
 }
 
-void VANT::SetIndex()
-{
+void VANT::SetIndex() const {
 	int i, j;
 	int ti, vi;
 
@@ -360,8 +358,7 @@ void VANT::SetIndex()
 	}
 }
 
-void VANT::SetVertexes()
-{
+void VANT::SetVertexes() const {
 	int j, i;
 	uint32_t iv;
 	CVECTOR uPos, lPos, rPos;

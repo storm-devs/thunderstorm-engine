@@ -24,7 +24,7 @@ protected:
 
 	void CreateIndexBuffer();
 	void CreateVertexBuffer();
-	void UpdateIndexBuffer();
+	void UpdateIndexBuffer() const;
 	void UpdateVertexBuffer();
 
 	void ReplaceRectangle(long x, long y);

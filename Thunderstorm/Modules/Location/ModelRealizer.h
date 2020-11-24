@@ -26,7 +26,7 @@ public:
 	bool Init() override;
 	//Исполнение
 	void Execute(uint32_t delta_time);
-	void Realize(uint32_t delta_time);
+	void Realize(uint32_t delta_time) const;
 
 	void ProcessStage(Stage stage, uint32_t delta) override
 	{

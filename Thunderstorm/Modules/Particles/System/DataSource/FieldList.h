@@ -102,7 +102,7 @@ public:
 	float GetRandomGraphVal(const char* AttrName, float Time, float LifeTime, float def_value = 0.0f);
 
 
-	uint32_t GetFieldCount();
+	uint32_t GetFieldCount() const;
 	const FieldDesc& GetFieldByIndex(uint32_t Index);
 
 

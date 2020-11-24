@@ -27,7 +27,7 @@ public:
 
 protected:
 	void LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2) override;
-	void Refresh();
+	void Refresh() const;
 
 protected:
 	char* m_sGroupName; // image list name

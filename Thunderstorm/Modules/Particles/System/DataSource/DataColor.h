@@ -30,7 +30,7 @@ public:
 	void SetValues(const ColorVertex* Values, uint32_t Count);
 
 	//Получить кол-во значений
-	uint32_t GetValuesCount();
+	uint32_t GetValuesCount() const;
 
 	//Получить мин. значение (по индексу)
 	const Color& GetMinValue(uint32_t Index);
@@ -44,7 +44,7 @@ public:
 
 
 	void SetName(const char* szName);
-	const char* GetName();
+	const char* GetName() const;
 
 
 	const ColorVertex& GetByIndex(uint32_t Index);

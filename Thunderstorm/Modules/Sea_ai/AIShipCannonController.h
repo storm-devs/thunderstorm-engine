@@ -45,8 +45,8 @@ private:
 		std::vector<AICannon> aCannons; // cannons container for this bort
 
 		void ClearCharge() { fChargePercent = 0.0f; };
-		bool isCharged() { return fChargePercent >= 1.0f; };
-		bool isBortDamaged() { return dwNumDamagedCannons == aCannons.size(); }
+		bool isCharged() const { return fChargePercent >= 1.0f; };
+		bool isBortDamaged() const { return dwNumDamagedCannons == aCannons.size(); }
 
 		AISHIP_BORT()
 		{
@@ -120,7 +120,7 @@ public:
 	bool Init(ATTRIBUTES* _pAShip);
 
 	void SetAIShip(AIShip* pShip) { pOurAIShip = pShip; }
-	AIShip* GetAIShip() { return pOurAIShip; }
+	AIShip* GetAIShip() const { return pOurAIShip; }
 
 	// default constructor/destructor
 	AIShipCannonController(AIShip*);

@@ -29,7 +29,7 @@ public:
 
 protected:
 	void LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2) override;
-	void FillIndexBuffers();
+	void FillIndexBuffers() const;
 	void FillVertexBuffers();
 	void WriteVertexForSquare(XI_ONETEX_VERTEX* pV, FXYRECT& UVRect, uint32_t dwColor, long left, long top, long right,
 	                          long bottom);

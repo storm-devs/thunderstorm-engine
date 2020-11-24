@@ -48,12 +48,12 @@ protected:
 
 	void MakeControl();
 	void ExecuteCommand(long command);
-	void UpdateCommandList();
-	long GetCurrentCommandTopLine();
-	long GetCurrentCommandCharacterIndex();
-	long GetCurrentCommandMode();
+	void UpdateCommandList() const;
+	long GetCurrentCommandTopLine() const;
+	long GetCurrentCommandCharacterIndex() const;
+	long GetCurrentCommandMode() const;
 
-	bool IsCommandMenuActive();
+	bool IsCommandMenuActive() const;
 };
 
 #endif

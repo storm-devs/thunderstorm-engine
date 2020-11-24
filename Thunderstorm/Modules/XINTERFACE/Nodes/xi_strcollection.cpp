@@ -341,8 +341,7 @@ uint32_t CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 	return -1;
 }
 
-void CXI_STRCOLLECTION::ChangeString(long num, const char* sValue)
-{
+void CXI_STRCOLLECTION::ChangeString(long num, const char* sValue) const {
 	if (num >= 0 && num < m_nStr)
 	{
 		m_pStrDescr[num].strNum = -1;
@@ -357,14 +356,12 @@ void CXI_STRCOLLECTION::ChangeString(long num, const char* sValue)
 	}
 }
 
-void CXI_STRCOLLECTION::ChangeStringColor(long num, uint32_t dwColor)
-{
+void CXI_STRCOLLECTION::ChangeStringColor(long num, uint32_t dwColor) const {
 	if (num >= 0 && num < m_nStr)
 		m_pStrDescr[num].foreColor = dwColor;
 }
 
-void CXI_STRCOLLECTION::ChangeStringPos(long num, XYPOINT& pntNewPos)
-{
+void CXI_STRCOLLECTION::ChangeStringPos(long num, XYPOINT& pntNewPos) const {
 	if (num >= 0 && num < m_nStr)
 		m_pStrDescr[num].scrPos = pntNewPos;
 }

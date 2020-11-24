@@ -45,7 +45,7 @@ public:
 	//Проверить указатель на валидность
 	bool ValidatePointer(DataSource* pData);
 
-	uint32_t GetCachedCount();
+	uint32_t GetCachedCount() const;
 	const char* GetCachedNameByIndex(uint32_t Index);
 };
 

@@ -142,8 +142,7 @@ void HELPCHOOSER::Execute(uint32_t Delta_Time)
 	rs->UnLockVertexBuffer(m_idVBuf);
 }
 
-void HELPCHOOSER::Realize(uint32_t Delta_Time)
-{
+void HELPCHOOSER::Realize(uint32_t Delta_Time) const {
 	if (m_idVBuf == -1) return;
 
 	if (m_idBackTexture != -1)
@@ -377,8 +376,7 @@ void HELPCHOOSER::SetRectangle(long newRectNum)
 	rs->UnLockVertexBuffer(m_idVBuf);
 }
 
-long HELPCHOOSER::GetRectangleLeft()
-{
+long HELPCHOOSER::GetRectangleLeft() const {
 	if (m_nCurRect < 0 || m_nCurRect >= m_nRectQ || m_pRectList == nullptr) return 0;
   auto left = m_pRectList[m_nCurRect].left;
   auto top = m_pRectList[m_nCurRect].top;
@@ -414,8 +412,7 @@ long HELPCHOOSER::GetRectangleLeft()
 	return nRectNum;
 }
 
-long HELPCHOOSER::GetRectangleRight()
-{
+long HELPCHOOSER::GetRectangleRight() const {
 	if (m_nCurRect < 0 || m_nCurRect >= m_nRectQ || m_pRectList == nullptr) return 0;
   auto left = m_pRectList[m_nCurRect].left;
   auto top = m_pRectList[m_nCurRect].top;
@@ -451,8 +448,7 @@ long HELPCHOOSER::GetRectangleRight()
 	return nRectNum;
 }
 
-long HELPCHOOSER::GetRectangleUp()
-{
+long HELPCHOOSER::GetRectangleUp() const {
 	if (m_nCurRect < 0 || m_nCurRect >= m_nRectQ || m_pRectList == nullptr) return 0;
   auto left = m_pRectList[m_nCurRect].left;
   auto top = m_pRectList[m_nCurRect].top;
@@ -488,8 +484,7 @@ long HELPCHOOSER::GetRectangleUp()
 	return nRectNum;
 }
 
-long HELPCHOOSER::GetRectangleDown()
-{
+long HELPCHOOSER::GetRectangleDown() const {
 	if (m_nCurRect < 0 || m_nCurRect >= m_nRectQ || m_pRectList == nullptr) return 0;
   auto left = m_pRectList[m_nCurRect].left;
   auto top = m_pRectList[m_nCurRect].top;
@@ -548,8 +543,7 @@ bool HELPCHOOSER::MouseMove()
 	return false;
 }
 
-long HELPCHOOSER::GetRectangleFromPos(float x, float y)
-{
+long HELPCHOOSER::GetRectangleFromPos(float x, float y) const {
 	if (m_pRectList == nullptr) return m_nCurRect;
 	x /= m_fScreenWidth;
 	y /= m_fScreenHeight;

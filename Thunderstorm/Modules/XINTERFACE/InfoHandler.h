@@ -13,7 +13,7 @@ public:
 	~InfoHandler();
 	bool Init() override;
 	void Execute(uint32_t delta_time);
-	void Realize(uint32_t delta_time);
+	void Realize(uint32_t delta_time) const;
 	uint64_t ProcessMessage(MESSAGE& message) override;
 
 	void ProcessStage(Stage stage, uint32_t delta) override
@@ -35,8 +35,8 @@ public:
 
 
 protected:
-	void StringToBufer(char* outStr, int sizeBuf, char* inStr, int copySize);
-	char* GetCutString(char* pstr, int nOutWidth, float fScale);
+	void StringToBufer(char* outStr, int sizeBuf, char* inStr, int copySize) const;
+	char* GetCutString(char* pstr, int nOutWidth, float fScale) const;
 	bool DoPreOut();
 
 	IDirect3DSurface9* m_pSurface;

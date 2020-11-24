@@ -26,8 +26,7 @@ bool BATTLE_LAND_INTERFACE::Init()
 	return true;
 }
 
-void BATTLE_LAND_INTERFACE::Execute(uint32_t delta_time)
-{
+void BATTLE_LAND_INTERFACE::Execute(uint32_t delta_time) const {
 	CONTROL_STATE cs;
 
 	if (m_bShowCommandos && m_pManSign)
@@ -153,8 +152,7 @@ void BATTLE_LAND_INTERFACE::SetShowParameters()
 	m_Images.Init(m_pRS, AttributesPointer ? AttributesPointer->GetAttributeClass("imageslist") : nullptr);
 }
 
-void BATTLE_LAND_INTERFACE::UpdateCommandos()
-{
+void BATTLE_LAND_INTERFACE::UpdateCommandos() const {
   auto pA = AttributesPointer ? AttributesPointer->GetAttributeClass("data") : nullptr;
 	if (pA) pA = pA->GetAttributeClass("icons");
 	if (!pA) return;

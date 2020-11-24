@@ -31,13 +31,13 @@ public:
 
 	void Recollect();
 	void SetUpdate() { m_bMakeUpdate = true; }
-	bool IsActive() { return m_bActive; }
+	bool IsActive() const { return m_bActive; }
 	void SetActive(bool bActive);
 
 	void MakeControl();
 	virtual void ExecuteCommand(CommandType command) = 0;
 
-	long GetLineY(long n) { return (long)m_Sign[n].pntPos.x; }
+	long GetLineY(long n) const { return (long)m_Sign[n].pntPos.x; }
 
 protected:
 	virtual long CalculateSignQuantity();
@@ -45,7 +45,7 @@ protected:
 
 	void Release();
 	void UpdateBuffers(long nQ);
-	void FillIndexBuffer();
+	void FillIndexBuffer() const;
 	void FillVertexBuffer();
 	long WriteSquareToVBuff(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_t color, const BIFPOINT& center, const FPOINT& size);
 	long WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_t color, const BIFPOINT& center, const  FPOINT& size,

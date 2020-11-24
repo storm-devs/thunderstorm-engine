@@ -34,8 +34,7 @@ ShipMan::ShipMan()
 	//UN//GUARD_SAILORS
 };
 //------------------------------------------------------------------------------------
-void ShipMan::Free()
-{
+void ShipMan::Free() const {
 	//GUARD_SAILORS(ShipMan::Free())
 
 	EntityManager::EraseEntity(this->modelID);
@@ -190,7 +189,8 @@ int ShipMan::FindRandomPoint(SailorsPoints& sailorsPoints, ShipState& shipState)
 	return newWayPoint;
 };
 //-----Найти новую точку-цель без типа------------------------------------------------
-int ShipMan::FindRandomPointWithoutType(SailorsPoints& sailorsPoints) //Найти любую простую точку
+int ShipMan::FindRandomPointWithoutType(SailorsPoints& sailorsPoints) const
+//Найти любую простую точку
 {
 	//GUARD_SAILORS(ShipMan::FindRandomPointWithoutType())
 
@@ -361,8 +361,7 @@ bool ShipMan::MoveToPosition(uint32_t& dltTime, SailorsPoints& sailorsPoints, Sh
 	//UN//GUARD_SAILORS
 };
 //-----Найти ближайшую пушку----------------------------------------------------------
-int ShipMan::GetNearestEmptyCannon(SailorsPoints& sailorsPoints)
-{
+int ShipMan::GetNearestEmptyCannon(SailorsPoints& sailorsPoints) const {
 	//GUARD_SAILORS(ShipMan::GetNearestEmptyCannon())
 
 	float minDest = 999;
@@ -414,8 +413,7 @@ bool ShipMan::Swim(uint32_t& dltTime, SailorsPoints& sailorsPoints, ShipState& s
 	//UN//GUARD_SAILORS
 };
 //------------------------------------------------------------------------------------
-bool ShipMan::Stay(uint32_t& dltTime, SailorsPoints& sailorsPoints)
-{
+bool ShipMan::Stay(uint32_t& dltTime, SailorsPoints& sailorsPoints) const {
 	//GUARD_SAILORS(ShipMan::Stay())
 
 	return (!model->GetAnimation()->Player(0).IsPlaying());

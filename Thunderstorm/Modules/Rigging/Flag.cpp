@@ -216,8 +216,7 @@ uint64_t FLAG::ProcessMessage(MESSAGE& message)
 	return 0;
 }
 
-void FLAG::SetTextureCoordinate()
-{
+void FLAG::SetTextureCoordinate() const {
 	if (bUse)
 	{
 		int i;
@@ -266,8 +265,7 @@ void FLAG::SetTextureCoordinate()
 	}
 }
 
-void FLAG::DoMove(FLAGDATA* pr, float delta_time)
-{
+void FLAG::DoMove(FLAGDATA* pr, float delta_time) const {
 	if (pr == nullptr) return;
 	CVECTOR cPos;
 	cPos = *pr->pMatWorld * pr->spos;
@@ -448,8 +446,7 @@ void FLAG::SetAll()
 	SetAdd(0);
 }
 
-void FLAG::SetTreangle()
-{
+void FLAG::SetTreangle() const {
 	int i, idx;
 
 	auto* pt = (uint16_t*)RenderService->LockIndexBuffer(iBuf);

@@ -150,8 +150,7 @@ void GIEditorList::SetSelectIndex(long nIndex)
 	m_pChangeSelected->Execute();
 }
 
-bool GIEditorList::CheckMouseInside(float fX, float fY)
-{
+bool GIEditorList::CheckMouseInside(float fX, float fY) const {
 	if (fX >= m_frBackRect.left && fX <= m_frBackRect.right &&
 		fY >= m_frBackRect.top && fY <= m_frBackRect.bottom)
 		return true;

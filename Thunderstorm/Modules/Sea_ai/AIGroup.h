@@ -70,7 +70,7 @@ public:
 	void InsertShip(AIShip* pAIShip);
 
 	// add new ship to group
-	ATTRIBUTES* GetCommanderACharacter();
+	ATTRIBUTES* GetCommanderACharacter() const;
 	AIShip* GetMainShip();
 	void AddShip(entid_t _eidShip, ATTRIBUTES* pACharacter, ATTRIBUTES* pAShip);
 

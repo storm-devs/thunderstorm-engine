@@ -57,7 +57,7 @@ class ISPYGLASS : public Entity
 		}
 
 		void LoadFromAttr(VDX9RENDER* rs, ATTRIBUTES* pA, const char* pcDefText, long nDefXPos, long nDefYPos);
-		void Print();
+		void Print() const;
 	};
 
 	struct SpyGlassCameraParameters
@@ -80,7 +80,7 @@ public:
 	~ISPYGLASS();
 	bool Init() override;
 	void Execute(uint32_t delta_time);
-	void Realize(uint32_t delta_time);
+	void Realize(uint32_t delta_time) const;
 	uint64_t ProcessMessage(MESSAGE& message) override;
 
 	void ProcessStage(Stage stage, uint32_t delta) override
@@ -166,7 +166,7 @@ protected:
 
 protected:
 	void Release();
-	ATTRIBUTES* GetAttr(const char* pcAttrName);
+	ATTRIBUTES* GetAttr(const char* pcAttrName) const;
 	void TurnOnTelescope(bool bTurnOn);
 	void SetShipInfo(long nCharIndex);
 	void FindNewTargetShip();
@@ -178,7 +178,7 @@ protected:
 	                      long nCharge, long nNation, long nSailState, long nFace,
 	                      long nFencing, long nCannon, long nAccuracy, long nNavigation, long nBoarding,
 	                      const char* pcCaptainName, const char* pcFaceTexture, long nShipClass);
-	void FillUVArrayFromAttributes(std::vector<FRECT>& m_aUV, ATTRIBUTES* pA);
+	void FillUVArrayFromAttributes(std::vector<FRECT>& m_aUV, ATTRIBUTES* pA) const;
 	VAI_OBJBASE* GetFort();
 };
 

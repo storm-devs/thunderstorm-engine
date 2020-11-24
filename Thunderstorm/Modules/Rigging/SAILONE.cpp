@@ -528,8 +528,7 @@ void SAILONE::FillVertex(SAILVERTEX* pv)
 	}
 }
 
-void SAILONE::SetTexGrid(SAILVERTEX* pv)
-{
+void SAILONE::SetTexGrid(SAILVERTEX* pv) const {
 	uint32_t ix, iy, idx;
 	float kx1, ky1, kx2, ky2, tvbeg1, tvbeg2;
 	float tu1, tu2;

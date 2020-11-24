@@ -32,13 +32,13 @@ public:
 
 	void Add(long mainChrIndex, long chIdx, ATTRIBUTES* pChAttr, ATTRIBUTES* pShipAttr, bool bMyShip, long relation,
 	         uint32_t dwShipColor);
-	SHIP_DESCR* GetMainCharacterShip() { return mainCharacter; }
-	ATTRIBUTES* GetMainCharacterShipAttr() { return pMainShipAttr; }
+	SHIP_DESCR* GetMainCharacterShip() const { return mainCharacter; }
+	ATTRIBUTES* GetMainCharacterShipAttr() const { return pMainShipAttr; }
 	void Release(long charIdx);
 	void ShipSink(long charIdx);
 	void ReleaseAll();
-	SHIP_DESCR* FindShip(long idxCharacter);
-	SHIP_DESCR* GetShipRoot() { return root; }
+	SHIP_DESCR* FindShip(long idxCharacter) const;
+	SHIP_DESCR* GetShipRoot() const { return root; }
 	void Refresh();
 
 protected:

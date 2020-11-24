@@ -168,8 +168,7 @@ void SeaLocatorShow::Realize(uint32_t Delta_Time)
 	ProcessLocators(pALocators);
 }
 
-void SeaLocatorShow::Execute(uint32_t Delta_Time)
-{
+void SeaLocatorShow::Execute(uint32_t Delta_Time) const {
 	if (!pALocators) return;
 }
 

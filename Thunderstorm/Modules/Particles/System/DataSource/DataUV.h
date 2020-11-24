@@ -28,14 +28,14 @@ public:
 	void SetValues(const Vector4* _Frames, uint32_t FramesCount);
 
 	//Получить кол-во кадров
-	uint32_t GetFrameCount();
+	uint32_t GetFrameCount() const;
 
 
 	void Load(MemFile* File);
 	void Write(MemFile* File);
 
 	void SetName(const char* szName);
-	const char* GetName();
+	const char* GetName() const;
 };
 
 

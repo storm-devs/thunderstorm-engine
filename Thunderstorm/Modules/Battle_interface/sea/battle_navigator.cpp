@@ -83,8 +83,7 @@ BATTLE_NAVIGATOR::~BATTLE_NAVIGATOR()
 	ReleaseAll();
 }
 
-void BATTLE_NAVIGATOR::Draw()
-{
+void BATTLE_NAVIGATOR::Draw() const {
 	if (rs == nullptr) return;
 	int n;
 
@@ -359,8 +358,7 @@ void BATTLE_NAVIGATOR::Update()
 	SetAnotherShip();
 }
 
-void BATTLE_NAVIGATOR::UpdateFireRangeBuffer()
-{
+void BATTLE_NAVIGATOR::UpdateFireRangeBuffer() const {
 	auto* pv = (BI_NOTEXTURE_VERTEX *)rs->LockVertexBuffer(m_idFireZoneVBuf);
 	if (pv == nullptr) return;
 
@@ -376,8 +374,7 @@ void BATTLE_NAVIGATOR::UpdateFireRangeBuffer()
 	rs->UnLockVertexBuffer(m_idFireZoneVBuf);
 }
 
-void BATTLE_NAVIGATOR::FillOneSideFireRange(BI_NOTEXTURE_VERTEX* pv, ATTRIBUTES* pShip, ATTRIBUTES* pChar, const char* pstr)
-{
+void BATTLE_NAVIGATOR::FillOneSideFireRange(BI_NOTEXTURE_VERTEX* pv, ATTRIBUTES* pShip, ATTRIBUTES* pChar, const char* pstr) const {
 	if (pv == nullptr || pShip == nullptr || pChar == nullptr || pstr == nullptr) return;
 
   auto fDirAng = 0.f, fSizeAng = 0.f, fFireZone = 0.f;
@@ -754,8 +751,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER* RenderService, Entity* pOwnerEI)
 }
 
 long BATTLE_NAVIGATOR::SetRectangleVertexPos(BI_ONETEXTURE_VERTEX* v, float x, float y, float width, float height,
-                                             float angle)
-{
+                                             float angle) const {
 	if (v == nullptr) return 0;
 
 	if (angle == 0)
@@ -815,8 +811,7 @@ long BATTLE_NAVIGATOR::SetRectangleVertexTex(BI_ONETEXTURE_VERTEX* v, float x, f
 	return 4;
 }
 
-long BATTLE_NAVIGATOR::SetCircleVertexPos(BI_ONETEXTURE_VERTEX* v, float x, float y, float rad, float angle)
-{
+long BATTLE_NAVIGATOR::SetCircleVertexPos(BI_ONETEXTURE_VERTEX* v, float x, float y, float rad, float angle) const {
 	if (v == nullptr) return 0;
 
   auto addAngle = angle;

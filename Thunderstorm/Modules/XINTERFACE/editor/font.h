@@ -13,13 +13,13 @@ public:
 	GIFont(GIEditor* pEditor, const char* pcFontName);
 	~GIFont();
 
-	void Release();
+	void Release() const;
 
-	void Print(float x, float y, const char* pcFormat, ...);
+	void Print(float x, float y, const char* pcFormat, ...) const;
 	void PrintIntoWindow(const char* pcFormat, ...);
 
 	void SetHeight(float fHeight);
-	float GetHeight() { return m_fHeight; }
+	float GetHeight() const { return m_fHeight; }
 
 	void SetColor(uint32_t dwColor);
 	void SetBackColor(uint32_t dwColor);

@@ -103,7 +103,7 @@ public:
 	//Multiply
 	void operator *=(CMatrix& matrix);
 	void operator *=(float k);
-	CMatrix operator *(const CMatrix& matrix);
+	CMatrix operator *(const CMatrix& matrix) const;
 	CVECTOR operator *(const CVECTOR& vector);
 
 
@@ -435,8 +435,7 @@ inline void CMatrix::operator *=(float k)
 	m[3][3] *= k;
 }
 
-inline CMatrix CMatrix::operator *(const CMatrix& matrix)
-{
+inline CMatrix CMatrix::operator *(const CMatrix& matrix) const {
 	CMatrix tmp;
 	tmp.EqMultiply(*this, matrix);
 	return tmp;

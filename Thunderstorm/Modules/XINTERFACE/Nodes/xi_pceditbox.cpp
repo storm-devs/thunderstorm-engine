@@ -432,8 +432,7 @@ void CXI_PCEDITBOX::DisguiseString(std::string& str)
 		str[n] = '*';
 }
 
-bool CXI_PCEDITBOX::IsExcludeChar(char chr)
-{
+bool CXI_PCEDITBOX::IsExcludeChar(char chr) const {
 	char fndStr[2];
 	fndStr[0] = chr;
 	fndStr[1] = 0;

@@ -16,8 +16,8 @@ public:
 
 	void Render(long nBegPrior, long nEndPrior);
 
-	bool IsUseTexture(const char* pcTextureName) { return (m_sTextureName == pcTextureName); }
-	bool IsUseTechnique(const char* pcTechniqueName) { return (m_sTechniqueName == pcTechniqueName); }
+	bool IsUseTexture(const char* pcTextureName) const { return (m_sTextureName == pcTextureName); }
+	bool IsUseTechnique(const char* pcTechniqueName) const { return (m_sTechniqueName == pcTechniqueName); }
 
 	const BIImage* CreateImage(BIImageType type, uint32_t color, const FRECT& uv, long nLeft, long nTop, long nRight,
 	                           long nBottom, long nPrior);
@@ -28,13 +28,13 @@ public:
 
 	void UpdateFlagOn() { m_bMakeBufferUpdate = true; }
 
-	long GetImageQuantity() { return m_apImage.size(); }
+	long GetImageQuantity() const { return m_apImage.size(); }
 	void ReleaseAllImages();
 
-	long GetMinPrioritet() { return m_nMinPrioritet; }
-	long GetMaxPrioritet() { return m_nMaxPrioritet; }
+	long GetMinPrioritet() const { return m_nMinPrioritet; }
+	long GetMaxPrioritet() const { return m_nMaxPrioritet; }
 
-	BIImageRender* GetImgRender() { return m_pImageRender; }
+	BIImageRender* GetImgRender() const { return m_pImageRender; }
 
 protected:
 	void Release();

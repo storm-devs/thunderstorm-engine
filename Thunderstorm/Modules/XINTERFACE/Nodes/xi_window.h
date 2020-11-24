@@ -15,10 +15,10 @@ public:
 	void SaveParametersToIni() override;
 
 	void SetShow(bool bShow);
-	bool GetShow() { return m_bShow; }
+	bool GetShow() const { return m_bShow; }
 
 	void SetActive(bool bActive);
-	bool GetActive() { return m_bActive; }
+	bool GetActive() const { return m_bActive; }
 
 	void AddNode(const char* pcNodeName);
 

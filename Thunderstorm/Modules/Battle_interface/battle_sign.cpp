@@ -330,8 +330,7 @@ void BISignIcon::UpdateBuffers(long nQ)
 	FillVertexBuffer();
 }
 
-void BISignIcon::FillIndexBuffer()
-{
+void BISignIcon::FillIndexBuffer() const {
 	if (m_nIBufID < 0) return;
 	auto* pI = (uint16_t*)m_pRS->LockIndexBuffer(m_nIBufID);
 	if (pI)

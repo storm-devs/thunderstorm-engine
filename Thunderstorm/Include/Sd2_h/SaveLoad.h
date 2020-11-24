@@ -25,8 +25,7 @@ public:
 		Close();
 	}
 
-	void Close()
-	{
+	void Close() const {
 		if (bSave)
 		{
 			const auto size = dwCurSize * 2 + 8 + 1;

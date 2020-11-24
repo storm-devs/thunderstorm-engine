@@ -275,8 +275,7 @@ void ShipInfoImages::UpdateShipData(long nShipNum, SHIP_DESCRIBE_LIST::SHIP_DESC
 	                  GetProgressCrew(pSD));
 }
 
-bool ShipInfoImages::IsEnableShowShipInfo(SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD)
-{
+bool ShipInfoImages::IsEnableShowShipInfo(SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD) const {
 	if (!pSD) return false;
 	if (pSD->isDead) return false;
 
@@ -288,8 +287,7 @@ bool ShipInfoImages::IsEnableShowShipInfo(SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD)
 	return true;
 }
 
-const FRECT& ShipInfoImages::GetUVForRelation(long nRelation)
-{
+const FRECT& ShipInfoImages::GetUVForRelation(long nRelation) const {
 	switch (nRelation)
 	{
 	case 1: return m_uvRelation[0];
@@ -346,8 +344,7 @@ void ShipInfoImages::CalculateDirectingVectors(const CVECTOR& pos)
 }
 
 void ShipInfoImages::WriteSquareVertex(SII_VERTEX* pV, const CVECTOR& center, const CVECTOR& offset, const FPOINT& size,
-                                       const FRECT& uv, float fProgress)
-{
+                                       const FRECT& uv, float fProgress) const {
 	CVECTOR vVert = size.y * m_vUpDir;
 
 	// left side

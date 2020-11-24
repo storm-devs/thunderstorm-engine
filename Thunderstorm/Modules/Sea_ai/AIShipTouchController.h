@@ -39,7 +39,7 @@ public:
 
 	// get/set our ship pointer
 	void SetAIShip(AIShip* pShip) { pOurAIShip = pShip; }
-	AIShip* GetAIShip() { return pOurAIShip; }
+	AIShip* GetAIShip() const { return pOurAIShip; }
 
 	// ctor/dtor section
 	AIShipTouchController(AIShip* _pAIShip);

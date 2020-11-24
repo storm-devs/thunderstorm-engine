@@ -35,7 +35,7 @@ public:
 	//Установить время жизни
 	void SetLiveTime(float time);
 	//Получить время жизни
-	float GetLiveTime();
+	float GetLiveTime() const;
 
 	bool isEnableKill;
 	bool isEnemy; //Если установлен, то атакует нас
@@ -49,7 +49,7 @@ public:
 	bool canSkip;
 
 	//Получить имя атрибута
-	const char* GetAttributeName();
+	const char* GetAttributeName() const;
 
 protected:
 	//Найти силу притягивающую в нужном направлении
@@ -92,8 +92,7 @@ private:
 };
 
 //Получить время жизни
-inline float WdmEnemyShip::GetLiveTime()
-{
+inline float WdmEnemyShip::GetLiveTime() const {
 	if (!isEnableKill) return -1.0f;
 	return liveTime >= 0.0f ? liveTime : 0.0f;
 }

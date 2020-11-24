@@ -82,8 +82,7 @@ void DataColor::SetValues(const ColorVertex* Values, uint32_t Count)
 }
 
 //Получить кол-во значений
-uint32_t DataColor::GetValuesCount()
-{
+uint32_t DataColor::GetValuesCount() const {
 	return ColorGraph.size();
 }
 
@@ -139,8 +138,7 @@ void DataColor::SetName(const char* szName)
 	Name = szName;
 }
 
-const char* DataColor::GetName()
-{
+const char* DataColor::GetName() const {
 	return Name.c_str();
 }
 

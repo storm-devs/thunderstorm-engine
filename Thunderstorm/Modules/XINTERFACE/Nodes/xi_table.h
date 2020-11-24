@@ -45,7 +45,7 @@ public:
 
 	void Draw(float fLeft, float fTop);
 	void SetData(long nColIndex, ATTRIBUTES* pAttr, bool bHeader);
-	void LoadImageParam(ImgDescribe* pImg, ATTRIBUTES* pA);
+	void LoadImageParam(ImgDescribe* pImg, ATTRIBUTES* pA) const;
 
 protected:
 	CXI_TABLE* m_pTable;
@@ -77,10 +77,10 @@ public:
 	void SetOwners(CXI_TABLE* pTable) { m_pTable = pTable; }
 
 	void Draw(float fTop);
-	void DrawSpecColor(float fTop);
+	void DrawSpecColor(float fTop) const;
 	void SetData(long nRowIndex, ATTRIBUTES* pLA, bool bHeader);
 
-	long GetLineHeight();
+	long GetLineHeight() const;
 	void SetLineHeight(long nHeight) { m_nHeight = nHeight; }
 
 protected:
@@ -126,8 +126,7 @@ public:
 
 	void ScrollerChanged(float fRelativeScrollPos);
 
-	float GetLineStep()
-	{
+	float GetLineStep() const {
 		if (m_nLineQuantity <= 0) return 0.f;
 		if (m_nLineQuantity > 1) return 1.f / (float)(m_nLineQuantity - 1);
 		return 1.f;
@@ -136,7 +135,7 @@ public:
 protected:
 	void LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2) override;
 	void UpdateBorders();
-	void WriteSquare(XI_ONETEX_VERTEX* pV, long nImgID, uint32_t dwCol, long nX, long nY, long nW, long nH);
+	void WriteSquare(XI_ONETEX_VERTEX* pV, long nImgID, uint32_t dwCol, long nX, long nY, long nW, long nH) const;
 	void UpdateTableCells();
 	long GetLineByPoint(const FXYPOINT& pnt);
 	long GetColByX(long x);
@@ -150,7 +149,7 @@ protected:
 	void UpdateSelectImage();
 	void UpdateLineQuantity();
 	void SetTopIndex(long nTopIndex);
-	void UpdateScroller();
+	void UpdateScroller() const;
 	void RecalculateLineHeights();
 
 	bool m_bFirstFrame;

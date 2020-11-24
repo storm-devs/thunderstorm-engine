@@ -36,8 +36,7 @@ void XI_TableLineDescribe::Draw(float fTop)
 	}
 }
 
-void XI_TableLineDescribe::DrawSpecColor(float fTop)
-{
+void XI_TableLineDescribe::DrawSpecColor(float fTop) const {
 	if (m_bUseSpecColor)
 	{
 		XI_NOTEX_VERTEX v[4];
@@ -103,8 +102,7 @@ void XI_TableLineDescribe::SetData(long nRowIndex, ATTRIBUTES* pLA, bool bHeader
 	}
 }
 
-long XI_TableLineDescribe::GetLineHeight()
-{
+long XI_TableLineDescribe::GetLineHeight() const {
 	if (!m_pTable) return 0;
 	if (m_pTable->m_bVariableLineHeight) return m_nHeight;
 	if (m_nRowIndex < 0 && m_nRowIndex >= m_pTable->m_anRowsHeights.size()) return 0;
@@ -279,8 +277,7 @@ void XI_TableCellDescribe::SetData(long nColIndex, ATTRIBUTES* pAttr, bool bHead
 	}
 }
 
-void XI_TableCellDescribe::LoadImageParam(ImgDescribe* pImg, ATTRIBUTES* pA)
-{
+void XI_TableCellDescribe::LoadImageParam(ImgDescribe* pImg, ATTRIBUTES* pA) const {
 	Assert(pImg && pA);
 	const char* pcStr;
 	long nW, nH, nImgAlign;
@@ -1071,8 +1068,7 @@ void CXI_TABLE::UpdateBorders()
 	m_rs->UnLockVertexBuffer(m_idBorderVBuf);
 }
 
-void CXI_TABLE::WriteSquare(XI_ONETEX_VERTEX* pV, long nImgID, uint32_t dwCol, long nX, long nY, long nW, long nH)
-{
+void CXI_TABLE::WriteSquare(XI_ONETEX_VERTEX* pV, long nImgID, uint32_t dwCol, long nX, long nY, long nW, long nH) const {
 	if (!pV) return;
 
 	FXYRECT uv;
@@ -1372,8 +1368,7 @@ void CXI_TABLE::SetTopIndex(long nTopIndex)
 	if (pA) pA->SetAttributeUseDword("top", nTopIndex);
 }
 
-void CXI_TABLE::UpdateScroller()
-{
+void CXI_TABLE::UpdateScroller() const {
 	if (m_sScrollerName.empty()) return;
 	CINODE* pNode = ptrOwner->FindNode(m_sScrollerName.c_str(), nullptr);
 	if (!pNode || pNode->m_nNodeType != NODETYPE_SCROLLER) return;

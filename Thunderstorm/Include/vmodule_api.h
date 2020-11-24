@@ -52,14 +52,14 @@ public:
 		//_pModuleClassRoot = this;
 	}
 	;
-	VMA* Next() { return pNext; }
+	VMA* Next() const { return pNext; }
 
 	virtual ~VMA()
 	{
 	};
 	long Build_Version() { return -1; };
 	void SetHash(long _hash) { nHash = _hash; }
-	long GetHash() { return nHash; }
+	long GetHash() const { return nHash; }
 	void Set(VMA* _p) { pNext = _p; };
 	virtual bool Service() { return false; }
 	virtual const char* GetName() { return nullptr; }

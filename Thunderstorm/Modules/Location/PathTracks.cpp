@@ -95,8 +95,7 @@ void PathTracks::Draw(VDX9RENDER* render)
 }
 
 //Получить точку трека
-bool PathTracks::GetPoint(float index, Vector& cp, Quaternion& cq)
-{
+bool PathTracks::GetPoint(float index, Vector& cp, Quaternion& cq) const {
 	Assert(point);
 	if (index < 0.0 || index >= 1.f) return false;
 	index *= numPoints;

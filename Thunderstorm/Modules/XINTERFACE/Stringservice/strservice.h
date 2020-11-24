@@ -49,8 +49,8 @@ public:
 
 protected:
 	void LoadIni();
-	long GetFreeUsersID();
-	bool GetNextUsersString(char* src, long& idx, char* * strName, char* * strData);
+	long GetFreeUsersID() const;
+	bool GetNextUsersString(char* src, long& idx, char* * strName, char* * strData) const;
 
 protected:
 	char* m_sLanguage;

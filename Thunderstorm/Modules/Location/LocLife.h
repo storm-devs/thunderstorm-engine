@@ -43,11 +43,11 @@ protected:
 protected:
 	void StartMove();
 	void StopMove();
-	bool IsNearPlayer(float radius);
+	bool IsNearPlayer(float radius) const;
 
 private:
 	long FindPos();
-	long FindRandomPos(CVECTOR& pos);
+	long FindRandomPos(CVECTOR& pos) const;
 
 
 	//--------------------------------------------------------------------------------------------

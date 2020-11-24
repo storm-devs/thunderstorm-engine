@@ -26,13 +26,13 @@ public:
 	void RemoveString(long nIndex);
 	void RemoveAllStrings();
 	long FindString(const std::string& sStr);
-	long GetStringQuantity() { return m_aStrings.size(); }
+	long GetStringQuantity() const { return m_aStrings.size(); }
 	std::string& GetString(long nIndex);
-	long GetSelectIndex() { return m_nSelectIndex; }
+	long GetSelectIndex() const { return m_nSelectIndex; }
 	void SetSelectIndex(long nIndex);
 	std::string& GetSelectString() { return GetString(m_nSelectIndex); }
 
-	bool CheckMouseInside(float fX, float fY);
+	bool CheckMouseInside(float fX, float fY) const;
 	void MakeMouseClick(float fX, float fY);
 	void DoKeyChecking();
 

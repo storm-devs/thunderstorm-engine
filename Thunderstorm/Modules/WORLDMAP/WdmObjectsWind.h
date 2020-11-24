@@ -179,8 +179,7 @@ public:
 	}
 
 	//Получить ветер в заданной точке
-	void GetWind(float x, float z, float& wx, float& wz)
-	{
+	void GetWind(float x, float z, float& wx, float& wz) const {
 		//Получаем координаты в системе поля
 		x = (x - baseX) * kX + 1.0f;
 		z = (z - baseZ) * kZ + 1.0f;

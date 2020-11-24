@@ -83,7 +83,7 @@ class Character : public Entity
 		Blender();
 		void Blend(float _old, float _new, float _time);
 		bool Update(float dltTime);
-		float Get();
+		float Get() const;
 
 		float old;
 		float dlt;
@@ -118,7 +118,7 @@ class Character : public Entity
 		Character* character;
 		bool isVisible;
 
-		float GetAlpha();
+		float GetAlpha() const;
 	};
 
 
@@ -220,7 +220,7 @@ public:
 	//--------------------------------------------------------------------------------------------
 public:
 	//Получить модельку персонажа
-	MODEL* Model();
+	MODEL* Model() const;
 
 	//Переместить модельку в точку x, y, z
 	bool Teleport(float x, float y, float z);
@@ -270,35 +270,35 @@ public:
 	//Направить персонажа по углу
 	void Turn(float _ay);
 	//Узнать направление
-	float GetAY();
+	float GetAY() const;
 	//Установить режим бега
 	void SetRunMode(bool _isRun = true);
 	//Двигаемся ли
-	bool IsMove();
+	bool IsMove() const;
 	//Узнать режим бега
-	bool IsRun();
+	bool IsRun() const;
 	//Плывём ли
-	bool IsSwim();
+	bool IsSwim() const;
 	//Установить режим боя
 	bool SetFightMode(bool _isFight, bool isPlayAni = true);
 	//Проверить, можно ли переходить в режим боя
-	bool IsFightEnable();
+	bool IsFightEnable() const;
 	//Узнать режим боя
-	bool IsFight();
+	bool IsFight() const;
 	//В данный момент идёт выбор цели для выстрела (игроком)
-	bool IsFireFindTarget();
+	bool IsFireFindTarget() const;
 	//В диаалоге
-	bool IsDialog();
+	bool IsDialog() const;
 	//Получить высоту персонажа
-	float GetHeight();
+	float GetHeight() const;
 	//Получить позицию персонажа
-	void GetPosition(CVECTOR& pos);
+	void GetPosition(CVECTOR& pos) const;
 	//Получить позицию персонажа
-	void GetGrassPosition(CVECTOR& pos, CVECTOR& gpos);
+	void GetGrassPosition(CVECTOR& pos, CVECTOR& gpos) const;
 	//Установить флажёк хождения по траве
 	void SetGrassSound();
 	//Получить максимальный радиус персонажа
-	float GetRadius();
+	float GetRadius() const;
 	//Атаковать
 	void Attack(Character* enemy, FightAction type);
 	//Блок
@@ -316,7 +316,7 @@ public:
 	//Выстрел
 	void Fire();
 	//Проверить, заряжен ли пистолет
-	bool IsGunLoad();
+	bool IsGunLoad() const;
 	//Смерть
 	void Dead();
 	//Заход в локацию
@@ -324,12 +324,12 @@ public:
 	//Выход из локации
 	void ExitFromLocation();
 	//Может уже умер
-	bool IsDead();
+	bool IsDead() const;
 	//прыжок
 	void StartJump();
 
 	//Есть ли оружие
-	bool IsSetBlade();
+	bool IsSetBlade() const;
 
 	//Установить прозрачность персонажу
 	void SetCameraAlpha(float alpha);
@@ -343,7 +343,7 @@ public:
 	//Заблокировать вращение персонажа за камерой
 	void LockRotate(bool isLock);
 	//Отросительная скорость поворота камеры
-	float CameraTurnSpeed();
+	float CameraTurnSpeed() const;
 	//Просмотр из глаз
 	void LookFromEyes(bool isLook);
 
@@ -429,7 +429,7 @@ private:
 	//Получить направление на противника для подскока при ударе
 	CVECTOR GetEnemyDirForImpulse();
 
-	bool PriorityActionIsJump();
+	bool PriorityActionIsJump() const;
 
 protected:
 	//Найти персонажа в которого попали из пистолета kDist = 1..0
@@ -708,51 +708,43 @@ inline void Character::AlreadySTORM_DELETE()
 }
 
 //Узнать направление
-inline float Character::GetAY()
-{
+inline float Character::GetAY() const {
 	return ay;
 }
 
 //Узнать режим бега
-inline bool Character::IsRun()
-{
+inline bool Character::IsRun() const {
 	return isRun && !isRunDisable;
 }
 
 //Плывём ли
-inline bool Character::IsSwim()
-{
+inline bool Character::IsSwim() const {
 	return isSwim;
 }
 
 //Узнать режим боя
-inline bool Character::IsFight()
-{
+inline bool Character::IsFight() const {
 	return isFight;
 }
 
 //В диаалоге
-inline bool Character::IsDialog()
-{
+inline bool Character::IsDialog() const {
 	return isDialog;
 }
 
 //Получить высоту персонажа
-inline float Character::GetHeight()
-{
+inline float Character::GetHeight() const {
 	return height;
 }
 
 //Получить позицию персонажа
-inline void Character::GetPosition(CVECTOR& pos)
-{
+inline void Character::GetPosition(CVECTOR& pos) const {
 	pos = curPos;
 	if (isSwim) pos.y = seaY;
 }
 
 //Получить позицию персонажа
-inline void Character::GetGrassPosition(CVECTOR& pos, CVECTOR& gpos)
-{
+inline void Character::GetGrassPosition(CVECTOR& pos, CVECTOR& gpos) const {
 	pos = curPos;
 	gpos = grsPos;
 }
@@ -764,8 +756,7 @@ inline void Character::SetGrassSound()
 }
 
 //Получить максимальный радиус персонажа
-inline float Character::GetRadius()
-{
+inline float Character::GetRadius() const {
 	return radius;
 }
 
@@ -778,8 +769,7 @@ inline void Character::SetCameraAlpha(float alpha)
 }
 
 //Двигаемся ли
-inline bool Character::IsMove()
-{
+inline bool Character::IsMove() const {
 	return isMove;
 }
 
@@ -808,8 +798,7 @@ inline void Character::LockRotate(bool isLock)
 }
 
 //Отросительная скорость поворота камеры
-inline float Character::CameraTurnSpeed()
-{
+inline float Character::CameraTurnSpeed() const {
 	if (camRotWait <= 0.0f || camRotMax <= 0.0f) return 1.0f;
   auto k = camRotWait / camRotMax;
 	if (k > 1.0f) k = 1.0f;
@@ -823,19 +812,16 @@ inline void Character::LookFromEyes(bool isLook)
 }
 
 //Может уже умер
-inline bool Character::IsDead()
-{
+inline bool Character::IsDead() const {
 	return (liveValue < 0 || deadName);
 }
 
 //Есть ли оружие
-inline bool Character::IsSetBlade()
-{
+inline bool Character::IsSetBlade() const {
 	return isBladeSet | isFightWOWps;
 }
 
-inline bool Character::PriorityActionIsJump()
-{
+inline bool Character::PriorityActionIsJump() const {
 	return (priorityAction.name && (_stricmp(priorityAction.name, jump.name) == 0 || _stricmp(
 		priorityAction.name, fall.name) == 0));
 }

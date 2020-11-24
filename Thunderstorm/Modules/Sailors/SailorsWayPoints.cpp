@@ -4,8 +4,7 @@
 
 //--------------------------------------------------------------------------------------------------------------
 
-bool Point::IsMast()
-{
+bool Point::IsMast() const {
 	return (pointType == PT_TYPE_MAST_1 ||
 		pointType == PT_TYPE_MAST_2 ||
 		pointType == PT_TYPE_MAST_3 ||
@@ -15,8 +14,7 @@ bool Point::IsMast()
 
 //--------------------------------------------------------------------------------------------------------------
 
-bool Point::IsCannon()
-{
+bool Point::IsCannon() const {
 	return (pointType == PT_TYPE_CANNON_L ||
 		pointType == PT_TYPE_CANNON_R ||
 		pointType == PT_TYPE_CANNON_F ||
@@ -25,8 +23,7 @@ bool Point::IsCannon()
 
 //--------------------------------------------------------------------------------------------------------------
 
-bool Point::IsNormal()
-{
+bool Point::IsNormal() const {
 	return (pointType == PT_TYPE_NORMAL);
 };
 

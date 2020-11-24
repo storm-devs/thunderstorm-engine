@@ -86,12 +86,12 @@ public:
 	long FindModel(const char* modelName);
 
 	//Проверить на правильность индекс
-	bool IsValidateIndex(long index);
+	bool IsValidateIndex(long index) const;
 	//Получить название модели
 	const char* GetModelName(long index);
 
 	//Количество моделий
-	long Models();
+	long Models() const;
 	//Получение ID модели по индексу
 	entid_t ID(long modelIndex);
 	//Получение модели по индексу
@@ -120,7 +120,7 @@ public:
 	bool VisibleTest(const CVECTOR& p1, const CVECTOR& p2);
 	//Протрейсит луч через локацию
 	float Trace(const CVECTOR& src, const CVECTOR& dst);
-	bool GetCollideTriangle(TRIANGLE& trg);
+	bool GetCollideTriangle(TRIANGLE& trg) const;
 	void Clip(PLANE* p, long numPlanes, CVECTOR& cnt, float rad, bool (* fnc)(const CVECTOR* vtx, long num));
 
 	//--------------------------------------------------------------------------------------------
@@ -146,8 +146,7 @@ public:
 };
 
 //Проверить на правильность индекс
-inline bool ModelArray::IsValidateIndex(long index)
-{
+inline bool ModelArray::IsValidateIndex(long index) const {
 	return index >= 0 && index < numModels;
 }
 

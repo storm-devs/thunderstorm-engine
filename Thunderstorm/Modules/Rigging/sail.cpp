@@ -1967,8 +1967,7 @@ void sailPrint(VDX9RENDER* rs, const CVECTOR& pos3D, float rad, long line, const
 	rs->ExtPrint(FONT_DEFAULT, color, 0x00000000, PR_ALIGN_CENTER, false, 1.0f, 0, 0, long(vrt.x), long(vrt.y), buf);
 }
 
-SAILONE* SAIL::FindSailFromData(int gn, const char* nodeName, const char* grName)
-{
+SAILONE* SAIL::FindSailFromData(int gn, const char* nodeName, const char* grName) const {
 	if (nodeName == nullptr || grName == nullptr) return nullptr;
 	int grNum;
 	sscanf(grName, "%d", &grNum);
@@ -1983,8 +1982,7 @@ SAILONE* SAIL::FindSailFromData(int gn, const char* nodeName, const char* grName
 	return nullptr;
 }
 
-void SAIL::SetSailTextures(long grNum, VDATA* pvd)
-{
+void SAIL::SetSailTextures(long grNum, VDATA* pvd) const {
 	if (grNum < 0 || grNum >= groupQuantity || pvd == nullptr) return;
 
 	ATTRIBUTES* pA = pvd->GetAClass();
@@ -2034,8 +2032,7 @@ void SAIL::SetSailTextures(long grNum, VDATA* pvd)
 	}
 }
 
-int SAIL::FindGroupForCharacter(int chrIdx)
-{
+int SAIL::FindGroupForCharacter(int chrIdx) const {
 	for (int gn = 0; gn < groupQuantity; gn++)
 	{
 		if (gdata[gn].bDeleted || !gdata[gn].bYesShip) continue;
@@ -2047,8 +2044,7 @@ int SAIL::FindGroupForCharacter(int chrIdx)
 	return -1;
 }
 
-int SAIL::GetCharacterForGroup(int grNum)
-{
+int SAIL::GetCharacterForGroup(int grNum) const {
 	ATTRIBUTES* pA = nullptr;
 	if (gdata[grNum].bYesShip)
 		pA = ((VAI_OBJBASE*)EntityManager::GetEntityPointer(gdata[grNum].shipEI))->GetACharacter();
@@ -2120,8 +2116,7 @@ void SAIL::RestoreRender()
 	}
 }
 
-int SAIL::GetSailStateForCharacter(int chrIdx)
-{
+int SAIL::GetSailStateForCharacter(int chrIdx) const {
 	int gn = FindGroupForCharacter(chrIdx);
 	if (gn < 0 || gn >= groupQuantity) return 0;
 	switch (gdata[gn].curSailSet)

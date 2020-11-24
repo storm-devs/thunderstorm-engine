@@ -458,8 +458,7 @@ long PtcData::Move(long curNode, const CVECTOR& to, CVECTOR& pos, long depth)
 }
 
 //Получить нормаль к ноду
-void PtcData::GetNodeNormal(long curNode, CVECTOR& n)
-{
+void PtcData::GetNodeNormal(long curNode, CVECTOR& n) const {
 	if (curNode >= 0)
 	{
 		Assert(curNode < numTriangles);
@@ -574,8 +573,7 @@ CVECTOR PtcData::FindEdgePoint(const CVECTOR& vs, const CVECTOR& ve, const CVECT
 }
 
 //Найти пересечение с патчём
-float PtcData::Trace(const CVECTOR& s, const CVECTOR& d)
-{
+float PtcData::Trace(const CVECTOR& s, const CVECTOR& d) const {
 	//Область описывающая отрезок
 	float k = 2.0f;
 	CVECTOR pmin = s;
@@ -611,8 +609,7 @@ float PtcData::Trace(const CVECTOR& s, const CVECTOR& d)
 }
 
 //Проверить пересечение треугольника с отрезком
-float PtcData::Trace(PtcTriangle& trg, const CVECTOR& s, const CVECTOR& d)
-{
+float PtcData::Trace(PtcTriangle& trg, const CVECTOR& s, const CVECTOR& d) const {
 	//Нормаль к треугольнику
 	CVECTOR& n = *(CVECTOR *)&normal[trg.n];
 	//Дистанция до треугольника
@@ -646,8 +643,7 @@ float PtcData::Trace(PtcTriangle& trg, const CVECTOR& s, const CVECTOR& d)
 }
 
 //Найти силу отталкивающую от краёв
-void PtcData::FindForce(long curNode, CVECTOR& force)
-{
+void PtcData::FindForce(long curNode, CVECTOR& force) const {
 	force = 0.0f;
 	if (curNode < 0 || curNode >= numTriangles) return;
 	short* nb = triangle[curNode].nb;
@@ -674,8 +670,7 @@ void PtcData::FindForce(long curNode, CVECTOR& force)
 }
 
 //Найти силу отталкивающую от краёв
-void PtcData::FindForce(long curNode, const CVECTOR& pos, float dist, CVECTOR& force)
-{
+void PtcData::FindForce(long curNode, const CVECTOR& pos, float dist, CVECTOR& force) const {
 	force = 0.0f;
 	if (curNode < 0 || curNode >= numTriangles) return;
 	short* nb = triangle[curNode].nb;

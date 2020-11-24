@@ -101,9 +101,9 @@ private:
 	VDX9RENDER* rs;
 	COLLIDE* cs;
 
-	void GenerateRandomDrop(CVECTOR* vPos);
+	void GenerateRandomDrop(CVECTOR* vPos) const;
 	void GenerateRain();
-	void InitialSomeBlockParameters(long iIdx);
+	void InitialSomeBlockParameters(long iIdx) const;
 	void Release();
 	void RealizeDrops(uint32_t Delta_Time);
 

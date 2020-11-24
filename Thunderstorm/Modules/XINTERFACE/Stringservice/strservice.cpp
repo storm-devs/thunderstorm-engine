@@ -689,8 +689,7 @@ char* STRSERVICE::TranslateFromUsers(long id, const char* inStr)
 	return nullptr;
 }
 
-long STRSERVICE::GetFreeUsersID()
-{
+long STRSERVICE::GetFreeUsersID() const {
 	int id;
 	for (id = 0;; id++)
 	{
@@ -702,8 +701,7 @@ long STRSERVICE::GetFreeUsersID()
 	return id;
 }
 
-bool STRSERVICE::GetNextUsersString(char* src, long& idx, char* * strName, char* * strData)
-{
+bool STRSERVICE::GetNextUsersString(char* src, long& idx, char* * strName, char* * strData) const {
 	char* tmpStr;
 	char* dataBeg;
 	char* dataEnd;

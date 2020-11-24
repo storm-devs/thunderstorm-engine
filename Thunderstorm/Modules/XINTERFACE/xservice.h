@@ -34,7 +34,7 @@ public:
 
 	// get texture identificator for image group
 	long GetTextureID(const char* sImageListName) override;
-	long FindGroup(const char* sImageListName);
+	long FindGroup(const char* sImageListName) const;
 	bool ReleaseTextureID(const char* sImageListName) override;
 
 	// get texture positon for select picture

@@ -42,7 +42,7 @@ public:
 	void SetDevice();
 
 	void Realize(uint32_t Delta_Time);
-	void Execute(uint32_t Delta_Time);
+	void Execute(uint32_t Delta_Time) const;
 
 	bool CreateState(ENTITY_STATE_GEN* state_gen);
 	bool LoadState(ENTITY_STATE* state);

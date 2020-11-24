@@ -20,18 +20,18 @@ public:
 	virtual ~DataFloat();
 
 	//Получить значение
-	float GetValue();
+	float GetValue() const;
 
 	//Установить значение
 	void SetValue(float val);
 
 
 	void Load(MemFile* File);
-	void Write(MemFile* File);
+	void Write(MemFile* File) const;
 
 
 	void SetName(const char* szName);
-	const char* GetName();
+	const char* GetName() const;
 };
 
 

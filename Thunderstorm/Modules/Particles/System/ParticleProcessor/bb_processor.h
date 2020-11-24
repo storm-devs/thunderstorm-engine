@@ -21,7 +21,7 @@ class ParticleSystem;
 class BillBoardProcessor
 {
 	static IDirect3DVertexDeclaration9* vertexDecl_;
-	void CreateVertexDeclaration();
+	void CreateVertexDeclaration() const;
 
 	struct RECT_VERTEX
 	{
@@ -66,8 +66,8 @@ class BillBoardProcessor
 	static BOOL CompareFunction(BB_ParticleData* e1, BB_ParticleData* e2);
 
 
-	BB_ParticleData* AllocParticle();
-	void FreeParticle(BB_ParticleData* pItem);
+	BB_ParticleData* AllocParticle() const;
+	void FreeParticle(BB_ParticleData* pItem) const;
 
 
 public:
@@ -82,7 +82,7 @@ public:
 	void Process(float DeltaTime);
 	void Draw();
 
-	uint32_t GetCount();
+	uint32_t GetCount() const;
 
 	void DeleteWithGUID(uint32_t dwGUID, uint32_t GUIDRange = GUIDSTEP);
 

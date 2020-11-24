@@ -50,7 +50,7 @@ public:
 	virtual ~WdmShip();
 
 	void Teleport(float x, float z, float ay);
-	void GetPosition(float& x, float& z, float& ay);
+	void GetPosition(float& x, float& z, float& ay) const;
 	void SetMaxSpeed(float k);
 
 	bool Load(const char* modelName) override;

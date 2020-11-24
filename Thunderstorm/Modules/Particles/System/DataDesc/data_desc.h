@@ -23,9 +23,9 @@ public:
 
 	void AddField(FieldType Type, const char* Name);
 
-	const char* GetFieldName(uint32_t Index);
-	FieldType GetFieldType(uint32_t Index);
-	int GetFieldCount();
+	const char* GetFieldName(uint32_t Index) const;
+	FieldType GetFieldType(uint32_t Index) const;
+	int GetFieldCount() const;
 
 	void Clear();
 

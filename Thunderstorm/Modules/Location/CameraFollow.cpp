@@ -178,8 +178,7 @@ void CameraFollow::BornCamera()
 }
 
 //Вычислить позицию камеры для данного угла
-void CameraFollow::CalcPosition(float ang, float radius, float dax, CVECTOR& pos)
-{
+void CameraFollow::CalcPosition(float ang, float radius, float dax, CVECTOR& pos) const {
 	//Откуда смотрим
   auto ax = -lc->ax + dax;
 	pos.x = lc->pos.x - radius * cosf(ax) * sinf(ang);
@@ -236,8 +235,7 @@ void CameraFollow::DrawDebug()
 }
 
 //
-float CameraFollow::FindRadius(float curAng)
-{
+float CameraFollow::FindRadius(float curAng) const {
 	static const auto pi = 3.14159265359f;
 	static const auto day = pi * 0.25f; //Отклонение по вертикали
 	static const auto dax = pi * 0.16f; //Отклонение по вертикали
@@ -610,8 +608,7 @@ float CameraFollow::Trace(const CVECTOR& src, const CVECTOR& dst)
 }
 
 //Протянуть луч с учётом cull
-inline float CameraFollow::SubTrace(const CVECTOR& src, const CVECTOR& dst)
-{
+inline float CameraFollow::SubTrace(const CVECTOR& src, const CVECTOR& dst) const {
 	TRIANGLE trg;
   auto k = lc->Trace(src, dst);
 	if (k > 1.0f || !lc->GetCollideTriangle(trg)) return 2.0f;

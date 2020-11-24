@@ -56,7 +56,7 @@ public:
 	//Найти пересечение с патчём
 	float Trace(const CVECTOR & s, const CVECTOR & d);
 	//Найти силу отталкивающую от краёв
-	void FindForce(long curNode, const CVECTOR & pos, float dist, CVECTOR & force);
+	void FindForce(long curNode, const CVECTOR & pos, float dist, CVECTOR & force) const;
 	//Получить материал нода
 	const char * GetMaterial(long curNode);
 

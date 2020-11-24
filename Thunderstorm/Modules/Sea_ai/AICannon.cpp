@@ -48,8 +48,7 @@ void AICannon::Execute(float fDeltaTime)
 	}
 }
 
-float AICannon::CalcHeightFireAngle(float _fSpeedV0, const CVECTOR& vOur, const CVECTOR& vEnemy)
-{
+float AICannon::CalcHeightFireAngle(float _fSpeedV0, const CVECTOR& vOur, const CVECTOR& vEnemy) const {
   auto vTemp = vOur - vEnemy;
 	vTemp.y = 0.0f;
 	double fDistance = sqrtf(~vTemp);
@@ -85,8 +84,7 @@ VAI_OBJBASE* AICannon::GetAIObjPointer() const
 	return (VAI_OBJBASE*)EntityManager::GetEntityPointer(GetParentEID());
 }
 
-float AICannon::GetDirY()
-{
+float AICannon::GetDirY() const {
 	CMatrix mRot;
   auto pAIObj = GetAIObjPointer();
 
@@ -96,16 +94,14 @@ float AICannon::GetDirY()
 	return NormalizeAngle(atan2f(vDirTemp.x, vDirTemp.z));
 }
 
-CVECTOR AICannon::GetDir()
-{
+CVECTOR AICannon::GetDir() const {
 	CMatrix mRot;
   auto pAIObj = GetAIObjPointer();
 	(*pAIObj->GetMatrix()).Get3X3(mRot);
 	return mRot * vDir;
 }
 
-CVECTOR AICannon::GetPos()
-{
+CVECTOR AICannon::GetPos() const {
 	return *GetAIObjPointer()->GetMatrix() * vPos;
 }
 
@@ -234,8 +230,7 @@ void AICannon::Init(AIAttributesHolder* _pAHolder, const entid_t eid, GEOS::LABE
 	//vDir = atan2f(m.Vz().x,m.Vz().z);
 }
 
-void AICannon::Save(CSaveLoad* pSL)
-{
+void AICannon::Save(CSaveLoad* pSL) const {
 	pSL->SaveVector(vPos);
 	pSL->SaveVector(vDir);
 	pSL->SaveFloat(fTime2Action);

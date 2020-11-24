@@ -29,9 +29,9 @@ public:
 	void SaveParametersToIni() override;
 	uint32_t MessageProc(long msgcode, MESSAGE& message) override;
 
-	void ChangeString(long num, const char* sValue);
-	void ChangeStringColor(long num, uint32_t dwColor);
-	void ChangeStringPos(long num, XYPOINT& pntNewPos);
+	void ChangeString(long num, const char* sValue) const;
+	void ChangeStringColor(long num, uint32_t dwColor) const;
+	void ChangeStringPos(long num, XYPOINT& pntNewPos) const;
 
 protected:
 	struct STRINGDESCR

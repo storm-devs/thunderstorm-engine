@@ -12,7 +12,7 @@ public:
 	~SHIPPOINTER();
 	bool Init() override;
 	void Execute(uint32_t delta_time);
-	void Realize(uint32_t delta_time);
+	void Realize(uint32_t delta_time) const;
 	uint64_t ProcessMessage(MESSAGE& message) override;
 
 	void ProcessStage(Stage stage, uint32_t delta) override
@@ -33,8 +33,8 @@ public:
 	}
 
 protected:
-	void UpdateShipPointer();
-	VAI_OBJBASE* FindShipByChrIndex(long chrIdx);
+	void UpdateShipPointer() const;
+	VAI_OBJBASE* FindShipByChrIndex(long chrIdx) const;
 
 	bool m_bVisible;
 	bool m_bFriend;

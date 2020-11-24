@@ -203,8 +203,7 @@ bool Character::Blender::Update(float dltTime)
 	return true;
 }
 
-float Character::Blender::Get()
-{
+float Character::Blender::Get() const {
 	return old + powf(time, 0.1f) * dlt;
 }
 
@@ -348,8 +347,7 @@ void Character::RTuner::Restore(MODEL* model, VDX9RENDER* rs)
 	rs->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
-float Character::RTuner::GetAlpha()
-{
+float Character::RTuner::GetAlpha() const {
   auto a = camAlpha * chrAlpha * alpha;
 	if (a > 1.0f) a = 1.0f;
 	if (a < 0.0f) a = 0.0f;
@@ -1027,8 +1025,7 @@ void Character::ReadFightActions(ATTRIBUTES* at, ActionCharacter actions[4], lon
 //Character model
 //============================================================================================
 
-MODEL* Character::Model()
-{
+MODEL* Character::Model() const {
 	return (MODEL *)EntityManager::GetEntityPointer(mdl);
 }
 
@@ -1282,8 +1279,7 @@ bool Character::SetFightMode(bool _isFight, bool isPlayAni)
 }
 
 //Проверить, можно ли переходить в режим боя
-bool Character::IsFightEnable()
-{
+bool Character::IsFightEnable() const {
 	//Спросим у скрипта о возможности стрельбы
 	VDATA* vd = api->Event("Location_CharacterIsFight", "i", GetId());
 	long res = 0;
@@ -1300,8 +1296,7 @@ bool Character::IsFightEnable()
 }
 
 //В данный момент идёт выбор цели для выстрела (игроком)
-bool Character::IsFireFindTarget()
-{
+bool Character::IsFireFindTarget() const {
 	if (!priorityAction.name || !shot.name) return false;
 	if (_stricmp(priorityAction.name, shot.name) == 0) return !isFired;
 	return false;
@@ -1652,8 +1647,7 @@ void Character::Fire()
 }
 
 //Проверить, заряжен ли пистолет
-bool Character::IsGunLoad()
-{
+bool Character::IsGunLoad() const {
 	if (!isGunSet) return false;
 	if (!isFight || liveValue < 0 || deadName) return false;
 	//Спросим у скрипта о возможности стрельбы

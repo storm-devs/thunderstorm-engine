@@ -125,7 +125,7 @@ public:
 		}
 	}
 
-	int GetSailStateForCharacter(int chrIdx);
+	int GetSailStateForCharacter(int chrIdx) const;
 
 	SAILGROUP sg;
 
@@ -177,10 +177,10 @@ private:
 	void DoSailToNewHost(entid_t newMdlEI, entid_t hewHostEI, int grNum, NODE* nod, entid_t oldmodelEI);
 	void DoNoRopeSailToNewHost(entid_t newModel, entid_t newHost, entid_t oldHost);
 	void DeleteSailGroup();
-	int FindGroupForCharacter(int chrIdx);
-	int GetCharacterForGroup(int grNum);
-	SAILONE* FindSailFromData(int gn, const char* nodeName, const char* grName);
-	void SetSailTextures(long grNum, VDATA* pvd);
+	int FindGroupForCharacter(int chrIdx) const;
+	int GetCharacterForGroup(int grNum) const;
+	SAILONE* FindSailFromData(int gn, const char* nodeName, const char* grName) const;
+	void SetSailTextures(long grNum, VDATA* pvd) const;
 	void DoRandomsSailsDmg(int chrIdx, int gn, float fDmg);
 
 	// обработка скриптовых запросов

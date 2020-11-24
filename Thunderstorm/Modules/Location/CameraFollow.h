@@ -46,9 +46,9 @@ public:
 	//Переинициализировать позицию камеры
 	void BornCamera();
 	//Вычислить позицию камеры для данного угла
-	void CalcPosition(float ang, float radius, float dax, CVECTOR& pos);
+	void CalcPosition(float ang, float radius, float dax, CVECTOR& pos) const;
 	//Оценить радиус в искомом направлении на 1сек
-	float FindRadius(float curAng);
+	float FindRadius(float curAng) const;
 	//Учесть полигон в поиске радиуса
 	static bool ApplyPoly(const CVECTOR* v, long n);
 	static void ApplyPolyFindNearest(EdgeInfo* e, long ne, const CVECTOR& pos);
@@ -60,7 +60,7 @@ public:
 	//Протянуть луч с учётом cull и размера камеры
 	float Trace(const CVECTOR& src, const CVECTOR& dst);
 	//Протянуть луч с учётом cull
-	float SubTrace(const CVECTOR& src, const CVECTOR& dst);
+	float SubTrace(const CVECTOR& src, const CVECTOR& dst) const;
 
 	void DrawDebug();
 

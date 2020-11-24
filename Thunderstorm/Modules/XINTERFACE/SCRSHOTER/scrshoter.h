@@ -43,11 +43,11 @@ public:
 
 private:
 	bool MakeScreenShot();
-	IDirect3DTexture9* FindSaveTexture(char* fileName);
-	char* FindSaveData(char* fileName);
+	IDirect3DTexture9* FindSaveTexture(char* fileName) const;
+	char* FindSaveData(char* fileName) const;
 	IDirect3DTexture9* AddSaveTexture(char* dirName, char* fileName);
 	void DelSaveTexture(char* fileName);
-	IDirect3DTexture9* GetTexFromSave(char* fileName, char** pDatStr);
+	IDirect3DTexture9* GetTexFromSave(char* fileName, char** pDatStr) const;
 
 	IDirect3DTexture9* m_pScrShotTex;
 	SAVETEXTURES* m_list;

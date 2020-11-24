@@ -193,7 +193,7 @@ public:
 	void ClearVertex(SAILVERTEX* pv, uint32_t maxIdx);
 	void goWave(SAILVERTEX* pv, uint32_t Delta_Time);
 	void FillVertex(SAILVERTEX* pv); // заполнение массива вертексов
-	void SetTexGrid(SAILVERTEX* pv); // установка координат в текстуре
+	void SetTexGrid(SAILVERTEX* pv) const; // установка координат в текстуре
 	void SetGeometry(); // установка параметров для создания геометрии паруса
 	void SetRolling(bool bRoll); // установить сворачивание-разворачивание паруса
 	void DoRollingStep(uint32_t Delta_Time); // выполняем шаг сворачивания-разворачивания паруса
@@ -227,7 +227,7 @@ private:
 		return v;
 	}
 
-	uint32_t GetMaxHoleCount() { return ss.eSailType == SAIL_TREANGLE ? 10 : 12; }
+	uint32_t GetMaxHoleCount() const { return ss.eSailType == SAIL_TREANGLE ? 10 : 12; }
 
 	float GetDistanceFromPointTo3Point(const CVECTOR& v, const CVECTOR& vB1, const CVECTOR& vB2, const CVECTOR& vB3);
 

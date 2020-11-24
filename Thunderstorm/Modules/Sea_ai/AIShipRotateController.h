@@ -31,12 +31,12 @@ public:
 
 	// set our ship pointer
 	void SetAIShip(AIShip* pShip) { pOurAIShip = pShip; }
-	AIShip* GetAIShip() { return pOurAIShip; }
+	AIShip* GetAIShip() const { return pOurAIShip; }
 
 	AIShipRotateController(AIShip* pShip);
 	virtual ~AIShipRotateController();
 
-	void Save(CSaveLoad* pSL);
+	void Save(CSaveLoad* pSL) const;
 	void Load(CSaveLoad* pSL);
 };
 

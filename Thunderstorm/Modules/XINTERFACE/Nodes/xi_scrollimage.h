@@ -60,13 +60,13 @@ public:
 protected:
 	void LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2) override;
 	float ChangeDinamicParameters(float fXDelta);
-	int FindClickedImageNum();
-	int GetRightQuantity();
-	int GetLeftQuantity();
-	float GetShiftDistance(int shiftIdx);
+	int FindClickedImageNum() const;
+	int GetRightQuantity() const;
+	int GetLeftQuantity() const;
+	float GetShiftDistance(int shiftIdx) const;
 	void UpdateTexturesGroup();
 	int FindTexGroupFromOld(char* * pGroupList, char* groupName, int listSize);
-	long GetMousePointedPictureNum();
+	long GetMousePointedPictureNum() const;
 protected:
 	// parameters for moving to scrolling
 	bool m_bDoMove;

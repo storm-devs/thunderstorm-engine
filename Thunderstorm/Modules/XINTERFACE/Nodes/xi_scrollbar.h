@@ -30,9 +30,9 @@ public:
 
 protected:
 	void LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2) override;
-	void UpdatePosition();
+	void UpdatePosition() const;
 
-	void WriteDataToAttribute();
+	void WriteDataToAttribute() const;
 	void ChangeValue(bool bGrowing, bool bMultiply);
 
 protected:

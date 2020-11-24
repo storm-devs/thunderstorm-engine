@@ -295,8 +295,7 @@ uint64_t SCRSHOTER::ProcessMessage(MESSAGE& message)
 	return 0;
 }
 
-IDirect3DTexture9* SCRSHOTER::FindSaveTexture(char* fileName)
-{
+IDirect3DTexture9* SCRSHOTER::FindSaveTexture(char* fileName) const {
 	if (!fileName) return nullptr;
   auto ps = m_list;
 	while (ps)
@@ -307,8 +306,7 @@ IDirect3DTexture9* SCRSHOTER::FindSaveTexture(char* fileName)
 	return nullptr;
 }
 
-char* SCRSHOTER::FindSaveData(char* fileName)
-{
+char* SCRSHOTER::FindSaveData(char* fileName) const {
 	if (!fileName) return nullptr;
 	SAVETEXTURES* ps = m_list;
 	while (ps)
@@ -363,8 +361,7 @@ void SCRSHOTER::DelSaveTexture(char* fileName)
 	}
 }
 
-IDirect3DTexture9* SCRSHOTER::GetTexFromSave(char* fileName, char** pDatStr)
-{
+IDirect3DTexture9* SCRSHOTER::GetTexFromSave(char* fileName, char** pDatStr) const {
 	HRESULT hr = D3D_OK;
 	D3DLOCKED_RECT outRect;
 	IDirect3DTexture9* pt = nullptr;

@@ -126,14 +126,14 @@ public:
 	//—оздать пустую партикловую систему, дл€ редактора...
 	IParticleSystem* CreateEmptyParticleSystemEx(const char* FileName, int Line) override;
 
-	BillBoardProcessor* GetBBProcessor();
-	ModelProcessor* GetMDLProcessor();
+	BillBoardProcessor* GetBBProcessor() const;
+	ModelProcessor* GetMDLProcessor() const;
 
 	bool ValidateSystem(IParticleSystem* pSystem) override;
 
-	GEOS* GetModel(const char* FileName);
+	GEOS* GetModel(const char* FileName) const;
 
-	uint32_t GetCreatedSystemCount();
+	uint32_t GetCreatedSystemCount() const;
 	ParticleSystem* GetCreatedSystemByIndex(uint32_t Index);
 
 	bool ReadyForUse() override;

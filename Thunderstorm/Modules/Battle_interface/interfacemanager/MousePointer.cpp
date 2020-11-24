@@ -115,8 +115,7 @@ void MousePointer::SetCurrentCursor()
 	m_pIcon->SetPosition(pos.left, pos.top, pos.right, pos.bottom);
 }
 
-RECT MousePointer::GetCurrentCursorIconPos()
-{
+RECT MousePointer::GetCurrentCursorIconPos() const {
 	RECT pos;
 	pos.left = (long)m_mousepos.x + m_aCursors[m_nCurrentCursor].offset.x;
 	pos.top = (long)m_mousepos.y + m_aCursors[m_nCurrentCursor].offset.y;

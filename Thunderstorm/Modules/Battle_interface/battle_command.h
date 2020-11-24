@@ -38,7 +38,7 @@ public:
 	long ExecuteCancel();
 
 	void SetActive(bool bActive);
-	bool GetActive() { return m_bActive; }
+	bool GetActive() const { return m_bActive; }
 
 	void SetUpDown(bool bUp, bool bDown);
 
@@ -146,13 +146,13 @@ protected:
 	long ClockIconAdd(long nForePictureNum, long nBackPictureNum, long nTextureNum, RECT& rpos, float fFactor);
 	void AdditiveIconAdd(float fX, float fY, std::vector<UsedCommand::AdditiveIcon>& aList);
 	FRECT& GetPictureUV(long nTextureNum, long nPictureNum, FRECT& uv);
-	RECT& GetCurrentPos(long num, RECT& rpos);
+	RECT& GetCurrentPos(long num, RECT& rpos) const;
 	RECT& GetAddingPos(long num, RECT& rpos);
 
 	void UpdateShowIcon();
 	void SetNote(const char* pcNote, long nX, long nY);
 
-	ATTRIBUTES* GetCurrentCommandAttribute();
+	ATTRIBUTES* GetCurrentCommandAttribute() const;
 };
 
 #endif

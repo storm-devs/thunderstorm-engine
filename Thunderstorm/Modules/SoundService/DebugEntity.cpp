@@ -31,8 +31,7 @@ void SoundVisualisationEntity::SetMasterSoundService(SoundService* pSoundService
 	pSound = pSoundService;
 }
 
-void SoundVisualisationEntity::Wakeup()
-{
+void SoundVisualisationEntity::Wakeup() const {
 	//api->LayerCreate("sound_debug_realize", true , false);
 	EntityManager::SetLayerType(SOUND_DEBUG_REALIZE, EntityManager::Layer::Type::realize);
 	EntityManager::AddToLayer(SOUND_DEBUG_REALIZE, GetId(), -1);

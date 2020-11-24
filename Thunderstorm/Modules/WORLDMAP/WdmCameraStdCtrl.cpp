@@ -108,8 +108,7 @@ bool WdmCameraStdCtrl::CurrentFreeMode()
 	return isFree;
 }
 
-bool WdmCameraStdCtrl::GetCurFreeMode()
-{
+bool WdmCameraStdCtrl::GetCurFreeMode() const {
 	CONTROL_STATE cs;
 	api->Controls->GetControlState("WMapCameraSwitch", cs);
 	//if(wdmObjects->isDebug)

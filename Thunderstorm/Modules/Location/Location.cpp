@@ -830,8 +830,7 @@ void Location::DrawLocators(LocatorArray* la)
 	rs->SetTransform(D3DTS_WORLD, CMatrix());
 }
 
-void Location::DrawLine(const CVECTOR& s, uint32_t cs, const CVECTOR& d, uint32_t cd, bool useZ)
-{
+void Location::DrawLine(const CVECTOR& s, uint32_t cs, const CVECTOR& d, uint32_t cd, bool useZ) const {
 	SphVertex lineVertex[2];
 	lineVertex[0].v = s;
 	lineVertex[0].c = cs;
@@ -945,8 +944,7 @@ bool Location::IsDebugView()
 
 //Написать текст
 void Location::Print(const CVECTOR& pos3D, float rad, long line, float alpha, uint32_t color, float scale,
-                     const char* format, ...)
-{
+                     const char* format, ...) const {
 	static char buf[256];
 	scale *= 2.0f;
 	//Печатаем в буфер
@@ -1252,13 +1250,11 @@ void Location::CorrectBar(float v, float start, float end, BarVertex* vrt)
 	vrt[5].u = endU;
 }
 
-bool Location::IsSwimming()
-{
+bool Location::IsSwimming() const {
 	return bSwimming;
 }
 
-void Location::LoadCaustic()
-{
+void Location::LoadCaustic() const {
 	bCausticEnable = false;
 
 	ATTRIBUTES* pC = AttributesPointer->GetAttributeClass("Caustic");

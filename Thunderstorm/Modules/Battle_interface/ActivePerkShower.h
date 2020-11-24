@@ -14,7 +14,7 @@ public:
 	~ActivePerkShower();
 	bool Init() override;
 	void Execute(uint32_t delta_time);
-	void Realize(uint32_t delta_time);
+	void Realize(uint32_t delta_time) const;
 	uint64_t ProcessMessage(MESSAGE& message) override;
 
 	void ProcessStage(Stage stage, uint32_t delta) override
@@ -57,7 +57,7 @@ protected:
 	}* m_pTexDescr;
 
 	bool CreateTextures(ATTRIBUTES* pATextureRoot);
-	FRECT GetTextureRect(int textIdx, int picIdx);
+	FRECT GetTextureRect(int textIdx, int picIdx) const;
 
 	int m_nIconWidth;
 	int m_nIconHeight;

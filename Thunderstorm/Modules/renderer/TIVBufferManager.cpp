@@ -79,8 +79,7 @@ void TIVBufferManager::FreeElement(long _i)
 }
 
 //--------------------------------------------------------------------
-void TIVBufferManager::FreeAll()
-{
+void TIVBufferManager::FreeAll() const {
 	for (auto i = 0; i < elementsCount; ++i)
 	{
 		used[i] = false;
@@ -105,8 +104,7 @@ void TIVBufferManager::UnlockBuffers()
 }
 
 //--------------------------------------------------------------------
-void TIVBufferManager::GetPointers(long _i, uint16_t** iPointer, void** vPointer, long* vOffset/* = 0*/)
-{
+void TIVBufferManager::GetPointers(long _i, uint16_t** iPointer, void** vPointer, long* vOffset/* = 0*/) const {
 	if ((_i < 0) || !locked)
 	{
 		*iPointer = nullptr;
@@ -122,8 +120,7 @@ void TIVBufferManager::GetPointers(long _i, uint16_t** iPointer, void** vPointer
 }
 
 //--------------------------------------------------------------------
-void TIVBufferManager::DrawBuffers(const char* _technique)
-{
+void TIVBufferManager::DrawBuffers(const char* _technique) const {
 	if (locked || !count)
 		return;
 

@@ -129,8 +129,7 @@ void MESSAGE_ICONS::Update(uint32_t deltaTime)
 	}
 }
 
-void MESSAGE_ICONS::Draw()
-{
+void MESSAGE_ICONS::Draw() const {
 	// показать сообщения
 	if (m_bShowMsgIcon && m_nMsgIconQnt > 0 && m_idMsgIconsTexture >= 0)
 	{

@@ -691,7 +691,6 @@
     <ClInclude Include="Modules\Location\PathTracks.h" />
     <ClInclude Include="Modules\Location\Player.h" />
     <ClInclude Include="Modules\Location\ptc.h" />
-    <ClInclude Include="Modules\Location\PtcData.h" />
     <ClInclude Include="Modules\Location\Supervisor.h" />
     <ClInclude Include="Modules\Location\WideScreen.h" />
     <ClInclude Include="Modules\PARTICLES\DataCache\DataCache.h" />

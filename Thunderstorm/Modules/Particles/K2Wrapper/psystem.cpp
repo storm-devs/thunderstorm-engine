@@ -62,7 +62,6 @@ void PARTICLE_SYSTEM::SetManager(PARTICLES* _pManager)
 	pManager = _pManager;
 }
 
-IParticleSystem* PARTICLE_SYSTEM::GetSystem()
-{
+IParticleSystem* PARTICLE_SYSTEM::GetSystem() const {
 	return pSystem;
 }

@@ -134,9 +134,9 @@ private:
 	GROUPDATA* gdata;
 
 	void SetVertexes();
-	void SetVertexes(ROPEDATA* pr, float dtime);
-	void SetTextureGrid(ROPEDATA* pr);
-	void SetIndex();
+	void SetVertexes(ROPEDATA* pr, float dtime) const;
+	void SetTextureGrid(ROPEDATA* pr) const;
+	void SetIndex() const;
 	void DoSTORM_DELETE();
 	void AddLabel(GEOS::LABEL& lbl, NODE* nod, bool bDontSage);
 	void SetAdd(int firstNum);

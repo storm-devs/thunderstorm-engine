@@ -71,8 +71,7 @@ void InfoHandler::Execute(uint32_t delta_time)
 {
 }
 
-void InfoHandler::Realize(uint32_t delta_time)
-{
+void InfoHandler::Realize(uint32_t delta_time) const {
 	if (m_pSurface == nullptr || m_pRenderTarget == nullptr) return;
 	m_rs->MakePostProcess();
 	// Поддерживаем постоянный экран
@@ -245,8 +244,7 @@ bool InfoHandler::DoPreOut()
 	return isOK;
 }
 
-char* InfoHandler::GetCutString(char* pstr, int nOutWidth, float fScale)
-{
+char* InfoHandler::GetCutString(char* pstr, int nOutWidth, float fScale) const {
   auto spaceWait = false;
 	char param[1024];
 
@@ -301,8 +299,7 @@ char* InfoHandler::GetCutString(char* pstr, int nOutWidth, float fScale)
 	return ps;
 }
 
-void InfoHandler::StringToBufer(char* outStr, int sizeBuf, char* inStr, int copySize)
-{
+void InfoHandler::StringToBufer(char* outStr, int sizeBuf, char* inStr, int copySize) const {
 	if (outStr == nullptr || sizeBuf <= 0) return;
 	outStr[0] = 0;
 	if (inStr == nullptr) return;

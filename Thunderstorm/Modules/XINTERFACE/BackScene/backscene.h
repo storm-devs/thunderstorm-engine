@@ -119,9 +119,9 @@ protected:
 
 	void LoadModel(const char* pcModelName);
 	void SetCameraPosition(const char* pcLocatorName);
-	void SetShipPosition(const char* pcLocName, ATTRIBUTES* pAChar);
+	void SetShipPosition(const char* pcLocName, ATTRIBUTES* pAChar) const;
 
-	bool FindLocator(const char* pcLocName, CMatrix* pMtx, CVECTOR* pPos, float* pYAng);
+	bool FindLocator(const char* pcLocName, CMatrix* pMtx, CVECTOR* pPos, float* pYAng) const;
 	void SetLocatorPosition(MODEL* pModel, const char* pcLocName, CVECTOR& pos, NODE* & pNodPtr);
 
 	void ReleaseMenuList();

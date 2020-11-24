@@ -14,8 +14,7 @@ void SubRightWord(char* buf, int fontNum, int width, VDX9RENDER* rs)
 	}
 }
 
-bool CXI_QUESTTITLE::GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize)
-{
+bool CXI_QUESTTITLE::GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize) const {
 	if (pInStr == nullptr || buf == nullptr) return false;
   auto pStart = pInStr;
   auto bYesEOL = false;
@@ -375,8 +374,7 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES* pA, int topNum)
 	}
 }
 
-float CXI_QUESTTITLE::GetLineStep()
-{
+float CXI_QUESTTITLE::GetLineStep() const {
 	if (m_nCommonQuantity <= 0) return 0.f;
 	return 1.f / (float)m_nCommonQuantity;
 }

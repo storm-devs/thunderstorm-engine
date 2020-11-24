@@ -534,20 +534,17 @@ void LocationCamera::ExecuteFree(float dltTime)
 }
 
 //Протрейсит луч через локацию
-float LocationCamera::Trace(const CVECTOR& src, const CVECTOR& dst)
-{
+float LocationCamera::Trace(const CVECTOR& src, const CVECTOR& dst) const {
 	if (!location) return 2.0f;
 	return location->Trace(src, dst);
 }
 
-bool LocationCamera::GetCollideTriangle(TRIANGLE& trg)
-{
+bool LocationCamera::GetCollideTriangle(TRIANGLE& trg) const {
 	if (!location) return false;
 	return location->GetCollideTriangle(trg);
 }
 
-void LocationCamera::Clip(PLANE* p, long numPlanes, CVECTOR& cnt, float rad, bool (* fnc)(const CVECTOR* vtx, long num))
-{
+void LocationCamera::Clip(PLANE* p, long numPlanes, CVECTOR& cnt, float rad, bool (* fnc)(const CVECTOR* vtx, long num)) const {
 	if (location) location->Clip(p, numPlanes, cnt, rad, fnc);
 }
 

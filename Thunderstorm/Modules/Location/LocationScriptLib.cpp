@@ -21,8 +21,7 @@ struct LocationFindCacheElement
 		delete name;
 	};
 
-	long Cmp(const LocationFindCacheElement& v)
-	{
+	long Cmp(const LocationFindCacheElement& v) const {
 		if (v.size != size) return false;
 		if (_stricmp(v.name, name) == 0) return true;
 		return false;

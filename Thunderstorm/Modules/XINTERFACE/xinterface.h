@@ -160,8 +160,8 @@ public:
 	long StoreNodeLocksWithOff();
 	void RestoreNodeLocks(long nStoreIdx);
 
-	long GetScreenWidth() { return dwScreenWidth; }
-	long GetScreenHeight() { return dwScreenHeight; }
+	long GetScreenWidth() const { return dwScreenWidth; }
+	long GetScreenHeight() const { return dwScreenHeight; }
 
 protected:
 	// WORLD,VIEW and PROJECTION matrixes
@@ -187,7 +187,7 @@ protected:
 	void ShowContextHelp();
 
 	// draw function
-	void DrawNode(CINODE* nod, uint32_t Delta_Time, long startPrior = 0, long endPrior = 32000);
+	void DrawNode(CINODE* nod, uint32_t Delta_Time, long startPrior = 0, long endPrior = 32000) const;
 	void ShowPrevTexture();
 	// initialisation function
 	void LoadIni();
@@ -200,15 +200,15 @@ protected:
 	void MouseMove();
 	void MouseClick(bool bFirstClick);
 	void MouseDeClick();
-	CINODE* GetClickNode(CINODE* searchNod, long xPos, long yPos);
+	CINODE* GetClickNode(CINODE* searchNod, long xPos, long yPos) const;
 	// release function
 	void ReleaseOld();
 	void ReleaseDinamicPic(char* sPicName);
 	// save load functions
-	bool SFLB_DoSaveFileData(char* saveName, char* saveData);
+	bool SFLB_DoSaveFileData(char* saveName, char* saveData) const;
 	bool SFLB_GetSaveFileData(char* saveName, long bufSize, char* buf);
 	char* SaveFileFind(long saveNum, char* buffer, size_t bufSize, long& fileSize);
-	bool NewSaveFileName(char* fileName);
+	bool NewSaveFileName(char* fileName) const;
 	void DeleteSaveFile(char* fileName);
 	// node control
 	void AddNodeToList(CINODE* nod, long priority = 80);
@@ -265,7 +265,7 @@ protected:
 	void ReleaseSaveFindList();
 	void AddFindData(char* sSaveFileName, long file_size, FILETIME create_time);
 	void Sorting_FindData();
-	SAVE_FIND_DATA* GetSaveDataByIndex(int n);
+	SAVE_FIND_DATA* GetSaveDataByIndex(int n) const;
 
 	// dinamic strings data
 	struct STRING_Entity

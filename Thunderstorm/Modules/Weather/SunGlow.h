@@ -126,13 +126,13 @@ private:
 
 	float fBottomClip;
 
-	float LayerTrace(CVECTOR& vSrc, EntityManager::LayerIterators its);
+	float LayerTrace(CVECTOR& vSrc, EntityManager::LayerIterators its) const;
 	void GenerateSunGlow();
-	void DrawReflection();
+	void DrawReflection() const;
 	void Release();
 
 	void DrawRect(uint32_t dwColor, const CVECTOR& pos, float fSize, float fAngle, const char* pcTechnique,
-	              float fBottomClip);
+	              float fBottomClip) const;
 
 	float GetSunFadeoutFactor(const CVECTOR& vSunPos, float fSunSize);
 };

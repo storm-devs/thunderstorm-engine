@@ -14,11 +14,11 @@ public:
 
 	long ReserveElement();
 	void FreeElement(long _i);
-	void FreeAll();
+	void FreeAll() const;
 	void LockBuffers();
 	void UnlockBuffers();
-	void GetPointers(long _i, uint16_t** iPointer, void** vPointer, long* vOffset = nullptr);
-	void DrawBuffers(const char* _technique);
+	void GetPointers(long _i, uint16_t** iPointer, void** vPointer, long* vOffset = nullptr) const;
+	void DrawBuffers(const char* _technique) const;
 
 private:
 	VDX9RENDER* renderer;

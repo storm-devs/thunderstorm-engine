@@ -1089,8 +1089,7 @@ void NPCharacter::DoFightBlock(bool needParry)
 }
 
 //Получить энергию
-float NPCharacter::GetEnergy()
-{
+float NPCharacter::GetEnergy() const {
 	float energy = 1.0f;
 	VDATA* vd = api->Event("NpcEvtEgy", "i", GetId());
 	if (vd) vd->Get(energy);
@@ -1100,8 +1099,7 @@ float NPCharacter::GetEnergy()
 }
 
 //Получить энергию для действия
-float NPCharacter::GetActEnergy(const char* act)
-{
+float NPCharacter::GetActEnergy(const char* act) const {
 	VDATA* vd = api->Event("NPC_Event_GetActionEnergy", "is", GetId(), act);
 	float energy;
 	if (vd && vd->Get(energy)) return energy;
@@ -1217,8 +1215,7 @@ bool NPCharacter::PopTask()
 //============================================================================================
 
 //Невозможно дальнейшее выполнение команды
-void NPCharacter::FailureCommand(NPCTask task)
-{
+void NPCharacter::FailureCommand(NPCTask task) const {
 	api->Event("Location_CharacterTaskFailure", "si", GetTaskName(task), GetId());
 }
 

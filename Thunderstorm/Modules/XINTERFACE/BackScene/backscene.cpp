@@ -406,8 +406,7 @@ void InterfaceBackScene::SetCameraPosition(const char* pcLocatorName)
 	//m_vCamAng.x = -4.262f/180.f*PI;
 }
 
-void InterfaceBackScene::SetShipPosition(const char* pcLocName, ATTRIBUTES* pAChar)
-{
+void InterfaceBackScene::SetShipPosition(const char* pcLocName, ATTRIBUTES* pAChar) const {
 	if (!pcLocName || !pAChar || !m_pLocators) return;
 
   auto pAPos = pAChar->FindAClass(pAChar, "Ship.Pos");
@@ -429,8 +428,7 @@ void InterfaceBackScene::SetShipPosition(const char* pcLocName, ATTRIBUTES* pACh
 	}
 }
 
-bool InterfaceBackScene::FindLocator(const char* pcLocName, CMatrix* pMtx, CVECTOR* pPos, float* pYAng)
-{
+bool InterfaceBackScene::FindLocator(const char* pcLocName, CMatrix* pMtx, CVECTOR* pPos, float* pYAng) const {
 	if (!pcLocName || !m_pLocators) return false;
 	for (long n = 0; n < 100; n++)
 	{

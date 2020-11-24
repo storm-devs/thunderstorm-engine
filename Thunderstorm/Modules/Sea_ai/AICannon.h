@@ -54,7 +54,7 @@ public:
 	entid_t GetParentEID() const { return eidParent; };
 	VAI_OBJBASE* GetAIObjPointer() const;
 
-	float CalcHeightFireAngle(float _fSpeedV0, const CVECTOR& vOur, const CVECTOR& vEnemy);
+	float CalcHeightFireAngle(float _fSpeedV0, const CVECTOR& vOur, const CVECTOR& vEnemy) const;
 	bool Fire(float fSpeedV0, const CVECTOR& vFirePos);
 	void Load();
 	void Unload();
@@ -64,23 +64,23 @@ public:
 	float GetRechargePercent();
 	void AddDamage(float _fDamage) { fDamaged += _fDamage; };
 	void SetDamage(float _fDamage) { fDamaged = _fDamage; };
-	float GetDamage() { return fDamaged; };
-	CVECTOR GetPos();
-	CVECTOR GetDir();
-	float GetDirY();
-	float GetDistance(CVECTOR& vPos) { return sqrtf(~(vPos - GetPos())); };
+	float GetDamage() const { return fDamaged; };
+	CVECTOR GetPos() const;
+	CVECTOR GetDir() const;
+	float GetDirY() const;
+	float GetDistance(CVECTOR& vPos) const { return sqrtf(~(vPos - GetPos())); };
 
 	void SetMaxFireDistance(float fMaxFireDistance) { this->fMaxFireDistance = fMaxFireDistance; };
 
 	void SetRechargeEnable(bool bRechargeEnable) { bCanRecharge = bRechargeEnable; }
-	bool isLoad() { return bLoad; }
-	bool isEmpty() { return bEmpty; }
-	bool isReady2Fire() { return (bReady2Fire & (!isDamaged())); } // CHECK-ME
-	bool isDamaged() { return fDamaged >= 1.0f; }
-	bool isFired() { return bFired; }
-	bool isRecharged() { return bRecharged; }
+	bool isLoad() const { return bLoad; }
+	bool isEmpty() const { return bEmpty; }
+	bool isReady2Fire() const { return (bReady2Fire & (!isDamaged())); } // CHECK-ME
+	bool isDamaged() const { return fDamaged >= 1.0f; }
+	bool isFired() const { return bFired; }
+	bool isRecharged() const { return bRecharged; }
 
-	void Save(CSaveLoad* pSL);
+	void Save(CSaveLoad* pSL) const;
 	void Load(CSaveLoad* pSL, AIAttributesHolder* _pAHolder, entid_t eid);
 
 private:

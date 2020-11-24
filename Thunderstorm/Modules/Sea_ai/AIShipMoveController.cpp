@@ -144,8 +144,7 @@ void AIShipMoveController::Move(CVECTOR vMovePoint)
 void AIShipMoveController::AddRetardForce(CVECTOR _vRetardForce) { vRetardForce += _vRetardForce; }
 void AIShipMoveController::AddDeflectForce(CVECTOR _vDeflectForce) { vDeflectForce += _vDeflectForce; }
 
-void AIShipMoveController::Save(CSaveLoad* pSL)
-{
+void AIShipMoveController::Save(CSaveLoad* pSL) const {
 	pSL->SaveDword(bStopped);
 	pSL->SaveVector(vDestPoint);
 	pSL->SaveVector(vRetardForce);

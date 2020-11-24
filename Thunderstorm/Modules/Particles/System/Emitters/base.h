@@ -94,9 +94,9 @@ public:
 	virtual void CreateModelParticle(FieldList& Fields);
 
 
-	ParticleSystem* GetMaster();
-	ParticleManager* GetManager();
-	void GetEmissionDirection(Matrix& matWorld);
+	ParticleSystem* GetMaster() const;
+	ParticleManager* GetManager() const;
+	void GetEmissionDirection(Matrix& matWorld) const;
 
 
 	virtual void SetGUID(uint32_t GUID)

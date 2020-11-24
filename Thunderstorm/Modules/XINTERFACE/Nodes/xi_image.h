@@ -33,18 +33,18 @@ public:
 	void SetDifferentPosition(long nLeft, long nTop, long nWidth, long nHeight, ImagePointType ptype = IPType_LeftTop);
 
 	void SetColor(uint32_t dwColor);
-	uint32_t GetColor() { return m_dwImageColor; }
+	uint32_t GetColor() const { return m_dwImageColor; }
 
-	long GetWidth() { return m_pntSize.x; }
-	long GetHeight() { return m_pntSize.y; }
+	long GetWidth() const { return m_pntSize.x; }
+	long GetHeight() const { return m_pntSize.y; }
 
 	void Unload();
 
 	void SetThisRectangleNotUseTexture(bool bUseOnlyColor) { m_bThisIsColorRectangle = bUseOnlyColor; }
 
-	bool IsImagePresent() { return (m_nTextureID >= 0 || m_pTexture); }
+	bool IsImagePresent() const { return (m_nTextureID >= 0 || m_pTexture); }
 
-	bool IsPointInside(long nX, long nY);
+	bool IsPointInside(long nX, long nY) const;
 
 	void DisableDraw(bool bDisable) { m_bDisableDraw = bDisable; }
 

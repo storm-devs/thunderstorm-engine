@@ -86,8 +86,7 @@ void WdmShip::Teleport(float x, float z, float ay)
 	}
 }
 
-void WdmShip::GetPosition(float& x, float& z, float& ay)
-{
+void WdmShip::GetPosition(float& x, float& z, float& ay) const {
 	x = mtx.Pos().x;
 	z = mtx.Pos().z;
 	ay = this->ay;

@@ -82,15 +82,14 @@ public:
 
 		uint32_t dwCannonType, dwCulverinType, dwMortarType;
 
-		MODEL* GetModel() { return (MODEL*)EntityManager::GetEntityPointer(GetModelEID()); }
+		MODEL* GetModel() const { return (MODEL*)EntityManager::GetEntityPointer(GetModelEID()); }
 		void SetModelEID(entid_t _eidModel) { eidModel = _eidModel; }
-		entid_t GetModelEID() { return eidModel; }
+		entid_t GetModelEID() const { return eidModel; }
 		void SetBlotEID(entid_t _eidBlot) { eidBlot = _eidBlot; }
-		entid_t GetBlotEID() { return eidBlot; }
+		entid_t GetBlotEID() const { return eidBlot; }
 		uint32_t GetAllCannonsNum() const { return aCannons.size() + aCulverins.size() + aMortars.size(); }
 
-		uint32_t GetCannonType(uint32_t dwCannonIndex)
-		{
+		uint32_t GetCannonType(uint32_t dwCannonIndex) const {
 			if (dwCannonIndex < aCannons.size()) return dwCannonType;
 			if (dwCannonIndex < aCannons.size() + aCulverins.size()) return dwCulverinType;
 			return dwMortarType;
@@ -107,8 +106,7 @@ public:
 			return dwDamagedNum;
 		}
 
-		bool isNormalMode()
-		{
+		bool isNormalMode() const {
       auto pAFM = GetACharacter()->FindAClass(GetACharacter(), "Fort.Mode");
 			if (pAFM) return (pAFM->GetAttributeAsDword() == FORT_NORMAL);
 			return false;
@@ -147,7 +145,7 @@ public:
 		void Load(CSaveLoad* pSL, entid_t eid);
 	};
 
-	uint32_t GetNumForts() { return aForts.size(); }
+	uint32_t GetNumForts() const { return aForts.size(); }
 	AI_FORT* FindFort(ATTRIBUTES* pACharacter);
 
 	AI_FORT* GetFort(uint32_t k)
@@ -170,7 +168,7 @@ private:
 
 	void AddFortHit(long iCharacterIndex, CVECTOR& vHitPos);
 	float GetSpeedV0(uint32_t dwFortIndex);
-	bool ScanFortForCannons(AI_FORT* pFort, char* pModelsDir, char* pLocatorsName);
+	bool ScanFortForCannons(AI_FORT* pFort, char* pModelsDir, char* pLocatorsName) const;
 	bool AddFort(ATTRIBUTES* pIslandAP, ATTRIBUTES* pFortAP, ATTRIBUTES* pFortCharacter, entid_t eidModel,
 	             entid_t eidBlot);
 	AI_FORT* FindFort(entid_t eidModel);

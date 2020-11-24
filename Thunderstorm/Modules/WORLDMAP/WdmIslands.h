@@ -104,9 +104,9 @@ public:
 	void SetIslandsData(ATTRIBUTES* apnt, bool isChange);
 
 	//Найти направление для прибытия в заданную точку назначения из текущей
-	void FindDirection(const CVECTOR& position, const CVECTOR& destination, CVECTOR& direction);
+	void FindDirection(const CVECTOR& position, const CVECTOR& destination, CVECTOR& direction) const;
 	//Найти силу отталкивания
-	void FindReaction(const CVECTOR& position, CVECTOR& reaction);
+	void FindReaction(const CVECTOR& position, CVECTOR& reaction) const;
 	//Найти случайную точку для мерчанта
 	bool GetRandomMerchantPoint(CVECTOR& p);
 	//Получить координаты квестового локатора
@@ -130,7 +130,7 @@ private:
 	static bool FindNearPoint(const GEOS::VERTEX* vrt, long numVrt);
 	void LabelsReadIconParams(ATTRIBUTES* apnt);
 	long LabelsFind(const char* id, uint32_t hash);
-	bool LabelsFindLocator(const char* name, CVECTOR& pos);
+	bool LabelsFindLocator(const char* name, CVECTOR& pos) const;
 	long LabelsAddFont(const char* name);
 	void LabelsRelease();
 	static CVECTOR Norm2D(const CVECTOR& ret);

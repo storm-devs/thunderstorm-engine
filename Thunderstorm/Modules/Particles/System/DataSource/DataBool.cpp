@@ -14,8 +14,7 @@ DataBool::~DataBool()
 }
 
 //Получить значение
-bool DataBool::GetValue()
-{
+bool DataBool::GetValue() const {
 	return Value;
 }
 
@@ -47,13 +46,11 @@ void DataBool::SetName(const char* szName)
 	Name = szName;
 }
 
-const char* DataBool::GetName()
-{
+const char* DataBool::GetName() const {
 	return Name.c_str();
 }
 
-void DataBool::Write(MemFile* File)
-{
+void DataBool::Write(MemFile* File) const {
 	uint32_t dwValue = GetValue();
 	File->WriteType(dwValue);
 

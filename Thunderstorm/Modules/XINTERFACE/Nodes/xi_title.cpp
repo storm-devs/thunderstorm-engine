@@ -277,8 +277,7 @@ void CXI_TITLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const 
 	m_rs->UnLockVertexBuffer(m_idVBuf);
 }
 
-void CXI_TITLE::FillVertexBuffer()
-{
+void CXI_TITLE::FillVertexBuffer() const {
 	long i;
 	auto* pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
 	if (pVert != nullptr)

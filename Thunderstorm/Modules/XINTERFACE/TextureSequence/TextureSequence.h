@@ -25,7 +25,7 @@ class TextureSequence : public CVideoTexture
 
 	long m_AllTex;
 
-	void ToTextureRender(float blendValue);
+	void ToTextureRender(float blendValue) const;
 public:
 	TextureSequence();
 	~TextureSequence();
@@ -33,7 +33,7 @@ public:
 	IDirect3DTexture9* Initialize(VDX9RENDER* pRS, const char* cTSfileName, bool bCicled) override;
 	bool FrameUpdate() override;
 	void Release() override;
-	void LostRender();
+	void LostRender() const;
 	void RestoreRender();
 
 	void ProcessStage(Stage stage, uint32_t delta) override

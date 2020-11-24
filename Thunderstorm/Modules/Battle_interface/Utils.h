@@ -52,7 +52,7 @@ public:
 	~BIImagesInfo();
 	void Release();
 	void Init(VDX9RENDER* rs, ATTRIBUTES* pA);
-	void Draw();
+	void Draw() const;
 
 	VDX9RENDER* pRS;
 	BIImageRender* pImgRender;

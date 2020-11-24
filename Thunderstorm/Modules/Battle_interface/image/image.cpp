@@ -222,7 +222,6 @@ float BIImage::GetPrevClockCorner(float fAng)
 	return fAng - .25f;
 }
 
-void BIImage::Release()
-{
+void BIImage::Release() const {
 	m_pMaterial->DeleteImage(this);
 }

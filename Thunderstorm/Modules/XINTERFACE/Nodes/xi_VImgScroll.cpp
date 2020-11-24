@@ -1367,8 +1367,7 @@ void CXI_VIMAGESCROLL::RefreshScroll()
 	ChangeDinamicParameters(0);
 }
 
-int CXI_VIMAGESCROLL::FindClickedImageNum()
-{
+int CXI_VIMAGESCROLL::FindClickedImageNum() const {
 	int n;
 	int i = 0;
 
@@ -1406,8 +1405,7 @@ int CXI_VIMAGESCROLL::FindClickedImageNum()
 	return i - 1;
 }
 
-int CXI_VIMAGESCROLL::GetBottomQuantity()
-{
+int CXI_VIMAGESCROLL::GetBottomQuantity() const {
 	if (m_pScroll == nullptr || m_Image == nullptr) return 0;
 	int q = 0;
 	for (SCROLLEntity* pscr = m_pScroll; pscr != nullptr; pscr = pscr->next) q++;
@@ -1430,8 +1428,7 @@ int CXI_VIMAGESCROLL::GetBottomQuantity()
 	return n - 1;
 }
 
-int CXI_VIMAGESCROLL::GetTopQuantity()
-{
+int CXI_VIMAGESCROLL::GetTopQuantity() const {
 	if (m_pScroll == nullptr || m_Image == nullptr) return 0;
 	int q = 0;
 	for (SCROLLEntity* pscr = m_pScroll; pscr != nullptr; pscr = pscr->next) q++;
@@ -1454,8 +1451,7 @@ int CXI_VIMAGESCROLL::GetTopQuantity()
 	return n - 1;
 }
 
-float CXI_VIMAGESCROLL::GetShiftDistance(int shiftIdx)
-{
+float CXI_VIMAGESCROLL::GetShiftDistance(int shiftIdx) const {
 	int i = 0;
 	int n = shiftIdx < 0 ? -shiftIdx : shiftIdx;
 
@@ -1598,8 +1594,7 @@ void CXI_VIMAGESCROLL::IMAGEDESCRIBE::Release(int nQnt, int nStr)
 	STORM_DELETE(strSelf);
 }
 
-void CXI_VIMAGESCROLL::IMAGEDESCRIBE::Clear(int nQnt, int nStr)
-{
+void CXI_VIMAGESCROLL::IMAGEDESCRIBE::Clear(int nQnt, int nStr) const {
 	int i;
 
 	for (i = 0; i < nQnt; i++)

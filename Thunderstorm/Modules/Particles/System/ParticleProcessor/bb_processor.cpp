@@ -77,8 +77,7 @@ BillBoardProcessor::~BillBoardProcessor()
 
 
 //"Выделить" память для хранения партикла
-BB_ParticleData* BillBoardProcessor::AllocParticle()
-{
+BB_ParticleData* BillBoardProcessor::AllocParticle() const {
 	for (uint32_t n = 0; n < MAX_BILLBOARDS; n++)
 	{
 		if (pMemArray[n].Free)
@@ -92,8 +91,7 @@ BB_ParticleData* BillBoardProcessor::AllocParticle()
 }
 
 //"Убить" партикл
-void BillBoardProcessor::FreeParticle(BB_ParticleData* pItem)
-{
+void BillBoardProcessor::FreeParticle(BB_ParticleData* pItem) const {
 	for (uint32_t n = 0; n < MAX_BILLBOARDS; n++)
 	{
 		if (&pMemArray[n].pData == pItem)
@@ -531,8 +529,7 @@ void BillBoardProcessor::Draw()
 	//pRS->Print(20, 20, "PSYS 2.0 : Draw %d billboard particles", ParticlesCount);
 }
 
-uint32_t BillBoardProcessor::GetCount()
-{
+uint32_t BillBoardProcessor::GetCount() const {
 	return Particles.size();
 }
 
@@ -562,8 +559,7 @@ void BillBoardProcessor::Clear()
 	Particles.clear();
 }
 
-void BillBoardProcessor::CreateVertexDeclaration()
-{
+void BillBoardProcessor::CreateVertexDeclaration() const {
 	if (vertexDecl_ != nullptr)
 		return;
 

@@ -498,8 +498,7 @@ long WdmIslands::LabelsFind(const char* id, uint32_t hash)
 	return -1;
 }
 
-bool WdmIslands::LabelsFindLocator(const char* name, CVECTOR& pos)
-{
+bool WdmIslands::LabelsFindLocator(const char* name, CVECTOR& pos) const {
 	if (!baseModel || !name || !name[0]) return false;
 	//Информация о геометрии
 	GEOS::INFO ginfo;
@@ -751,8 +750,7 @@ void WdmIslands::LRender(VDX9RENDER* rs)
 }
 
 //Найти направление для прибытия в заданную точку назначения из текущей
-void WdmIslands::FindDirection(const CVECTOR& position, const CVECTOR& destination, CVECTOR& direction)
-{
+void WdmIslands::FindDirection(const CVECTOR& position, const CVECTOR& destination, CVECTOR& direction) const {
 	//Если нет патча то едем по прямой
 	if (!patch)
 	{
@@ -779,8 +777,7 @@ void WdmIslands::FindDirection(const CVECTOR& position, const CVECTOR& destinati
 }
 
 //Найти силу отталкивания
-void WdmIslands::FindReaction(const CVECTOR& position, CVECTOR& reaction)
-{
+void WdmIslands::FindReaction(const CVECTOR& position, CVECTOR& reaction) const {
 	if (patch)
 	{
 		float y = 0.0f;

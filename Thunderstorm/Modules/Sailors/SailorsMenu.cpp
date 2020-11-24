@@ -1,8 +1,7 @@
 #include "SailorsMenu.h"
 
 
-void Menu::Draw(VDX9RENDER* rs, SailorsPoints& sailorsPoints)
-{
+void Menu::Draw(VDX9RENDER* rs, SailorsPoints& sailorsPoints) const {
 	for (auto i = 0; i < count; i++)
 		if (i != selected && i != blocked)
 			rs->Print(rs->GetCurFont(), D3DCOLOR_XRGB(100, 100, 100), 10, 20 + 20 * i, "%s", line[i].c_str());

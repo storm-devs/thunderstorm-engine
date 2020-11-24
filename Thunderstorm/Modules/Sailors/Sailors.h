@@ -87,7 +87,7 @@ public:
 	void SetPos(MODEL* ship, SHIP_BASE* ship_base, uint32_t& dltTime, ShipState& shipState);
 	void FindNextPoint(SailorsPoints& sailorsPoints, ShipState& shipState);
 	int FindRandomPoint(SailorsPoints& sailorsPoints, ShipState& shipState);
-	int FindRandomPointWithoutType(SailorsPoints& sailorsPoints);
+	int FindRandomPointWithoutType(SailorsPoints& sailorsPoints) const;
 	void ApplyTargetPoint(CVECTOR pt, bool randomWalk);
 
 	void UpdatePos(uint32_t& dltTime, SailorsPoints& sailorsPoints, ShipState& shipState);
@@ -97,14 +97,14 @@ public:
 
 	bool MoveToPosition(uint32_t& dltTime, SailorsPoints& sailorsPoints, ShipState& shipState);
 	bool RotateToAngle(uint32_t& dltTime, SailorsPoints& sailorsPoints);
-	bool Stay(uint32_t& dltTime, SailorsPoints& sailorsPoints);
+	bool Stay(uint32_t& dltTime, SailorsPoints& sailorsPoints) const;
 	bool Turn(uint32_t& dltTime, SailorsPoints& sailorsPoints);
 	bool Swim(uint32_t& dltTime, SailorsPoints& sailorsPoints, ShipState& shipState);
 	bool Jump(uint32_t& dltTime, SailorsPoints& sailorsPoints, ShipState& shipState);
 
 	void NewAction(SailorsPoints& sailorsPoints, ShipState& shipState, uint32_t& dltTime);
-	void Free();
-	int GetNearestEmptyCannon(SailorsPoints& sailorsPoints);
+	void Free() const;
+	int GetNearestEmptyCannon(SailorsPoints& sailorsPoints) const;
 };
 
 class ShipWalk

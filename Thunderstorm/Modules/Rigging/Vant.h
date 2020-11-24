@@ -59,7 +59,7 @@ public:
 	~VANT();
 	void SetDevice();
 	bool Init() override;
-	void Realize(uint32_t Delta_Time);
+	void Realize(uint32_t Delta_Time) const;
 	void Execute(uint32_t Delta_Time);
 	bool CreateState(ENTITY_STATE_GEN* state_gen);
 	bool LoadState(ENTITY_STATE* state);
@@ -116,8 +116,8 @@ private:
 	int groupQuantity;
 	GROUPDATA* gdata;
 
-	void SetVertexes();
-	void SetIndex();
+	void SetVertexes() const;
+	void SetIndex() const;
 	void AddLabel(GEOS::LABEL& lbl, NODE* nod);
 	void SetAll();
 	void SetAdd(int firstNum);

@@ -70,8 +70,7 @@ long XSERVICE::GetTextureID(const char* sImageListName)
 	return -1;
 }
 
-long XSERVICE::FindGroup(const char* sImageListName)
-{
+long XSERVICE::FindGroup(const char* sImageListName) const {
 	if (!sImageListName) return -1;
 	for (auto n = 0; n < m_dwListQuantity; n++)
 		if (!_stricmp(m_pList[n].sImageListName, sImageListName))

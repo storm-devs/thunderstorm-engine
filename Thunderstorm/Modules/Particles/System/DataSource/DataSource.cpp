@@ -82,8 +82,7 @@ DataSource::~DataSource()
 	Destroy();
 }
 
-bool DataSource::Release()
-{
+bool DataSource::Release() const {
 	delete this;
 	return true;
 }

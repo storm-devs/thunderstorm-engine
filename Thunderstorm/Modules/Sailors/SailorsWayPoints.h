@@ -97,9 +97,9 @@ struct Point
 		z = 0;
 	};
 
-	bool IsMast();
-	bool IsCannon();
-	bool IsNormal();
+	bool IsMast() const;
+	bool IsCannon() const;
+	bool IsNormal() const;
 };
 
 

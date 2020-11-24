@@ -329,8 +329,7 @@ void WdmSea::LRender(VDX9RENDER* rs)
 	}
 }
 
-void WdmSea::Render(VDX9RENDER* rs, const char* tech)
-{
+void WdmSea::Render(VDX9RENDER* rs, const char* tech) const {
 	static CMatrix identity;
 	if (vb < 0 || ib < 0) return;
 	rs->SetTransform(D3DTS_WORLD, identity);
@@ -338,8 +337,7 @@ void WdmSea::Render(VDX9RENDER* rs, const char* tech)
 }
 
 //Настроить преобразования текстурных координат
-void WdmSea::PresetMain(VDX9RENDER* rs)
-{
+void WdmSea::PresetMain(VDX9RENDER* rs) const {
 	//Матрица для текстур
 	CMatrix mtx;
 	mtx.m[0][0] = seaSizeX / wdmObjects->worldSizeX;

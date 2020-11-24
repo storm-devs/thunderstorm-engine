@@ -59,8 +59,7 @@ void AIShipRotateController::SetGlobalMultiply(float _fGlobalMultiply)
 		fGlobalMultiply = _fGlobalMultiply;
 }
 
-void AIShipRotateController::Save(CSaveLoad* pSL)
-{
+void AIShipRotateController::Save(CSaveLoad* pSL) const {
 	pSL->SaveDword(dwRotateNum);
 	pSL->SaveFloat(fRotateMode);
 	pSL->SaveFloat(fRotateTime);

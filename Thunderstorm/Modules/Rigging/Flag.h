@@ -138,9 +138,9 @@ private:
 	GROUPDATA* gdata;
 
 	void FirstRun();
-	void SetTextureCoordinate();
-	void SetTreangle();
-	void DoMove(FLAGDATA* pr, float delta_time);
+	void SetTextureCoordinate() const;
+	void SetTreangle() const;
+	void DoMove(FLAGDATA* pr, float delta_time) const;
 	void AddLabel(GEOS::LABEL& gl, NODE* nod);
 	void SetAll();
 	void LoadIni();

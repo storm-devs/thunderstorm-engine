@@ -12,8 +12,7 @@ DataString::~DataString()
 }
 
 //Получить значение
-const char* DataString::GetValue()
-{
+const char* DataString::GetValue() const {
 	return Value.c_str();
 }
 
@@ -44,13 +43,11 @@ void DataString::SetName(const char* szName)
 	Name = szName;
 }
 
-const char* DataString::GetName()
-{
+const char* DataString::GetName() const {
 	return Name.c_str();
 }
 
-void DataString::Write(MemFile* File)
-{
+void DataString::Write(MemFile* File) const {
 	static char WriteTempString[128];
 	memset(WriteTempString, 0, 128);
 	strncpy_s(WriteTempString, GetValue(), 128);

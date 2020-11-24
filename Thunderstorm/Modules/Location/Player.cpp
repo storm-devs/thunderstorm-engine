@@ -416,8 +416,7 @@ bool Player::GoForward(float dltTime)
 	return dx * dx + dz * dz > 0.2f;
 }
 
-bool Player::GoBack(float dltTime)
-{
+bool Player::GoBack(float dltTime) const {
 	if (!isSpecialMode)
 	{
 		CONTROL_STATE cs;
