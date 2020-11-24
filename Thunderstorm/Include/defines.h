@@ -98,7 +98,8 @@ inline int ftoi(float f) {
 #define MAX3(x,y,z)			( ((x) > (y)) ? ((x) > (z) ? (x) : (z)) : ((y) > (z) ? (y) : (z)) )
 #define MIN3(x,y,z)			( ((x) < (y)) ? ((x) < (z) ? (x) : (z)) : ((y) < (z) ? (y) : (z)) )
 #define CLAMP(x)			( ((x) > 1.0f) ? 1.0f : (((x) < 0.0f) ? 0.0f : (x)) )
-#define RGB(r,g,b)			( uint32_t(b)|(uint32_t(g)<<8L)|(uint32_t(r)<<16L) )
+//#define RGB(r,g,b)			( uint32_t(b)|(uint32_t(g)<<8L)|(uint32_t(r)<<16L) )
+constexpr auto makeRGB(uint32_t r, uint32_t g, uint32_t b) { return static_cast<uint32_t>(b) | static_cast<uint32_t>(g << 8L) | static_cast<uint32_t>(r) << 16L; }
 #define ARGB(a,r,g,b)		( uint32_t(b)|(uint32_t(g)<<8L)|(uint32_t(r)<<16L)|(uint32_t(a)<<24L) )
 #define STORM_ZERO(x,y)		{ memset(x, 0, y); }
 #define ZERO(x)				{ STORM_ZERO(&x,sizeof(x)); }

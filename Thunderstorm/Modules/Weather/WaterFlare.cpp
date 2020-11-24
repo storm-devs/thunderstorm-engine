@@ -98,7 +98,7 @@ void WATERFLARE::Realize(uint32_t Delta_Time) const {
       pRSRect[i].vPos = CVECTOR(FRAND(200.0f), 0.0f,FRAND(200.0f));
     }
     const auto dwAlpha = static_cast<uint32_t>(255.0f * ((pfAlpha[i] > 1.0f) ? 2.0f - pfAlpha[i] : pfAlpha[i]));
-    pRSRect[i].dwColor = RGB(dwAlpha, dwAlpha, dwAlpha);
+    pRSRect[i].dwColor = makeRGB(dwAlpha, dwAlpha, dwAlpha);
   }
 
   RS->TextureSet(0, iFlareTex);

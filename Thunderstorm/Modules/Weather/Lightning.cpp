@@ -72,7 +72,7 @@ void LIGHTNING::Realize(uint32_t Delta_Time) {
 
       const auto dwAlpha = static_cast<uint32_t>(255.0f * pL->fAlpha);
       pR->dwSubTexture = pL->dwSubTexture;
-      pR->dwColor = RGB(dwAlpha, dwAlpha, dwAlpha);
+      pR->dwColor = makeRGB(dwAlpha, dwAlpha, dwAlpha);
       pR->vPos = pL->vPos;
       pR->fSize = pL->fSize;
       pR->fAngle = 0.0f;
@@ -87,7 +87,7 @@ void LIGHTNING::Realize(uint32_t Delta_Time) {
       auto* pR = &rs_rect;
 
       const auto dwAlpha = static_cast<uint32_t>(255.0f * pL->fAlpha * pL->fPower);
-      pR->dwColor = RGB(dwAlpha, dwAlpha, dwAlpha);
+      pR->dwColor = makeRGB(dwAlpha, dwAlpha, dwAlpha);
       pR->vPos = pL->vPos;
       pR->fSize = pL->Flash.fSize;
       pR->fAngle = 0.0f;

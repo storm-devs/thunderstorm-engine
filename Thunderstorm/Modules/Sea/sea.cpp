@@ -217,14 +217,14 @@ bool SEA::Init() {
 
     const auto dwNumThreads = dwLogicals * dwCores - 1;
 
-    for (uint32_t i = 0; i < dwNumThreads; i++) {
+    for (size_t i = 0; i < dwNumThreads; i++) {
       //HANDLE & hEvent = aEventCalcBlock[aEventCalcBlock.Add()];
       //hEvent = CreateEvent(null, false, false, null);
       aEventCalcBlock.push_back(CreateEvent(nullptr, false, false, nullptr));
 
       aThreads.push_back(HANDLE{});
       auto& hThread = aThreads.back();
-      hThread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)ThreadExecute, (void*)i, CREATE_SUSPENDED,
+      hThread = CreateThread(nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(ThreadExecute), reinterpret_cast<void*>(i), CREATE_SUSPENDED,
                              nullptr);
       SetThreadPriority(hThread, THREAD_PRIORITY_NORMAL);
       ResumeThread(hThread);

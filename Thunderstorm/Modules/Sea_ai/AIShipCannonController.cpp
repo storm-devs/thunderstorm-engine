@@ -618,7 +618,7 @@ bool AIShipCannonController::ScanShipForCannons() {
 
           sprintf_s(str, "%s.damages", label.group_name);
           ATTRIBUTES* pADamages = pABorts->FindAClass(pABorts, str);
-          sprintf_s(str, "c%d", aShipBorts[j].aCannons.size() - 1);
+          sprintf_s(str, "c%zd", aShipBorts[j].aCannons.size() - 1);
           const float fDamage = pADamages->GetAttributeAsFloat(str, 0.0f);
           pADamages->SetAttributeUseFloat(str, fDamage);
           pCannon->SetDamage(fDamage);

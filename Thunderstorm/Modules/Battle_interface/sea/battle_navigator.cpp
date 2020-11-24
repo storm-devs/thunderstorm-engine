@@ -620,7 +620,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER* RenderService, Entity* pOwnerEI) {
                                              D3DUSAGE_WRITEONLY);
   if (m_idEmptyVBuf == -1 || m_idCannonVBuf == -1 || m_idSpeedVBuf == -1 || m_idMapVBuf == -1 || m_idFireZoneVBuf == -
     1 || m_idShipsVBuf == -1 || m_idGradBackVBuf == -1 || m_idCurChargeVBuf == -1) {
-    throw std::exception("Can`t create vertex\index buffer");
+    throw std::exception("Can`t create vertex\\index buffer");
   }
   m_nvShips = 0;
 

@@ -216,7 +216,7 @@ void SUNGLOW::Realize(uint32_t Delta_Time) {
       if (fGlowFadeout < 0.f) fGlowFadeout = 0.f;
       pRS->TextureSet(0, iSunGlowTex);
       CVECTOR vGlowColor = fAlpha * fGlowFadeout * COLOR2VECTOR(Glow.dwColor);
-      DrawRect(RGB(vGlowColor.x, vGlowColor.y, vGlowColor.z), vSun, Glow.fGlowSize, fAngle * 1.f,
+      DrawRect(makeRGB(vGlowColor.x, vGlowColor.y, vGlowColor.z), vSun, Glow.fGlowSize, fAngle * 1.f,
                Glow.sTechniqueNoZ.c_str(), fSeaHeight);
     }
   }
@@ -231,7 +231,7 @@ void SUNGLOW::Realize(uint32_t Delta_Time) {
 
     CVECTOR vOverflowColor = fFadeout * fAlphaOverflow * COLOR2VECTOR(Overflow.dwColor);
 
-    rs_rect.dwColor = RGB(vOverflowColor.x, vOverflowColor.y, vOverflowColor.z);
+    rs_rect.dwColor = makeRGB(vOverflowColor.x, vOverflowColor.y, vOverflowColor.z);
     rs_rect.vPos = vSun;
     rs_rect.fSize = Overflow.fSize;
     rs_rect.fAngle = 0.0f;
@@ -257,7 +257,7 @@ void SUNGLOW::Realize(uint32_t Delta_Time) {
       auto b = static_cast<uint32_t>(fFadeout * fAlpha * fAlphaFlare * static_cast<float>((pF->dwColor & 0xFF) >> 0L));
       //RS_RECT * pRSR = &aRSR[aRSR.Add()];
       RS_RECT rect;
-      rect.dwColor = RGB(r, g, b);
+      rect.dwColor = makeRGB(r, g, b);
       rect.fAngle = 0.0f;
       rect.dwSubTexture = pF->dwSubTexIndex;
       rect.fSize = pF->fSize * Flares.fFlareScale;
@@ -288,7 +288,7 @@ void SUNGLOW::DrawSunMoon() {
     if (bMoon) pRS->TextureSet(0, iMoonTex);
     else pRS->TextureSet(0, iSunTex);
 
-    DrawRect(RGB(vGlowColor.x, vGlowColor.y, vGlowColor.z), vSun, fGlowSize, 0.f, Glow.sTechniqueZ.c_str(),
+    DrawRect(makeRGB(vGlowColor.x, vGlowColor.y, vGlowColor.z), vSun, fGlowSize, 0.f, Glow.sTechniqueZ.c_str(),
              fBottomClip);
   }
 }

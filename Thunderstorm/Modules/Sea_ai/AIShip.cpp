@@ -44,7 +44,7 @@ void AIShip::Unload() const {
 void AIShip::SetSeaAIAttributes(ATTRIBUTES* pAAttr, VAI_INNEROBJ* pObj) const {
   char str[256];
   const auto dwIdx = pAAttr->GetAttributesNum();
-  sprintf_s(str, "l%d", dwIdx);
+  sprintf_s(str, "l%zd", dwIdx);
   pAAttr = pAAttr->CreateAttribute(str, "");
 
   // set common attributes
