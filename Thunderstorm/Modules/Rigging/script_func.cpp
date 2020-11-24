@@ -154,7 +154,7 @@ uint32_t _RandomHole2Sail(VS_STACK* pS)
 	if (!pVR) return IFUNCRESULT_FAILED;
 
 	SAILONE_BASE* pSail = nullptr;
-	if (const auto ei = EntityManager::GetEntityId("ShipsailTracks"))
+	if (const auto ei = EntityManager::GetEntityId("sail"))
 	{
 		pSail = ((SAIL_BASE*)EntityManager::GetEntityPointer(ei))->FindSailForCharacter(_chrIdx, _reyName, _groupNum);
 	}
