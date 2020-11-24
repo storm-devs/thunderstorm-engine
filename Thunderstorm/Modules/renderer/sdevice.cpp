@@ -4171,7 +4171,7 @@ void DX9RENDER::DrawSphere(const CVECTOR& vPos, float fRadius, uint32_t dwColor)
 	SetRenderState(D3DRS_TEXTUREFACTOR, dwColor);
 	SetTransform(D3DTS_WORLD, m);
 	DrawPrimitiveUP(D3DPT_TRIANGLELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, DX9sphereNumTrgs, DX9sphereVertex,
-	                sizeof(DX9SphVertex), "DX9Sphere");
+	                sizeof(DX9SphVertex), "DXSphere");
 }
 
 void DX9RENDER::SetLoadTextureEnable(bool bEnable)

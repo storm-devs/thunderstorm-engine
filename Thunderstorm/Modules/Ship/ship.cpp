@@ -1558,13 +1558,13 @@ uint32_t SHIP::AttributeChanged(ATTRIBUTES* pAttribute)
 	return 0;
 }
 
-CVECTOR SHIP::GetBoxsize() { return State.vBoxSize; };
-entid_t SHIP::GetModelEID() { return model_id; }
-MODEL* SHIP::GetModel() { return (MODEL*)EntityManager::GetEntityPointer(GetModelEID()); }
+CVECTOR SHIP::GetBoxsize() const { return State.vBoxSize; };
+entid_t SHIP::GetModelEID() const { return model_id; }
+MODEL* SHIP::GetModel() const { return (MODEL*)EntityManager::GetEntityPointer(GetModelEID()); }
 CMatrix* SHIP::GetMatrix() { return &GetModel()->mtx; }
 void SHIP::SetMatrix(CMatrix& mtx) { GetModel()->mtx = mtx; }
-CVECTOR SHIP::GetAng() { return State.vAng; }
-CVECTOR SHIP::GetPos() { return CVECTOR(State.vPos.x + fXOffset, State.vPos.y, State.vPos.z + fZOffset); }
+CVECTOR SHIP::GetAng() const { return State.vAng; }
+CVECTOR SHIP::GetPos() const { return CVECTOR(State.vPos.x + fXOffset, State.vPos.y, State.vPos.z + fZOffset); }
 
 void SHIP::SetPos(const CVECTOR& vNewPos)
 {

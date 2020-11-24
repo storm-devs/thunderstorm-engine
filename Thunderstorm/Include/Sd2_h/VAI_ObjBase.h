@@ -26,13 +26,13 @@ public:
 
 	virtual void SetPos(const CVECTOR& vNewPos) = 0;
 
-	virtual CVECTOR GetPos() = 0;
-	virtual CVECTOR GetAng() = 0;
+	virtual CVECTOR GetPos() const = 0;
+	virtual CVECTOR GetAng() const = 0;
 	virtual CMatrix* GetMatrix() = 0;
-	virtual CVECTOR GetBoxsize() = 0;
+	virtual CVECTOR GetBoxsize() const = 0;
 
-	virtual MODEL* GetModel() = 0;
-	virtual entid_t GetModelEID() = 0;
+	virtual MODEL* GetModel() const = 0;
+	virtual entid_t GetModelEID() const = 0;
 
 	virtual void Save(CSaveLoad* pSL) = 0;
 	virtual void Load(CSaveLoad* pSL) = 0;

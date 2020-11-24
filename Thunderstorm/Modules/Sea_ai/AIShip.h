@@ -109,9 +109,9 @@ public:
 		return sqrtf(~(GetPos() - OtherAIObj.GetPos()));
 	};
 	virtual float GetDistance(const CVECTOR& vOtherPos) const { return sqrtf(~(GetPos() - vOtherPos)); };
-	virtual CVECTOR GetBoxsize() const { return 0.0f; };
-	virtual CVECTOR GetPos() const { return 0.0f; };
-	virtual CVECTOR GetAng() const { return 0.0f; };
+	virtual CVECTOR GetBoxsize() const = 0;
+	virtual CVECTOR GetPos() const = 0;
+	virtual CVECTOR GetAng() const = 0;
 
 	virtual void SetPos(CVECTOR& vNewPos)
 	{

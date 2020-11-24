@@ -200,11 +200,11 @@ public:
 
 	CMatrix *	GetMatrix();
 	void		SetMatrix(CMatrix & mtx);
-	MODEL *		GetModel();
-	entid_t	GetModelEID();
-	CVECTOR		GetPos();
-	CVECTOR		GetAng();
-	CVECTOR		GetBoxsize();
+	MODEL *		GetModel() const;
+	entid_t	GetModelEID() const;
+	CVECTOR		GetPos() const;
+	CVECTOR		GetAng() const;
+	CVECTOR		GetBoxsize() const;
 
 	void		SetPos(const CVECTOR & vNewPos) override;
 

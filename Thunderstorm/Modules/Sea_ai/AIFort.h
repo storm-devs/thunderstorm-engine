@@ -32,8 +32,8 @@ public:
 
 			CMatrix* GetMatrix() override { return &GetModel()->mtx; };
 
-			MODEL* GetModel() override { return pFort->GetModel(); };
-			entid_t GetModelEID() override { return pFort->GetModelEID(); };
+			MODEL* GetModel() const override { return pFort->GetModel(); };
+			entid_t GetModelEID() const override { return pFort->GetModelEID(); };
 
 			void Save(CSaveLoad* pSL) override
 			{
@@ -61,9 +61,9 @@ public:
 
 			bool Mount(ATTRIBUTES*) override { return false; }
 			void SetPos(const CVECTOR& vNewPos) override { }
-			CVECTOR GetPos() override { return {}; }
-			CVECTOR GetAng() override { return {}; }
-			CVECTOR GetBoxsize() override { return {}; }
+			CVECTOR GetPos() const override { return {}; }
+			CVECTOR GetAng() const override { return {}; }
+			CVECTOR GetBoxsize() const override { return {}; }
 		};
 
 		entid_t eidModel;
@@ -143,6 +143,8 @@ public:
 
 		void Save(CSaveLoad* pSL);
 		void Load(CSaveLoad* pSL, entid_t eid);
+		CVECTOR GetAng() const override { return {}; }
+		CVECTOR GetBoxsize() const override { return {}; }
 	};
 
 	uint32_t GetNumForts() const { return aForts.size(); }
@@ -231,10 +233,10 @@ public:
 	ATTRIBUTES* GetACharacter() override;
 
 	CMatrix* GetMatrix() override { return &mtxFort; };
-	MODEL* GetModel() override { return nullptr; };
-	entid_t GetModelEID() override { return {}; };
-	CVECTOR GetPos() override { return CVECTOR(0.0f, 0.0f, 0.0f); };
-	CVECTOR GetAng() override { return CVECTOR(0.0f, 0.0f, 0.0f); };
+	MODEL* GetModel() const override { return nullptr; };
+	entid_t GetModelEID() const override { return {}; };
+	CVECTOR GetPos() const override { return CVECTOR(0.0f, 0.0f, 0.0f); };
+	CVECTOR GetAng()const  override { return CVECTOR(0.0f, 0.0f, 0.0f); };
 
 	bool Mount(ATTRIBUTES* pAttribute) override;
 
@@ -243,7 +245,7 @@ public:
 
 	void Fire(const CVECTOR& vPos) override;
 	void SetPos(const CVECTOR& vNewPos) override { };
-	CVECTOR GetBoxsize() override {	return {}; }
+	CVECTOR GetBoxsize() const override {	return {}; }
 };
 
 #endif
