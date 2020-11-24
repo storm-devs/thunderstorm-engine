@@ -737,7 +737,7 @@ VAI_OBJBASE* ISPYGLASS::GetFort()
 {
 	if (!m_pFortObj)
 	{
-		m_pFortObj = (VAI_OBJBASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("ship"));
+		m_pFortObj = (VAI_OBJBASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("AIFORT"));
 	}
 	return m_pFortObj;
 }
