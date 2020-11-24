@@ -9,7 +9,7 @@ inline bool Effects::ErrorHandler(HRESULT hr, const char* file, unsigned line, c
 	if (hr != D3D_OK && hr != S_FALSE)
 	{
 		api->Trace("[%s:%s:%d] %s: %s (%s) (%.*s)", file, func, line, DXGetErrorString(hr), DXGetErrorDescription(hr),
-		           expr, debugMsg_.size(), debugMsg_.data());
+			expr, debugMsg_.size(), debugMsg_.data());
 		return true;
 	}
 
@@ -53,13 +53,19 @@ void Effects::compile(const char* fxPath)
 		D3DXTECHNIQUE_DESC desc;
 		CHECKD3DERR(fx->GetTechniqueDesc(technique, &desc));
 
-		if (techniques_.count(desc.Name) > 0)
+		// transform to lowercase to be compliant with the original code
+		std::string name_in_lowercase;
+		const auto len = strlen(desc.Name);
+		name_in_lowercase.reserve(len);
+		std::transform(desc.Name, desc.Name + len, std::back_inserter(name_in_lowercase), ::tolower);
+
+		if (techniques_.count(name_in_lowercase) > 0)
 		{
 			api->Trace("Warning: duplicate technique (%s)", desc.Name);
 		}
 		else
 		{
-			techniques_.emplace(desc.Name, Technique(fx, technique, desc));
+			techniques_.emplace(std::move(name_in_lowercase), Technique(fx, technique, desc));
 		}
 
 		CHECKD3DERR(fx->FindNextValidTechnique(technique, &technique));
@@ -68,7 +74,7 @@ void Effects::compile(const char* fxPath)
 
 void Effects::release()
 {
-	for (const auto fx : effects_)
+	for (auto* fx : effects_)
 		fx->Release();
 	effects_.clear();
 	techniques_.clear();
@@ -77,23 +83,28 @@ void Effects::release()
 
 bool Effects::begin(const std::string& techniqueName)
 {
-	debugMsg_ = techniqueName;
-	const auto technique = techniques_.find(techniqueName);
+	// transform to lowercase to be compliant with the original code
+	std::string name_in_lowercase;
+	name_in_lowercase.reserve(techniqueName.length());
+	std::transform(std::begin(techniqueName), std::end(techniqueName), std::back_inserter(name_in_lowercase), ::tolower);
+
+	debugMsg_ = name_in_lowercase;
+	const auto technique = techniques_.find(name_in_lowercase);
 	if (technique == techniques_.end())
 	{
-		api->Trace("Warning: technique (%s) not found!", techniqueName.c_str());
+		api->Trace("Warning: technique (%s) not found!", name_in_lowercase.c_str());
 		return false;
 	}
 
 	currentTechnique_ = &technique->second;
-	auto fx = currentTechnique_->fx;
+	auto* fx = currentTechnique_->fx;
 	CHECKD3DERR(fx->SetTechnique(currentTechnique_->handle));
 
 	UINT passes = 0;
 	CHECKD3DERR(fx->Begin(&passes, 0));
 	if (passes == 0)
 	{
-		api->Trace("Warning: empty technique (%s)!", techniqueName.c_str());
+		api->Trace("Warning: empty technique (%s)!", name_in_lowercase.c_str());
 		return false;
 	}
 
@@ -107,7 +118,7 @@ bool Effects::next()
 	if (currentTechnique_)
 	{
 		debugMsg_ = currentTechnique_->desc.Name;
-		auto fx = currentTechnique_->fx;
+		auto* fx = currentTechnique_->fx;
 		CHECKD3DERR(fx->EndPass());
 
 		if (currentPass_ < currentTechnique_->desc.Passes)
@@ -124,6 +135,11 @@ bool Effects::next()
 
 ID3DXEffect* Effects::getEffectPointer(const std::string& techniqueName)
 {
-	const auto technique = techniques_.find(techniqueName);
+	// transform to lowercase to be compliant with the original code
+	std::string name_in_lowercase;
+	name_in_lowercase.reserve(techniqueName.length());
+	std::transform(std::begin(techniqueName), std::end(techniqueName), std::back_inserter(name_in_lowercase), ::tolower);
+
+	const auto technique = techniques_.find(name_in_lowercase);
 	return technique != techniques_.end() ? technique->second.fx : nullptr;
 }
