@@ -8,351 +8,323 @@
 #include "particles/iparticlesservice.h"
 #include "particles/iparticlesystem.h"
 
-PARTICLES::PARTICLES()
-{
-	bSystemDelete = false;
-	pService = nullptr;
-	pManager = nullptr;
-	CreationCapture = false;
+PARTICLES::PARTICLES() {
+  bSystemDelete = false;
+  pService = nullptr;
+  pManager = nullptr;
+  CreationCapture = false;
 }
 
-PARTICLES::~PARTICLES()
-{
-	bSystemDelete = true;
-	DeleteAll();
+PARTICLES::~PARTICLES() {
+  bSystemDelete = true;
+  DeleteAll();
 }
 
-bool PARTICLES::Init()
-{
-	EntityManager::AddToLayer(REALIZE, GetId(), 0xfffff);
-	EntityManager::AddToLayer(EXECUTE, GetId(), 0);
+bool PARTICLES::Init() {
+  EntityManager::AddToLayer(REALIZE, GetId(), 0xfffff);
+  EntityManager::AddToLayer(EXECUTE, GetId(), 0);
 
-	pService = (IParticleService*)api->CreateService("ParticleService");
-	Assert(pService);
-	pManager = pService->DefManager();
-	Assert(pManager);
-	return true;
+  pService = static_cast<IParticleService*>(api->CreateService("ParticleService"));
+  Assert(pService);
+  pManager = pService->DefManager();
+  Assert(pManager);
+  return true;
 }
 
 
-uint64_t PARTICLES::ProcessMessage(MESSAGE& message)
-{
+uint64_t PARTICLES::ProcessMessage(MESSAGE& message) {
   const auto code = message.Long();
 
-	static char ps_name[MAX_PATH];
-	CVECTOR pos, angles;
-	long lifetime;
+  static char ps_name[MAX_PATH];
+  CVECTOR pos, angles;
+  long lifetime;
 
-	switch (code)
-	{
-		//ѕоставить все партиклы на паузу
-		// новые не пауженные рождаютс€...
-	case PS_PAUSEALL:
-		{
-			PauseAllActive(message.Long() != 0);
-			break;
-		}
+  switch (code) {
+    //ѕоставить все партиклы на паузу
+    // новые не пауженные рождаютс€...
+  case PS_PAUSEALL:
+    {
+      PauseAllActive(message.Long() != 0);
+      break;
+    }
 
-		//”далить конкретную систему
-	case PS_DELETE:
-		{
-			DeleteSystem(message.Long());
-			break;
-		}
-
-
-	case PS_CREATIONCAPTURE_BEG:
-		{
-			CreationCapture = true;
-			break;
-		}
-	case PS_CREATIONCAPTURE_END:
-		{
-			CreationCapture = false;
-			break;
-		}
-	case PS_CLEAR_CAPTURED:
-		{
-			DeleteCaptured();
-			break;
-		}
+    //”далить конкретную систему
+  case PS_DELETE:
+    {
+      DeleteSystem(message.Long());
+      break;
+    }
 
 
-		//”далить все
-	case PS_CLEARALL:
-		{
-			DeleteAll();
-			break;
-		}
-		//создать систему (string им€, float x,y,z позици€, float rx, ry, rz вращение, float life_time врем€ жизни)
-	case PS_CREATE_RIC:
-		{
-			message.String(sizeof(ps_name), ps_name);
-			pos.x = message.Float();
-			pos.y = message.Float();
-			pos.z = message.Float();
+  case PS_CREATIONCAPTURE_BEG:
+    {
+      CreationCapture = true;
+      break;
+    }
+  case PS_CREATIONCAPTURE_END:
+    {
+      CreationCapture = false;
+      break;
+    }
+  case PS_CLEAR_CAPTURED:
+    {
+      DeleteCaptured();
+      break;
+    }
 
-			angles.x = message.Float();
-			angles.y = message.Float();
-			angles.z = message.Float();
-			lifetime = message.Long();
 
-      auto* pSystem = CreateSystem(ps_name, lifetime);
-			if (!pSystem) return 0;
+    //”далить все
+  case PS_CLEARALL:
+    {
+      DeleteAll();
+      break;
+    }
+    //создать систему (string им€, float x,y,z позици€, float rx, ry, rz вращение, float life_time врем€ жизни)
+  case PS_CREATE_RIC:
+    {
+      message.String(sizeof(ps_name), ps_name);
+      pos.x = message.Float();
+      pos.y = message.Float();
+      pos.z = message.Float();
 
-			pSystem->SetEmitter(pos, angles);
-			pSystem->SetDelay(0);
-			pSystem->SetLifeTime(lifetime);
-			return (uintptr_t)pSystem;
-
-			break;
-		}
-	case PS_CREATEX_RIC:
-		{
-			throw std::exception("Unsupported particle manager command !!!");
-		}
-
-		//создать систему
-	case PS_CREATE:
-		{
-			message.String(sizeof(ps_name), ps_name);
-			pos.x = message.Float();
-			pos.y = message.Float();
-			pos.z = message.Float();
-
-			angles.x = message.Float();
-			angles.y = message.Float();
-			angles.z = message.Float();
-			lifetime = message.Long();
+      angles.x = message.Float();
+      angles.y = message.Float();
+      angles.z = message.Float();
+      lifetime = message.Long();
 
       auto* pSystem = CreateSystem(ps_name, lifetime);
-			if (!pSystem) return 0;
+      if (!pSystem) return 0;
+
+      pSystem->SetEmitter(pos, angles);
+      pSystem->SetDelay(0);
+      pSystem->SetLifeTime(lifetime);
+      return (uintptr_t)pSystem;
+
+      break;
+    }
+  case PS_CREATEX_RIC:
+    {
+      throw std::exception("Unsupported particle manager command !!!");
+    }
+
+    //создать систему
+  case PS_CREATE:
+    {
+      message.String(sizeof(ps_name), ps_name);
+      pos.x = message.Float();
+      pos.y = message.Float();
+      pos.z = message.Float();
+
+      angles.x = message.Float();
+      angles.y = message.Float();
+      angles.z = message.Float();
+      lifetime = message.Long();
+
+      auto* pSystem = CreateSystem(ps_name, lifetime);
+      if (!pSystem) return 0;
 
 
-			pSystem->SetEmitter(pos, angles);
-			pSystem->SetDelay(0);
-			pSystem->SetLifeTime(lifetime);
-			return (uintptr_t)pSystem;
+      pSystem->SetEmitter(pos, angles);
+      pSystem->SetDelay(0);
+      pSystem->SetLifeTime(lifetime);
+      return (uintptr_t)pSystem;
 
-			break;
-		}
-		//создать систему
-	case PS_CREATEX:
-		{
-			message.String(sizeof(ps_name), ps_name);
-			pos.x = message.Float();
-			pos.y = message.Float();
-			pos.z = message.Float();
+      break;
+    }
+    //создать систему
+  case PS_CREATEX:
+    {
+      message.String(sizeof(ps_name), ps_name);
+      pos.x = message.Float();
+      pos.y = message.Float();
+      pos.z = message.Float();
 
-			Vector normal;
-			normal.x = message.Float();
-			normal.y = message.Float();
-			normal.z = message.Float();
-      const auto fLen = (double)normal.Normalize();
+      Vector normal;
+      normal.x = message.Float();
+      normal.y = message.Float();
+      normal.z = message.Float();
+      const auto fLen = static_cast<double>(normal.Normalize());
 
-			if (fLen)
-			{
-				angles.y = normal.GetAY();
+      if (fLen) {
+        angles.y = normal.GetAY();
         auto fDiv = -(normal.y / fLen);
-				fDiv = Min(Max(fDiv, -1.0), 1.0);
-				angles.x = (float)asin(fDiv);
-			}
-			else
-			{
-				angles.x = 0.0f;
-				angles.y = 0.0f;
-			}
+        fDiv = Min(Max(fDiv, -1.0), 1.0);
+        angles.x = static_cast<float>(asin(fDiv));
+      }
+      else {
+        angles.x = 0.0f;
+        angles.y = 0.0f;
+      }
 
-			angles.z = 0.0f;
+      angles.z = 0.0f;
 
-			lifetime = message.Long();
+      lifetime = message.Long();
 
       auto* pSystem = CreateSystem(ps_name, lifetime);
-			if (!pSystem) return 0;
+      if (!pSystem) return 0;
 
-			pSystem->SetEmitter(pos, angles);
-			pSystem->SetDelay(0);
-			pSystem->SetLifeTime(lifetime);
-			return (uintptr_t)pSystem;
+      pSystem->SetEmitter(pos, angles);
+      pSystem->SetDelay(0);
+      pSystem->SetLifeTime(lifetime);
+      return (uintptr_t)pSystem;
 
-			break;
-		}
-	case PS_ADDTRACKPOINT:
-		{
-			throw std::exception("Unsupported particle manager command !!!");
-		}
-	case PS_USESURFACE:
-		{
-			throw std::exception("Unsupported particle manager command !!!");
-		}
-	case PS_VALIDATE_PARTICLE:
-		{
+      break;
+    }
+  case PS_ADDTRACKPOINT:
+    {
+      throw std::exception("Unsupported particle manager command !!!");
+    }
+  case PS_USESURFACE:
+    {
+      throw std::exception("Unsupported particle manager command !!!");
+    }
+  case PS_VALIDATE_PARTICLE:
+    {
       auto* const SystemID = message.Pointer();
-			for (uint32_t n = 0; n < CreatedSystems.size(); n++)
-				if (CreatedSystems[n].pSystem == (PARTICLE_SYSTEM*)SystemID)
-					return 1;
-			return 0;
-			break;
-		}
-	}
-	return 0;
+      for (uint32_t n = 0; n < CreatedSystems.size(); n++)
+        if (CreatedSystems[n].pSystem == (PARTICLE_SYSTEM*)SystemID)
+          return 1;
+      return 0;
+      break;
+    }
+  }
+  return 0;
 }
 
 
-PARTICLE_SYSTEM* PARTICLES::CreateSystem(const char* pFileName, uint32_t LifeTime)
-{
-	//std::string pFullFileName;
-	//pFullFileName = "resource\\particles\\";
-	//pFullFileName += pFileName;
-	//pFullFileName.AddExtention(".xps");
-	//__debugbreak(); //~!~
+PARTICLE_SYSTEM* PARTICLES::CreateSystem(const char* pFileName, uint32_t LifeTime) {
+  //std::string pFullFileName;
+  //pFullFileName = "resource\\particles\\";
+  //pFullFileName += pFileName;
+  //pFullFileName.AddExtention(".xps");
+  //__debugbreak(); //~!~
   auto path = fs::path() / "resource" / "particles" / pFileName;
-	std::string pathStr = path.extension().string();
-	if (_stricmp(pathStr.c_str(), ".xps") != 0)
-		path += ".xps";
-	pathStr = path.string();
-	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
+  std::string pathStr = path.extension().string();
+  if (_stricmp(pathStr.c_str(), ".xps") != 0)
+    path += ".xps";
+  pathStr = path.string();
+  //MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 
-	//api->Trace("K2 Particles Wrapper: Create system '%s'", pFileName);
-	IParticleSystem* pSys = pManager->CreateParticleSystemEx(pathStr.c_str(), __FILE__, __LINE__);
-	if (!pSys)
-	{
-		//api->Trace("Can't create particles system '%s'", pFileName);
-		return nullptr;
-	}
+  //api->Trace("K2 Particles Wrapper: Create system '%s'", pFileName);
+  IParticleSystem* pSys = pManager->CreateParticleSystemEx(pathStr.c_str(), __FILE__, __LINE__);
+  if (!pSys) {
+    //api->Trace("Can't create particles system '%s'", pFileName);
+    return nullptr;
+  }
 
-	pSys->AutoDelete(false);
+  pSys->AutoDelete(false);
 
-	auto* pNewPS = new PARTICLE_SYSTEM(pSys);
-	pNewPS->SetManager(this);
-
-
-	//api->Trace("PSYS Created ok");
-
-	SystemInfo Info;
-	Info.pSystem = pNewPS;
-	Info.LifeTime = LifeTime;
-	Info.FileName = pathStr;
-	CreatedSystems.push_back(Info);
-
-	if (CreationCapture)
-	{
-		CaptureBuffer.push_back((uintptr_t)pNewPS);
-	}
+  auto* pNewPS = new PARTICLE_SYSTEM(pSys);
+  pNewPS->SetManager(this);
 
 
-	return pNewPS;
+  //api->Trace("PSYS Created ok");
+
+  SystemInfo Info;
+  Info.pSystem = pNewPS;
+  Info.LifeTime = LifeTime;
+  Info.FileName = pathStr;
+  CreatedSystems.push_back(Info);
+
+  if (CreationCapture) {
+    CaptureBuffer.push_back((uintptr_t)pNewPS);
+  }
+
+
+  return pNewPS;
 }
 
-void PARTICLES::DeleteSystem(uintptr_t SystemID)
-{
-	bSystemDelete = true;
-	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
-	{
-		if (CreatedSystems[n].pSystem == (PARTICLE_SYSTEM*)SystemID)
-		{
-			//api->Trace("Delete particles system with name '%s'", CreatedSystems[n].FileName.c_str());
-			delete CreatedSystems[n].pSystem;
-			//CreatedSystems.ExtractNoShift(n);
-			CreatedSystems[n] = CreatedSystems.back();
-			CreatedSystems.pop_back();
-			bSystemDelete = false;
-			return;
-		}
-	}
+void PARTICLES::DeleteSystem(uintptr_t SystemID) {
+  bSystemDelete = true;
+  for (uint32_t n = 0; n < CreatedSystems.size(); n++) {
+    if (CreatedSystems[n].pSystem == (PARTICLE_SYSTEM*)SystemID) {
+      //api->Trace("Delete particles system with name '%s'", CreatedSystems[n].FileName.c_str());
+      delete CreatedSystems[n].pSystem;
+      //CreatedSystems.ExtractNoShift(n);
+      CreatedSystems[n] = CreatedSystems.back();
+      CreatedSystems.pop_back();
+      bSystemDelete = false;
+      return;
+    }
+  }
 
-	//api->Trace("Can't delete particle system with GUID %d", SystemID);
+  //api->Trace("Can't delete particle system with GUID %d", SystemID);
 
-	bSystemDelete = false;
+  bSystemDelete = false;
 }
 
-void PARTICLES::DeleteAll()
-{
-	bSystemDelete = true;
-	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
-	{
-		delete CreatedSystems[n].pSystem;
-	}
+void PARTICLES::DeleteAll() {
+  bSystemDelete = true;
+  for (uint32_t n = 0; n < CreatedSystems.size(); n++) {
+    delete CreatedSystems[n].pSystem;
+  }
 
-	CreatedSystems.clear();
-	bSystemDelete = false;
+  CreatedSystems.clear();
+  bSystemDelete = false;
 }
 
-void PARTICLES::DeleteResource(PARTICLE_SYSTEM* pResource)
-{
-	if (bSystemDelete) return;
+void PARTICLES::DeleteResource(PARTICLE_SYSTEM* pResource) {
+  if (bSystemDelete) return;
 
-	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
-	{
-		if (CreatedSystems[n].pSystem == pResource)
-		{
-			//CreatedSystems.ExtractNoShift(n);
-			CreatedSystems[n] = CreatedSystems.back();
-			CreatedSystems.pop_back();
-			return;
-		}
-	}
+  for (uint32_t n = 0; n < CreatedSystems.size(); n++) {
+    if (CreatedSystems[n].pSystem == pResource) {
+      //CreatedSystems.ExtractNoShift(n);
+      CreatedSystems[n] = CreatedSystems.back();
+      CreatedSystems.pop_back();
+      return;
+    }
+  }
 }
 
-void PARTICLES::Realize(uint32_t Delta_Time)
-{
-	bSystemDelete = true;
-  const float fDeltaTime = (float)Delta_Time * 0.001f;
-	pManager->Execute(fDeltaTime);
+void PARTICLES::Realize(uint32_t Delta_Time) {
+  bSystemDelete = true;
+  const float fDeltaTime = static_cast<float>(Delta_Time) * 0.001f;
+  pManager->Execute(fDeltaTime);
 
 
-	//≈сли врем€, ставим эмитирование на паузу
-	// когда все партиклы умрут система удалитьс€ сама...
-	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
-	{
-		CreatedSystems[n].PassedTime += Delta_Time;
+  //≈сли врем€, ставим эмитирование на паузу
+  // когда все партиклы умрут система удалитьс€ сама...
+  for (uint32_t n = 0; n < CreatedSystems.size(); n++) {
+    CreatedSystems[n].PassedTime += Delta_Time;
 
-		if (CreatedSystems[n].LifeTime == 0) continue;
+    if (CreatedSystems[n].LifeTime == 0) continue;
 
-		if (CreatedSystems[n].PassedTime > CreatedSystems[n].LifeTime)
-		{
-			//CreatedSystems[n].pSystem->Pause(true);
-			CreatedSystems[n].pSystem->Stop();
-		}
-	}
+    if (CreatedSystems[n].PassedTime > CreatedSystems[n].LifeTime) {
+      //CreatedSystems[n].pSystem->Pause(true);
+      CreatedSystems[n].pSystem->Stop();
+    }
+  }
 
-	//”дал€ем умершие системы...
-	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
-	{
-		if (!CreatedSystems[n].pSystem->GetSystem()->IsAlive())
-		{
-			delete CreatedSystems[n].pSystem;
-			//CreatedSystems.ExtractNoShift(n);
-			CreatedSystems[n] = CreatedSystems.back();
-			CreatedSystems.pop_back();
-			n--;
-		}
-	}
+  //”дал€ем умершие системы...
+  for (uint32_t n = 0; n < CreatedSystems.size(); n++) {
+    if (!CreatedSystems[n].pSystem->GetSystem()->IsAlive()) {
+      delete CreatedSystems[n].pSystem;
+      //CreatedSystems.ExtractNoShift(n);
+      CreatedSystems[n] = CreatedSystems.back();
+      CreatedSystems.pop_back();
+      n--;
+    }
+  }
 
 
-	bSystemDelete = false;
+  bSystemDelete = false;
 }
 
-void PARTICLES::Execute(uint32_t Delta_Time)
-{
+void PARTICLES::Execute(uint32_t Delta_Time) {
 }
 
-void PARTICLES::PauseAllActive(bool bPaused)
-{
-	for (uint32_t n = 0; n < CreatedSystems.size(); n++)
-	{
-		CreatedSystems[n].pSystem->GetSystem()->Restart(0);
-		CreatedSystems[n].pSystem->Pause(bPaused);
-	}
+void PARTICLES::PauseAllActive(bool bPaused) {
+  for (uint32_t n = 0; n < CreatedSystems.size(); n++) {
+    CreatedSystems[n].pSystem->GetSystem()->Restart(0);
+    CreatedSystems[n].pSystem->Pause(bPaused);
+  }
 }
 
 
-void PARTICLES::DeleteCaptured()
-{
-	for (uint32_t n = 0; n < CaptureBuffer.size(); n++)
-	{
-		DeleteSystem(CaptureBuffer[n]);
-	}
+void PARTICLES::DeleteCaptured() {
+  for (uint32_t n = 0; n < CaptureBuffer.size(); n++) {
+    DeleteSystem(CaptureBuffer[n]);
+  }
 
-	CaptureBuffer.clear();
+  CaptureBuffer.clear();
 }

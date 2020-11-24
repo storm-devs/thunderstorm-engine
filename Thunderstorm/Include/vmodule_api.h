@@ -8,24 +8,21 @@
 #define INTERFACE_FUNCTION
 
 /* TODO: REMOVE THIS.... */
-constexpr uint32_t MakeHashValue(const char* string)
-{
-	uint32_t hval = 0;
+constexpr uint32_t MakeHashValue(const char* string) {
+  uint32_t hval = 0;
 
-	while (*string != 0)
-	{
+  while (*string != 0) {
     auto v = *string++;
-		if ('A' <= v && v <= 'Z') v += 'a' - 'A';
+    if ('A' <= v && v <= 'Z') v += 'a' - 'A';
 
-		hval = (hval << 4) + (unsigned long int)v;
-    const uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
-		if (g != 0)
-		{
-			hval ^= g >> (32 - 8);
-			hval ^= g;
-		}
-	}
-	return hval;
+    hval = (hval << 4) + static_cast<unsigned long>(v);
+    const uint32_t g = hval & (static_cast<unsigned long>(0xf) << (32 - 4));
+    if (g != 0) {
+      hval ^= g >> (32 - 8);
+      hval ^= g;
+    }
+  }
+  return hval;
 }
 
 class VMA;
@@ -36,38 +33,35 @@ extern VAPI* api;
 //extern VSYSTEM_API* _VSYSTEM_API;
 extern VFILE_SERVICE* fio;
 
-class VMA
-{
+class VMA {
 protected:
-	VMA* pNext;
-	long nHash;
-	long nReference;
+  VMA* pNext;
+  long nHash;
+  long nReference;
 public:
-	VMA(): pNext(nullptr)
-	{
-		nReference = 0;
-		nHash = 0;
-		_pModuleClassRoot.push_back(this);
-		//pNext = _pModuleClassRoot;
-		//_pModuleClassRoot = this;
-	}
-	;
-	VMA* Next() const { return pNext; }
+  VMA(): pNext(nullptr) {
+    nReference = 0;
+    nHash = 0;
+    _pModuleClassRoot.push_back(this);
+    //pNext = _pModuleClassRoot;
+    //_pModuleClassRoot = this;
+  }
+  ;
+  VMA* Next() const { return pNext; }
 
-	virtual ~VMA()
-	{
-	};
-	long Build_Version() { return -1; };
-	void SetHash(long _hash) { nHash = _hash; }
-	long GetHash() const { return nHash; }
-	void Set(VMA* _p) { pNext = _p; };
-	virtual bool Service() { return false; }
-	virtual const char* GetName() { return nullptr; }
-	virtual void* CreateClass() { return nullptr; }
-	virtual void RefDec() { nReference--; };
-	virtual long GetReference() { return nReference; }
-	virtual void Clear() { nReference = 0; };
-	virtual bool ScriptLibriary() { return false; }
+  virtual ~VMA() {
+  };
+  long Build_Version() { return -1; };
+  void SetHash(long _hash) { nHash = _hash; }
+  long GetHash() const { return nHash; }
+  void Set(VMA* _p) { pNext = _p; };
+  virtual bool Service() { return false; }
+  virtual const char* GetName() { return nullptr; }
+  virtual void* CreateClass() { return nullptr; }
+  virtual void RefDec() { nReference--; };
+  virtual long GetReference() { return nReference; }
+  virtual void Clear() { nReference = 0; };
+  virtual bool ScriptLibriary() { return false; }
 };
 
 

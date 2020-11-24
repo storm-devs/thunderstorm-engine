@@ -3,45 +3,37 @@
 #include <algorithm>
 
 //--------------------------------------------------------------------
-TDynamicSystem::TDynamicSystem()
-{
-	std::fill(attractors, attractors + MAX_DYNAMIC_OBJECTS, nullptr);
-	std::fill(deflectors, deflectors + MAX_DYNAMIC_OBJECTS, nullptr);
+TDynamicSystem::TDynamicSystem() {
+  std::fill(attractors, attractors + MAX_DYNAMIC_OBJECTS, nullptr);
+  std::fill(deflectors, deflectors + MAX_DYNAMIC_OBJECTS, nullptr);
 }
 
 //--------------------------------------------------------------------
-TDynamicSystem::~TDynamicSystem()
-{
+TDynamicSystem::~TDynamicSystem() {
 }
 
 //--------------------------------------------------------------------
-bool TDynamicSystem::AddAttractor(TDynamicObject* _obj)
-{
-	for (auto i = 0; i < MAX_DYNAMIC_OBJECTS; i++)
-	{
-		if (!attractors[i])
-		{
-			attractors[i] = _obj;
-			return true;
-		}
-	}
+bool TDynamicSystem::AddAttractor(TDynamicObject* _obj) {
+  for (auto i = 0; i < MAX_DYNAMIC_OBJECTS; i++) {
+    if (!attractors[i]) {
+      attractors[i] = _obj;
+      return true;
+    }
+  }
 
-	return false;
+  return false;
 }
 
 //--------------------------------------------------------------------
-bool TDynamicSystem::AddDeflector(TDynamicObject* _obj)
-{
-	for (auto i = 0; i < MAX_DYNAMIC_OBJECTS; i++)
-	{
-		if (!deflectors[i])
-		{
-			deflectors[i] = _obj;
-			return true;
-		}
-	}
+bool TDynamicSystem::AddDeflector(TDynamicObject* _obj) {
+  for (auto i = 0; i < MAX_DYNAMIC_OBJECTS; i++) {
+    if (!deflectors[i]) {
+      deflectors[i] = _obj;
+      return true;
+    }
+  }
 
-	return false;
+  return false;
 }
 
 //--------------------------------------------------------------------
@@ -70,22 +62,18 @@ void TDynamicSystem::Draw(HDC _dc)
 }
 */
 //--------------------------------------------------------------------
-void TDynamicSystem::Recalculate()
-{
-	for (auto i = 1; i < MAX_DYNAMIC_OBJECTS; i++)
-	{
-		if (attractors[i])
-		{
-			attractors[i]->Calculate(attractors, MAX_DYNAMIC_OBJECTS
-			                         , deflectors, MAX_DYNAMIC_OBJECTS);
-		}
+void TDynamicSystem::Recalculate() {
+  for (auto i = 1; i < MAX_DYNAMIC_OBJECTS; i++) {
+    if (attractors[i]) {
+      attractors[i]->Calculate(attractors, MAX_DYNAMIC_OBJECTS
+                               , deflectors, MAX_DYNAMIC_OBJECTS);
+    }
 
-		if (deflectors[i])
-		{
-			deflectors[i]->Calculate(attractors, MAX_DYNAMIC_OBJECTS
-			                         , deflectors, MAX_DYNAMIC_OBJECTS);
-		}
-	}
+    if (deflectors[i]) {
+      deflectors[i]->Calculate(attractors, MAX_DYNAMIC_OBJECTS
+                               , deflectors, MAX_DYNAMIC_OBJECTS);
+    }
+  }
 }
 
 //--------------------------------------------------------------------

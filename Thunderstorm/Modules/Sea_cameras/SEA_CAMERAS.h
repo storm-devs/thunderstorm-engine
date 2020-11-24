@@ -4,25 +4,22 @@
 #include "ShipCamera.h"
 #include <vector>
 
-class SEA_CAMERAS : public Entity
-{
-	std::vector<COMMON_CAMERA*> CamerasArray;
-	bool bActive;
+class SEA_CAMERAS : public Entity {
+  std::vector<COMMON_CAMERA*> CamerasArray;
+  bool bActive;
 public:
-	SEA_CAMERAS();
-	virtual ~SEA_CAMERAS();
+  SEA_CAMERAS();
+  virtual ~SEA_CAMERAS();
 
-	void ProcessMessage(uint32_t iMsg, uint32_t wParam, uint32_t lParam);
-	uint64_t ProcessMessage(MESSAGE& message) override;
+  void ProcessMessage(uint32_t iMsg, uint32_t wParam, uint32_t lParam);
+  uint64_t ProcessMessage(MESSAGE& message) override;
 
-	bool Init() override
-	{
-		return true;
-	}
+  bool Init() override {
+    return true;
+  }
 
-	void ProcessStage(Stage, uint32_t) override
-	{
-	}
+  void ProcessStage(Stage, uint32_t) override {
+  }
 };
 
 /*

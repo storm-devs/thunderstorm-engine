@@ -13,49 +13,48 @@
 
 #include "WdmShip.h"
 
-class WdmPlayerShip : public WdmShip
-{
-	//--------------------------------------------------------------------------------------------
-	//Конструирование, деструктурирование
-	//--------------------------------------------------------------------------------------------
+class WdmPlayerShip : public WdmShip {
+  //--------------------------------------------------------------------------------------------
+  //Конструирование, деструктурирование
+  //--------------------------------------------------------------------------------------------
 public:
-	WdmPlayerShip();
-	virtual ~WdmPlayerShip();
+  WdmPlayerShip();
+  virtual ~WdmPlayerShip();
 
-	void PushOutFromIsland();
+  void PushOutFromIsland();
 
-	void SetActionRadius(float radius);
+  void SetActionRadius(float radius);
 
-	//Расчёты
-	void Update(float dltTime) override;
-	void LRender(VDX9RENDER* rs) override;
+  //Расчёты
+  void Update(float dltTime) override;
+  void LRender(VDX9RENDER* rs) override;
 
-	//Проверка при выходе из карты
-	bool ExitFromMap();
-	//Проверка на нахождении кораблика в шторме
-	long TestInStorm() const;
+  //Проверка при выходе из карты
+  bool ExitFromMap();
+  //Проверка на нахождении кораблика в шторме
+  long TestInStorm() const;
 
-	float GetAy() const;
+  float GetAy() const;
 
-	bool canSkip;
+  bool canSkip;
 
 protected:
-	//Переместить кораблик
-	virtual void Move(float dltTime);
+  //Переместить кораблик
+  virtual void Move(float dltTime);
 
-	void Collide() override;
+  void Collide() override;
 
-	//--------------------------------------------------------------------------------------------
-	//Инкапсуляция
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Инкапсуляция
+  //--------------------------------------------------------------------------------------------
 private:
-	bool goForward;
-	float actionRadius;
-	float stormEventTime;
+  bool goForward;
+  float actionRadius;
+  float stormEventTime;
 };
 
 inline float WdmPlayerShip::GetAy() const {
-	return ay;
+  return ay;
 }
 
 #endif

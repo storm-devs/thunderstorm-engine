@@ -5,33 +5,32 @@
 #include <string>
 
 
-class DataBool
-{
-	std::string Name;
+class DataBool {
+  std::string Name;
 
 
-	bool Value;
+  bool Value;
 
 public:
 
-	//конструктор/деструктор
-	DataBool();
-	virtual ~DataBool();
+  //конструктор/деструктор
+  DataBool();
+  virtual ~DataBool();
 
-	//Получить значение
-	bool GetValue() const;
+  //Получить значение
+  bool GetValue() const;
 
-	//Установить значение
-	void SetValue(bool val);
-
-
-	//Сохранить/загрузить...
-	void Load(MemFile* File);
-	void Write(MemFile* File) const;
+  //Установить значение
+  void SetValue(bool val);
 
 
-	void SetName(const char* szName);
-	const char* GetName() const;
+  //Сохранить/загрузить...
+  void Load(MemFile* File);
+  void Write(MemFile* File) const;
+
+
+  void SetName(const char* szName);
+  const char* GetName() const;
 };
 
 

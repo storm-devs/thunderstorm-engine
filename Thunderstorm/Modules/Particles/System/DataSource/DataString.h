@@ -6,31 +6,30 @@
 #include <string>
 
 
-class DataString
-{
-	std::string Name;
+class DataString {
+  std::string Name;
 
-	std::string Value;
+  std::string Value;
 
 public:
 
-	//конструктор/деструктор
-	DataString();
-	virtual ~DataString();
+  //конструктор/деструктор
+  DataString();
+  virtual ~DataString();
 
-	//Получить значение
-	const char* GetValue() const;
+  //Получить значение
+  const char* GetValue() const;
 
-	//Установить значение
-	void SetValue(const char* val);
-
-
-	void Load(MemFile* File);
-	void Write(MemFile* File) const;
+  //Установить значение
+  void SetValue(const char* val);
 
 
-	void SetName(const char* szName);
-	const char* GetName() const;
+  void Load(MemFile* File);
+  void Write(MemFile* File) const;
+
+
+  void SetName(const char* szName);
+  const char* GetName() const;
 };
 
 

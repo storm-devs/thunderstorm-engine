@@ -2,13 +2,12 @@
 #define _GI_EDITOR_DEFINES_H_
 #include <vector>
 
-enum GIEditorStates
-{
-	GIState_Nothing = 0,
+enum GIEditorStates {
+  GIState_Nothing = 0,
 
-	GIState_ListChange = 1,
+  GIState_ListChange = 1,
 
-	GIState_ForcedDword = 0xFFFFFFFF
+  GIState_ForcedDword = 0xFFFFFFFF
 };
 
 class GIEditorEventHandler;
@@ -17,35 +16,31 @@ class GIEditorObject;
 typedef void (GIEditorObject::*GIEditorEvent)();
 
 
-class GIEditorObject
-{
+class GIEditorObject {
 public:
-	virtual ~GIEditorObject()
-	{
-	}
+  virtual ~GIEditorObject() {
+  }
 
 public:
-	void LinkEvent(GIEditorEventHandler* pEventHandler, const GIEditorEvent& pEventFunction);
+  void LinkEvent(GIEditorEventHandler* pEventHandler, const GIEditorEvent& pEventFunction);
 };
 
-class GIEditorEventHandler
-{
+class GIEditorEventHandler {
 public:
-	GIEditorEventHandler();
-	~GIEditorEventHandler();
+  GIEditorEventHandler();
+  ~GIEditorEventHandler();
 
-	bool Execute();
+  bool Execute();
 
-	void AddEventFunction(GIEditorObject* pObj, const GIEditorEvent& pEventFunction);
+  void AddEventFunction(GIEditorObject* pObj, const GIEditorEvent& pEventFunction);
 
 protected:
-	struct FuncDescr
-	{
-		GIEditorObject* pObj;
-		GIEditorEvent func;
-	};
+  struct FuncDescr {
+    GIEditorObject* pObj;
+    GIEditorEvent func;
+  };
 
-	std::vector<FuncDescr> m_aEventFuncs;
+  std::vector<FuncDescr> m_aEventFuncs;
 };
 
 #endif

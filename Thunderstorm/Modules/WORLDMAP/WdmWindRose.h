@@ -13,39 +13,35 @@
 
 #include "WdmRenderModel.h"
 
-class WdmWindRose : public WdmRenderModel
-{
-	struct Vertex
-	{
-		float x, y, z;
-		uint32_t c;
-		float tu, tv;
-	};
+class WdmWindRose : public WdmRenderModel {
+  struct Vertex {
+    float x, y, z;
+    uint32_t c;
+    float tu, tv;
+  };
 
-	//--------------------------------------------------------------------------------------------
-	//Конструирование, деструктурирование
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Конструирование, деструктурирование
+  //--------------------------------------------------------------------------------------------
 public:
-	WdmWindRose();
-	virtual ~WdmWindRose();
+  WdmWindRose();
+  virtual ~WdmWindRose();
 
-	//Расчёты
-	void Update(float dltTime) override;
+  //Расчёты
+  void Update(float dltTime) override;
 
-	void PRender(VDX9RENDER* rs) override
-	{
-	};
+  void PRender(VDX9RENDER* rs) override {
+  };
 
-	void MRender(VDX9RENDER* rs) override
-	{
-	};
-	void LRender(VDX9RENDER* rs) override;
+  void MRender(VDX9RENDER* rs) override {
+  };
+  void LRender(VDX9RENDER* rs) override;
 
-	//--------------------------------------------------------------------------------------------
-	//Инкапсуляция
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Инкапсуляция
+  //--------------------------------------------------------------------------------------------
 private:
-	long shadowTexture;
+  long shadowTexture;
 };
 
 #endif

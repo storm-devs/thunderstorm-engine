@@ -6,51 +6,49 @@
 class XINTERFACE;
 
 // video
-class CXI_PICTURE : public CINODE
-{
-	friend XINTERFACE;
+class CXI_PICTURE : public CINODE {
+  friend XINTERFACE;
 public:
-	CXI_PICTURE();
-	~CXI_PICTURE();
-	void Draw(bool bSelected, uint32_t Delta_Time) override;
-	bool Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
-	          XYPOINT& ScreenSize) override;
-	void ReleaseAll() override;
-	int CommandExecute(int wActCode) override;
-	bool IsClick(int buttonID, long xPos, long yPos) override;
+  CXI_PICTURE();
+  ~CXI_PICTURE();
+  void Draw(bool bSelected, uint32_t Delta_Time) override;
+  bool Init(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+            XYPOINT& ScreenSize) override;
+  void ReleaseAll() override;
+  int CommandExecute(int wActCode) override;
+  bool IsClick(int buttonID, long xPos, long yPos) override;
 
-	void MouseThis(float fX, float fY) override
-	{
-	}
+  void MouseThis(float fX, float fY) override {
+  }
 
-	void ChangePosition(XYRECT& rNewPos) override;
-	void SaveParametersToIni() override;
-	uint32_t MessageProc(long msgcode, MESSAGE& message) override;
-	virtual void ChangeUV(FXYRECT& frNewUV);
-	void ChangeColor(uint32_t dwColor);
-	void SetPictureSize(long& nWidth, long& nHeight);
+  void ChangePosition(XYRECT& rNewPos) override;
+  void SaveParametersToIni() override;
+  uint32_t MessageProc(long msgcode, MESSAGE& message) override;
+  virtual void ChangeUV(FXYRECT& frNewUV);
+  void ChangeColor(uint32_t dwColor);
+  void SetPictureSize(long& nWidth, long& nHeight);
 
 protected:
-	void LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2) override;
-	void SetNewPicture(bool video, char* sNewTexName);
-	void SetNewPictureFromDir(char* dirName);
-	void SetNewPictureByGroup(char* groupName, char* picName);
-	void SetNewPictureByPointer(IDirect3DBaseTexture9* pTex);
-	void ReleasePicture();
+  void LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2) override;
+  void SetNewPicture(bool video, char* sNewTexName);
+  void SetNewPictureFromDir(char* dirName);
+  void SetNewPictureByGroup(char* groupName, char* picName);
+  void SetNewPictureByPointer(IDirect3DBaseTexture9* pTex);
+  void ReleasePicture();
 
-	char* m_pcGroupName;
-	long m_idTex;
-	IDirect3DBaseTexture9* m_pD3D8Texture;
-	CVideoTexture* m_pTex;
-	XI_ONETEX_VERTEX m_v[4];
+  char* m_pcGroupName;
+  long m_idTex;
+  IDirect3DBaseTexture9* m_pD3D8Texture;
+  CVideoTexture* m_pTex;
+  XI_ONETEX_VERTEX m_v[4];
 
-	bool m_bMakeBlind;
-	float m_fCurBlindTime;
-	bool m_bBlindUp;
-	float m_fBlindUpSpeed;
-	float m_fBlindDownSpeed;
-	uint32_t m_dwBlindMin;
-	uint32_t m_dwBlindMax;
+  bool m_bMakeBlind;
+  float m_fCurBlindTime;
+  bool m_bBlindUp;
+  float m_fBlindUpSpeed;
+  float m_fBlindDownSpeed;
+  uint32_t m_dwBlindMin;
+  uint32_t m_dwBlindMax;
 };
 
 #endif

@@ -3,22 +3,21 @@
 
 #include "../battle_command.h"
 
-class BIManCommandList : public BICommandList
-{
+class BIManCommandList : public BICommandList {
 public:
-	BIManCommandList(entid_t eid, ATTRIBUTES* pA, VDX9RENDER* rs);
-	virtual ~BIManCommandList();
+  BIManCommandList(entid_t eid, ATTRIBUTES* pA, VDX9RENDER* rs);
+  virtual ~BIManCommandList();
 
-	void FillIcons() override;
-	void Init() override;
+  void FillIcons() override;
+  void Init() override;
 
 protected:
-	void Release();
+  void Release();
 
-	long CommandAdding();
-	long UserIconsAdding();
-	long AbilityAdding();
-	long AddCancelIcon();
+  long CommandAdding();
+  long UserIconsAdding();
+  long AbilityAdding();
+  long AddCancelIcon();
 };
 
 #endif

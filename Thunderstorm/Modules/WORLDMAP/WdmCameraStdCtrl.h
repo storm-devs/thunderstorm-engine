@@ -13,36 +13,35 @@
 
 #include "WdmCamera.h"
 
-class WdmCameraStdCtrl : public WdmCamera
-{
-	//--------------------------------------------------------------------------------------------
-	//Конструирование, деструктурирование
-	//--------------------------------------------------------------------------------------------
+class WdmCameraStdCtrl : public WdmCamera {
+  //--------------------------------------------------------------------------------------------
+  //Конструирование, деструктурирование
+  //--------------------------------------------------------------------------------------------
 public:
-	WdmCameraStdCtrl();
-	virtual ~WdmCameraStdCtrl();
+  WdmCameraStdCtrl();
+  virtual ~WdmCameraStdCtrl();
 
-	//--------------------------------------------------------------------------------------------
-	//Функции возвращающие реакции клавиш
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Функции возвращающие реакции клавиш
+  //--------------------------------------------------------------------------------------------
 public:
-	void CtrlProcess(float dltTime) override;
-	float MoveLeftRight(float dltTime) override;
-	float MoveUpDown(float dltTime) override;
-	float RotLeftRight(float dltTime) override;
-	float ZoomInOut(float dltTime) override;
-	bool CurrentFreeMode() override;
-	bool GetHightHeight(float& height) override;
+  void CtrlProcess(float dltTime) override;
+  float MoveLeftRight(float dltTime) override;
+  float MoveUpDown(float dltTime) override;
+  float RotLeftRight(float dltTime) override;
+  float ZoomInOut(float dltTime) override;
+  bool CurrentFreeMode() override;
+  bool GetHightHeight(float& height) override;
 
-	//--------------------------------------------------------------------------------------------
-	//Инкапсуляция
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Инкапсуляция
+  //--------------------------------------------------------------------------------------------
 private:
-	bool GetCurFreeMode() const;
+  bool GetCurFreeMode() const;
 private:
-	bool isFree;
-	float mdx, mdy, mzoom;
-	bool lastFreeMode;
+  bool isFree;
+  float mdx, mdy, mzoom;
+  bool lastFreeMode;
 };
 
 #endif

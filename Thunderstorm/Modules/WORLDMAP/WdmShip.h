@@ -27,74 +27,70 @@
 #define WDM_SHIP_MAX_TURNSPD	0.65f		//Максимальная скорость поворота
 
 
-class WdmShip : public WdmRenderModel
-{
-	struct Line
-	{
-		float x, z;
-		float ay, size;
-	};
+class WdmShip : public WdmRenderModel {
+  struct Line {
+    float x, z;
+    float ay, size;
+  };
 
-	struct Vertex
-	{
-		float x, y, z;
-		uint32_t color;
-		float tu, tv;
-	};
+  struct Vertex {
+    float x, y, z;
+    uint32_t color;
+    float tu, tv;
+  };
 
-	//--------------------------------------------------------------------------------------------
-	//Конструирование, деструктурирование
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Конструирование, деструктурирование
+  //--------------------------------------------------------------------------------------------
 public:
-	WdmShip();
-	virtual ~WdmShip();
+  WdmShip();
+  virtual ~WdmShip();
 
-	void Teleport(float x, float z, float ay);
-	void GetPosition(float& x, float& z, float& ay) const;
-	void SetMaxSpeed(float k);
+  void Teleport(float x, float z, float ay);
+  void GetPosition(float& x, float& z, float& ay) const;
+  void SetMaxSpeed(float k);
 
-	bool Load(const char* modelName) override;
-	//Расчёты
-	void Update(float dltTime) override;
-	void LRender(VDX9RENDER* rs) override;
+  bool Load(const char* modelName) override;
+  //Расчёты
+  void Update(float dltTime) override;
+  void LRender(VDX9RENDER* rs) override;
 
-	//true если свободно
-	static bool CheckPosition(float x, float z, float objRadius);
+  //true если свободно
+  static bool CheckPosition(float x, float z, float objRadius);
 
-	bool isLive;
-	bool isSelect;
+  bool isLive;
+  bool isSelect;
 
-	//--------------------------------------------------------------------------------------------
-	//Инкапсуляция
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Инкапсуляция
+  //--------------------------------------------------------------------------------------------
 protected:
-	void ShipUpdate(float dltTime);
-	void UpdateWaterMark(float dltTime);
+  void ShipUpdate(float dltTime);
+  void UpdateWaterMark(float dltTime);
 
-	virtual void Collide()
-	{
-	};
+  virtual void Collide() {
+  };
 
 public:
-	//Размеры модельки относительно 0
-	float modelL05; //Половина длинны модельки относительно 0
-	float modelW05; //Половина ширины модельки относительно 0
-	float modelRadius; //sqrtf(shipModelL*shipModelL + shipModelW*shipModelW)
-	float modelRadius2; //shipModelL*shipModelL + shipModelW*shipModelW
+  //Размеры модельки относительно 0
+  float modelL05; //Половина длинны модельки относительно 0
+  float modelW05; //Половина ширины модельки относительно 0
+  float modelRadius; //sqrtf(shipModelL*shipModelL + shipModelW*shipModelW)
+  float modelRadius2; //shipModelL*shipModelL + shipModelW*shipModelW
 
 protected:
-	float ax, ay, az;
-	float dltAx, dltAz;
-	float speed, turnspd;
-	float baseV;
-	float kMaxSpeed;
-	CVECTOR rspeed;
-	long collisionCounter;
-	float slope;
-	long wmtexture;
-	bool isWMRender;
+  float ax, ay, az;
+  float dltAx, dltAz;
+  float speed, turnspd;
+  float baseV;
+  float kMaxSpeed;
+  CVECTOR rspeed;
+  long collisionCounter;
+  float slope;
+  long wmtexture;
+  bool isWMRender;
 
-	Line lines[8];
+  Line lines[8];
 };
 
 #endif

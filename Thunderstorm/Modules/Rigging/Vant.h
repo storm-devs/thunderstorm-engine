@@ -12,125 +12,119 @@ class NODE;
 
 #define VANTVERTEX_FORMAT		(D3DFVF_XYZ|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2)
 
-struct VANTVERTEX
-{
-	CVECTOR pos;
-	float tu, tv;
+struct VANTVERTEX {
+  CVECTOR pos;
+  float tu, tv;
 };
 
-class VANT : public Entity
-{
-	// параметры получаемые из INI-файла //
-	//-------------------------------------
-	int ROPE_QUANT; // количество веревок
-	float ROPE_WIDTH; // толщина веревки
-	float upWidth; // ширина верхнего треугольника
-	float upHeight; // высота верхнего треугольника
-	float treangXl; // координаты текстуры треугольника
-	float treangXr; //
-	float treangYu; //
-	float treangYd; //
-	float balkYu; // координаты текстуры балки
-	float balkYd; //
-	float ropeXl; // координаты текстуры вертикальной веревки
-	float ropeXr; //
-	float vRopeXl; // координаты текстуры горизонтальной веревки xBeg
-	float vRopeXr; //
-	float vRopeHeight; // высота вертикальной веревки
-	float hRopeHeight; // высота горизонтальной веревки
-	float fBalkHeight; // высота балки относительно высоты треугольника
-	float fBalkWidth; //
-	float fVantMaxDist; // квадрат расстояния с которого не видны ванты
-	float ZERO_CMP_VAL; // шаг дискретизации движения ванта
-	float MAXFALL_CMP_VAL; // максимальное изменение положения ванта при котором вант перестает отображаться
-	//-------------------------------------
-	FILETIME ft_old;
+class VANT : public Entity {
+  // параметры получаемые из INI-файла //
+  //-------------------------------------
+  int ROPE_QUANT; // количество веревок
+  float ROPE_WIDTH; // толщина веревки
+  float upWidth; // ширина верхнего треугольника
+  float upHeight; // высота верхнего треугольника
+  float treangXl; // координаты текстуры треугольника
+  float treangXr; //
+  float treangYu; //
+  float treangYd; //
+  float balkYu; // координаты текстуры балки
+  float balkYd; //
+  float ropeXl; // координаты текстуры вертикальной веревки
+  float ropeXr; //
+  float vRopeXl; // координаты текстуры горизонтальной веревки xBeg
+  float vRopeXr; //
+  float vRopeHeight; // высота вертикальной веревки
+  float hRopeHeight; // высота горизонтальной веревки
+  float fBalkHeight; // высота балки относительно высоты треугольника
+  float fBalkWidth; //
+  float fVantMaxDist; // квадрат расстояния с которого не видны ванты
+  float ZERO_CMP_VAL; // шаг дискретизации движения ванта
+  float MAXFALL_CMP_VAL; // максимальное изменение положения ванта при котором вант перестает отображаться
+  //-------------------------------------
+  FILETIME ft_old;
 
-	bool bUse;
-	bool bRunFirstTime;
-	bool bYesDeleted;
-	int wVantLast;
-	VDX9RENDER* RenderService;
-	char* TextureName;
-	long texl;
+  bool bUse;
+  bool bRunFirstTime;
+  bool bYesDeleted;
+  int wVantLast;
+  VDX9RENDER* RenderService;
+  char* TextureName;
+  long texl;
 
 public:
-	VANT();
-	~VANT();
-	void SetDevice();
-	bool Init() override;
-	void Realize(uint32_t Delta_Time) const;
-	void Execute(uint32_t Delta_Time);
-	bool CreateState(ENTITY_STATE_GEN* state_gen);
-	bool LoadState(ENTITY_STATE* state);
-	uint64_t ProcessMessage(MESSAGE& message) override;
+  VANT();
+  ~VANT();
+  void SetDevice();
+  bool Init() override;
+  void Realize(uint32_t Delta_Time) const;
+  void Execute(uint32_t Delta_Time);
+  bool CreateState(ENTITY_STATE_GEN* state_gen);
+  bool LoadState(ENTITY_STATE* state);
+  uint64_t ProcessMessage(MESSAGE& message) override;
 
-	void ProcessStage(Stage stage, uint32_t delta) override
-	{
-		switch (stage)
-		{
-		case Stage::execute:
-			Execute(delta);
-			break;
-		case Stage::realize:
-			Realize(delta);
-			break;
-			/*case Stage::lost_render:
-				LostRender(delta); break;
-			case Stage::restore_render:
-				RestoreRender(delta); break;*/
-		}
-	}
+  void ProcessStage(Stage stage, uint32_t delta) override {
+    switch (stage) {
+    case Stage::execute:
+      Execute(delta);
+      break;
+    case Stage::realize:
+      Realize(delta);
+      break;
+      /*case Stage::lost_render:
+        LostRender(delta); break;
+      case Stage::restore_render:
+        RestoreRender(delta); break;*/
+    }
+  }
 
 private:
-	struct VANTDATA
-	{
-		bool bDeleted;
-		CVECTOR pUp, pLeft, pRight;
-		CMatrix *pUpMatWorld, *pDownMatWorld;
-		uint32_t sv, nv, st, nt;
+  struct VANTDATA {
+    bool bDeleted;
+    CVECTOR pUp, pLeft, pRight;
+    CMatrix *pUpMatWorld, *pDownMatWorld;
+    uint32_t sv, nv, st, nt;
 
-		int vantNum;
-		CVECTOR pos[VANT_EDGE];
+    int vantNum;
+    CVECTOR pos[VANT_EDGE];
 
-		CVECTOR pUpOld, pLeftOld, pUpStart, pLeftStart;
-		int HostGroup;
-	};
+    CVECTOR pUpOld, pLeftOld, pUpStart, pLeftStart;
+    int HostGroup;
+  };
 
-	int vantQuantity;
-	VANTDATA** vlist;
+  int vantQuantity;
+  VANTDATA** vlist;
 
-	struct GROUPDATA
-	{
-		bool bDeleted;
-		int vantQuantity;
-		int* vantIdx;
-		long sVert, nVert;
-		long sIndx, nIndx;
+  struct GROUPDATA {
+    bool bDeleted;
+    int vantQuantity;
+    int* vantIdx;
+    long sVert, nVert;
+    long sIndx, nIndx;
 
-		CMatrix* pMatWorld;
-		entid_t model_id;
-		entid_t shipEI;
-	};
+    CMatrix* pMatWorld;
+    entid_t model_id;
+    entid_t shipEI;
+  };
 
-	int groupQuantity;
-	GROUPDATA* gdata;
+  int groupQuantity;
+  GROUPDATA* gdata;
 
-	void SetVertexes() const;
-	void SetIndex() const;
-	void AddLabel(GEOS::LABEL& lbl, NODE* nod);
-	void SetAll();
-	void SetAdd(int firstNum);
-	void LoadIni();
-	void doMove();
-	bool VectCmp(CVECTOR v1, CVECTOR v2, float minCmpVal);
-	void FirstRun();
-	void DoSTORM_DELETE();
+  void SetVertexes() const;
+  void SetIndex() const;
+  void AddLabel(GEOS::LABEL& lbl, NODE* nod);
+  void SetAll();
+  void SetAdd(int firstNum);
+  void LoadIni();
+  void doMove();
+  bool VectCmp(CVECTOR v1, CVECTOR v2, float minCmpVal);
+  void FirstRun();
+  void DoSTORM_DELETE();
 
-	VANTVERTEX* vertBuf;
+  VANTVERTEX* vertBuf;
 
-	long vBuf, iBuf;
-	uint32_t nVert, nIndx;
+  long vBuf, iBuf;
+  uint32_t nVert, nIndx;
 };
 
 

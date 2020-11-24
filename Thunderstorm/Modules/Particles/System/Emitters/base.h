@@ -9,148 +9,143 @@
 
 class DataGraph;
 
-class BaseEmitter : public IEmitter
-{
-	struct structParticleType
-	{
-		bool Visible; //Видим или нет
-		ParticleType Type; // Тип партикла
-		float Remain; // Сколько осталось незапущенных с прошлого кадра
-		uint32_t ActiveCount; // Количество активных партиклов данного типа
-		uint32_t MaxParticlesCount; // Максимальное кол-во партиклов этого типа
-		DataGraph* EmissionRate; // График задающий скорость испускания партиклов
+class BaseEmitter : public IEmitter {
+  struct structParticleType {
+    bool Visible; //Видим или нет
+    ParticleType Type; // Тип партикла
+    float Remain; // Сколько осталось незапущенных с прошлого кадра
+    uint32_t ActiveCount; // Количество активных партиклов данного типа
+    uint32_t MaxParticlesCount; // Максимальное кол-во партиклов этого типа
+    DataGraph* EmissionRate; // График задающий скорость испускания партиклов
 
-		FieldList* pFields;
+    FieldList* pFields;
 
 
-		structParticleType()
-		{
-			ActiveCount = 0;
-			Remain = 0.0f;
-			EmissionRate = nullptr;
-			pFields = nullptr;
-			Type = UNKNOWN_PARTICLE;
-		}
-	};
+    structParticleType() {
+      ActiveCount = 0;
+      Remain = 0.0f;
+      EmissionRate = nullptr;
+      pFields = nullptr;
+      Type = UNKNOWN_PARTICLE;
+    }
+  };
 
-	std::vector<structParticleType> ParticleTypes;
-
-
-	DataSource::EmitterDesc* pEmitter;
-	FieldList* pFields;
-	bool IsAttachedFlag;
+  std::vector<structParticleType> ParticleTypes;
 
 
-	Vector Position;
-	EmitterType Type;
-	float LifeTime;
-	float ElapsedTime;
-	DataGraph* EmissionDirX;
-	DataGraph* EmissionDirY;
-	DataGraph* EmissionDirZ;
-
-	bool Looped;
-	bool Stoped;
-	bool Visible;
-
-	uint32_t Unique_GUID;
-
-	Matrix matWorldTransform;
-	bool OldMatrixNotInitialized;
-	Matrix matWorldTransformOld;
-	Matrix matWorldTransformNew;
-
-	void BlendMatrix(Matrix& result, const Matrix& mat1, const Matrix& mat2, float BlendK);
+  DataSource::EmitterDesc* pEmitter;
+  FieldList* pFields;
+  bool IsAttachedFlag;
 
 
-	void IncreaseTime(float DeltaTime);
+  Vector Position;
+  EmitterType Type;
+  float LifeTime;
+  float ElapsedTime;
+  DataGraph* EmissionDirX;
+  DataGraph* EmissionDirY;
+  DataGraph* EmissionDirZ;
+
+  bool Looped;
+  bool Stoped;
+  bool Visible;
+
+  uint32_t Unique_GUID;
+
+  Matrix matWorldTransform;
+  bool OldMatrixNotInitialized;
+  Matrix matWorldTransformOld;
+  Matrix matWorldTransformNew;
+
+  void BlendMatrix(Matrix& result, const Matrix& mat1, const Matrix& mat2, float BlendK);
+
+
+  void IncreaseTime(float DeltaTime);
 
 protected:
 
-	std::string Name;
-	ParticleSystem* pMaster;
+  std::string Name;
+  ParticleSystem* pMaster;
 
 
 public:
 
-	// Конструктор / деструктор
-	BaseEmitter(ParticleSystem* pSystem);
-	virtual ~BaseEmitter();
+  // Конструктор / деструктор
+  BaseEmitter(ParticleSystem* pSystem);
+  virtual ~BaseEmitter();
 
-	//Получить позицию для рождения новых партиклов  
-	virtual Vector GetNewParticlePosition(float DeltaTime) = 0;
-
-
-	//Родить новые партиклы 
-	void BornParticles(float DeltaTime) override;
-	//Исполнить
-	void Execute(float DeltaTime) override;
-
-	//Присоединиться к источнику данных
-	virtual void AttachToDataSource(DataSource::EmitterDesc* pEmitter);
+  //Получить позицию для рождения новых партиклов  
+  virtual Vector GetNewParticlePosition(float DeltaTime) = 0;
 
 
-	virtual void CreateBillBoardParticle(FieldList& Fields);
-	virtual void CreateModelParticle(FieldList& Fields);
+  //Родить новые партиклы 
+  void BornParticles(float DeltaTime) override;
+  //Исполнить
+  void Execute(float DeltaTime) override;
+
+  //Присоединиться к источнику данных
+  virtual void AttachToDataSource(DataSource::EmitterDesc* pEmitter);
 
 
-	ParticleSystem* GetMaster() const;
-	ParticleManager* GetManager() const;
-	void GetEmissionDirection(Matrix& matWorld) const;
+  virtual void CreateBillBoardParticle(FieldList& Fields);
+  virtual void CreateModelParticle(FieldList& Fields);
 
 
-	virtual void SetGUID(uint32_t GUID)
-	{
-		Unique_GUID = GUID;
-	}
-
-	virtual uint32_t GetGUID()
-	{
-		return Unique_GUID;
-	}
-
-	void Restart() override;
+  ParticleSystem* GetMaster() const;
+  ParticleManager* GetManager() const;
+  void GetEmissionDirection(Matrix& matWorld) const;
 
 
-	uint32_t GetParticleCount() override;
-	bool IsStoped() override;
+  virtual void SetGUID(uint32_t GUID) {
+    Unique_GUID = GUID;
+  }
 
-	void SetTransform(const Matrix& matWorld) override;
-	void Teleport(const Matrix& matWorld) override;
+  virtual uint32_t GetGUID() {
+    return Unique_GUID;
+  }
 
-	const char* GetName() override;
-
-	//Если флаг в true емиттер не будет самостоятельно испускать партиклы
-	//так, как он привязан
-	void SetAttachedFlag(bool Flag) override;
-	bool IsAttached() override;
-
-	float GetTime() override;
-	void SetTime(float Time) override;
+  void Restart() override;
 
 
-	uint32_t GetParticleTypesCount() override;
-	FieldList* GetParticleTypeDataByIndex(uint32_t Index) override;
-	ParticleType GetParticleTypeByIndex(uint32_t Index) override;
+  uint32_t GetParticleCount() override;
+  bool IsStoped() override;
+
+  void SetTransform(const Matrix& matWorld) override;
+  void Teleport(const Matrix& matWorld) override;
+
+  const char* GetName() override;
+
+  //Если флаг в true емиттер не будет самостоятельно испускать партиклы
+  //так, как он привязан
+  void SetAttachedFlag(bool Flag) override;
+  bool IsAttached() override;
+
+  float GetTime() override;
+  void SetTime(float Time) override;
 
 
-	FieldList* GetData() override;
+  uint32_t GetParticleTypesCount() override;
+  FieldList* GetParticleTypeDataByIndex(uint32_t Index) override;
+  ParticleType GetParticleTypeByIndex(uint32_t Index) override;
 
 
-	bool SetEnable(bool bVisible) override;
-	bool GetEnable() override;
-
-	//-1 если не нашли, иначе индекс
-	int GetParticleTypeIndex(FieldList* pFields) override;
-	bool SetParticleTypeEnable(bool bVisible, uint32_t Index) override;
-	bool GetParticleTypeEnable(uint32_t Index) override;
+  FieldList* GetData() override;
 
 
-	void Editor_UpdateCachedData() override;
+  bool SetEnable(bool bVisible) override;
+  bool GetEnable() override;
 
-	void SetName(const char* Name) override;
+  //-1 если не нашли, иначе индекс
+  int GetParticleTypeIndex(FieldList* pFields) override;
+  bool SetParticleTypeEnable(bool bVisible, uint32_t Index) override;
+  bool GetParticleTypeEnable(uint32_t Index) override;
 
-	void Stop() override;
+
+  void Editor_UpdateCachedData() override;
+
+  void SetName(const char* Name) override;
+
+  void Stop() override;
 };
 
 #endif

@@ -4,19 +4,18 @@
 #include "base.h"
 
 
-class PointEmitter : public BaseEmitter
-{
+class PointEmitter : public BaseEmitter {
 protected:
 
 
-	//Получить позицию для рождения новых партиклов  
-	Vector GetNewParticlePosition(float DeltaTime) override;
+  //Получить позицию для рождения новых партиклов  
+  Vector GetNewParticlePosition(float DeltaTime) override;
 
 public:
 
-	// Конструктор / деструктор
-	PointEmitter(ParticleSystem* pSystem);
-	virtual ~PointEmitter();
+  // Конструктор / деструктор
+  PointEmitter(ParticleSystem* pSystem);
+  virtual ~PointEmitter();
 };
 
 #endif

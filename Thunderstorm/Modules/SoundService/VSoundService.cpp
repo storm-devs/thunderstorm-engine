@@ -2,11 +2,9 @@
 //////////////////////////////////////////////////////////////////////
 // CLASS IMPLEMENTATION
 //////////////////////////////////////////////////////////////////////
-VSoundService::VSoundService()
-{
+VSoundService::VSoundService() {
 }
 
 //--------------------------------------------------------------------
-VSoundService::~VSoundService()
-{
+VSoundService::~VSoundService() {
 }

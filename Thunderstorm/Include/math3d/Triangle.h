@@ -15,100 +15,94 @@
 
 
 ///Класс представления треугольника в 3D пространстве
-class Triangle
-{
+class Triangle {
 public:
-	union
-	{
-		struct
-		{
-			///Первая вершина
-			Vector p1;
-			///Вторая вершина
-			Vector p2;
-			///Третья вершина
-			Vector p3;
-		};
+  union {
+    struct {
+      ///Первая вершина
+      Vector p1;
+      ///Вторая вершина
+      Vector p2;
+      ///Третья вершина
+      Vector p3;
+    };
 
-		struct
-		{
-			///Вершины в виде массива
-			Vector p[3];
-		};
-	};
+    struct {
+      ///Вершины в виде массива
+      Vector p[3];
+    };
+  };
 
 
-	//-----------------------------------------------------------
-	//Конструкторы
-	//-----------------------------------------------------------
+  //-----------------------------------------------------------
+  //Конструкторы
+  //-----------------------------------------------------------
 public:
-	///Пустой конструктор
-	Triangle()
-	{
-	};
-	///Конструктор копирования
-	Triangle(const Triangle& t);
-	Triangle(const Vector* v);
+  ///Пустой конструктор
+  Triangle() {
+  };
+  ///Конструктор копирования
+  Triangle(const Triangle& t);
+  Triangle(const Vector* v);
 
-	//-----------------------------------------------------------
-	//Операторы
-	//-----------------------------------------------------------
+  //-----------------------------------------------------------
+  //Операторы
+  //-----------------------------------------------------------
 public:
-	///Покомпонентное умножение вершин с присваиванием
-	Triangle& operator *=(const Vector& v);
+  ///Покомпонентное умножение вершин с присваиванием
+  Triangle& operator *=(const Vector& v);
 
-	//-----------------------------------------------------------
-	//Утилитные
-	//-----------------------------------------------------------
+  //-----------------------------------------------------------
+  //Утилитные
+  //-----------------------------------------------------------
 public:
-	//Получить нормаль
-	Vector GetNormal() const;
-	//Получить среднюю точку
-	Vector GetCenter() const;
-	//Получить треугольник
-	Plane GetPlane() const;
-	//Плоскость проходящая через грань (p[start], p[NextIndex(start)])
-	Plane OrtoPlane(long start) const;
-	//Плоскость проходящая через грань (p[0], p[1])
-	Plane OrtoPlane01() const;
-	//Плоскость проходящая через грань (p[1], p[2])
-	Plane OrtoPlane12() const;
-	//Плоскость проходящая через грань (p[2], p[0])
-	Plane OrtoPlane20() const;
-	//Получить предыдущий индекс вершины треугольника
-	static long PrevIndex(long index);
-	//Получить следующий индекс вершины треугольника
-	static long NextIndex(long index);
+  //Получить нормаль
+  Vector GetNormal() const;
+  //Получить среднюю точку
+  Vector GetCenter() const;
+  //Получить треугольник
+  Plane GetPlane() const;
+  //Плоскость проходящая через грань (p[start], p[NextIndex(start)])
+  Plane OrtoPlane(long start) const;
+  //Плоскость проходящая через грань (p[0], p[1])
+  Plane OrtoPlane01() const;
+  //Плоскость проходящая через грань (p[1], p[2])
+  Plane OrtoPlane12() const;
+  //Плоскость проходящая через грань (p[2], p[0])
+  Plane OrtoPlane20() const;
+  //Получить предыдущий индекс вершины треугольника
+  static long PrevIndex(long index);
+  //Получить следующий индекс вершины треугольника
+  static long NextIndex(long index);
 
-	//Найти ближнюю точку в треугольнике к данной, лежащей в плоскости треугольника, true - внутри треугольника
-	bool FindClosestPoint(const Vector& trgNormal, Vector& pointOnPlane) const;
-
-
-	//Преобразовать координаты вершин
-	Triangle& Transform(const Matrix& mtx);
+  //Найти ближнюю точку в треугольнике к данной, лежащей в плоскости треугольника, true - внутри треугольника
+  bool FindClosestPoint(const Vector& trgNormal, Vector& pointOnPlane) const;
 
 
-	enum CoIntersectionResult
-	{
-		cir_none = 0,
-		//Не пересекаются
-		cir_deg_cur,
-		//Текущий треугольник вырожденный
-		cir_deg_t,
-		//Данный треугольник вырожденный
-		cir_coplanar,
-		//Не пересекаються но лежат в одной плоскости
-		cir_intersection,
-		//Лежат в одной плоскости, пересекаються, но не совпадают
-		cir_equal,
-		//Треугольники совпадают
-	};
+  //Преобразовать координаты вершин
+  Triangle& Transform(const Matrix& mtx);
 
-	//Проверка треугольников на пересечение в одной плоскости
-	CoIntersectionResult IsCoplanarIntersection(const Triangle& t, float intsEps = 0.0000001f) const;
+
+  enum CoIntersectionResult {
+    cir_none = 0,
+    //Не пересекаются
+    cir_deg_cur,
+    //Текущий треугольник вырожденный
+    cir_deg_t,
+    //Данный треугольник вырожденный
+    cir_coplanar,
+    //Не пересекаються но лежат в одной плоскости
+    cir_intersection,
+    //Лежат в одной плоскости, пересекаються, но не совпадают
+    cir_equal,
+    //Треугольники совпадают
+  };
+
+  //Проверка треугольников на пересечение в одной плоскости
+  CoIntersectionResult IsCoplanarIntersection(const Triangle& t, float intsEps = 0.0000001f) const;
 
 private:
-	static long z_sysClipTriangleEdgePlane(Plane plane, Vector src[8], Vector dst[8], long count);
+  static long z_sysClipTriangleEdgePlane(Plane plane, Vector src[8], Vector dst[8], long count);
 };
 
 
@@ -117,19 +111,17 @@ private:
 //===========================================================
 
 //Пустой конструктор
-inline Triangle::Triangle(const Triangle& t)
-{
-	p1 = t.p1;
-	p2 = t.p2;
-	p3 = t.p3;
+inline Triangle::Triangle(const Triangle& t) {
+  p1 = t.p1;
+  p2 = t.p2;
+  p3 = t.p3;
 }
 
 ///Заполнить все компоненты
-inline Triangle::Triangle(const Vector* v)
-{
-	p[0] = v[0];
-	p[1] = v[1];
-	p[2] = v[2];
+inline Triangle::Triangle(const Vector* v) {
+  p[0] = v[0];
+  p[1] = v[1];
+  p[2] = v[2];
 }
 
 
@@ -138,36 +130,33 @@ inline Triangle::Triangle(const Vector* v)
 //===========================================================
 
 //Покомпонентное умножение вершин с присваиванием
-inline Triangle& Triangle::operator *=(const Vector& v)
-{
-	p1 *= v;
-	p2 *= v;
-	p3 *= v;
-	return *this;
+inline Triangle& Triangle::operator *=(const Vector& v) {
+  p1 *= v;
+  p2 *= v;
+  p3 *= v;
+  return *this;
 }
 
 /*!\relates Triangle
 Умножить треугольник на матрицу
 */
-inline Triangle operator *(const Matrix& mtx, const Triangle& t)
-{
-	Triangle trg;
-	trg.p1 = mtx * t.p1;
-	trg.p2 = mtx * t.p2;
-	trg.p3 = mtx * t.p3;
-	return trg;
+inline Triangle operator *(const Matrix& mtx, const Triangle& t) {
+  Triangle trg;
+  trg.p1 = mtx * t.p1;
+  trg.p2 = mtx * t.p2;
+  trg.p3 = mtx * t.p3;
+  return trg;
 }
 
 /*!\relates Triangle
 Умножить треугольник на матрицу
 */
-inline Triangle operator *(const Triangle& t, const Matrix& mtx)
-{
-	Triangle trg;
-	trg.p1 = mtx * t.p1;
-	trg.p2 = mtx * t.p2;
-	trg.p3 = mtx * t.p3;
-	return trg;
+inline Triangle operator *(const Triangle& t, const Matrix& mtx) {
+  Triangle trg;
+  trg.p1 = mtx * t.p1;
+  trg.p2 = mtx * t.p2;
+  trg.p3 = mtx * t.p3;
+  return trg;
 }
 
 
@@ -176,192 +165,172 @@ inline Triangle operator *(const Triangle& t, const Matrix& mtx)
 //===========================================================
 
 //Получить нормаль
-inline Vector Triangle::GetNormal() const
-{
-	return !((p1 - p2) ^ (p1 - p3));
+inline Vector Triangle::GetNormal() const {
+  return !((p1 - p2) ^ (p1 - p3));
 }
 
 //Получить среднюю точку
-inline Vector Triangle::GetCenter() const
-{
-	return (p1 + p2 + p3) * 0.33333333333333f;
+inline Vector Triangle::GetCenter() const {
+  return (p1 + p2 + p3) * 0.33333333333333f;
 }
 
 //Получить треугольник
-inline Plane Triangle::GetPlane() const
-{
-	return Plane(GetNormal(), p1);
+inline Plane Triangle::GetPlane() const {
+  return Plane(GetNormal(), p1);
 }
 
 //Плоскость проходящая через грань (p[start % 2], p[(start + 1) % 2])
-inline Plane Triangle::OrtoPlane(long start) const
-{
-	Plane plane;
-	//Вершины
-	const auto& ps = p[start % 3];
-	const auto& pe = p[NextIndex(start)];
-	//Нормаль
-	plane.n = !(((p3 - p1) ^ (p1 - p2)) ^ (ps - pe));
-	//Дистанция
-	plane.Move(ps);
-	return plane;
+inline Plane Triangle::OrtoPlane(long start) const {
+  Plane plane;
+  //Вершины
+  const auto& ps = p[start % 3];
+  const auto& pe = p[NextIndex(start)];
+  //Нормаль
+  plane.n = !(((p3 - p1) ^ (p1 - p2)) ^ (ps - pe));
+  //Дистанция
+  plane.Move(ps);
+  return plane;
 }
 
 //Плоскость проходящая через грань (p[0], p[1])
-inline Plane Triangle::OrtoPlane01() const
-{
-	return OrtoPlane(0);
+inline Plane Triangle::OrtoPlane01() const {
+  return OrtoPlane(0);
 }
 
 //Плоскость проходящая через грань (p[1], p[2])
-inline Plane Triangle::OrtoPlane12() const
-{
-	return OrtoPlane(1);
+inline Plane Triangle::OrtoPlane12() const {
+  return OrtoPlane(1);
 }
 
 //Плоскость проходящая через грань (p[2], p[0])
-inline Plane Triangle::OrtoPlane20() const
-{
-	return OrtoPlane(2);
+inline Plane Triangle::OrtoPlane20() const {
+  return OrtoPlane(2);
 }
 
 
 //Получить предыдущий индекс вершины треугольника
-inline long Triangle::PrevIndex(long index)
-{
-	index--;
-	if (index < 0) index = 2;
-	if (index > 2) index = 2;
-	return index;
+inline long Triangle::PrevIndex(long index) {
+  index--;
+  if (index < 0) index = 2;
+  if (index > 2) index = 2;
+  return index;
 }
 
 //Получить следующий индекс вершины треугольника
-inline long Triangle::NextIndex(long index)
-{
-	index++;
-	if (index < 0) index = 0;
-	if (index > 2) index = 0;
-	return index;
+inline long Triangle::NextIndex(long index) {
+  index++;
+  if (index < 0) index = 0;
+  if (index > 2) index = 0;
+  return index;
 }
 
 //Найти ближнюю точку в треугольнике к данной, лежащей в плоскости треугольника, true - внутри треугольника
-inline bool Triangle::FindClosestPoint(const Vector& trgNormal, Vector& pointOnPlane) const
-{
-	const Vector* cPoint = nullptr;
-	for (long i = 0; i < 3; i++)
-	{
-		//Ребро
-		const auto& ps = p[i];
-		const auto& pe = p[i + 1 < 3 ? i + 1 : 0];
+inline bool Triangle::FindClosestPoint(const Vector& trgNormal, Vector& pointOnPlane) const {
+  const Vector* cPoint = nullptr;
+  for (long i = 0; i < 3; i++) {
+    //Ребро
+    const auto& ps = p[i];
+    const auto& pe = p[i + 1 < 3 ? i + 1 : 0];
     auto edge = pe - ps;
-		//Если треугольник имеет недопустимый размер ребра, не тестим больше его
+    //Если треугольник имеет недопустимый размер ребра, не тестим больше его
     const auto edgeLen = edge.Normalize();
-		if (edgeLen < 1e-37f) return false;
-		//Ортоганальная плоскость
-		Plane orto(edge ^ trgNormal, ps);
-		//Определяем положение точки
+    if (edgeLen < 1e-37f) return false;
+    //Ортоганальная плоскость
+    Plane orto(edge ^ trgNormal, ps);
+    //Определяем положение точки
     const auto distToEdge = orto.Dist(pointOnPlane);
-		if (distToEdge > 0.0f)
-		{
-			//Определяем длинну проекции (pointOnPlane - ps) на ребре
+    if (distToEdge > 0.0f) {
+      //Определяем длинну проекции (pointOnPlane - ps) на ребре
       const auto prjLength = edge | (pointOnPlane - ps);
-			if (prjLength < 0.0f)
-			{
-				cPoint = &ps;
-			}
-			else if (prjLength > edgeLen)
-			{
-				cPoint = &pe;
-			}
-			else
-			{
-				pointOnPlane = ps + (pe - ps) * (prjLength / edgeLen);
-				return false;
-			}
-		}
-	}
-	if (cPoint)
-	{
-		pointOnPlane = *cPoint;
-		return false;
-	}
-	return true;
+      if (prjLength < 0.0f) {
+        cPoint = &ps;
+      }
+      else if (prjLength > edgeLen) {
+        cPoint = &pe;
+      }
+      else {
+        pointOnPlane = ps + (pe - ps) * (prjLength / edgeLen);
+        return false;
+      }
+    }
+  }
+  if (cPoint) {
+    pointOnPlane = *cPoint;
+    return false;
+  }
+  return true;
 }
 
 //Преобразовать координаты вершин
-inline Triangle& Triangle::Transform(const Matrix& mtx)
-{
-	p1 = mtx.MulVertex(p1);
-	p2 = mtx.MulVertex(p2);
-	p3 = mtx.MulVertex(p3);
-	return *this;
+inline Triangle& Triangle::Transform(const Matrix& mtx) {
+  p1 = mtx.MulVertex(p1);
+  p2 = mtx.MulVertex(p2);
+  p3 = mtx.MulVertex(p3);
+  return *this;
 }
 
 //Проверка треугольников на пересечение в одной плоскости
-inline Triangle::CoIntersectionResult Triangle::IsCoplanarIntersection(const Triangle& t, float intsEps) const
-{
-	//Проверим размеры треугольников
-	if (~(p1 - p2) < intsEps * intsEps || ~(p2 - p3) < intsEps * intsEps || ~(p3 - p1) < intsEps * intsEps) return
-		cir_deg_cur;
-	if (~(t.p1 - t.p2) < intsEps * intsEps || ~(t.p2 - t.p3) < intsEps * intsEps || ~(t.p3 - t.p1) < intsEps * intsEps)
-		return cir_deg_t;
-	//Получим нормали
+inline Triangle::CoIntersectionResult Triangle::IsCoplanarIntersection(const Triangle& t, float intsEps) const {
+  //Проверим размеры треугольников
+  if (~(p1 - p2) < intsEps * intsEps || ~(p2 - p3) < intsEps * intsEps || ~(p3 - p1) < intsEps * intsEps)
+    return
+      cir_deg_cur;
+  if (~(t.p1 - t.p2) < intsEps * intsEps || ~(t.p2 - t.p3) < intsEps * intsEps || ~(t.p3 - t.p1) < intsEps * intsEps)
+    return cir_deg_t;
+  //Получим нормали
   auto n = (p1 - p2) ^ (p1 - p3);
-	if (n.Normalize() < 0.0000001f) return cir_deg_cur;
+  if (n.Normalize() < 0.0000001f) return cir_deg_cur;
   auto nt = (t.p1 - t.p2) ^ (t.p1 - t.p3);
-	if (nt.Normalize() < 0.0000001f) return cir_deg_t;
-	//Проверим копланарность
+  if (nt.Normalize() < 0.0000001f) return cir_deg_t;
+  //Проверим копланарность
   const auto cs = n | nt;
-	static const auto cosMin = cosf(0.5f * 3.141592654f / 180.0f);
-	if (cs < cosMin) return cir_none;
-	//Дистанция плоскостей
+  static const auto cosMin = cosf(0.5f * 3.141592654f / 180.0f);
+  if (cs < cosMin) return cir_none;
+  //Дистанция плоскостей
   const auto d = n | p1;
   const auto dt = n | t.p1;
-	if (fabs(d - dt) > intsEps) return cir_none;
-	//Проверим на совпадение
-	if (~(p1 - t.p1) + ~(p2 - t.p2) + ~(p3 - t.p3) < intsEps * intsEps) return cir_equal;
-	if (~(p2 - t.p1) + ~(p3 - t.p2) + ~(p1 - t.p3) < intsEps * intsEps) return cir_equal;
-	if (~(p3 - t.p1) + ~(p1 - t.p2) + ~(p2 - t.p3) < intsEps * intsEps) return cir_equal;
-	//Проверим на пересечение клипированием
-	static Vector poly1[8], poly2[8];
-	poly1[0] = t.p1;
-	poly1[1] = t.p2;
-	poly1[2] = t.p3;
-	long count = 3;
-	count = z_sysClipTriangleEdgePlane(Plane(!(n ^ (p1 - p2)), p1), poly1, poly2, count);
-	if (!count) return cir_coplanar;
-	count = z_sysClipTriangleEdgePlane(Plane(!(n ^ (p2 - p3)), p2), poly2, poly1, count);
-	if (!count) return cir_coplanar;
-	count = z_sysClipTriangleEdgePlane(Plane(!(n ^ (p3 - p1)), p3), poly1, poly2, count);
-	if (!count) return cir_coplanar;
-	for (long s = 0; s < count; s++)
-	{
+  if (fabs(d - dt) > intsEps) return cir_none;
+  //Проверим на совпадение
+  if (~(p1 - t.p1) + ~(p2 - t.p2) + ~(p3 - t.p3) < intsEps * intsEps) return cir_equal;
+  if (~(p2 - t.p1) + ~(p3 - t.p2) + ~(p1 - t.p3) < intsEps * intsEps) return cir_equal;
+  if (~(p3 - t.p1) + ~(p1 - t.p2) + ~(p2 - t.p3) < intsEps * intsEps) return cir_equal;
+  //Проверим на пересечение клипированием
+  static Vector poly1[8], poly2[8];
+  poly1[0] = t.p1;
+  poly1[1] = t.p2;
+  poly1[2] = t.p3;
+  long count = 3;
+  count = z_sysClipTriangleEdgePlane(Plane(!(n ^ (p1 - p2)), p1), poly1, poly2, count);
+  if (!count) return cir_coplanar;
+  count = z_sysClipTriangleEdgePlane(Plane(!(n ^ (p2 - p3)), p2), poly2, poly1, count);
+  if (!count) return cir_coplanar;
+  count = z_sysClipTriangleEdgePlane(Plane(!(n ^ (p3 - p1)), p3), poly1, poly2, count);
+  if (!count) return cir_coplanar;
+  for (long s = 0; s < count; s++) {
     const auto e = s + 1 < count ? s + 1 : 0;
     const auto dist = ~(poly2[e] - poly2[s]);
-		if (dist < intsEps * intsEps) return cir_coplanar;
-	}
-	return cir_intersection;
+    if (dist < intsEps * intsEps) return cir_coplanar;
+  }
+  return cir_intersection;
 }
 
-inline long Triangle::z_sysClipTriangleEdgePlane(Plane plane, Vector src[8], Vector dst[8], long count)
-{
-	float ds = plane * src[0], de;
-	long c = 0;
-	for (long s = 0; s < count; s++, ds = de)
-	{
-		//Если в области, добавляем вершину
-		if (ds <= 0.0f) dst[c++] = src[s];
-		//Индекс следующего
+inline long Triangle::z_sysClipTriangleEdgePlane(Plane plane, Vector src[8], Vector dst[8], long count) {
+  float ds = plane * src[0], de;
+  long c = 0;
+  for (long s = 0; s < count; s++, ds = de) {
+    //Если в области, добавляем вершину
+    if (ds <= 0.0f) dst[c++] = src[s];
+    //Индекс следующего
     const auto e = s + 1 < count ? s + 1 : 0;
-		//Дистанции до плоскости
-		de = plane * src[e];
-		//Если с одной стороны, то продолжаем
-		if (ds * de >= 0.0f) continue;
-		//Есть пересечение
-		dst[c++] = src[s] + (src[e] - src[s]) * (ds / (ds - de));
-	}
-	if (c < 3) c = 0;
-	return c;
+    //Дистанции до плоскости
+    de = plane * src[e];
+    //Если с одной стороны, то продолжаем
+    if (ds * de >= 0.0f) continue;
+    //Есть пересечение
+    dst[c++] = src[s] + (src[e] - src[s]) * (ds / (ds - de));
+  }
+  if (c < 3) c = 0;
+  return c;
 }
 
 #pragma pack(pop)

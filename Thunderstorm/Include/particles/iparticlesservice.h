@@ -17,32 +17,29 @@ class IParticleManager;
 
 
 //Сервис партиклов, создает менеджеры партиклов
-class IParticleService : public SERVICE
-{
+class IParticleService : public SERVICE {
 public:
 
-	//Конструктор / деструктор
-	IParticleService()
-	{
-	};
+  //Конструктор / деструктор
+  IParticleService() {
+  };
 
-	virtual ~IParticleService()
-	{
-	};
+  virtual ~IParticleService() {
+  };
 
 
-	//В качестве имени файла, нужно передать имя проекта
-	//в котором мы хотим работать в данный момент
-	//
-	//Если имя файла = NULL, не будет доступных систем для загрузки
-	virtual IParticleManager* CreateManagerEx(const char* ProjectName, const char* File, int Line) = 0;
+  //В качестве имени файла, нужно передать имя проекта
+  //в котором мы хотим работать в данный момент
+  //
+  //Если имя файла = NULL, не будет доступных систем для загрузки
+  virtual IParticleManager* CreateManagerEx(const char* ProjectName, const char* File, int Line) = 0;
 
 
-	virtual uint32_t GetManagersCount() = 0;
-	virtual IParticleManager* GetManagerByIndex(uint32_t Index) = 0;
+  virtual uint32_t GetManagersCount() = 0;
+  virtual IParticleManager* GetManagerByIndex(uint32_t Index) = 0;
 
 
-	virtual IParticleManager* DefManager() = 0;
+  virtual IParticleManager* DefManager() = 0;
 };
 
 

@@ -3,39 +3,38 @@
 
 class AIShip;
 
-class AIShipCameraController
-{
+class AIShipCameraController {
 private:
-	ATTRIBUTES* pTargetAPointer;
-	uint32_t dwTarget;
-	float fDelta;
-	long iCrosshairTex;
-	bool bCameraOutside;
+  ATTRIBUTES* pTargetAPointer;
+  uint32_t dwTarget;
+  float fDelta;
+  long iCrosshairTex;
+  bool bCameraOutside;
 
-	uint32_t Colors[4];
+  uint32_t Colors[4];
 
-	uint32_t dwSubTexturesX, dwSubTexturesY;
+  uint32_t dwSubTexturesX, dwSubTexturesY;
 
-	AIShip* pOurAIShip;
-	ATTRIBUTES* pACrosshair;
+  AIShip* pOurAIShip;
+  ATTRIBUTES* pACrosshair;
 
-	bool isCameraOutside() const { return bCameraOutside; };
+  bool isCameraOutside() const { return bCameraOutside; };
 
 public:
-	void Realize(float fDeltaTime);
-	void Execute(float fDeltaTime);
+  void Realize(float fDeltaTime);
+  void Execute(float fDeltaTime);
 
-	bool Fire();
-	bool Init();
+  bool Fire();
+  bool Init();
 
-	AIShipCameraController(AIShip*);
-	~AIShipCameraController();
+  AIShipCameraController(AIShip*);
+  ~AIShipCameraController();
 
-	void SetAIShip(AIShip* pShip) { pOurAIShip = pShip; }
-	AIShip* GetAIShip() const { return pOurAIShip; }
+  void SetAIShip(AIShip* pShip) { pOurAIShip = pShip; }
+  AIShip* GetAIShip() const { return pOurAIShip; }
 
-	void Save(CSaveLoad* pSL) const;
-	void Load(CSaveLoad* pSL);
+  void Save(CSaveLoad* pSL) const;
+  void Load(CSaveLoad* pSL);
 };
 
 #endif

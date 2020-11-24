@@ -24,19 +24,18 @@
 class SERVICE // : public Entity 
 {
 public:
-	virtual ~SERVICE() = default;
+  virtual ~SERVICE() = default;
 
-	virtual void RunStart()
-	{
-	}
+  virtual void RunStart() {
+  }
 
-	virtual void RunEnd()
-	{
-	}
-	virtual uint32_t RunSection() { return SECTION_ALL; }
-	virtual bool Init() { return true; }
-	virtual bool LoadState(ENTITY_STATE* state) { return true; }
-	virtual bool CreateState(ENTITY_STATE_GEN* state_gen) { return true; }
+  virtual void RunEnd() {
+  }
+
+  virtual uint32_t RunSection() { return SECTION_ALL; }
+  virtual bool Init() { return true; }
+  virtual bool LoadState(ENTITY_STATE* state) { return true; }
+  virtual bool CreateState(ENTITY_STATE_GEN* state_gen) { return true; }
 };
 
 #endif

@@ -11,49 +11,48 @@
 // ============================================================================
 class AIShip;
 
-class AIShipMoveController
-{
+class AIShipMoveController {
 private:
-	entid_t eidSphere;
+  entid_t eidSphere;
 
-	AIShip* pOurAIShip; // our AI ship pointer
+  AIShip* pOurAIShip; // our AI ship pointer
 
-	bool bStopped; // if ship stopped
-	CVECTOR vDestPoint; // destination point
-	CVECTOR vRetardForce, vDeflectForce;
+  bool bStopped; // if ship stopped
+  CVECTOR vDestPoint; // destination point
+  CVECTOR vRetardForce, vDeflectForce;
 
-	float fMoveTime;
+  float fMoveTime;
 
-	uint32_t dwCurPnt;
+  uint32_t dwCurPnt;
 
-	AIFlowGraph::VectorPath* pVPath;
+  AIFlowGraph::VectorPath* pVPath;
 
 public:
 
-	// init/execute/realize section
-	virtual bool Init();
-	virtual void Execute(float);
-	virtual void Realize(float);
+  // init/execute/realize section
+  virtual bool Init();
+  virtual void Execute(float);
+  virtual void Realize(float);
 
-	// move to point (major function!!!)
-	virtual void Move(CVECTOR);
-	// stop moving/rotating
-	virtual void Stop(bool _bStopped = true) { bStopped = _bStopped; };
+  // move to point (major function!!!)
+  virtual void Move(CVECTOR);
+  // stop moving/rotating
+  virtual void Stop(bool _bStopped = true) { bStopped = _bStopped; };
 
-	virtual void AddDeflectForce(CVECTOR _vDeflectForce);
-	virtual void AddRetardForce(CVECTOR _vRetardForce);
+  virtual void AddDeflectForce(CVECTOR _vDeflectForce);
+  virtual void AddRetardForce(CVECTOR _vRetardForce);
 
-	virtual bool isStopped() { return bStopped; };
+  virtual bool isStopped() { return bStopped; };
 
-	// set our ship pointer
-	void SetAIShip(AIShip* pShip) { pOurAIShip = pShip; }
-	AIShip* GetAIShip() const { return pOurAIShip; }
+  // set our ship pointer
+  void SetAIShip(AIShip* pShip) { pOurAIShip = pShip; }
+  AIShip* GetAIShip() const { return pOurAIShip; }
 
-	AIShipMoveController(AIShip* pShip);
-	virtual ~AIShipMoveController();
+  AIShipMoveController(AIShip* pShip);
+  virtual ~AIShipMoveController();
 
-	void Save(CSaveLoad* pSL) const;
-	void Load(CSaveLoad* pSL);
+  void Save(CSaveLoad* pSL) const;
+  void Load(CSaveLoad* pSL);
 };
 
 #endif

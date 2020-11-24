@@ -9,66 +9,61 @@
 #define PICE_TYPE_NEXTLINE		3 // описатель перевода строки
 #define PICE_TYPE_NEXTTABLINE	4 // описатель перевода строки с красной строки
 
-struct STRING_PICE
-{
-	long type;
+struct STRING_PICE {
+  long type;
 
-	union
-	{
-		struct
-		{
-			long startOffset;
-			long charQuantity;
-		} strDescr;
+  union {
+    struct {
+      long startOffset;
+      long charQuantity;
+    } strDescr;
 
-		long fontID;
-		uint32_t color;
-	} data;
+    long fontID;
+    uint32_t color;
+  } data;
 };
 
-class CXI_SCROLLTEXT : public CINODE
-{
+class CXI_SCROLLTEXT : public CINODE {
 public:
-	CXI_SCROLLTEXT();
-	~CXI_SCROLLTEXT();
+  CXI_SCROLLTEXT();
+  ~CXI_SCROLLTEXT();
 
-	void Draw(bool bSelected, uint32_t Delta_Time) override;
-	bool Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
-	          XYPOINT& ScreenSize) override;
-	void ReleaseAll() override;
-	int CommandExecute(int wActCode) override;
-	bool IsClick(int buttonID, long xPos, long yPos) override;
+  void Draw(bool bSelected, uint32_t Delta_Time) override;
+  bool Init(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2, VDX9RENDER* rs, XYRECT& hostRect,
+            XYPOINT& ScreenSize) override;
+  void ReleaseAll() override;
+  int CommandExecute(int wActCode) override;
+  bool IsClick(int buttonID, long xPos, long yPos) override;
 
-	void MouseThis(float fX, float fY) override
-	{
-	}
+  void MouseThis(float fX, float fY) override {
+  }
 
-	void ChangePosition(XYRECT& rNewPos) override;
-	void SaveParametersToIni() override;
+  void ChangePosition(XYRECT& rNewPos) override;
+  void SaveParametersToIni() override;
 
-	void SetText(const char* newText);
-
-protected:
-	void ClearText();
-	long FillPices(char* pt, size_t beg, size_t size, long& idx, STRING_PICE* spl, long wid);
-
-	void LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2) override;
-
-	void TextDownShift(float);
-	void TextUpShift();
+  void SetText(const char* newText);
 
 protected:
-	CINODE* m_pScroller; // ссылка на скроллер (!!! обязан быть прописан перед этим)
-	long m_nMaxStringes; // число строк в выводимом окне
+  void ClearText();
+  long FillPices(char* pt, size_t beg, size_t size, long& idx, STRING_PICE* spl, long wid);
 
-	uint32_t m_dwFontColor; // текущий цвет
-	long m_idFont; // текущий шрифт
+  void LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, const char* name2) override;
 
-	char* m_pText;
-	long m_nPiceQuantity;
-	STRING_PICE* m_pStrList;
+  void TextDownShift(float);
+  void TextUpShift();
 
-	long GetStringWord(char* pstr, char* buff, size_t size);
+protected:
+  CINODE* m_pScroller; // ссылка на скроллер (!!! обязан быть прописан перед этим)
+  long m_nMaxStringes; // число строк в выводимом окне
+
+  uint32_t m_dwFontColor; // текущий цвет
+  long m_idFont; // текущий шрифт
+
+  char* m_pText;
+  long m_nPiceQuantity;
+  STRING_PICE* m_pStrList;
+
+  long GetStringWord(char* pstr, char* buff, size_t size);
 };
 
 #endif

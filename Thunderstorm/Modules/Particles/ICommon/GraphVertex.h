@@ -2,22 +2,18 @@
 #define _GRAPH_VERTEX_H_
 
 
-struct GraphVertex
-{
-	union
-	{
-		struct
-		{
-			float Time;
-			float Val;
-		};
+struct GraphVertex {
+  union {
+    struct {
+      float Time;
+      float Val;
+    };
 
-		struct
-		{
-			float x;
-			float y;
-		};
-	};
+    struct {
+      float x;
+      float y;
+    };
+  };
 };
 
 #endif

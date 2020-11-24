@@ -12,130 +12,121 @@
 #define D3DRAINVERTEX_FORMAT		(D3DFVF_XYZ | D3DFVF_DIFFUSE)
 #define D3DSEADROPVERTEX_FORMAT		(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 
-typedef struct
-{
-	CVECTOR vPos;
-	uint32_t dwColor;
+typedef struct {
+  CVECTOR vPos;
+  uint32_t dwColor;
 } RAINVERTEX;
 
-struct SEADROPVERTEX
-{
-	CVECTOR vPos;
-	uint32_t dwColor;
-	float tu, tv;
+struct SEADROPVERTEX {
+  CVECTOR vPos;
+  uint32_t dwColor;
+  float tu, tv;
 };
 
-typedef struct
-{
-	float fWindFlaw, fWindSpeedJitter;
-	uint32_t dwTime;
-	CVECTOR vPos;
-	CVECTOR vAng;
+typedef struct {
+  float fWindFlaw, fWindSpeedJitter;
+  uint32_t dwTime;
+  CVECTOR vPos;
+  CVECTOR vAng;
 } rainblock_t;
 
-class RAIN : public Entity
-{
-	struct ship_t
-	{
-		entid_t eid;
-		SHIP_BASE* pShip;
-	};
+class RAIN : public Entity {
+  struct ship_t {
+    entid_t eid;
+    SHIP_BASE* pShip;
+  };
 
-	struct seadrop_t
-	{
-		CVECTOR vPos;
-		float fTime;
-		float fLifeTime;
-	};
+  struct seadrop_t {
+    CVECTOR vPos;
+    float fTime;
+    float fLifeTime;
+  };
 
-	struct drop_t
-	{
-		CVECTOR vPos;
-		float fLifeTime;
-		long iShip;
-		//SHIP_BASE * pShip;
-	};
+  struct drop_t {
+    CVECTOR vPos;
+    float fLifeTime;
+    long iShip;
+    //SHIP_BASE * pShip;
+  };
 
 private:
-	long iRainDropsTexture;
-	float fDropsDeltaTime;
-	std::vector<RS_RECT> aRects;
-	std::vector<drop_t> aDrops;
-	std::vector<seadrop_t> aSeaDrops;
-	std::vector<ship_t> aShips;
+  long iRainDropsTexture;
+  float fDropsDeltaTime;
+  std::vector<RS_RECT> aRects;
+  std::vector<drop_t> aDrops;
+  std::vector<seadrop_t> aSeaDrops;
+  std::vector<ship_t> aShips;
 
-	bool bShow;
+  bool bShow;
 
-	WEATHER_BASE* pWeather;
+  WEATHER_BASE* pWeather;
 
-	uint32_t dwRainMaxBlend, dwRainColor, dwRainR, dwRainG, dwRainB;
-	float fDropLength, fRainWindSpeed, fRainSpeed, fWindPower, fWindAngle,
-	      fRainJitter, fRainWindSpeedJitter;
+  uint32_t dwRainMaxBlend, dwRainColor, dwRainR, dwRainG, dwRainB;
+  float fDropLength, fRainWindSpeed, fRainSpeed, fWindPower, fWindAngle,
+        fRainJitter, fRainWindSpeedJitter;
 
-	bool bRainbowEnable;
-	long iRainbowTex;
-	std::string sRainbowTexture;
+  bool bRainbowEnable;
+  long iRainbowTex;
+  std::string sRainbowTexture;
 
-	uint32_t dwRainTimeBlend;
-	uint32_t dwNumRainBlocks;
-	rainblock_t* pRainBlocks;
+  uint32_t dwRainTimeBlend;
+  uint32_t dwNumRainBlocks;
+  rainblock_t* pRainBlocks;
 
-	CVECTOR vCamPos, vCamAng;
+  CVECTOR vCamPos, vCamAng;
 
-	float fRainHeight, fRainRadius;
-	uint32_t dwNumDrops;
+  float fRainHeight, fRainRadius;
+  uint32_t dwNumDrops;
 
-	long iVertexBuffer;
+  long iVertexBuffer;
 
-	uint32_t dwDropsColor;
-	uint32_t dwDropsNearNum, dwDropsFarNum;
-	float fDropsNearRadius, fDropsFarRadius;
-	float fDropsLifeTime;
-	float fDropsSize;
-	std::string sDropsTexture, sSeaDropsTexture;
+  uint32_t dwDropsColor;
+  uint32_t dwDropsNearNum, dwDropsFarNum;
+  float fDropsNearRadius, fDropsFarRadius;
+  float fDropsLifeTime;
+  float fDropsSize;
+  std::string sDropsTexture, sSeaDropsTexture;
 
-	long iSeaDropTex;
-	long iIBSeaDrops;
-	long iVBSeaDrops;
+  long iSeaDropTex;
+  long iIBSeaDrops;
+  long iVBSeaDrops;
 
-	VDX9RENDER* rs;
-	COLLIDE* cs;
+  VDX9RENDER* rs;
+  COLLIDE* cs;
 
-	void GenerateRandomDrop(CVECTOR* vPos) const;
-	void GenerateRain();
-	void InitialSomeBlockParameters(long iIdx) const;
-	void Release();
-	void RealizeDrops(uint32_t Delta_Time);
+  void GenerateRandomDrop(CVECTOR* vPos) const;
+  void GenerateRain();
+  void InitialSomeBlockParameters(long iIdx) const;
+  void Release();
+  void RealizeDrops(uint32_t Delta_Time);
 
 public:
-	RAIN();
-	~RAIN();
+  RAIN();
+  ~RAIN();
 
-	void SetDevice();
-	bool Init() override;
-	void Realize(uint32_t Delta_Time);
-	void Execute(uint32_t Delta_Time);
-	bool CreateState(ENTITY_STATE_GEN* state_gen);
-	bool LoadState(ENTITY_STATE* state);
-	uint64_t ProcessMessage(MESSAGE& message) override;
-	uint32_t AttributeChanged(ATTRIBUTES* pAttribute) override;
+  void SetDevice();
+  bool Init() override;
+  void Realize(uint32_t Delta_Time);
+  void Execute(uint32_t Delta_Time);
+  bool CreateState(ENTITY_STATE_GEN* state_gen);
+  bool LoadState(ENTITY_STATE* state);
+  uint64_t ProcessMessage(MESSAGE& message) override;
+  uint32_t AttributeChanged(ATTRIBUTES* pAttribute) override;
 
-	void ProcessStage(Stage stage, uint32_t delta) override
-	{
-		switch (stage)
-		{
-		case Stage::execute:
-			Execute(delta);
-			break;
-		case Stage::realize:
-			Realize(delta);
-			break;
-			/*case Stage::lost_render:
-				LostRender(delta); break;
-			case Stage::restore_render:
-				RestoreRender(delta); break;*/
-		}
-	}
+  void ProcessStage(Stage stage, uint32_t delta) override {
+    switch (stage) {
+    case Stage::execute:
+      Execute(delta);
+      break;
+    case Stage::realize:
+      Realize(delta);
+      break;
+      /*case Stage::lost_render:
+        LostRender(delta); break;
+      case Stage::restore_render:
+        RestoreRender(delta); break;*/
+    }
+  }
 };
 
 #endif

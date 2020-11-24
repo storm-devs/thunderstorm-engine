@@ -61,26 +61,22 @@ public:
 #define _X_NO_LAYER				0x100
 */
 
-inline void __Storm_Assert__(bool expression, const char* file, long line, const char* str)
-{
-	if (!expression)
-	{
-		if (str)
-		{
-			spdlog::critical("Assert failed in {} line {}, expression string {}", file, line, str);
-			//	_VSYSTEM_API->Trace("Assert failed in %s line %d, expression string %s", file, line, str);
-		}
-		else
-		{
-			//	_VSYSTEM_API->Trace("Assert failed in %s line %d", file, line);
-			spdlog::critical("Assert failed in {} line {}", file, line);
-		}
+inline void __Storm_Assert__(bool expression, const char* file, long line, const char* str) {
+  if (!expression) {
+    if (str) {
+      spdlog::critical("Assert failed in {} line {}, expression string {}", file, line, str);
+      //	_VSYSTEM_API->Trace("Assert failed in %s line %d, expression string %s", file, line, str);
+    }
+    else {
+      //	_VSYSTEM_API->Trace("Assert failed in %s line %d", file, line);
+      spdlog::critical("Assert failed in {} line {}", file, line);
+    }
 #ifdef EX_OFF
-		__debugbreak();
+    __debugbreak();
 #else
 		throw "assert";
 #endif
-	}
+  }
 }
 
 #define Assert(exp) __Storm_Assert__((exp) != 0, __FILE__,__LINE__,#exp);

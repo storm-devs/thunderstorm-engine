@@ -9,33 +9,32 @@
 #include <vector>
 
 
-class DataUV
-{
-	std::string Name;
+class DataUV {
+  std::string Name;
 
-	std::vector<Vector4> Frames;
+  std::vector<Vector4> Frames;
 
 public:
 
-	//конструктор/деструктор
-	DataUV();
-	virtual ~DataUV();
+  //конструктор/деструктор
+  DataUV();
+  virtual ~DataUV();
 
-	//Получить значение   [ x,y = UV1; z,w = UV2 ]
-	const Vector4& GetValue(uint32_t FrameNum);
+  //Получить значение   [ x,y = UV1; z,w = UV2 ]
+  const Vector4& GetValue(uint32_t FrameNum);
 
-	//Установить значения
-	void SetValues(const Vector4* _Frames, uint32_t FramesCount);
+  //Установить значения
+  void SetValues(const Vector4* _Frames, uint32_t FramesCount);
 
-	//Получить кол-во кадров
-	uint32_t GetFrameCount() const;
+  //Получить кол-во кадров
+  uint32_t GetFrameCount() const;
 
 
-	void Load(MemFile* File);
-	void Write(MemFile* File);
+  void Load(MemFile* File);
+  void Write(MemFile* File);
 
-	void SetName(const char* szName);
-	const char* GetName() const;
+  void SetName(const char* szName);
+  const char* GetName() const;
 };
 
 

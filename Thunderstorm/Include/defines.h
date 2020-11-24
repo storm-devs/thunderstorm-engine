@@ -1,25 +1,21 @@
 #pragma once
 
 
-namespace TOREMOVE
-{
-	inline unsigned long HashNoCase(const char* str)
-	{
-		unsigned long hval = 0;
-		while (*str != '\0')
-		{
+namespace TOREMOVE {
+  inline unsigned long HashNoCase(const char* str) {
+    unsigned long hval = 0;
+    while (*str != '\0') {
       auto c = *str++;
-			if (c >= 'A' && c <= 'Z') c += 'a' - 'A';
-			hval = (hval << 4) + (unsigned long)c;
-      const auto g = hval & ((unsigned long)0xf << (32 - 4));
-			if (g != 0)
-			{
-				hval ^= g >> (32 - 8);
-				hval ^= g;
-			}
-		}
-		return hval;
-	}
+      if (c >= 'A' && c <= 'Z') c += 'a' - 'A';
+      hval = (hval << 4) + static_cast<unsigned long>(c);
+      const auto g = hval & (static_cast<unsigned long>(0xf) << (32 - 4));
+      if (g != 0) {
+        hval ^= g >> (32 - 8);
+        hval ^= g;
+      }
+    }
+    return hval;
+  }
 }
 
 // includes
@@ -34,35 +30,28 @@ namespace TOREMOVE
 #define _FL				__FILE__, __LINE__
 #define _FILELINE_		_FL_
 
-struct FPOINT
-{
-	float x, y;
+struct FPOINT {
+  float x, y;
 };
 
-struct FRECT
-{
-	union
-	{
-		struct
-		{
-			float x1, y1, x2, y2;
-		};
+struct FRECT {
+  union {
+    struct {
+      float x1, y1, x2, y2;
+    };
 
-		struct
-		{
-			float xs, ys, xe, ye;
-		};
+    struct {
+      float xs, ys, xe, ye;
+    };
 
-		struct
-		{
-			float x_start, y_start, x_end, y_end;
-		};
+    struct {
+      float x_start, y_start, x_end, y_end;
+    };
 
-		struct
-		{
-			float left, top, right, bottom;
-		};
-	};
+    struct {
+      float left, top, right, bottom;
+    };
+  };
 };
 
 // Constants
@@ -93,9 +82,8 @@ struct FRECT
 
 inline uint32_t F2DW(float f) { return *reinterpret_cast<uint32_t*>(&f); }
 
-inline int ftoi(float f)
-{
-	return _mm_cvt_ss2si(_mm_load_ss(&f));
+inline int ftoi(float f) {
+  return _mm_cvt_ss2si(_mm_load_ss(&f));
 }
 
 #define STORM_DELETE(x)			{ delete x; x=0; }
@@ -127,44 +115,39 @@ inline int ftoi(float f)
 #define KNOTS2METERS(x)		((x) * 1853.0f / 3600.0f)
 
 template <class T>
-void Swap(T& t1, T& t2)
-{
-	T tmp;
-	tmp = t1;
-	t1 = t2;
-	t2 = tmp;
+void Swap(T& t1, T& t2) {
+  T tmp;
+  tmp = t1;
+  t1 = t2;
+  t2 = tmp;
 };
 
 template <class T>
-T Clamp(T t)
-{
-	if (t < (T)0) return (T)0;
-	if (t > (T)1) return (T)1;
-	return t;
+T Clamp(T t) {
+  if (t < static_cast<T>(0)) return static_cast<T>(0);
+  if (t > static_cast<T>(1)) return static_cast<T>(1);
+  return t;
 };
 
 template <class T>
-T Clamp(T t, T Min, T Max)
-{
-	if (t < Min) return Min;
-	if (t > Max) return Max;
-	return t;
+T Clamp(T t, T Min, T Max) {
+  if (t < Min) return Min;
+  if (t > Max) return Max;
+  return t;
 };
 
 template <class T>
-T Bring2Range(T Min1, T Max1, T Min2, T Max2, T Value)
-{
-	if (Value < Min2) Value = Min2;
-	if (Value > Max2) Value = Max2;
-  auto Delta = float(Value - Min2) / float(Max2 - Min2);
-	return Min1 + Delta * (Max1 - Min1);
+T Bring2Range(T Min1, T Max1, T Min2, T Max2, T Value) {
+  if (Value < Min2) Value = Min2;
+  if (Value > Max2) Value = Max2;
+  auto Delta = static_cast<float>(Value - Min2) / static_cast<float>(Max2 - Min2);
+  return Min1 + Delta * (Max1 - Min1);
 };
 
 template <class T>
-T Bring2RangeNoCheck(T Min1, T Max1, T Min2, T Max2, T Value)
-{
-  auto Delta = float(Value - Min2) / float(Max2 - Min2);
-	return Min1 + Delta * (Max1 - Min1);
+T Bring2RangeNoCheck(T Min1, T Max1, T Min2, T Max2, T Value) {
+  auto Delta = static_cast<float>(Value - Min2) / static_cast<float>(Max2 - Min2);
+  return Min1 + Delta * (Max1 - Min1);
 };
 
 template <class T>

@@ -7,67 +7,61 @@
 #include "ship_base.h"
 #include "dtimer.h"
 
-class AISeaGoods : public Entity
-{
+class AISeaGoods : public Entity {
 private:
-	struct item_t
-	{
-		char sGoodName[48];
-		long iCharIndex, iQuantity;
-		float fTime;
-		CVECTOR vPos, vNormal;
-	};
+  struct item_t {
+    char sGoodName[48];
+    long iCharIndex, iQuantity;
+    float fTime;
+    CVECTOR vPos, vNormal;
+  };
 
-	struct goods_t
-	{
-		std::string sModel;
-		std::vector<item_t> aItems;
-		GEOS* pGeo;
+  struct goods_t {
+    std::string sModel;
+    std::vector<item_t> aItems;
+    GEOS* pGeo;
 
-		goods_t()
-		{
-		};
-	};
+    goods_t() {
+    };
+  };
 
-	std::vector<goods_t*> aGoods;
-	std::vector<SHIP_BASE*> aShips;
+  std::vector<goods_t*> aGoods;
+  std::vector<SHIP_BASE*> aShips;
 
-	VGEOMETRY* pGeoService;
-	SEA_BASE* pSea;
-	item_t TmpItem;
-	std::string sModelPath, sTmpModel;
-	DTimer dtCheckShips;
-	bool bDeleteGoodAnyway;
-	float fDistanceMultiply;
+  VGEOMETRY* pGeoService;
+  SEA_BASE* pSea;
+  item_t TmpItem;
+  std::string sModelPath, sTmpModel;
+  DTimer dtCheckShips;
+  bool bDeleteGoodAnyway;
+  float fDistanceMultiply;
 
 public:
-	AISeaGoods();
-	~AISeaGoods();
+  AISeaGoods();
+  ~AISeaGoods();
 
-	bool Init() override;
-	void SetDevice();
+  bool Init() override;
+  void SetDevice();
 
-	void Realize(uint32_t Delta_Time);
-	void Execute(uint32_t Delta_Time);
+  void Realize(uint32_t Delta_Time);
+  void Execute(uint32_t Delta_Time);
 
-	void ProcessStage(Stage stage, uint32_t delta) override
-	{
-		switch (stage)
-		{
-		case Stage::execute:
-			Execute(delta);
-			break;
-		case Stage::realize:
-			Realize(delta);
-			break;
-			/*case Stage::lost_render:
-				LostRender(delta); break;
-			case Stage::restore_render:
-				RestoreRender(delta); break;*/
-		}
-	}
+  void ProcessStage(Stage stage, uint32_t delta) override {
+    switch (stage) {
+    case Stage::execute:
+      Execute(delta);
+      break;
+    case Stage::realize:
+      Realize(delta);
+      break;
+      /*case Stage::lost_render:
+        LostRender(delta); break;
+      case Stage::restore_render:
+        RestoreRender(delta); break;*/
+    }
+  }
 
-	uint32_t AttributeChanged(ATTRIBUTES* pAttributeChanged) override;
+  uint32_t AttributeChanged(ATTRIBUTES* pAttributeChanged) override;
 };
 
 #endif

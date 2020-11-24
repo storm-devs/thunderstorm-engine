@@ -9,47 +9,46 @@ class GIEditorList;
 class CINODE;
 class VDX9RENDER;
 
-class GIEditor : public GIEditorObject
-{
+class GIEditor : public GIEditorObject {
 public:
-	GIEditor(GIEditor&&) = delete;
-	GIEditor(const GIEditor&) = delete;
-	GIEditor(XINTERFACE* pInterface);
-	~GIEditor();
+  GIEditor(GIEditor&&) = delete;
+  GIEditor(const GIEditor&) = delete;
+  GIEditor(XINTERFACE* pInterface);
+  ~GIEditor();
 
-	void Release();
+  void Release();
 
-	void Render() const;
-	bool ProcessControl();
+  void Render() const;
+  bool ProcessControl();
 
-	bool IsShowMode() const;
-	void MakeShowMode(bool bShow);
+  bool IsShowMode() const;
+  void MakeShowMode(bool bShow);
 
-	void SetEditNode(CINODE* pNode);
+  void SetEditNode(CINODE* pNode);
 
-	void ReCreate() const;
-	void AddNode(CINODE* pNode) const;
-	void DelNode(CINODE* pNode) const;
+  void ReCreate() const;
+  void AddNode(CINODE* pNode) const;
+  void DelNode(CINODE* pNode) const;
 
-	void DrawSizeBox() const;
+  void DrawSizeBox() const;
 
 protected:
-	bool m_bShowMode;
-	CINODE* m_pEditableNode;
-	float m_fLastKeyPressTime;
+  bool m_bShowMode;
+  CINODE* m_pEditableNode;
+  float m_fLastKeyPressTime;
 
-	CXI_IMAGE* m_pImageBack;
+  CXI_IMAGE* m_pImageBack;
 
-	GIEditorList* m_pNodeList;
-	bool m_bSubNameOn;
-	GIEditorList* m_pSubNameList;
+  GIEditorList* m_pNodeList;
+  bool m_bSubNameOn;
+  GIEditorList* m_pSubNameList;
 
 public:
-	VDX9RENDER* m_pRS;
-	XINTERFACE* m_pGIOwner;
+  VDX9RENDER* m_pRS;
+  XINTERFACE* m_pGIOwner;
 
-	void ChangeNodeName();
-	void ChangeSubNodeName() const;
+  void ChangeNodeName();
+  void ChangeSubNodeName() const;
 };
 
 #endif

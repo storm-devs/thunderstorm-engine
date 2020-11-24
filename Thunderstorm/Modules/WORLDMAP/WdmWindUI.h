@@ -13,33 +13,32 @@
 
 #include "WdmInterfaceObject.h"
 
-class WdmWindUI : public WdmInterfaceObject
-{
-	//--------------------------------------------------------------------------------------------
-	//Конструирование, деструктурирование
-	//--------------------------------------------------------------------------------------------
+class WdmWindUI : public WdmInterfaceObject {
+  //--------------------------------------------------------------------------------------------
+  //Конструирование, деструктурирование
+  //--------------------------------------------------------------------------------------------
 public:
-	WdmWindUI();
-	virtual ~WdmWindUI();
+  WdmWindUI();
+  virtual ~WdmWindUI();
 
-	void SetAttributes(ATTRIBUTES* apnt);
-	//Отрисовка
-	void LRender(VDX9RENDER* rs) override;
+  void SetAttributes(ATTRIBUTES* apnt);
+  //Отрисовка
+  void LRender(VDX9RENDER* rs) override;
 
-	//--------------------------------------------------------------------------------------------
-	//Инкапсуляция
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Инкапсуляция
+  //--------------------------------------------------------------------------------------------
 private:
-	long txBack;
-	long txSky, txSkyMask;
-	long txBar, txBarMask;
-	long txWindPointer;
-	long txMorale, txMoraleMask, txMoraleBar;
-	long dateFont;
-	float morale;
-	long food;
-	long rum;
-	char month[12][128];
+  long txBack;
+  long txSky, txSkyMask;
+  long txBar, txBarMask;
+  long txWindPointer;
+  long txMorale, txMoraleMask, txMoraleBar;
+  long dateFont;
+  float morale;
+  long food;
+  long rum;
+  char month[12][128];
 };
 
 #endif

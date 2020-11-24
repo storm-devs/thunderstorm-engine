@@ -13,62 +13,61 @@
 
 #include "dx9render.h"
 
-class WdmCamera
-{
-	//--------------------------------------------------------------------------------------------
-	//Конструирование, деструктурирование
-	//--------------------------------------------------------------------------------------------
+class WdmCamera {
+  //--------------------------------------------------------------------------------------------
+  //Конструирование, деструктурирование
+  //--------------------------------------------------------------------------------------------
 public:
-	WdmCamera();
-	virtual ~WdmCamera();
+  WdmCamera();
+  virtual ~WdmCamera();
 
-	//--------------------------------------------------------------------------------------------
-	//Перемещение камеры
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Перемещение камеры
+  //--------------------------------------------------------------------------------------------
 public:
-	void Init(float defAy, float defHeight = -1.0f);
-	void Move(float dltTime, VDX9RENDER* rs);
+  void Init(float defAy, float defHeight = -1.0f);
+  void Move(float dltTime, VDX9RENDER* rs);
 
-	//--------------------------------------------------------------------------------------------
-	//Функции для управления
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Функции для управления
+  //--------------------------------------------------------------------------------------------
 protected:
-	virtual void CtrlProcess(float dltTime) = 0;
-	virtual float MoveLeftRight(float dltTime) = 0;
-	virtual float MoveUpDown(float dltTime) = 0;
-	virtual float RotLeftRight(float dltTime) = 0;
-	virtual float ZoomInOut(float dltTime) = 0;
-	virtual bool CurrentFreeMode() = 0;
-	virtual bool GetHightHeight(float& height) = 0;
+  virtual void CtrlProcess(float dltTime) = 0;
+  virtual float MoveLeftRight(float dltTime) = 0;
+  virtual float MoveUpDown(float dltTime) = 0;
+  virtual float RotLeftRight(float dltTime) = 0;
+  virtual float ZoomInOut(float dltTime) = 0;
+  virtual bool CurrentFreeMode() = 0;
+  virtual bool GetHightHeight(float& height) = 0;
 
-	//--------------------------------------------------------------------------------------------
-	//
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //
+  //--------------------------------------------------------------------------------------------
 public:
-	CVECTOR pos;
-	CVECTOR ang;
-	float realHeight;
-	float hgh;
+  CVECTOR pos;
+  CVECTOR ang;
+  float realHeight;
+  float hgh;
 
-	bool lock;
+  bool lock;
 
-	//--------------------------------------------------------------------------------------------
-	//Инкапсуляция
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Инкапсуляция
+  //--------------------------------------------------------------------------------------------
 private:
-	void CheckRange();
+  void CheckRange();
 
 private:
-	float scrollSpeed;
-	float rotateSpeed;
-	float elasticAy;
+  float scrollSpeed;
+  float rotateSpeed;
+  float elasticAy;
 
-	bool isFreeMode;
-	float lastAng;
-	CVECTOR bndPos;
-	float kBlendPos;
+  bool isFreeMode;
+  float lastAng;
+  CVECTOR bndPos;
+  float kBlendPos;
 
-	bool isInit;
+  bool isInit;
 };
 
 #endif

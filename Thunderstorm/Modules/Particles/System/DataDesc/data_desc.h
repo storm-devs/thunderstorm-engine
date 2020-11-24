@@ -5,31 +5,29 @@
 
 #define MAX_DESC_COUNT 128
 
-class DataDescripion
-{
-	struct DescItem
-	{
-		FieldType Type;
-		const char* Name;
-	};
+class DataDescripion {
+  struct DescItem {
+    FieldType Type;
+    const char* Name;
+  };
 
-	uint32_t ItemsCount;
-	DescItem Fields[MAX_DESC_COUNT];
+  uint32_t ItemsCount;
+  DescItem Fields[MAX_DESC_COUNT];
 
 public:
 
-	DataDescripion();
-	~DataDescripion();
+  DataDescripion();
+  ~DataDescripion();
 
-	void AddField(FieldType Type, const char* Name);
+  void AddField(FieldType Type, const char* Name);
 
-	const char* GetFieldName(uint32_t Index) const;
-	FieldType GetFieldType(uint32_t Index) const;
-	int GetFieldCount() const;
+  const char* GetFieldName(uint32_t Index) const;
+  FieldType GetFieldType(uint32_t Index) const;
+  int GetFieldCount() const;
 
-	void Clear();
+  void Clear();
 
-	virtual void CreateFields() = 0;
+  virtual void CreateFields() = 0;
 };
 
 

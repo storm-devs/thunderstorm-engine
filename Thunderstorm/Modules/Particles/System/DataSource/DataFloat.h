@@ -6,32 +6,31 @@
 #include <string>
 
 
-class DataFloat
-{
-	std::string Name;
+class DataFloat {
+  std::string Name;
 
 
-	float Value;
+  float Value;
 
 public:
 
-	//конструктор/деструктор
-	DataFloat();
-	virtual ~DataFloat();
+  //конструктор/деструктор
+  DataFloat();
+  virtual ~DataFloat();
 
-	//Получить значение
-	float GetValue() const;
+  //Получить значение
+  float GetValue() const;
 
-	//Установить значение
-	void SetValue(float val);
-
-
-	void Load(MemFile* File);
-	void Write(MemFile* File) const;
+  //Установить значение
+  void SetValue(float val);
 
 
-	void SetName(const char* szName);
-	const char* GetName() const;
+  void Load(MemFile* File);
+  void Write(MemFile* File) const;
+
+
+  void SetName(const char* szName);
+  const char* GetName() const;
 };
 
 

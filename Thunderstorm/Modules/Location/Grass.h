@@ -24,206 +24,193 @@ class GEOS;
 
 class Character;
 
-class Grass : public Entity
-{
+class Grass : public Entity {
 
-	static inline ID3DXEffect* fx_ ;
-	static inline IDirect3DVertexDeclaration9* vertexDecl_;
-	static inline D3DXHANDLE hgVP_ ;
-	static inline D3DXHANDLE haAngles_;
-	static inline D3DXHANDLE haUV_ ;
-	static inline D3DXHANDLE hlDir_;
-	static inline D3DXHANDLE hkLitWF_;
-	static inline D3DXHANDLE haColor_;
-	static inline D3DXHANDLE hlColor_;
-	static inline D3DXHANDLE hfDataScale_;
-	static inline D3DXHANDLE haSize_;
+  static inline ID3DXEffect* fx_;
+  static inline IDirect3DVertexDeclaration9* vertexDecl_;
+  static inline D3DXHANDLE hgVP_;
+  static inline D3DXHANDLE haAngles_;
+  static inline D3DXHANDLE haUV_;
+  static inline D3DXHANDLE hlDir_;
+  static inline D3DXHANDLE hkLitWF_;
+  static inline D3DXHANDLE haColor_;
+  static inline D3DXHANDLE hlColor_;
+  static inline D3DXHANDLE hfDataScale_;
+  static inline D3DXHANDLE haSize_;
 
 #pragma pack(push, 1)
 
-	struct Vertex
-	{
-		float x, y, z;
-		uint32_t data;
-		uint32_t offset;
-		float wx, wz;
-		float alpha;
-	};
+  struct Vertex {
+    float x, y, z;
+    uint32_t data;
+    uint32_t offset;
+    float wx, wz;
+    float alpha;
+  };
 
-	struct VSConstant
-	{
-		VSConstant()
-		{
-			x = y = z = 0.0f;
-			w = 1.0f;
-		};
+  struct VSConstant {
+    VSConstant() {
+      x = y = z = 0.0f;
+      w = 1.0f;
+    };
 
-		VSConstant(float _x, float _y, float _z, float _w)
-		{
-			x = _x;
-			y = _y;
-			z = _z;
-			w = _w;
-		};
-		float x, y, z, w;
-	};
+    VSConstant(float _x, float _y, float _z, float _w) {
+      x = _x;
+      y = _y;
+      z = _z;
+      w = _w;
+    };
+    float x, y, z, w;
+  };
 
 #pragma pack(pop)
 
-	struct AngleInfo
-	{
-		float dx, dz; //Направление
-		float cs; //Косинус угла между направлением и источником
-	};
+  struct AngleInfo {
+    float dx, dz; //Направление
+    float cs; //Косинус угла между направлением и источником
+  };
 
-	struct GRSMapElementEx
-	{
-		float x, y, z; //Позиция травинки в мире
-		union
-		{
-			struct
-			{
-				uint8_t frame; //Кадр
-				uint8_t h; //Высота
-				uint8_t w; //Ширина
-				uint8_t ang; //Угол поворота
-			};
+  struct GRSMapElementEx {
+    float x, y, z; //Позиция травинки в мире
+    union {
+      struct {
+        uint8_t frame; //Кадр
+        uint8_t h; //Высота
+        uint8_t w; //Ширина
+        uint8_t ang; //Угол поворота
+      };
 
-			uint32_t data;
-		};
-	};
+      uint32_t data;
+    };
+  };
 
-	enum RenderQuality
-	{
-		rq_full = 0,
-		rq_middle = 1,
-		rq_low = 2,
-		rq_off = 3,
-	};
+  enum RenderQuality {
+    rq_full = 0,
+    rq_middle = 1,
+    rq_low = 2,
+    rq_off = 3,
+  };
 
 
 public:
-	struct CharacterPos
-	{
-		CVECTOR pos; //Текущая позиция
-		CVECTOR lastPos; //Инерционная позиция
-		Character* chr; //Указатель на персонажа
-		long useCounter; //Счётчик влияний на траву
-	};
+  struct CharacterPos {
+    CVECTOR pos; //Текущая позиция
+    CVECTOR lastPos; //Инерционная позиция
+    Character* chr; //Указатель на персонажа
+    long useCounter; //Счётчик влияний на траву
+  };
 
-	//--------------------------------------------------------------------------------------------
-	//Конструирование, деструктурирование
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Конструирование, деструктурирование
+  //--------------------------------------------------------------------------------------------
 public:
-	Grass();
-	virtual ~Grass();
+  Grass();
+  virtual ~Grass();
 
-	//Инициализация
-	bool Init() override;
-	//Работа
-	void Execute(uint32_t delta_time);
-	void Realize(uint32_t delta_time);
-	//
-	uint64_t ProcessMessage(MESSAGE& message) override;
+  //Инициализация
+  bool Init() override;
+  //Работа
+  void Execute(uint32_t delta_time);
+  void Realize(uint32_t delta_time);
+  //
+  uint64_t ProcessMessage(MESSAGE& message) override;
 
-	void ProcessStage(Stage stage, uint32_t delta) override
-	{
-		switch (stage)
-		{
-		case Stage::execute:
-			Execute(delta);
-			break;
-		case Stage::realize:
-			Realize(delta);
-			break;
-			/*case Stage::lost_render:
-				LostRender(delta); break;
-			case Stage::restore_render:
-				RestoreRender(delta); break;*/
-		}
-	}
+  void ProcessStage(Stage stage, uint32_t delta) override {
+    switch (stage) {
+    case Stage::execute:
+      Execute(delta);
+      break;
+    case Stage::realize:
+      Realize(delta);
+      break;
+      /*case Stage::lost_render:
+        LostRender(delta); break;
+      case Stage::restore_render:
+        RestoreRender(delta); break;*/
+    }
+  }
 
-	//Загрузить данные для травы
-	bool LoadData(const char* patchName);
-	//Установить текстуру
-	void SetTexture(const char* texName);
+  //Загрузить данные для травы
+  bool LoadData(const char* patchName);
+  //Установить текстуру
+  void SetTexture(const char* texName);
 
-	CharacterPos characters[MAX_CHARACTERS];
-	long numCharacters;
+  CharacterPos characters[MAX_CHARACTERS];
+  long numCharacters;
 
-	//--------------------------------------------------------------------------------------------
-	//Инкапсуляция
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Инкапсуляция
+  //--------------------------------------------------------------------------------------------
 private:
-	//Рендер блока
-	void RenderBlock(const CVECTOR& camPos, const PLANE* plane, long numPlanes, long mx, long mz);
-	//Проверка на видимость бокса
-	bool VisibleTest(const PLANE* plane, long numPlanes, const CVECTOR& min, const CVECTOR& max);
-	//Рендер блока
-	void RenderBlock(GRSMiniMapElement& mme, float kLod);
-	//Нарисовать содержимое буфера
-	void DrawBuffer();
-	//Получить цвет
-	static long GetColor(CVECTOR color);
-	//Vertex declaration
-	void CreateVertexDeclaration() const;
+  //Рендер блока
+  void RenderBlock(const CVECTOR& camPos, const PLANE* plane, long numPlanes, long mx, long mz);
+  //Проверка на видимость бокса
+  bool VisibleTest(const PLANE* plane, long numPlanes, const CVECTOR& min, const CVECTOR& max);
+  //Рендер блока
+  void RenderBlock(GRSMiniMapElement& mme, float kLod);
+  //Нарисовать содержимое буфера
+  void DrawBuffer();
+  //Получить цвет
+  static long GetColor(CVECTOR color);
+  //Vertex declaration
+  void CreateVertexDeclaration() const;
 
 private:
-	//Сервис рендера
-	VDX9RENDER* rs;
-	//Буфера
-	long vb, ib;
-	long numPoints;
-	//Текстура
-	long texture;
+  //Сервис рендера
+  VDX9RENDER* rs;
+  //Буфера
+  long vb, ib;
+  long numPoints;
+  //Текстура
+  long texture;
 
-	//Миникарта
-	GRSMiniMapElement* miniMap;
-	//Размеры миникарты
-	long miniX, miniZ;
-	//Начальная позиция карты
-	float startX, startZ;
-	//Блоки с высотами
-	GRSMapElementEx* block;
-	long numElements;
-	//Текущие параметры для поворотов травы
-	AngleInfo angInfo[16];
-	//Текущие фазы качания
-	float phase[7];
-	//Параметры текущего источника освещения
-	CVECTOR lDir; //Направление источника
-	CVECTOR lColor; //Цвет источника
-	CVECTOR aColor; //Цвет расеяного освещения
+  //Миникарта
+  GRSMiniMapElement* miniMap;
+  //Размеры миникарты
+  long miniX, miniZ;
+  //Начальная позиция карты
+  float startX, startZ;
+  //Блоки с высотами
+  GRSMapElementEx* block;
+  long numElements;
+  //Текущие параметры для поворотов травы
+  AngleInfo angInfo[16];
+  //Текущие фазы качания
+  float phase[7];
+  //Параметры текущего источника освещения
+  CVECTOR lDir; //Направление источника
+  CVECTOR lColor; //Цвет источника
+  CVECTOR aColor; //Цвет расеяного освещения
 
-	long blockChrs[32]; //Индексы персонажей обрабатываемых блоком
-	long numBlockChr; //Количество персонажей обрабатываемых блоком
+  long blockChrs[32]; //Индексы персонажей обрабатываемых блоком
+  long numBlockChr; //Количество персонажей обрабатываемых блоком
 
-	float lodSelect; //Коэфициент дальности выбора лода (kLod = kLod^lodSelect)
-	float winForce; //Коэфициент скорости ветра 0..1
-	CVECTOR winDir; //Нормализованное напрвавление ветра
+  float lodSelect; //Коэфициент дальности выбора лода (kLod = kLod^lodSelect)
+  float winForce; //Коэфициент скорости ветра 0..1
+  CVECTOR winDir; //Нормализованное напрвавление ветра
 
-	Vertex* vbuffer; //Залоченый буфер	
+  Vertex* vbuffer; //Залоченый буфер	
 
-	RenderQuality quality; //Качество отрисовки
+  RenderQuality quality; //Качество отрисовки
 
-	float cosPh1, sinPh2, sinPh5, sinPh6, winPow, winF10, kAmpWF, kDirWF, kLitWF;
-	float windAng;
-	long initForce;
+  float cosPh1, sinPh2, sinPh5, sinPh6, winPow, winF10, kAmpWF, kDirWF, kLitWF;
+  float windAng;
+  long initForce;
 
-	D3DXVECTOR3 aAngles[16];
-	D3DXVECTOR2 aUV[16];
+  D3DXVECTOR3 aAngles[16];
+  D3DXVECTOR2 aUV[16];
 
-	char textureName[64];
+  char textureName[64];
 
-	float m_fDataScale;
-	float m_fMaxWidth;
-	float m_fMaxHeight;
-	float m_fMinVisibleDist;
-	float m_fMaxVisibleDist;
-	float m_fMinGrassLod;
+  float m_fDataScale;
+  float m_fMaxWidth;
+  float m_fMaxHeight;
+  float m_fMinVisibleDist;
+  float m_fMaxVisibleDist;
+  float m_fMinGrassLod;
 
-	// boal параметры травы
-	long isGrassLightsOn;
+  // boal параметры травы
+  long isGrassLightsOn;
 };
 
 #endif

@@ -3,95 +3,85 @@
 
 
 //конструктор/деструктор
-DataUV::DataUV()
-{
+DataUV::DataUV() {
 }
 
-DataUV::~DataUV()
-{
+DataUV::~DataUV() {
 }
 
 //Получить значение   [ x,y = UV1; z,w = UV2 ]
-const Vector4& DataUV::GetValue(uint32_t FrameNum)
-{
+const Vector4& DataUV::GetValue(uint32_t FrameNum) {
   const uint32_t TotalFrames = Frames.size();
-	FrameNum = FrameNum % TotalFrames;
-	return Frames[FrameNum];
+  FrameNum = FrameNum % TotalFrames;
+  return Frames[FrameNum];
 }
 
 //Установить значения
-void DataUV::SetValues(const Vector4* _Frames, uint32_t FramesCount)
-{
-	Frames.clear();
+void DataUV::SetValues(const Vector4* _Frames, uint32_t FramesCount) {
+  Frames.clear();
 
-	for (uint32_t n = 0; n < FramesCount; n++)
-	{
-		Frames.push_back(_Frames[n]);
-	}
+  for (uint32_t n = 0; n < FramesCount; n++) {
+    Frames.push_back(_Frames[n]);
+  }
 }
 
 //Получить кол-во кадров
 uint32_t DataUV::GetFrameCount() const {
-	return Frames.size();
+  return Frames.size();
 }
 
-void DataUV::Load(MemFile* File)
-{
-	uint32_t ElementCount = 0;
-	File->ReadType(ElementCount);
-	for (uint32_t n = 0; n < ElementCount; n++)
-	{
-		Vector4 rFrame;
-		File->ReadType(rFrame.x);
-		File->ReadType(rFrame.y);
-		File->ReadType(rFrame.z);
-		File->ReadType(rFrame.w);
+void DataUV::Load(MemFile* File) {
+  uint32_t ElementCount = 0;
+  File->ReadType(ElementCount);
+  for (uint32_t n = 0; n < ElementCount; n++) {
+    Vector4 rFrame;
+    File->ReadType(rFrame.x);
+    File->ReadType(rFrame.y);
+    File->ReadType(rFrame.z);
+    File->ReadType(rFrame.w);
 
-		Vector4 newFrame;
-		newFrame = rFrame;
-		newFrame.z += newFrame.x;
-		newFrame.w += newFrame.y;
-		Frames.push_back(newFrame);
-	}
+    Vector4 newFrame;
+    newFrame = rFrame;
+    newFrame.z += newFrame.x;
+    newFrame.w += newFrame.y;
+    Frames.push_back(newFrame);
+  }
 
-	static char AttribueName[128];
-	uint32_t NameLength = 0;
-	File->ReadType(NameLength);
-	Assert(NameLength < 128);
-	File->Read(AttribueName, NameLength);
+  static char AttribueName[128];
+  uint32_t NameLength = 0;
+  File->ReadType(NameLength);
+  Assert(NameLength < 128);
+  File->Read(AttribueName, NameLength);
 
-	SetName(AttribueName);
+  SetName(AttribueName);
 }
 
-void DataUV::SetName(const char* szName)
-{
-	//api->Trace("DataUV::SetName - '%s'", szName);
-	Name = szName;
+void DataUV::SetName(const char* szName) {
+  //api->Trace("DataUV::SetName - '%s'", szName);
+  Name = szName;
 }
 
 const char* DataUV::GetName() const {
-	return Name.c_str();
+  return Name.c_str();
 }
 
-void DataUV::Write(MemFile* File)
-{
+void DataUV::Write(MemFile* File) {
   auto ElementCount = GetFrameCount();
-	File->WriteType(ElementCount);
-	for (uint32_t n = 0; n < ElementCount; n++)
-	{
+  File->WriteType(ElementCount);
+  for (uint32_t n = 0; n < ElementCount; n++) {
     auto w = Frames[n].z - Frames[n].x;
     auto h = Frames[n].w - Frames[n].y;
-		File->WriteType(Frames[n].x);
-		File->WriteType(Frames[n].y);
-		File->WriteType(w);
-		File->WriteType(h);
-	}
+    File->WriteType(Frames[n].x);
+    File->WriteType(Frames[n].y);
+    File->WriteType(w);
+    File->WriteType(h);
+  }
 
-	//save name
+  //save name
   const uint32_t NameLength = Name.size();
   auto NameLengthPlusZero = NameLength + 1;
-	File->WriteType(NameLengthPlusZero);
-	Assert(NameLength < 128);
-	File->Write(Name.c_str(), NameLength);
-	File->WriteZeroByte();
+  File->WriteType(NameLengthPlusZero);
+  Assert(NameLength < 128);
+  File->Write(Name.c_str(), NameLength);
+  File->WriteZeroByte();
 }

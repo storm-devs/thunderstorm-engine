@@ -13,45 +13,42 @@
 
 #include "WdmEnemyShip.h"
 
-class WdmWarringShip : public WdmEnemyShip
-{
-	struct MoveInfo
-	{
-		CVECTOR v;
-		float dAng;
-		float time;
-		float kTime;
-	};
+class WdmWarringShip : public WdmEnemyShip {
+  struct MoveInfo {
+    CVECTOR v;
+    float dAng;
+    float time;
+    float kTime;
+  };
 
-	//--------------------------------------------------------------------------------------------
-	//Конструирование, деструктурирование
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Конструирование, деструктурирование
+  //--------------------------------------------------------------------------------------------
 public:
-	WdmWarringShip();
-	virtual ~WdmWarringShip();
+  WdmWarringShip();
+  virtual ~WdmWarringShip();
 
-	//Расчёты
-	void Update(float dltTime) override;
+  //Расчёты
+  void Update(float dltTime) override;
 
-	//Отрисовка
-	void LRender(VDX9RENDER* rs) override;
+  //Отрисовка
+  void LRender(VDX9RENDER* rs) override;
 
 protected:
-	//Все расчёты то перемещению вместе
-	void Move(float dltTime) override
-	{
-	};
+  //Все расчёты то перемещению вместе
+  void Move(float dltTime) override {
+  };
 
-	//--------------------------------------------------------------------------------------------
-	//Инкапсуляция
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Инкапсуляция
+  //--------------------------------------------------------------------------------------------
 private:
-	//Партиклы для дыма из пушек
-	RS_RECT rect[24];
-	MoveInfo move[24];
-	long numRects;
-	float brnTime;
-	long texture;
+  //Партиклы для дыма из пушек
+  RS_RECT rect[24];
+  MoveInfo move[24];
+  long numRects;
+  float brnTime;
+  long texture;
 };
 
 #endif

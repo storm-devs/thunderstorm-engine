@@ -20,126 +20,123 @@
 class VDX9RENDER;
 
 
-class PtcData
-{
+class PtcData {
 public:
-	struct Triangle
-	{
-		long index;
-		CVECTOR v[3];
-		CVECTOR n;
-	};
+  struct Triangle {
+    long index;
+    CVECTOR v[3];
+    CVECTOR n;
+  };
 
-	struct DbgVertex
-	{
-		float x, y, z;
-		uint32_t c;
-	};
+  struct DbgVertex {
+    float x, y, z;
+    uint32_t c;
+  };
 
-//--------------------------------------------------------------------------------------------
-//Конструирование, деструктурирование
-//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Конструирование, деструктурирование
+  //--------------------------------------------------------------------------------------------
 public:
-	PtcData();
-	virtual ~PtcData();
+  PtcData();
+  virtual ~PtcData();
 
-	//Загрузить патч
-	bool Load(const char * path);
-	//Определить текущию позицию
-	long FindNode(const CVECTOR & pos, float & y);
-	//Двигает pos в to, возвращает новый нод
-	long Move(long curNode, const CVECTOR & to, CVECTOR & pos, long depth = 0);
-	//Получить нормаль к ноду
-	void GetNodeNormal(long curNode, CVECTOR & n) const;
-	//Найти направление пути
-	bool FindPathDir(long curNode, const CVECTOR & cur, long toNode, const CVECTOR & to, long & node, CVECTOR & toPos);
-	//Найти пересечение с патчём
-	float Trace(const CVECTOR & s, const CVECTOR & d) const;
-	//Найти силу отталкивающую от краёв
+  //Загрузить патч
+  bool Load(const char* path);
+  //Определить текущию позицию
+  long FindNode(const CVECTOR& pos, float& y);
+  //Двигает pos в to, возвращает новый нод
+  long Move(long curNode, const CVECTOR& to, CVECTOR& pos, long depth = 0);
+  //Получить нормаль к ноду
+  void GetNodeNormal(long curNode, CVECTOR& n) const;
+  //Найти направление пути
+  bool FindPathDir(long curNode, const CVECTOR& cur, long toNode, const CVECTOR& to, long& node, CVECTOR& toPos);
+  //Найти пересечение с патчём
+  float Trace(const CVECTOR& s, const CVECTOR& d) const;
+  //Найти силу отталкивающую от краёв
   void FindForce(long curNode, CVECTOR& force) const;
-	void FindForce(long curNode, const CVECTOR & pos, float dist, CVECTOR & force) const;
-	//Получить материал нода
-	const char * GetMaterial(long curNode);
+  void FindForce(long curNode, const CVECTOR& pos, float dist, CVECTOR& force) const;
+  //Получить материал нода
+  const char* GetMaterial(long curNode);
 
-	//Получить треугольники пересекающии данный квадрат
-	//Triangle * GetTriangles(float x, float z, float sx, float sz, long & num);
-
-
-	//Результаты последнего перемещения
-	bool isSlide;		//Скользил
-	CVECTOR slideDir;	//Направление скольжения
-	bool isBearing;		//Упал на опору
-
-	CVECTOR stepPos[PTCDATA_MAXSTEPS];
-	long numSteps;
-
-	CVECTOR middle;
-
-	//Отладочная отрисовка
-	void DebugDraw(VDX9RENDER * rs, float dltTime);
+  //Получить треугольники пересекающии данный квадрат
+  //Triangle * GetTriangles(float x, float z, float sx, float sz, long & num);
 
 
-//--------------------------------------------------------------------------------------------
-//Инкапсуляция
-//--------------------------------------------------------------------------------------------
+  //Результаты последнего перемещения
+  bool isSlide; //Скользил
+  CVECTOR slideDir; //Направление скольжения
+  bool isBearing; //Упал на опору
+
+  CVECTOR stepPos[PTCDATA_MAXSTEPS];
+  long numSteps;
+
+  CVECTOR middle;
+
+  //Отладочная отрисовка
+  void DebugDraw(VDX9RENDER* rs, float dltTime);
+
+
+  //--------------------------------------------------------------------------------------------
+  //Инкапсуляция
+  //--------------------------------------------------------------------------------------------
 private:
-	//Функция защиты
+  //Функция защиты
 #ifndef _XBOX
-	void SFLB_PotectionLoad();
+  void SFLB_PotectionLoad();
 #else
 	void SFLB_PotectionLoad();
 #endif
-	//Вычислить высоту точки на плоскосте треугольника
-	float FindHeight(long trgID, float x, float z);
-	//Найти направление пути
-	bool FindPathDir(long step, long curNode, const CVECTOR & cur, long toNode, const CVECTOR & to, long & node, CVECTOR & pos);
-	//Найти точку на ребре
-	CVECTOR FindEdgePoint(const CVECTOR & vs, const CVECTOR & ve, const CVECTOR & cur, const CVECTOR & to);
-	//Проверить пересечение треугольника с отрезком
-	float Trace(PtcTriangle & trg, const CVECTOR & s, const CVECTOR & d) const;
-	//Добавить треугольник в буфер
-	//void AddClTriangle(long i);
+  //Вычислить высоту точки на плоскосте треугольника
+  float FindHeight(long trgID, float x, float z);
+  //Найти направление пути
+  bool FindPathDir(long step, long curNode, const CVECTOR& cur, long toNode, const CVECTOR& to, long& node,
+                   CVECTOR& pos);
+  //Найти точку на ребре
+  CVECTOR FindEdgePoint(const CVECTOR& vs, const CVECTOR& ve, const CVECTOR& cur, const CVECTOR& to);
+  //Проверить пересечение треугольника с отрезком
+  float Trace(PtcTriangle& trg, const CVECTOR& s, const CVECTOR& d) const;
+  //Добавить треугольник в буфер
+  //void AddClTriangle(long i);
 
-//private:
+  //private:
 public:
-	//Блок данных
-	void * data;
+  //Блок данных
+  void* data;
 
-	//Геометрия
-	PtcTriangle * triangle;	//Треугольники геометрии
-	long numTriangles;		//Количество треугольников геометрии
-	
-	PtcVertex * vertex;		//Вершины геометрии
-	long numVerteces;		//Количество вершин геометрии
-	
-	PtcNormal * normal;		//Нормали треугольников геометрии
-	long numNormals;		//Количество нормальей геометрии
+  //Геометрия
+  PtcTriangle* triangle; //Треугольники геометрии
+  long numTriangles; //Количество треугольников геометрии
 
-	PtcMaterials * materials;//Материалы
+  PtcVertex* vertex; //Вершины геометрии
+  long numVerteces; //Количество вершин геометрии
 
-	//Данные для коллижена
-	CVECTOR min, max;		//Во что вписываеться
-	
-	PtcMap * map;			//Карта быстрого поиска
-	long l, w;				//Размер карты быстрого поиска
-	float ls, ws;			//Размер одного квадрата
-	
-	uint16_t * indeces;			//Индексы
-	long numIndeces;		//Количество индексов
+  PtcNormal* normal; //Нормали треугольников геометрии
+  long numNormals; //Количество нормальей геометрии
 
-	//Данные для нахождения путей
-	uint8_t * table;			//Таблица направлений
-	long lineSize;			//Размер строки
+  PtcMaterials* materials; //Материалы
 
-	//Треугольники после коллизии
-	Triangle * ctriangle;
-	long numClTriangles;
-	long maxClTriangles;
+  //Данные для коллижена
+  CVECTOR min, max; //Во что вписываеться
 
-	//Отладочная информация
-	DbgVertex * dbgTriangles;
-	DbgVertex * dbgEdges;
+  PtcMap* map; //Карта быстрого поиска
+  long l, w; //Размер карты быстрого поиска
+  float ls, ws; //Размер одного квадрата
+
+  uint16_t* indeces; //Индексы
+  long numIndeces; //Количество индексов
+
+  //Данные для нахождения путей
+  uint8_t* table; //Таблица направлений
+  long lineSize; //Размер строки
+
+  //Треугольники после коллизии
+  Triangle* ctriangle;
+  long numClTriangles;
+  long maxClTriangles;
+
+  //Отладочная информация
+  DbgVertex* dbgTriangles;
+  DbgVertex* dbgEdges;
 };
 
 #endif
-

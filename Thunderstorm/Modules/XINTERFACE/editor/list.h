@@ -8,66 +8,65 @@
 class GIEditor;
 class CXI_IMAGE;
 
-class GIEditorList : public GIEditorObject
-{
+class GIEditorList : public GIEditorObject {
 public:
-	GIEditorList(GIEditor* pEditor);
-	~GIEditorList();
+  GIEditorList(GIEditor* pEditor);
+  ~GIEditorList();
 
-	void Release();
-	void Create();
+  void Release();
+  void Create();
 
-	void Render();
+  void Render();
 
-	void SetPosition(float fLeft, float fTop, float fRight, float fBottom);
+  void SetPosition(float fLeft, float fTop, float fRight, float fBottom);
 
-	void AddString(std::string& sNewStr);
-	void RemoveString(const std::string& sStr);
-	void RemoveString(long nIndex);
-	void RemoveAllStrings();
-	long FindString(const std::string& sStr);
-	long GetStringQuantity() const { return m_aStrings.size(); }
-	std::string& GetString(long nIndex);
-	long GetSelectIndex() const { return m_nSelectIndex; }
-	void SetSelectIndex(long nIndex);
-	std::string& GetSelectString() { return GetString(m_nSelectIndex); }
+  void AddString(std::string& sNewStr);
+  void RemoveString(const std::string& sStr);
+  void RemoveString(long nIndex);
+  void RemoveAllStrings();
+  long FindString(const std::string& sStr);
+  long GetStringQuantity() const { return m_aStrings.size(); }
+  std::string& GetString(long nIndex);
+  long GetSelectIndex() const { return m_nSelectIndex; }
+  void SetSelectIndex(long nIndex);
+  std::string& GetSelectString() { return GetString(m_nSelectIndex); }
 
-	bool CheckMouseInside(float fX, float fY) const;
-	void MakeMouseClick(float fX, float fY);
-	void DoKeyChecking();
+  bool CheckMouseInside(float fX, float fY) const;
+  void MakeMouseClick(float fX, float fY);
+  void DoKeyChecking();
 
-	void IncrementSelectedLine(bool bIncr);
+  void IncrementSelectedLine(bool bIncr);
 
 protected:
-	void UpdateSelectPosition();
+  void UpdateSelectPosition();
 
-	GIEditor* m_pEditor;
+  GIEditor* m_pEditor;
 
-	CXI_IMAGE* m_pBackImage;
-	CXI_IMAGE* m_pSelectImage;
+  CXI_IMAGE* m_pBackImage;
+  CXI_IMAGE* m_pSelectImage;
 
-	bool m_bShowSelect;
-	FXYRECT m_frBackRect;
-	FXYRECT m_frSelectRect;
+  bool m_bShowSelect;
+  FXYRECT m_frBackRect;
+  FXYRECT m_frSelectRect;
 
-	std::string m_sEmptyString;
-	GIFont* m_pFont;
+  std::string m_sEmptyString;
+  GIFont* m_pFont;
 
-	FXYRECT m_frStrOffset;
-	float m_fStrLineStep;
-	std::vector<std::string> m_aStrings;
-	long m_nSelectIndex;
-	long m_nTopIndex;
-	long m_nLineQuantity;
+  FXYRECT m_frStrOffset;
+  float m_fStrLineStep;
+  std::vector<std::string> m_aStrings;
+  long m_nSelectIndex;
+  long m_nTopIndex;
+  long m_nLineQuantity;
 
-	float m_fUpPressTime;
-	float m_fDownPressTime;
-	float m_fKeyRepeatDelay;
-	float m_fKeyRepeatInterval;
+  float m_fUpPressTime;
+  float m_fDownPressTime;
+  float m_fKeyRepeatDelay;
+  float m_fKeyRepeatInterval;
 
 public:
-	uint32_t m_dwStatus;
-	GIEditorEventHandler* m_pChangeSelected;
+  uint32_t m_dwStatus;
+  GIEditorEventHandler* m_pChangeSelected;
 };
 
 #endif

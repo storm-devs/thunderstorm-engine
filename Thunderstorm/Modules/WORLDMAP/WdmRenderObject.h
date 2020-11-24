@@ -15,45 +15,40 @@
 #include "dx9render.h"
 #include "attributes.h"
 
-class WdmRenderObject
-{
-	//--------------------------------------------------------------------------------------------
-	//Конструирование, деструктурирование
-	//--------------------------------------------------------------------------------------------
+class WdmRenderObject {
+  //--------------------------------------------------------------------------------------------
+  //Конструирование, деструктурирование
+  //--------------------------------------------------------------------------------------------
 public:
-	WdmRenderObject();
-	virtual ~WdmRenderObject();
+  WdmRenderObject();
+  virtual ~WdmRenderObject();
 
-	//Расчёты
-	virtual void Update(float dltTime)
-	{
-	};
-	//Отрисовка
-	virtual void PRender(VDX9RENDER* rs)
-	{
-	};
+  //Расчёты
+  virtual void Update(float dltTime) {
+  };
+  //Отрисовка
+  virtual void PRender(VDX9RENDER* rs) {
+  };
 
-	virtual void MRender(VDX9RENDER* rs)
-	{
-	};
+  virtual void MRender(VDX9RENDER* rs) {
+  };
 
-	virtual void LRender(VDX9RENDER* rs)
-	{
-	};
+  virtual void LRender(VDX9RENDER* rs) {
+  };
 
-	static void DeleteAllObjects();
+  static void DeleteAllObjects();
 
-	bool killMe;
-	bool isEnablePause;
+  bool killMe;
+  bool isEnablePause;
 
 
-	//--------------------------------------------------------------------------------------------
-	//Инкапсуляция
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Инкапсуляция
+  //--------------------------------------------------------------------------------------------
 private:
-	WdmRenderObject* prevObject;
-	WdmRenderObject* nextObject;
-	static WdmRenderObject* firstObject;
+  WdmRenderObject* prevObject;
+  WdmRenderObject* nextObject;
+  static WdmRenderObject* firstObject;
 };
 
 #endif

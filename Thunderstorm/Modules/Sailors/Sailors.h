@@ -24,160 +24,152 @@ const float JUMP_SPEED_Y_EXPLOSION = 30.0f;
 #define SHIP_BLACK_PEARL		164
 
 
-enum ManMode
-{
-	MAN_JUMP,
-	MAN_SWIM,
-	MAN_OFF,
-	MAN_WALK,
-	MAN_RUN,
-	MAN_STAY,
-	MAN_CANNONRELOAD,
-	MAN_TURNLEFT,
-	MAN_TURNRIGHT,
-	MAN_CLIMB_UP,
-	MAN_CLIMB_DOWN
+enum ManMode {
+  MAN_JUMP,
+  MAN_SWIM,
+  MAN_OFF,
+  MAN_WALK,
+  MAN_RUN,
+  MAN_STAY,
+  MAN_CANNONRELOAD,
+  MAN_TURNLEFT,
+  MAN_TURNRIGHT,
+  MAN_CLIMB_UP,
+  MAN_CLIMB_DOWN
 };
 
 enum ManMoveTo { MOVE_TO_POINT, MOVE_TO_CANNON, MOVE_TO_TOP };
 
 
-struct ShipState
-{
-	uint32_t mode;
-	bool dead;
-	SEA_BASE* sea;
+struct ShipState {
+  uint32_t mode;
+  bool dead;
+  SEA_BASE* sea;
 
-	ShipState()
-	{
-		mode = SHIP_SAIL;
-		dead = false;
-	};
+  ShipState() {
+    mode = SHIP_SAIL;
+    dead = false;
+  };
 };
 
 
-class ShipMan
-{
+class ShipMan {
 public:
-	entid_t modelID;
-	MODEL* model;
+  entid_t modelID;
+  MODEL* model;
 
-	CVECTOR pos, ang; //Текущее положение
-	CVECTOR ptTo, angTo, dir;
+  CVECTOR pos, ang; //Текущее положение
+  CVECTOR ptTo, angTo, dir;
 
-	CVECTOR spos; //Обход друг друга
-	//	float sang;   //Обход друг друга
+  CVECTOR spos; //Обход друг друга
+  //	float sang;   //Обход друг друга
 
-	float dieTime;
-	bool inWater;
-	float jumpSpeedX, jumpSpeedY;
+  float dieTime;
+  bool inWater;
+  float jumpSpeedX, jumpSpeedY;
 
-	Path path; //Текущий путь
+  Path path; //Текущий путь
 
-	ManMode mode, lastMode; //Режим
-	int newWayPoint, lastWayPoint, targetWayPoint, lastTargetPoint;
+  ManMode mode, lastMode; //Режим
+  int newWayPoint, lastWayPoint, targetWayPoint, lastTargetPoint;
 
-	ManMoveTo moveTo; //Тип текущей точки
+  ManMoveTo moveTo; //Тип текущей точки
 
-	float manSpeed;
-	float rotSpeed;
+  float manSpeed;
+  float rotSpeed;
 
-	ShipMan();
+  ShipMan();
 
-	void SetPos(MODEL* ship, SHIP_BASE* ship_base, uint32_t& dltTime, ShipState& shipState);
-	void FindNextPoint(SailorsPoints& sailorsPoints, ShipState& shipState);
-	int FindRandomPoint(SailorsPoints& sailorsPoints, ShipState& shipState);
-	int FindRandomPointWithoutType(SailorsPoints& sailorsPoints) const;
-	void ApplyTargetPoint(CVECTOR pt, bool randomWalk);
+  void SetPos(MODEL* ship, SHIP_BASE* ship_base, uint32_t& dltTime, ShipState& shipState);
+  void FindNextPoint(SailorsPoints& sailorsPoints, ShipState& shipState);
+  int FindRandomPoint(SailorsPoints& sailorsPoints, ShipState& shipState);
+  int FindRandomPointWithoutType(SailorsPoints& sailorsPoints) const;
+  void ApplyTargetPoint(CVECTOR pt, bool randomWalk);
 
-	void UpdatePos(uint32_t& dltTime, SailorsPoints& sailorsPoints, ShipState& shipState);
+  void UpdatePos(uint32_t& dltTime, SailorsPoints& sailorsPoints, ShipState& shipState);
 
-	void SetAnimation(uint32_t dltTime, ShipState& shipState);
+  void SetAnimation(uint32_t dltTime, ShipState& shipState);
 
 
-	bool MoveToPosition(uint32_t& dltTime, SailorsPoints& sailorsPoints, ShipState& shipState);
-	bool RotateToAngle(uint32_t& dltTime, SailorsPoints& sailorsPoints);
-	bool Stay(uint32_t& dltTime, SailorsPoints& sailorsPoints) const;
-	bool Turn(uint32_t& dltTime, SailorsPoints& sailorsPoints);
-	bool Swim(uint32_t& dltTime, SailorsPoints& sailorsPoints, ShipState& shipState);
-	bool Jump(uint32_t& dltTime, SailorsPoints& sailorsPoints, ShipState& shipState);
+  bool MoveToPosition(uint32_t& dltTime, SailorsPoints& sailorsPoints, ShipState& shipState);
+  bool RotateToAngle(uint32_t& dltTime, SailorsPoints& sailorsPoints);
+  bool Stay(uint32_t& dltTime, SailorsPoints& sailorsPoints) const;
+  bool Turn(uint32_t& dltTime, SailorsPoints& sailorsPoints);
+  bool Swim(uint32_t& dltTime, SailorsPoints& sailorsPoints, ShipState& shipState);
+  bool Jump(uint32_t& dltTime, SailorsPoints& sailorsPoints, ShipState& shipState);
 
-	void NewAction(SailorsPoints& sailorsPoints, ShipState& shipState, uint32_t& dltTime);
-	void Free() const;
-	int GetNearestEmptyCannon(SailorsPoints& sailorsPoints) const;
+  void NewAction(SailorsPoints& sailorsPoints, ShipState& shipState, uint32_t& dltTime);
+  void Free() const;
+  int GetNearestEmptyCannon(SailorsPoints& sailorsPoints) const;
 };
 
-class ShipWalk
-{
+class ShipWalk {
 public:
-	//ShipWalk() shipMan(_FL_) {}
+  //ShipWalk() shipMan(_FL_) {}
 
-	SHIP_BASE* ship;
-	MODEL* shipModel;
-	int crewCount; //Количество человек
+  SHIP_BASE* ship;
+  MODEL* shipModel;
+  int crewCount; //Количество человек
 
-	bool bHide;
+  bool bHide;
 
-	entid_t shipID;
+  entid_t shipID;
 
-	SailorsPoints sailorsPoints; //Точки
+  SailorsPoints sailorsPoints; //Точки
 
-	void ReloadCannons(int bort);
-	ShipState shipState; //Состояние корабля
+  void ReloadCannons(int bort);
+  ShipState shipState; //Состояние корабля
 
-	std::vector<ShipMan> shipMan;
-	void CreateNewMan(SailorsPoints& sailorsPoints);
-	void DeleteMan(int Index);
+  std::vector<ShipMan> shipMan;
+  void CreateNewMan(SailorsPoints& sailorsPoints);
+  void DeleteMan(int Index);
 
-	void Init(entid_t _shipID, int editorMode, char* shipType);
-	void CheckPosition(uint32_t& dltTime);
-	void SetMastBroken(int iMastIndex);
-	void OnHullHit(const CVECTOR& v);
-	void Reset();
+  void Init(entid_t _shipID, int editorMode, char* shipType);
+  void CheckPosition(uint32_t& dltTime);
+  void SetMastBroken(int iMastIndex);
+  void OnHullHit(const CVECTOR& v);
+  void Reset();
 
-	void Free();
+  void Free();
 };
 
 
-class Sailors : public Entity
-{
+class Sailors : public Entity {
 public:
 
-	VDX9RENDER* rs;
+  VDX9RENDER* rs;
 
-	std::vector<ShipWalk> shipWalk;
-	bool editorMode;
-	int shipsCount;
-	bool disabled;
+  std::vector<ShipWalk> shipWalk;
+  bool editorMode;
+  int shipsCount;
+  bool disabled;
 
-	Sailors();
-	virtual ~Sailors();
+  Sailors();
+  virtual ~Sailors();
 
-	bool Init() override;
-	virtual void Realize(uint32_t dltTime);
+  bool Init() override;
+  virtual void Realize(uint32_t dltTime);
 
-	uint64_t ProcessMessage(MESSAGE& message) override;
-	uint32_t AttributeChanged(ATTRIBUTES* _newAttr) override;
+  uint64_t ProcessMessage(MESSAGE& message) override;
+  uint32_t AttributeChanged(ATTRIBUTES* _newAttr) override;
 
-	void ProcessStage(Stage stage, uint32_t delta) override
-	{
-		switch (stage)
-		{
-			//case Stage::execute:
-			//	Execute(delta); break;
-		case Stage::realize:
-			Realize(delta);
-			break;
-			/*case Stage::lost_render:
-				LostRender(delta); break;
-			case Stage::restore_render:
-				RestoreRender(delta); break;*/
-		}
-	}
+  void ProcessStage(Stage stage, uint32_t delta) override {
+    switch (stage) {
+      //case Stage::execute:
+      //	Execute(delta); break;
+    case Stage::realize:
+      Realize(delta);
+      break;
+      /*case Stage::lost_render:
+        LostRender(delta); break;
+      case Stage::restore_render:
+        RestoreRender(delta); break;*/
+    }
+  }
 
-	int IsOnDeck;
+  int IsOnDeck;
 
-	void DeleteShip(int i);
+  void DeleteShip(int i);
 };
 
 #endif

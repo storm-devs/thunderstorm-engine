@@ -27,48 +27,41 @@
 
 #define	LOCATION_SCRIPT_VERSION		54128
 
-class LocationP : public Entity
-{
+class LocationP : public Entity {
 public:
-	LocationP();
-	~LocationP();
+  LocationP();
+  ~LocationP();
 
-	bool Init() override;
-	void Execute(uint32_t dwDeltaTime);
+  bool Init() override;
+  void Execute(uint32_t dwDeltaTime);
 
-	void ProcessStage(Stage stage, uint32_t delta) override
-	{
-		switch (stage)
-		{
-		case Stage::execute:
-			Execute(delta);
-			break;
-			//case Stage::realize:
-			//	Realize(delta); break;
-			/*case Stage::lost_render:
-				LostRender(delta); break;
-			case Stage::restore_render:
-				RestoreRender(delta); break;*/
-		}
-	}
+  void ProcessStage(Stage stage, uint32_t delta) override {
+    switch (stage) {
+    case Stage::execute:
+      Execute(delta);
+      break;
+      //case Stage::realize:
+      //	Realize(delta); break;
+      /*case Stage::lost_render:
+        LostRender(delta); break;
+      case Stage::restore_render:
+        RestoreRender(delta); break;*/
+    }
+  }
 };
 
-LocationP::LocationP()
-{
+LocationP::LocationP() {
 }
 
-LocationP::~LocationP()
-{
+LocationP::~LocationP() {
 }
 
-bool LocationP::Init()
-{
-	return true;
+bool LocationP::Init() {
+  return true;
 }
 
-void LocationP::Execute(uint32_t dwDeltaTime)
-{
-	if (dwDeltaTime != LOCATION_SCRIPT_VERSION) throw;
+void LocationP::Execute(uint32_t dwDeltaTime) {
+  if (dwDeltaTime != LOCATION_SCRIPT_VERSION) throw;
 }
 
 //============================================================================================

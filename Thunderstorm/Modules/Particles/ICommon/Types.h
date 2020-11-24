@@ -9,36 +9,33 @@
 
 
 //Типы для эмитеров
-enum EmitterType
-{
-	POINT_EMITTER = 0,
+enum EmitterType {
+  POINT_EMITTER = 0,
 
-	UNKNOWN_EMITTER = 0x7fffffff
+  UNKNOWN_EMITTER = 0x7fffffff
 };
 
 
 //Типы для партиклов
-enum ParticleType
-{
-	BILLBOARD_PARTICLE = 1,
-	MODEL_PARTICLE = 2,
+enum ParticleType {
+  BILLBOARD_PARTICLE = 1,
+  MODEL_PARTICLE = 2,
 
-	UNKNOWN_PARTICLE = 0x7fffffff
+  UNKNOWN_PARTICLE = 0x7fffffff
 };
 
 //Типы полей
-enum FieldType
-{
-	FIELD_UNKNOWN = 0,
-	FIELD_BOOL,
-	FIELD_FLOAT,
-	FIELD_GRAPH,
-	FIELD_POSITION,
-	FIELD_STRING,
-	FIELD_UV,
-	FIELD_COLOR,
+enum FieldType {
+  FIELD_UNKNOWN = 0,
+  FIELD_BOOL,
+  FIELD_FLOAT,
+  FIELD_GRAPH,
+  FIELD_POSITION,
+  FIELD_STRING,
+  FIELD_UV,
+  FIELD_COLOR,
 
-	FIELD_FORCE_DWORD = 0x7fffffff
+  FIELD_FORCE_DWORD = 0x7fffffff
 };
 
 

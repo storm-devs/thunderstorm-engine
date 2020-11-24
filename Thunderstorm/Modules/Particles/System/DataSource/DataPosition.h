@@ -8,31 +8,30 @@
 #include <string>
 
 
-class DataPosition
-{
-	std::string Name;
+class DataPosition {
+  std::string Name;
 
 
-	Vector Value;
+  Vector Value;
 
 public:
 
-	//конструктор/деструктор
-	DataPosition();
-	virtual ~DataPosition();
+  //конструктор/деструктор
+  DataPosition();
+  virtual ~DataPosition();
 
-	//Получить значение (Текущее время, Коэфицент рандома[0..1])
-	const Vector& GetValue() const;
+  //Получить значение (Текущее время, Коэфицент рандома[0..1])
+  const Vector& GetValue() const;
 
-	//Установить значение
-	void SetValue(const Vector& val);
+  //Установить значение
+  void SetValue(const Vector& val);
 
 
-	void Load(MemFile* File);
-	void Write(MemFile* File) const;
+  void Load(MemFile* File);
+  void Write(MemFile* File) const;
 
-	void SetName(const char* szName);
-	const char* GetName() const;
+  void SetName(const char* szName);
+  const char* GetName() const;
 };
 
 

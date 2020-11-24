@@ -17,45 +17,42 @@
 #include "LocRat.h"
 
 
-class LocRats : public Entity
-{
+class LocRats : public Entity {
 public:
-	LocRats();
-	virtual ~LocRats();
+  LocRats();
+  virtual ~LocRats();
 
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
 public:
-	//Инициализация
-	bool Init() override;
-	//Исполнение
-	void Execute(uint32_t delta_time);
-	//Рисование
-	void Realize(uint32_t delta_time);
+  //Инициализация
+  bool Init() override;
+  //Исполнение
+  void Execute(uint32_t delta_time);
+  //Рисование
+  void Realize(uint32_t delta_time);
 
-	void ProcessStage(Stage stage, uint32_t delta) override
-	{
-		switch (stage)
-		{
-		case Stage::execute:
-			Execute(delta);
-			break;
-		case Stage::realize:
-			Realize(delta);
-			break;
-			/*case Stage::lost_render:
-				LostRender(delta); break;
-			case Stage::restore_render:
-				RestoreRender(delta); break;*/
-		}
-	}
+  void ProcessStage(Stage stage, uint32_t delta) override {
+    switch (stage) {
+    case Stage::execute:
+      Execute(delta);
+      break;
+    case Stage::realize:
+      Realize(delta);
+      break;
+      /*case Stage::lost_render:
+        LostRender(delta); break;
+      case Stage::restore_render:
+        RestoreRender(delta); break;*/
+    }
+  }
 
-	//Сообщения
-	uint64_t ProcessMessage(MESSAGE& message) override;
+  //Сообщения
+  uint64_t ProcessMessage(MESSAGE& message) override;
 
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
 private:
-	LocRat rat[32];
-	long num;
+  LocRat rat[32];
+  long num;
 };
 
 #endif

@@ -7,46 +7,43 @@
 
 class Lights;
 
-class LocModelRealizer : public Entity
-{
-	entid_t eid_model;
-	Lights* lights;
-	VDX9RENDER* rs;
-	VGEOMETRY* gs;
-	bool bShow;
+class LocModelRealizer : public Entity {
+  entid_t eid_model;
+  Lights* lights;
+  VDX9RENDER* rs;
+  VGEOMETRY* gs;
+  bool bShow;
 
-	//--------------------------------------------------------------------------------------------
-	//Конструирование, деструктурирование
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Конструирование, деструктурирование
+  //--------------------------------------------------------------------------------------------
 public:
-	LocModelRealizer();
-	~LocModelRealizer();
+  LocModelRealizer();
+  ~LocModelRealizer();
 
-	//Инициализация
-	bool Init() override;
-	//Исполнение
-	void Execute(uint32_t delta_time);
-	void Realize(uint32_t delta_time) const;
+  //Инициализация
+  bool Init() override;
+  //Исполнение
+  void Execute(uint32_t delta_time);
+  void Realize(uint32_t delta_time) const;
 
-	void ProcessStage(Stage stage, uint32_t delta) override
-	{
-		switch (stage)
-		{
-		case Stage::execute:
-			Execute(delta);
-			break;
-		case Stage::realize:
-			Realize(delta);
-			break;
-			/*case Stage::lost_render:
-				LostRender(delta); break;
-			case Stage::restore_render:
-				RestoreRender(delta); break;*/
-		}
-	}
+  void ProcessStage(Stage stage, uint32_t delta) override {
+    switch (stage) {
+    case Stage::execute:
+      Execute(delta);
+      break;
+    case Stage::realize:
+      Realize(delta);
+      break;
+      /*case Stage::lost_render:
+        LostRender(delta); break;
+      case Stage::restore_render:
+        RestoreRender(delta); break;*/
+    }
+  }
 
-	//Сообщения
-	uint64_t ProcessMessage(MESSAGE& message) override;
+  //Сообщения
+  uint64_t ProcessMessage(MESSAGE& message) override;
 };
 
 #endif

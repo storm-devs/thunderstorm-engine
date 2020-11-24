@@ -13,41 +13,40 @@
 
 #include "WdmEnemyShip.h"
 
-class WdmMerchantShip : public WdmEnemyShip
-{
-	//--------------------------------------------------------------------------------------------
-	//Конструирование, деструктурирование
-	//--------------------------------------------------------------------------------------------
+class WdmMerchantShip : public WdmEnemyShip {
+  //--------------------------------------------------------------------------------------------
+  //Конструирование, деструктурирование
+  //--------------------------------------------------------------------------------------------
 public:
-	WdmMerchantShip();
-	virtual ~WdmMerchantShip();
+  WdmMerchantShip();
+  virtual ~WdmMerchantShip();
 
 
-	void Goto(float x, float z, float rad);
+  void Goto(float x, float z, float rad);
 
 
 protected:
-	//Найти силу притягивающую в нужном направлении
-	void FindMoveForce() override;
-	//Проверка на завершение
-	bool KillTest() override;
+  //Найти силу притягивающую в нужном направлении
+  void FindMoveForce() override;
+  //Проверка на завершение
+  bool KillTest() override;
 
-	//Обновление сохраняемых данных
-	void UpdateSaveData() override;
-	//Установка параметров
-	void SetSaveAttribute(ATTRIBUTES* save) override;
+  //Обновление сохраняемых данных
+  void UpdateSaveData() override;
+  //Установка параметров
+  void SetSaveAttribute(ATTRIBUTES* save) override;
 
-	//Установка параметров
-	bool Load(const char* modelName) override;
+  //Установка параметров
+  bool Load(const char* modelName) override;
 
 
-	//--------------------------------------------------------------------------------------------
-	//Инкапсуляция
-	//--------------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------
+  //Инкапсуляция
+  //--------------------------------------------------------------------------------------------
 private:
-	CVECTOR gotoPos;
-	float gotoRad;
-	bool isEnableSetDir;
+  CVECTOR gotoPos;
+  float gotoRad;
+  bool isEnableSetDir;
 };
 
 #endif

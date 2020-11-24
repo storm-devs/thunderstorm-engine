@@ -14,690 +14,615 @@
 
 uint32_t GraphRead = 0;
 
-ParticleManager::ParticleManager(ParticleService* service) : IParticleManager(service)
-{
-	pService = service;
-	ShowStat = false;
-	MDL_Processor = new ModelProcessor(this);
-	BB_Processor = new BillBoardProcessor;
-	GlobalDelete = false;
-	TimeFromLastStatUpdate = 100.0f;
-	pRS = (VDX9RENDER*)api->CreateService("DX9Render");
-	Assert(pRS != NULL);
+ParticleManager::ParticleManager(ParticleService* service) : IParticleManager(service) {
+  pService = service;
+  ShowStat = false;
+  MDL_Processor = new ModelProcessor(this);
+  BB_Processor = new BillBoardProcessor;
+  GlobalDelete = false;
+  TimeFromLastStatUpdate = 100.0f;
+  pRS = static_cast<VDX9RENDER*>(api->CreateService("DX9Render"));
+  Assert(pRS != NULL);
 
-	pDataCache = new DataCache(this);
-	pGeomCache = new GeomCache;
+  pDataCache = new DataCache(this);
+  pGeomCache = new GeomCache;
 
-	pProjectTexture = -1;
-	pProjectTextureNormalMap = -1;
+  pProjectTexture = -1;
+  pProjectTextureNormalMap = -1;
 }
 
-ParticleManager::~ParticleManager()
-{
-	DeleteAllSystems();
-	if (pProjectTexture >= 0)
-	{
-		pRS->TextureRelease(pProjectTexture);
-	}
-	pProjectTexture = -1;
+ParticleManager::~ParticleManager() {
+  DeleteAllSystems();
+  if (pProjectTexture >= 0) {
+    pRS->TextureRelease(pProjectTexture);
+  }
+  pProjectTexture = -1;
 
-	if (pProjectTextureNormalMap)
-	{
-		pRS->TextureRelease(pProjectTextureNormalMap);
-	}
-	pProjectTextureNormalMap = -1;
+  if (pProjectTextureNormalMap) {
+    pRS->TextureRelease(pProjectTextureNormalMap);
+  }
+  pProjectTextureNormalMap = -1;
 
 
-	delete pDataCache;
-	delete pGeomCache;
-	delete BB_Processor;
-	delete MDL_Processor;
-	pService->RemoveManagerFromList(this);
+  delete pDataCache;
+  delete pGeomCache;
+  delete BB_Processor;
+  delete MDL_Processor;
+  pService->RemoveManagerFromList(this);
 }
 
-bool ParticleManager::Release()
-{
-	delete this;
-	return true;
+bool ParticleManager::Release() {
+  delete this;
+  return true;
 }
 
-VDX9RENDER* ParticleManager::Render()
-{
-	return pRS;
+VDX9RENDER* ParticleManager::Render() {
+  return pRS;
 }
 
 
 //Установить текстуру проекта
-void ParticleManager::SetProjectTexture(const char* FileName)
-{
-	if (pProjectTexture)
-	{
-		pRS->TextureRelease(pProjectTexture);
-		pProjectTexture = -1;
-	}
+void ParticleManager::SetProjectTexture(const char* FileName) {
+  if (pProjectTexture) {
+    pRS->TextureRelease(pProjectTexture);
+    pProjectTexture = -1;
+  }
 
-	if (pProjectTextureNormalMap)
-	{
-		pRS->TextureRelease(pProjectTextureNormalMap);
-		pProjectTextureNormalMap = -1;
-	}
+  if (pProjectTextureNormalMap) {
+    pRS->TextureRelease(pProjectTextureNormalMap);
+    pProjectTextureNormalMap = -1;
+  }
 
-	pProjectTexture = pRS->TextureCreate(FileName);
+  pProjectTexture = pRS->TextureCreate(FileName);
 
   const fs::path path = FileName;
-	pProjectTextureNormalMap = pRS->TextureCreate((path.stem().string() + "nm").c_str());
+  pProjectTextureNormalMap = pRS->TextureCreate((path.stem().string() + "nm").c_str());
 
-	TextureName = FileName;
+  TextureName = FileName;
 }
 
-const char* ParticleManager::GetProjectTextureName()
-{
-	return TextureName.c_str();
+const char* ParticleManager::GetProjectTextureName() {
+  return TextureName.c_str();
 }
 
 //Открыть проект
-bool ParticleManager::OpenProject(const char* FileName)
-{
-	CloseProject();
-	ShortProjectName = FileName;
+bool ParticleManager::OpenProject(const char* FileName) {
+  CloseProject();
+  ShortProjectName = FileName;
 
-	//std::string LongFileName = "resource\\particles\\";
+  //std::string LongFileName = "resource\\particles\\";
   auto path = fs::path() / "resource" / "particles" / FileName;
   auto pathStr = path.extension().string();
-	if (_stricmp(pathStr.c_str(), ".prj") != 0)
-		path += ".prj";
-	pathStr = path.string();
-	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
-	//LongFileName += FileName;
-	//LongFileName.AddExtention(".prj");
+  if (_stricmp(pathStr.c_str(), ".prj") != 0)
+    path += ".prj";
+  pathStr = path.string();
+  //MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
+  //LongFileName += FileName;
+  //LongFileName.AddExtention(".prj");
 
 
   auto* IniFile = fio->OpenIniFile((char*)pathStr.c_str());
-	if (!IniFile)
-	{
-		api->Trace("Can't find project '%s'", pathStr.c_str());
-		return false;
-	}
+  if (!IniFile) {
+    api->Trace("Can't find project '%s'", pathStr.c_str());
+    return false;
+  }
 
-	static char IniStringBuffer[8192];
+  static char IniStringBuffer[8192];
 
-	//Устанавливаем текстуру проекта...
-	IniFile->ReadString("Textures", "MainTexture", IniStringBuffer, 8192, "none");
-	//api->Trace("Manager use texture: %s", IniStringBuffer);
-	SetProjectTexture(IniStringBuffer);
+  //Устанавливаем текстуру проекта...
+  IniFile->ReadString("Textures", "MainTexture", IniStringBuffer, 8192, "none");
+  //api->Trace("Manager use texture: %s", IniStringBuffer);
+  SetProjectTexture(IniStringBuffer);
 
-	/*
-		//Загружаем модельки в кэш
-		for (int n = 0; n < 9999; n++)
-		{
-			string Section;
-			Section.Format("Model_%04d", n);
-			bool ReadSuccess = IniFile->ReadString("ModelsCache", (char*)Section.c_str(), IniStringBuffer, 8192, "none");
-			if (!ReadSuccess) break;
-	
-			//api->Trace("Cache geom: %s", IniStringBuffer);
-			pGeomCache->CacheModel(IniStringBuffer);
-	
-		}
-	*/
+  /*
+    //Загружаем модельки в кэш
+    for (int n = 0; n < 9999; n++)
+    {
+      string Section;
+      Section.Format("Model_%04d", n);
+      bool ReadSuccess = IniFile->ReadString("ModelsCache", (char*)Section.c_str(), IniStringBuffer, 8192, "none");
+      if (!ReadSuccess) break;
+  
+      //api->Trace("Cache geom: %s", IniStringBuffer);
+      pGeomCache->CacheModel(IniStringBuffer);
+  
+    }
+  */
 
-	//Загружаем данные
-	for (auto n = 0; n < 9999; n++)
-	{
-		char buf[64];
-		snprintf(buf, _countof(buf), "System_%04d", n);
-		//Section.Format("System_%04d", n);
+  //Загружаем данные
+  for (auto n = 0; n < 9999; n++) {
+    char buf[64];
+    snprintf(buf, _countof(buf), "System_%04d", n);
+    //Section.Format("System_%04d", n);
     const auto ReadSuccess = IniFile->ReadString("Manager", buf, IniStringBuffer, 8192, "none");
-		if (!ReadSuccess) break;
-		pDataCache->CacheSystem(IniStringBuffer);
-	}
+    if (!ReadSuccess) break;
+    pDataCache->CacheSystem(IniStringBuffer);
+  }
 
-	delete IniFile;
+  delete IniFile;
 
-	//FIX ME !
-	//Если будет асинхронная загрузка это неверно...
-	CreateGeomCache();
+  //FIX ME !
+  //Если будет асинхронная загрузка это неверно...
+  CreateGeomCache();
 
-	return true;
+  return true;
 }
 
 //Получить имя проекта
-const char* ParticleManager::GetProjectFileName()
-{
-	return ShortProjectName.c_str();
+const char* ParticleManager::GetProjectFileName() {
+  return ShortProjectName.c_str();
 }
 
 
 //Закрыть проект
-void ParticleManager::CloseProject()
-{
-	BB_Processor->Clear();
-	MDL_Processor->Clear();
-	DeleteAllSystems();
-	if (pProjectTexture)
-	{
-		pRS->TextureRelease(pProjectTexture);
-	}
+void ParticleManager::CloseProject() {
+  BB_Processor->Clear();
+  MDL_Processor->Clear();
+  DeleteAllSystems();
+  if (pProjectTexture) {
+    pRS->TextureRelease(pProjectTexture);
+  }
 
-	if (pProjectTextureNormalMap)
-	{
-		pRS->TextureRelease(pProjectTextureNormalMap);
-	}
-	pProjectTextureNormalMap = -1;
+  if (pProjectTextureNormalMap) {
+    pRS->TextureRelease(pProjectTextureNormalMap);
+  }
+  pProjectTextureNormalMap = -1;
 
-	pProjectTexture = -1;
-	pDataCache->ResetCache();
-	pGeomCache->ResetCache();
+  pProjectTexture = -1;
+  pDataCache->ResetCache();
+  pGeomCache->ResetCache();
 }
 
 //Удалить из списка ресурсов (системная)
-void ParticleManager::RemoveResource(IParticleSystem* pResource)
-{
-	if (GlobalDelete) return;
-	for (uint32_t n = 0; n < Systems.size(); n++)
-	{
-		if (Systems[n].pSystem == pResource)
-		{
-			//Systems.ExtractNoShift(n);
-			Systems[n] = Systems.back();
-			Systems.pop_back();
-			return;
-		}
-	}
+void ParticleManager::RemoveResource(IParticleSystem* pResource) {
+  if (GlobalDelete) return;
+  for (uint32_t n = 0; n < Systems.size(); n++) {
+    if (Systems[n].pSystem == pResource) {
+      //Systems.ExtractNoShift(n);
+      Systems[n] = Systems.back();
+      Systems.pop_back();
+      return;
+    }
+  }
 }
 
 //Исполнить партиклы
-void ParticleManager::Execute(float DeltaTime)
-{
-	GraphRead = 0;
-	ActiveSystems = 0;
-	ActiveEmitters = 0;
-	ActiveBillboardParticles = 0;
-	ActiveModelParticles = 0;
+void ParticleManager::Execute(float DeltaTime) {
+  GraphRead = 0;
+  ActiveSystems = 0;
+  ActiveEmitters = 0;
+  ActiveBillboardParticles = 0;
+  ActiveModelParticles = 0;
 
-	//pRS->Clear(0, NULL, D3DCLEAR_STENCIL | D3DCLEAR_TARGET |D3DCLEAR_ZBUFFER, 0xFF404080, 1.0f, 0);
+  //pRS->Clear(0, NULL, D3DCLEAR_STENCIL | D3DCLEAR_TARGET |D3DCLEAR_ZBUFFER, 0xFF404080, 1.0f, 0);
 
-	uint64_t TicksTime, ProcessTime;
-	RDTSC_B(TicksTime);
-	ProcessTime = TicksTime;
+  uint64_t TicksTime, ProcessTime;
+  RDTSC_B(TicksTime);
+  ProcessTime = TicksTime;
 
-	ActiveSystems = Systems.size();
-	for (uint32_t n = 0; n < Systems.size(); n++)
-	{
-		ActiveEmitters += Systems[n].pSystem->Execute(DeltaTime);
-	}
-	BB_Processor->Process(DeltaTime);
-	MDL_Processor->Process(DeltaTime);
-	RDTSC_E(ProcessTime);
+  ActiveSystems = Systems.size();
+  for (uint32_t n = 0; n < Systems.size(); n++) {
+    ActiveEmitters += Systems[n].pSystem->Execute(DeltaTime);
+  }
+  BB_Processor->Process(DeltaTime);
+  MDL_Processor->Process(DeltaTime);
+  RDTSC_E(ProcessTime);
 
-	ActiveBillboardParticles = BB_Processor->GetCount();
-	ActiveModelParticles = MDL_Processor->GetCount();
-	pRS->TextureSet(0, pProjectTexture);
-	pRS->TextureSet(1, pProjectTexture);
-	pRS->TextureSet(3, pProjectTextureNormalMap);
-	//	pRS->SetTexture(0, pProjectTexture);
-	//	pRS->SetTexture(1, pProjectTexture);
-	BB_Processor->Draw();
-	MDL_Processor->Draw();
+  ActiveBillboardParticles = BB_Processor->GetCount();
+  ActiveModelParticles = MDL_Processor->GetCount();
+  pRS->TextureSet(0, pProjectTexture);
+  pRS->TextureSet(1, pProjectTexture);
+  pRS->TextureSet(3, pProjectTextureNormalMap);
+  //	pRS->SetTexture(0, pProjectTexture);
+  //	pRS->SetTexture(1, pProjectTexture);
+  BB_Processor->Draw();
+  MDL_Processor->Draw();
 
-	RDTSC_E(TicksTime);
+  RDTSC_E(TicksTime);
 
-	TimeFromLastStatUpdate += DeltaTime;
-	if (TimeFromLastStatUpdate > 1.0f)
-	{
-		TimeFromLastStatUpdate = 0.0f;
-		nowTickTime = TicksTime;
-		nowUpdateTime = ProcessTime;
-	}
+  TimeFromLastStatUpdate += DeltaTime;
+  if (TimeFromLastStatUpdate > 1.0f) {
+    TimeFromLastStatUpdate = 0.0f;
+    nowTickTime = TicksTime;
+    nowUpdateTime = ProcessTime;
+  }
 
-	if (ShowStat)
-	{
-		/*
-		IFont* pSysFont = pRS->GetSystemFont ();
-		float Width = pSysFont->GetLength("Graph read count - %d", GraphRead);
-		pSysFont->Release();
-		*/
+  if (ShowStat) {
+    /*
+    IFont* pSysFont = pRS->GetSystemFont ();
+    float Width = pSysFont->GetLength("Graph read count - %d", GraphRead);
+    pSysFont->Release();
+    */
 
-		D3DVIEWPORT9 ViewPort;
-		pRS->GetViewport(&ViewPort);
-		RS_SPRITE spr[4];
+    D3DVIEWPORT9 ViewPort;
+    pRS->GetViewport(&ViewPort);
+    RS_SPRITE spr[4];
     const auto x1 = -1.0f;
-    const float x2 = ((220.0f / (float)ViewPort.Width) * 2) - 1.0f;
-    const float y1 = 1.0f - ((16.0f / (float)ViewPort.Height) * 2.0f);
-    const float y2 = 1.0f - ((150.0f / (float)ViewPort.Height) * 2.0f);
-		spr[0].vPos = CVECTOR(x1, y1, 0.2f);
-		spr[1].vPos = CVECTOR(x2, y1, 0.2f);
-		spr[2].vPos = CVECTOR(x2, y2, 0.2f);
-		spr[3].vPos = CVECTOR(x1, y2, 0.2f);
-		pRS->DrawSprites(spr, 1, "dbgInfoSprite");
+    const float x2 = ((220.0f / static_cast<float>(ViewPort.Width)) * 2) - 1.0f;
+    const float y1 = 1.0f - ((16.0f / static_cast<float>(ViewPort.Height)) * 2.0f);
+    const float y2 = 1.0f - ((150.0f / static_cast<float>(ViewPort.Height)) * 2.0f);
+    spr[0].vPos = CVECTOR(x1, y1, 0.2f);
+    spr[1].vPos = CVECTOR(x2, y1, 0.2f);
+    spr[2].vPos = CVECTOR(x2, y2, 0.2f);
+    spr[3].vPos = CVECTOR(x1, y2, 0.2f);
+    pRS->DrawSprites(spr, 1, "dbgInfoSprite");
 
-		/*
-				pRS->Print(0, 16, 0xFFFFFFFF, "Systems - %d", ActiveSystems);
-				pRS->Print(0, 32, 0xFFFFFFFF, "Emitters - %d", ActiveEmitters);
-				pRS->Print(0, 48, 0xFFFFFFFF, "Billboards - %d", ActiveBillboardParticles);
-				pRS->Print(0, 64, 0xFFFFFFFF, "Models - %d", ActiveModelParticles);
-				pRS->Print(0, 80, 0xFFFFFFFF, "Total time - %d", nowTickTime);
-				pRS->Print(0, 96, 0xFFFFFFFF, "Update time - %d", nowUpdateTime);
-				pRS->Print(0, 112, 0xFFFFFFFF, "Graph read count - %d", GraphRead);
-		*/
+    /*
+        pRS->Print(0, 16, 0xFFFFFFFF, "Systems - %d", ActiveSystems);
+        pRS->Print(0, 32, 0xFFFFFFFF, "Emitters - %d", ActiveEmitters);
+        pRS->Print(0, 48, 0xFFFFFFFF, "Billboards - %d", ActiveBillboardParticles);
+        pRS->Print(0, 64, 0xFFFFFFFF, "Models - %d", ActiveModelParticles);
+        pRS->Print(0, 80, 0xFFFFFFFF, "Total time - %d", nowTickTime);
+        pRS->Print(0, 96, 0xFFFFFFFF, "Update time - %d", nowUpdateTime);
+        pRS->Print(0, 112, 0xFFFFFFFF, "Graph read count - %d", GraphRead);
+    */
 
-		if (GraphRead != 0)
-		{
-			float AverageReadTime = (float)nowUpdateTime / (float)GraphRead;
-			//			pRS->Print(0, 128, 0xFFFFFFFF, "Average read time - %3.2f", AverageReadTime);
-		}
-	}
+    if (GraphRead != 0) {
+      float AverageReadTime = static_cast<float>(nowUpdateTime) / static_cast<float>(GraphRead);
+      //			pRS->Print(0, 128, 0xFFFFFFFF, "Average read time - %3.2f", AverageReadTime);
+    }
+  }
 
-	if (api->Controls->GetDebugAsyncKeyState(VK_F3) < 0 && api->Controls->GetDebugAsyncKeyState(VK_CONTROL) < 0)
-	{
-		ShowStat = !ShowStat;
-		Sleep(100);
-	}
+  if (api->Controls->GetDebugAsyncKeyState(VK_F3) < 0 && api->Controls->GetDebugAsyncKeyState(VK_CONTROL) < 0) {
+    ShowStat = !ShowStat;
+    Sleep(100);
+  }
 
-	for (uint32_t n = 0; n < DeleteQuery.size(); n++)
-	{
-		DeleteQuery[n]->Release();
-	}
+  for (uint32_t n = 0; n < DeleteQuery.size(); n++) {
+    DeleteQuery[n]->Release();
+  }
 
-	DeleteQuery.clear();
+  DeleteQuery.clear();
 }
 
 //Узнать доступна система или нет
-bool ParticleManager::IsSystemAvailable(const char* FileName)
-{
-	if (pDataCache->GetParticleSystemDataSource(FileName)) return true;
-	return false;
+bool ParticleManager::IsSystemAvailable(const char* FileName) {
+  if (pDataCache->GetParticleSystemDataSource(FileName)) return true;
+  return false;
 }
 
 //Получить глобальную текстуру проекта
-long ParticleManager::GetProjectTexture()
-{
-	return pProjectTexture;
+long ParticleManager::GetProjectTexture() {
+  return pProjectTexture;
 }
 
 
 //Создать партикловую систему из файла (файл должен быть в проекте!!!!!)
-IParticleSystem* ParticleManager::CreateParticleSystemEx(const char* FileName, const char* File, int Line)
-{
-	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(FileName);
-	if (!pDataSource)
-	{
-		api->Trace("Particle system '%s' can't loading. Reason: Not found in cache", FileName);
-		return nullptr;
-	}
+IParticleSystem* ParticleManager::CreateParticleSystemEx(const char* FileName, const char* File, int Line) {
+  DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(FileName);
+  if (!pDataSource) {
+    api->Trace("Particle system '%s' can't loading. Reason: Not found in cache", FileName);
+    return nullptr;
+  }
 
-	//	api->Trace("Create system '%s'", FileName);
-	ParticleSystem* pSys = CreateParticleSystemFromDataSource(pDataSource);
-	pSys->SetName(FileName);
-	return pSys;
+  //	api->Trace("Create system '%s'", FileName);
+  ParticleSystem* pSys = CreateParticleSystemFromDataSource(pDataSource);
+  pSys->SetName(FileName);
+  return pSys;
 }
 
-void ParticleManager::DeleteAllSystems()
-{
-	GlobalDelete = true;
-	for (uint32_t n = 0; n < Systems.size(); n++)
-	{
-		Systems[n].pSystem->Release();
-	}
+void ParticleManager::DeleteAllSystems() {
+  GlobalDelete = true;
+  for (uint32_t n = 0; n < Systems.size(); n++) {
+    Systems[n].pSystem->Release();
+  }
 
-	Systems.clear();
-	GlobalDelete = false;
+  Systems.clear();
+  GlobalDelete = false;
 }
 
-ParticleSystem* ParticleManager::CreateParticleSystemFromDataSource(DataSource* pDataSource)
-{
-	auto* pSys = new ParticleSystem(this);
-	pSys->CreateFromDataSource(pDataSource);
+ParticleSystem* ParticleManager::CreateParticleSystemFromDataSource(DataSource* pDataSource) {
+  auto* pSys = new ParticleSystem(this);
+  pSys->CreateFromDataSource(pDataSource);
 
-	SystemDesc SysDesc;
-	SysDesc.pSystem = pSys;
-	Systems.push_back(SysDesc);
+  SystemDesc SysDesc;
+  SysDesc.pSystem = pSys;
+  Systems.push_back(SysDesc);
 
-	return pSys;
+  return pSys;
 }
 
 BillBoardProcessor* ParticleManager::GetBBProcessor() const {
-	return BB_Processor;
+  return BB_Processor;
 }
 
 ModelProcessor* ParticleManager::GetMDLProcessor() const {
-	return MDL_Processor;
+  return MDL_Processor;
 }
 
 
 //Создать пустую партикловую систему, для редактора...
-IParticleSystem* ParticleManager::CreateEmptyParticleSystemEx(const char* FileName, int Line)
-{
-	//NEED WRITE !!!
-	return nullptr;
+IParticleSystem* ParticleManager::CreateEmptyParticleSystemEx(const char* FileName, int Line) {
+  //NEED WRITE !!!
+  return nullptr;
 }
 
-bool ParticleManager::ValidateSystem(IParticleSystem* pSystem)
-{
-	for (uint32_t n = 0; n < Systems.size(); n++)
-	{
-		if (Systems[n].pSystem == pSystem) return true;
-	}
-	return false;
+bool ParticleManager::ValidateSystem(IParticleSystem* pSystem) {
+  for (uint32_t n = 0; n < Systems.size(); n++) {
+    if (Systems[n].pSystem == pSystem) return true;
+  }
+  return false;
 }
 
 GEOS* ParticleManager::GetModel(const char* FileName) const {
-	return pGeomCache->GetModel(FileName);
+  return pGeomCache->GetModel(FileName);
 }
 
 uint32_t ParticleManager::GetCreatedSystemCount() const {
-	return Systems.size();
+  return Systems.size();
 }
 
-ParticleSystem* ParticleManager::GetCreatedSystemByIndex(uint32_t Index)
-{
-	return Systems[Index].pSystem;
+ParticleSystem* ParticleManager::GetCreatedSystemByIndex(uint32_t Index) {
+  return Systems[Index].pSystem;
 }
 
-bool ParticleManager::ReadyForUse()
-{
-	return true;
+bool ParticleManager::ReadyForUse() {
+  return true;
 }
 
-void ParticleManager::DefferedDelete(ParticleSystem* pSys)
-{
-	DeleteQuery.push_back(pSys);
+void ParticleManager::DefferedDelete(ParticleSystem* pSys) {
+  DeleteQuery.push_back(pSys);
 }
 
-void ParticleManager::Editor_UpdateCachedData()
-{
-	for (uint32_t n = 0; n < Systems.size(); n++)
-	{
-		Systems[n].pSystem->Editor_UpdateCachedData();
-	}
+void ParticleManager::Editor_UpdateCachedData() {
+  for (uint32_t n = 0; n < Systems.size(); n++) {
+    Systems[n].pSystem->Editor_UpdateCachedData();
+  }
 }
 
-uint32_t ParticleManager::GetProjectSystemCount()
-{
-	return pDataCache->GetCachedCount();
+uint32_t ParticleManager::GetProjectSystemCount() {
+  return pDataCache->GetCachedCount();
 }
 
-const char* ParticleManager::GetProjectSystemName(uint32_t Index)
-{
-	return pDataCache->GetCachedNameByIndex(Index);
+const char* ParticleManager::GetProjectSystemName(uint32_t Index) {
+  return pDataCache->GetCachedNameByIndex(Index);
 }
 
-const char* ParticleManager::GetFirstGeomName(const char* FileName)
-{
-	IteratorIndex = 0;
-	GeomNameParser Parser;
-	EnumUsedGeom.clear();
-	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(FileName);
-	if (!pDataSource) return nullptr;
+const char* ParticleManager::GetFirstGeomName(const char* FileName) {
+  IteratorIndex = 0;
+  GeomNameParser Parser;
+  EnumUsedGeom.clear();
+  DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(FileName);
+  if (!pDataSource) return nullptr;
 
   const uint32_t count = pDataSource->GetEmitterCount();
 
-	for (uint32_t n = 0; n < count; n++)
-	{
-		DataSource::EmitterDesc* pDesc = pDataSource->GetEmitterDesc(n);
-		for (uint32_t i = 0; i < pDesc->Particles.size(); i++)
-		{
-			DataString* pModelNames = pDesc->Particles[i].Fields.FindString(PARTICLE_GEOM_NAMES);
-			if (!pModelNames) continue;
+  for (uint32_t n = 0; n < count; n++) {
+    DataSource::EmitterDesc* pDesc = pDataSource->GetEmitterDesc(n);
+    for (uint32_t i = 0; i < pDesc->Particles.size(); i++) {
+      DataString* pModelNames = pDesc->Particles[i].Fields.FindString(PARTICLE_GEOM_NAMES);
+      if (!pModelNames) continue;
 
-			Parser.Tokenize(pModelNames->GetValue());
+      Parser.Tokenize(pModelNames->GetValue());
 
       const uint32_t TCount = Parser.GetTokensCount();
-			if (TCount > 0)
-			{
-				for (uint32_t j = 0; j < TCount; j++)
-				{
-					const char* GeomName = Parser.GetTokenByIndex(j);
-					if (!FindInEnumUsedGeom(GeomName))
-						EnumUsedGeom.push_back(GeomName);
-				}
-			}
-		}
-	}
+      if (TCount > 0) {
+        for (uint32_t j = 0; j < TCount; j++) {
+          const char* GeomName = Parser.GetTokenByIndex(j);
+          if (!FindInEnumUsedGeom(GeomName))
+            EnumUsedGeom.push_back(GeomName);
+        }
+      }
+    }
+  }
 
-	if (EnumUsedGeom.size() == 0) return nullptr;
-	const char* FirstName = EnumUsedGeom[IteratorIndex].c_str();
-	IteratorIndex++;
-	return FirstName;
+  if (EnumUsedGeom.size() == 0) return nullptr;
+  const char* FirstName = EnumUsedGeom[IteratorIndex].c_str();
+  IteratorIndex++;
+  return FirstName;
 }
 
-const char* ParticleManager::GetNextGeomName()
-{
-	if (IteratorIndex >= EnumUsedGeom.size()) return nullptr;
-	const char* FirstName = EnumUsedGeom[IteratorIndex].c_str();
-	IteratorIndex++;
-	return FirstName;
+const char* ParticleManager::GetNextGeomName() {
+  if (IteratorIndex >= EnumUsedGeom.size()) return nullptr;
+  const char* FirstName = EnumUsedGeom[IteratorIndex].c_str();
+  IteratorIndex++;
+  return FirstName;
 }
 
-bool ParticleManager::FindInEnumUsedGeom(const char* GeomName)
-{
-	for (uint32_t n = 0; n < EnumUsedGeom.size(); n++)
-	{
-		const char* StoredGeomName = EnumUsedGeom[n].c_str();
-		if (_stricmp(StoredGeomName, GeomName) == 0) return true;
-	}
-	return false;
+bool ParticleManager::FindInEnumUsedGeom(const char* GeomName) {
+  for (uint32_t n = 0; n < EnumUsedGeom.size(); n++) {
+    const char* StoredGeomName = EnumUsedGeom[n].c_str();
+    if (_stricmp(StoredGeomName, GeomName) == 0) return true;
+  }
+  return false;
 }
 
-void ParticleManager::CreateGeomCache()
-{
-	pGeomCache->ResetCache();
+void ParticleManager::CreateGeomCache() {
+  pGeomCache->ResetCache();
   const uint32_t SystemCount = pDataCache->GetCachedCount();
-	for (uint32_t n = 0; n < SystemCount; n++)
-	{
-		const char* pSystemName = pDataCache->GetCachedNameByIndex(n);
-		const char* GeomName = nullptr;
-		GeomName = GetFirstGeomName(pSystemName);
+  for (uint32_t n = 0; n < SystemCount; n++) {
+    const char* pSystemName = pDataCache->GetCachedNameByIndex(n);
+    const char* GeomName = nullptr;
+    GeomName = GetFirstGeomName(pSystemName);
 
-		while (GeomName)
-		{
-			//api->Trace("Cache geom %s", GeomName);
-			pGeomCache->CacheModel(GeomName);
-			GeomName = GetNextGeomName();
-		}
-	}
+    while (GeomName) {
+      //api->Trace("Cache geom %s", GeomName);
+      pGeomCache->CacheModel(GeomName);
+      GeomName = GetNextGeomName();
+    }
+  }
 }
 
-void ParticleManager::WriteSystemCache(const char* FileName)
-{
-	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(FileName);
-	if (!pDataSource)
-	{
-		api->Trace("Particle system '%s' can't save. Reason: Not found in cache", FileName);
-		return;
-	}
+void ParticleManager::WriteSystemCache(const char* FileName) {
+  DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(FileName);
+  if (!pDataSource) {
+    api->Trace("Particle system '%s' can't save. Reason: Not found in cache", FileName);
+    return;
+  }
 
-	MemFile pMemSave;
-	pMemSave.OpenWrite(1048576);
-	pDataSource->Write(&pMemSave);
+  MemFile pMemSave;
+  pMemSave.OpenWrite(1048576);
+  pDataSource->Write(&pMemSave);
 
-	//std::string LongFileName = "resource\\particles\\";
-	//LongFileName+=FileName;
-	//LongFileName.AddExtention(".xps");
-	/*
-		IWrite* pFile = pFS->Write(LongFileName.c_str(), iw_create_always, _FL_);
-		pFile->Write(pMemSave.c_str(), pMemSave.GetLength());
-		pFile->Release();
-	*/
+  //std::string LongFileName = "resource\\particles\\";
+  //LongFileName+=FileName;
+  //LongFileName.AddExtention(".xps");
+  /*
+    IWrite* pFile = pFS->Write(LongFileName.c_str(), iw_create_always, _FL_);
+    pFile->Write(pMemSave.c_str(), pMemSave.GetLength());
+    pFile->Release();
+  */
 
-	pMemSave.Close();
-	api->Trace("Particle system '%s' saved.", FileName);
+  pMemSave.Close();
+  api->Trace("Particle system '%s' saved.", FileName);
 }
 
-void ParticleManager::WriteSystemCacheAs(const char* FileName, const char* NewName)
-{
-	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(FileName);
-	if (!pDataSource)
-	{
-		api->Trace("Particle system '%s' can't save. Reason: Not found in cache", FileName);
-		return;
-	}
+void ParticleManager::WriteSystemCacheAs(const char* FileName, const char* NewName) {
+  DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(FileName);
+  if (!pDataSource) {
+    api->Trace("Particle system '%s' can't save. Reason: Not found in cache", FileName);
+    return;
+  }
 
-	MemFile pMemSave;
-	pMemSave.OpenWrite(1048576);
-	pDataSource->Write(&pMemSave);
-	/*
-		IWrite* pFile = pFS->Write(NewName, iw_create_always, _FL_);
-		pFile->Write(pMemSave.c_str(), pMemSave.GetLength());
-		pFile->Release();
-	*/
+  MemFile pMemSave;
+  pMemSave.OpenWrite(1048576);
+  pDataSource->Write(&pMemSave);
+  /*
+    IWrite* pFile = pFS->Write(NewName, iw_create_always, _FL_);
+    pFile->Write(pMemSave.c_str(), pMemSave.GetLength());
+    pFile->Release();
+  */
 
-	pMemSave.Close();
-	api->Trace("Particle system '%s' saved.", NewName);
+  pMemSave.Close();
+  api->Trace("Particle system '%s' saved.", NewName);
 }
 
-void ParticleManager::WriteSystemCache(const char* FileName, MemFile* pMemFile)
-{
-	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(FileName);
-	if (!pDataSource)
-	{
-		api->Trace("Particle system '%s' can't save. Reason: Not found in cache", FileName);
-		return;
-	}
+void ParticleManager::WriteSystemCache(const char* FileName, MemFile* pMemFile) {
+  DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(FileName);
+  if (!pDataSource) {
+    api->Trace("Particle system '%s' can't save. Reason: Not found in cache", FileName);
+    return;
+  }
 
-	pDataSource->Write(pMemFile);
+  pDataSource->Write(pMemFile);
 }
 
-void ParticleManager::LoadSystemCache(const char* FileName, MemFile* pMemFile)
-{
-	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(FileName);
-	if (!pDataSource)
-	{
-		api->Trace("Particle system '%s' can't load. Reason: Not found in cache", FileName);
-		return;
-	}
+void ParticleManager::LoadSystemCache(const char* FileName, MemFile* pMemFile) {
+  DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(FileName);
+  if (!pDataSource) {
+    api->Trace("Particle system '%s' can't load. Reason: Not found in cache", FileName);
+    return;
+  }
 
-	pDataSource->Destroy();
-	pDataSource->Load(pMemFile);
+  pDataSource->Destroy();
+  pDataSource->Load(pMemFile);
 
-	CacheReloaded();
+  CacheReloaded();
 }
 
-void ParticleManager::CacheReloaded()
-{
-	uint32_t n = 0;
-	std::vector<CacheReloadedInfo> UsedSystems;
-	for (n = 0; n < Systems.size(); n++)
-	{
-		CacheReloadedInfo Info;
-		Info.Name = Systems[n].pSystem->GetName();
-		Info.AutoDeleted = Systems[n].pSystem->IsAutoDeleted();
-		Systems[n].pSystem->GetTransform(Info.matWorld);
+void ParticleManager::CacheReloaded() {
+  uint32_t n = 0;
+  std::vector<CacheReloadedInfo> UsedSystems;
+  for (n = 0; n < Systems.size(); n++) {
+    CacheReloadedInfo Info;
+    Info.Name = Systems[n].pSystem->GetName();
+    Info.AutoDeleted = Systems[n].pSystem->IsAutoDeleted();
+    Systems[n].pSystem->GetTransform(Info.matWorld);
 
-		UsedSystems.push_back(Info);
-	}
+    UsedSystems.push_back(Info);
+  }
 
 
-	DeleteAllSystems();
+  DeleteAllSystems();
 
-	BB_Processor->Clear();
-	MDL_Processor->Clear();
+  BB_Processor->Clear();
+  MDL_Processor->Clear();
 
 
-	for (n = 0; n < UsedSystems.size(); n++)
-	{
-		IParticleSystem* pSystem = CreateParticleSystemEx(UsedSystems[n].Name.c_str(), __FILE__, __LINE__);
-		pSystem->AutoDelete(UsedSystems[n].AutoDeleted);
-		pSystem->SetTransform(UsedSystems[n].matWorld);
-	}
+  for (n = 0; n < UsedSystems.size(); n++) {
+    IParticleSystem* pSystem = CreateParticleSystemEx(UsedSystems[n].Name.c_str(), __FILE__, __LINE__);
+    pSystem->AutoDelete(UsedSystems[n].AutoDeleted);
+    pSystem->SetTransform(UsedSystems[n].matWorld);
+  }
 }
 
 
-FieldList* ParticleManager::Editor_CreatePointEmitter(const char* SystemName, const char* EmitterName)
-{
-	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(SystemName);
-	if (!pDataSource) return nullptr;
+FieldList* ParticleManager::Editor_CreatePointEmitter(const char* SystemName, const char* EmitterName) {
+  DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(SystemName);
+  if (!pDataSource) return nullptr;
 
-	FieldList* pData = pDataSource->CreateEmptyPointEmitter(EmitterName);
+  FieldList* pData = pDataSource->CreateEmptyPointEmitter(EmitterName);
 
-	CacheReloaded();
+  CacheReloaded();
 
-	return pData;
+  return pData;
 }
 
 FieldList* ParticleManager::Editor_CreateBillBoardParticle(const char* SystemName, const char* EmitterName,
-                                                           const char* ParticleName)
-{
-	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(SystemName);
-	if (!pDataSource) return nullptr;
+                                                           const char* ParticleName) {
+  DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(SystemName);
+  if (!pDataSource) return nullptr;
 
-	FieldList* pData = pDataSource->CreateBillBoardParticle(ParticleName, EmitterName);
+  FieldList* pData = pDataSource->CreateBillBoardParticle(ParticleName, EmitterName);
 
-	CacheReloaded();
+  CacheReloaded();
 
-	return pData;
+  return pData;
 }
 
 FieldList* ParticleManager::Editor_CreateModelParticle(const char* SystemName, const char* EmitterName,
-                                                       const char* ParticleName)
-{
-	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(SystemName);
-	if (!pDataSource) return nullptr;
+                                                       const char* ParticleName) {
+  DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(SystemName);
+  if (!pDataSource) return nullptr;
 
-	FieldList* pData = pDataSource->CreateModelParticle(ParticleName, EmitterName);
+  FieldList* pData = pDataSource->CreateModelParticle(ParticleName, EmitterName);
 
-	CacheReloaded();
+  CacheReloaded();
 
-	return pData;
+  return pData;
 }
 
-void ParticleManager::DeletePointEmitter(const char* SystemName, IEmitter* pEmitter)
-{
-	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(SystemName);
-	if (!pDataSource) return;
+void ParticleManager::DeletePointEmitter(const char* SystemName, IEmitter* pEmitter) {
+  DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(SystemName);
+  if (!pDataSource) return;
 
-	FieldList* pEmitterData = pEmitter->GetData();
+  FieldList* pEmitterData = pEmitter->GetData();
 
-	pDataSource->DeletePointEmitter(pEmitterData);
+  pDataSource->DeletePointEmitter(pEmitterData);
 
-	CacheReloaded();
+  CacheReloaded();
 }
 
-void ParticleManager::DeleteBillboard(const char* SystemName, IEmitter* pEmitter, FieldList* pParticles)
-{
-	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(SystemName);
-	if (!pDataSource) return;
+void ParticleManager::DeleteBillboard(const char* SystemName, IEmitter* pEmitter, FieldList* pParticles) {
+  DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(SystemName);
+  if (!pDataSource) return;
 
-	FieldList* pEmitterData = pEmitter->GetData();
+  FieldList* pEmitterData = pEmitter->GetData();
 
-	pDataSource->DeleteBillboard(pEmitterData, pParticles);
+  pDataSource->DeleteBillboard(pEmitterData, pParticles);
 
-	CacheReloaded();
+  CacheReloaded();
 }
 
-void ParticleManager::DeleteModel(const char* SystemName, IEmitter* pEmitter, FieldList* pParticles)
-{
-	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(SystemName);
-	if (!pDataSource) return;
+void ParticleManager::DeleteModel(const char* SystemName, IEmitter* pEmitter, FieldList* pParticles) {
+  DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(SystemName);
+  if (!pDataSource) return;
 
-	FieldList* pEmitterData = pEmitter->GetData();
+  FieldList* pEmitterData = pEmitter->GetData();
 
-	pDataSource->DeleteModel(pEmitterData, pParticles);
+  pDataSource->DeleteModel(pEmitterData, pParticles);
 
-	CacheReloaded();
+  CacheReloaded();
 }
 
-void ParticleManager::OpenDefaultProject()
-{
-	CloseProject();
-	ShortProjectName = "default";
+void ParticleManager::OpenDefaultProject() {
+  CloseProject();
+  ShortProjectName = "default";
 
-	SetProjectTexture("particles_list.tga");
+  SetProjectTexture("particles_list.tga");
 
 
-	HANDLE foundFile;
-	WIN32_FIND_DATA findData;
-	if ((foundFile = fio->_FindFirstFile("resource\\particles\\*.xps", &findData)) != INVALID_HANDLE_VALUE)
-	{
-		do
-		{
-			//api->Trace("Cache system - %s", findData.cFileName);
-			pDataCache->CacheSystem(findData.cFileName);
-		}
-		while (fio->_FindNextFile(foundFile, &findData) == TRUE);
-		if (foundFile != INVALID_HANDLE_VALUE)
-			fio->_FindClose(foundFile);
-	}
+  HANDLE foundFile;
+  WIN32_FIND_DATA findData;
+  if ((foundFile = fio->_FindFirstFile("resource\\particles\\*.xps", &findData)) != INVALID_HANDLE_VALUE) {
+    do {
+      //api->Trace("Cache system - %s", findData.cFileName);
+      pDataCache->CacheSystem(findData.cFileName);
+    }
+    while (fio->_FindNextFile(foundFile, &findData) == TRUE);
+    if (foundFile != INVALID_HANDLE_VALUE)
+      fio->_FindClose(foundFile);
+  }
 
-	CreateGeomCache();
+  CreateGeomCache();
 }

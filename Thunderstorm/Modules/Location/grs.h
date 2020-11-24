@@ -38,30 +38,27 @@
 #define GRASS_BLK_MASK	(GRASS_BLK_SIZE - 1)			//Маска размера блока
 
 
-struct GRSHeader
-{
-	unsigned long id; //Идентификатор
-	unsigned long ver; //Версия
-	long miniX, miniZ; //Размеры миникарты
-	float startX, startZ; //Позиция карты
-	long numElements; //Количество элементов (травинок)
+struct GRSHeader {
+  unsigned long id; //Идентификатор
+  unsigned long ver; //Версия
+  long miniX, miniZ; //Размеры миникарты
+  float startX, startZ; //Позиция карты
+  long numElements; //Количество элементов (травинок)
 };
 
-struct GRSMiniMapElement
-{
-	long start; //Начало блока
-	long num[4]; //Количество травы в блоке
-	float minHeight; //Минимальная высота в блока
-	float maxHeight; //Максимальная высота в блока
+struct GRSMiniMapElement {
+  long start; //Начало блока
+  long num[4]; //Количество травы в блоке
+  float minHeight; //Минимальная высота в блока
+  float maxHeight; //Максимальная высота в блока
 };
 
-struct GRSMapElement
-{
-	unsigned char x, z; //Позиция травинки в блоке
-	unsigned char w : 4, h : 4; //Ширина и высота
-	unsigned char frame : 4; //Кадр
-	unsigned char ang : 4; //Угл поворота
-	float y; //Высота в мировых координатах
+struct GRSMapElement {
+  unsigned char x, z; //Позиция травинки в блоке
+  unsigned char w : 4, h : 4; //Ширина и высота
+  unsigned char frame : 4; //Кадр
+  unsigned char ang : 4; //Угл поворота
+  float y; //Высота в мировых координатах
 };
 
 

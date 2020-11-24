@@ -4,14 +4,12 @@
 #include "vmodule_api.h"
 #include "dx9render.h"
 
-class xiBaseVideo : public Entity
-{
+class xiBaseVideo : public Entity {
 public:
-	virtual void SetShowVideo(bool bShowVideo)
-	{
-	}
+  virtual void SetShowVideo(bool bShowVideo) {
+  }
 
-	virtual IDirect3DTexture9* GetCurrentVideoTexture() { return nullptr; }
+  virtual IDirect3DTexture9* GetCurrentVideoTexture() { return nullptr; }
 };
 
 #endif

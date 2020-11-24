@@ -5,9 +5,8 @@
 INTERFACE_FUNCTION
 CREATE_SCRIPTLIBRIARY(SCRIPT_LIBRIARY_TEST)
 
-bool SCRIPT_LIBRIARY_TEST::Init()
-{
-	Vano_Init();
+bool SCRIPT_LIBRIARY_TEST::Init() {
+  Vano_Init();
 
-	return true;
+  return true;
 };
