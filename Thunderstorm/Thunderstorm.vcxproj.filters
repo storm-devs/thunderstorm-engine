@@ -2190,6 +2190,15 @@
     <ClInclude Include="Modules\XINTERFACE\STRINGSERVICE\strservice.h">
       <Filter>Modules\XINTERFACE\StringService</Filter>
     </ClInclude>
+    <ClInclude Include="Modules\XINTERFACE\editor\editor_defines.h">
+      <Filter>Modules\XINTERFACE\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\Particles\K2Wrapper\particles.h">
+      <Filter>Modules\Particles\K2Wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\Particles\K2Wrapper\psystem.h">
+      <Filter>Modules\Particles\K2Wrapper</Filter>
+    </ClInclude>
     <ClInclude Include="Include\math3d\Color.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -2202,6 +2211,9 @@
     <ClInclude Include="Include\math3d\Quaternion.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Include\math3d\Sphere.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
     <ClInclude Include="Include\math3d\Triangle.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -2209,6 +2221,15 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\math3d\Vector4.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Sd2_h\CannonTrace.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Sd2_h\SaveLoad.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Sd2_h\VAI_ObjBase.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\particles\gmx_QSort.h">
@@ -2223,145 +2244,19 @@
     <ClInclude Include="Include\particles\iparticlesystem.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Sd2_h\CannonTrace.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Sd2_h\SaveLoad.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Sd2_h\VAI_ObjBase.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Animation.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\attributes.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\collide.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\controls.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\CVector4.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Cvector.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\defines.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\dtimer.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\dx9render.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Entity.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\entity_state.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\EntityManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\filesystem.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\geometry.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\geos.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\inlines.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Intel.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Island_Base.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\mast_msg.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\math3D.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Matrix.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\message.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\model.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\object.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\particles.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\rands.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\s_import_func.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\sail_base.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\sail_msg.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\script_libriary.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\sea_base.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\service.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ship_base.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ShipLights.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\stringService.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\strutils.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\tga.h">
+    <ClInclude Include="Include\PtcData.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\TIVBufferManager.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Include\triangle.h">
+    <ClInclude Include="Include\attributes.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Include\types3d.h">
+    <ClInclude Include="Include\Matrix.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Include\v_s_stack.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\vapi.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\vdata.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\vfile_service.h">
+    <ClInclude Include="Include\model.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\VideoTexture.h">
@@ -2370,26 +2265,143 @@
     <ClInclude Include="Include\vmodule_api.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Include\vparticle_system.h">
+    <ClInclude Include="Include\dx9render.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\vstring_codec.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Weather_Base.h">
+    <ClInclude Include="Include\vfile_service.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\vdata.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\stringService.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ship_base.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\service.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\script_libriary.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\s_import_func.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\rands.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\message.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\math3D.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\inlines.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\entity_state.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\defines.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\controls.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\EntityManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Entity.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Cvector.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Animation.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ship_msg.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Character.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\vapi.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\storm_assert.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\XINTERFACE\editor\editor_defines.h">
-      <Filter>Modules\XINTERFACE\Editor</Filter>
+    <ClInclude Include="Include\Weather_Base.h">
+      <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\Particles\K2Wrapper\particles.h">
-      <Filter>Modules\Particles\K2Wrapper</Filter>
+    <ClInclude Include="Include\v_s_stack.h">
+      <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\Particles\K2Wrapper\psystem.h">
-      <Filter>Modules\Particles\K2Wrapper</Filter>
+    <ClInclude Include="Include\vparticle_system.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\types3d.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\triangle.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tga.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\strutils.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ShipLights.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\sea_base.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\sail_msg.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\sail_base.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\particles.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\object.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\mast_msg.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Island_Base.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Intel.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\geos.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\geometry.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\filesystem.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\dtimer.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CVector4.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\collide.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

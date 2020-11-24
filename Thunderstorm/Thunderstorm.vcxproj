@@ -554,6 +554,7 @@
   <ItemGroup>
     <ClInclude Include="Include\Animation.h" />
     <ClInclude Include="Include\attributes.h" />
+    <ClInclude Include="Include\Character.h" />
     <ClInclude Include="Include\collide.h" />
     <ClInclude Include="Include\controls.h" />
     <ClInclude Include="Include\Cvector.h" />
@@ -576,6 +577,7 @@
     <ClInclude Include="Include\math3d\Matrix.h" />
     <ClInclude Include="Include\math3d\Plane.h" />
     <ClInclude Include="Include\math3d\Quaternion.h" />
+    <ClInclude Include="Include\math3d\Sphere.h" />
     <ClInclude Include="Include\math3d\Triangle.h" />
     <ClInclude Include="Include\math3d\Vector.h" />
     <ClInclude Include="Include\math3d\Vector4.h" />
@@ -588,6 +590,7 @@
     <ClInclude Include="Include\particles\iparticlemanager.h" />
     <ClInclude Include="Include\particles\iparticlesservice.h" />
     <ClInclude Include="Include\particles\iparticlesystem.h" />
+    <ClInclude Include="Include\PtcData.h" />
     <ClInclude Include="Include\rands.h" />
     <ClInclude Include="Include\sail_base.h" />
     <ClInclude Include="Include\sail_msg.h" />
@@ -599,6 +602,7 @@
     <ClInclude Include="Include\service.h" />
     <ClInclude Include="Include\ShipLights.h" />
     <ClInclude Include="Include\ship_base.h" />
+    <ClInclude Include="Include\ship_msg.h" />
     <ClInclude Include="Include\storm_assert.h" />
     <ClInclude Include="Include\stringService.h" />
     <ClInclude Include="Include\strutils.h" />
