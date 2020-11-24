@@ -27,7 +27,7 @@ bool GetStringDescribe(char* inStr, char* strName, char* outStr)
 	// Get string name
 	for (ps1 = inStr; *ps1; ps1++)
 	{
-    auto ch1 = *ps1;
+    const auto ch1 = *ps1;
 		if (bDoEmpty && ch1 >= 0 && ch1 <= 32) continue;
 		bDoEmpty = false;
 
@@ -52,7 +52,7 @@ bool GetStringDescribe(char* inStr, char* strName, char* outStr)
 	bDoEmpty = true;
 	for (; *ps1; ps1++)
 	{
-    auto ch1 = *ps1;
+    const auto ch1 = *ps1;
 		if (bDoEmpty && ch1 != '\"') continue;
 		if (bDoEmpty)
 		{
@@ -360,12 +360,12 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 	//=======================================================================
 	// Перечитаем пользовательские файлы
 	//=======================================================================
-  auto pOldURoot = m_pUsersBlocks;
+  const auto pOldURoot = m_pUsersBlocks;
 	m_pUsersBlocks = nullptr;
 	for (auto pUSB = pOldURoot; pUSB != nullptr; pUSB = pUSB->next)
 	{
 		if (pUSB->nref <= 0) continue;
-		long newID = OpenUsersStringFile(pUSB->fileName);
+    const long newID = OpenUsersStringFile(pUSB->fileName);
 		UsersStringBlock* pUTmp;
 		for (pUTmp = m_pUsersBlocks; pUTmp != nullptr; pUTmp = pUTmp->next)
 			if (pUTmp->blockID == newID) break;
@@ -567,8 +567,8 @@ long STRSERVICE::OpenUsersStringFile(const char* fileName)
 	// strings reading
 	char param[512];
 	sprintf_s(param, "resource\\ini\\TEXTS\\%s\\%s", m_sLanguageDir, fileName);
-	HANDLE hfile = fio->_CreateFile(param,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
-	long filesize = fio->_GetFileSize(hfile, nullptr);
+  const HANDLE hfile = fio->_CreateFile(param,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+  const long filesize = fio->_GetFileSize(hfile, nullptr);
 	if (filesize <= 0)
 	{
 		api->Trace("WARNING! Strings file \"%s\" not exist/or zero size", fileName);
@@ -887,7 +887,7 @@ uint32_t _Language_OpenFile(VS_STACK* pS)
 	pLngFileName->Get(strLngFileName);
 
 	// получим ID для заданного файла
-	long nLngFileID = g_StringServicePointer->OpenUsersStringFile(strLngFileName);
+  const long nLngFileID = g_StringServicePointer->OpenUsersStringFile(strLngFileName);
 
 	auto* pVR = (VDATA*)pS->Push();
 	if (!pVR) return IFUNCRESULT_FAILED;
@@ -1079,7 +1079,7 @@ uint32_t _ControlMakeInvert(VS_STACK* pS)
 	CONTROLS* pCntrl = (CONTROLS *)api->CreateService("PCS_CONTROLS");
 	if (!pCntrl) return IFUNCRESULT_FAILED;
 
-	int n = pCntrl->CreateControl(sCntrlName);
+  const int n = pCntrl->CreateControl(sCntrlName);
 	if (nControlFlag != 0) pCntrl->SetControlFlags(n, 0);
 	else pCntrl->SetControlFlags(n,INVERSE_CONTROL);
 	return IFUNCRESULT_OK;
@@ -1223,14 +1223,14 @@ uint32_t _InterfaceCreateFolder(VS_STACK* pS)
 	const char* pcCurPtr = sFolderName;
 	while ((pcCurPtr = strchr(pcCurPtr, '\\')) != nullptr)
 	{
-		char tmpchr = pcCurPtr[0];
+    const char tmpchr = pcCurPtr[0];
 		((char*)pcCurPtr)[0] = 0;
 		CreateDirectory(sFolderName, nullptr);
 		((char*)pcCurPtr)[0] = tmpchr;
 		pcCurPtr++;
 	}
 	// create self directory
-	long nSuccess = fio->_CreateDirectory(sFolderName, nullptr);
+  const long nSuccess = fio->_CreateDirectory(sFolderName, nullptr);
 
 	pDat = (VDATA*)pS->Push();
 	if (!pDat) return IFUNCRESULT_FAILED;
@@ -1246,7 +1246,7 @@ uint32_t _InterfaceCheckFolder(VS_STACK* pS)
 	char* sFolderName = pDat->GetString();
 	long nSuccess = false;
 	WIN32_FIND_DATA wfd;
-	HANDLE h = fio->_FindFirstFile(sFolderName, &wfd);
+  const HANDLE h = fio->_FindFirstFile(sFolderName, &wfd);
 	if (h != INVALID_HANDLE_VALUE)
 	{
 		fio->_FindClose(h);
@@ -1261,7 +1261,7 @@ uint32_t _InterfaceCheckFolder(VS_STACK* pS)
 BOOL DeleteFolderWithCantainment(const char* sFolderName)
 {
 	WIN32_FIND_DATA wfd;
-	HANDLE hff = fio->_FindFirstFile((sFolderName + std::string("\\*.*")).c_str(), &wfd);
+  const HANDLE hff = fio->_FindFirstFile((sFolderName + std::string("\\*.*")).c_str(), &wfd);
 	if (hff != INVALID_HANDLE_VALUE)
 	{
 		do
@@ -1293,7 +1293,7 @@ uint32_t _InterfaceDeleteFolder(VS_STACK* pS)
 	if (!pDat) return IFUNCRESULT_FAILED;
 	char* sFolderName = pDat->GetString();
 	//long nSuccess = fio->_RemoveDirectory(sFolderName);
-	long nSuccess = DeleteFolderWithCantainment(sFolderName);
+  const long nSuccess = DeleteFolderWithCantainment(sFolderName);
 	pDat = (VDATA*)pS->Push();
 	if (!pDat) return IFUNCRESULT_FAILED;
 	pDat->Set(nSuccess);
@@ -1310,7 +1310,7 @@ uint32_t _InterfaceFindFolders(VS_STACK* pS)
 	if (!pDat) return IFUNCRESULT_FAILED;
 	char* sFindTemplate = pDat->GetString();
 	WIN32_FIND_DATA wfd;
-	HANDLE h = fio->_FindFirstFile(sFindTemplate, &wfd);
+  const HANDLE h = fio->_FindFirstFile(sFindTemplate, &wfd);
 	long n = 0;
 	if (h != INVALID_HANDLE_VALUE)
 		do
@@ -1329,7 +1329,7 @@ uint32_t _InterfaceFindFolders(VS_STACK* pS)
 	if (h != INVALID_HANDLE_VALUE) fio->_FindClose(h);
 	pDat = (VDATA*)pS->Push();
 	if (!pDat) return IFUNCRESULT_FAILED;
-	long nSuccess = (pA->GetAttributesNum() > 0);
+  const long nSuccess = (pA->GetAttributesNum() > 0);
 	pDat->Set(nSuccess);
 	return IFUNCRESULT_OK;
 }
@@ -1409,7 +1409,7 @@ uint32_t _RestoreNodeLocks(VS_STACK* pS)
 {
 	VDATA* pDat = (VDATA*)pS->Pop();
 	if (!pDat) return IFUNCRESULT_FAILED;
-	long nStoreIndex = pDat->GetLong();
+  const long nStoreIndex = pDat->GetLong();
 	if (XINTERFACE::pThis != nullptr) XINTERFACE::pThis->RestoreNodeLocks(nStoreIndex);
 	return IFUNCRESULT_OK;
 }
@@ -1461,7 +1461,7 @@ uint32_t _AddControlTreeNode(VS_STACK* pS)
 {
 	VDATA* pDat = (VDATA*)pS->Pop();
 	if (!pDat) return IFUNCRESULT_FAILED;
-	float fTimeOut = pDat->GetFloat();
+  const float fTimeOut = pDat->GetFloat();
 
 	pDat = (VDATA*)pS->Pop();
 	if (!pDat) return IFUNCRESULT_FAILED;
@@ -1475,9 +1475,9 @@ uint32_t _AddControlTreeNode(VS_STACK* pS)
 
 	pDat = (VDATA*)pS->Pop();
 	if (!pDat) return IFUNCRESULT_FAILED;
-	long nParent = pDat->GetLong();
+  const long nParent = pDat->GetLong();
 
-	long nNodIdx = api->Controls->AddControlTreeNode(nParent, pcBaseControl, pcOutControl, fTimeOut);
+  const long nNodIdx = api->Controls->AddControlTreeNode(nParent, pcBaseControl, pcOutControl, fTimeOut);
 
 	// set return data
 	pDat = (VDATA*)pS->Push();

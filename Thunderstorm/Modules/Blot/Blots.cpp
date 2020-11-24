@@ -223,7 +223,7 @@ void Blots::SetNodesCollision(NODE* n, bool isSet)
 	{
 		n->flags &= 0x00ffffff;
 		n->flags |= n->flags << 24;
-    auto name = n->GetName();
+    const auto name = n->GetName();
 		if (name && name[0])
 		{
 			if (name[0] == 'r' || name[0] == 'R')
@@ -297,14 +297,14 @@ void Blots::LoadBlot(long i)
 		if (!blt->GetAttribute("vy")) return;
 		if (!blt->GetAttribute("vz")) return;
 		if (!blt->GetAttribute("time")) return;
-		long rnd = blt->GetAttributeAsDword("rnd");
-    auto x = blt->GetAttributeAsFloat("x");
-    auto y = blt->GetAttributeAsFloat("y");
-    auto z = blt->GetAttributeAsFloat("z");
-    auto vx = blt->GetAttributeAsFloat("vx");
-    auto vy = blt->GetAttributeAsFloat("vy");
-    auto vz = blt->GetAttributeAsFloat("vz");
-    auto time = blt->GetAttributeAsFloat("time");
+    const long rnd = blt->GetAttributeAsDword("rnd");
+    const auto x = blt->GetAttributeAsFloat("x");
+    const auto y = blt->GetAttributeAsFloat("y");
+    const auto z = blt->GetAttributeAsFloat("z");
+    const auto vx = blt->GetAttributeAsFloat("vx");
+    const auto vy = blt->GetAttributeAsFloat("vy");
+    const auto vz = blt->GetAttributeAsFloat("vz");
+    const auto time = blt->GetAttributeAsFloat("time");
 		AddBlot(i, rnd, CVECTOR(x, y, z), CVECTOR(vx, vy, vz), time);
 	}
 }
@@ -348,8 +348,8 @@ void Blots::Realize(uint32_t delta_time)
 		if (blot[i].liveTime >= BLOTS_TIME)
 		{
 			blot[i].isUsed = false;
-      auto startIndex = blot[i].startIndex;
-			long numDelVerts = blot[i].numTrgs * 3;
+      const auto startIndex = blot[i].startIndex;
+      const long numDelVerts = blot[i].numTrgs * 3;
 
 			//-----------------------------------------------
 			//!!! begin Проверки
@@ -359,8 +359,8 @@ void Blots::Realize(uint32_t delta_time)
 			for (long n = 0; n < BLOTS_MAX; n++)
 			{
 				if (!blot[n].isUsed) continue;
-        auto v1 = vr + n * BLOTS_NTRGS * 3;
-        auto v2 = vrt + blot[n].startIndex;
+        const auto v1 = vr + n * BLOTS_NTRGS * 3;
+        const auto v2 = vrt + blot[n].startIndex;
 				for (long v = 0; v < blot[n].numTrgs * 3; v++) v1[v] = v2[v];
 			}
 			//!!! end Проверки
@@ -392,8 +392,8 @@ void Blots::Realize(uint32_t delta_time)
 			for (long n = 0; n < BLOTS_MAX; n++)
 			{
 				if (!blot[n].isUsed) continue;
-        auto v1 = vr + n * BLOTS_NTRGS * 3;
-        auto v2 = vrt + blot[n].startIndex;
+        const auto v1 = vr + n * BLOTS_NTRGS * 3;
+        const auto v2 = vrt + blot[n].startIndex;
 				for (long v = 0; v < blot[n].numTrgs * 3; v++)
 				{
 					Assert(v1[v].pos.x == v2[v].pos.x);
@@ -421,9 +421,9 @@ void Blots::Realize(uint32_t delta_time)
 			//Цвет
 			color = 0xff000000 | (color << 16) | (color << 8) | color;
 			//Количество
-			long numVrt = blot[i].numTrgs * 3;
+      const long numVrt = blot[i].numTrgs * 3;
 			//Массив
-      auto v = vrt + blot[i].startIndex;
+      const auto v = vrt + blot[i].startIndex;
 			for (long j = 0; j < numVrt; j++) v[j].c = color;
 		}
 	}
@@ -437,7 +437,7 @@ bool Blots::AddPolygon(const CVECTOR* v, long nv)
 	if (numClipTriangles >= BLOTS_NTRGS) return false;
 	if (nv < 3) return true;
 	//Нормаль
-  auto norm = (v[0] - v[1]) ^ (v[0] - v[2]);
+  const auto norm = (v[0] - v[1]) ^ (v[0] - v[2]);
 	if ((norm | dir) >= 0.0f) return true;
 	normal += 100.0f * norm;
 	//Добавляем

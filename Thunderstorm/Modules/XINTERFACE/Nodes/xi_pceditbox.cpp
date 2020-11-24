@@ -106,7 +106,7 @@ void CXI_PCEDITBOX::ChangePosition(XYRECT& rNewPos)
 	// update position
   auto nMiddleLeft = m_rect.left;
   auto nMiddleRight = m_rect.right;
-  auto nHeight = m_rect.bottom - m_rect.top;
+  const auto nHeight = m_rect.bottom - m_rect.top;
 	if (m_pLeftImage)
 	{
 		if (m_pLeftImage->IsImagePresent())
@@ -211,7 +211,7 @@ void CXI_PCEDITBOX::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 	// update position
   auto nMiddleLeft = m_rect.left;
   auto nMiddleRight = m_rect.right;
-  auto nHeight = m_rect.bottom - m_rect.top;
+  const auto nHeight = m_rect.bottom - m_rect.top;
 	if (m_pLeftImage)
 	{
 		if (m_pLeftImage->IsImagePresent())
@@ -371,7 +371,7 @@ void CXI_PCEDITBOX::UpdateString(std::string& str)
 
 char CXI_PCEDITBOX::GetInputSymbol()
 {
-	char chr = CXI_UTILS::GetKeyInput();
+  const char chr = CXI_UTILS::GetKeyInput();
 	return chr;
 }
 
@@ -427,7 +427,7 @@ void CXI_PCEDITBOX::InsertSymbol(std::string& str, char chr)
 
 void CXI_PCEDITBOX::DisguiseString(std::string& str)
 {
-	long q = str.size();
+  const long q = str.size();
 	for (long n = 0; n < q; n++)
 		str[n] = '*';
 }

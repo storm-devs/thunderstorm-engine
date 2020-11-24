@@ -77,7 +77,7 @@ LRESULT CALLBACK DebugWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam
 		if (hMenu)
 		{
 			MENUITEMINFO mii;
-      auto hFileSubMenu = GetSubMenu(hMenu, 0);
+      const auto hFileSubMenu = GetSubMenu(hMenu, 0);
 
 			for (uint32_t n = 0; n < (uint32_t)GetMenuItemCount(hFileSubMenu); n++)
 			{
@@ -381,8 +381,8 @@ bool S_DEBUG::OpenDebugWindow_NT(HINSTANCE hInstance)
 	wndclass.hIconSm = LoadIcon(nullptr,IDI_APPLICATION);
 	RegisterClassEx(&wndclass);
 
-	long xs = GetSystemMetrics(SM_CXSCREEN);
-	long ys = GetSystemMetrics(SM_CYSCREEN);
+  const long xs = GetSystemMetrics(SM_CXSCREEN);
+  const long ys = GetSystemMetrics(SM_CYSCREEN);
 	//MoveWindow(hMain,(xs - DBGWIN_WIDTH)/2,(ys - DBGWIN_HEIGHT)/2,DBGWIN_WIDTH,DBGWIN_HEIGHT,false);
 
 	hMain = CreateWindow(DClass, DClass,
@@ -564,7 +564,7 @@ bool S_DEBUG::BrowseFile(char* buffer, const char* filter)
 	ofn.nMaxFile = MAX_PATH;
 	ofn.lpstrDefExt = filter;
 	ofn.lpstrTitle = "Open script source file";
-  auto bRes = GetOpenFileName(&ofn);
+  const auto bRes = GetOpenFileName(&ofn);
 	fio->_SetCurrentDirectory(DirectoryName);
 	if (bRes)
 	{
@@ -596,7 +596,7 @@ bool S_DEBUG::BrowseFileWP(char* buffer, const char* filter)
 	ofn.nMaxFile = MAX_PATH;
 	ofn.lpstrDefExt = filter;
 	ofn.lpstrTitle = "Open script source file";
-  auto bRes = GetOpenFileName(&ofn);
+  const auto bRes = GetOpenFileName(&ofn);
 	fio->_SetCurrentDirectory(DirectoryName);
 	if (bRes)
 	{
@@ -782,8 +782,8 @@ bool S_DEBUG::ProcessRegistry_Open()
 	if (!hKey) if (RegCreateKey(HKEY_CURRENT_USER, "SDIIDEBUGGER", &hKey) != ERROR_SUCCESS) return false;
 
 	dwSize = sizeof(uint32_t);
-  auto nRes = RegQueryValueEx(hKey, "Recent Files Num", nullptr, nullptr, (unsigned char *)&nRecentFilesNum,
-                              (LPDWORD)&dwSize);
+  const auto nRes = RegQueryValueEx(hKey, "Recent Files Num", nullptr, nullptr, (unsigned char *)&nRecentFilesNum,
+                                    (LPDWORD)&dwSize);
 	if (nRes != ERROR_SUCCESS)
 	{
 		// write default value
@@ -803,11 +803,11 @@ bool S_DEBUG::ProcessRegistry_Open()
 		}
 	*/
 
-  auto hMenu = GetMenu(hMain);
+  const auto hMenu = GetMenu(hMain);
 	if (hMenu)
 	{
 		MENUITEMINFO mii;
-		HMENU hFileSubMenu = GetSubMenu(hMenu, 0);
+    const HMENU hFileSubMenu = GetSubMenu(hMenu, 0);
 
 		for (n = 0; n < (uint32_t)GetMenuItemCount(hFileSubMenu); n++)
 		{

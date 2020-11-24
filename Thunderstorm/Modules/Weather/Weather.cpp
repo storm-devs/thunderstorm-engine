@@ -92,7 +92,7 @@ void WEATHER::Execute(uint32_t Delta_Time)
 	*/
 	if (fFloats[whf_time_speed] != 0.f)
 	{
-    auto fOldTimer = fFloats[whf_time_counter];
+    const auto fOldTimer = fFloats[whf_time_counter];
 		fFloats[whf_time_counter] += api->GetDeltaTime() * fFloats[whf_time_speed];
 		// смена дня
 		if (fFloats[whf_time_counter] > 24.f)
@@ -275,12 +275,12 @@ void WEATHER::SetCommonStates()
 	pRS->SetRenderState(D3DRS_FOGCOLOR, GetColor(whc_fog_color));
 	pRS->SetRenderState(D3DRS_FOGDENSITY, *((uint32_t*)&fDensity));
 
-  auto dwAmbient = GetColor(whc_sun_ambient);
+  const auto dwAmbient = GetColor(whc_sun_ambient);
 	pRS->SetRenderState(D3DRS_AMBIENT, dwAmbient);
 
 	// setup sun light
-  auto fSunHeightAngle = GetFloat(whf_sun_height_angle);
-  auto fSunAzimuthAngle = GetFloat(whf_sun_azimuth_angle);
+  const auto fSunHeightAngle = GetFloat(whf_sun_height_angle);
+  const auto fSunAzimuthAngle = GetFloat(whf_sun_azimuth_angle);
 	CVECTOR vSun, vSunColor, vSunLight;
 	D3DLIGHT9 sun;
 
@@ -377,7 +377,7 @@ void WEATHER::GetVector(uint32_t dwCode, CVECTOR* vOut)
 
 uint32_t WEATHER::AttributeChanged(ATTRIBUTES* pAttribute)
 {
-  auto pParent = pAttribute->GetParent(); // if (*pAttribute == "Hour")
+  const auto pParent = pAttribute->GetParent(); // if (*pAttribute == "Hour")
 	if (*pParent == "fog")
 	{
 		if (*pAttribute == "Enable")

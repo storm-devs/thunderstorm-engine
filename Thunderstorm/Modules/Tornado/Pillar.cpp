@@ -43,13 +43,13 @@ Pillar::Pillar()
 	//Вектора сегментов
 	for (i = 0; i < TRND_SEGMENTS; i++)
 	{
-    auto ang = i * 2.0f * TRND_PI / TRND_SEGMENTS;
+    const auto ang = i * 2.0f * TRND_PI / TRND_SEGMENTS;
 		segment[i].x = sinf(ang);
 		segment[i].z = cosf(ang);
 	}
 	x = z = 0.0f;
-  auto dir = rand() * 2.0f * TRND_PI / RAND_MAX;
-  auto spd = 3.0f + rand() * 6.0f / RAND_MAX;
+  const auto dir = rand() * 2.0f * TRND_PI / RAND_MAX;
+  const auto spd = 3.0f + rand() * 6.0f / RAND_MAX;
 	dx = spd * sinf(dir);
 	dz = spd * cosf(dir);
 	phaseX = rand() * 2.0f * TRND_PI / RAND_MAX;
@@ -90,7 +90,7 @@ void Pillar::Update(float dltTime)
 	if (phaseZ3 > 2.0f * TRND_PI) phaseZ3 -= 2.0f * TRND_PI;
 	for (long i = 0; i < TRND_NUMSEC; i++)
 	{
-    auto kHeight = i / float(TRND_NUMSEC - 1);
+    const auto kHeight = i / float(TRND_NUMSEC - 1);
 		section[i].x = GetX(kHeight * TRND_HEIGHT);
 		section[i].z = GetZ(kHeight * TRND_HEIGHT);
 	}
@@ -106,7 +106,7 @@ void Pillar::FillVertexBuffer(Vertex* buffer)
 			buffer->x = s.x + s.radius * segment[j].x;
 			buffer->y = s.y;
 			buffer->z = s.z + s.radius * segment[j].z;
-      auto alpha = long(s.alpha * galpha * 0.2f);
+      const auto alpha = long(s.alpha * galpha * 0.2f);
 			buffer->color = (alpha << 24) | 0x32323f;
 		}
 	}
@@ -117,12 +117,12 @@ void Pillar::FillIndexBuffer(uint16_t* buffer)
 	//По секциям
 	for (long i = 0; i < TRND_NUMSEC - 1; i++)
 	{
-		auto base = uint16_t(i * TRND_SEGMENTS);
-    auto buf = buffer + base * 2 * 3;
+    const auto base = uint16_t(i * TRND_SEGMENTS);
+    const auto buf = buffer + base * 2 * 3;
 		//По сегментам
 		for (uint16_t j = 0; j < TRND_SEGMENTS; j++)
 		{
-			uint16_t j1 = j < (TRND_SEGMENTS - 1) ? j + 1 : 0;
+      const uint16_t j1 = j < (TRND_SEGMENTS - 1) ? j + 1 : 0;
 			buf[j * 6 + 0] = base + j;
 			buf[j * 6 + 1] = base + j1;
 			buf[j * 6 + 2] = base + j + TRND_SEGMENTS;
@@ -169,14 +169,14 @@ float Pillar::GetRaduis(float y)
 
 float Pillar::GetX(float y)
 {
-  auto kH = y / TRND_HEIGHT;
+  const auto kH = y / TRND_HEIGHT;
 	return x + (10.0f + (1.0f - kH) * 110.0f) * sinf(phaseX + kH * (2.0f + 1.3f * sinf(-phaseX3))) + 1.0f * sinf(
 		16.0f * kH - phaseX2);
 }
 
 float Pillar::GetZ(float y)
 {
-  auto kH = y / TRND_HEIGHT;
+  const auto kH = y / TRND_HEIGHT;
 	return z + (10.0f + (1.0f - kH) * 110.0f) * sinf(phaseZ + kH * (2.0f + 1.3f * sinf(-phaseZ3))) + 1.2f * sinf(
 		20.0f * kH - phaseZ2);
 }
@@ -184,8 +184,8 @@ float Pillar::GetZ(float y)
 float Pillar::RandomPos(CVECTOR& pos)
 {
 	pos.y = rand() * TRND_HEIGHT / RAND_MAX;
-  auto ang = rand() * 2.0f * TRND_PI / (RAND_MAX + 1);
-  auto r = GetRaduis(pos.y);
+  const auto ang = rand() * 2.0f * TRND_PI / (RAND_MAX + 1);
+  const auto r = GetRaduis(pos.y);
 	pos.x = r * sinf(ang) + GetX(pos.y);
 	pos.z = r * cosf(ang) + GetZ(pos.y);
 	return ang;

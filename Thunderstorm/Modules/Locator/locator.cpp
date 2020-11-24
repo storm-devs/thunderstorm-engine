@@ -93,7 +93,7 @@ void LOCATOR::LocateForI(VDATA* pData)
 		return;
 	}
 	char sFileLocators[256];
-  auto pAFilesPath = pA->FindAClass(pA, "filespath.models");
+  const auto pAFilesPath = pA->FindAClass(pA, "filespath.models");
 	sprintf_s(sFileLocators, "%s\\%s", (pAFilesPath) ? pAFilesPath->GetThisAttr() : "", pA->GetAttribute("locators"));
 	rs->SetLoadTextureEnable(false);
 	g = gs->CreateGeometry(sFileLocators, "", 0);
@@ -202,7 +202,7 @@ void LOCATOR::LocateForI(VDATA* pData)
 	if (pGA)
 		for (n = 0; n < (long)pGA->GetAttributesNum(); n++)
 		{
-      auto pARC = pGA->GetAttributeClass(n);
+      const auto pARC = pGA->GetAttributeClass(n);
 			const char* pLoadGroupName = pARC->GetThisAttr();
 			if (!pLoadGroupName) continue;
 

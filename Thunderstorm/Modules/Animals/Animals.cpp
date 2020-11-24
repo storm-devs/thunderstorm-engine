@@ -36,7 +36,7 @@ bool ANIMALS::Init()
 
 uint64_t ANIMALS::ProcessMessage(MESSAGE& message)
 {
-  auto code = message.Long();
+  const auto code = message.Long();
 	uint32_t outValue = 0;
 
 	switch (code)

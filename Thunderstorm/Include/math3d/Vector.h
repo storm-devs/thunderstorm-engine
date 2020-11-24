@@ -396,7 +396,7 @@ inline Vector& Vector::operator *=(const Vector& v)
 //Покомпонентное деление с присваиванием
 inline Vector& Vector::operator /=(float f)
 {
-  auto d = 1.0 / f;
+  const auto d = 1.0 / f;
 	x = float(x * d);
 	y = float(y * d);
 	z = float(z * d);
@@ -433,9 +433,9 @@ inline Vector& Vector::operator |=(const Vector& v)
 //Векторное перемножение
 inline Vector& Vector::operator ^=(const Vector& v)
 {
-  auto tx = y * v.z - z * v.y;
-  auto ty = z * v.x - x * v.z;
-  auto tz = x * v.y - y * v.x;
+  const auto tx = y * v.z - z * v.y;
+  const auto ty = z * v.x - x * v.z;
+  const auto tz = x * v.y - y * v.x;
 	x = tx;
 	y = ty;
 	z = tz;
@@ -722,10 +722,10 @@ inline bool operator !=(const Vector& v1, const Vector& v2)
 //Нормализовать вектор, и вернуть его бывшую длинну
 inline float Vector::Normalize()
 {
-  auto len = sqrt(double(x) * double(x) + double(y) * double(y) + double(z) * double(z));
+  const auto len = sqrt(double(x) * double(x) + double(y) * double(y) + double(z) * double(z));
 	if (len > 0.0)
 	{
-    auto k = 1.0 / len;
+    const auto k = 1.0 / len;
 		x = float(x * k);
 		y = float(y * k);
 		z = float(z * k);
@@ -737,10 +737,10 @@ inline float Vector::Normalize()
 inline float Vector::Normalize2D()
 {
 	y = 0.0f;
-  auto len = sqrt(double(x) * double(x) + double(z) * double(z));
+  const auto len = sqrt(double(x) * double(x) + double(z) * double(z));
 	if (len > 0.0)
 	{
-    auto k = 1.0 / len;
+    const auto k = 1.0 / len;
 		x = float(x * k);
 		z = float(z * k);
 	}
@@ -755,10 +755,10 @@ inline float Vector::ClampLength(float clampValue)
 		x = y = z = 0.0f;
 		return 0.0f;
 	}
-	double len = sqrt(x * x + y * y + z * z);
+  const double len = sqrt(x * x + y * y + z * z);
 	if (len > clampValue)
 	{
-    auto k = clampValue / len;
+    const auto k = clampValue / len;
 		x = float(x * k);
 		y = float(y * k);
 		z = float(z * k);
@@ -960,8 +960,8 @@ inline Vector& Vector::Rotate(float angle)
 //Повернуть вектор в плоскости XZ на угол заданный cos, sin
 inline Vector& Vector::Rotate(float vcos, float vsin)
 {
-  auto tx = x * vcos + z * vsin;
-  auto tz = z * vcos - x * vsin;
+  const auto tx = x * vcos + z * vsin;
+  const auto tz = z * vcos - x * vsin;
 	x = tx;
 	z = tz;
 	return *this;
@@ -970,7 +970,7 @@ inline Vector& Vector::Rotate(float vcos, float vsin)
 //Повернуть вектор по часовой стрелке в плоскости XZ на угол PI/2
 inline Vector& Vector::Rotate_PI2_CW()
 {
-  auto t = x;
+  const auto t = x;
 	x = z;
 	z = -t;
 	return *this;
@@ -979,7 +979,7 @@ inline Vector& Vector::Rotate_PI2_CW()
 //Повернуть вектор против часовой стрелке в плоскости XZ на угол PI/2
 inline Vector& Vector::Rotate_PI2_CCW()
 {
-  auto t = x;
+  const auto t = x;
 	x = -z;
 	z = t;
 	return *this;
@@ -997,7 +997,7 @@ inline Vector& Vector::Lerp(const Vector& v1, const Vector& v2, float kBlend)
 //Расчитать отражённый вектор
 inline Vector& Vector::Reflection(const Vector& normal)
 {
-  auto k = -2.0f * (x * normal.x + y * normal.y + z * normal.z);
+  const auto k = -2.0f * (x * normal.x + y * normal.y + z * normal.z);
 	x += normal.x * k;
 	y += normal.y * k;
 	z += normal.z * k;
@@ -1041,9 +1041,9 @@ inline bool Vector::MoveByStep(const Vector& to, float step)
 {
 	if (step <= 0.0f) return false;
 	//Дистанция до точки
-  auto dx = to.x - x;
-  auto dy = to.y - y;
-  auto dz = to.z - z;
+  const auto dx = to.x - x;
+  const auto dy = to.y - y;
+  const auto dz = to.z - z;
   auto dist = dx * dx + dy * dy + dz * dz;
 	if (dist < 1e-20f)
 	{
@@ -1073,8 +1073,8 @@ inline bool Vector::MoveByStep2D(const Vector& to, float step)
 {
 	if (step <= 0.0f) return false;
 	//Дистанция до точки
-  auto dx = to.x - x;
-  auto dz = to.z - z;
+  const auto dx = to.x - x;
+  const auto dz = to.z - z;
   auto dist = dx * dx + dz * dz;
 	if (dist < 1e-20f)
 	{

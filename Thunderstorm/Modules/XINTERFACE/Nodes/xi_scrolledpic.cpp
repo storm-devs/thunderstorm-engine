@@ -27,7 +27,7 @@ void CXI_SCROLLEDPICTURE::Draw(bool bSelected, uint32_t Delta_Time)
 bool CXI_SCROLLEDPICTURE::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char * name2, VDX9RENDER* rs, XYRECT& hostRect,
                                XYPOINT& ScreenSize)
 {
-  auto bSuccess = CXI_PICTURE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize);
+  const auto bSuccess = CXI_PICTURE::Init(ini1, name1, ini2, name2, rs, hostRect, ScreenSize);
 	return bSuccess;
 }
 
@@ -61,7 +61,7 @@ void CXI_SCROLLEDPICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* in
     auto pAttr = pAttribute->GetAttributeClass("imagelist");
 		if (pAttr)
 		{
-			long q = pAttr->GetAttributesNum();
+      const long q = pAttr->GetAttributesNum();
 			for (n = 0; n < q; n++)
 			{
         auto pA = pAttr->GetAttributeClass(n);
@@ -69,7 +69,7 @@ void CXI_SCROLLEDPICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* in
 				{
 					//long i = m_aImg.Add();
 					m_aImg.push_back(BuildinImage{});
-					long i = m_aImg.size() - 1;
+          const long i = m_aImg.size() - 1;
 					m_aImg[i].bShow = false;
 					m_aImg[i].fpPos.x = pA->GetAttributeAsFloat("x", 0.f);
 					m_aImg[i].fpPos.y = pA->GetAttributeAsFloat("y", 0.f);
@@ -97,8 +97,8 @@ void CXI_SCROLLEDPICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* in
 
 		m_nScaleNum = pAttribute->GetAttributeAsDword("scale", m_nScaleNum);
 
-    auto fx = pAttribute->GetAttributeAsFloat("centerX", m_fpBaseSize.x * .5f);
-    auto fy = pAttribute->GetAttributeAsFloat("centerY", m_fpBaseSize.y * .5f);
+    const auto fx = pAttribute->GetAttributeAsFloat("centerX", m_fpBaseSize.x * .5f);
+    const auto fy = pAttribute->GetAttributeAsFloat("centerY", m_fpBaseSize.y * .5f);
 		SetPosToCenter(fx, fy);
 	}
 
@@ -157,8 +157,8 @@ uint32_t CXI_SCROLLEDPICTURE::MessageProc(long msgcode, MESSAGE& message)
 	{
 	case 10: // Установить новый центр
 		{
-      auto fx = message.Float();
-      auto fy = message.Float();
+      const auto fx = message.Float();
+      const auto fy = message.Float();
 			SetPosToCenter(fx, fy);
 		}
 		return 0;
@@ -255,8 +255,8 @@ void CXI_SCROLLEDPICTURE::SetPosToCenter(float fX, float fY)
 
   auto fLeft = fX / m_fpBaseSize.x;
   auto fTop = fY / m_fpBaseSize.y;
-  auto fWidth = (m_rect.right - m_rect.left) * m_fUTexPerPixel;
-  auto fHeight = (m_rect.bottom - m_rect.top) * m_fVTexPerPixel;
+  const auto fWidth = (m_rect.right - m_rect.left) * m_fUTexPerPixel;
+  const auto fHeight = (m_rect.bottom - m_rect.top) * m_fVTexPerPixel;
 
 	if (fLeft <= fWidth * .5f) fLeft = 0.f;
 	else fLeft -= fWidth * .5f;
@@ -288,8 +288,8 @@ void CXI_SCROLLEDPICTURE::SetScale(float fsx, float fsy)
 	if (fsy < 0.f) fsy = 0.f;
 	if (fsy > 1.f) fsy = 1.f;
 
-  auto fCenterX = (m_v[3].tu + m_v[0].tu) * .5f;
-  auto fCenterY = (m_v[3].tv + m_v[0].tv) * .5f;
+  const auto fCenterX = (m_v[3].tu + m_v[0].tu) * .5f;
+  const auto fCenterY = (m_v[3].tv + m_v[0].tv) * .5f;
 
   auto fLeft = fCenterX - fsx * .5f;
   auto fTop = fCenterY - fsy * .5f;

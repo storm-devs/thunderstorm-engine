@@ -92,7 +92,7 @@ GEOS* GEOMETRY::CreateGeometry(const char* file_name, const char* light_file_nam
 	{
 		sprintf_s(lightPath, "%s\\%s", lmPath, file_name);
 		//strcpy_s(lightPath, light_file_name);
-    auto bs = strrchr(lightPath, '\\');
+    const auto bs = strrchr(lightPath, '\\');
 		if (bs != nullptr) *bs = 0;
 	}
 
@@ -192,7 +192,7 @@ void GEOM_SERVICE_R::SetRenderService(VDX9RENDER* render_service)
 HANDLE GEOM_SERVICE_R::OpenFile(const char* fname)
 {
 	if (RenderService) RenderService->ProgressView();
-  auto fl = fio->_CreateFile(fname,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+  const auto fl = fio->_CreateFile(fname,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	if (fl == INVALID_HANDLE_VALUE)
 		if (_strcmpi(&fname[strlen(fname) - 4], ".col") == 0); //	api->Trace("geometry::can't open file %s", fname);
 		else throw "can't open geometry file";
@@ -384,8 +384,8 @@ GEOS::ID GEOM_SERVICE_R::CreateVertexBuffer(long type, long size)
 	if (!RenderService) return INVALID_BUFFER_ID;
 
 	long texset[4] = {D3DFVF_TEX1, D3DFVF_TEX2, D3DFVF_TEX3, D3DFVF_TEX4};
-	long fvf = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEXTUREFORMAT2;
-  auto FVF = fvf | texset[type & 3];
+  const long fvf = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEXTUREFORMAT2;
+  const auto FVF = fvf | texset[type & 3];
 
 	//animated vertices
 	if (type & 4)

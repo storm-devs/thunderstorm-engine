@@ -132,7 +132,7 @@ void Character::ActionCharacter::SetName(const char* _name)
 	name = nullptr;
 	if (_name && _name[0])
 	{
-		long l = strlen(_name) + 1;
+    const long l = strlen(_name) + 1;
 		name = new char[l];
 		memcpy(name, _name, l);
 	}
@@ -219,7 +219,7 @@ void Character::Detector::Check(float dltTime, Character* ch)
 {
 	const auto location = ch->GetLocation();
   auto dist = 0.0f;
-  auto lIndex = la->FindNearesLocatorCl(ch->curPos.x, ch->curPos.y, ch->curPos.z, 1.0f, dist);
+  const auto lIndex = la->FindNearesLocatorCl(ch->curPos.x, ch->curPos.y, ch->curPos.z, 1.0f, dist);
 	if (lIndex >= 0)
 	{
 		if (lastLocator >= 0)
@@ -297,9 +297,9 @@ void Character::RTuner::Set(MODEL* model, VDX9RENDER* rs)
 	if (a > 1.0f) a = 1.0f;
 	if (selected < 0.0f) selected = 0.0f;
 	if (selected > 1.0f) selected = 1.0f;
-  auto r = long(0x40 * selected);
-  auto g = long(0x10 * selected);
-  auto b = long(0x10 * selected);
+  const auto r = long(0x40 * selected);
+  const auto g = long(0x10 * selected);
+  const auto b = long(0x10 * selected);
 	rs->SetRenderState(D3DRS_TEXTUREFACTOR, (uint32_t(a * 255.0f) << 24) | (r << 16) | (g << 8) | b);
 	if (selected > 0.0f)
 	{
@@ -341,7 +341,7 @@ void Character::RTuner::Restore(MODEL* model, VDX9RENDER* rs)
 	}
   auto n = model->GetNode(0);
 	if (!n) return;
-  auto chr = n->GetTechnique();
+  const auto chr = n->GetTechnique();
 	if (*((uint32_t *)chr) != 'minA' || *((uint32_t *)(chr + 4)) != 'oita') return;
 	n->SetTechnique("");
 	rs->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
@@ -358,7 +358,7 @@ float Character::RTuner::GetAlpha() const {
 void Character::EventListener::Event(Animation* animation, long index, long eventID, AnimationEvent event)
 {
 	if (!animation || index != 0) return;
-  auto c = animation->Player(0).GetAction();
+  const auto c = animation->Player(0).GetAction();
 	if (!c) return;
 	character->ActionEvent(c, animation, index, eventID, event);
 }
@@ -650,7 +650,7 @@ bool Character::Init()
 	const char* id = nullptr;
 	if (AttributesPointer) id = AttributesPointer->GetAttribute("id");
 	if (!id) id = "<none>";
-	long len = strlen(id) + 1;
+  const long len = strlen(id) + 1;
 	characterID = new char[len];
 	strcpy_s(characterID, len, id);
 	//Добавим в группу
@@ -667,7 +667,7 @@ uint64_t Character::ProcessMessage(MESSAGE& message)
 	{
 		return zPlaySound(message);
 	}
-  auto messageID = message.Long();
+  const auto messageID = message.Long();
 	if (messageID == MSG_CHARACTER_EX_MSG)
 	{
 		return zExMessage(message);
@@ -796,7 +796,7 @@ uint32_t Character::AttributeChanged(ATTRIBUTES* apnt)
 		const char* id = apnt->GetThisAttr();
 		if (!id) id = "<none>";
 		delete characterID;
-		long len = strlen(id) + 1;
+    const long len = strlen(id) + 1;
 		characterID = new char[len];
 		strcpy_s(characterID, len, id);
 	}
@@ -825,7 +825,7 @@ uint32_t Character::AttributeChanged(ATTRIBUTES* apnt)
 		ATTRIBUTES* at = apnt->FindAClass(apnt, "dead");
 		if (at)
 		{
-			long num = at->GetAttributesNum();
+      const long num = at->GetAttributesNum();
 			long j = 0;
 			for (long i = 0; i < num && j < sizeof(actionDead) / sizeof(ActionDead); i++)
 			{
@@ -842,7 +842,7 @@ uint32_t Character::AttributeChanged(ATTRIBUTES* apnt)
 		if (at)
 		{
 			curIdleIndex = -1;
-			long num = at->GetAttributesNum();
+      const long num = at->GetAttributesNum();
 			long j = 0;
 			for (long i = 0; i < num && j < sizeof(actionIdle) / sizeof(ActionIdle); i++)
 			{
@@ -890,7 +890,7 @@ uint32_t Character::AttributeChanged(ATTRIBUTES* apnt)
 		at = apnt->FindAClass(apnt, "fightdead");
 		if (at)
 		{
-			long num = at->GetAttributesNum();
+      const long num = at->GetAttributesNum();
 			long j = 0;
 			for (long i = 0; i < num && j < sizeof(actionFightDead) / sizeof(ActionDead); i++)
 			{
@@ -906,7 +906,7 @@ uint32_t Character::AttributeChanged(ATTRIBUTES* apnt)
 		at = apnt->FindAClass(apnt, "fightidle");
 		if (at)
 		{
-			long num = at->GetAttributesNum();
+      const long num = at->GetAttributesNum();
 			long j = 0;
 			for (long i = 0; i < num && j < sizeof(actionFightIdle) / sizeof(ActionIdle); i++)
 			{
@@ -996,7 +996,7 @@ void Character::ReadFightActions(ATTRIBUTES* at, ActionCharacter actions[4], lon
 {
 	if (at)
 	{
-		long num = at->GetAttributesNum();
+    const long num = at->GetAttributesNum();
 		long j = 0;
 		for (long i = 0; i < num && j < 4; i++)
 		{
@@ -1076,14 +1076,14 @@ bool Character::Teleport(const char* group, const char* locator)
 	if (!group || !group[0] || !locator || !locator[0]) return false;
 	LocatorArray* la = location->FindLocatorsGroup(group);
 	if (!la) return false;
-	long li = la->FindByName(locator);
+  const long li = la->FindByName(locator);
 	if (li < 0) return false;
 	CMatrix mtx;
 	if (!la->GetLocatorPos(li, mtx)) return false;
 	//Ищем угл поворота по Y
 	double vz = mtx.Vz().z;
-	double vx = mtx.Vz().x;
-	double l = vx * vx + vz * vz;
+  const double vx = mtx.Vz().x;
+  const double l = vx * vx + vz * vz;
 	if (l > 0.0000001)
 	{
 		//Ищем углы
@@ -1093,26 +1093,26 @@ bool Character::Teleport(const char* group, const char* locator)
 	if (vx < 0) vz = -vz;
 
 	// смотрим можем ли мы поставить в этот локатор чела
-	CVECTOR pos = mtx.Pos();
+  const CVECTOR pos = mtx.Pos();
 	if (location->supervisor.CheckPosition(pos.x, pos.y, pos.z, this))
 		return Teleport(pos.x, pos.y, pos.z, float(vz));
 
 	// кто-то стоит рядом, пытаемся найти точку по небольшому радиусу
-	float radius = 1.75f;
+  const float radius = 1.75f;
 	for (long i = 0; i < 10; i++)
 	{
-		float ang = float(i) / 9.0f * PIm2;
-		float x = radius * sinf(ang);
-		float z = radius * cosf(ang);
+    const float ang = float(i) / 9.0f * PIm2;
+    const float x = radius * sinf(ang);
+    const float z = radius * cosf(ang);
 
 		// проверяем есть ли тут патч
 		CVECTOR src = CVECTOR(pos.x + x, pos.y + 2.0f, pos.z + z);
 		CVECTOR dst = CVECTOR(pos.x + x, pos.y - 2.0f, pos.z + z);
-		float k = location->GetPtcData().Trace(src, dst);
+    const float k = location->GetPtcData().Trace(src, dst);
 		// если нету патча - то следующая итерация
 		if (k > 1.0f) continue;
 		// если точка свободна - телепортимся туда
-		CVECTOR pnt = src + (dst - src) * k + CVECTOR(0.0f, 0.01f, 0.0f);
+    const CVECTOR pnt = src + (dst - src) * k + CVECTOR(0.0f, 0.01f, 0.0f);
 		if (location->supervisor.CheckPosition(pnt.x, pnt.y, pnt.z, this))
 			return Teleport(pnt.x, pnt.y, pnt.z, float(vz));
 	}
@@ -1186,9 +1186,9 @@ void Character::StopMove()
 void Character::Turn(float dx, float dz)
 {
 	//if(priorityAction.name) return;
-	double vx = dx;
+  const double vx = dx;
 	double vz = dz;
-	double l = vx * vx + vz * vz;
+  const double l = vx * vx + vz * vz;
 	if (l <= 0.0) return;
 	vz = acos(vz / sqrt(l));
 	if (vx < 0) vz = -vz;
@@ -1236,7 +1236,7 @@ bool Character::SetFightMode(bool _isFight, bool isPlayAni)
 		_isFight = false;
 	}
 	isNFHit = false;
-	bool old = isFight;
+  const bool old = isFight;
 	isFight = _isFight;
 	if (isFight)
 	{
@@ -1313,8 +1313,8 @@ void Character::Attack(Character* enemy, FightAction type)
 	if (enemy)
 	{
 		enemyAttack = enemy->GetId();
-		float dx = enemy->curPos.x - curPos.x;
-		float dz = enemy->curPos.z - curPos.z;
+    const float dx = enemy->curPos.x - curPos.x;
+    const float dz = enemy->curPos.z - curPos.z;
 		float cs = dx * dx + dz * dz;
 		Turn(dx, dz);
 		isTurnLock = true;
@@ -1553,7 +1553,7 @@ void Character::Hit(FightAction type)
 		}
 	}
 	impulse = 0.0f;
-	bool restBlockBreak = (fgtSetType == fgt_blockbreak);
+  const bool restBlockBreak = (fgtSetType == fgt_blockbreak);
 	switch (type)
 	{
 	case fgt_hit_attack:
@@ -1682,7 +1682,7 @@ void Character::Dead()
 	Assert(num);
 	Assert(dead);
 	//Разбрасываем веса в зависимости от направления
-	float _ay = ay;
+  const float _ay = ay;
 	static Supervisor::FindCharacter fnd[MAX_CHARACTERS];
 	static long numChr = 0;
 	const auto location = GetLocation();
@@ -1690,8 +1690,8 @@ void Character::Dead()
 	{
 		ay = _ay + dead[i].ang;
 		if (location->supervisor.FindCharacters(fnd, numChr, this, 2.0f, 0.0f, 0.0f)) dead[i].p *= 0.1f;
-		float cs = cosf(dead[i].ang);
-		float sn = sinf(dead[i].ang);
+    const float cs = cosf(dead[i].ang);
+    const float sn = sinf(dead[i].ang);
 		CVECTOR p = curPos + CVECTOR(0.0f, 0.5f, 0.0f);
 		if (!location->VisibleTest(p, p + CVECTOR(cs, 0.0f, sn))) dead[i].p *= 0.5f;
 		p += CVECTOR(sn * 0.5f, 0.0f, -cs * 0.5f);
@@ -1719,7 +1719,7 @@ void Character::Dead()
 	//Выбираем действия
 	if (sum > 0.0f)
 	{
-		float p = rand() * sum / RAND_MAX;
+    const float p = rand() * sum / RAND_MAX;
 		sum = 0.0f;
 		for (i = 0; i < num; i++)
 		{
@@ -1822,13 +1822,13 @@ void Character::Move(float dltTime)
 		//Скорость вращения
 		if (bturn.Update(dltTime)) turnspd = bturn.Get();
 		//Перемещение
-		float spd = dltTime * speed * k;
+    const float spd = dltTime * speed * k;
 		CVECTOR moveVec(sinf(ay) * spd, 0.0f, cosf(ay) * spd);
 		curPos += moveVec;
 		if (spd < 0.0f) moveVec = -moveVec;
 		curPos += CVECTOR(moveVec.z, 0.0f, -moveVec.x) * (strafeMove * 0.8f);
 		curPos += impulse * dltTime;
-		float kStrafe = dltTime * 8.0f;
+    const float kStrafe = dltTime * 8.0f;
 		bool noStrafe = true;
 		bool noStrafeMove = true;
 		if (fabsf(speed) > 0.1f)
@@ -2014,7 +2014,7 @@ void Character::Move(float dltTime)
 	//Высота волны в данной точке
 	if (swimChange <= 0.0f && location->IsSwimming())
 	{
-		bool old = isSwim;
+    const bool old = isSwim;
 		auto* sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
 		isSwim = false;
 		isRunDisable = false;
@@ -2035,7 +2035,7 @@ void Character::Move(float dltTime)
 			if (seaY > curPos.y + CHARACTER_SEA_MOVE * height)
 			{
 				//Игрока сносит или он плывёт
-				float dlt = old ? -0.03f : 0.03f;
+        const float dlt = old ? -0.03f : 0.03f;
 				if (seaY > curPos.y + CHARACTER_SEA_SWIM * height + dlt)
 				{
 					//Игрок плывёт
@@ -2091,7 +2091,7 @@ void Character::Update(float dltTime)
 			}
 		}
 		//Добавимся в список рисуемых
-		CVECTOR pos = curPos + CVECTOR(0.0f, 2.0f, 0.0f);
+    const CVECTOR pos = curPos + CVECTOR(0.0f, 2.0f, 0.0f);
 		location->DrawEnemyBars(pos, hp, energy, tuner.GetAlpha() * enemyBarsAlpha);
 	}
 	//
@@ -2108,8 +2108,8 @@ void Character::Update(float dltTime)
 	if (noBlendTime <= 0.0f) noBlendTime = 0.0f;
 	//Блендинг оружия и теней
 	{
-		float alpha = tuner.GetAlpha() * 255.0f;
-		uint32_t blendColor = (uint32_t(alpha) << 24) | 0x00ffffff;
+    const float alpha = tuner.GetAlpha() * 255.0f;
+    const uint32_t blendColor = (uint32_t(alpha) << 24) | 0x00ffffff;
 		api->Send_Message(blade, "ll", MSG_BLADE_ALPHA, blendColor);
 		api->Send_Message(shadow, "ll", MSG_BLADE_ALPHA, blendColor);
 	}
@@ -2227,7 +2227,7 @@ void Character::Update(float dltTime)
 	CVECTOR camPos, camAng;
 	float perspective;
 	location->GetRS()->GetCamera(camPos, camAng, perspective);
-	float dxz = (curPos.x - camPos.x) * (curPos.x - camPos.x) + (curPos.z - camPos.z) * (curPos.z - camPos.z);
+  const float dxz = (curPos.x - camPos.x) * (curPos.x - camPos.x) + (curPos.z - camPos.z) * (curPos.z - camPos.z);
 	if (dxz < CHARACTER_HIDE_DIST * CHARACTER_HIDE_DIST)
 	{
 		tuner.chrAlpha -= dltTime * 3.0f;
@@ -2255,7 +2255,7 @@ void Character::Update(float dltTime)
 	{
 		CVECTOR dir = camPos - curPos;
 		dir.y = 0.0f;
-		float len = sqrtf(~dir);
+    const float len = sqrtf(~dir);
 		if (len > 1e-10f)
 		{
 			signMdl->mtx.Vz() = dir / len;
@@ -2569,7 +2569,7 @@ long Character::PlaySound(const char* soundName, bool isLoop, bool isCached)
 {
 	if (!soundService) return SOUND_INVALID_ID;
 	CVECTOR pos = curPos + CVECTOR(0.0f, 1.0f, 0.0f);
-	long sID = soundService->SoundPlay(soundName, PCM_3D, VOLUME_FX, false, false, isCached, 0, &pos);
+  const long sID = soundService->SoundPlay(soundName, PCM_3D, VOLUME_FX, false, false, isCached, 0, &pos);
 	return sID;
 }
 
@@ -2813,9 +2813,9 @@ bool Character::zLoadModel(MESSAGE& message)
 
 bool Character::zTeleport(MESSAGE& message, bool isAy)
 {
-	float x = message.Float();
-	float y = message.Float();
-	float z = message.Float();
+  const float x = message.Float();
+  const float y = message.Float();
+  const float z = message.Float();
 	if (isAy) return Teleport(x, y, z, message.Float());
 	return Teleport(x, y, z);
 }
@@ -2901,7 +2901,7 @@ bool Character::zEntry(MESSAGE& message)
 
 bool Character::zSetBlade(MESSAGE& message)
 {
-	long nBladeIdx = message.Long();
+  const long nBladeIdx = message.Long();
 
 	isBladeSet = false;
 	char name[256];
@@ -2913,9 +2913,9 @@ bool Character::zSetBlade(MESSAGE& message)
 		isBladeSet = false;
 		SetFightMode(false);
 	}
-	float t = message.Float();
-	long s = message.Long();
-	long e = message.Long();
+  const float t = message.Float();
+  const long s = message.Long();
+  const long e = message.Long();
 	if (!EntityManager::GetEntityPointer(blade))
 	{
 		if (!(blade = EntityManager::CreateEntity("blade"))) return false;
@@ -2954,11 +2954,11 @@ bool Character::zTurnByLoc(MESSAGE& message)
 	const auto location = GetLocation();
 	LocatorArray* la = location->FindLocatorsGroup(group);
 	if (!la) return false;
-	long li = la->FindByName(name);
+  const long li = la->FindByName(name);
 	if (li < 0) return false;
 	CMatrix mtx;
 	if (!la->GetLocatorPos(li, mtx)) return false;
-	bool isTo = message.Long() != 0;
+  const bool isTo = message.Long() != 0;
 	if (isTo)
 	{
 		Turn(mtx.Pos().x - curPos.x, mtx.Pos().z - curPos.z);
@@ -2972,7 +2972,7 @@ bool Character::zTurnByLoc(MESSAGE& message)
 
 bool Character::zTurnByChr(MESSAGE& message)
 {
-	entid_t chr = message.EntityID();
+  const entid_t chr = message.EntityID();
 	auto* c = (Character *)EntityManager::GetEntityPointer(chr);
 	if (!c) return false;
 	Turn(c->curPos.x - curPos.x, c->curPos.z - curPos.z);
@@ -2981,27 +2981,27 @@ bool Character::zTurnByChr(MESSAGE& message)
 
 bool Character::zTurnByPoint(MESSAGE& message)
 {
-	float dx = message.Float() - curPos.x;
+  const float dx = message.Float() - curPos.x;
 	message.Float();
-	float dz = message.Float() - curPos.z;
+  const float dz = message.Float() - curPos.z;
 	Turn(dx, dz);
 	return true;
 }
 
 bool Character::zDistByCharacter(MESSAGE& message, bool is2D)
 {
-	entid_t chr = message.EntityID();
+  const entid_t chr = message.EntityID();
 	auto* c = (Character *)EntityManager::GetEntityPointer(chr);
 	if (!c) return false;
-	float dx = curPos.x - c->curPos.x;
-	float dz = curPos.z - c->curPos.z;
+  const float dx = curPos.x - c->curPos.x;
+  const float dz = curPos.z - c->curPos.z;
 	if (is2D)
 	{
 		message.ScriptVariablePointer()->Set(sqrtf(dx * dx + dz * dz));
 	}
 	else
 	{
-		float dy = curPos.y - c->curPos.y;
+    const float dy = curPos.y - c->curPos.y;
 		message.ScriptVariablePointer()->Set(sqrtf(dx * dx + dy * dy + dz * dz));
 	}
 	return true;
@@ -3206,8 +3206,8 @@ bool Character::TestJump(CVECTOR pos)
 	const auto location = GetLocation();
 	MODEL* jpm = location->JmpPatch();
 	if (!jpm) return false;
-	CVECTOR src(pos.x, pos.y + 1.0f, pos.z);
-	CVECTOR dst(pos.x, pos.y - 1.0f, pos.z);
+  const CVECTOR src(pos.x, pos.y + 1.0f, pos.z);
+  const CVECTOR dst(pos.x, pos.y - 1.0f, pos.z);
 	if (jpm->Trace(src, dst) >= 1.0f) return false;
 	//Проверяем траекторию падения
 	const float speed = 3.3f;
@@ -3222,7 +3222,7 @@ bool Character::TestJump(CVECTOR pos)
 		CVECTOR src = pos - dlt * 0.001f;
 		CVECTOR dst = pos + dlt * 1.001f;
 		//location->DrawLine(src, 0xff00ff00, dst, 0xff00ff00, false);
-		float k = location->GetPtcData().Trace(src, dst);
+    const float k = location->GetPtcData().Trace(src, dst);
 		if (k < 1.0f)
 		{
 			//Нашли точку приземления
@@ -3245,9 +3245,9 @@ bool Character::BuildJump(CVECTOR pos, float fAng)
 	MODEL* jpm = location->JmpPatch();
 	if (!jpm) return false;
 
-	CVECTOR src(pos.x, pos.y + 1.0f, pos.z);
-	CVECTOR dst(pos.x, pos.y - 1.0f, pos.z);
-	float fTrace = location->GetPtcData().Trace(src, dst);
+  const CVECTOR src(pos.x, pos.y + 1.0f, pos.z);
+  const CVECTOR dst(pos.x, pos.y - 1.0f, pos.z);
+  const float fTrace = location->GetPtcData().Trace(src, dst);
 	if (fTrace > 1.0f) return false;
 	pos.y = src.y + (dst.y - src.y) * (fTrace - 0.1f);
 
@@ -3266,7 +3266,7 @@ bool Character::BuildJump(CVECTOR pos, float fAng)
 		CVECTOR dst = pos + dlt * 1.001f;
 		//location->DrawLine(src, 0xff00ff00, dst, 0xff00ff00, false);
 		//если врезаемся в какую нить бню, то не можем прыгать
-		float k = location->GetPtcData().Trace(src, dst);
+    const float k = location->GetPtcData().Trace(src, dst);
 		if (k < 1.0f)
 		{
 			//Нашли точку приземления
@@ -3282,7 +3282,7 @@ bool Character::BuildJump(CVECTOR pos, float fAng)
 				dst = src = osculationPoint;
 				src.y += 10.f;
 				dst.y -= 20.f;
-				float fT = jpm->Trace(src, dst);
+        const float fT = jpm->Trace(src, dst);
 				//да мы приземляемся на прыжковый патч
 				if (fT < 1.f)
 				{
@@ -3525,7 +3525,7 @@ bool Character::SetAction(const char* actionName, float tblend, float movespeed,
 	//Индекс текущего плеера
 	if (a->Player(0).IsPlaying()) a->CopyPlayerState(0, 1);
 	a->Player(0).SetAction(nullptr);
-	bool res = a->Player(0).SetAction(actionName) && a->Player(0).Play();
+  const bool res = a->Player(0).SetAction(actionName) && a->Player(0).Play();
 	a->Timer(0).ResetTimer();
 	a->Timer(1).ResetTimer();
 	if (tblend)
@@ -4291,7 +4291,7 @@ const char* Character::FindIdleAnimation(float& tblend)
 				long i;
 				for (i = 0; i < numActionIdles; i++) allp += actionIdle[i].p;
 				//Текущее действие
-				float rnd = rand() * allp / RAND_MAX;
+        const float rnd = rand() * allp / RAND_MAX;
 				//Выбираем из списка то которое будем проигрывать
 				allp = 0.0f;
 				for (i = 0; i < numActionIdles; i++)
@@ -4336,7 +4336,7 @@ const char* Character::FindFightIdleAnimation(float& tblend)
 		long i;
 		for (i = 0; i < numFightActionIdles; i++) allp += actionFightIdle[i].p;
 		//Текущее действие
-		float rnd = rand() * allp / RAND_MAX;
+    const float rnd = rand() * allp / RAND_MAX;
 		//Выбираем из списка то которое будем проигрывать
 		allp = 0.0f;
 		for (i = 0; i < numFightActionIdles; i++)
@@ -4620,7 +4620,7 @@ Character* Character::FindGunTarget(float& kDist, bool bOnlyEnemyTest)
 		if (!VisibleTest(fc.c)) continue;
 		if (bOnlyEnemyTest)
 		{
-			long enemygrpIndex = chrGroup->FindGroupIndex(fc.c->group);
+      const long enemygrpIndex = chrGroup->FindGroupIndex(fc.c->group);
 			if (chrGroup->FindRelation(enemygrpIndex, grp).curState != CharactersGroups::rs_enemy) continue;
 		}
 		//Ищем дистанцию с поправками
@@ -4628,7 +4628,7 @@ Character* Character::FindGunTarget(float& kDist, bool bOnlyEnemyTest)
 		float cs = (fc.dx * sinf(ay) + fc.dz * cosf(ay)) / fc.d2;
 		cs *= cs * cs;
 		if (cs < 0.1f) cs = 0.1f;
-		float dist = fc.d2 / cs;
+    const float dist = fc.d2 / cs;
 		if (j >= 0)
 		{
 			if (minDst > dist)
@@ -4658,12 +4658,12 @@ void Character::FindNearCharacters(MESSAGE& message)
 {
 	VDATA* array = message.ScriptVariablePointer();
 	VDATA* num = message.ScriptVariablePointer();
-	float rad = message.Float();
-	float ax = message.Float();
-	float viewAng = message.Float();
-	float planeDist = message.Float();
-	bool visTest = message.Long() != 0;
-	bool isSort = message.Long() != 0;
+  const float rad = message.Float();
+  const float ax = message.Float();
+  const float viewAng = message.Float();
+  const float planeDist = message.Float();
+  const bool visTest = message.Long() != 0;
+  const bool isSort = message.Long() != 0;
 	//Ищем персонажей
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
@@ -4757,7 +4757,7 @@ CVECTOR Character::GetEnemyDirForImpulse()
 	if (!chr) return CVECTOR(0.0f);
 	CVECTOR dir = chr->curPos - curPos;
 	dir.y = 0.0f;
-	float l = ~dir;
+  const float l = ~dir;
 	if (l > 0.0f)
 	{
 		dir *= 1.0f / sqrtf(l);
@@ -4843,17 +4843,17 @@ void Character::StopFightAnimation()
 
 bool Character::CheckObstacle(float fx, float fz, float fzlen)
 {
-	float ca = cosf(ay);
-	float sa = sinf(ay);
-	float fdx = fx * ca + fz * sa;
-	float fdz = fz * ca - fx * sa;
-	float fk = fzlen / sqrtf(fdx * fdx + fdz * fdz);
-	float xmed = curPos.x + fdx;
-	float zmed = curPos.z + fdz;
-	float xbeg = xmed - fk * fdz;
-	float xend = xmed + fk * fdz;
-	float zbeg = zmed + fk * fdx;
-	float zend = zmed - fk * fdx;
+  const float ca = cosf(ay);
+  const float sa = sinf(ay);
+  const float fdx = fx * ca + fz * sa;
+  const float fdz = fz * ca - fx * sa;
+  const float fk = fzlen / sqrtf(fdx * fdx + fdz * fdz);
+  const float xmed = curPos.x + fdx;
+  const float zmed = curPos.z + fdz;
+  const float xbeg = xmed - fk * fdz;
+  const float xend = xmed + fk * fdz;
+  const float zbeg = zmed + fk * fdx;
+  const float zend = zmed - fk * fdx;
 	/*float xbeg = xmed - fzlen*0.5f*sa;
 	float xend = xmed + fzlen*0.5f*sa;
 	float zbeg = zmed + fzlen*0.5f*ca;

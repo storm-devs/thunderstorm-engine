@@ -57,7 +57,7 @@ void CXI_TWOPICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, c
 {
 	char param[255];
 
-	int pictSpace = GetIniLong(ini1, name1, ini2, name2, "pictureSpace", 10);
+  const int pictSpace = GetIniLong(ini1, name1, ini2, name2, "pictureSpace", 10);
 	m_picSize.x = (m_rect.right - m_rect.left - pictSpace) / 2.f;
 	m_picSize.y = float(m_rect.bottom - m_rect.top);
 	m_leftPicCenter.x = m_rect.left + m_picSize.x / 2;
@@ -87,7 +87,7 @@ void CXI_TWOPICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, c
 	m_dwShadowColor = GetIniARGB(ini1, name1, ini2, name2, "argbShadowCol", ARGB(255, 48, 48, 48));
 
 	// текстурные координаты
-  auto texRect = GetIniFloatRect(ini1, name1, ini2, name2, "texPos", FXYRECT(0.f, 0.f, 1.f, 1.f));
+  const auto texRect = GetIniFloatRect(ini1, name1, ini2, name2, "texPos", FXYRECT(0.f, 0.f, 1.f, 1.f));
 
 	// Create rectangle
 	m_vOne[0].tu = m_vTwo[0].tu = texRect.left;

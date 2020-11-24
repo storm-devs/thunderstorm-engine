@@ -41,7 +41,7 @@ void MapZipper::DoZip(uint8_t* pSrc, uint32_t _dwSizeX)
 	{
 		y = i / dwDX;
 		x = i - y * dwDX;
-    auto dwStart = (y << dwBlockShift) * dwSizeX + (x << dwBlockShift);
+    const auto dwStart = (y << dwBlockShift) * dwSizeX + (x << dwBlockShift);
 
     auto bTest = true;
 		uint8_t byTest;
@@ -49,7 +49,7 @@ void MapZipper::DoZip(uint8_t* pSrc, uint32_t _dwSizeX)
 		{
 			yy = j >> dwBlockShift;
 			xx = j - (yy << dwBlockShift);
-      auto byRes = pSrc[dwStart + yy * dwSizeX + xx];
+      const auto byRes = pSrc[dwStart + yy * dwSizeX + xx];
 			if (j == 0) byTest = byRes;
 			if (byTest != byRes)
 			{
@@ -82,12 +82,12 @@ void MapZipper::DoZip(uint8_t* pSrc, uint32_t _dwSizeX)
 uint8_t MapZipper::Get(uint32_t dwX, uint32_t dwY)
 {
 	if (!pWordTable) return 255;
-  auto wRes = pWordTable[((dwY >> dwBlockShift) << dwShiftNumBlocksX) + (dwX >> dwBlockShift)];
+  const auto wRes = pWordTable[((dwY >> dwBlockShift) << dwShiftNumBlocksX) + (dwX >> dwBlockShift)];
 	if (wRes & 0x8000) return uint8_t(wRes & 0xFF);
-  auto x = dwX - ((dwX >> dwBlockShift) << dwBlockShift);
-  auto y = dwY - ((dwY >> dwBlockShift) << dwBlockShift);
+  const auto x = dwX - ((dwX >> dwBlockShift) << dwBlockShift);
+  const auto y = dwY - ((dwY >> dwBlockShift) << dwBlockShift);
 
-  auto byRes = pRealData[((uint32_t(wRes) << dwBlockShift) << dwBlockShift) + (y << dwBlockShift) + x];
+  const auto byRes = pRealData[((uint32_t(wRes) << dwBlockShift) << dwBlockShift) + (y << dwBlockShift) + x];
 
 	return byRes;
 }
@@ -96,7 +96,7 @@ bool MapZipper::Load(std::string sFileName)
 {
 	UnInit();
 
-  auto hFile = fio->_CreateFile(sFileName.c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
+  const auto hFile = fio->_CreateFile(sFileName.c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 	if (hFile == INVALID_HANDLE_VALUE) return false;
 	fio->_ReadFile(hFile, &dwSizeX, sizeof(dwSizeX), nullptr);
 	fio->_ReadFile(hFile, &dwDX, sizeof(dwDX), nullptr);
@@ -114,7 +114,7 @@ bool MapZipper::Load(std::string sFileName)
 
 bool MapZipper::Save(std::string sFileName)
 {
-  auto hFile = fio->_CreateFile(sFileName.c_str(), GENERIC_WRITE, FILE_SHARE_READ, OPEN_ALWAYS);
+  const auto hFile = fio->_CreateFile(sFileName.c_str(), GENERIC_WRITE, FILE_SHARE_READ, OPEN_ALWAYS);
 	if (hFile == INVALID_HANDLE_VALUE) return false;
 	fio->_WriteFile(hFile, &dwSizeX, sizeof(dwSizeX), nullptr);
 	fio->_WriteFile(hFile, &dwDX, sizeof(dwDX), nullptr);

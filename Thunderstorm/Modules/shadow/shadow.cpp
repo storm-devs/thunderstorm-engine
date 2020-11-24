@@ -85,14 +85,14 @@ CVECTOR camPos;
 
 bool AddPoly(const CVECTOR* vr, long nverts)
 {
-  auto norm = !((vr[1] - vr[0]) ^ (vr[2] - vr[0]));
+  const auto norm = !((vr[1] - vr[0]) ^ (vr[2] - vr[0]));
 
-  auto d = (norm | vr[0]);
-  auto dc = (norm | camPos) - d;
-  auto dl = (norm | lightPos) - d;
+  const auto d = (norm | vr[0]);
+  const auto dc = (norm | camPos) - d;
+  const auto dl = (norm | lightPos) - d;
 	if (dc * dl < 0.0f) return true;
 
-  auto d0 = (norm | objPos) - d;
+  const auto d0 = (norm | objPos) - d;
 	if (d0 * dl < 0.0f) return true;
 
 	if (tot_verts + (nverts - 2) * 3 > vbuff_size) return false;
@@ -100,23 +100,23 @@ bool AddPoly(const CVECTOR* vr, long nverts)
 	for (v = 0; v < 3; v++)
 	{
 		shadvert[tot_verts].pos = vr[v];
-    auto z = (trans.m[0][2] * vr[v].x + trans.m[1][2] * vr[v].y + trans.m[2][2] * vr[v].z + trans.m[3][2]);
-    auto rhw = perspective * 0.5f / z;
+    const auto z = (trans.m[0][2] * vr[v].x + trans.m[1][2] * vr[v].y + trans.m[2][2] * vr[v].z + trans.m[3][2]);
+    const auto rhw = perspective * 0.5f / z;
 		shadvert[tot_verts].tu = rhw * (trans.m[0][0] * vr[v].x + trans.m[1][0] * vr[v].y + trans.m[2][0] * vr[v].z +
 			trans.m[3][0]) + 0.5f;
 		shadvert[tot_verts].tv = -rhw * (trans.m[0][1] * vr[v].x + trans.m[1][1] * vr[v].y + trans.m[2][1] * vr[v].z +
 			trans.m[3][1]) + 0.5f;
 		tot_verts++;
 	}
-  auto start = tot_verts - 3;
+  const auto start = tot_verts - 3;
 	for (; v < nverts; v++)
 	{
 		shadvert[tot_verts + 0] = shadvert[start];
 		shadvert[tot_verts + 1] = shadvert[tot_verts - 1];
 		tot_verts += 2;
 		shadvert[tot_verts].pos = vr[v];
-    auto z = (trans.m[0][2] * vr[v].x + trans.m[1][2] * vr[v].y + trans.m[2][2] * vr[v].z + trans.m[3][2]);
-    auto rhw = perspective * 0.5f / z;
+    const auto z = (trans.m[0][2] * vr[v].x + trans.m[1][2] * vr[v].y + trans.m[2][2] * vr[v].z + trans.m[3][2]);
+    const auto rhw = perspective * 0.5f / z;
 		shadvert[tot_verts].tu = rhw * (trans.m[0][0] * vr[v].x + trans.m[1][0] * vr[v].y + trans.m[2][0] * vr[v].z +
 			trans.m[3][0]) + 0.5f;
 		shadvert[tot_verts].tv = -rhw * (trans.m[0][1] * vr[v].x + trans.m[1][1] * vr[v].y + trans.m[2][1] * vr[v].z +
@@ -480,8 +480,8 @@ void Shadow::Smooth()
 			for (long u = 0; u < nIterations; u++)
 				for (long v = 0; v < nIterations; v++)
 				{
-					float ud = 1.5f * (u / (nIterations - 1.0f) - 0.5f) / (TEXTURE_SIZE - 1.0f) * 2.0f;
-					float vd = 1.5f * (v / (nIterations - 1.0f) - 0.5f) / (TEXTURE_SIZE - 1.0f) * 2.0f;
+          const float ud = 1.5f * (u / (nIterations - 1.0f) - 0.5f) / (TEXTURE_SIZE - 1.0f) * 2.0f;
+          const float vd = 1.5f * (v / (nIterations - 1.0f) - 0.5f) / (TEXTURE_SIZE - 1.0f) * 2.0f;
 					vrt[0].tu = 0.0f + ud;
 					vrt[0].tv = 0.0f + vd;
 					vrt[1].tu = 0.0f + ud;
@@ -490,7 +490,7 @@ void Shadow::Smooth()
 					vrt[2].tv = 1.0f + vd;
 					vrt[3].tu = 1.0f + ud;
 					vrt[3].tv = 0.0f + vd;
-					long col = long(1.0f / (nIterations * nIterations) * 255.0f);
+          const long col = long(1.0f / (nIterations * nIterations) * 255.0f);
 					rs->SetRenderState(D3DRS_TEXTUREFACTOR, 0xFF000000 | (col << 16) | (col << 8) | (col << 0));
 					rs->DrawPrimitiveUP(D3DPT_TRIANGLEFAN,
 					                    D3DFVF_XYZRHW | D3DFVF_TEX1 | D3DFVF_DIFFUSE | D3DFVF_TEXTUREFORMAT2, 2, &vrt,
@@ -504,7 +504,7 @@ void Shadow::Smooth()
 
 uint64_t Shadow::ProcessMessage(MESSAGE& message)
 {
-	long code = message.Long();
+  const long code = message.Long();
 	switch (code)
 	{
 	case 0:

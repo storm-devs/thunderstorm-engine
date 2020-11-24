@@ -114,7 +114,7 @@ void TCarcass::RebuildLevels(tCarcassVertex* _vBuffer, bool _firstDraw, uint32_t
 
 	for (auto level = 0; level < (levelsCount); level++)
 	{
-    auto levelK = ((float)level) / (levelsCount - 1);
+    const auto levelK = ((float)level) / (levelsCount - 1);
 		for (auto measurePoint = 0; measurePoint < measure.pointsCount; measurePoint++)
 		{
 			tempVertex = &_vBuffer[level * measure.pointsCount + measurePoint];
@@ -155,8 +155,8 @@ void TCarcass::RebuildLevels(tCarcassVertex* _vBuffer, bool _firstDraw, uint32_t
 			else
 			{
 				tempVertex->color = (((uint32_t)(speedA * sqrtf(levelA) * (1.f - measureK) * 0xFF)) << 24) | 0x00FFFFFF;
-        auto dv = fmodf(_dTime * vSpeed, 1.f);
-        auto du = fmodf(_dTime * uSpeed, 1.f);
+        const auto dv = fmodf(_dTime * vSpeed, 1.f);
+        const auto du = fmodf(_dTime * uSpeed, 1.f);
 				tempVertex->u = tempVertex->u + du;
 				tempVertex->v = tempVertex->v - dv;
 			}

@@ -96,7 +96,7 @@ void CXI_PICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 	if (ReadIniString(ini1, name1, ini2, name2, "videoName", param, sizeof(param), ""))
 		m_pTex = m_rs->GetVideoTexture(param);
 
-  auto color = GetIniARGB(ini1, name1, ini2, name2, "color", ARGB(255, 128, 128, 128));
+  const auto color = GetIniARGB(ini1, name1, ini2, name2, "color", ARGB(255, 128, 128, 128));
 
 	// Create rectangle
 	ChangePosition(m_rect);
@@ -211,7 +211,7 @@ void CXI_PICTURE::SetNewPictureFromDir(char* dirName)
 		{
 			fio->_FindClose(h);
 			sprintf_s(param, "%s\\%s", dirName, wfd.cFileName);
-			int paramlen = strlen(param);
+      const int paramlen = strlen(param);
 			if (paramlen < sizeof(param) && paramlen >= 3) param[paramlen - 3] = 0;
 			SetNewPicture(false, param);
 		}
@@ -268,7 +268,7 @@ uint32_t CXI_PICTURE::MessageProc(long msgcode, MESSAGE& message)
 
 	case 2: // Установить новую картинку или видео картинку
 		{
-      auto bVideo = message.Long() != 0;
+      const auto bVideo = message.Long() != 0;
 			char param[256];
 			message.String(sizeof(param) - 1, param);
 			SetNewPicture(bVideo, param);
@@ -285,14 +285,14 @@ uint32_t CXI_PICTURE::MessageProc(long msgcode, MESSAGE& message)
 
 	case 4: // Установить новый цвет
 		{
-			uint32_t color = message.Long();
+      const uint32_t color = message.Long();
 			for (auto i = 0; i < 4; i++) m_v[i].color = color;
 		}
 		break;
 
 	case 5: // установить/снять мигание
 		{
-			bool bBlind = message.Long() != 0;
+      const bool bBlind = message.Long() != 0;
 			if (m_bMakeBlind != bBlind)
 			{
 				m_bMakeBlind = bBlind;

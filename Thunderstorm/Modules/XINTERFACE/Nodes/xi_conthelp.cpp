@@ -307,7 +307,7 @@ uint32_t CXI_CONTEXTHELP::MessageProc(long msgcode, MESSAGE& message)
 
 			if (m_idTempString >= 0)
 			{
-        auto pstr = pStringService->GetStringName(m_idTempString);
+        const auto pstr = pStringService->GetStringName(m_idTempString);
 				if (pstr != nullptr)
 				{
 					pvdat->Set(pstr);

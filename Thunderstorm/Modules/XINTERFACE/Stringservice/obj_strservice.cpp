@@ -34,15 +34,15 @@ uint64_t OBJ_STRSERVICE::ProcessMessage(MESSAGE& message)
 		break;
 	case MSG_STRSERVICE_CLOSE_FILE:
 		{
-      auto fileID = message.Long();
+      const auto fileID = message.Long();
 			m_pStrService->CloseUsersStringFile(fileID);
 		}
 		break;
 	case MSG_STRSERVICE_TRANSLATE_STRING:
 		{
-      auto nUsrID = message.Long();
+      const auto nUsrID = message.Long();
       auto pvdat = message.ScriptVariablePointer();
-      auto inStr = pvdat == nullptr ? nullptr : pvdat->GetString();
+      const auto inStr = pvdat == nullptr ? nullptr : pvdat->GetString();
 			pvdat = message.ScriptVariablePointer();
 			char* outStr = nullptr;
 			if (m_pStrService != nullptr) outStr = m_pStrService->TranslateFromUsers(nUsrID, inStr);

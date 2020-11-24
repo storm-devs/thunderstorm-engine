@@ -288,7 +288,7 @@ int DataSource::FindEmitter(const char* Name)
 {
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
-    auto pString = Emitters[n].Fields.FindString(EMITTER_NAME);
+    const auto pString = Emitters[n].Fields.FindString(EMITTER_NAME);
 		if (pString)
 		{
 			if (_stricmp(pString->GetValue(), Name) == 0)
@@ -303,7 +303,7 @@ int DataSource::FindEmitter(const char* Name)
 
 FieldList* DataSource::CreateBillBoardParticle(const char* ParticleName, const char* EmitterName)
 {
-  auto EmitterIndex = FindEmitter(EmitterName);
+  const auto EmitterIndex = FindEmitter(EmitterName);
 	if (EmitterIndex == -1) return nullptr;
 
 	Emitters[EmitterIndex].Particles.push_back(ParticleDesc{});
@@ -361,7 +361,7 @@ FieldList* DataSource::CreateBillBoardParticle(const char* ParticleName, const c
 
 FieldList* DataSource::CreateModelParticle(const char* ParticleName, const char* EmitterName)
 {
-  auto EmitterIndex = FindEmitter(EmitterName);
+  const auto EmitterIndex = FindEmitter(EmitterName);
 	if (EmitterIndex == -1) return nullptr;
 
 	Emitters[EmitterIndex].Particles.push_back(ParticleDesc{});

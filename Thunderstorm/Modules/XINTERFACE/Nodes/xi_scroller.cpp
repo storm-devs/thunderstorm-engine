@@ -163,7 +163,7 @@ void CXI_SCROLLER::MakeOwnedControl()
 {
 	for (long n = 0; n < (long)m_asOwnedNodes.size(); n++)
 	{
-    auto pNode = ((XINTERFACE*)EntityManager::GetEntityPointer(g_idInterface))->FindNode(
+    const auto pNode = ((XINTERFACE*)EntityManager::GetEntityPointer(g_idInterface))->FindNode(
 			m_asOwnedNodes[n].c_str(), nullptr);
 		if (!pNode) continue;
 		switch (pNode->m_nNodeType)
@@ -190,7 +190,7 @@ void CXI_SCROLLER::MakeOwnedControl()
 void CXI_SCROLLER::UpPress()
 {
 	api->Event("ScrollTopChange", "l", -1);
-  auto fDelta = GetOwnedStep();
+  const auto fDelta = GetOwnedStep();
 	if (fDelta != 0.f)
 	{
 		SetRollerPos(m_fPos - fDelta);
@@ -201,7 +201,7 @@ void CXI_SCROLLER::UpPress()
 void CXI_SCROLLER::DownPress()
 {
 	api->Event("ScrollTopChange", "l", 1);
-  auto fDelta = GetOwnedStep();
+  const auto fDelta = GetOwnedStep();
 	if (fDelta != 0.f)
 	{
 		SetRollerPos(m_fPos + fDelta);
@@ -373,7 +373,7 @@ void CXI_SCROLLER::FillVertexBuffer()
 
 void CXI_SCROLLER::MouseMove()
 {
-  auto pntMouse = ptrOwner->GetMousePoint();
+  const auto pntMouse = ptrOwner->GetMousePoint();
 	if (pntMouse.y != m_curMousePos.y)
 	{
 		m_curMousePos = pntMouse;
@@ -384,7 +384,7 @@ void CXI_SCROLLER::MouseMove()
 		if (fY > m_rollerPlace.bottom - m_rollerHeight * .5f)
 			fY = m_rollerPlace.bottom - m_rollerHeight * .5f;
 
-		float newPos = (fY - m_rollerPlace.top - m_rollerHeight * .5f) / (m_rollerPlace.bottom - m_rollerPlace.top -
+    const float newPos = (fY - m_rollerPlace.top - m_rollerHeight * .5f) / (m_rollerPlace.bottom - m_rollerPlace.top -
 			m_rollerHeight);
 		SetRollerPos(newPos);
 		api->Event("ScrollPosChange", "fs", newPos, m_nodeName);

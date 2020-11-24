@@ -50,7 +50,7 @@ void HELPCHOOSER::Execute(uint32_t Delta_Time)
 	long newCurRect;
 	CONTROL_STATE cs;
 
-  auto bMouseMoved = MouseMove();
+  const auto bMouseMoved = MouseMove();
 
 	api->Controls->GetControlState("HelpChooser_Cancel", cs);
 	if (cs.state == CST_ACTIVATED)
@@ -378,7 +378,7 @@ void HELPCHOOSER::SetRectangle(long newRectNum)
 
 long HELPCHOOSER::GetRectangleLeft() const {
 	if (m_nCurRect < 0 || m_nCurRect >= m_nRectQ || m_pRectList == nullptr) return 0;
-  auto left = m_pRectList[m_nCurRect].left;
+  const auto left = m_pRectList[m_nCurRect].left;
   auto top = m_pRectList[m_nCurRect].top;
   auto right = m_pRectList[m_nCurRect].right;
   auto bottom = m_pRectList[m_nCurRect].bottom;
@@ -416,7 +416,7 @@ long HELPCHOOSER::GetRectangleRight() const {
 	if (m_nCurRect < 0 || m_nCurRect >= m_nRectQ || m_pRectList == nullptr) return 0;
   auto left = m_pRectList[m_nCurRect].left;
   auto top = m_pRectList[m_nCurRect].top;
-  auto right = m_pRectList[m_nCurRect].right;
+  const auto right = m_pRectList[m_nCurRect].right;
   auto bottom = m_pRectList[m_nCurRect].bottom;
 
   auto fdist = 1.f;
@@ -451,7 +451,7 @@ long HELPCHOOSER::GetRectangleRight() const {
 long HELPCHOOSER::GetRectangleUp() const {
 	if (m_nCurRect < 0 || m_nCurRect >= m_nRectQ || m_pRectList == nullptr) return 0;
   auto left = m_pRectList[m_nCurRect].left;
-  auto top = m_pRectList[m_nCurRect].top;
+  const auto top = m_pRectList[m_nCurRect].top;
   auto right = m_pRectList[m_nCurRect].right;
   auto bottom = m_pRectList[m_nCurRect].bottom;
 
@@ -489,7 +489,7 @@ long HELPCHOOSER::GetRectangleDown() const {
   auto left = m_pRectList[m_nCurRect].left;
   auto top = m_pRectList[m_nCurRect].top;
   auto right = m_pRectList[m_nCurRect].right;
-  auto bottom = m_pRectList[m_nCurRect].bottom;
+  const auto bottom = m_pRectList[m_nCurRect].bottom;
 
   auto fdist = 1.f;
 	float ftmp;

@@ -159,7 +159,7 @@ inline float Bone::Clamp(float v, const char* str)
 void Bone::BuildStartMatrix()
 {
 	if (numFrames == 0 || !ang) return;
-	CMatrix inmtx;
+  const CMatrix inmtx;
 	D3DXQUATERNION a;
 	GetFrame(0, a);
 	D3DXMatrixRotationQuaternion(inmtx, &a);
@@ -177,8 +177,8 @@ void Bone::BuildStartMatrix()
 void Bone::BlendFrame(long frame, float kBlend, D3DXQUATERNION& res)
 {
 	if (numFrames <= 0) return;
-  auto f0 = frame;
-  auto f1 = frame + 1;
+  const auto f0 = frame;
+  const auto f1 = frame + 1;
 	if (f0 >= numFrames || f1 >= numFrames)
 	{
 		GetFrame(numFrames - 1, res);

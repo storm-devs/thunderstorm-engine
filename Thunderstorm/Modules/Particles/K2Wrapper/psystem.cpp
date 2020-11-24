@@ -32,7 +32,7 @@ void PARTICLE_SYSTEM::SetEmitter(CVECTOR p, CVECTOR a)
 	angles.x = a.x;
 	angles.y = a.y;
 	angles.z = a.z;
-	Matrix mTransform(angles, pos);
+  const Matrix mTransform(angles, pos);
 	pSystem->SetTransform(mTransform);
 }
 

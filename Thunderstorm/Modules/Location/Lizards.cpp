@@ -25,7 +25,7 @@ Lizards::~Lizards()
 bool Lizards::Init()
 {
 	//Указатель на локацию
-	auto loc = EntityManager::GetEntityId("location");
+  const auto loc = EntityManager::GetEntityId("location");
 	auto* location = (Location *)EntityManager::GetEntityPointer(loc);
 	if (!location) return false;
 	//Заводим ящерец
@@ -45,6 +45,6 @@ void Lizards::Execute(uint32_t delta_time)
 //Рисование
 void Lizards::Realize(uint32_t delta_time)
 {
-  auto dltTime = delta_time * 0.001f;
+  const auto dltTime = delta_time * 0.001f;
 	for (long i = 0; i < num; i++) lizard[i].Update(dltTime);
 }

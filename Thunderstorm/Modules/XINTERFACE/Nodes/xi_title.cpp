@@ -98,7 +98,7 @@ void CXI_TITLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const 
 	char param[256];
 
 	// Get image color
-  auto imgColor = GetIniARGB(ini1, name1, ini2, name2, "imageColor", 0xFFFFFFFF);
+  const auto imgColor = GetIniARGB(ini1, name1, ini2, name2, "imageColor", 0xFFFFFFFF);
 
 	// Get font color
 	m_fontColor = GetIniARGB(ini1, name1, ini2, name2, "fontColor", 0xFFFFFFFF);
@@ -119,7 +119,7 @@ void CXI_TITLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const 
 	m_StringCenter.y = m_rect.top + GetIniLong(ini1, name1, ini2, name2, "stringOffset", 0);
 
 	// get title string
-  auto pChar = api->Entity_GetAttribute(g_idInterface, "title");
+  const auto pChar = api->Entity_GetAttribute(g_idInterface, "title");
 	if (pChar != nullptr && pChar[0] != '#')
 		m_idString = pStringService->GetStringNum(pChar);
 	else
@@ -184,7 +184,7 @@ void CXI_TITLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const 
 		m_nTiledQuantity = ((m_StringCenter.x - m_rect.left) - m_nStringWidth / 2 - (m_mRect.right - m_mRect.left)) /
 			(m_tRect.right - m_tRect.left) + 1;
 	if (m_nTiledQuantity < 0) m_nTiledQuantity = 0;
-	int rectangleQuantity = 1 + 2 + 2 * m_nTiledQuantity;
+  const int rectangleQuantity = 1 + 2 + 2 * m_nTiledQuantity;
 	m_nVert = 4 * rectangleQuantity;
 	m_nIndx = 6 * rectangleQuantity;
 	m_idVBuf = m_rs->CreateVertexBuffer(XI_ONETEX_FVF, m_nVert * sizeof(XI_ONETEX_VERTEX),D3DUSAGE_WRITEONLY);
@@ -192,7 +192,7 @@ void CXI_TITLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const 
 	m_nIndx /= 3;
 
 	// fill index buffer
-  auto pIndex = (uint16_t*)m_rs->LockIndexBuffer(m_idIBuf);
+  const auto pIndex = (uint16_t*)m_rs->LockIndexBuffer(m_idIBuf);
 	if (pIndex == nullptr)
 		throw std::exception("index buffer not create");
 	for (i = 0; i < rectangleQuantity; i++)
@@ -207,7 +207,7 @@ void CXI_TITLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const 
 	m_rs->UnLockIndexBuffer(m_idIBuf);
 
 	// fill vertex buffer
-  auto pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
+  const auto pVert = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
 	if (pVert == nullptr)
 		throw std::exception("vertex buffer not create");
 	for (i = 0; i < m_nVert; i++)
@@ -229,8 +229,8 @@ void CXI_TITLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const 
 	pVert[0].tv = pVert[1].tv = centerRect.top;
 	pVert[2].tv = pVert[3].tv = centerRect.bottom;
 	// fill two medium rectangles
-	int tmp1 = m_nStringWidth / 2;
-	int tmp2 = m_nStringWidth / 2 + (m_mRect.right - m_mRect.left);
+  const int tmp1 = m_nStringWidth / 2;
+  const int tmp2 = m_nStringWidth / 2 + (m_mRect.right - m_mRect.left);
 	pVert[4].pos.y = pVert[5].pos.y = pVert[8].pos.y = pVert[9].pos.y = (float)m_rect.top;
 	pVert[6].pos.y = pVert[7].pos.y = pVert[10].pos.y = pVert[11].pos.y = (float)m_rect.bottom;
 	pVert[4].pos.x = pVert[6].pos.x = float(m_StringCenter.x - tmp2);
@@ -293,8 +293,8 @@ void CXI_TITLE::FillVertexBuffer() const {
 		pVert[3].pos.y = (float)m_rect.bottom;
 
 		// fill two medium rectangles
-		int tmp1 = m_nStringWidth / 2;
-		int tmp2 = m_nStringWidth / 2 + (m_mRect.right - m_mRect.left);
+    const int tmp1 = m_nStringWidth / 2;
+    const int tmp2 = m_nStringWidth / 2 + (m_mRect.right - m_mRect.left);
 		pVert[4].pos.y = pVert[5].pos.y = pVert[8].pos.y = pVert[9].pos.y = (float)m_rect.top;
 		pVert[6].pos.y = pVert[7].pos.y = pVert[10].pos.y = pVert[11].pos.y = (float)m_rect.bottom;
 		pVert[4].pos.x = pVert[6].pos.x = float(m_StringCenter.x - tmp2);

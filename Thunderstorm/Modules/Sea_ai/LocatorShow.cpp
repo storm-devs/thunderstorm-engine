@@ -51,7 +51,7 @@ const char* SeaLocatorShow::GetLocatorName(ATTRIBUTES* pA)
 
 const char* SeaLocatorShow::GetLocatorGroupName(ATTRIBUTES* pA)
 {
-  auto pAParent = pA->GetParent();
+  const auto pAParent = pA->GetParent();
 	Assert(pAParent);
 	return pAParent->GetThisName();
 }
@@ -148,7 +148,7 @@ void SeaLocatorShow::Realize(uint32_t Delta_Time)
 	}
 #endif
 	if (!bShow || !pALocators) return;
-	CMatrix prj;
+  const CMatrix prj;
 	AIHelper::pRS->GetTransform(D3DTS_VIEW, view);
 	AIHelper::pRS->GetTransform(D3DTS_PROJECTION, prj);
 	mtx.EqMultiply(view, prj);
@@ -212,21 +212,21 @@ void SeaLocatorShow::CreateSphere()
 	sphereNumTrgs = a1 * a2 * 2;
 	sphereVertex = new SphVertex[sphereNumTrgs * 6];
 
-  auto light = !CVECTOR(0.0f, 0.0f, 1.0f);
+  const auto light = !CVECTOR(0.0f, 0.0f, 1.0f);
 	float kColor;
 	//Заполняем вершины
 	for (long i = 0, t = 0; i < a2; i++)
 	{
-    auto r1 = sinf(myPI * i / float(a2));
-    auto y1 = cosf(myPI * i / float(a2));
-    auto r2 = sinf(myPI * (i + 1) / float(a2));
-    auto y2 = cosf(myPI * (i + 1) / float(a2));
+    const auto r1 = sinf(myPI * i / float(a2));
+    const auto y1 = cosf(myPI * i / float(a2));
+    const auto r2 = sinf(myPI * (i + 1) / float(a2));
+    const auto y2 = cosf(myPI * (i + 1) / float(a2));
 		for (long j = 0; j < a1; j++)
 		{
-      auto x1 = sinf(2.0f * myPI * j / float(a1));
-      auto z1 = cosf(2.0f * myPI * j / float(a1));
-      auto x2 = sinf(2.0f * myPI * (j + 1) / float(a1));
-      auto z2 = cosf(2.0f * myPI * (j + 1) / float(a1));
+      const auto x1 = sinf(2.0f * myPI * j / float(a1));
+      const auto z1 = cosf(2.0f * myPI * j / float(a1));
+      const auto x2 = sinf(2.0f * myPI * (j + 1) / float(a1));
+      const auto z2 = cosf(2.0f * myPI * (j + 1) / float(a1));
 			//0
 			sphereVertex[t * 3 + 0].v.x = r1 * x1;
 			sphereVertex[t * 3 + 0].v.y = y1;

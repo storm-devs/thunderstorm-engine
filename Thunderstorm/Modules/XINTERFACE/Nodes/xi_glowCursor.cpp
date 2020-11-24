@@ -41,7 +41,7 @@ void CXI_GLOWCURSOR::Draw(bool bSelected, uint32_t Delta_Time)
 					m_bShowGlow = m_pPrevNode->IsShowGlowCursor();
 					if (m_bShowGlow && m_pPrevNode->IsGlowChanged())
 					{
-            auto rectXY = m_pPrevNode->GetCursorRect();
+            const auto rectXY = m_pPrevNode->GetCursorRect();
 						if ((int)m_pTexVert[0].pos.x != rectXY.left ||
 							(int)m_pTexVert[0].pos.y != rectXY.top ||
 							(int)m_pTexVert[3].pos.x != rectXY.right ||

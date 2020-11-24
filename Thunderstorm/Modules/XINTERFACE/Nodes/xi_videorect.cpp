@@ -17,9 +17,9 @@ void CXI_VIDEORECT::Draw(bool bSelected, uint32_t Delta_Time)
 {
 	if (m_bUse)
 	{
-		if (auto ptr = EntityManager::GetEntityPointer(m_eiVideo))
+		if (const auto ptr = EntityManager::GetEntityPointer(m_eiVideo))
 		{
-      auto pTex = ((xiBaseVideo*)ptr)->GetCurrentVideoTexture();
+      const auto pTex = ((xiBaseVideo*)ptr)->GetCurrentVideoTexture();
 			if (pTex != nullptr)
 			{
 				// Create rectangle
@@ -131,7 +131,7 @@ void CXI_VIDEORECT::StartVideoPlay(char* videoFileName)
 	m_eiVideo = EntityManager::CreateEntity("CAviPlayer");
 	m_rectTex.bottom = 1.f - m_rectTex.bottom;
 	m_rectTex.top = 1.f - m_rectTex.top;
-	if (auto ptr = EntityManager::GetEntityPointer(m_eiVideo))
+	if (const auto ptr = EntityManager::GetEntityPointer(m_eiVideo))
 		((xiBaseVideo*)ptr)->SetShowVideo(false);
 	api->Send_Message(m_eiVideo, "ls", MSG_SET_VIDEO_PLAY, videoFileName);
 

@@ -36,7 +36,7 @@ void InterfaceBackScene::LightParam::UpdateParams(float fTime)
 			__debugbreak();
 		}
 	}
-  auto fPer = fColorPeriod + fAddPeriod;
+  const auto fPer = fColorPeriod + fAddPeriod;
 	if (fColorTimer <= .5f * fPer) fK = 2.f * fColorTimer / fPer;
 	else fK = 2.f - 2.f * fColorTimer / fPer;
 	lightSource.Diffuse.a = colorMin.a + (colorMax.a - colorMin.a) * fK; // 1.f
@@ -168,13 +168,13 @@ bool InterfaceBackScene::Init()
 
 void InterfaceBackScene::Execute(uint32_t Delta_Time)
 {
-  auto nOldMenuIndex = m_nSelectMenuIndex;
+  const auto nOldMenuIndex = m_nSelectMenuIndex;
 
-  auto pntMouse = XINTERFACE::pThis->GetMousePoint();
+  const auto pntMouse = XINTERFACE::pThis->GetMousePoint();
 	if (m_pntOldMouse.x != pntMouse.x || m_pntOldMouse.y != pntMouse.y)
 	{
 		m_pntOldMouse = pntMouse;
-    auto n = CheckMousePos(pntMouse.x, pntMouse.y);
+    const auto n = CheckMousePos(pntMouse.x, pntMouse.y);
 		if (n >= 0 && n != m_nSelectMenuIndex) SetNewMenu(n);
 	}
 
@@ -204,20 +204,20 @@ void InterfaceBackScene::Execute(uint32_t Delta_Time)
 	{
 		CMatrix mtx;
 		mtx.BuildMatrix(m_vCamAng);
-    auto vz = mtx * CVECTOR(0.f, 0.f, 1.f);
-    auto vx = mtx * CVECTOR(1.f, 0.f, 0.f);
+    const auto vz = mtx * CVECTOR(0.f, 0.f, 1.f);
+    const auto vx = mtx * CVECTOR(1.f, 0.f, 0.f);
 
     auto fForwardSpeed = 0.01f * Delta_Time;
 		if (api->Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0) fForwardSpeed *= 10.f;
 		if (api->Controls->GetDebugAsyncKeyState(VK_MENU) < 0) fForwardSpeed *= 0.1f;
-    auto fSideSpeed = 0.5f * fForwardSpeed;
+    const auto fSideSpeed = 0.5f * fForwardSpeed;
 
 		if (api->Controls->GetDebugAsyncKeyState('W') < 0) m_vCamPos += vz * fForwardSpeed;
 		if (api->Controls->GetDebugAsyncKeyState('S') < 0) m_vCamPos -= vz * fForwardSpeed;
 		if (api->Controls->GetDebugAsyncKeyState('D') < 0) m_vCamPos += vx * fSideSpeed;
 		if (api->Controls->GetDebugAsyncKeyState('A') < 0) m_vCamPos -= vx * fSideSpeed;
 
-    auto fRotateSpeed = 0.001f * Delta_Time;
+    const auto fRotateSpeed = 0.001f * Delta_Time;
 		if (api->Controls->GetDebugAsyncKeyState(VK_UP) < 0) m_vCamAng.x += fRotateSpeed;
 		if (api->Controls->GetDebugAsyncKeyState(VK_DOWN) < 0) m_vCamAng.x -= fRotateSpeed;
 		if (api->Controls->GetDebugAsyncKeyState(VK_LEFT) < 0) m_vCamAng.y -= fRotateSpeed;
@@ -282,7 +282,7 @@ void InterfaceBackScene::Realize(uint32_t Delta_Time)
 
 uint64_t InterfaceBackScene::ProcessMessage(MESSAGE& message)
 {
-  auto nMsgCode = message.Long();
+  const auto nMsgCode = message.Long();
 	char param[1024];
 	switch (nMsgCode)
 	{
@@ -303,15 +303,15 @@ uint64_t InterfaceBackScene::ProcessMessage(MESSAGE& message)
 
 	case 3: // create menu list
 		{
-      auto nStartIdx = message.Long();
-      auto pA = message.AttributePointer();
+      const auto nStartIdx = message.Long();
+      const auto pA = message.AttributePointer();
 			CreateMenuList(nStartIdx, pA);
 		}
 		break;
 
 	case 4: // controling of menu list
 		{
-      auto nControlCode = message.Long();
+      const auto nControlCode = message.Long();
 			if (nControlCode & 1) ChooseNextMenu();
 			else ChoosePrevMenu();
 		}
@@ -331,8 +331,8 @@ uint64_t InterfaceBackScene::ProcessMessage(MESSAGE& message)
 
 	case 7: // set selectable flag for menu
 		{
-      auto num = message.Long(); // menu number
-      auto flag = message.Long(); // selectable state
+      const auto num = message.Long(); // menu number
+      const auto flag = message.Long(); // selectable state
 			SetMenuSelectableState(num, flag != 0);
 		}
 		break;
@@ -386,7 +386,7 @@ void InterfaceBackScene::LoadModel(const char* pcModelName)
 	EntityManager::AddToLayer(RAIN_DROPS, m_eiModel, 100);
 	// create locators
 	m_eiLocators = EntityManager::CreateEntity("MODELR");
-  auto sLocName = std::string(pcModelName) + "_locators";
+  const auto sLocName = std::string(pcModelName) + "_locators";
 	api->Send_Message(m_eiLocators, "ls", MSG_MODEL_LOAD_GEO, sLocName.c_str());
 	m_pLocators = (MODEL*)EntityManager::GetEntityPointer(m_eiLocators);
 }
@@ -470,7 +470,7 @@ void InterfaceBackScene::SetLocatorPosition(MODEL* pModel, const char* pcLocName
 	{
 		for (long n = 0; n < 100; n++)
 		{
-      auto pNod = pModel->GetNode(n);
+      const auto pNod = pModel->GetNode(n);
 			if (!pNod) break;
 			GEOS::INFO ginf;
 			pNod->geo->GetInfo(ginf);
@@ -506,7 +506,7 @@ void InterfaceBackScene::CreateMenuList(long nStartIndex, ATTRIBUTES* pAMenu)
 
 	ATTRIBUTES* pA;
 	CMatrix mtx;
-	long q = pAMenu->GetAttributesNum();
+  const long q = pAMenu->GetAttributesNum();
 	for (long n = 0; n < q; n++)
 	{
 		pA = pAMenu->GetAttributeClass(n);
@@ -612,7 +612,7 @@ void InterfaceBackScene::InitLight(ATTRIBUTES* pAParam)
 	pLight->lightSource.Attenuation2 = 1.0f;
 	pLight->indexLight = -1;
 
-	float fDiv = 1.f / 255.f;
+  const float fDiv = 1.f / 255.f;
 	uint32_t dwTmp = pAParam->GetAttributeAsDword("lightcolormin", 0xFFFFFFFF);
 	pLight->colorMin.a = ALPHA(dwTmp) * fDiv;
 	pLight->colorMin.r = RED(dwTmp) * fDiv;
@@ -963,10 +963,10 @@ void InterfaceBackScene::ProcessedFlys(float dltTime)
 	CMatrix view;
 	m_pRS->GetTransform(D3DTS_VIEW, view);
 	view.Transposition();
-	CVECTOR cam = view.Pos();
-	float dax = dltTime * 1.3f;
-	float day = dltTime * 1.4f;
-	float da = dltTime * 5.6f;
+  const CVECTOR cam = view.Pos();
+  const float dax = dltTime * 1.3f;
+  const float day = dltTime * 1.4f;
+  const float da = dltTime * 5.6f;
 	//Расчитываем
 	for (long i = 0; i < numFlys; i++)
 	{
@@ -1037,9 +1037,9 @@ void InterfaceBackScene::DrawParticles(void* prts, long num, long size, long tex
 		auto* parts = (Particle *)prts;
 		prts = (char *)prts + size;
 		CVECTOR pos = camMtx * parts->pos;
-		float size = parts->size * 0.5f;
-		float sn = sinf(parts->angle);
-		float cs = cosf(parts->angle);
+    const float size = parts->size * 0.5f;
+    const float sn = sinf(parts->angle);
+    const float cs = cosf(parts->angle);
 		long color = (long(parts->alpha) << 24);
 		if (!isEx) color |= 0x00ffffff;
 		else color |= 0x00ffffff & ((ParticleEx *)parts)->color;

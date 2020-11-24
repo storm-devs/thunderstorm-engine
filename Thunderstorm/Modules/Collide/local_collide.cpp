@@ -59,18 +59,18 @@ long LCOLL::SetBox(const CVECTOR& boxSize, const CMatrix& transform, bool testOn
 	//transform planes
 	for (long p = 0; p < 6; p++)
 	{
-    auto x = clip_p[p].D * clip_p[p].Nx - transform.m[3][0];
-    auto y = clip_p[p].D * clip_p[p].Ny - transform.m[3][1];
-    auto z = clip_p[p].D * clip_p[p].Nz - transform.m[3][2];
-    auto Nx = transform.m[0][0] * clip_p[p].Nx + transform.m[0][1] * clip_p[p].Ny + transform.m[0][2] * clip_p[p].
+    const auto x = clip_p[p].D * clip_p[p].Nx - transform.m[3][0];
+    const auto y = clip_p[p].D * clip_p[p].Ny - transform.m[3][1];
+    const auto z = clip_p[p].D * clip_p[p].Nz - transform.m[3][2];
+    const auto Nx = transform.m[0][0] * clip_p[p].Nx + transform.m[0][1] * clip_p[p].Ny + transform.m[0][2] * clip_p[p].
 			Nz;
-    auto Ny = transform.m[1][0] * clip_p[p].Nx + transform.m[1][1] * clip_p[p].Ny + transform.m[1][2] * clip_p[p].
+    const auto Ny = transform.m[1][0] * clip_p[p].Nx + transform.m[1][1] * clip_p[p].Ny + transform.m[1][2] * clip_p[p].
 			Nz;
-    auto Nz = transform.m[2][0] * clip_p[p].Nx + transform.m[2][1] * clip_p[p].Ny + transform.m[2][2] * clip_p[p].
+    const auto Nz = transform.m[2][0] * clip_p[p].Nx + transform.m[2][1] * clip_p[p].Ny + transform.m[2][2] * clip_p[p].
 			Nz;
-    auto lx = transform.m[0][0] * x + transform.m[0][1] * y + transform.m[0][2] * z;
-    auto ly = transform.m[1][0] * x + transform.m[1][1] * y + transform.m[1][2] * z;
-    auto lz = transform.m[2][0] * x + transform.m[2][1] * y + transform.m[2][2] * z;
+    const auto lx = transform.m[0][0] * x + transform.m[0][1] * y + transform.m[0][2] * z;
+    const auto ly = transform.m[1][0] * x + transform.m[1][1] * y + transform.m[1][2] * z;
+    const auto lz = transform.m[2][0] * x + transform.m[2][1] * y + transform.m[2][2] * z;
 		plane[p].Nx = Nx;
 		plane[p].Ny = Ny;
 		plane[p].Nz = Nz;
@@ -87,7 +87,7 @@ long LCOLL::SetBox(const CVECTOR& boxSize, const CMatrix& transform, bool testOn
 	//F0(v0,v1,v2), F1(v0,v1,v2,v3)...
 	addVerts = nullptr;
 
-	auto its = EntityManager::GetEntityIdIterators(layerIndex_);
+  const auto its = EntityManager::GetEntityIdIterators(layerIndex_);
 	col->Clip(its, &plane[0], 6, boxCenter, boxRadius, AddPolyColl, nullptr, 0);
 	return 0;
 }

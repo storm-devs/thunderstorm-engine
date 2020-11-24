@@ -58,11 +58,11 @@ void SHIP_CAMERA::Execute(uint32_t dwDeltaTime)
 
 	SetPerspective(AttributesPointer->GetAttributeAsFloat("Perspective"));
 
-  auto fDeltaTime = 0.001f * float(api->GetDeltaTime());
+  const auto fDeltaTime = 0.001f * float(api->GetDeltaTime());
 
   auto pModel = GetModelPointer();
 	Assert(pModel);
-  auto mtx = &pModel->mtx;
+  const auto mtx = &pModel->mtx;
 	vCenter = mtx->Pos();
 
 	fModelAy = float(atan2(mtx->Vz().x, mtx->Vz().z));
@@ -75,7 +75,7 @@ void SHIP_CAMERA::Move(float fDeltaTime)
 	if (!pSea) return;
 	if (!isActive()) return;
 
-  auto fSpeed = fDeltaTime;
+  const auto fSpeed = fDeltaTime;
   auto fTempHeight = 0.0f;
 
 	CONTROL_STATE cs;
@@ -125,11 +125,11 @@ void SHIP_CAMERA::Move(float fDeltaTime)
                                                     SCMR_BOXSCALE_Z * 0.5f);
 	boxSize.x += boxSize.y;
 	boxSize.z += boxSize.y;
-  auto maxRad = boxSize.z * 2.0f;
+  const auto maxRad = boxSize.z * 2.0f;
 	//Полуоси эллипсоида по которому движеться камера
-  auto a = boxSize.x * 1.2f + fDistance * (maxRad - boxSize.x * 1.2f); //x
-  auto b = boxSize.y * 1.5f + fDistance * (70.0f - boxSize.y * 1.5f); //y
-  auto c = boxSize.z * 1.2f + fDistance * (maxRad - boxSize.z * 1.2f); //z
+  const auto a = boxSize.x * 1.2f + fDistance * (maxRad - boxSize.x * 1.2f); //x
+  const auto b = boxSize.y * 1.5f + fDistance * (70.0f - boxSize.y * 1.5f); //y
+  const auto c = boxSize.z * 1.2f + fDistance * (maxRad - boxSize.z * 1.2f); //z
 	//Найдём позицию камеры на эллипсоиде
 	vCenter.y += 0.5f * boxSize.y;
 	CVECTOR vPos;
@@ -150,9 +150,9 @@ void SHIP_CAMERA::Move(float fDeltaTime)
 	vPos = CMatrix(CVECTOR(0.0f, fModelAy, 0.0f), vCenter) * vPos;
 	if (vAng.x > 0.0f) vCenter.y += boxSize.z * vAng.x * 6.0f;
 	//Ограничим высоту с низу
-  auto fWaveY = pSea->WaveXZ(vPos.x, vPos.z);
+  const auto fWaveY = pSea->WaveXZ(vPos.x, vPos.z);
 	if (vPos.y - fWaveY < fMinHeightOnSea) vPos.y = fWaveY + fMinHeightOnSea;
-  auto oldPosY = vPos.y;
+  const auto oldPosY = vPos.y;
 	//Ships collision
 	ShipsCollision(vPos);
 	//Island collision
@@ -216,11 +216,11 @@ void SHIP_CAMERA::ShipsCollision(CVECTOR& pos)
 			CVECTOR(SCMR_BOXSCALE_X * 0.5f, SCMR_BOXSCALE_Y * 0.5f, SCMR_BOXSCALE_Z * 0.5f);
 		if (s.x <= 0.0f || s.y <= 0.0f || s.z <= 0.0f) continue;
 		//Строим эллипсоид
-    auto a = s.z + s.y; //z
-    auto b = s.x + s.y; //x
+    const auto a = s.z + s.y; //z
+    const auto b = s.x + s.y; //x
     auto k1 = s.z / a;
     auto k2 = s.x / b;
-    auto c = s.y / sqrtf(1.0f - k1 * k1 - k2 * k2); //y
+    const auto c = s.y / sqrtf(1.0f - k1 * k1 - k2 * k2); //y
 		//Ишем высоту
 		k1 = p.z / a;
 		k2 = p.x / b;
@@ -261,20 +261,20 @@ bool SHIP_CAMERA::IslandCollision(CVECTOR& pos)
 	if (dist <= 0.0f) return false;
 	dist = sqrtf(dist);
 	dir *= 1.0f / dist;
-  auto dr = dir * (dist + camRadius);
+  const auto dr = dir * (dist + camRadius);
 	//First check
 	float k[5];
 	k[0] = mdl->Trace(vCenter, vCenter + dr);
 	//Basis
   auto left = dir ^ CVECTOR(0.0f, 1.0f, 0.0f);
-  auto l = ~left;
+  const auto l = ~left;
 	if (l <= 0.0f)
 	{
 		if (k[0] < 1.0f) pos = vCenter + (pos - vCenter) * k[0] - dir * camRadius;
 		return k[0] < 1.0f;
 	}
 	left *= 1.0f / sqrtf(l);
-  auto up = dir ^ left;
+  const auto up = dir ^ left;
 	//Find nearest distanse	
 	CVECTOR src;
 	src = vCenter + left * camRadius;

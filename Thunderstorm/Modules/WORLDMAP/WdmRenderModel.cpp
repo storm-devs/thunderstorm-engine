@@ -120,14 +120,14 @@ void WdmRenderModel::Render(VDX9RENDER* rs) const {
 		rs->SetRenderState(D3DRS_TEXTUREFACTOR, (long(a) << 24) | 0xffffff);
 	}
 	//Проверим на видимость
-  auto plane = rs->GetPlanes();
+  const auto plane = rs->GetPlanes();
 	static CMatrix mtx;
 	rs->GetTransform(D3DTS_WORLD, mtx);
-  auto v = mtx * center;
+  const auto v = mtx * center;
 	for (long i = 0; i < 4; i++)
 	{
     auto& p = plane[i];
-    auto dist = v.x * p.Nx + v.y * p.Ny + v.z * p.Nz - p.D;
+    const auto dist = v.x * p.Nx + v.y * p.Ny + v.z * p.Nz - p.D;
 		if (dist < -radius) return;
 	}
 	geo->Draw(nullptr, 0, nullptr);

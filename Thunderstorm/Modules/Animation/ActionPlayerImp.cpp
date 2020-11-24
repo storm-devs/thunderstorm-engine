@@ -143,7 +143,7 @@ bool ActionPlayerImp::IsPause() const
 //Автоостановка при завершении работы таймера
 bool ActionPlayerImp::SetAutoStop(bool isStop)
 {
-  auto old = isAutostop;
+  const auto old = isAutostop;
 	isAutostop = isStop;
 	return old;
 }
@@ -156,7 +156,7 @@ bool ActionPlayerImp::IsAutoStop() const
 //Текущая позиция проигрывания
 float ActionPlayerImp::SetPosition(float position)
 {
-  auto pos = this->position;
+  const auto pos = this->position;
 	if (position < 0.0f) position = 0.0f;
 	if (position > 1.0f) position = 1.0f;
 	this->position = position;
@@ -184,7 +184,7 @@ float ActionPlayerImp::SetSpeed(float kSpeed)
 {
 	if (kSpeed < 0.0f) kSpeed = 0.0f;
 	if (kSpeed > 10.0f) kSpeed = 10.0f;
-  auto ks = kspeed;
+  const auto ks = kspeed;
 	kspeed = kSpeed;
 	return ks;
 }
@@ -240,7 +240,7 @@ void ActionPlayerImp::Execute(long dltTime)
 {
 	kBlendTimer = 1.0f;
 	if (!action || !isPlay || isPause || anitype == at_static) return;
-  auto dlt = dltTime * speed * kspeed;
+  const auto dlt = dltTime * speed * kspeed;
 	switch (anitype)
 	{
 	case at_static: break;
@@ -421,10 +421,10 @@ void ActionPlayerImp::MoveRPingpong(float dlt)
 void ActionPlayerImp::CheckEvents()
 {
 	if (!action) return;
-  auto num = action->GetNumEvents();
+  const auto num = action->GetNumEvents();
 	for (long i = 0; i < num; i++)
 	{
-		long mask = 1 << (i & 31);
+    const long mask = 1 << (i & 31);
 		if (eventsMask[i >> 5] & mask) continue;
 		if (action->CheckEvent(i, position, dir))
 		{

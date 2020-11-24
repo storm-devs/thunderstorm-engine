@@ -66,7 +66,7 @@ bool ShipLights::LoadLights()
 
 	for (uint32_t i = 0; i < pALights->GetAttributesNum(); i++)
 	{
-    auto pAL = pALights->GetAttributeClass(i);
+    const auto pAL = pALights->GetAttributeClass(i);
 
 		LightType lightType;
 		lightType.sLightType = pAL->GetThisName();
@@ -201,7 +201,7 @@ void ShipLights::AddFlare(VAI_OBJBASE* pObject, bool bLight, MODEL* pModel, cons
 	{
 		str2[0] = str[2];
 		str2[1] = '\0';
-		int iMastIndex = atoi(str2);
+    const int iMastIndex = atoi(str2);
 
 		sprintf_s(str2, "mast%d", iMastIndex);
 		// rey found
@@ -323,7 +323,7 @@ void ShipLights::AddLights(VAI_OBJBASE* pObject, MODEL* pModel, bool bLights, bo
 {
 	if (!bLoadLights && !LoadLights()) return;
 
-	std::string sLightType = "default";
+  const std::string sLightType = "default";
 
 	LightType* pLT = FindLightType(sLightType);
 	if (!pLT)
@@ -338,8 +338,8 @@ void ShipLights::AddLights(VAI_OBJBASE* pObject, MODEL* pModel, bool bLights, bo
 
 	NODE* pRoot = pModel->GetNode(0);
 
-	std::string sFlares = "flares";
-	std::string sLights = "lights";
+  const std::string sFlares = "flares";
+  const std::string sLights = "lights";
 	uint32_t dwIdx = 0;
 	while (pNode = pModel->GetNode(dwIdx))
 	{
@@ -419,7 +419,7 @@ void ShipLights::SetLights(VAI_OBJBASE* pObject)
 // update lights/flares parameters
 void ShipLights::Execute(uint32_t dwDeltaTime)
 {
-	float fDeltaTime = float(dwDeltaTime) * 0.001f;
+  const float fDeltaTime = float(dwDeltaTime) * 0.001f;
 
 	float fFov;
 	CVECTOR vCamPos, vCamAng;
@@ -476,13 +476,13 @@ void ShipLights::Execute(uint32_t dwDeltaTime)
 
 			const auto its = EntityManager::GetEntityIdIterators(SUN_TRACE);
 			fDistance = pCollide->Trace(its, L.vCurPos, vCamPos, nullptr, 0);
-			float fLen = fDistance * sqrtf(~(vCamPos - L.vCurPos));
+      const float fLen = fDistance * sqrtf(~(vCamPos - L.vCurPos));
 			L.bVisible = fDistance >= 1.0f || (fLen < 0.6f);
 
 			if (!L.bOff && L.bVisible)
 			{
-				float fDistance = pCollide->Trace(its, vCamPos, L.vCurPos, nullptr, 0);
-				float fLen = (1.0f - fDistance) * sqrtf(~(vCamPos - L.vCurPos));
+        const float fDistance = pCollide->Trace(its, vCamPos, L.vCurPos, nullptr, 0);
+        const float fLen = (1.0f - fDistance) * sqrtf(~(vCamPos - L.vCurPos));
 
 				L.bVisible = fLen < 0.6f;
 			}
@@ -513,7 +513,7 @@ void ShipLights::Execute(uint32_t dwDeltaTime)
 						o.fNewValue = RRnd(-o.fAmp, o.fAmp);
 					}
 				}
-				float fIns = o.fOldValue + (o.fNewValue - o.fOldValue) * o.fK;
+        const float fIns = o.fOldValue + (o.fNewValue - o.fOldValue) * o.fK;
 				fIntensity += fIns * fKAmp;
 				fKAmp -= fIns * o.fOneDivAmp;
 				if (fKAmp < 0.0f) break;
@@ -561,7 +561,7 @@ void ShipLights::Realize(uint32_t dwDeltaTime)
 	static std::vector<RS_RECT> aRects;
 	aRects.clear();
 
-	float fReflSize = (bReflection) ? fSunRoadFlareSize : 1.0f;
+  const float fReflSize = (bReflection) ? fSunRoadFlareSize : 1.0f;
 
 	for (uint32_t i = 0; i < aLights.size(); i++)
 	{
@@ -573,7 +573,7 @@ void ShipLights::Realize(uint32_t dwDeltaTime)
 
 		if (bReflection)
 		{
-			float fDistance = sqrtf(~(L.vCurPos - vCamPos));
+      const float fDistance = sqrtf(~(L.vCurPos - vCamPos));
 			fDistanceFade = 1.0f - Clamp(fDistance / L.pLT->fSunRoadFlareFadeDistance);
 		}
 

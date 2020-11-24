@@ -97,7 +97,7 @@ void LighterLights::SetDefLightParam(long i)
 void LighterLights::PostInit()
 {
 	//Соберём все существующие группы
-  auto grp = new char * [numLights + 1];
+  const auto grp = new char * [numLights + 1];
 	long numGrp = 0;
 	for (long i = 0; i < numLights; i++)
 	{

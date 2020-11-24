@@ -22,8 +22,8 @@ void GetRectFromNum(FRECT& texRect, int xq, int yq, int curNum, bool bHorzFlip, 
   auto x = curNum - y * xq;
 	if (x >= xq) x = 0;
 
-  auto width = 1.f / xq;
-  auto height = 1.f / yq;
+  const auto width = 1.f / xq;
+  const auto height = 1.f / yq;
 
 	if (bHorzFlip) texRect.left = width + (texRect.right = x * width);
 	else texRect.right = width + (texRect.left = x * width);
@@ -127,7 +127,7 @@ bool TextureSequence::FrameUpdate()
 }
 
 void TextureSequence::ToTextureRender(float blendValue) const {
-  auto newTFactor = ARGB(long(255.f*blendValue), long(255.f*blendValue), long(255.f*blendValue),
+  const auto newTFactor = ARGB(long(255.f*blendValue), long(255.f*blendValue), long(255.f*blendValue),
 	                           long(255.f*blendValue));
 
 	// set texture as render target

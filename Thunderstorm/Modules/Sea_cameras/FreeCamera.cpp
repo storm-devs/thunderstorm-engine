@@ -103,10 +103,10 @@ void FREE_CAMERA::Move(uint32_t DeltaTime)
 		pIslandBase->GetDepth(vPos.x, vPos.z, &vPos.y);
 		vPos.y += fCameraOnEarthHeight;
 	}
-  auto c0 = cosf(vAng.y);
-  auto s0 = sinf(vAng.y);
-  auto c1 = cosf(vAng.x);
-  auto s1 = sinf(vAng.x);
+  const auto c0 = cosf(vAng.y);
+  const auto s0 = sinf(vAng.y);
+  const auto c1 = cosf(vAng.x);
+  const auto s1 = sinf(vAng.x);
   auto c2 = cosf(vAng.z);
 	float s2 = sinf(vAng.z);
 	float speed = 5.0f * 0.001f * float(DeltaTime);

@@ -122,14 +122,14 @@ bool ShipTracks::ShipTrack::Update(SHIP_BASE* pShip)
 	fUP1 = pATrack->GetAttributeAsFloat("WaveHeight1");
 	fUP2 = pATrack->GetAttributeAsFloat("WaveHeight2");
 
-	std::string sTex1 = pATrack1->GetAttribute("Texture");
+  const std::string sTex1 = pATrack1->GetAttribute("Texture");
 	fZStart1 = pATrack1->GetAttributeAsFloat("ZStart");
 	fLifeTime1 = pATrack1->GetAttributeAsFloat("LifeTime");
 	sscanf(pATrack1->GetAttribute("Width"), "%f, %f", &fWidth11, &fWidth12);
 	sscanf(pATrack1->GetAttribute("Speed"), "%f, %f", &fSpeed11, &fSpeed12);
 	fTrackStep1 = pATrack1->GetAttributeAsFloat("TrackWidthSteps");
 
-	std::string sTex2 = pATrack2->GetAttribute("Texture");
+  const std::string sTex2 = pATrack2->GetAttribute("Texture");
 	fZStart2 = pATrack2->GetAttributeAsFloat("ZStart");
 	fLifeTime2 = pATrack2->GetAttributeAsFloat("LifeTime");
 	sscanf(pATrack2->GetAttribute("Width"), "%f, %f", &fWidth21, &fWidth22);
@@ -165,7 +165,7 @@ bool ShipTracks::ShipTrack::Update(SHIP_BASE* pShip)
 
 bool ShipTracks::ShipTrack::Reserve1(uint32_t dwSize)
 {
-  auto dwNewSize = (dwSize / (100) + 1) * (100);
+  const auto dwNewSize = (dwSize / (100) + 1) * (100);
 
 	if (dwMaxBufferSize1 >= dwNewSize) return iVTmpBuffer1 != -1 && iITmpBuffer1 != -1;
 
@@ -211,7 +211,7 @@ bool ShipTracks::ShipTrack::Reserve1(uint32_t dwSize)
 
 bool ShipTracks::ShipTrack::Reserve2(uint32_t dwSize)
 {
-  auto dwNewSize = (dwSize / (20) + 1) * (20);
+  const auto dwNewSize = (dwSize / (20) + 1) * (20);
 
 	if (dwMaxBufferSize2 >= dwNewSize) return iVTmpBuffer2 != -1 && iITmpBuffer2 != -1;
 
@@ -269,13 +269,13 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 	float fFov;
 	CVECTOR vCamPos, vCamAng;
 	pRS->GetCamera(vCamPos, vCamAng, fFov);
-  auto fCamDist = Clamp(sqrtf(~vCamPos) / 10000.0f);
-  auto fWaveUP = fUP1 + fCamDist * (fUP2 - fUP1);
+  const auto fCamDist = Clamp(sqrtf(~vCamPos) / 10000.0f);
+  const auto fWaveUP = fUP1 + fCamDist * (fUP2 - fUP1);
 
-  auto vCurPos = pShip->GetPos();
-  auto vCurAng = pShip->GetAng();
+  const auto vCurPos = pShip->GetPos();
+  const auto vCurAng = pShip->GetAng();
 
-  auto vBoxSize = pShip->GetBoxsize();
+  const auto vBoxSize = pShip->GetBoxsize();
 
   auto vDist = vCurPos - vLastPos;
 	vDist.y = 0.0;
@@ -290,10 +290,10 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 	}
 	if (fCurrentDistance > fTrackDistance)
 	{
-    auto fSpeed = Min(1.0f, pShip->GetCurrentSpeed() / 20.0f);
+    const auto fSpeed = Min(1.0f, pShip->GetCurrentSpeed() / 20.0f);
 		for (long i = 0; i < long(fCurrentDistance / fTrackDistance); i++)
 		{
-      auto fDistance = (i + 1) * fTrackDistance;
+      const auto fDistance = (i + 1) * fTrackDistance;
 
 			// ~!~ optimize?
 			aTrack1.insert(aTrack1.begin(), Track{});
@@ -350,7 +350,7 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 				long xxx = 0;
 				for (float xx = 0; xx < fTrackStep1; xx++)
 				{
-          auto k = xx / (fTrackStep1 - 1.0f);
+          const auto k = xx / (fTrackStep1 - 1.0f);
           auto x = T.fWidth * (k - 0.5f);
           auto z = 0.0f;
 					RotateAroundY(x, z, T.fCos, T.fSin);
@@ -392,7 +392,7 @@ void ShipTracks::ShipTrack::Execute(float fDeltaTime)
 				long xxx = 0;
 				for (float xx = 0; xx < fTrackStep2; xx++)
 				{
-          auto k = xx / (fTrackStep2 - 1.0f);
+          const auto k = xx / (fTrackStep2 - 1.0f);
           auto x = T.fWidth * (k - 0.5f);
           auto z = 0.0f;
 					RotateAroundY(x, z, T.fCos, T.fSin);
@@ -432,7 +432,7 @@ void ShipTracks::ShipTrack::Realize(float fDeltaTime)
 	if (!pShip || !pSea) return;
 
 	//pRS->SetTransform(D3DTS_WORLD, CMatrix());
-	CMatrix m;
+  const CMatrix m;
 	m.Pos() = pShip->GetPos();
 	pRS->SetTransform(D3DTS_WORLD, m);
 

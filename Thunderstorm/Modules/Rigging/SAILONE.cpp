@@ -123,7 +123,7 @@ void SAILONE::goWave(SAILVERTEX* pv, uint32_t Delta_Time)
 			VertIdx = HorzIdx;
 			if (!sroll)
 			{
-        auto delta = (float)Delta_Time * pp->FLEXSPEED;
+        const auto delta = (float)Delta_Time * pp->FLEXSPEED;
 				if (WindUp)
 				{
 					SumWind -= delta;
@@ -1005,8 +1005,8 @@ void SAILONE::SetGeometry()
 	if (sroll != nullptr) pG = &sroll->oldgeo;
 	else pG = &sgeo;
 
-  auto tmpCol = 1.f / (float)(SAIL_COL_MAX - 1);
-  auto tmpRow = 1.f / (float)(SAIL_ROW_MAX - 1);
+  const auto tmpCol = 1.f / (float)(SAIL_COL_MAX - 1);
+  const auto tmpRow = 1.f / (float)(SAIL_ROW_MAX - 1);
 
 	if (ss.eSailType == SAIL_TREANGLE)
 	{
@@ -1068,7 +1068,7 @@ void SAILONE::SetRolling(bool bRoll)
 	bRolling = false;
 	if (!bRoll) // сделаем принудительный поворот паруса по ветру
 	{
-    auto locPos = hostNode->loc_mtx.Pos();
+    const auto locPos = hostNode->loc_mtx.Pos();
 		hostNode->loc_mtx.SetPosition(0.f, 0.f, 0.f);
 		if (oldWindAngl < 0.f)
 		{
@@ -1389,16 +1389,16 @@ void SAILONE::DoSRollSail(SAILVERTEX* pv)
 	int i;
 
   auto pcur = ss.hardPoints[0];
-  auto dp = (ss.hardPoints[1] - ss.hardPoints[0]) / (float)(m_dwCol - 1);
+  const auto dp = (ss.hardPoints[1] - ss.hardPoints[0]) / (float)(m_dwCol - 1);
 
-  auto p1 = (SAIL_ROW_MAX - 1) / 4;
-  auto p2 = p1 * 2;
-  auto p3 = p1 * 3;
-  auto p4 = p1 * 4;
+  const auto p1 = (SAIL_ROW_MAX - 1) / 4;
+  const auto p2 = p1 * 2;
+  const auto p3 = p1 * 3;
+  const auto p4 = p1 * 4;
 
   auto windVal = pp->WindVect[VertIdx]; //sinf((float)VertIdx/(float)WINDVECTOR_QUANTITY*2.f*PI);
-  auto dz = pp->ROLL_Z_VAL * sailHeight;
-  auto dy = pp->ROLL_Y_VAL * sailHeight;
+  const auto dz = pp->ROLL_Z_VAL * sailHeight;
+  const auto dy = pp->ROLL_Y_VAL * sailHeight;
 
   auto idx = 0;
 	CVECTOR dv1, dv2, dv3, dv4;
@@ -1433,7 +1433,7 @@ void SAILONE::DoTRollSail(SAILVERTEX* pv)
 	int i;
 
   auto pcur = ss.hardPoints[0];
-  auto dp = (ss.hardPoints[1] - ss.hardPoints[0]) * .25f;
+  const auto dp = (ss.hardPoints[1] - ss.hardPoints[0]) * .25f;
 
   auto windVal = pp->WindVect[VertIdx];
   auto dx = pp->ROLL_Z_VAL * sailHeight;
@@ -1492,8 +1492,8 @@ float SAILONE::Trace(const CVECTOR& src, const CVECTOR& dst, bool bCannonTrace)
 	CVECTOR dv;
 	pMatWorld->MulToInv(dst, dv);
 
-  auto minp = ss.boxCenter - ss.boxSize;
-  auto maxp = ss.boxCenter + ss.boxSize;
+  const auto minp = ss.boxCenter - ss.boxSize;
+  const auto maxp = ss.boxCenter + ss.boxSize;
 
 	if (!(sv.x <= maxp.x && sv.x >= minp.x &&
 			sv.y <= maxp.y && sv.y >= minp.y &&
@@ -1714,17 +1714,17 @@ float SAILONE::CheckSailSquar(int i, CVECTOR& va, CVECTOR& vb, CVECTOR& vc, CVEC
 {
   auto retVal = 2.f;
 
-  auto d1 = vb - va;
-  auto d2 = vc - va;
+  const auto d1 = vb - va;
+  const auto d2 = vc - va;
 
 	// коэффициенты в ур-ии плоскости
-  auto fA = d1.y * d2.z - d1.z * d2.y;
-  auto fB = d1.z * d2.x - d1.x * d2.z;
-	float fC = d1.x * d2.y - d1.y * d2.x;
-	float fD = fA * va.x + fB * va.y + fC * va.z;
+  const auto fA = d1.y * d2.z - d1.z * d2.y;
+  const auto fB = d1.z * d2.x - d1.x * d2.z;
+  const float fC = d1.x * d2.y - d1.y * d2.x;
+  const float fD = fA * va.x + fB * va.y + fC * va.z;
 
-	float srcDist = fA * vsrc.x + fB * vsrc.y + fC * vsrc.z - fD;
-	float dstDist = fA * vdst.x + fB * vdst.y + fC * vdst.z - fD;
+  const float srcDist = fA * vsrc.x + fB * vsrc.y + fC * vsrc.z - fD;
+  const float dstDist = fA * vdst.x + fB * vdst.y + fC * vdst.z - fD;
 
 	if (srcDist == 0.f) return 0.f;
 	if (dstDist == 0.f) return 1.f;
@@ -1737,10 +1737,10 @@ float SAILONE::CheckSailSquar(int i, CVECTOR& va, CVECTOR& vb, CVECTOR& vc, CVEC
 	// проверка на попадание точки пересечения в треугольник
 	if (retVal <= 1.f)
 	{
-		CVECTOR cv = vsrc + (vdst - vsrc) * retVal;
-		CVECTOR vab = vb - va;
-		CVECTOR vbc = vc - vb;
-		CVECTOR vca = va - vc;
+    const CVECTOR cv = vsrc + (vdst - vsrc) * retVal;
+    const CVECTOR vab = vb - va;
+    const CVECTOR vbc = vc - vb;
+    const CVECTOR vca = va - vc;
 		float kA, kB, kD; // коэффициенты в ур-ии прямой на плоскости x*kA+y*kB=kD
 		float d1, d2;
 		//----------------------------------------------
@@ -1847,7 +1847,7 @@ void SAILONE::DoSFreeSail(SAILVERTEX* pv)
 {
 	CVECTOR dirV;
 	pMatWorld->MulToInvNorm(!(CVECTOR(0.f, -1.f, 0.f) + sailWind * pp->globalWind.base), dirV);
-	CVECTOR dv = dirV * (sailHeight * .25f);
+  const CVECTOR dv = dirV * (sailHeight * .25f);
 	int gidx = 0;
 
 	for (int ix = 0; ix < 4; ix++)
@@ -1876,7 +1876,7 @@ void SAILONE::DoTFreeSail(SAILVERTEX* pv)
 {
 	CVECTOR dirV;
 	pMatWorld->MulToInvNorm(!(CVECTOR(0.f, -1.f, 0.f) + sailWind * pp->globalWind.base), dirV);
-	CVECTOR dv = dirV * (sailHeight * .25f);
+  const CVECTOR dv = dirV * (sailHeight * .25f);
 	int gidx = 0;
 
 	for (int ix = 0; ix < 5; ix++)
@@ -1903,7 +1903,7 @@ void SAILONE::DoTFreeSail(SAILVERTEX* pv)
 
 void SAILONE::SetAllHole(uint32_t holeData)
 {
-	int maxHoleQ = GetMaxHoleCount();
+  const int maxHoleQ = GetMaxHoleCount();
 	ss.holeCount = 0;
 	for (int i = 0; i < maxHoleQ; i++, holeData >>= 1)
 	{
@@ -1932,27 +1932,27 @@ void SAILONE::SetTurnLimits()
 
 	prbase->GetEndPoint(&cv1, sailtrope.rrs[0]->ropenum, pp->gdata[HostNum].modelEI);
 
-	float kx = cv1.z - cv0.z;
-	float ky = cv1.x - cv0.x;
-	float kc = cv0.x * kx - cv0.z * ky;
+  const float kx = cv1.z - cv0.z;
+  const float ky = cv1.x - cv0.x;
+  const float kc = cv0.x * kx - cv0.z * ky;
 
-	float x0 = ss.hardPoints[0].x;
-	float y0 = ss.hardPoints[0].z;
+  const float x0 = ss.hardPoints[0].x;
+  const float y0 = ss.hardPoints[0].z;
 
 	float minA = -1.f;
 	float maxA = -1.f;
-	bool bV = (x0 * kx - y0 * ky + kc) >= 0.f;
+  const bool bV = (x0 * kx - y0 * ky + kc) >= 0.f;
 	bool bVADD = bV ^ (kx >= 0.f);
 	float nextV;
 
-	float fstep = 0.01f;
-	float fAdding = sqrtf(kx * kx + ky * ky) *
+  const float fstep = 0.01f;
+  const float fAdding = sqrtf(kx * kx + ky * ky) *
 		(pp->TsailWindDepend * ss.boundSphere.r * 1.3f + inf.boxsize.x + ss.fDeepH + ss.fDeepZ);
 
 	for (float fA = pp->MAXTURNANGL; fA > 0.f; fA -= fstep)
 	{
-		float ca = cosf(fA);
-		float sa = sinf(fA);
+    const float ca = cosf(fA);
+    const float sa = sinf(fA);
 
 		float x, y;
 		if (minA < 0.f)
@@ -1992,9 +1992,9 @@ void SAILONE::SetTurnLimits()
 float SAILONE::GetDistanceFromPointTo3Point(const CVECTOR& v, const CVECTOR& vB1, const CVECTOR& vB2,
                                             const CVECTOR& vB3)
 {
-	CVECTOR vN = !((vB1 - vB2) ^ (vB3 - vB2));
-	float fD = - (vN | vB2);
+  const CVECTOR vN = !((vB1 - vB2) ^ (vB3 - vB2));
+  const float fD = - (vN | vB2);
 
-	float f = v | vN + fD;
+  const float f = v | vN + fD;
 	return f;
 }

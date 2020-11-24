@@ -76,7 +76,7 @@ void BIManSign::Draw()
 	if (m_nVBufID != -1 && m_nIBufID != -1)
 	{
 		long nStartV = 0;
-		long nStartI = 0;
+    const long nStartI = 0;
 
 		for (long n = 0; n < m_nManQuantity; n++)
 		{
@@ -276,7 +276,7 @@ long BIManSign::AddTexture(const char* pcTextureName, long nCols, long nRows) co
 
 void BIManSign::Recollect()
 {
-  auto n = CalculateManQuantity();
+  const auto n = CalculateManQuantity();
 	UpdateBuffers(n);
 }
 
@@ -287,7 +287,7 @@ bool BIManSign::IsActive() const {
 
 void BIManSign::SetActive(bool bActive)
 {
-  auto bSameActive = (IsActive() == bActive);
+  const auto bSameActive = (IsActive() == bActive);
 	if (m_pCommandList) m_pCommandList->SetActive(bActive);
 	if (bSameActive) return;
 	m_nCommandMode = BI_COMMODE_COMMAND_SELECT;
@@ -330,7 +330,7 @@ void BIManSign::ExecuteCommand(long command)
 	case BI_MSG_COMMAND_ACTIVATE:
 		if (m_pCommandList)
 		{
-      auto nTmp = m_pCommandList->ExecuteConfirm();
+      const auto nTmp = m_pCommandList->ExecuteConfirm();
 			if (nTmp != -1) m_nCommandMode = nTmp;
 		}
 		if (m_nCommandMode == 0)
@@ -406,7 +406,7 @@ long BIManSign::CalculateManQuantity()
 		for (n = 0; n < MAX_MAN_QUANTITY; n++)
 		{
 			sprintf_s(attrname, sizeof(attrname), "id%d", n);
-      auto pA = pAttr->GetAttributeClass(attrname);
+      const auto pA = pAttr->GetAttributeClass(attrname);
 			if (!pA) continue;
 			m_Man[m_nManQuantity].nCharacterIndex = -1;
 			m_Man[m_nManQuantity].nSlotIndex = n;
@@ -421,10 +421,10 @@ void BIManSign::UpdateBuffers(long nShipQ)
 	m_nBackSquareQ = nShipQ;
 	m_nManStateSquareQ = nShipQ * 2;
 	m_nGunChargeSquareQ = nShipQ * 2;
-  auto nManSquareQ = nShipQ;
-	long nAlarmSquareQ = (m_bIsAlarmOn && (nShipQ > 0)) ? 1 : 0;
+  const auto nManSquareQ = nShipQ;
+  const long nAlarmSquareQ = (m_bIsAlarmOn && (nShipQ > 0)) ? 1 : 0;
 
-  auto nMaxSquareQ = BIUtils::
+  const auto nMaxSquareQ = BIUtils::
 		GetMaxFromFourLong(m_nBackSquareQ, m_nManStateSquareQ, m_nGunChargeSquareQ, nManSquareQ);
 	if (m_nMaxSquareQ != nMaxSquareQ)
 	{
@@ -438,7 +438,7 @@ void BIManSign::UpdateBuffers(long nShipQ)
 	if ((m_nBackSquareQ + m_nManStateSquareQ + m_nGunChargeSquareQ + nManSquareQ + nAlarmSquareQ) != m_nSquareQ)
 	{
 		m_nSquareQ = m_nBackSquareQ + m_nManStateSquareQ + m_nGunChargeSquareQ + nManSquareQ + nAlarmSquareQ;
-		long n = 6 * 4 + 1;
+    const long n = 6 * 4 + 1;
 		VERTEX_BUFFER_RELEASE(m_pRS, m_nVBufID);
 		m_nVBufID = m_pRS->CreateVertexBuffer(BI_COLOR_VERTEX_FORMAT, n * 4 * sizeof(BI_COLOR_VERTEX),
 		                                      D3DUSAGE_WRITEONLY);
@@ -522,10 +522,10 @@ long BIManSign::WriteSquareToVBuff(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32_
 {
 	if (!pv) return 0;
 
-	auto fLeft = (float)(center.x - size.x / 2);
-	auto fTop = (float)(center.y - size.y / 2);
-  auto fRight = fLeft + size.x;
-  auto fBottom = fTop + size.y;
+  const auto fLeft = (float)(center.x - size.x / 2);
+  const auto fTop = (float)(center.y - size.y / 2);
+  const auto fRight = fLeft + size.x;
+  const auto fBottom = fTop + size.y;
 
 	pv[0].pos.x = fLeft;
 	pv[0].pos.y = fTop;
@@ -578,10 +578,10 @@ long BIManSign::WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, const FRECT&
 	fTop += size.y * fClampUp;
 	fBottom += size.y * fClampDown;
 
-  auto fLeftUV = uv.left + (uv.right - uv.left) * fClampLeft;
-  auto fRightUV = uv.right - (uv.right - uv.left) * fClampRight;
-  auto fTopUV = uv.top + (uv.bottom - uv.top) * fClampUp;
-  auto fBottomUV = uv.bottom - (uv.bottom - uv.top) * fClampDown;
+  const auto fLeftUV = uv.left + (uv.right - uv.left) * fClampLeft;
+  const auto fRightUV = uv.right - (uv.right - uv.left) * fClampRight;
+  const auto fTopUV = uv.top + (uv.bottom - uv.top) * fClampUp;
+  const auto fBottomUV = uv.bottom - (uv.bottom - uv.top) * fClampDown;
 
 	pv[0].pos.x = fLeft;
 	pv[0].pos.y = fTop;
@@ -679,7 +679,7 @@ void BIManSign::CheckDataChange()
 	{
 		if (m_Man[n].nSlotIndex < 0) continue;
 		sprintf_s(attrname, sizeof(attrname), "id%d", m_Man[n].nSlotIndex);
-    auto pA = pAttr->GetAttributeClass(attrname);
+    const auto pA = pAttr->GetAttributeClass(attrname);
 		if (!pA) continue;
 
 		if (LongACompare(pA, "chrindex", m_Man[n].nCharacterIndex)) m_bMakeVertexFill = true;

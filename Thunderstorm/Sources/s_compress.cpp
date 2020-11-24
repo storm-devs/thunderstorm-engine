@@ -19,7 +19,7 @@ void COMPRESS::Release()
 
 void COMPRESS::SetBitsChange(uint32_t dwChangeOffset, uint32_t dwBits)
 {
-  auto n = dwBTCompressionTableSize;
+  const auto n = dwBTCompressionTableSize;
 	dwBTCompressionTableSize++;
 
 	pBTCompressionTable.resize(dwBTCompressionTableSize);
@@ -134,11 +134,11 @@ bool COMPRESS::APack(const char* pSource, uint32_t nSourceSize, char* & pDestina
 
 bool COMPRESS::AppendCode(char* & pDestination, uint32_t& nPackedSize, uint32_t nCode)
 {
-	uint32_t nBSize = 3;
+  const uint32_t nBSize = 3;
 	if (pDestination == nullptr) pDestination = (char *)malloc(nBSize);
 	else pDestination = (char *)realloc(pDestination, nPackedSize + nBSize);
 	if (pDestination == nullptr) return false;
-  auto pB = (char *)&nCode;
+  const auto pB = (char *)&nCode;
 	*((char *)(pDestination + nPackedSize)) = pB[0];
 	nPackedSize++;
 	*((char *)(pDestination + nPackedSize)) = pB[1];
@@ -229,7 +229,7 @@ bool COMPRESS::AppendData(char* & pDestination, uint32_t& nUnpackedSize, char* p
 
 bool COMPRESS::ReadCode(const char* pSource, uint32_t nSourceSize, uint32_t& nOffset, uint32_t& nResult)
 {
-  auto pB = (char *)&nResult;
+  const auto pB = (char *)&nResult;
 	nResult = 0;
 	pB[0] = *((char *)(pSource + nOffset));
 	nOffset++;

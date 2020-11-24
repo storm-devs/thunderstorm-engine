@@ -213,8 +213,8 @@ uint64_t CameraDialog::ProcessMessage(MESSAGE& msg)
 			strcat_s(fname, trackName);
 			strcat_s(fname, ".cam");
 			//loading animation
-      auto cam = fio->_CreateFile(fname);
-			long nbytes = fio->_SetFilePointer(cam, 0, nullptr, FILE_END);
+      const auto cam = fio->_CreateFile(fname);
+      const long nbytes = fio->_SetFilePointer(cam, 0, nullptr, FILE_END);
 			fio->_SetFilePointer(cam, 0, nullptr, FILE_BEGIN);
 			frames = nbytes / 6 / sizeof(float);
 			track = new ANIFRAME[frames];

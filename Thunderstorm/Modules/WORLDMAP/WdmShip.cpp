@@ -62,7 +62,7 @@ WdmShip::~WdmShip()
 
 bool WdmShip::Load(const char* modelName)
 {
-  auto res = WdmRenderModel::Load(modelName);
+  const auto res = WdmRenderModel::Load(modelName);
 	if (geo)
 	{
 		GEOS::INFO ginfo;
@@ -113,7 +113,7 @@ void WdmShip::ShipUpdate(float dltTime)
 	//Сбросим флажёк для рендера
 	isWMRender = false;
 	//Сохраним предыдущую позицию
-  auto oay = ay;
+  const auto oay = ay;
   auto opos = mtx.Pos();
 	//Ограничем скорости
 	if (speed > WDM_SHIP_MAX_SPEED * kMaxSpeed) speed = WDM_SHIP_MAX_SPEED * kMaxSpeed;
@@ -140,7 +140,7 @@ void WdmShip::ShipUpdate(float dltTime)
 		kWind;
 	//Найдём новую позицию
 	CVECTOR pos = mtx.Pos();
-	float dltMove = speed * kWind * dltTime;
+  const float dltMove = speed * kWind * dltTime;
 	pos += mtx.Vz() * dltMove + rspeed * dltTime;
 	baseV -= dltMove * 0.04f;
 	if (baseV < -1.0f) baseV += 1.0f;
@@ -231,7 +231,7 @@ void WdmShip::LRender(VDX9RENDER* rs)
 		if (al > 255.0f) al = 255.0f;
 		//Вершины
 		static Vertex vrt[WDM_SHIP_WMSZ * 2 + 1];
-		float y = 0.01f;
+    const float y = 0.01f;
 		uint32_t color = (uint32_t(al) << 16) | (uint32_t(al) << 8) | (uint32_t(al) << 0) | 0xff000000;
 		vrt[0].x = mtx.Pos().x + (lines[0].x - mtx.Pos().x) * 1.2f;
 		vrt[0].y = y;
@@ -242,8 +242,8 @@ void WdmShip::LRender(VDX9RENDER* rs)
 		for (long i = 0; i < WDM_SHIP_WMSZ; i++)
 		{
 			float k = (WDM_SHIP_SPEED / 5.0f) * powf((i + 1) * 1.0f / WDM_SHIP_WMSZ, 0.4f) * lines[i].size;
-			float dx = -cosf(lines[i].ay) * k;
-			float dz = sinf(lines[i].ay) * k;
+      const float dx = -cosf(lines[i].ay) * k;
+      const float dz = sinf(lines[i].ay) * k;
 			k = (1.0f - powf(i * 1.0f / (WDM_SHIP_WMSZ - 1.0f), 0.3f)); //*lines[i].size;
 			k = al * k;
 			if (k < 0.0f) k = 0.0f;
@@ -333,8 +333,8 @@ bool WdmShip::CheckPosition(float x, float z, float objRadius)
 	{
 		if (!wdmObjects->ships[i]->isLive) continue;
 		if (wdmObjects->ships[i]->killMe) continue;
-		float dx = wdmObjects->ships[i]->mtx.Pos().x - x;
-		float dz = wdmObjects->ships[i]->mtx.Pos().z - z;
+    const float dx = wdmObjects->ships[i]->mtx.Pos().x - x;
+    const float dz = wdmObjects->ships[i]->mtx.Pos().z - z;
 		if (dx * dx + dz * dz < wdmObjects->ships[i]->modelRadius2) return false;
 	}
 	//Острова

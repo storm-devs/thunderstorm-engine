@@ -55,8 +55,8 @@ void S_EVENTTAB::Release()
 
 bool S_EVENTTAB::GetEvent(EVENTINFO& ei, uint32_t event_code)
 {
-	auto ti = HASHT_INDEX(event_code);
-  auto tc = HASHT_CODE(event_code);
+  const auto ti = HASHT_INDEX(event_code);
+  const auto tc = HASHT_CODE(event_code);
 	if (tc >= Event_num[ti]) return false;
 	ei = pTable[ti][tc];
 	return true;
@@ -67,9 +67,9 @@ uint32_t S_EVENTTAB::AddEventHandler(const char* event_name, uint32_t func_code,
 {
 	uint32_t i;
 
-  auto hash = MakeHashValue(event_name);
+  const auto hash = MakeHashValue(event_name);
 
-	auto ti = HASH2INDEX(hash);
+  const auto ti = HASH2INDEX(hash);
 
 	for (uint32_t n = 0; n < Event_num[ti]; n++)
 	{
@@ -147,7 +147,7 @@ uint32_t S_EVENTTAB::MakeHashValue(const char* string)
     auto v = *string++;
 		if ('A' <= v && v <= 'Z') v += 'a' - 'A'; // case independent
 		hval = (hval << 4) + (unsigned long int)v;
-		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
+    const uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
 		if (g != 0)
 		{
 			hval ^= g >> (32 - 8);
@@ -160,9 +160,9 @@ uint32_t S_EVENTTAB::MakeHashValue(const char* string)
 bool S_EVENTTAB::DelEventHandler(const char* event_name, uint32_t func_code)
 {
 	if (event_name == nullptr) return false;
-  auto hash = MakeHashValue(event_name);
+  const auto hash = MakeHashValue(event_name);
 
-	auto ti = HASH2INDEX(hash);
+  const auto ti = HASH2INDEX(hash);
 
 	for (uint32_t n = 0; n < Event_num[ti]; n++)
 	{
@@ -180,8 +180,8 @@ void S_EVENTTAB::SetStatus(const char* event_name, uint32_t func_code, uint32_t 
 {
 	if (event_name == nullptr) return;
 
-  auto hash = MakeHashValue(event_name);
-	auto ti = HASH2INDEX(hash);
+  const auto hash = MakeHashValue(event_name);
+  const auto ti = HASH2INDEX(hash);
 
 	for (uint32_t n = 0; n < Event_num[ti]; n++)
 	{
@@ -239,8 +239,8 @@ void S_EVENTTAB::InvalidateBySegmentID(uint32_t segment_id)
 uint32_t S_EVENTTAB::FindEvent(const char* event_name)
 {
 	if (event_name == nullptr) return INVALID_EVENT_CODE;
-  auto hash = MakeHashValue(event_name);
-	auto ti = HASH2INDEX(hash);
+  const auto hash = MakeHashValue(event_name);
+  const auto ti = HASH2INDEX(hash);
 	for (uint32_t n = 0; n < Event_num[ti]; n++)
 	{
 		if (pTable[ti][n].hash == hash)

@@ -128,7 +128,7 @@ void CXI_LRCHANGER::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 	char param[255];
 
 	// set buttons position
-  auto nSpaceWidth = GetIniLong(ini1, name1, ini2, name2, "spaceWidth", 0);
+  const auto nSpaceWidth = GetIniLong(ini1, name1, ini2, name2, "spaceWidth", 0);
 	m_posLRect.left = (float)m_rect.left;
 	m_posLRect.top = (float)m_rect.top;
 	m_posLRect.right = (float)m_rect.left + (m_rect.right - m_rect.left - nSpaceWidth) / 2.f;
@@ -239,7 +239,7 @@ bool CXI_LRCHANGER::IsClick(int buttonID, long xPos, long yPos)
 
 void CXI_LRCHANGER::ChangePosition(XYRECT& rNewPos)
 {
-  auto nSpaceWidth = (long)((m_rect.right - m_rect.left) - (m_posLRect.right - m_posLRect.left) - (m_posRRect.right -
+  const auto nSpaceWidth = (long)((m_rect.right - m_rect.left) - (m_posLRect.right - m_posLRect.left) - (m_posRRect.right -
 		m_posRRect.left));
 
 	m_rect = rNewPos;

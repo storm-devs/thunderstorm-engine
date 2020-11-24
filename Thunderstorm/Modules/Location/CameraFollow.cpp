@@ -140,10 +140,10 @@ void CameraFollow::MoveCamera(float dltTime)
 	//Решим, что делать
 	const auto pi = 3.14159265359f;
   auto chay = likeCamay - long(likeCamay / pi) * 2.0f * pi;
-  auto cay = camay - long(camay / pi) * 2.0f * pi;
+  const auto cay = camay - long(camay / pi) * 2.0f * pi;
 	if (cay - chay > pi) chay += 2 * pi;
 	if (cay - chay < -pi) chay -= 2 * pi;
-  auto dAng = chay - cay;
+  const auto dAng = chay - cay;
 	//Расчитываем текущий радиус
 	kRadInert = fabsf(dAng) / 0.05f;
 	if (kRadInert > 1.0f) kRadInert = 1.0f;
@@ -172,7 +172,7 @@ void CameraFollow::BornCamera()
 	//Откуда смотрим
 	CalcPosition(camay, camradius, 0.0f, camPos);
 	//Проверяем на пересечение луч
-  auto kp = 2.0f;
+  const auto kp = 2.0f;
 	lc->Trace(lookTo, camPos);
 	if (kp < 1.0f) camPos = lookTo + (camPos - lookTo) * (kp * 0.9f);
 }
@@ -180,7 +180,7 @@ void CameraFollow::BornCamera()
 //Вычислить позицию камеры для данного угла
 void CameraFollow::CalcPosition(float ang, float radius, float dax, CVECTOR& pos) const {
 	//Откуда смотрим
-  auto ax = -lc->ax + dax;
+  const auto ax = -lc->ax + dax;
 	pos.x = lc->pos.x - radius * cosf(ax) * sinf(ang);
 	pos.y = lc->pos.y + lc->lheight - radius * sinf(ax);
 	pos.z = lc->pos.z - radius * cosf(ax) * cosf(ang);
@@ -300,7 +300,7 @@ float CameraFollow::FindRadius(float curAng) const {
 
 	//Точка на которую смотрим
 	CVECTOR pos(lc->pos.x, lc->pos.y + lc->lheight, lc->pos.z);
-  auto ax = -lc->ax;
+  const auto ax = -lc->ax;
 	//Начальные значения поиска
 	fndRadius = lc->radius + LCF_RADIUS;
 	fndMaxRadius = lc->radius + LCF_RADIUS;
@@ -440,7 +440,7 @@ bool CameraFollow::ApplyPoly(const CVECTOR* v, long n)
 		if (j >= n) j = 0;
 		//Нормаль плоскости проходящей через ребро
 		edge[i].n = (v[i] - v[j]) ^ norm;
-    auto d = ~edge[i].n;
+    const auto d = ~edge[i].n;
 		if (d == 0.0f) continue;
 		edge[i].n *= 1.0f / sqrtf(d);
 		//Дистанция
@@ -449,16 +449,16 @@ bool CameraFollow::ApplyPoly(const CVECTOR* v, long n)
 		edge[i].e = v[j];
 	}
 	//Ищем ближайшию точку к позиции куда смотрит камера
-  auto pos1 = fndCamPos - norm * d;
+  const auto pos1 = fndCamPos - norm * d;
 	//Ищем ближайшию точку к точке пересечения луча направления на камеру
-  auto cs = norm | fndCamDir;
+  const auto cs = norm | fndCamDir;
 	if (cs != 0.0f)
 	{
 		d /= -cs;
 		if (d >= 0.0f)
 		{
-      auto pos2 = fndCamPos + fndCamDir * d;
-      auto dlt = pos2 - pos1;
+      const auto pos2 = fndCamPos + fndCamDir * d;
+      const auto dlt = pos2 - pos1;
       auto step = sqrtf(~dlt) * 3.0f;
 			if (step > 0.0f)
 			{
@@ -588,10 +588,10 @@ float CameraFollow::Trace(const CVECTOR& src, const CVECTOR& dst)
 	k[0] = SubTrace(src, src + dir);
 	//Строим базис
   auto left = dir ^ CVECTOR(0.0f, 1.0f, 0.0f);
-  auto l = ~left;
+  const auto l = ~left;
 	if (l <= 0.0f) return k[0];
 	left *= 1.0f / sqrtf(l);
-  auto up = dir ^ left;
+  const auto up = dir ^ left;
 	//Ищем ближайшию дистанцию
 	CVECTOR s;
 	s = src + left * LCF_RADIUS;
@@ -610,11 +610,11 @@ float CameraFollow::Trace(const CVECTOR& src, const CVECTOR& dst)
 //Протянуть луч с учётом cull
 inline float CameraFollow::SubTrace(const CVECTOR& src, const CVECTOR& dst) const {
 	TRIANGLE trg;
-  auto k = lc->Trace(src, dst);
+  const auto k = lc->Trace(src, dst);
 	if (k > 1.0f || !lc->GetCollideTriangle(trg)) return 2.0f;
 	//Определяем нормаль
   auto n = (trg.vrt[0] - trg.vrt[1]) ^ (trg.vrt[1] - trg.vrt[2]);
-  auto l = ~n;
+  const auto l = ~n;
 	if (l > 0.0f)
 	{
 		//Оперделим с какой стороны проходим через треугольник

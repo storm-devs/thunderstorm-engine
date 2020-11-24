@@ -150,7 +150,7 @@ int CXI_EDITBOX::CommandExecute(int wActCode)
 				if (pA == nullptr) break;
 				char param[256];
 				param[0] = 0;
-        auto tmpstr = pA->GetAttribute("strdata");
+        const auto tmpstr = pA->GetAttribute("strdata");
 				switch (m_alpha[m_bUpChrRegistrOffset + m_nCurAlphaNum])
 				{
 				case '*':
@@ -224,9 +224,9 @@ bool CXI_EDITBOX::IsClick(int buttonID, long xPos, long yPos)
 	if (xPos < m_rect.left + m_nLeftOffset) return false;
 	if (xPos > m_rect.right - m_nLeftOffset) return false;
 	if (yPos < m_nTopOffset) return false;
-  auto y = int((yPos - m_nTopOffset) / m_fVAdd);
+  const auto y = int((yPos - m_nTopOffset) / m_fVAdd);
 	if (y >= m_nVert) return false;
-  auto x = int((xPos - m_rect.left - m_nLeftOffset) / m_fHAdd);
+  const auto x = int((xPos - m_rect.left - m_nLeftOffset) / m_fHAdd);
 	if (x >= m_nHorz) return false;
 	if (x + y * m_nHorz >= m_nAlphaQuantity) return false;
 	return true;
@@ -237,9 +237,9 @@ void CXI_EDITBOX::MouseThis(float fX, float fY)
 	if (fX < m_rect.left + m_nLeftOffset) return;
 	if (fX > m_rect.right - m_nLeftOffset) return;
 	if (fY < m_nTopOffset) return;
-  auto y = int((fY - m_nTopOffset) / m_fVAdd);
+  const auto y = int((fY - m_nTopOffset) / m_fVAdd);
 	if (y >= m_nVert) return;
-  auto x = int((fX - m_rect.left - m_nLeftOffset) / m_fHAdd);
+  const auto x = int((fX - m_rect.left - m_nLeftOffset) / m_fHAdd);
 	if (x >= m_nHorz) return;
 	if (x + y * m_nHorz >= m_nAlphaQuantity) return;
 	SetNewCurSymbol(x, y);
@@ -396,7 +396,7 @@ void CXI_EDITBOX::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 		throw std::exception("Can't create buffers");
 
 	// fills this buffers
-	auto fBottomOff = (float)m_nTopOffset;
+  const auto fBottomOff = (float)m_nTopOffset;
 	m_nTopStringPos = m_rect.top + m_nTopOffset;
 	auto* pv = (XI_NOTEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBRect);
 	pv[0].color = pv[1].color = pv[2].color = pv[3].color = m_dwBorderColor;
@@ -421,7 +421,7 @@ void CXI_EDITBOX::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 	m_fChrTopOffset = .5f * (m_fVAdd * HEIGHT_SCALE_USED - m_rs->CharHeight(m_nChrFontNum) * m_fChrScale);
 	m_fHAdd = (float)(m_rect.right - m_rect.left - m_nLeftOffset * 2) / m_nHorz;
 
-  auto pvt = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVB);
+  const auto pvt = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVB);
 	auto topButtons = (float)m_nTopOffset;
 	idx = 0;
 	for (j = 0; j < m_nVert; j++)

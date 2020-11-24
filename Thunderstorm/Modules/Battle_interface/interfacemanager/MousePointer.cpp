@@ -51,13 +51,13 @@ void MousePointer::InitMouseCursors()
 	pACursors = pACursors->GetAttributeClass("list");
 	if (!pACursors) return;
 
-	long q = pACursors->GetAttributesNum();
+  const long q = pACursors->GetAttributesNum();
 	for (long n = 0; n < q; n++)
 	{
     auto pA = pACursors->GetAttributeClass(n);
 		if (pA)
 		{
-			long i = pA->GetAttributeAsDword("index", -1);
+      const long i = pA->GetAttributeAsDword("index", -1);
 			if (i >= 0 && i < BI_CURSORS_QUANTITY)
 			{
 				m_aCursors[i].offset.x = pA->GetAttributeAsDword("xoffset", 0);
@@ -78,7 +78,7 @@ void MousePointer::InitMouseCursors()
 void MousePointer::MoveCursor()
 {
 	CONTROL_STATE cs;
-  auto fDeltaTime = api->GetDeltaTime() * 0.001f;
+  const auto fDeltaTime = api->GetDeltaTime() * 0.001f;
 
 	api->Controls->GetControlState("ITurnH", cs);
 	m_mousepos.x += m_mousesensivity.x * fDeltaTime * cs.fValue;
@@ -94,7 +94,7 @@ void MousePointer::MoveCursor()
 
 void MousePointer::SetCurrentCursor()
 {
-	long nNewCursor = BI_CURSOR_COMMON;
+  const long nNewCursor = BI_CURSOR_COMMON;
 
 	if (nNewCursor != m_nCurrentCursor)
 	{
@@ -111,7 +111,7 @@ void MousePointer::SetCurrentCursor()
 		m_pIcon->SetUV(m_aCursors[nNewCursor].uv);
 	}
 
-  auto pos = GetCurrentCursorIconPos();
+  const auto pos = GetCurrentCursorIconPos();
 	m_pIcon->SetPosition(pos.left, pos.top, pos.right, pos.bottom);
 }
 

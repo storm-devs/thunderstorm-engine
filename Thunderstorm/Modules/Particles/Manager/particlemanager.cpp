@@ -84,7 +84,7 @@ void ParticleManager::SetProjectTexture(const char* FileName)
 
 	pProjectTexture = pRS->TextureCreate(FileName);
 
-	fs::path path = FileName;
+  const fs::path path = FileName;
 	pProjectTextureNormalMap = pRS->TextureCreate((path.stem().string() + "nm").c_str());
 
 	TextureName = FileName;
@@ -147,7 +147,7 @@ bool ParticleManager::OpenProject(const char* FileName)
 		char buf[64];
 		snprintf(buf, _countof(buf), "System_%04d", n);
 		//Section.Format("System_%04d", n);
-    auto ReadSuccess = IniFile->ReadString("Manager", buf, IniStringBuffer, 8192, "none");
+    const auto ReadSuccess = IniFile->ReadString("Manager", buf, IniStringBuffer, 8192, "none");
 		if (!ReadSuccess) break;
 		pDataCache->CacheSystem(IniStringBuffer);
 	}
@@ -261,10 +261,10 @@ void ParticleManager::Execute(float DeltaTime)
 		D3DVIEWPORT9 ViewPort;
 		pRS->GetViewport(&ViewPort);
 		RS_SPRITE spr[4];
-    auto x1 = -1.0f;
-		float x2 = ((220.0f / (float)ViewPort.Width) * 2) - 1.0f;
-		float y1 = 1.0f - ((16.0f / (float)ViewPort.Height) * 2.0f);
-		float y2 = 1.0f - ((150.0f / (float)ViewPort.Height) * 2.0f);
+    const auto x1 = -1.0f;
+    const float x2 = ((220.0f / (float)ViewPort.Width) * 2) - 1.0f;
+    const float y1 = 1.0f - ((16.0f / (float)ViewPort.Height) * 2.0f);
+    const float y2 = 1.0f - ((150.0f / (float)ViewPort.Height) * 2.0f);
 		spr[0].vPos = CVECTOR(x1, y1, 0.2f);
 		spr[1].vPos = CVECTOR(x2, y1, 0.2f);
 		spr[2].vPos = CVECTOR(x2, y2, 0.2f);
@@ -430,7 +430,7 @@ const char* ParticleManager::GetFirstGeomName(const char* FileName)
 	DataSource* pDataSource = pDataCache->GetParticleSystemDataSource(FileName);
 	if (!pDataSource) return nullptr;
 
-	uint32_t count = pDataSource->GetEmitterCount();
+  const uint32_t count = pDataSource->GetEmitterCount();
 
 	for (uint32_t n = 0; n < count; n++)
 	{
@@ -442,7 +442,7 @@ const char* ParticleManager::GetFirstGeomName(const char* FileName)
 
 			Parser.Tokenize(pModelNames->GetValue());
 
-			uint32_t TCount = Parser.GetTokensCount();
+      const uint32_t TCount = Parser.GetTokensCount();
 			if (TCount > 0)
 			{
 				for (uint32_t j = 0; j < TCount; j++)
@@ -482,7 +482,7 @@ bool ParticleManager::FindInEnumUsedGeom(const char* GeomName)
 void ParticleManager::CreateGeomCache()
 {
 	pGeomCache->ResetCache();
-	uint32_t SystemCount = pDataCache->GetCachedCount();
+  const uint32_t SystemCount = pDataCache->GetCachedCount();
 	for (uint32_t n = 0; n < SystemCount; n++)
 	{
 		const char* pSystemName = pDataCache->GetCachedNameByIndex(n);

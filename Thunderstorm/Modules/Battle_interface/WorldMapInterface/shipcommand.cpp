@@ -36,17 +36,17 @@ long WMShipCommandList::CommandAdding()
 	long retVal = 0;
   auto pAttr = m_pARoot->GetAttributeClass("Commands");
 	if (!pAttr) return 0;
-	long attrQuant = pAttr->GetAttributesNum();
+  const long attrQuant = pAttr->GetAttributesNum();
 
 	for (long i = 0; i < attrQuant; i++)
 	{
     auto pA = pAttr->GetAttributeClass(i);
 		if (pA == nullptr) continue; // нет такого атрибута
 		if (pA->GetAttributeAsDword("enable", 0) == 0) continue; // команда недоступна
-		long pictureNum = pA->GetAttributeAsDword("picNum", 0);
-		long selPictureNum = pA->GetAttributeAsDword("selPicNum", 0);
-		long texNum = pA->GetAttributeAsDword("texNum", -1);
-    auto eventName = pA->GetAttribute("event");
+    const long pictureNum = pA->GetAttributeAsDword("picNum", 0);
+    const long selPictureNum = pA->GetAttributeAsDword("selPicNum", 0);
+    const long texNum = pA->GetAttributeAsDword("texNum", -1);
+    const auto eventName = pA->GetAttribute("event");
 		retVal += AddToIconList(texNum, pictureNum, selPictureNum, -1,
 		                        -1, eventName, -1, nullptr, pA->GetAttribute("note"));
 	}

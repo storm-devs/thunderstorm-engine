@@ -126,7 +126,7 @@ void PtcData::SFLB_PotectionLoad()
 #endif
 {
 	//Данные
-  auto buf = (char *)data;
+  const auto buf = (char *)data;
   auto& hdr = *(PtcHeader *)buf;
 	//Треугольники
 	uint32_t tsize = sizeof(PtcHeader);
@@ -176,8 +176,8 @@ void PtcData::SFLB_PotectionLoad()
 long PtcData::FindNode(const CVECTOR& pos, float& y)
 {
 	//Позиция на карте
-  auto mapX = long((pos.x - min.x) / ws);
-  auto mapZ = long((pos.z - min.z) / ls);
+  const auto mapX = long((pos.x - min.x) / ws);
+  const auto mapZ = long((pos.z - min.z) / ls);
 	if (mapX < 0 || mapX >= w) return -1;
 	if (mapZ < 0 || mapZ >= l) return -1;
 	//Перебираем треугольники
@@ -196,15 +196,15 @@ long PtcData::FindNode(const CVECTOR& pos, float& y)
 			CVECTOR& vs = *(CVECTOR *)&vertex[trg.i[j]];
 			CVECTOR& ve = *(CVECTOR *)&vertex[trg.i[j == 2 ? 0 : j + 1]];
 			//Нормаль ребра
-			float nx = -(ve.z - vs.z);
-			float nz = (ve.x - vs.x);
+      const float nx = -(ve.z - vs.z);
+      const float nz = (ve.x - vs.x);
 			//Если за пределами треугольника прервать
 			if (pos.x * nx + pos.z * nz > vs.x * nx + vs.z * nz) break;
 		}
 		if (j == 3)
 		{
 			//Проверим высоту
-			float d = FindHeight(indeces[m.start + i], pos.x, pos.z);
+      const float d = FindHeight(indeces[m.start + i], pos.x, pos.z);
 			if (dist >= 0.0f)
 			{
 				if (dist > fabsf(pos.y - d))
@@ -501,15 +501,15 @@ bool PtcData::FindPathDir(long step, long curNode, const CVECTOR& cur, long toNo
 	Assert(curNode < numTriangles);
 	Assert(toNode < numTriangles);
 	uint8_t* line = table + curNode * lineSize;
-	uint8_t v = (line[toNode >> 2] >> ((toNode & 3) * 2)) & 3;
+  const uint8_t v = (line[toNode >> 2] >> ((toNode & 3) * 2)) & 3;
 	if (v == 3) return false;
 	//Ребро
 	CVECTOR& vs = *(CVECTOR *)&vertex[triangle[curNode].i[v]];
 	CVECTOR& ve = *(CVECTOR *)&vertex[triangle[curNode].i[v + 1 < 3 ? v + 1 : 0]];
 	//Точка на ребре
-	CVECTOR p = FindEdgePoint(vs, ve, cur, to);
+  const CVECTOR p = FindEdgePoint(vs, ve, cur, to);
 	//Проанализируем дальнейший путь
-	long nb = triangle[curNode].nb[v];
+  const long nb = triangle[curNode].nb[v];
 	if (nb < 0) return false;
 	if (!FindPathDir(step + 1, nb, p, toNode, to, node, pos)) return false;
 	//Уточнёная точка на ребре
@@ -527,18 +527,18 @@ CVECTOR PtcData::FindEdgePoint(const CVECTOR& vs, const CVECTOR& ve, const CVECT
 	CVECTOR edge = ve - vs;
 	edge.y = 0.0f;
 	CVECTOR nrm(edge.z, 0.0f, -edge.x);
-	float nl = ~nrm;
+  const float nl = ~nrm;
 	if (nl > 0.0f)
 	{
 		//Плоскость
 		nrm *= 1.0f / sqrtf(nl);
-		float dist = nrm | vs;
+    const float dist = nrm | vs;
 		//Положение точки назначения
-		float dTo = (to | nrm) - dist;
+    const float dTo = (to | nrm) - dist;
 		if (dTo <= 0.0f)
 		{
 			//Точка назначения за ребром
-			float dCur = (cur | nrm) - dist;
+      const float dCur = (cur | nrm) - dist;
 			if (dCur - dTo == 0.0f) return (vs + ve) * 0.5f;
 			float k = dCur / (dCur - dTo);
 			pos = cur + (to - cur) * k;
@@ -585,10 +585,10 @@ float PtcData::Trace(const CVECTOR& s, const CVECTOR& d) const {
 	if (pmax.y < d.y) pmax.y = d.y;
 	if (pmax.z < d.z) pmax.z = d.z;
 	//Координаты на карте
-	long mnX = long((pmin.x - min.x) / ws);
-	long mnZ = long((pmin.z - min.z) / ls);
-	long mxX = long((pmax.x - min.x) / ws);
-	long mxZ = long((pmax.z - min.z) / ls);
+  const long mnX = long((pmin.x - min.x) / ws);
+  const long mnZ = long((pmin.z - min.z) / ls);
+  const long mxX = long((pmax.x - min.x) / ws);
+  const long mxZ = long((pmax.z - min.z) / ls);
 	//Проходимся по всем треугольникам в зоне
 	for (long zi = mnZ; zi <= mxZ; zi++)
 	{
@@ -600,7 +600,7 @@ float PtcData::Trace(const CVECTOR& s, const CVECTOR& d) const {
 			uint16_t* ids = indeces + m.start;
 			for (long i = 0; i < m.size; i++)
 			{
-				float kn = Trace(triangle[ids[i]], s, d);
+        const float kn = Trace(triangle[ids[i]], s, d);
 				if (kn < k) k = kn;
 			}
 		}
@@ -613,10 +613,10 @@ float PtcData::Trace(PtcTriangle& trg, const CVECTOR& s, const CVECTOR& d) const
 	//Нормаль к треугольнику
 	CVECTOR& n = *(CVECTOR *)&normal[trg.n];
 	//Дистанция до треугольника
-	float dst = n | *(CVECTOR *)&vertex[trg.i[0]];
+  const float dst = n | *(CVECTOR *)&vertex[trg.i[0]];
 	//Дистанции отрезка до плоскости
-	float d1 = (n | s) - dst;
-	float d2 = (n | d) - dst;
+  const float d1 = (n | s) - dst;
+  const float d2 = (n | d) - dst;
 	//Если не пересекаем плоскость, то непопали
 	if (d1 * d2 > 0.0f) return 2.0f;
 	//Точка пересечения луча с плоскостью
@@ -625,7 +625,7 @@ float PtcData::Trace(PtcTriangle& trg, const CVECTOR& s, const CVECTOR& d) const
 	else k = 0.0f;
 	if (k < 0.0f) k = 0.0f;
 	if (k > 1.0f) k = 1.0f;
-	CVECTOR pnt = s + (d - s) * k;
+  const CVECTOR pnt = s + (d - s) * k;
 	//Вершины
 	CVECTOR& v0 = *(CVECTOR *)&vertex[trg.i[0]];
 	CVECTOR& v1 = *(CVECTOR *)&vertex[trg.i[1]];
@@ -651,15 +651,15 @@ void PtcData::FindForce(long curNode, CVECTOR& force) const {
 	{
 		if (nb[i] >= 0) continue;
 		//Нормаль к ребру
-		long s = triangle[curNode].i[i];
-		long e = triangle[curNode].i[i < 2 ? i + 1 : 0];
+    const long s = triangle[curNode].i[i];
+    const long e = triangle[curNode].i[i < 2 ? i + 1 : 0];
 		//Вершины ребра
 		CVECTOR& vs = *(CVECTOR *)&vertex[s];
 		CVECTOR& ve = *(CVECTOR *)&vertex[e];
 		//Нормаль ребра
 		float nx = (ve.z - vs.z);
 		float nz = -(ve.x - vs.x);
-		float nl = sqrtf(nx * nx + nz * nz);
+    const float nl = sqrtf(nx * nx + nz * nz);
 		if (!nl) continue;
 		nx /= nl;
 		nz /= nl;
@@ -678,15 +678,15 @@ void PtcData::FindForce(long curNode, const CVECTOR& pos, float dist, CVECTOR& f
 	{
 		if (nb[i] >= 0) continue;
 		//Нормаль к ребру
-		long s = triangle[curNode].i[i];
-		long e = triangle[curNode].i[i < 2 ? i + 1 : 0];
+    const long s = triangle[curNode].i[i];
+    const long e = triangle[curNode].i[i < 2 ? i + 1 : 0];
 		//Вершины ребра
 		CVECTOR& vs = *(CVECTOR *)&vertex[s];
 		CVECTOR& ve = *(CVECTOR *)&vertex[e];
 		//Нормаль ребра
 		float nx = (ve.z - vs.z);
 		float nz = -(ve.x - vs.x);
-		float nl = sqrtf(nx * nx + nz * nz);
+    const float nl = sqrtf(nx * nx + nz * nz);
 		if (nl < 1e-10f) continue;
 		nx /= nl;
 		nz /= nl;
@@ -706,7 +706,7 @@ const char* PtcData::GetMaterial(long curNode)
 {
 	if (!materials) return nullptr;
 	if (curNode < 0 || curNode >= numTriangles) return nullptr;
-	long mtl = triangle[curNode].mtl;
+  const long mtl = triangle[curNode].mtl;
 	if (mtl >= 15 || mtl < 0 || mtl >= materials->numMaterials) return nullptr;
 	return materials->material[mtl];
 }

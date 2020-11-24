@@ -264,12 +264,12 @@ inline void CMatrix::SetIdentity()
 //Build matrix
 inline void CMatrix::BuildMatrix(float angX, float angY, float angZ, float x, float y, float z)
 {
-  auto sinAx = sinf(angX);
-  auto cosAx = cosf(angX);
-  auto sinAy = sinf(angY);
-  auto cosAy = cosf(angY);
-  auto sinAz = sinf(angZ);
-  auto cosAz = cosf(angZ);
+  const auto sinAx = sinf(angX);
+  const auto cosAx = cosf(angX);
+  const auto sinAy = sinf(angY);
+  const auto cosAy = cosf(angY);
+  const auto sinAz = sinf(angZ);
+  const auto cosAz = cosf(angZ);
 
 	//Создаём матрицу с порядком вращений rz*rx*ry
 	m[0][0] = cosAz * cosAy + sinAz * sinAx * sinAy;
@@ -295,12 +295,12 @@ inline void CMatrix::BuildMatrix(float angX, float angY, float angZ, float x, fl
 
 inline void CMatrix::BuildMatrixXYZ(float angX, float angY, float angZ, float x, float y, float z)
 {
-  auto sinAx = sinf(angX);
-  auto cosAx = cosf(angX);
-  auto sinAy = sinf(angY);
-  auto cosAy = cosf(angY);
-  auto sinAz = sinf(angZ);
-  auto cosAz = cosf(angZ);
+  const auto sinAx = sinf(angX);
+  const auto cosAx = cosf(angX);
+  const auto sinAy = sinf(angY);
+  const auto cosAy = cosf(angY);
+  const auto sinAz = sinf(angZ);
+  const auto cosAz = cosf(angZ);
 
 	m[0][0] = cosAy * cosAz;
 	m[1][0] = sinAx * sinAy * cosAz - cosAx * sinAz;
@@ -509,9 +509,9 @@ inline void CMatrix::MulToInvNorm(const CVECTOR& src, CVECTOR& res)
 //Transposition
 inline void CMatrix::Transposition()
 {
-  auto x = Pos() | Vx();
-  auto y = Pos() | Vy();
-  auto z = Pos() | Vz();
+  const auto x = Pos() | Vx();
+  const auto y = Pos() | Vy();
+  const auto z = Pos() | Vz();
 	Pos().x = -x;
 	Pos().y = -y;
 	Pos().z = -z;
@@ -767,7 +767,7 @@ inline CMatrix& CMatrix::BuildProjectionMatrix(float viewAngle, float vpWidth, f
 	}*/
   auto cs = cosf(viewAngle * 0.5f);
   auto sn = sinf(viewAngle * 0.5f);
-  auto Q = (double)zFar / (double)(zFar - zNear);
+  const auto Q = (double)zFar / (double)(zFar - zNear);
 
 	matrix[0] = 1.0f / tanf(viewAngle * 0.5f);
 	matrix[5] = 1.0f / tanf((vpHeight / vpWidth) * viewAngle * 0.5f);

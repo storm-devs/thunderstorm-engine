@@ -70,8 +70,8 @@ void ModelProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velocity
 		return;
 	}
 
-  auto GeomNames = pFields->GetString(PARTICLE_GEOM_NAMES);
-  auto pGeomName = Parser.GetRandomName(GeomNames);
+  const auto GeomNames = pFields->GetString(PARTICLE_GEOM_NAMES);
+  const auto pGeomName = Parser.GetRandomName(GeomNames);
 	pData->pScene = pMasterManager->GetModel(pGeomName);
 
 
@@ -117,7 +117,7 @@ void ModelProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velocity
 	pData->Spin = pData->Spin * MUL_DEGTORAD;
 	//api->Trace("spin %3.2f, %3.2f, %3.2f [%3.2f, %3.2f]", pData->Spin.x, pData->Spin.y, pData->Spin.z, EmitterTime, EmitterLifeTime);
 
-  auto VelocityPower = pFields->GetRandomGraphVal(PARTICLE_VELOCITY_POWER, EmitterTime, EmitterLifeTime);
+  const auto VelocityPower = pFields->GetRandomGraphVal(PARTICLE_VELOCITY_POWER, EmitterTime, EmitterLifeTime);
 	pData->Velocity = pData->Velocity * VelocityPower;
 	pData->UMass = fabsf(pData->Mass);
 
@@ -142,7 +142,7 @@ void ModelProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velocity
 	pData->KTrackZ = FRAND(1.0f);
 
 
-  auto pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
+  const auto pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
 	if (_stricmp(pEmitterName, "none") == 0)
 	{
 		pData->AttachedEmitter = nullptr;
@@ -167,8 +167,8 @@ void ModelProcessor::Process(float DeltaTime)
 	{
 		Particles[n]->ElapsedTime += DeltaTime;
 
-    auto Time = Particles[n]->ElapsedTime;
-    auto LifeTime = Particles[n]->LifeTime;
+    const auto Time = Particles[n]->ElapsedTime;
+    const auto LifeTime = Particles[n]->LifeTime;
 
 		//		_mm_prefetch ((const char *)Particles[n+1], _MM_HINT_T0);
 
@@ -189,7 +189,7 @@ void ModelProcessor::Process(float DeltaTime)
 		if (Drag < 0.0f) Drag = 0.0f;
 		if (Drag > 1.0f) Drag = 1.0f;
 
-    auto GravK = Particles[n]->graph_GravK->GetValue(Time, LifeTime, Particles[n]->GravKK);
+    const auto GravK = Particles[n]->graph_GravK->GetValue(Time, LifeTime, Particles[n]->GravKK);
 
 		AddGravityForce(Particles[n]->ExternalForce, Particles[n]->Mass, GravK);
 		SolvePhysic(Particles[n]->PhysPos, Particles[n]->Velocity, Particles[n]->ExternalForce, Particles[n]->UMass,
@@ -289,7 +289,7 @@ void ModelProcessor::Draw()
 {
 	for (uint32_t j = 0; j < Particles.size(); j++)
 	{
-    auto pR = Particles[j];
+    const auto pR = Particles[j];
 
 
 		pMasterManager->Render()->SetTransform(D3DTS_WORLD, Matrix(pR->RenderAngle, pR->RenderPos));

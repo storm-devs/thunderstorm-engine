@@ -169,10 +169,10 @@ bool PCS_CONTROLS::GetDeviceDesc(long code, DEVICE_DESC& _device_desc)
 
 long PCS_CONTROLS::AddControlTreeNode(long nParent, const char* pcBaseControl, const char* pcOutControl, float fTimeOut)
 {
-  auto ntree = m_ControlTree.AddControlChild(nParent, pcBaseControl, pcOutControl, fTimeOut);
+  const auto ntree = m_ControlTree.AddControlChild(nParent, pcBaseControl, pcOutControl, fTimeOut);
 	if (ntree >= 0 && pcOutControl)
 	{
-    auto nc = CreateControl((char*)pcOutControl);
+    const auto nc = CreateControl((char*)pcOutControl);
 		if (nc >= 0)
 		{
 			pUserControls[nc].control_type = UCT_ControlTree;
@@ -209,7 +209,7 @@ bool PCS_CONTROLS::GetControlState(const char* control_name, CONTROL_STATE& _sta
 		//*/
 
 	long n;
-  auto bControlFound = false;
+  const auto bControlFound = false;
 
 	_state_struct.state = CST_INACTIVE;
 	_state_struct.lValue = 0;

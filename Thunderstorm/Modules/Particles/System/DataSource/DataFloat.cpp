@@ -53,7 +53,7 @@ void DataFloat::Write(MemFile* File) const {
 	File->WriteType(fValue);
 
 	//save name
-	uint32_t NameLength = Name.size();
+  const uint32_t NameLength = Name.size();
   auto NameLengthPlusZero = NameLength + 1;
 	File->WriteType(NameLengthPlusZero);
 	Assert(NameLength < 128);

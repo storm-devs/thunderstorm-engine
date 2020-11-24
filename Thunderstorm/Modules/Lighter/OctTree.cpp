@@ -93,7 +93,7 @@ bool OctTree::AddVertex(OTNode* node, Vertex* v)
 			return true;
 		}
 		//Переполнение, надо распределять по детям
-    auto cnt = (node->min + node->max) * 0.5f;
+    const auto cnt = (node->min + node->max) * 0.5f;
 		node->node[0] = new OTNode(CVECTOR(min.x, min.y, min.z), CVECTOR(cnt.x, cnt.y, cnt.z));
 		node->node[1] = new OTNode(CVECTOR(min.x, min.y, cnt.z), CVECTOR(cnt.x, cnt.y, max.z));
 		node->node[2] = new OTNode(CVECTOR(cnt.x, min.y, cnt.z), CVECTOR(max.x, cnt.y, max.z));
@@ -181,7 +181,7 @@ void OctTree::FindVerts(OTNode* node)
 	{
 		for (long i = 0; i < node->num; i++)
 		{
-      auto r = ~(node->vrt[i]->p - vertsPos);
+      const auto r = ~(node->vrt[i]->p - vertsPos);
 			if (r < vertsR)
 			{
 				if (numVerts >= maxVerts)

@@ -515,7 +515,7 @@ bool DATA::Get(const char* attribute_name, const char* & value)
 	}
 	if (AttributesClass == nullptr) return false;
 	//pAValue = Attributes.GetAttribute(attribute_name);
-  auto pAValue = AttributesClass->GetAttribute(attribute_name);
+  const auto pAValue = AttributesClass->GetAttribute(attribute_name);
 	if (pAValue == nullptr) return false;
 	value = pAValue;
 	return true;
@@ -1959,7 +1959,7 @@ bool DATA::Copy(DATA* pV)
 			Error("Can't copy two arrays with different size");
 			return false;
 		}
-		uint32_t copy_size = Number_of_elements * sizeof(DATA *);
+    const uint32_t copy_size = Number_of_elements * sizeof(DATA *);
 		memcpy(ArrayPTR.data(), pV->ArrayPTR.data(), copy_size); //~!~
 		//ArrayPTR = pV->ArrayPTR;
 
@@ -2655,7 +2655,7 @@ bool DATA::RefConvert()
 		Error(UNINIT_REF);
 		return false;
 	}
-  auto pV = pReference->GetVarPointer();
+  const auto pV = pReference->GetVarPointer();
 	if (!pV)
 	{
 		Error(UNINIT_REF);

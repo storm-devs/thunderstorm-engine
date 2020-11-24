@@ -56,7 +56,7 @@ uint64_t SEA_OPERATOR::ProcessMessage(MESSAGE& message)
 	if (!enabled)
 		return 0;
 
-  auto code = message.Long();
+  const auto code = message.Long();
 	uint32_t outValue = 0;
 
 	switch (code)
@@ -65,7 +65,7 @@ uint64_t SEA_OPERATOR::ProcessMessage(MESSAGE& message)
 		{
 			if (!IsTimeToActivate(false))
 				break;
-      auto firedShip = message.EntityID();
+      const auto firedShip = message.EntityID();
 			if (myShip != (SHIP_BASE *)EntityManager::GetEntityPointer(firedShip))
 				break;
 
@@ -84,11 +84,11 @@ uint64_t SEA_OPERATOR::ProcessMessage(MESSAGE& message)
 		break;
 	case MSG_SEA_OPERATOR_BALL_UPDATE:
 		{
-      auto attr = message.AttributePointer();
+      const auto attr = message.AttributePointer();
 			if (myShip->GetACharacter() != attr)
 				break;
 
-      auto ballAlive = message.Long() != 0;
+      const auto ballAlive = message.Long() != 0;
 			if (ballAlive && !ballTracked)
 			{
 				StartNewAction();
@@ -123,7 +123,7 @@ uint64_t SEA_OPERATOR::ProcessMessage(MESSAGE& message)
 			ballPosition.y = message.Float();
 			ballPosition.z = message.Float();
 
-      auto shipAttr = message.AttributePointer();
+      const auto shipAttr = message.AttributePointer();
 			if (shipAttr == myShip->GetACharacter())
 				HandleShipHit();
 		}
@@ -265,8 +265,8 @@ void SEA_OPERATOR::HandleShipIdle()
 	action.timeK = 1.0f;
 	action.actionTime = 15000;
 
-  auto startAngle = randCentered(PId2);
-  auto startDistance = randUpper(2.0f * myShip->GetCurrentSpeed() * action.actionTime / 1e3f);
+  const auto startAngle = randCentered(PId2);
+  const auto startDistance = randUpper(2.0f * myShip->GetCurrentSpeed() * action.actionTime / 1e3f);
 	action.direction = myShip->GetPos();
 	action.direction.z += startDistance * sinf(startAngle + myShip->GetAng().y);
 	action.direction.x += startDistance * cosf(startAngle + myShip->GetAng().y);
@@ -295,7 +295,7 @@ void SEA_OPERATOR::HandleShipFire(entid_t _shipID, char* _bortName, const CVECTO
 	tAction action;
 	//tTrack *track;
   auto shipPosition = ship->GetPos();
-  auto shipDirection = CVECTOR(sinf(ship->GetAng().y), 0.0f, cosf(ship->GetAng().y));
+  const auto shipDirection = CVECTOR(sinf(ship->GetAng().y), 0.0f, cosf(ship->GetAng().y));
   auto shipDirectionPerp = CVECTOR(shipDirection.z, 0.0f, -1.0f * shipDirection.x);
 	float chosenK;
 
@@ -329,13 +329,13 @@ void SEA_OPERATOR::HandleShipFire(entid_t _shipID, char* _bortName, const CVECTO
 //--------------------------------------------------------------------
 void SEA_OPERATOR::ShowAttackerBort(tAction* _action)
 {
-  auto shipPosition = _action->attackerShip->GetPos();
-  auto addY = 0.5f * _action->attackerShip->GetBoxsize().y;
-  auto timeDistance = ((float)_action->timePassed) / 7e2f;
-  auto shipDirection = CVECTOR(sinf(_action->attackerShip->GetAng().y), 0.0f,
-                               cosf(_action->attackerShip->GetAng().y));
+  const auto shipPosition = _action->attackerShip->GetPos();
+  const auto addY = 0.5f * _action->attackerShip->GetBoxsize().y;
+  const auto timeDistance = ((float)_action->timePassed) / 7e2f;
+  const auto shipDirection = CVECTOR(sinf(_action->attackerShip->GetAng().y), 0.0f,
+                                     cosf(_action->attackerShip->GetAng().y));
   auto shipDirectionPerp = CVECTOR(shipDirection.z, 0.0f, -1.0f * shipDirection.x);
-  auto directionPerp = CVECTOR(_action->direction.z, 0.0f, -1.0f * _action->direction.x);
+  const auto directionPerp = CVECTOR(_action->direction.z, 0.0f, -1.0f * _action->direction.x);
 
 	cameraTargetPos = shipPosition;
 	cameraTargetPos.y += addY;
@@ -365,8 +365,8 @@ void SEA_OPERATOR::ShowFromBall(tAction* _action)
 	api->SetTimeScale(timeScale);
 	*/
 
-  auto timeDistance = ((float)_action->timePassed) / 60.0f;
-  auto newCameraPos = 0.8f * ballPosition + 0.2f * _action->destination;
+  const auto timeDistance = ((float)_action->timePassed) / 60.0f;
+  const auto newCameraPos = 0.8f * ballPosition + 0.2f * _action->destination;
 	cameraTargetPos = ballPosition;
 	cameraPos = newCameraPos;
 	cameraTargetPos.x += 0.1f * sinf(timeDistance);
@@ -379,11 +379,11 @@ void SEA_OPERATOR::ShowFromBall(tAction* _action)
 //--------------------------------------------------------------------
 void SEA_OPERATOR::ShowAroundPoint(tAction* _action)
 {
-  auto deltaVector = _action->destination - _action->attackerShip->GetPos();
-  auto aroundAngle = atan2f(deltaVector.z, deltaVector.x);
-  auto timeK = ((float)_action->timePassed / _action->actionTime);
+  const auto deltaVector = _action->destination - _action->attackerShip->GetPos();
+  const auto aroundAngle = atan2f(deltaVector.z, deltaVector.x);
+  const auto timeK = ((float)_action->timePassed / _action->actionTime);
   auto angle = aroundAngle - 0.1f * (PId2 + PI * timeK);
-  auto timeScale = MIN_TIME_DELTA + (1.0f - MIN_TIME_DELTA) * powf(timeK, 0.37f);
+  const auto timeScale = MIN_TIME_DELTA + (1.0f - MIN_TIME_DELTA) * powf(timeK, 0.37f);
   auto radius = 15.0f;
 
 	//cameraTargetPos = finalBallPosition;
@@ -424,10 +424,10 @@ void SEA_OPERATOR::ShowAroundPoint(tAction* _action)
 void SEA_OPERATOR::ShowBallAtMyShip(tAction* _action)
 {
 	cameraTargetPos = myShip->GetPos();
-  auto timeK = ((float)_action->timePassed / _action->actionTime);
+  const auto timeK = ((float)_action->timePassed / _action->actionTime);
 	cameraPos = ballPosition + (0.5f + 0.5f * timeK) * myShip->GetBoxsize().z * !(ballPosition - myShip->GetPos());
-  auto minY = 1.0f + sea->WaveXZ(cameraPos.x, cameraPos.z);
-  auto timeScale = MIN_TIME_DELTA + (1.0f - MIN_TIME_DELTA) * powf(timeK, 0.37f);
+  const auto minY = 1.0f + sea->WaveXZ(cameraPos.x, cameraPos.z);
+  const auto timeScale = MIN_TIME_DELTA + (1.0f - MIN_TIME_DELTA) * powf(timeK, 0.37f);
 	if (cameraPos.y < minY)
 		cameraPos.y = minY;
 
@@ -440,7 +440,7 @@ void SEA_OPERATOR::ShowMyShipFromPoint(tAction* _action)
 	cameraTargetPos = myShip->GetPos();
 	//float timeK = ((float) _action->timePassed / _action->actionTime);
 	cameraPos = _action->direction;
-  auto minY = 1.0f + sea->WaveXZ(cameraPos.x, cameraPos.z);
+  const auto minY = 1.0f + sea->WaveXZ(cameraPos.x, cameraPos.z);
 	//float timeScale = MIN_TIME_DELTA + (1.0f - MIN_TIME_DELTA)*powf(timeK, 0.37f);
 	if (cameraPos.y < minY)
 		cameraPos.y = minY;
@@ -456,7 +456,7 @@ bool SEA_OPERATOR::IsTimeToActivate(bool _testControls /* =true */)
 
 	if (_testControls)
 	{
-		uint32_t lastControlTime = api->Controls->LastControlTime();
+    const uint32_t lastControlTime = api->Controls->LastControlTime();
 		if (lastControlTime < idleTime)
 			return false;
 	}

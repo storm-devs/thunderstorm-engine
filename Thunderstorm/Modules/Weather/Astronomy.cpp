@@ -29,7 +29,7 @@ void Astronomy::SetDevice()
 
 void Astronomy::Realize(uint32_t Delta_Time)
 {
-  auto dDeltaTime = double(Delta_Time) * 0.001;
+  const auto dDeltaTime = double(Delta_Time) * 0.001;
 	dHour += dDeltaTime / (60.0 * 60.0);
 
 	Stars.Realize(dDeltaTime, dHour);

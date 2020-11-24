@@ -83,7 +83,7 @@ void InfoHandler::Realize(uint32_t delta_time) const {
 
 uint64_t InfoHandler::ProcessMessage(MESSAGE& message)
 {
-  auto nMsgCode = message.Long();
+  const auto nMsgCode = message.Long();
 	switch (nMsgCode)
 	{
 	case 1: Realize(0);
@@ -114,9 +114,9 @@ bool InfoHandler::DoPreOut()
 		fScale = AttributesPointer->GetAttributeAsFloat("scale", 1.f);
 		nOutOffset = AttributesPointer->GetAttributeAsDword("offset", m_rs->CharHeight(0));
 	}
-  auto picTexureFile = AttributesPointer->GetAttribute("picfilename");
+  const auto picTexureFile = AttributesPointer->GetAttribute("picfilename");
 
-	uint32_t TMP_VERTEX_FORMAT = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_TEXTUREFORMAT2);
+  const uint32_t TMP_VERTEX_FORMAT = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_TEXTUREFORMAT2);
 	struct TMP_VERTEX
 	{
 		CVECTOR pos;
@@ -171,7 +171,7 @@ bool InfoHandler::DoPreOut()
 		// show picture
 		if (picTexureFile != nullptr)
 		{
-			int picID = m_rs->TextureCreate(picTexureFile);
+      const int picID = m_rs->TextureCreate(picTexureFile);
 			if (picID >= 0)
 			{
 				m_rs->TextureSet(0, picID);
@@ -224,10 +224,10 @@ bool InfoHandler::DoPreOut()
 
 			// show strings
 			ntmp = 0;
-			int topY = (desc.Height - nRowQ * nOutOffset) / 2;
+      const int topY = (desc.Height - nRowQ * nOutOffset) / 2;
 			for (ps = inStrStart; ps != nullptr && *ps;)
 			{
-        auto oldps = ps;
+        const auto oldps = ps;
 				ps = GetCutString(ps, nOutWidth, fScale);
 				if (!ps || ps == oldps) break;
 				StringToBufer(outStr, sizeof(outStr), oldps, ps - oldps);
@@ -262,13 +262,13 @@ char* InfoHandler::GetCutString(char* pstr, int nOutWidth, float fScale) const {
 			if (spaceWait) continue;
 			spaceWait = true;
 
-			int n = ps - pstr;
+      const int n = ps - pstr;
 			if (n == 0) continue;
 			if (n >= 1023) break;
 
 			strncpy_s(param, pstr, n);
 			param[n] = 0;
-			int j = m_rs->StringWidth(param, 0, fScale);
+      const int j = m_rs->StringWidth(param, 0, fScale);
 			if (j < nOutWidth)
 			{
 				oldps = ps;
@@ -290,7 +290,7 @@ char* InfoHandler::GetCutString(char* pstr, int nOutWidth, float fScale) const {
 
 	strncpy_s(param, pstr, nt);
 	param[nt] = 0;
-	int jt = m_rs->StringWidth(param, 0, fScale);
+  const int jt = m_rs->StringWidth(param, 0, fScale);
 	if (jt < nOutWidth)
 		return ps;
 	if (oldps)

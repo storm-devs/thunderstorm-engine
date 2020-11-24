@@ -124,7 +124,7 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2
 
 		// Lock vertex and index buffers and get pointers to this
 		auto* pVBuf = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
-    auto pIBuf = (uint16_t*)m_rs->LockIndexBuffer(iBuf);
+    const auto pIBuf = (uint16_t*)m_rs->LockIndexBuffer(iBuf);
 
 		if (pVBuf != nullptr && pIBuf != nullptr)
 		{
@@ -238,7 +238,7 @@ void CXI_IMGCOLLECTION::SetBuffers(XI_ONETEX_VERTEX* pVBuf, uint16_t* pIBuf, int
 	pVBuf->tv = texRect.bottom;
 	pVBuf->color = dwColor;
 
-  auto idx = rectNum * 4;
+  const auto idx = rectNum * 4;
 	*pIBuf++ = idx;
 	*pIBuf++ = idx + 1;
 	*pIBuf++ = idx + 2; // one triangle
@@ -251,8 +251,8 @@ void CXI_IMGCOLLECTION::UpdateBuffers()
 {
 	if (vBuf == -1 || iBuf == -1) return;
 
-  auto pVBuf = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
-  auto pIBuf = (uint16_t*)m_rs->LockIndexBuffer(iBuf);
+  const auto pVBuf = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
+  const auto pIBuf = (uint16_t*)m_rs->LockIndexBuffer(iBuf);
 
 	if (pVBuf != nullptr && pIBuf != nullptr)
 	{
@@ -379,7 +379,7 @@ uint32_t CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 			// им€ картинки
 			message.String(sizeof(param) - 1, param);
 			// цвет картинки
-      auto dwColor = message.Long();
+      const auto dwColor = message.Long();
 			// позици€ картинки
 			XYRECT pos;
 			pos.left = message.Long();
@@ -424,8 +424,8 @@ uint32_t CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 
 	case 3: // установить цвет картинки
 		{
-      auto nImgNum = message.Long();
-			uint32_t dwColor = message.Long();
+      const auto nImgNum = message.Long();
+      const uint32_t dwColor = message.Long();
 			if (nImgNum >= 0 && nImgNum < m_aEditInfo.size())
 			{
 				m_aEditInfo[nImgNum].dwColor = dwColor;
@@ -436,7 +436,7 @@ uint32_t CXI_IMGCOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 
 	case 4: // изменить картинку
 		{
-      auto nImgNum = message.Long();
+      const auto nImgNum = message.Long();
 			char param[256];
 			message.String(sizeof(param), param);
 			if (nImgNum >= 0 && nImgNum < m_aEditInfo.size())

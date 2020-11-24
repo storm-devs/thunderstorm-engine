@@ -93,7 +93,7 @@ void TButterfly::Calculate(long _dTime, COLLIDE* _collide, EntityManager::LayerI
 		}
 	}
 
-  auto timeDelta = ((float)_dTime) / 1000.0f;
+  const auto timeDelta = ((float)_dTime) / 1000.0f;
 
 	// calculate new velocity
 	timeToNextDisplace -= _dTime;
@@ -108,17 +108,17 @@ void TButterfly::Calculate(long _dTime, COLLIDE* _collide, EntityManager::LayerI
 	if (activity < MIN_ACTIVITY)
 		activity = MIN_ACTIVITY;
 
-  auto velocityDelta = /*activity * */VELOCITY * timeDelta;
+  const auto velocityDelta = /*activity * */VELOCITY * timeDelta;
 	time = fmodf(time + activity * timeDelta * WINGS_TIME_K, PI);
-  auto yDeltaAbs = fabsf(velocityDelta * Y_SPEED);
+  const auto yDeltaAbs = fabsf(velocityDelta * Y_SPEED);
 
 	//trace and change velocity if needed
 	if ((activeTime < fullActiveTime) || (fabsf(centerPosition.y - minY) > (yDeltaAbs + MIN_Y_DELTA)))
 	{
-    auto ray = _collide->Trace(its, centerPosition,
-                               centerPosition + CVECTOR(velocityDelta * centerVelocity.x, 0.f,
-                                                        velocityDelta * centerVelocity.z),
-                               nullptr, 0);
+    const auto ray = _collide->Trace(its, centerPosition,
+                                     centerPosition + CVECTOR(velocityDelta * centerVelocity.x, 0.f,
+                                                              velocityDelta * centerVelocity.z),
+                                     nullptr, 0);
 		if (ray <= 1.0f)
 			centerVelocity = -centerVelocity;
 	}
@@ -130,7 +130,7 @@ void TButterfly::Calculate(long _dTime, COLLIDE* _collide, EntityManager::LayerI
 
 	if (activity > 0.5f)
 	{
-    auto probable = ((rand() % RISE_IMPROBABILITY) != 1);
+    const auto probable = ((rand() % RISE_IMPROBABILITY) != 1);
 		if (probable)
 			centerPosition.y += yDeltaAbs;
 		else
@@ -138,7 +138,7 @@ void TButterfly::Calculate(long _dTime, COLLIDE* _collide, EntityManager::LayerI
 	}
 	else
 	{
-    auto probable = ((rand() % FALL_IMPROBABILITY) != 1);
+    const auto probable = ((rand() % FALL_IMPROBABILITY) != 1);
 		if (probable)
 			centerPosition.y -= yDeltaAbs;
 		else

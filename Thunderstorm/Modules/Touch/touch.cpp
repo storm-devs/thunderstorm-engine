@@ -122,16 +122,16 @@ BOOL TOUCH::IsIntersectShipsRects(long idx1, long idx2)
 	Assert(idx1 >= 0 && idx1 <= iNumShips && idx2 <= iNumShips);
 	if (idx2 == ISLAND_CODE) return true;
 
-  auto pS1 = pShips[idx1]->pShip, pS2 = pShips[idx2]->pShip;
+  const auto pS1 = pShips[idx1]->pShip, pS2 = pShips[idx2]->pShip;
 
 	Assert(pS1 && pS2);
 
 	// boal fix float both_dist = SQR(pS1->State.vBoxSize.z) + SQR(pS2->State.vBoxSize.z) + 2.5f;
-  auto both_dist = SQR(pS1->State.vBoxSize.z / 2.0f) + SQR(pS2->State.vBoxSize.z / 2.0f) + 2.5f;
-  auto dist = SQR(pS1->State.vPos.x - pS2->State.vPos.x) +
+  const auto both_dist = SQR(pS1->State.vBoxSize.z / 2.0f) + SQR(pS2->State.vBoxSize.z / 2.0f) + 2.5f;
+  const auto dist = SQR(pS1->State.vPos.x - pS2->State.vPos.x) +
 		SQR(pS1->State.vPos.z - pS2->State.vPos.z);
 
-  auto bRadiusIntersects = dist <= both_dist;
+  const auto bRadiusIntersects = dist <= both_dist;
 
 	// must for optimization test rects
 	return (bRadiusIntersects);
@@ -175,11 +175,11 @@ void TOUCH::DrawShips()
 
 	auto* pOur = (SHIP_BASE*)pShips[0]->pShip;
 	if (!pOur) return;
-  auto center_x = pOur->State.vPos.x;
-  auto center_z = pOur->State.vPos.z;
-  auto delta = pOur->State.vAng.y - PI;
-  auto fCosCenter = cosf(delta);
-  auto fSinCenter = sinf(delta);
+  const auto center_x = pOur->State.vPos.x;
+  const auto center_z = pOur->State.vPos.z;
+  const auto delta = pOur->State.vAng.y - PI;
+  const auto fCosCenter = cosf(delta);
+  const auto fSinCenter = sinf(delta);
 
 	for (i = 0; i < iNumShips; i++)
 		if (pShips[i])
@@ -191,10 +191,10 @@ void TOUCH::DrawShips()
       auto x = fScale * -(o3d->State.vPos.x - center_x);
       auto y = fScale * (o3d->State.vPos.z - center_z);
 			RotateAroundY(x, y, fCosCenter, fSinCenter);
-      auto fCos = cosf((i == 0) ? 0.0f : -delta - PI + o3d->State.vAng.y);
-      auto fSin = sinf((i == 0) ? 0.0f : -delta - PI + o3d->State.vAng.y);
-      auto xscale = fScale;
-      auto yscale = fScale;
+      const auto fCos = cosf((i == 0) ? 0.0f : -delta - PI + o3d->State.vAng.y);
+      const auto fSin = sinf((i == 0) ? 0.0f : -delta - PI + o3d->State.vAng.y);
+      const auto xscale = fScale;
+      const auto yscale = fScale;
 
 			if (pShips[i]->vKickPoint.x != 0.0f || pShips[i]->vKickPoint.z != 0.0f)
 			{
@@ -210,7 +210,7 @@ void TOUCH::DrawShips()
 			for (j = 0; j < pShips[i]->iNumVContour; j++)
 			{
 				p1 = GetPoint(x, y, pShips[i]->vContour[j].x, pShips[i]->vContour[j].z, xscale, yscale, fCos, fSin, ss);
-        auto nextj = (j == pShips[i]->iNumVContour - 1) ? 0 : j + 1;
+        const auto nextj = (j == pShips[i]->iNumVContour - 1) ? 0 : j + 1;
 				p2 = GetPoint(x, y, pShips[i]->vContour[nextj].x, pShips[i]->vContour[nextj].z, xscale, yscale, fCos,
 				              fSin, ss);
 
@@ -241,10 +241,10 @@ BOOL TOUCH::BuildContour(long ship_idx)
 
 	for (j = 0; j < 2; j++)
 	{
-    auto fCos = cosf(pTS->TP[j].vAng.y);
-    auto fSin = sinf(pTS->TP[j].vAng.y);
-    auto x = pTS->TP[j].vPos.x;
-    auto z = pTS->TP[j].vPos.z;
+    const auto fCos = cosf(pTS->TP[j].vAng.y);
+    const auto fSin = sinf(pTS->TP[j].vAng.y);
+    const auto x = pTS->TP[j].vPos.x;
+    const auto z = pTS->TP[j].vPos.z;
 		for (i = 0; i < pTS->iNumVContour; i++)
 		{
       auto xx = pTS->vContour[i].x;
@@ -271,11 +271,11 @@ BOOL TOUCH::IsPointInContour(CVECTOR* vP, CVECTOR* vContourTemp, long numvContou
 			idx1 = idx2;
 			idx2 = i;
 		}
-    auto z1 = vContourTemp[idx1].z - vP->z;
-    auto z2 = vContourTemp[idx2].z - vP->z;
+    const auto z1 = vContourTemp[idx1].z - vP->z;
+    const auto z2 = vContourTemp[idx2].z - vP->z;
 		if (z1 * z2 > 0) continue;
-    auto dz = z1 - z2;
-    auto x = vP->x - (vContourTemp[idx1].x + (vContourTemp[idx2].x - vContourTemp[idx1].x) * (z1 / dz));
+    const auto dz = z1 - z2;
+    const auto x = vP->x - (vContourTemp[idx1].x + (vContourTemp[idx2].x - vContourTemp[idx1].x) * (z1 / dz));
 		xx *= x;
 	}
 	return (xx <= 0.0f);
@@ -294,7 +294,7 @@ CVECTOR TOUCH::GetLineIntersectPoint(CVECTOR& v1, CVECTOR& v2, CVECTOR& o1, CVEC
 	float A1, B1, C1, A2, B2, C2;
 	GetLineABC(v1, v2, A1, B1, C1);
 	GetLineABC(o1, o2, A2, B2, C2);
-  auto z_minus = (B2 * A1 - A2 * B1);
+  const auto z_minus = (B2 * A1 - A2 * B1);
 	if (z_minus == 0.0f || A1 == 0.0f) return res;
 	res.z = (A2 * C1 - C2 * A1) / z_minus;
 	res.x = (-B1 * res.z - C1) / A1;
@@ -324,7 +324,7 @@ BOOL TOUCH::IsIntersectShipsReal(long idx, long cidx, CVECTOR* vPos, CVECTOR* vA
 			if (pIslandBase->GetDepthFast(pS1->vContourTemp[1][i].x, pS1->vContourTemp[1][i].z, &fRes))
 			{
 				if (fRes < fCollisionDepth) continue;
-        auto v1 = &pS1->vContourTemp[0][i], v2 = &pS1->vContourTemp[1][i];
+        const auto v1 = &pS1->vContourTemp[0][i], v2 = &pS1->vContourTemp[1][i];
         auto vTemp = !(*v2 - *v1);
 				*vRecoil = !(*v1 - pS1->TP[1].vPos);
 				*fSlide = 0.0f;
@@ -355,13 +355,13 @@ BOOL TOUCH::IsIntersectShipsReal(long idx, long cidx, CVECTOR* vPos, CVECTOR* vA
 		{
       auto min_dist = 10000.0f;
 			CVECTOR vIP; // intersection point
-      auto v1 = &pS1->vContourTemp[0][i], v2 = &pS1->vContourTemp[1][i];
+      const auto v1 = &pS1->vContourTemp[0][i], v2 = &pS1->vContourTemp[1][i];
 			for (j = 0; j < pS2->iNumVContour; j++)
 			{
-        auto idx1 = j;
-        auto idx2 = (j == pS2->iNumVContour - 1) ? 0 : j + 1;
-        auto vP = GetLineIntersectPoint(*v1, *v2, pS2->vContourTemp[0][idx1], pS2->vContourTemp[0][idx2]);
-        auto dist = SQR(vP.x - v2->x) + SQR(vP.z - v2->z);
+        const auto idx1 = j;
+        const auto idx2 = (j == pS2->iNumVContour - 1) ? 0 : j + 1;
+        const auto vP = GetLineIntersectPoint(*v1, *v2, pS2->vContourTemp[0][idx1], pS2->vContourTemp[0][idx2]);
+        const auto dist = SQR(vP.x - v2->x) + SQR(vP.z - v2->z);
 				if (dist < min_dist)
 				{
 					l_idx1 = idx1;
@@ -395,11 +395,11 @@ BOOL TOUCH::IsIntersectShipsReal(long idx, long cidx, CVECTOR* vPos, CVECTOR* vA
 			RotateAroundY(vRecoil->x, vRecoil->z, cosf(-PId2), sinf(-PId2));
 			vRecoil->y = 0.0f;
 			// power of blow
-      auto vSpeed2 = (pS2->vContourTemp[1][l_idx1] - pS2->vContourTemp[0][l_idx1]);
+      const auto vSpeed2 = (pS2->vContourTemp[1][l_idx1] - pS2->vContourTemp[0][l_idx1]);
 			*fPower = METERS2KNOTS(sqrtf(~vBlow));
 			if ((~vSpeed2) != 0.0f)
 			{
-        auto fTemp = (*vAng | (!vSpeed2));
+        const auto fTemp = (*vAng | (!vSpeed2));
 				*fPower -= METERS2KNOTS(fTemp * sqrtf(~vSpeed2));
 			}
 			// fPower must multiplied by Weight of ships
@@ -419,25 +419,25 @@ long TOUCH::ProcessImpulse(long iOurIdx, CVECTOR vPos, CVECTOR vDir, float fPowe
 
   auto pS1 = pShips[iOurIdx];
 
-  auto vSDirZ = CVECTOR(0.0f, 0.0f, 1.0f);
-  auto vSDirX = CVECTOR(1.0f, 0.0f, 0.0f);
+  const auto vSDirZ = CVECTOR(0.0f, 0.0f, 1.0f);
+  const auto vSDirX = CVECTOR(1.0f, 0.0f, 0.0f);
 
 	// calculate Z impulse 
   auto fkZ = (0.1f + 1.0f - fabsf(vPos.x / (0.5f * pS1->pShip->State.vBoxSize.x)));
 	fkZ = CLAMP(fkZ);
 	//Assert(fkZ>=0.0f && fkZ<=1.0f)
-  auto fZMove = (vDir | vSDirZ) * fPowerApplied * fkZ;
+  const auto fZMove = (vDir | vSDirZ) * fPowerApplied * fkZ;
 	strength.vSpeed.z = fZMove;
 
 	// calculate X impulse 
   auto fkX = (0.1f + 1.0f - fabsf(vPos.z / (0.5f * pS1->pShip->State.vBoxSize.z)));
 	fkX = CLAMP(fkX);
 	//Assert(fkX>=0.0f && fkX<=1.0f)
-  auto fXMove = (vDir | vSDirX) * fPowerApplied * fkX;
+  const auto fXMove = (vDir | vSDirX) * fPowerApplied * fkX;
 	strength.vSpeed.x = fXMove;
 
 	// calculate Y rotation impulse
-  auto vSDirY = !(-vPos);
+  const auto vSDirY = !(-vPos);
   auto fkY = 0.1f + 1.0f - fabsf(vDir | vSDirY);
 	fkY = CLAMP(fkY);
 	strength.vRotate.y = fkY * fPowerApplied * 0.02f;
@@ -486,14 +486,14 @@ float TOUCH::Touch(long idx, long skip_idx, CVECTOR* vPos, CVECTOR* vAng, float 
     auto fEnemyWeight = pEnemy->State.fWeight;
 		Assert(fOurWeight != 0.0f && fEnemyWeight != 0.0f);
 
-    auto fKWeight = 0.5f + (fEnemyWeight - fOurWeight) / (2 * MAX(fOurWeight, fEnemyWeight));
+    const auto fKWeight = 0.5f + (fEnemyWeight - fOurWeight) / (2 * MAX(fOurWeight, fEnemyWeight));
 
 		// add z,x impulse and y rotate impulse
-    auto fPowerApplied = fKWeight * fPower;
+    const auto fPowerApplied = fKWeight * fPower;
 
 		// rotate vDir and vPos to ship system
     auto vPosTemp = *vPos, vDirTemp = *vAng;
-    auto fAngle = -pShips[idx]->TP[1].vAng.y;
+    const auto fAngle = -pShips[idx]->TP[1].vAng.y;
 		vPosTemp -= pShips[idx]->TP[1].vPos;
 		RotateAroundY(vPosTemp.x, vPosTemp.z, cosf(fAngle), sinf(fAngle));
 		RotateAroundY(vDirTemp.x, vDirTemp.z, cosf(fAngle), sinf(fAngle));
@@ -519,13 +519,13 @@ float TOUCH::Touch(long idx, long skip_idx, CVECTOR* vPos, CVECTOR* vAng, float 
 				if (i != ISLAND_CODE) fPower1 = Touch(i, idx, &vPos1, &vAng1, fPower1, fSlide1); // return recoil power
 
         auto vPosTemp = vPos1, vDirTemp = vRecoil;
-        auto fAngle = -PI - pShips[idx]->TP[1].vAng.y;
+        const auto fAngle = -PI - pShips[idx]->TP[1].vAng.y;
 				vPosTemp -= pShips[idx]->TP[1].vPos;
 				RotateAroundY(vPosTemp.x, vPosTemp.z, cosf(PI + fAngle), sinf(PI + fAngle));
 				RotateAroundY(vDirTemp.x, vDirTemp.z, cosf(fAngle), sinf(fAngle));
 
 				// script event initiate
-        auto iEnemyCharacterIndex = (i == ISLAND_CODE) ? -1 : GetIndex(pShips[i]->pShip->GetACharacter());
+        const auto iEnemyCharacterIndex = (i == ISLAND_CODE) ? -1 : GetIndex(pShips[i]->pShip->GetACharacter());
 				api->Event((i != ISLAND_CODE) ? SHIP_SHIP2SHIP_COLLISION : SHIP_SHIP2ISLAND_COLLISION, "llfflfff",
 				           GetIndex(pOur->GetACharacter()), iEnemyCharacterIndex, fPower1, fSlide1,
 				           GetTouchPoint(idx, vPosTemp), vPos1.x, vPos1.y, vPos1.z);
@@ -549,7 +549,7 @@ bool TOUCH::IsSinked(long iIndex)
   auto pShip = pShips[iIndex]->pShip;
 	if (pShip->isDead())
 	{
-    auto fY = pShip->GetBoxsize().y;
+    const auto fY = pShip->GetBoxsize().y;
 		if (pShip->GetPos().y < -fY / 3.0f) return true;
 	}
 	return false;
@@ -580,9 +580,9 @@ BOOL TOUCH::FakeTouch()
 						pEnemy = (SHIP_BASE*)pShips[j]->pShip;
             auto fOurWeight = pOur->State.fWeight;
             auto fEnemyWeight = pEnemy->State.fWeight;
-            auto k = 0.5f + (fEnemyWeight - fOurWeight) / (2 * MAX(fOurWeight, fEnemyWeight));
-            auto vDV = !CVECTOR(pEnemy->State.vPos - pOur->State.vPos);
-            auto fMul = 0.02f;
+            const auto k = 0.5f + (fEnemyWeight - fOurWeight) / (2 * MAX(fOurWeight, fEnemyWeight));
+            const auto vDV = !CVECTOR(pEnemy->State.vPos - pOur->State.vPos);
+            const auto fMul = 0.02f;
 
 						pOur->State.vPos.x -= (k * vDV.x * fMul);
 						pEnemy->State.vPos.x += ((1.0f - k) * vDV.x * fMul);
@@ -593,14 +593,14 @@ BOOL TOUCH::FakeTouch()
 					{
 						// from island move out
 						pOur = (SHIP_BASE*)pShips[i]->pShip;
-            auto vDV = !CVECTOR(vPos1 - pOur->State.vPos);
-            auto fMul = 0.02f;
+            const auto vDV = !CVECTOR(vPos1 - pOur->State.vPos);
+            const auto fMul = 0.02f;
 
-            auto fAngle = -PI - pOur->State.vAng.y;
+            const auto fAngle = -PI - pOur->State.vAng.y;
             auto vPosTemp = vPos1 - pOur->State.vPos;
 						RotateAroundY(vPosTemp.x, vPosTemp.z, cosf(PI + fAngle), sinf(PI + fAngle));
 
-            auto fAng = 0.001f * (((vPosTemp.x * vPosTemp.z) >= 0.0f) ? 1.0f : -1.0f);
+            const auto fAng = 0.001f * (((vPosTemp.x * vPosTemp.z) >= 0.0f) ? 1.0f : -1.0f);
 						pOur->State.vAng.y -= fAng;
 						pOur->State.vPos.x -= (vDV.x * fMul);
 						pOur->State.vPos.z -= (vDV.z * fMul);

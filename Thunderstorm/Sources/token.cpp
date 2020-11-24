@@ -424,7 +424,7 @@ S_TOKEN_TYPE TOKEN::Get(bool bKeepData)
 		eTokenType = INVALID_TOKEN;
 		return eTokenType;
 	}
-  auto stt = ProcessToken(Program, bKeepData);
+  const auto stt = ProcessToken(Program, bKeepData);
 	if (stt == HOLD_COMPILATION)
 	{
 		__debugbreak();
@@ -565,7 +565,7 @@ S_TOKEN_TYPE TOKEN::FormatGet()
 long TOKEN::SetTokenData(const char* pointer, bool bKeepControlSymbols)
 {
 	//if(!IsOperator(pointer,Data_size))
-  auto Data_size = StopArgument(pointer, bKeepControlSymbols);
+  const auto Data_size = StopArgument(pointer, bKeepControlSymbols);
 	if (Data_size == 0)
 	{
 		if (pTokenData) pTokenData[0] = 0;
@@ -800,7 +800,7 @@ void TOKEN::StartArgument(char* & pointer, bool bKeepControlSymbols)
 {
 	do
 	{
-    auto sym = *pointer;
+    const auto sym = *pointer;
 		if (sym == 0) return;
 		if (sym == 0xa || sym == 0xd) return;
 		if (bKeepControlSymbols)
@@ -1094,10 +1094,10 @@ S_TOKEN_TYPE TOKEN::Keyword2TokenType(const char* pString)
 		}
 		return UNKNOWN;//*/
 
-  auto hash = MakeHashValue(pString, 4) % TOKENHASHTABLE_SIZE;
+  const auto hash = MakeHashValue(pString, 4) % TOKENHASHTABLE_SIZE;
 	for (uint32_t n = 0; n < KeywordsHash[hash].dwNum; n++)
 	{
-		uint32_t index = KeywordsHash[hash].pIndex[n];
+    const uint32_t index = KeywordsHash[hash].pIndex[n];
 		if (_stricmp(pString, Keywords[index].name) == 0)
 		{
 			return Keywords[index].type;
@@ -1117,7 +1117,7 @@ uint32_t TOKEN::MakeHashValue(const char* string, uint32_t max_syms)
     auto v = *string++;
 		if ('A' <= v && v <= 'Z') v += 'a' - 'A'; // case independent
 		hval = (hval << 4) + (unsigned long int)v;
-		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
+    const uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
 		if (g != 0)
 		{
 			hval ^= g >> (32 - 8);
@@ -1144,7 +1144,7 @@ bool TOKEN::InitializeHashTable()
 
 	for (uint32_t n = 0; n < dwKeywordsNum; n++)
 	{
-    auto hash = MakeHashValue(Keywords[n].name, 4) % TOKENHASHTABLE_SIZE;
+    const auto hash = MakeHashValue(Keywords[n].name, 4) % TOKENHASHTABLE_SIZE;
 
 		KeywordsHash[hash].dwNum++;
 		KeywordsHash[hash].pIndex = (uint8_t*)realloc(KeywordsHash[hash].pIndex, KeywordsHash[hash].dwNum);

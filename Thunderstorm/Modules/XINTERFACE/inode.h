@@ -157,7 +157,7 @@ public:
 			STORM_DELETE(sEventName);
 			while (pNextControl)
 			{
-        auto pOld = pNextControl;
+        const auto pOld = pNextControl;
 				pNextControl = pNextControl->next;
 				delete pOld;
 			}

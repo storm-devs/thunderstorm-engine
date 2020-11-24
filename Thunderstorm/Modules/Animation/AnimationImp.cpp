@@ -85,8 +85,8 @@ long AnimationImp::SetEvent(AnimationEvent event, long index, AnimationEventList
 void AnimationImp::DelEvent(long eventID)
 {
 	if (eventID < 0) return;
-  auto event = eventID >> 16;
-  auto lindex = eventID & 0xffff;
+  const auto event = eventID >> 16;
+  const auto lindex = eventID & 0xffff;
 	Assert(event < ae_numevents);
 	Assert(lindex < ANIIMP_MAXLISTENERS);
 	Assert(ae_listeners[event][lindex]);
@@ -147,7 +147,7 @@ float AnimationImp::GetFPS()
 //Автоматическая нормализация коэфициентов блендинга
 bool AnimationImp::SetAutoNormalize(bool isNormalize)
 {
-  auto b = isAutoNormalize;
+  const auto b = isAutoNormalize;
 	isAutoNormalize = isNormalize;
 	return b;
 }
@@ -160,7 +160,7 @@ bool AnimationImp::GetAutoNormalize()
 //Разрешить использование пользовательских коэфициентов блендинга в ActionPlayer
 bool AnimationImp::UserBlend(bool isBlend)
 {
-  auto b = isUserBlend;
+  const auto b = isUserBlend;
 	isUserBlend = isBlend;
 	return b;
 }

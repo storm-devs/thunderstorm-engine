@@ -116,9 +116,9 @@ uint32_t AIHelper::GetRelationSafe(ATTRIBUTES* pA1, ATTRIBUTES* pA2) const
 {
 	Assert(pA1 && pA2);
 	if (dwRelationSize == 0) return RELATION_NEUTRAL;
-  auto dw1 = FindIndex(pA1);
+  const auto dw1 = FindIndex(pA1);
 	if (dw1 == INVALID_ARRAY_INDEX) return RELATION_NEUTRAL;
-  auto dw2 = FindIndex(pA2);
+  const auto dw2 = FindIndex(pA2);
 	if (dw2 == INVALID_ARRAY_INDEX) return RELATION_NEUTRAL;
 	return *GetRelation(dw1, dw2);
 }
@@ -126,9 +126,9 @@ uint32_t AIHelper::GetRelationSafe(ATTRIBUTES* pA1, ATTRIBUTES* pA2) const
 uint32_t AIHelper::GetRelation(ATTRIBUTES* pA1, ATTRIBUTES* pA2) const
 {
 	Assert(pA1 && pA2);
-  auto dw1 = FindIndex(pA1);
+  const auto dw1 = FindIndex(pA1);
 	Assert(dw1 != INVALID_ARRAY_INDEX);
-  auto dw2 = FindIndex(pA2);
+  const auto dw2 = FindIndex(pA2);
 	Assert(dw2 != INVALID_ARRAY_INDEX);
 	return *GetRelation(dw1, dw2);
 }

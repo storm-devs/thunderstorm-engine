@@ -465,7 +465,7 @@ void SEAFOAM_PS::Realize(uint32_t DeltaTime)
 
 	RenderService->GetCamera(CameraPos, CameraAng, Perspective);
 
-	CMatrix IMatrix;
+  const CMatrix IMatrix;
 	RenderService->SetTransform(D3DTS_VIEW, IMatrix);
 	RenderService->SetTransform(D3DTS_WORLD, IMatrix);
 	ProcessParticles(DeltaTime);
@@ -840,7 +840,7 @@ void SEAFOAM_PS::SetFlowTrack(uint32_t index)
 	dest = pFlowTrack[Particle[index].flow_track_index];
 	dest = dest - Particle[index].pos;
 	Particle[index].ang = !dest;
-  auto dist = ~dest;
+  const auto dist = ~dest;
 	if (dist < fTrackPointRadius)
 	{
 		Particle[index].flow_track_index++;

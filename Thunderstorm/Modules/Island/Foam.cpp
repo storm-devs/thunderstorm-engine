@@ -430,14 +430,14 @@ void CoastFoam::InitNewFoam(Foam* pF)
 
 void CoastFoam::ExecuteFoamType2(Foam* pF, float fDeltaTime)
 {
-	long iLen = pF->aWorkParts.size();
+  const long iLen = pF->aWorkParts.size();
 	if (!iLen) return;
 
 	CVECTOR vCamPos, vCamAng;
 	float fPerspective;
 	rs->GetCamera(vCamPos, vCamAng, fPerspective);
 
-  auto fDistance = sqrtf(~(pF->aWorkParts[0].v[0] - vCamPos));
+  const auto fDistance = sqrtf(~(pF->aWorkParts[0].v[0] - vCamPos));
 	if (fDistance > fMaxFoamDistance) return;
 
 	if (IsClipped(pF)) return;
@@ -446,7 +446,7 @@ void CoastFoam::ExecuteFoamType2(Foam* pF, float fDeltaTime)
 
 	for (long k = 0; k < pF->iNumFoams; k++)
 	{
-		long kk = (k == 1) ? 0 : 1;
+    const long kk = (k == 1) ? 0 : 1;
 
 		if (pF->fMove[k] < 0.0f)
 		{
@@ -504,8 +504,8 @@ void CoastFoam::ExecuteFoamType2(Foam* pF, float fDeltaTime)
 
 		for (long y = 0; y < 8; y++)
 		{
-      auto dy = y / 7.0f;
-      auto fAlpha = pF->fAlpha[k] * Clampf(2.5f * (1.0f - dy) * dy);
+      const auto dy = y / 7.0f;
+      const auto fAlpha = pF->fAlpha[k] * Clampf(2.5f * (1.0f - dy) * dy);
 			for (long x = 0; x < iLen; x++)
 			{
         auto pWP = &pF->aWorkParts[x];
@@ -513,7 +513,7 @@ void CoastFoam::ExecuteFoamType2(Foam* pF, float fDeltaTime)
         auto fAlpha1 = 1.0f;
 				if (x <= 4) fAlpha1 = float(x) / 4.0f;
 				if (x >= iLen - 5) fAlpha1 = float((iLen - 1) - x) / 4.0f;
-        auto dwColor = ARGB(uint32_t(pF->fAlphaColor[k] * fAlpha * fAlpha1 * 255.0f), 255, 255, 255);
+        const auto dwColor = ARGB(uint32_t(pF->fAlphaColor[k] * fAlpha * fAlpha1 * 255.0f), 255, 255, 255);
 
         auto vPos = pWP->v[0] + (pF->fMove[k] * float(y) / 7.0f) * (pWP->v[1] - pWP->v[0]);
 				vPos.y = fFoamDeltaY + pSea->WaveXZ(vPos.x, vPos.z);
@@ -562,7 +562,7 @@ bool CoastFoam::IsClipped(Foam* pF)
 
 	CVECTOR vP[4];
 	uint32_t dwPlanesPoints[4];
-	uint32_t dwSize = pF->aFoamParts.size();
+  const uint32_t dwSize = pF->aFoamParts.size();
 
 	for (uint32_t k = 0; k < 4; k++)
 	{
@@ -577,8 +577,8 @@ bool CoastFoam::IsClipped(Foam* pF)
 
 		for (uint32_t j = 0; j < 4; j++)
 		{
-      auto fD1 = (v0 | vP[j]) - pFrustumPlanes[j].D;
-      auto fD2 = (v1 | vP[j]) - pFrustumPlanes[j].D;
+      const auto fD1 = (v0 | vP[j]) - pFrustumPlanes[j].D;
+      const auto fD2 = (v1 | vP[j]) - pFrustumPlanes[j].D;
 
 			if (fD1 < 0.0f) dwPlanesPoints[j]++;
 			if (fD2 < 0.0f) dwPlanesPoints[j]++;
@@ -593,14 +593,14 @@ bool CoastFoam::IsClipped(Foam* pF)
 
 void CoastFoam::ExecuteFoamType1(Foam* pF, float fDeltaTime)
 {
-	long iLen = pF->aWorkParts.size();
+  const long iLen = pF->aWorkParts.size();
 	if (!iLen) return;
 
 	CVECTOR vCamPos, vCamAng;
 	float fPerspective;
 	rs->GetCamera(vCamPos, vCamAng, fPerspective);
 
-  auto fDistance = sqrtf(~(pF->aWorkParts[0].v[0] - vCamPos));
+  const auto fDistance = sqrtf(~(pF->aWorkParts[0].v[0] - vCamPos));
 	if (fDistance > fMaxFoamDistance) return;
 
 	if (IsClipped(pF)) return;
@@ -614,8 +614,8 @@ void CoastFoam::ExecuteFoamType1(Foam* pF, float fDeltaTime)
 
 	for (long y = 0; y < 8; y++)
 	{
-    auto dy = y / 7.0f;
-    auto fAlpha = Clampf(2.5f * (1.0f - dy) * dy);
+    const auto dy = y / 7.0f;
+    const auto fAlpha = Clampf(2.5f * (1.0f - dy) * dy);
     auto dwColor = ARGB(uint32_t(fAlpha * 255.0f), 255, 255, 255);
 		for (long x = 0; x < iLen; x++)
 		{
@@ -634,7 +634,7 @@ void CoastFoam::ExecuteFoamType1(Foam* pF, float fDeltaTime)
 			if (x >= iLen - 4)
 				fAlpha1 *= float((iLen - 1) - x) / 4.0f;
 
-      auto dwColor = ARGB(uint32_t(fAlpha1 * 255.0f), 255, 255, 255);
+      const auto dwColor = ARGB(uint32_t(fAlpha1 * 255.0f), 255, 255, 255);
 
       auto fAmp = (1.0f - pWP->p[y].fPos) / 4.0f;
 			if (y == 0 && pWP->p[y].fPos >= 0.6f)
@@ -708,7 +708,7 @@ void CoastFoam::RecalculateFoam(long iFoam)
     auto pF1 = &pF->aFoamParts[i];
     auto pF2 = &pF->aFoamParts[i + 1];
 
-    auto dx = (pF1->v[0] - pF2->v[0]).GetLength() / float(iFoamDivides);
+    const auto dx = (pF1->v[0] - pF2->v[0]).GetLength() / float(iFoamDivides);
 		for (long j = 0; j < iFoamDivides; j++)
 		{
 			if (j == 0 && i != 0) continue;
@@ -720,7 +720,7 @@ void CoastFoam::RecalculateFoam(long iFoam)
 			pWP->v[0] = pF1->v[1] + float(j) / float(iFoamDivides - 1) * (pF2->v[1] - pF1->v[1]);
 			pWP->v[1] = pF1->v[0] + float(j) / float(iFoamDivides - 1) * (pF2->v[0] - pF1->v[0]);
 
-      auto fStartPos = sinf(ii / 14.0f * PI) * 0.1f;
+      const auto fStartPos = sinf(ii / 14.0f * PI) * 0.1f;
 			for (long k = 0; k < 8; k++)
 			{
 				pWP->p[k].fPos = fStartPos + (float(k) / 7.0f) * 0.4f;
@@ -739,7 +739,7 @@ void CoastFoam::Save()
 	if (!bCanEdit) return;
 
 	char cKey[128], cSection[128], cTemp[1024];
-  auto sID = std::string("resource\\foam\\locations\\") + AttributesPointer->GetAttribute("id") + ".ini";
+  const auto sID = std::string("resource\\foam\\locations\\") + AttributesPointer->GetAttribute("id") + ".ini";
 	fio->_DeleteFile(sID.c_str());
 
   auto pI = fio->CreateIniFile(sID.c_str(), false);
@@ -802,12 +802,12 @@ void CoastFoam::Load()
 {
 	char cSection[256], cKey[256], cTemp[1024];
 
-  auto sID = std::string("resource\\foam\\locations\\") + AttributesPointer->GetAttribute("id") + ".ini";
+  const auto sID = std::string("resource\\foam\\locations\\") + AttributesPointer->GetAttribute("id") + ".ini";
   auto pI = fio->OpenIniFile(sID.c_str());
 	if (!pI) return;
 
 	clear();
-  auto iNumFoams = pI->GetLong(nullptr, "NumFoams", 0);
+  const auto iNumFoams = pI->GetLong(nullptr, "NumFoams", 0);
 	fMaxFoamDistance = pI->GetFloat(nullptr, "MaxFoamDistance", 1000.0f);
 	fFoamDeltaY = pI->GetFloat(nullptr, "FoamDeltaY", 0.2f);
 	iFoamDivides = pI->GetLong(nullptr, "FoamDivides", 4);
@@ -819,7 +819,7 @@ void CoastFoam::Load()
 
 		sprintf_s(cSection, "foam_%d", i);
 
-		long iNumParts = pI->GetLong(cSection, "NumParts", 0);
+    const long iNumParts = pI->GetLong(cSection, "NumParts", 0);
 
 		pI->ReadString(cSection, "Alpha", cTemp, sizeof(cTemp), "148, 196");
 		sscanf(cTemp, "%f, %f", &pF->fAlphaMin, &pF->fAlphaMax);

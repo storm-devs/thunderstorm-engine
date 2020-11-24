@@ -289,8 +289,8 @@ inline float ISLAND::GetShadowTemp(long iX, long iZ)
 
 bool ISLAND::GetShadow(float x, float z, float* fRes)
 {
-	float fX = (x - vBoxCenter.x) / fShadowMapStep;
-	float fZ = (z - vBoxCenter.z) / fShadowMapStep;
+  const float fX = (x - vBoxCenter.x) / fShadowMapStep;
+  const float fZ = (z - vBoxCenter.z) / fShadowMapStep;
 
 	*fRes = GetShadowTemp(ftoi(fX) + mzShadow.GetSizeX() / 2, ftoi(fZ) + mzShadow.GetSizeX() / 2);
 
@@ -329,7 +329,7 @@ bool ISLAND::Check2DBoxDepth(CVECTOR vPos, CVECTOR vSize, float fAngY, float fMi
 {
 	//if (!mzDepth.isLoaded()) return false;
 
-	float fCos = cosf(fAngY), fSin = sinf(fAngY);
+  const float fCos = cosf(fAngY), fSin = sinf(fAngY);
 	for (float z = -vSize.z / 2.0f; z < vSize.z / 2.0f; z += fStepDZ)
 		for (float x = -vSize.x / 2.0f; x < vSize.x / 2.0f; x += fStepDX)
 		{
@@ -353,8 +353,8 @@ bool ISLAND::GetDepthFast(float x, float z, float* fRes)
 		return false;
 	}
 
-	float fX = (x * fStep1divDX) + float(iDMapSize >> 1);
-	float fZ = (z * fStep1divDZ) + float(iDMapSize >> 1);
+  const float fX = (x * fStep1divDX) + float(iDMapSize >> 1);
+  const float fZ = (z * fStep1divDZ) + float(iDMapSize >> 1);
 
 	*fRes = GetDepthNoCheck(ftoi(fX), ftoi(fZ));
 	return true;
@@ -372,8 +372,8 @@ bool ISLAND::GetDepth(float x, float z, float* fRes)
 		return false;
 	}
 
-	float fX = (x * fStep1divDX) + float(iDMapSize >> 1);
-	float fZ = (z * fStep1divDZ) + float(iDMapSize >> 1);
+  const float fX = (x * fStep1divDX) + float(iDMapSize >> 1);
+  const float fZ = (z * fStep1divDZ) + float(iDMapSize >> 1);
 
 	*fRes = GetDepthNoCheck(ftoi(fX), ftoi(fZ));
 
@@ -382,8 +382,8 @@ bool ISLAND::GetDepth(float x, float z, float* fRes)
 
 bool ISLAND::ActivateCamomileTrace(CVECTOR& vSrc)
 {
-	float fRadius = 100.0f;
-	long iNumPetal = 8;
+  const float fRadius = 100.0f;
+  const long iNumPetal = 8;
 	long iNumInner = 0;
 
 	for (long i = 0; i < iNumPetal; i++)
@@ -416,7 +416,7 @@ void ISLAND::CalcBoxParameters(CVECTOR& _vBoxCenter, CVECTOR& _vBoxSize)
 	GEOS::INFO ginfo;
 	float x1 = 1e+8f, x2 = -1e+8f, z1 = 1e+8f, z2 = -1e+8f;
 
-	auto its = EntityManager::GetEntityIdIterators(ISLAND_TRACE);
+  const auto its = EntityManager::GetEntityIdIterators(ISLAND_TRACE);
 	for (auto it = its.first; it != its.second; ++it)
 	{
 		MODEL* pM = (MODEL*)EntityManager::GetEntityPointer(it->second);
@@ -431,8 +431,8 @@ void ISLAND::CalcBoxParameters(CVECTOR& _vBoxCenter, CVECTOR& _vBoxSize)
 			if (!pN) break;
 			pN->geo->GetInfo(ginfo);
 			CVECTOR vGlobPos = pN->glob_mtx.Pos();
-			CVECTOR vBC = vGlobPos + CVECTOR(ginfo.boxcenter.x, 0.0f, ginfo.boxcenter.z);
-			CVECTOR vBS = CVECTOR(ginfo.boxsize.x, 0.0f, ginfo.boxsize.z) / 2.0f;
+      const CVECTOR vBC = vGlobPos + CVECTOR(ginfo.boxcenter.x, 0.0f, ginfo.boxcenter.z);
+      const CVECTOR vBS = CVECTOR(ginfo.boxsize.x, 0.0f, ginfo.boxsize.z) / 2.0f;
 			if (vBC.x - vBS.x < x1) x1 = vBC.x - vBS.x;
 			if (vBC.x + vBS.x > x2) x2 = vBC.x + vBS.x;
 			if (vBC.z - vBS.z < z1) z1 = vBC.z - vBS.z;
@@ -470,16 +470,16 @@ void ISLAND::CreateDirectories(char* pDir)
 
 bool ISLAND::CreateShadowMap(char* pDir, char* pName)
 {
-	std::string sDir;
+  const std::string sDir;
 	const auto pWeather = (WEATHER_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("Weather"));
 	if (pWeather == nullptr)
 		throw std::exception("No found WEATHER entity!");
 
-	fs::path path = fs::path() / "resource" / "foam" / pDir / AttributesPointer->GetAttribute("LightingPath");
+  const fs::path path = fs::path() / "resource" / "foam" / pDir / AttributesPointer->GetAttribute("LightingPath");
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//sDir.Format("resource\\foam\\%s\\%s\\", pDir, AttributesPointer->GetAttribute("LightingPath")); sDir.CheckPath();
 	//sprintf_s(fname, "%s%s.tga", (const char*)sDir.c_str(), pName);
-	std::string fileName = path.string() + pName + ".tga";
+  const std::string fileName = path.string() + pName + ".tga";
 
 	CreateDirectories((char*)sDir.c_str());
 
@@ -489,13 +489,13 @@ bool ISLAND::CreateShadowMap(char* pDir, char* pName)
 	if (mzShadow.Load(fileName + ".zap")) return true;
 
 	// try to load tga file
-	HANDLE hFile = fio->_CreateFile(fileName.c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
+  const HANDLE hFile = fio->_CreateFile(fileName.c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
 		TGA_H tga_head;
 
 		fio->_ReadFile(hFile, &tga_head, sizeof(tga_head), nullptr);
-		uint32_t dwSize = tga_head.width;
+    const uint32_t dwSize = tga_head.width;
 		pShadowMap = new uint8_t[dwSize * dwSize];
 		fio->_ReadFile(hFile, pShadowMap, dwSize * dwSize, nullptr);
 		fio->_CloseHandle(hFile);
@@ -526,8 +526,8 @@ bool ISLAND::CreateShadowMap(char* pDir, char* pName)
 			pShadowMap[x + z * DMAP_SIZE] = 255;
 			if (fRes <= 1.0f)
 			{
-				float fLen = sqrtf(~(vSun - vSrc)) * fRes;
-				float fValue = Bring2Range(50.0f, 254.0f, 0.0f, 500.0f, fLen);
+        const float fLen = sqrtf(~(vSun - vSrc)) * fRes;
+        const float fValue = Bring2Range(50.0f, 254.0f, 0.0f, 500.0f, fLen);
 				pShadowMap[x + z * DMAP_SIZE] = uint8_t(fValue);
 			}
 			if (GetDepthFast(vSrc.x, vSrc.z, &fRes))
@@ -555,7 +555,7 @@ void ISLAND::Blur8(uint8_t* * pBuffer, uint32_t dwSize)
 {
 	uint32_t x, z;
 	uint8_t* pNewBuffer = new uint8_t[dwSize * dwSize];
-	uint32_t dwMask = dwSize - 1;
+  const uint32_t dwMask = dwSize - 1;
 	// do blur for shadow map
 	for (z = 0; z < dwSize; z++)
 		for (x = 0; x < dwSize; x++)
@@ -787,7 +787,7 @@ bool ISLAND::SaveTga8(char* fname, uint8_t* pBuffer, uint32_t dwSizeX, uint32_t 
 	tga_head.bpp = 8;
 	tga_head.attr8 = 8;
 
-	HANDLE hFile = fio->_CreateFile(fname, GENERIC_WRITE, FILE_SHARE_READ, OPEN_ALWAYS);
+  const HANDLE hFile = fio->_CreateFile(fname, GENERIC_WRITE, FILE_SHARE_READ, OPEN_ALWAYS);
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
 		api->Trace("Island: Can't create island file! %s", fname);
@@ -809,8 +809,8 @@ bool ISLAND::Mount(char* fname, char* fdir, entid_t* eID)
 
 	SetName(fname);
 
-	fs::path path = fs::path() / fdir / fname;
-	std::string pathStr = path.string();
+  const fs::path path = fs::path() / fdir / fname;
+  const std::string pathStr = path.string();
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 	//sRealFileName.Format("%s\\%s", fdir, fname); sRealFileName.CheckPath();
 
@@ -843,7 +843,7 @@ bool ISLAND::Mount(char* fname, char* fdir, entid_t* eID)
 
 	const auto lighter_id = EntityManager::GetEntityId("lighter");
 	api->Send_Message(lighter_id, "ssi", "AddModel", fname, model_id);
-	std::string sSeaBedName = std::string(fname) + "_seabed";
+  const std::string sSeaBedName = std::string(fname) + "_seabed";
 	api->Send_Message(lighter_id, "ssi", "AddModel", (char*)sSeaBedName.c_str(), seabed_id);
 
 	fImmersionDistance = AttributesPointer->GetAttributeAsFloat("ImmersionDistance", 3000.0f);
@@ -870,10 +870,10 @@ bool ISLAND::Mount(char* fname, char* fdir, entid_t* eID)
 
 float ISLAND::Cannon_Trace(long iBallOwner, const CVECTOR& vSrc, const CVECTOR& vDst)
 {
-	float fRes = Trace(vSrc, vDst);
+  const float fRes = Trace(vSrc, vDst);
 	if (fRes <= 1.0f)
 	{
-		CVECTOR vTemp = vSrc + fRes * (vDst - vSrc);
+    const CVECTOR vTemp = vSrc + fRes * (vDst - vSrc);
 		api->Event(BALL_ISLAND_HIT, "lfff", iBallOwner, vTemp.x, vTemp.y, vTemp.z);
 	}
 	return fRes;
@@ -906,8 +906,8 @@ bool ISLAND::GetMovePoint(CVECTOR& vSrc, CVECTOR& vDst, CVECTOR& vRes)
 	PointsSrc = AIPath.GetNearestPoints(vSrc);
 	PointsDst = AIPath.GetNearestPoints(vDst);
 
-	uint32_t dwSizeSrc = ((*PointsSrc).size() > 8) ? 8 : (*PointsSrc).size();
-	uint32_t dwSizeDst = ((*PointsDst).size() > 8) ? 8 : (*PointsDst).size();
+  const uint32_t dwSizeSrc = ((*PointsSrc).size() > 8) ? 8 : (*PointsSrc).size();
+  const uint32_t dwSizeDst = ((*PointsDst).size() > 8) ? 8 : (*PointsDst).size();
 
 	for (i = 0; i < dwSizeDst; i++)
 		(*PointsDst)[i].fTemp = Trace(vDst, AIPath.GetPointPos((*PointsDst)[i].dwPnt));
@@ -917,15 +917,15 @@ bool ISLAND::GetMovePoint(CVECTOR& vSrc, CVECTOR& vDst, CVECTOR& vRes)
 	for (i = 0; i < dwSizeSrc; i++)
 	{
 		if (Trace(vSrc, AIPath.GetPointPos((*PointsSrc)[i].dwPnt)) < 1.0f) continue;
-		float fDist1 = sqrtf(~(vSrc - AIPath.GetPointPos((*PointsSrc)[i].dwPnt)));
+    const float fDist1 = sqrtf(~(vSrc - AIPath.GetPointPos((*PointsSrc)[i].dwPnt)));
 		if (fDist1 < 80.0f) continue;
 		for (j = 0; j < dwSizeDst; j++)
 			if ((*PointsDst)[j].fTemp > 1.0f)
 			{
 				//if (Trace(vDst,AIPath.GetPointPos((*PointsDst)[j].dwPnt)) < 1.0f) continue;
-				float fDist2 = sqrtf(~(vDst - AIPath.GetPointPos((*PointsDst)[j].dwPnt)));
-				float fDistance = AIPath.GetPathDistance((*PointsSrc)[i].dwPnt, (*PointsDst)[j].dwPnt);
-				float fTotalDist = fDistance + fDist1 + fDist2;
+        const float fDist2 = sqrtf(~(vDst - AIPath.GetPointPos((*PointsDst)[j].dwPnt)));
+        const float fDistance = AIPath.GetPathDistance((*PointsSrc)[i].dwPnt, (*PointsDst)[j].dwPnt);
+        const float fTotalDist = fDistance + fDist1 + fDist2;
 				if (fTotalDist < fMaxDistance && fTotalDist > 0.0f)
 				{
 					fMaxDistance = fTotalDist;

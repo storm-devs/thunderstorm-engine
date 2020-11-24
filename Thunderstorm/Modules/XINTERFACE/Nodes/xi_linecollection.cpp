@@ -41,7 +41,7 @@ void CXI_LINECOLLECTION::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini
 	char param1[256];
 
 	// fill lines structure array
-  auto bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
+  const auto bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
   auto nCurLine = 0;
 	if (ini1->ReadString(name1, "line", param, sizeof(param) - 1, ""))
 		do
@@ -91,7 +91,7 @@ void CXI_LINECOLLECTION::SaveParametersToIni()
 {
 	//	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  const auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -111,8 +111,8 @@ uint32_t CXI_LINECOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 	{
 	case 0: // сменить цвет для линии с номером или всех строк (если номер = -1)
 		{
-			uint32_t dwColor = message.Long();
-      auto nLineNum = message.Long();
+      const uint32_t dwColor = message.Long();
+      const auto nLineNum = message.Long();
 			if (nLineNum < 0 || nLineNum >= (long)m_aLines.size() / 2)
 			{
 				for (long n = 0; n < m_aLines.size(); n++)
@@ -126,14 +126,14 @@ uint32_t CXI_LINECOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 		break;
 	case 1: // добавить динию и вернуть ее номер
 		{
-			uint32_t dwColor = message.Long();
-      auto nLeft = message.Long();
-      auto nTop = message.Long();
-      auto nRight = message.Long();
-			long nBottom = message.Long();
+      const uint32_t dwColor = message.Long();
+      const auto nLeft = message.Long();
+      const auto nTop = message.Long();
+      const auto nRight = message.Long();
+      const long nBottom = message.Long();
 			//long nLineNum = m_aLines.Add() / 2;
 			//m_aLines.Add();
-			long nLineNum = m_aLines.size() / 2;
+      const long nLineNum = m_aLines.size() / 2;
 			m_aLines.resize(m_aLines.size() + 2);
 			m_aLines[nLineNum * 2].dwColor = m_aLines[nLineNum * 2 + 1].dwColor = dwColor;
 			m_aLines[nLineNum * 2].vPos.z = m_aLines[nLineNum * 2 + 1].vPos.z = 1.f;

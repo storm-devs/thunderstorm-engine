@@ -300,7 +300,7 @@ bool DECK_CAMERA::FindPath()
 	pModel = GetModelPointer();
 	Assert(pModel); // если есть адрес у объекта
 
-  auto pNewPathNode = pModel->FindNode("path");
+  const auto pNewPathNode = pModel->FindNode("path");
 	Assert(pNewPathNode);
 	if (pathNode != pNewPathNode)
 	{

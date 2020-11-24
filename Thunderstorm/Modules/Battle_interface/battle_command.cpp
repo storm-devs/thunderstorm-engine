@@ -37,7 +37,7 @@ void BICommandList::Draw()
 {
 	if (m_aCooldownUpdate.size() > 0)
 	{
-    auto fDT = api->GetDeltaTime() * .001f;
+    const auto fDT = api->GetDeltaTime() * .001f;
 		for (long n = 0; n < m_aCooldownUpdate.size(); n++)
 		{
 			m_aCooldownUpdate[n].fTime -= fDT;
@@ -351,7 +351,7 @@ long BICommandList::AddToIconList(long nTextureNum, long nNormPictureNum, long n
 
 void BICommandList::AddAdditiveToIconList(long nTextureNum, long nPictureNum, float fDist, float fWidth, float fHeight)
 {
-	long n = m_aUsedCommand.size() - 1;
+  const long n = m_aUsedCommand.size() - 1;
 	if (n < 0) return;
 
 	UsedCommand::AdditiveIcon icon;
@@ -426,10 +426,10 @@ FRECT& BICommandList::GetPictureUV(long nTextureNum, long nPictureNum, FRECT& uv
 	}
 	else
 	{
-    auto fDU = 1.f / m_aTexture[nTextureNum].nCols;
-    auto fDV = 1.f / m_aTexture[nTextureNum].nRows;
-    auto ny = nPictureNum / m_aTexture[nTextureNum].nCols;
-    auto nx = nPictureNum - ny * m_aTexture[nTextureNum].nCols;
+    const auto fDU = 1.f / m_aTexture[nTextureNum].nCols;
+    const auto fDV = 1.f / m_aTexture[nTextureNum].nRows;
+    const auto ny = nPictureNum / m_aTexture[nTextureNum].nCols;
+    const auto nx = nPictureNum - ny * m_aTexture[nTextureNum].nCols;
 		uv.left = nx * fDU;
 		uv.right = uv.left + fDU;
 		uv.top = ny * fDV;
@@ -486,7 +486,7 @@ void BICommandList::UpdateShowIcon()
 				i += ClockIconAdd(m_aUsedCommand[n].nSelPictureIndex, m_aUsedCommand[n].nCooldownPictureIndex,
 				                  m_aUsedCommand[n].nTextureIndex, rPos, m_aUsedCommand[n].fCooldownFactor);
 			SetNote(m_aUsedCommand[n].sNote.c_str(), (rPos.left + rPos.right) / 2, (rPos.top + rPos.bottom) / 2);
-      auto pSD = g_ShipList.FindShip(m_aUsedCommand[n].nCharIndex);
+      const auto pSD = g_ShipList.FindShip(m_aUsedCommand[n].nCharIndex);
 			if (pSD)
 			{
 				api->Event("evntBISelectShip", "ll", pSD->characterIndex, pSD->relation != BI_RELATION_ENEMY);
@@ -541,12 +541,12 @@ ATTRIBUTES* BICommandList::GetCurrentCommandAttribute() const {
 		pAR = m_pARoot->GetAttributeClass("Commands");
 	if (!pAR) return nullptr;
 
-	long q = pAR->GetAttributesNum();
+  const long q = pAR->GetAttributesNum();
 	for (long n = 0; n < q; n++)
 	{
     auto pA = pAR->GetAttributeClass(n);
 		if (!pA) continue;
-    auto pcCommName = pA->GetAttribute("event");
+    const auto pcCommName = pA->GetAttribute("event");
 		if (m_sCurrentCommandName == pcCommName) return pA;
 	}
 	return nullptr;

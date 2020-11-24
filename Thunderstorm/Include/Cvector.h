@@ -156,7 +156,7 @@ public:
 	//divide each element by float
 	friend CVECTOR operator /(const CVECTOR& v1, float f)
 	{
-    auto _f = 1.0 / f;
+    const auto _f = 1.0 / f;
 		return CVECTOR(v1.x * _f, v1.y * _f, v1.z * _f);
 	};
 	//cross product
@@ -252,7 +252,7 @@ public:
 	//normalize
 	friend DVECTOR operator !(const DVECTOR& v)
 	{
-    auto len = 1.0 / sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+    const auto len = 1.0 / sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 		return DVECTOR(v.x * len, v.y * len, v.z * len);
 	};
 
@@ -294,7 +294,7 @@ public:
 	//divide each element by double
 	friend DVECTOR operator /(const DVECTOR& v1, double f)
 	{
-    auto _f = 1.0 / f;
+    const auto _f = 1.0 / f;
 		return DVECTOR(v1.x * _f, v1.y * _f, v1.z * _f);
 	};
 	//cross product

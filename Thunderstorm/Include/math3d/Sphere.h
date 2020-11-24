@@ -128,7 +128,7 @@ inline bool Sphere::Intersection(const Vector& p)
 inline bool Sphere::Intersection(const Vector& src, const Vector& dst)
 {
 	Vector dir = dst - src;
-	float len = dir.Normalize();
+  const float len = dir.Normalize();
 	if (len > 1e-10f)
 	{
 		float dist;
@@ -171,9 +171,9 @@ inline void Sphere::Reset(const Vector& p)
 inline void Sphere::AddPoint(const Vector& p)
 {
 	//Вектор из точки к центру
-	float dx = pos.x - p.x;
-	float dy = pos.y - p.y;
-	float dz = pos.z - p.z;
+  const float dx = pos.x - p.x;
+  const float dy = pos.y - p.y;
+  const float dz = pos.z - p.z;
 	float len = dx * dx + dy * dy + dz * dz;
 	if (len <= r * r) return;
 	len = sqrtf(len);
@@ -189,9 +189,9 @@ inline void Sphere::AddPoint(const Vector& p)
 //Проверить пересечение луча и сферы
 inline bool Sphere::Intersection(const Vector& orig, const Vector& normdir, const Vector& pos, float r, float* res)
 {
-	Vector toCenter = pos - orig;
-	float distToOrtoPlane = normdir | toCenter;
-	float distFromOrtoPlaneToSphere2 = r * r - (~toCenter - distToOrtoPlane * distToOrtoPlane);
+  const Vector toCenter = pos - orig;
+  const float distToOrtoPlane = normdir | toCenter;
+  const float distFromOrtoPlaneToSphere2 = r * r - (~toCenter - distToOrtoPlane * distToOrtoPlane);
 	if (distFromOrtoPlaneToSphere2 < 0.0f) return false;
 	if (res)
 	{

@@ -77,14 +77,14 @@ void TornadoParticles::Update(float dltTime)
 			groundPrt[i].t -= long(groundPrt[i].t);
 			groundPrt[i].dt = 0.0f;
 		}
-    auto t = groundPrt[i].t;
+    const auto t = groundPrt[i].t;
 		if (t == 0) continue; //eddy. вылет по assert нам не нужен
 		//Assert(t);
 		//Вражение вокруг оси столба
 		groundPrt[i].a += k * dltTime * (0.5f + 5.0f * t);
 		if (groundPrt[i].a > TRND_PI * 2.0f) groundPrt[i].a -= TRND_PI * 2.0f;
 		//Позиция
-    auto r = groundPrt[i].r * ((1.0f - t) * (1.0f - t) * 0.7f + 0.3f);
+    const auto r = groundPrt[i].r * ((1.0f - t) * (1.0f - t) * 0.7f + 0.3f);
 		groundPrt[i].pos.y = seaLevel + 30.0f * powf(t, groundPrt[i].p);
 		groundPrt[i].pos.x = pillar.GetX(groundPrt[i].pos.y) + r * sinf(groundPrt[i].a);
 		groundPrt[i].pos.z = pillar.GetZ(groundPrt[i].pos.y) + r * cosf(groundPrt[i].a);
@@ -104,12 +104,12 @@ void TornadoParticles::Update(float dltTime)
 	for (long i = 0; i < sizeof(pillarPrt) / sizeof(PillarParticle); i++)
 	{
     auto kh = pillar.GetKHeight(pillarPrt[i].pos.y);
-    auto k = pillarPrt[i].k;
+    const auto k = pillarPrt[i].k;
 		pillarPrt[i].pos.y += k * dltTime * (20.0f + 40.0f * kh * kh);
 		if (pillarPrt[i].pos.y >= pillar.GetHeight()) pillarPrt[i].pos.y = 0.0f;
-    auto x = pillar.GetX(pillarPrt[i].pos.y);
-    auto z = pillar.GetZ(pillarPrt[i].pos.y);
-    auto r = pillar.GetRaduis(pillarPrt[i].pos.y) - pillarPrt[i].size * 0.25f;
+    const auto x = pillar.GetX(pillarPrt[i].pos.y);
+    const auto z = pillar.GetZ(pillarPrt[i].pos.y);
+    const auto r = pillar.GetRaduis(pillarPrt[i].pos.y) - pillarPrt[i].size * 0.25f;
 		pillarPrt[i].angle += k * dltTime * 3.5f;
 		if (pillarPrt[i].angle > TRND_PI * 2.0f) pillarPrt[i].angle -= TRND_PI * 2.0f;
 		pillarPrt[i].ang += k * dltTime * (19.0f - 10.0f * pillar.GetKHeight(pillarPrt[i].pos.y));
@@ -146,10 +146,10 @@ inline void TornadoParticles::DrawParticles(VDX9RENDER* rs, void* prts, long num
 		auto* parts = (Particle *)prts;
 		prts = (char *)prts + size;
     auto pos = camMtx * parts->pos;
-    auto size = parts->size * 0.5f;
-    auto sn = sinf(parts->angle);
-    auto cs = cosf(parts->angle);
-    auto color = (long(parts->alpha * galpha) << 24) | 0x00ffffff;
+    const auto size = parts->size * 0.5f;
+    const auto sn = sinf(parts->angle);
+    const auto cs = cosf(parts->angle);
+    const auto color = (long(parts->alpha * galpha) << 24) | 0x00ffffff;
 		buffer[n * 6 + 0].pos = pos + CVECTOR(size * (-cs + sn), size * (sn + cs), 0.0f);
 		buffer[n * 6 + 0].color = color;
 		buffer[n * 6 + 0].u = 0.0f;

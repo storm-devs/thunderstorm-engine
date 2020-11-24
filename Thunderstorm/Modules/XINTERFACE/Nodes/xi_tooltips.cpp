@@ -42,7 +42,7 @@ void CXI_ToolTip::Draw()
 		                             sizeof(XI_ONETEX_VERTEX), "iVideo");
 	}
 
-  auto nX = (m_rPos.left + m_rPos.right) / 2;
+  const auto nX = (m_rPos.left + m_rPos.right) / 2;
   auto nY = m_rPos.top + m_pntTextOffset.y;
 	for (long n = 0; n < m_aSubText.size(); n++)
 	{
@@ -70,7 +70,7 @@ void CXI_ToolTip::SetByFormatString(XYRECT& rectOwner, INIFILE* pDefIni, const c
 	for (auto pcParam = (char*)pFmtStr; pcParam && pcParam[0];)
 	{
 		if (nullptr == CXI_UTILS::StringGetTokenID(pcParam, tokenID, sizeof(tokenID))) break;
-    auto nTokenCode = CXI_UTILS::StringGetTokenCode(tokenID);
+    const auto nTokenCode = CXI_UTILS::StringGetTokenCode(tokenID);
 		if (CXI_UTILS::StringGetTokenString(pcParam, tokenString, sizeof(tokenString)))
 		{
 			const char* pStr = tokenString;
@@ -154,7 +154,7 @@ void CXI_ToolTip::SetByFormatString(XYRECT& rectOwner, INIFILE* pDefIni, const c
 		TOREMOVE::trim(m_aSubText[n]);
 		TOREMOVE::rtrim(m_aSubText[n]);
 
-    auto nW = m_rs->StringWidth((char*)m_aSubText[n].c_str(), m_nFontID, m_fFontScale, 0);
+    const auto nW = m_rs->StringWidth((char*)m_aSubText[n].c_str(), m_nFontID, m_fFontScale, 0);
 		if (nW > m_nUseWidth) m_nUseWidth = nW;
 	}
 	m_nUseWidth += m_pntTextOffset.x * 2;

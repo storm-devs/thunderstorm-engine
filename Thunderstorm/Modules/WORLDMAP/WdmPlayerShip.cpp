@@ -43,15 +43,15 @@ void WdmPlayerShip::PushOutFromIsland()
 	}
 	//Крутим по спирали вокруг точки
   auto ang = 0.0f, angStep = PI * 0.1f;
-  auto areaRad = 0.1f * 0.707f * sqrtf(
+  const auto areaRad = 0.1f * 0.707f * sqrtf(
 		wdmObjects->worldSizeX * wdmObjects->worldSizeX + wdmObjects->worldSizeZ * wdmObjects->worldSizeZ);
-  auto x = mtx.Pos().x;
-  auto z = mtx.Pos().z;
+  const auto x = mtx.Pos().x;
+  const auto z = mtx.Pos().z;
 	for (auto r = 0.0f; r < areaRad; r += modelRadius * 0.2f, ang += angStep)
 	{
 		if (ang > 2.0f * PI) ang -= 2.0f * PI;
-    auto _x = x + r * sinf(ang);
-    auto _z = z + r * cosf(ang);
+    const auto _x = x + r * sinf(ang);
+    const auto _z = z + r * cosf(ang);
 		CMatrix m(0.0f, ay, 0.0f, _x, 0.0f, _z);
 		if (!wdmObjects->islands->CollisionTest(m, modelL05, modelW05, false))
 		{
@@ -62,8 +62,8 @@ void WdmPlayerShip::PushOutFromIsland()
 	//Неполучилось, попробуем случайно подвигать
 	for (long i = 0; i < 256; i++)
 	{
-    auto _x = x + areaRad * rand() * 1.0f / RAND_MAX;
-    auto _z = z + areaRad * rand() * 1.0f / RAND_MAX;
+    const auto _x = x + areaRad * rand() * 1.0f / RAND_MAX;
+    const auto _z = z + areaRad * rand() * 1.0f / RAND_MAX;
 		CMatrix m(0.0f, ay, 0.0f, _x, 0.0f, _z);
 		if (!wdmObjects->islands->CollisionTest(m, modelL05, modelW05, false))
 		{
@@ -103,7 +103,7 @@ void WdmPlayerShip::Update(float dltTime)
 	for (i = 0; i < wdmObjects->ships.size(); i++)
 	{
 		//Пропустим ненужных
-    auto es = ((WdmEnemyShip *)wdmObjects->ships[i]);
+    const auto es = ((WdmEnemyShip *)wdmObjects->ships[i]);
 		if ((WdmShip *)es == this || !es->isLive || es->killMe)
 		{
 			if (wdmObjects->enemyShip == es)
@@ -114,7 +114,7 @@ void WdmPlayerShip::Update(float dltTime)
 			continue;
 		}
 		//Дистанция до кораблика
-    auto r = ~(es->mtx.Pos() - mtx.Pos());
+    const auto r = ~(es->mtx.Pos() - mtx.Pos());
 		//Определим радиус тестирования
 		if (es->isEnemy)
 		{
@@ -182,8 +182,8 @@ void WdmPlayerShip::Update(float dltTime)
 		wdmObjects->wm->AttributesPointer->SetAttributeUseFloat("playerShipAY", ay);
 	}
 
-	long nOldIslandVal = wdmObjects->wm->AttributesPointer->GetAttributeAsDword("encounter_island", 0);
-	long nOldEncounterType = wdmObjects->wm->AttributesPointer->GetAttributeAsDword("encounter_type", 0);
+  const long nOldIslandVal = wdmObjects->wm->AttributesPointer->GetAttributeAsDword("encounter_island", 0);
+  const long nOldEncounterType = wdmObjects->wm->AttributesPointer->GetAttributeAsDword("encounter_type", 0);
 	// отметим попадание в остров
 	if (wdmObjects->curIsland)
 	{
@@ -283,7 +283,7 @@ long WdmPlayerShip::TestInStorm() const {
 		}
 		float x, z;
 		wdmObjects->storms[i]->GetPosition(x, z);
-    auto d = (mtx.Pos().x - x) * (mtx.Pos().x - x) + (mtx.Pos().z - z) * (mtx.Pos().z - z);
+    const auto d = (mtx.Pos().x - x) * (mtx.Pos().x - x) + (mtx.Pos().z - z) * (mtx.Pos().z - z);
 		if (d < wdmObjects->stormZone * wdmObjects->stormZone)
 		{
 			if (wdmObjects->storms[i]->IsActive())

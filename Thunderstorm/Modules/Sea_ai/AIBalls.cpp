@@ -110,7 +110,7 @@ void AIBalls::FireBallFromCamera()
 
 void AIBalls::AddBall(ATTRIBUTES* pABall)
 {
-  auto pBallName = pABall->GetAttribute("Type");
+  const auto pBallName = pABall->GetAttribute("Type");
 	Assert(pBallName);
 
 	uint32_t i;
@@ -134,10 +134,10 @@ void AIBalls::AddBall(ATTRIBUTES* pABall)
 	pBall->fTimeSpeedMultiply = GetAFloat("TimeSpeedMultiply");
 	pBall->dwCannonType = GetADword("CannonType");
 	pBall->fMaxFireDistance = GetAFloat("MaxFireDistance");
-  auto fAngle = GetAFloat("Ang");
+  const auto fAngle = GetAFloat("Ang");
 	pBall->fCosAngle = cosf(fAngle);
 	pBall->fSinAngle = sinf(fAngle);
-  auto fDir = GetAFloat("Dir");
+  const auto fDir = GetAFloat("Dir");
 	pBall->fDirX = cosf(fDir);
 	pBall->fDirZ = sinf(fDir);
 	pBall->pParticle = nullptr;
@@ -434,7 +434,7 @@ void AIBalls::Load(CSaveLoad* pSL)
 {
 	for (uint32_t i = 0; i < aBallTypes.size(); i++)
 	{
-		uint32_t dwNum = pSL->LoadDword();
+    const uint32_t dwNum = pSL->LoadDword();
 
 		for (uint32_t j = 0; j < dwNum; j++)
 		{

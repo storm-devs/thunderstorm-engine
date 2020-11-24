@@ -53,9 +53,9 @@ void WdmMerchantShip::Goto(float x, float z, float rad)
 	//Определим направление
 	if (isEnableSetDir)
 	{
-		double sn = x - mtx.Pos().x;
+    const double sn = x - mtx.Pos().x;
 		double cs = z - mtx.Pos().z;
-    auto l = sn * sn + cs * cs;
+    const auto l = sn * sn + cs * cs;
 		if (l > 0.0) cs /= sqrt(l);
 		if (cs > 1.0) cs = 1.0;
 		if (cs < -1.0) cs = -1.0;
@@ -95,9 +95,9 @@ void WdmMerchantShip::FindMoveForce()
 //Проверка на завершение
 bool WdmMerchantShip::KillTest()
 {
-  auto dx = gotoPos.x - mtx.Pos().x;
-  auto dz = gotoPos.z - mtx.Pos().z;
-  auto dl = dx * dx + dz * dz;
+  const auto dx = gotoPos.x - mtx.Pos().x;
+  const auto dz = gotoPos.z - mtx.Pos().z;
+  const auto dl = dx * dx + dz * dz;
 	return dl <= gotoRad * gotoRad;
 }
 

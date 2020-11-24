@@ -125,14 +125,14 @@ void WdmWindUI::LRender(VDX9RENDER* rs)
 	float x, y, ay;
 	wdmObjects->playerShip->GetPosition(x, y, ay);
 	CVECTOR windDir;
-  auto widForce = wdmObjects->GetWind(x, y, windDir);
-	auto ang = (float)atan2(windDir.x, windDir.z);
+  const auto widForce = wdmObjects->GetWind(x, y, windDir);
+  const auto ang = (float)atan2(windDir.x, windDir.z);
 	//Параметры экрана
 	float w, h;
 	wdmObjects->GetVPSize(w, h);
   auto kDef = rs->GetHeightDeformator();
 	//Центр штуки
-  auto cx = (w - 128.0f - 16.0f) + 64.0f;
+  const auto cx = (w - 128.0f - 16.0f) + 64.0f;
   auto cy = (-40.0f) + 128.0f;
 	//Буфер для рисования плашек
 	Vertex buf[(3 * 2) * 2];
@@ -160,7 +160,7 @@ void WdmWindUI::LRender(VDX9RENDER* rs)
 	for (long i = 0; i < 6; i++)
 	{
 		CVECTOR v(buf[i].tu1, 0.0f, buf[i].tv1);
-    auto vrot = rot * v;
+    const auto vrot = rot * v;
 		buf[i].tu1 = vrot.x;
 		buf[i].tv1 = vrot.z;
 	}
@@ -177,9 +177,9 @@ void WdmWindUI::LRender(VDX9RENDER* rs)
 	sprintf_s(tbuf, sizeof(tbuf) - 1, "%i %s %i", wdmObjects->wm->day, month[wdmObjects->wm->mon - 1],
 	          wdmObjects->wm->year);
 	tbuf[sizeof(tbuf) - 1] = 0;
-  auto font = dateFont >= 0 ? dateFont : FONT_DEFAULT;
+  const auto font = dateFont >= 0 ? dateFont : FONT_DEFAULT;
   auto fw = rs->StringWidth(tbuf, font);
-  auto fh = rs->CharHeight(font);
+  const auto fh = rs->CharHeight(font);
 	rs->Print(font, 0xffffffff, long(cx - fw * 0.5f), long(cy + 98.0f - fh * 0.5f), tbuf);
 	//Центр
 	cy += 128.0f + 32.0f;

@@ -18,7 +18,7 @@ void GeomCache::CacheModel(const char* FileName)
 {
 	if (GetModel(FileName)) return;
 
-  auto pGeom = pGS->CreateGeometry(FileName, "", 0);
+  const auto pGeom = pGS->CreateGeometry(FileName, "", 0);
 	if (!pGeom) return;
 
 	CachedGeometry CacheEntry;

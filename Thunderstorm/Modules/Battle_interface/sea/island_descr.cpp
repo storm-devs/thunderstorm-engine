@@ -197,7 +197,7 @@ ISLAND_DESCRIBER::LOCATOR_DESCR* ISLAND_DESCRIBER::FindLocatorByName(char* name)
 	for (auto i = 0; i < m_nLocators; i++)
 	{
 		if (m_pLocators[i].pA == nullptr) continue;
-    auto curName = m_pLocators[i].pA->GetAttribute("name");
+    const auto curName = m_pLocators[i].pA->GetAttribute("name");
 		if (curName != nullptr && _stricmp(name, curName) == 0) return &m_pLocators[i];
 	}
 	return nullptr;

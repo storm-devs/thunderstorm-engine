@@ -146,7 +146,7 @@ long BIShipCommandList::ShipAdding(bool allLabel, bool bMyShip, bool bEnemy, boo
 				// подходит под расстояние ?
 				if (!allLabel)
 				{
-          auto cv = sd->pShip->GetPos();
+          const auto cv = sd->pShip->GetPos();
 					if (SQR(selX-cv.x) + SQR(selZ-cv.z) > sqrRadius) continue;
 				}
 				// проверка на допустимость корабля из скрипта
@@ -183,7 +183,7 @@ long BIShipCommandList::FortAdding(bool allLabel, bool bFriend, bool bNeutral, b
 	sqrRadius *= sqrRadius;
 
 	// Определим координаты принимающего команды корабля
-  auto selectedCharacter = m_nCurrentCommandCharacterIndex;
+  const auto selectedCharacter = m_nCurrentCommandCharacterIndex;
   auto selShip = g_ShipList.FindShip(selectedCharacter);
 	float selX, selZ;
 	if (selShip == nullptr)
@@ -234,7 +234,7 @@ long BIShipCommandList::LandAdding(bool allLabel)
 	sqrRadius *= sqrRadius;
 
 	// Определим координаты принимающего команды корабля
-  auto selectedCharacter = m_nCurrentCommandCharacterIndex;
+  const auto selectedCharacter = m_nCurrentCommandCharacterIndex;
   auto selShip = g_ShipList.FindShip(selectedCharacter);
 	float selX, selZ;
 	if (selShip == nullptr)
@@ -270,18 +270,18 @@ long BIShipCommandList::CommandAdding()
 	long retVal = 0;
   auto pAttr = m_pARoot->GetAttributeClass("Commands");
 	if (!pAttr) return 0;
-	long attrQuant = pAttr->GetAttributesNum();
+  const long attrQuant = pAttr->GetAttributesNum();
 
 	for (long i = 0; i < attrQuant; i++)
 	{
     auto pA = pAttr->GetAttributeClass(i);
 		if (pA == nullptr) continue; // нет такого атрибута
 		if (pA->GetAttributeAsDword("enable", 0) == 0) continue; // команда недоступна
-		long pictureNum = pA->GetAttributeAsDword("picNum", 0);
-		long selPictureNum = pA->GetAttributeAsDword("selPicNum", 0);
-		long cooldownPictureNum = pA->GetAttributeAsDword("cooldownPicNum", -1);
-		long texNum = pA->GetAttributeAsDword("texNum", m_nCommandTextureNum);
-    auto eventName = pA->GetAttribute("event");
+    const long pictureNum = pA->GetAttributeAsDword("picNum", 0);
+    const long selPictureNum = pA->GetAttributeAsDword("selPicNum", 0);
+    const long cooldownPictureNum = pA->GetAttributeAsDword("cooldownPicNum", -1);
+    const long texNum = pA->GetAttributeAsDword("texNum", m_nCommandTextureNum);
+    const auto eventName = pA->GetAttribute("event");
 		retVal += AddToIconList(texNum, pictureNum, selPictureNum, cooldownPictureNum,
 		                        -1, eventName, -1, nullptr, pA->GetAttribute("note"));
 	}
@@ -309,8 +309,8 @@ long BIShipCommandList::ChargeAdding()
 		char param[128];
 		sprintf_s(param, sizeof(param), "charge%d", i + 1);
     auto pA = pAList ? pAList->GetAttributeClass(param) : nullptr;
-		long nNormalPicIndex = pA ? pA->GetAttributeAsDword("picNum", -1) : -1;
-		long nSelectPicIndex = pA ? pA->GetAttributeAsDword("selPicNum", -1) : -1;
+    const long nNormalPicIndex = pA ? pA->GetAttributeAsDword("picNum", -1) : -1;
+    const long nSelectPicIndex = pA ? pA->GetAttributeAsDword("selPicNum", -1) : -1;
 		retVal += AddToIconList(m_nChargeTextureNum, nNormalPicIndex, nSelectPicIndex, -1, -1, nullptr, i + 1, nullptr,
 		                        nullptr);
 	}
@@ -322,16 +322,16 @@ long BIShipCommandList::UserIconsAdding()
 	long retVal = 0;
   auto pAttr = m_pARoot->GetAttributeClass("UserIcons");
 	if (!pAttr) return 0;
-	long attrQuant = pAttr->GetAttributesNum();
+  const long attrQuant = pAttr->GetAttributesNum();
 
 	for (long i = 0; i < attrQuant; i++)
 	{
     auto pA = pAttr->GetAttributeClass(i);
 		if (pA == nullptr) continue; // нет такого атрибута
 		if (pA->GetAttributeAsDword("enable", 0) == 0) continue; // команда недоступна
-		long pictureNum = pA->GetAttributeAsDword("pic", 0);
-		long selPictureNum = pA->GetAttributeAsDword("selpic", 0);
-		long textureNum = pA->GetAttributeAsDword("tex", -1);
+    const long pictureNum = pA->GetAttributeAsDword("pic", 0);
+    const long selPictureNum = pA->GetAttributeAsDword("selpic", 0);
+    const long textureNum = pA->GetAttributeAsDword("tex", -1);
 		retVal += AddToIconList(textureNum, pictureNum, selPictureNum, -1, -1, nullptr, i + 1, pA->GetAttribute("name"),
 		                        pA->GetAttribute("note"));
 	}
@@ -345,19 +345,19 @@ long BIShipCommandList::AbilityAdding()
 	long retVal = 0;
   auto pAttr = m_pARoot->GetAttributeClass("AbilityIcons");
 	if (!pAttr) return 0;
-	long attrQuant = pAttr->GetAttributesNum();
+  const long attrQuant = pAttr->GetAttributesNum();
 
 	for (long i = 0; i < attrQuant; i++)
 	{
     auto pA = pAttr->GetAttributeClass(i);
 		if (pA == nullptr) continue; // нет такого атрибута
 		if (pA->GetAttributeAsDword("enable", 0) == 0) continue; // команда недоступна
-		long pictureNum = pA->GetAttributeAsDword("picNum", 0);
-		long selPictureNum = pA->GetAttributeAsDword("selPicNum", 0);
-		long textureNum = pA->GetAttributeAsDword("texNum", -1);
+    const long pictureNum = pA->GetAttributeAsDword("picNum", 0);
+    const long selPictureNum = pA->GetAttributeAsDword("selPicNum", 0);
+    const long textureNum = pA->GetAttributeAsDword("texNum", -1);
 		//retVal += AddToIconList( textureNum, pictureNum, selPictureNum, -1, -1, pA->GetThisName(), i, null, pA->GetAttribute("note") );
-		long cooldownPictureNum = pA->GetAttributeAsDword("cooldownPicNum", -1);
-    auto eventName = pA->GetAttribute("event");
+    const long cooldownPictureNum = pA->GetAttributeAsDword("cooldownPicNum", -1);
+    const auto eventName = pA->GetAttribute("event");
 		retVal += AddToIconList(textureNum, pictureNum, selPictureNum, cooldownPictureNum,
 		                        -1, eventName, -1, nullptr, pA->GetAttribute("note"));
 	}
@@ -370,9 +370,9 @@ long BIShipCommandList::AddCancelIcon()
   auto pA = m_pARoot->GetAttributeClass("Commands");
 	if (pA) pA = pA->GetAttributeClass("Cancel");
 	if (!pA) return 0;
-	long pictureNum = pA->GetAttributeAsDword("picNum", 0);
-	long selPictureNum = pA->GetAttributeAsDword("selPicNum", 0);
-	long textureNum = pA->GetAttributeAsDword("texNum", -1);
+  const long pictureNum = pA->GetAttributeAsDword("picNum", 0);
+  const long selPictureNum = pA->GetAttributeAsDword("selPicNum", 0);
+  const long textureNum = pA->GetAttributeAsDword("texNum", -1);
 	return AddToIconList(textureNum, pictureNum, selPictureNum, -1, -1, pA->GetAttribute("event"), -1, nullptr,
 	                     pA->GetAttribute("note"));
 }
@@ -392,7 +392,7 @@ long BIShipCommandList::TownAdding(bool allLabel, bool bDiseased, bool bNotDisea
 	sqrRadius *= sqrRadius;
 
 	// Определим координаты принимающего команды корабля
-  auto selectedCharacter = m_nCurrentCommandCharacterIndex;
+  const auto selectedCharacter = m_nCurrentCommandCharacterIndex;
   auto selShip = g_ShipList.FindShip(selectedCharacter);
 	float selX, selZ;
 	if (selShip == nullptr)

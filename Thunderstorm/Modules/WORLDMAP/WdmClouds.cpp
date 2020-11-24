@@ -33,12 +33,12 @@ bool WdmClouds::Cloud::Reset(bool isFirstTime)
 	count = long((rand() * (0.5f / RAND_MAX) + 0.5f) * WDMCLOUDSMAX);
 	if (count < 1) count = 1;
 	//Базовая позиция
-  auto baseX = (rand() * (1.0f / RAND_MAX) - 0.5f) * wdmObjects->worldSizeX;
-  auto baseZ = (rand() * (1.0f / RAND_MAX) - 0.5f) * wdmObjects->worldSizeZ;
+  const auto baseX = (rand() * (1.0f / RAND_MAX) - 0.5f) * wdmObjects->worldSizeX;
+  const auto baseZ = (rand() * (1.0f / RAND_MAX) - 0.5f) * wdmObjects->worldSizeZ;
 	//Скалирующий фактор
   auto scaleX = (rand() * (0.8f / RAND_MAX) + 0.2f);
   auto scaleZ = (rand() * (0.8f / RAND_MAX) + 0.2f);
-  auto nrm = 1.0f / sqrtf(scaleX * scaleX + scaleZ * scaleZ);
+  const auto nrm = 1.0f / sqrtf(scaleX * scaleX + scaleZ * scaleZ);
 	scaleX *= nrm;
 	scaleZ *= nrm;
 	//Определяем стартовые позиции
@@ -51,10 +51,10 @@ bool WdmClouds::Cloud::Reset(bool isFirstTime)
 		cld.pos.y = WdmCloudsCloudHeight;
 		cld.pos.z = baseZ + rad * scaleZ * cosf(ang);
 		cld.angle = rand() * (2.0f * PI / RAND_MAX);
-		uint8_t size = rand() & 0xff;
+    const uint8_t size = rand() & 0xff;
 		cld.size = WdmCloudsSizeMin + size * ((WdmCloudsSizeMax - WdmCloudsSizeMin) / 255.0f);
 		cld.alpha = 1.0f;
-		uint32_t dclr = rand() & 0xf;
+    const uint32_t dclr = rand() & 0xf;
 		cld.color = 0x80f00000 | (dclr << 16) | size | ((rand() & 0x7f) << 24);
 		cld.pict = rand() & 3;
 		cld.index = 0;
@@ -115,7 +115,7 @@ void WdmClouds::Cloud::Update(float dltTime)
 			//Притягиваемся
 			if (dist > midDist)
 			{
-        auto nrm = 1.0f / dist;
+        const auto nrm = 1.0f / dist;
 				dist = (dist - midDist) / (maxDist - midDist);
 				if (dist > 1.0f) dist = 1.0f;
 				dir *= nrm * dist;
@@ -154,11 +154,11 @@ void WdmClouds::Cloud::Update(float dltTime)
 			outsideCount++;
 		}
 		//Учитываем партикл в боундсфере
-    auto cldr = cld.size * 1.5f;
+    const auto cldr = cld.size * 1.5f;
 		if (i)
 		{
 			dir = center - cld.pos;
-      auto r = sqrtf(dir.x * dir.x + dir.z * dir.z);
+      const auto r = sqrtf(dir.x * dir.x + dir.z * dir.z);
 			if (r + cldr < radius) continue;
 			if (r > 1e-8f)
 			{
@@ -234,10 +234,10 @@ void WdmClouds::Cloud::Kill(const Cloud& cld)
 {
 	if (count && cld.count)
 	{
-    auto dx = center.x - cld.center.x;
-    auto dz = center.z - cld.center.z;
-    auto d = dx * dx + dz * dz;
-    auto minDist = (radius + cld.radius) * 0.2f;
+    const auto dx = center.x - cld.center.x;
+    const auto dz = center.z - cld.center.z;
+    const auto d = dx * dx + dz * dz;
+    const auto minDist = (radius + cld.radius) * 0.2f;
 		if (d < minDist * minDist)
 		{
 			lifeTime = 0.0f;

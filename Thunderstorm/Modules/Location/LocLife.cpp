@@ -74,7 +74,7 @@ bool LocLife::Init(Location* loc)
 	}
   auto node = m->GetNode(0);
 	if (node) node->SetTechnique("DLightModel");
-  auto ani = m->GetAnimation();
+  const auto ani = m->GetAnimation();
 	if (!ani)
 	{
 		location = nullptr;
@@ -99,7 +99,7 @@ void LocLife::Update(float dltTime)
 	//Информация о модели и локации
 	auto* m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if (!m) return;
-  auto ani = m->GetAnimation();
+  const auto ani = m->GetAnimation();
 	if (!ani) return;
   auto& ptc = location->GetPtcData();
 	if (node < 0)
@@ -131,9 +131,9 @@ void LocLife::Update(float dltTime)
 		if (location->IsExDebugView()) location->DrawLine(dir, 0xff00ff00, dir + CVECTOR(0.0f, 1.0f, 0.0f), 0xffff0000);
 		dir -= pos;
 		double dirl = ~dir;
-		double vx = dir.x;
+    const double vx = dir.x;
 		double vz = dir.z;
-    auto l = vx * vx + vz * vz;
+    const auto l = vx * vx + vz * vz;
 		if (l <= 0.0)
 		{
 			StopMove();
@@ -156,10 +156,10 @@ long LocLife::FindPos()
 	if (!m) return -1;
   auto& ptc = location->GetPtcData();
 	//Направление
-	CVECTOR dir(sinf(ay), 0.0f, cosf(ay));
+  const CVECTOR dir(sinf(ay), 0.0f, cosf(ay));
 	//Высоты
 	float yf, yc, yb;
-  auto curnode = ptc.FindNode(pos, yc);
+  const auto curnode = ptc.FindNode(pos, yc);
 	if (curnode < 0)
 	{
 		FindRandomPos(pos);
@@ -190,7 +190,7 @@ void LocLife::StartMove()
 	auto* m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if (!m) return;
 	//Запускаем проигрывание анимации
-  auto ani = m->GetAnimation();
+  const auto ani = m->GetAnimation();
 	if (!ani) return;
 	node = FindRandomPos(npos);
 	IsStartMove(ani);
@@ -202,7 +202,7 @@ void LocLife::StopMove()
 	auto* m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if (!m) return;
 	//Запускаем проигрывание анимации
-  auto ani = m->GetAnimation();
+  const auto ani = m->GetAnimation();
 	if (!ani) return;
 	IsStopMove(ani);
 }
@@ -222,10 +222,10 @@ bool LocLife::IsNearPlayer(float radius) const {
 long LocLife::FindRandomPos(CVECTOR& pos) const {
   auto& ptc = location->GetPtcData();
 	if (!ptc.numTriangles) return -1;
-  auto i = rand() % ptc.numTriangles;
-	long i1 = ptc.triangle[i].i[0];
-	long i2 = ptc.triangle[i].i[1];
-	long i3 = ptc.triangle[i].i[2];
+  const auto i = rand() % ptc.numTriangles;
+  const long i1 = ptc.triangle[i].i[0];
+  const long i2 = ptc.triangle[i].i[1];
+  const long i3 = ptc.triangle[i].i[2];
 	pos.x = ptc.vertex[i1].x;
 	pos.x += ptc.vertex[i2].x;
 	pos.x += ptc.vertex[i3].x;

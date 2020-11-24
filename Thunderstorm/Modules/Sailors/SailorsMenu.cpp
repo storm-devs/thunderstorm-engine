@@ -434,7 +434,7 @@ void Menu::ChangeControl3(int key, SailorsPoints& sailorsPoints) //Change links
 
 	if (key == VK_F2)
 	{
-    auto selLnk = sailorsPoints.links.selected;
+    const auto selLnk = sailorsPoints.links.selected;
 
 		if (selLnk < sailorsPoints.links.count && selLnk >= 0)
 		{
@@ -455,7 +455,7 @@ void Menu::ChangeControl3(int key, SailorsPoints& sailorsPoints) //Change links
 
 	if (key == VK_F3)
 	{
-    auto selLnk = sailorsPoints.links.selected;
+    const auto selLnk = sailorsPoints.links.selected;
 
 		if (selLnk < sailorsPoints.links.count && selLnk >= 0)
 		{

@@ -74,7 +74,7 @@ void TSeagulls::Init()
 //--------------------------------------------------------------------
 uint64_t TSeagulls::ProcessMessage(long _code, MESSAGE& message)
 {
-	uint32_t outValue = 0;
+  const uint32_t outValue = 0;
 
 	switch (_code)
 	{
@@ -147,30 +147,30 @@ void TSeagulls::Execute(uint32_t _dTime)
 			seagulls[i].circleTimePassed += _dTime;
 		else
 		{
-      auto oldR = seagulls[i].radius;
+      const auto oldR = seagulls[i].radius;
 			seagulls[i].radius = SEAGULL_MIN_RADIUS + rand(maxRadius);
 			seagulls[i].circleTimePassed = 0;
 			seagulls[i].circleTime = (long)rand((float)maxCircleTime);
 			if ((seagulls[i].circleTime) < (maxCircleTime / 20))
 				seagulls[i].circleTime = maxCircleTime / 20;
-      auto sinA = sinf(seagulls[i].a);
-      auto cosA = cosf(seagulls[i].a);
-      auto newX1 = seagulls[i].center.x + sinA * (seagulls[i].radius + oldR);
-      auto newZ1 = seagulls[i].center.z + cosA * (seagulls[i].radius + oldR);
-      auto newX2 = seagulls[i].center.x + sinA * (oldR - seagulls[i].radius);
-      auto newZ2 = seagulls[i].center.z + cosA * (oldR - seagulls[i].radius);
-      auto distance1 = fabsf(cameraPos.x - newX1) + fabsf(cameraPos.z - newZ1);
-      auto distance2 = fabsf(cameraPos.x - newX2) + fabsf(cameraPos.z - newZ2);
+      const auto sinA = sinf(seagulls[i].a);
+      const auto cosA = cosf(seagulls[i].a);
+      const auto newX1 = seagulls[i].center.x + sinA * (seagulls[i].radius + oldR);
+      const auto newZ1 = seagulls[i].center.z + cosA * (seagulls[i].radius + oldR);
+      const auto newX2 = seagulls[i].center.x + sinA * (oldR - seagulls[i].radius);
+      const auto newZ2 = seagulls[i].center.z + cosA * (oldR - seagulls[i].radius);
+      const auto distance1 = fabsf(cameraPos.x - newX1) + fabsf(cameraPos.z - newZ1);
+      const auto distance2 = fabsf(cameraPos.x - newX2) + fabsf(cameraPos.z - newZ2);
       auto oldVa = seagulls[i].va;
 
 			seagulls[i].va *= oldR / seagulls[i].radius;
-      auto deltaVa = randCentered(maxAngleSpeed / 5.0f);
+      const auto deltaVa = randCentered(maxAngleSpeed / 5.0f);
 			if (((seagulls[i].va + deltaVa) * seagulls[i].va) < 0)
 				seagulls[i].va -= deltaVa;
 			else
 				seagulls[i].va += deltaVa;
 
-      auto minRadius = maxRadius * maxAngleSpeed / seagulls[i].radius;
+      const auto minRadius = maxRadius * maxAngleSpeed / seagulls[i].radius;
 			if (fabs(seagulls[i].va) < (minRadius / 2.0f))
 			{
 				if (seagulls[i].va > 0.0f)

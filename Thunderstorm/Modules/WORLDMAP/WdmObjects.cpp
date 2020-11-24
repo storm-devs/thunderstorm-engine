@@ -133,7 +133,7 @@ GEOS* WdmObjects::CreateGeometry(const char* path)
 {
 	if (!path || !path[0] || !gs) return nullptr;
 	//Ищим среди добавленных
-	uint32_t hash = TOREMOVE::HashNoCase(path);
+  const uint32_t hash = TOREMOVE::HashNoCase(path);
 	long i = hash & (sizeof(entryModels) / sizeof(entryModels[0]) - 1);
 	for (i = entryModels[i]; i >= 0; i = models[i].next)
 	{
@@ -149,7 +149,7 @@ GEOS* WdmObjects::CreateGeometry(const char* path)
 	modelPath = "WorldMap\\";
 	modelPath += path;
 	gs->SetTexturePath("WorldMap\\Geometry\\");
-  auto geo = gs->CreateGeometry(modelPath.c_str(), "", 0);
+  const auto geo = gs->CreateGeometry(modelPath.c_str(), "", 0);
 	gs->SetTexturePath("");
 	//Добавляем в таблицу
 	//Model & m = models[models.Add()];
@@ -206,16 +206,16 @@ void WdmObjects::DrawVector(const CVECTOR& start, const CVECTOR& end, uint32_t c
 	if (len == 0.0f) return;
 	len = sqrtf(len);
 	dir *= 1.0f / len;
-  auto p = 0.9f * len;
-  auto r = 0.03f * len;
+  const auto p = 0.9f * len;
+  const auto r = 0.03f * len;
 
 	long t = 0;
 	for (long i = 0, imax = 8; i < imax; i++)
 	{
-    auto y1 = r * sinf(2.0f * WdmObjects_myPI * i / float(imax));
-    auto x1 = r * cosf(2.0f * WdmObjects_myPI * i / float(imax));
-    auto y2 = r * sinf(2.0f * WdmObjects_myPI * (i + 1) / float(imax));
-    auto x2 = r * cosf(2.0f * WdmObjects_myPI * (i + 1) / float(imax));
+    const auto y1 = r * sinf(2.0f * WdmObjects_myPI * i / float(imax));
+    const auto x1 = r * cosf(2.0f * WdmObjects_myPI * i / float(imax));
+    const auto y2 = r * sinf(2.0f * WdmObjects_myPI * (i + 1) / float(imax));
+    const auto x2 = r * cosf(2.0f * WdmObjects_myPI * (i + 1) / float(imax));
 		//Добавляем треугольники 1 линии
 		//0,0,0
 		vertex[t * 3 + 0].v.x = 0.0f;
@@ -304,7 +304,7 @@ void WdmObjects::DrawLine(const CVECTOR& start, const CVECTOR& end, uint32_t col
 	vertex[0].c = color;
 	vertex[1].v = end;
 	vertex[1].c = color;
-	CMatrix mtx;
+  const CMatrix mtx;
 	rs->SetTransform(D3DTS_WORLD, mtx);
 	rs->DrawPrimitiveUP(D3DPT_LINELIST, D3DFVF_XYZ | D3DFVF_DIFFUSE, 1, vertex, sizeof(vertex[0]), "WdmDebugDraw");
 }
@@ -386,7 +386,7 @@ void WdmObjects::UpdateWind(float dltTime)
 const char* WdmObjects::GetWindSaveString(std::string& windData)
 {
 	windData = "v02_";
-	long size = sizeof(windField);
+  const long size = sizeof(windField);
 	AddDataToString(windData, uint8_t(size >> 0));
 	AddDataToString(windData, uint8_t(size >> 8));
 	AddDataToString(windData, uint8_t(size >> 16));
@@ -413,7 +413,7 @@ void WdmObjects::SetWindSaveString(const char* str)
 		return;
 	}
 	str += 4;
-	long size = sizeof(windField);
+  const long size = sizeof(windField);
 	long testSize = 0;
 	testSize |= (uint32_t)GetDataFromString(str) << 0;
 	testSize |= (uint32_t)GetDataFromString(str) << 8;
@@ -427,7 +427,7 @@ void WdmObjects::SetWindSaveString(const char* str)
 	auto* buf = (uint8_t *)&windField;
 	for (long i = 0; i < size; i++)
 	{
-    auto data = GetDataFromString(str);
+    const auto data = GetDataFromString(str);
 		if (data < 0)
 		{
 			windField.Reinit();

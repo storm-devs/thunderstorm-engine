@@ -26,7 +26,7 @@ AIGroup::~AIGroup()
 
 void AIGroup::AddShip(entid_t eidShip, ATTRIBUTES* pACharacter, ATTRIBUTES* pAShip)
 {
-  auto pAMode = pACharacter->FindAClass(pACharacter, "Ship.Mode");
+  const auto pAMode = pACharacter->FindAClass(pACharacter, "Ship.Mode");
 	AIShip* pShip = nullptr;
 	if (pAMode)
 	{
@@ -81,8 +81,8 @@ void AIGroup::Execute(float fDeltaTime)
 	{
 		if (!sLocationNearOtherGroup.empty())
 		{
-      auto fNewAng = FRAND(PIm2);
-      auto pG = FindGroup(sLocationNearOtherGroup.c_str());
+      const auto fNewAng = FRAND(PIm2);
+      const auto pG = FindGroup(sLocationNearOtherGroup.c_str());
       auto vNewGroupPos = pG->vInitGroupPos + ((100.0f + FRAND(200.0f)) * CVECTOR(
 				sinf(fNewAng), 0.0f, cosf(fNewAng)));
 			if (pG)
@@ -127,11 +127,11 @@ void AIGroup::Execute(float fDeltaTime)
     auto fMinimalSpeed = 1e+10f;
 		for (uint32_t i = 0; i < aGroupShips.size(); i++)
 		{
-      auto fCurSpeed = aGroupShips[i]->GetShipBasePointer()->GetCurrentSpeed();
+      const auto fCurSpeed = aGroupShips[i]->GetShipBasePointer()->GetCurrentSpeed();
 			if (fCurSpeed < fMinimalSpeed) fMinimalSpeed = fCurSpeed;
 		}
 
-    auto bSetFixedSpeed = sCommand == "move";
+    const auto bSetFixedSpeed = sCommand == "move";
 
 		for (uint32_t i = 0; i < aGroupShips.size(); i++)
 			aGroupShips[i]->GetShipBasePointer()->SetFixedSpeed(bSetFixedSpeed, fMinimalSpeed);
@@ -422,7 +422,7 @@ void AIGroup::Load(CSaveLoad* pSL)
 	vInitGroupPos = pSL->LoadVector();
 	vMovePoint = pSL->LoadVector();
 	bFirstExecute = pSL->LoadDword() != 0;
-	uint32_t dwNum = pSL->LoadDword();
+  const uint32_t dwNum = pSL->LoadDword();
 	for (uint32_t i = 0; i < dwNum; i++)
 	{
 		AIShip* pShip = new AIShipWar();

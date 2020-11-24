@@ -40,7 +40,7 @@ void GIFont::PrintIntoWindow(const char* pcFormat, ...)
 void GIFont::SetHeight(float fHeight)
 {
 	m_fHeight = fHeight;
-	auto fRealH = (float)m_pEditor->m_pRS->CharHeight(m_nFontID);
+  const auto fRealH = (float)m_pEditor->m_pRS->CharHeight(m_nFontID);
 	if (fRealH > 0.f) m_fScale = m_fHeight / fRealH;
 }
 

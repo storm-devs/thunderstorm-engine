@@ -50,12 +50,13 @@ public:
 	//Двигает pos в to, возвращает новый нод
 	long Move(long curNode, const CVECTOR & to, CVECTOR & pos, long depth = 0);
 	//Получить нормаль к ноду
-	void GetNodeNormal(long curNode, CVECTOR & n);
+	void GetNodeNormal(long curNode, CVECTOR & n) const;
 	//Найти направление пути
 	bool FindPathDir(long curNode, const CVECTOR & cur, long toNode, const CVECTOR & to, long & node, CVECTOR & toPos);
 	//Найти пересечение с патчём
-	float Trace(const CVECTOR & s, const CVECTOR & d);
+	float Trace(const CVECTOR & s, const CVECTOR & d) const;
 	//Найти силу отталкивающую от краёв
+  void FindForce(long curNode, CVECTOR& force) const;
 	void FindForce(long curNode, const CVECTOR & pos, float dist, CVECTOR & force) const;
 	//Получить материал нода
 	const char * GetMaterial(long curNode);
@@ -95,7 +96,7 @@ private:
 	//Найти точку на ребре
 	CVECTOR FindEdgePoint(const CVECTOR & vs, const CVECTOR & ve, const CVECTOR & cur, const CVECTOR & to);
 	//Проверить пересечение треугольника с отрезком
-	float Trace(PtcTriangle & trg, const CVECTOR & s, const CVECTOR & d);
+	float Trace(PtcTriangle & trg, const CVECTOR & s, const CVECTOR & d) const;
 	//Добавить треугольник в буфер
 	//void AddClTriangle(long i);
 

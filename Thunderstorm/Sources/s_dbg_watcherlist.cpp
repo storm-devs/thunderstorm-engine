@@ -17,7 +17,7 @@ WATCHER_LIST::WATCHER_LIST(HWND hwnd, HINSTANCE hinst)
 	Initialize(hwnd, hinst, 0, 0, 0);
 	SetBindMask(BM_BIND_RIGHT | BM_BIND_BOTTOM);
 
-	long xs = GetSystemMetrics(SM_CXSCREEN);
+  const long xs = GetSystemMetrics(SM_CXSCREEN);
 
 	AddColumn("Name", (3 * xs) / 5 - 20);
 	AddColumn("Value", xs - (3 * xs) / 5 - 20);

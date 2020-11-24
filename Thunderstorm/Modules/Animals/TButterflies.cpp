@@ -62,7 +62,7 @@ void TButterflies::Init()
 //--------------------------------------------------------------------
 uint64_t TButterflies::ProcessMessage(long _code, MESSAGE& message)
 {
-	uint32_t outValue = 0;
+  const uint32_t outValue = 0;
 	switch (_code)
 	{
 	case MSG_ANIMALS_BUTTERFLIES_SHOW:
@@ -115,7 +115,7 @@ void TButterflies::Execute(uint32_t _dTime)
 			topVector.y = ALL_Y;
 			bottomVector.y = -ALL_Y;
 
-      auto ray = collide->Trace(its, topVector, bottomVector, nullptr, 0);
+      const auto ray = collide->Trace(its, topVector, bottomVector, nullptr, 0);
 			if (ray <= 1.0f)
 				butterflies[i].SetMinY(-ALL_Y + (1.f - ray) * 2.f * ALL_Y);
 			else
@@ -142,7 +142,7 @@ void TButterflies::Realize(uint32_t dTime)
 	if (!enabled)
 		return;
 
-	CMatrix wMatrix;
+  const CMatrix wMatrix;
 
 	renderService->SetTransform(D3DTS_WORLD, (D3DMATRIX *)wMatrix);
 	renderService->TextureSet(0, texture);

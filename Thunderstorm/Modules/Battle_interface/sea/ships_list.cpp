@@ -46,7 +46,7 @@ void TMP_LONG_STACK::Push(long data)
 			api->Trace("WARNING! push for TMP_LONG_STACK impossible - array grid <= 0");
 			return;
 		}
-    auto pold = ldat;
+    const auto pold = ldat;
 		ldat = new long[datsize + sizeIncr];
 		if (ldat == nullptr) { throw std::exception("allocate memory error"); }
 		if (pold != nullptr)
@@ -66,7 +66,7 @@ long TMP_LONG_STACK::GetFore()
 		api->Trace("WARNING! GetFore from TMP_LONG_STACK is empty");
 		return defReturn;
 	}
-  auto retVal = ldat[0];
+  const auto retVal = ldat[0];
 	curidx--;
 	if (curidx == 0)
 	{
@@ -85,7 +85,7 @@ long TMP_LONG_STACK::Pop()
 		api->Trace("WARNING! pop from TMP_LONG_STACK is empty");
 		return defReturn;
 	}
-  auto retVal = ldat[--curidx];
+  const auto retVal = ldat[--curidx];
 	if (curidx == 0)
 	{
 		delete ldat;
@@ -102,9 +102,9 @@ void SetNLongData(VDATA* pvd, int n, ...)
 
 	for (auto i = 0; i < n; i++)
 	{
-    auto pIVal = va_arg(args, long*);
+    const auto pIVal = va_arg(args, long*);
 		if (!pIVal) break;
-    auto nDefVal = va_arg(args, long);
+    const auto nDefVal = va_arg(args, long);
 		if (pvd) pvd->Get(*pIVal, i);
 		else *pIVal = nDefVal;
 	}
@@ -126,7 +126,7 @@ SHIP_DESCRIBE_LIST::~SHIP_DESCRIBE_LIST()
 
 void SHIP_DESCRIBE_LIST::ShipSink(long charIdx)
 {
-  auto sd = FindShip(charIdx);
+  const auto sd = FindShip(charIdx);
 	if (sd == nullptr) return;
 	sd->isDead = true;
 }
@@ -181,7 +181,7 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES* pChAttr,
 	pr->pShip = nullptr;
 	pr->dwShipColor = dwShipColor;
 
-  auto pAttr = pChAttr->GetAttributeClass("Ship");
+  const auto pAttr = pChAttr->GetAttributeClass("Ship");
 	assert(pAttr!=NULL);
 	pr->pAttr = pAttr;
 	long lTmp;
@@ -236,7 +236,7 @@ void SHIP_DESCRIBE_LIST::ReleaseAll()
 {
 	while (root != nullptr)
 	{
-    auto ptmp = root;
+    const auto ptmp = root;
 		root = root->next;
 		delete ptmp;
 	}

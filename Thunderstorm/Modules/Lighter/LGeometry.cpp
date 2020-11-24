@@ -79,7 +79,7 @@ void LGeometry::AddObject(const char* name, entid_t model)
 	strcat_s(object[numObjects].name, len, "_");
 	strcat_s(object[numObjects].name, len, lightPath);
 	strcat_s(object[numObjects].name, len, ".col");
-  auto str = object[numObjects].name;
+  const auto str = object[numObjects].name;
 	for (long s = 0, d = 0; str[d]; s++)
 	{
 		if (str[s] >= 'a' && str[s] <= 'z') str[s] -= 'a' - 'A';
@@ -408,7 +408,7 @@ float LGeometry::Trace(const CVECTOR& src, const CVECTOR& dst)
 {
 	for (long i = 0; i < numObjects; i++)
 	{
-		float res = object[i].m->Trace(src, dst);
+    const float res = object[i].m->Trace(src, dst);
 		if (res <= 1.0f) return res;
 	}
 	return 2.0f;
@@ -423,7 +423,7 @@ bool LGeometry::Save()
 	char* dir = new char[4096];
 	//Сохраняем объекты
 	bool result = true;
-	long bufSize = 16384;
+  const long bufSize = 16384;
 	auto* buf = new uint32_t[bufSize];
 	for (long i = 0, pnt = 0; i < numObjects; i++)
 	{

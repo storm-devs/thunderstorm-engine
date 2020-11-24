@@ -89,7 +89,7 @@ void BIImageRender::DeleteMaterial(BIImageMaterial* pMat)
 	//long n = m_apMaterial.Find( pMat );
 	//if( n >= 0 )
 	//	m_apMaterial.DelIndex( n );
-	auto it = std::find(m_apMaterial.begin(), m_apMaterial.end(), pMat);
+  const auto it = std::find(m_apMaterial.begin(), m_apMaterial.end(), pMat);
 	if (it != m_apMaterial.end())
 		m_apMaterial.erase(it);
 }
@@ -160,7 +160,7 @@ void BIImageRender::DeleteString(IBIString* str)
 	//long n = m_apStrings.Find( str );
 	//if( n >= 0 )
 	//	m_apStrings.DelIndex( n );
-	auto it = std::find(m_apStrings.begin(), m_apStrings.end(), str);
+  const auto it = std::find(m_apStrings.begin(), m_apStrings.end(), str);
 	if (it != m_apStrings.end())
 		m_apStrings.erase(it);
 }
@@ -169,7 +169,7 @@ void BIImageRender::CutPrioritetRangeByStrings()
 {
 	for (long n = 0; n < m_apStrings.size(); n++)
 	{
-    auto iprior = ((BIString*)m_apStrings[n])->GetPrioritet();
+    const auto iprior = ((BIString*)m_apStrings[n])->GetPrioritet();
 		if (iprior < m_nBeginOutputPrioritet) continue;
 		if (iprior > m_nEndOutputPrioritet) continue;
 		m_nEndOutputPrioritet = iprior;

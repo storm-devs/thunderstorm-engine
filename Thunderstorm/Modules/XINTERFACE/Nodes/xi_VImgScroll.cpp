@@ -58,7 +58,7 @@ void CXI_VIMAGESCROLL::Draw(bool bSelected, uint32_t Delta_Time)
 			if ((m_fCurrentDistance >= m_fMoveDistance && m_fDeltaMove >= 0.f) ||
 				(m_fCurrentDistance <= m_fMoveDistance && m_fDeltaMove <= 0.f))
 				m_fCurrentDistance = m_fMoveDistance;
-      auto fDelta = ChangeDinamicParameters(m_fCurrentDistance);
+      const auto fDelta = ChangeDinamicParameters(m_fCurrentDistance);
 			m_fCurrentDistance += fDelta;
 			m_fMoveDistance += fDelta;
 			if (m_fMoveDistance == m_fCurrentDistance)
@@ -88,14 +88,14 @@ void CXI_VIMAGESCROLL::Draw(bool bSelected, uint32_t Delta_Time)
 
 				for (n = 0; n < m_nSlotsQnt; n++)
 				{
-					int ad = ALPHA(m_dwNormalColor[n]);
-					int rd = RED(m_dwNormalColor[n]);
-					int gd = GREEN(m_dwNormalColor[n]);
-					int bd = BLUE(m_dwNormalColor[n]);
-					int al = ALPHA(m_dwSelectColor[n]);
-					int rl = RED(m_dwSelectColor[n]);
-					int gl = GREEN(m_dwSelectColor[n]);
-					int bl = BLUE(m_dwSelectColor[n]);
+          const int ad = ALPHA(m_dwNormalColor[n]);
+          const int rd = RED(m_dwNormalColor[n]);
+          const int gd = GREEN(m_dwNormalColor[n]);
+          const int bd = BLUE(m_dwNormalColor[n]);
+          const int al = ALPHA(m_dwSelectColor[n]);
+          const int rl = RED(m_dwSelectColor[n]);
+          const int gl = GREEN(m_dwSelectColor[n]);
+          const int bl = BLUE(m_dwSelectColor[n]);
 					int a, r, g, b;
 					if (m_bColorType)
 					{
@@ -213,13 +213,13 @@ void CXI_VIMAGESCROLL::Draw(bool bSelected, uint32_t Delta_Time)
 				pos.bottom = (pos.top = pScroll->pCenter.y - m_ImageSize.y / 2.f + m_pPicOffset[n]) + m_ImageSize.y;
 				if (pos.top < m_rect.top)
 				{
-          auto texCorrect = (m_rect.top - pos.top) / (pos.bottom - pos.top);
+          const auto texCorrect = (m_rect.top - pos.top) / (pos.bottom - pos.top);
 					rectTex.top += texCorrect * (rectTex.bottom - rectTex.top);
 					pos.top = (float)m_rect.top;
 				}
 				if (pos.bottom > m_rect.bottom)
 				{
-          auto texCorrect = (m_rect.bottom - pos.bottom) / (pos.bottom - pos.top);
+          const auto texCorrect = (m_rect.bottom - pos.bottom) / (pos.bottom - pos.top);
 					rectTex.bottom += texCorrect * (rectTex.bottom - rectTex.top);
 					pos.bottom = (float)m_rect.bottom;
 				}
@@ -428,7 +428,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, 
 	{
 		// get special technique name and color
 		m_dwSpecTechniqueARGB = pAttribute->GetAttributeAsDword("SpecTechniqueColor");
-    auto sTechnique = pAttribute->GetAttribute("SpecTechniqueName");
+    const auto sTechnique = pAttribute->GetAttribute("SpecTechniqueName");
 		if (sTechnique != nullptr)
 		{
 			const auto len = strlen(sTechnique) + 1;
@@ -469,7 +469,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, 
 				}
 				for (i = 0; i < m_nGroupQuantity; i++)
 				{
-          auto stmp = pA->GetAttribute(i);
+          const auto stmp = pA->GetAttribute(i);
 					if (stmp == nullptr) continue;
 					const auto len = strlen(stmp) + 1;
 					m_sGroupName[i] = new char[len];
@@ -658,8 +658,8 @@ float CXI_VIMAGESCROLL::ChangeDinamicParameters(float fYDelta)
   auto bIncrement = true;
   auto curYCenter = m_pCenter.y + fYDelta;
   auto curImage = m_nCurImage;
-  auto lbBorderDist = m_rect.bottom - m_pCenter.y;
-  auto ltBorderDist = m_pCenter.y - m_rect.top;
+  const auto lbBorderDist = m_rect.bottom - m_pCenter.y;
+  const auto ltBorderDist = m_pCenter.y - m_rect.top;
 
   auto newCurImage = m_nCurImage;
   auto fNewCurCenter = curYCenter;
@@ -743,7 +743,7 @@ float CXI_VIMAGESCROLL::ChangeDinamicParameters(float fYDelta)
 		pScroll->pCenter.y = curYCenter;
 
     auto tpos = curYCenter - m_ImageSize.y * .5f;
-    auto bpos = curYCenter + m_ImageSize.y * .5f;
+    const auto bpos = curYCenter + m_ImageSize.y * .5f;
 
 		if (m_pCenter.y >= tpos && m_pCenter.y <= bpos)
 		{
@@ -966,10 +966,10 @@ bool CXI_VIMAGESCROLL::IsClick(int buttonID, long xPos, long yPos)
 
 void CXI_VIMAGESCROLL::ChangePosition(XYRECT& rNewPos)
 {
-	long nLeftOffset = rNewPos.left - m_rect.left;
-	long nTopOffset = rNewPos.top - m_rect.top;
-	long nRightOffset = rNewPos.right - m_rect.right;
-	long nBottomOffset = rNewPos.bottom - m_rect.bottom;
+  const long nLeftOffset = rNewPos.left - m_rect.left;
+  const long nTopOffset = rNewPos.top - m_rect.top;
+  const long nRightOffset = rNewPos.right - m_rect.right;
+  const long nBottomOffset = rNewPos.bottom - m_rect.bottom;
 
 	m_rAbsolutePosition.left += nLeftOffset;
 	m_rAbsolutePosition.top += nTopOffset;
@@ -1371,16 +1371,16 @@ int CXI_VIMAGESCROLL::FindClickedImageNum() const {
 	int n;
 	int i = 0;
 
-	FXYPOINT fp = ptrOwner->GetMousePoint();
+  const FXYPOINT fp = ptrOwner->GetMousePoint();
 	SCROLLEntity* pscroll;
 	for (pscroll = m_pScroll; pscroll != nullptr; pscroll = pscroll->next)
 	{
 		float flx = .5f * pscroll->fCurScale * m_ImageSize.x;
-		float frx = pscroll->pCenter.x + flx;
+    const float frx = pscroll->pCenter.x + flx;
 		flx = pscroll->pCenter.x - flx;
 
 		float fty = .5f * pscroll->fCurScale * m_ImageSize.y;
-		float fby = pscroll->pCenter.y + fty;
+    const float fby = pscroll->pCenter.y + fty;
 		fty = pscroll->pCenter.y - fty;
 
 		if (pscroll->pCenter.y >= m_pCenter.y) i++;
@@ -1453,7 +1453,7 @@ int CXI_VIMAGESCROLL::GetTopQuantity() const {
 
 float CXI_VIMAGESCROLL::GetShiftDistance(int shiftIdx) const {
 	int i = 0;
-	int n = shiftIdx < 0 ? -shiftIdx : shiftIdx;
+  const int n = shiftIdx < 0 ? -shiftIdx : shiftIdx;
 
 	bool bNoFindBottom = true;
 	auto fbottom = (float)m_pCenter.y;
@@ -1500,7 +1500,7 @@ void CXI_VIMAGESCROLL::UpdateTexturesGroup()
 
 	char* * pPrevGroup = m_sGroupName;
 	long* prevTex = m_nGroupTex;
-	int nPrevQ = m_nGroupQuantity;
+  const int nPrevQ = m_nGroupQuantity;
 
 	// get textures
 	ATTRIBUTES* pAttribute = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
@@ -1528,7 +1528,7 @@ void CXI_VIMAGESCROLL::UpdateTexturesGroup()
 					continue;
 				}
 
-				int itmp = FindTexGroupFromOld(pPrevGroup, stmp, nPrevQ);
+        const int itmp = FindTexGroupFromOld(pPrevGroup, stmp, nPrevQ);
 				if (itmp != -1)
 				{
 					m_sGroupName[i] = pPrevGroup[itmp];
@@ -1630,14 +1630,14 @@ uint32_t CXI_VIMAGESCROLL::MessageProc(long msgcode, MESSAGE& message)
 
 long CXI_VIMAGESCROLL::GetMousePointedPictureNum()
 {
-	FXYPOINT mp = ptrOwner->GetMousePoint();
+  const FXYPOINT mp = ptrOwner->GetMousePoint();
 	if (mp.x < m_rect.left || mp.x > m_rect.right ||
 		mp.y < m_rect.top || mp.y > m_rect.bottom)
 	{
 		return -1;
 	}
 
-	float curYCenter = m_pScroll ? m_pScroll->pCenter.y : (m_rect.top + m_rect.bottom) / 2;
+  const float curYCenter = m_pScroll ? m_pScroll->pCenter.y : (m_rect.top + m_rect.bottom) / 2;
 	long n = 0;
 	if (mp.y < curYCenter)
 	{

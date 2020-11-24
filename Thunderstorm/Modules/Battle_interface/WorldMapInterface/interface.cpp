@@ -142,7 +142,7 @@ void WM_INTERFACE::ExecuteCommand(long command)
 	case BI_MSG_COMMAND_ACTIVATE:
 		if (m_pCommandList)
 		{
-      auto nTmp = m_pCommandList->ExecuteConfirm();
+      const auto nTmp = m_pCommandList->ExecuteConfirm();
 			if (nTmp != -1) m_nCommandMode = nTmp;
 			if (m_nCommandMode == 0)
 			{

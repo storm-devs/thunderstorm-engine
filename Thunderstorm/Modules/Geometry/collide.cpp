@@ -41,7 +41,7 @@ rec_loop:;
 	sdst = (dst | node->norm) - node->pd;
 
 	//dist = ssrc/(ssrc - sdst);
-  auto d = ssrc - sdst;
+  const auto d = ssrc - sdst;
 	dist = ssrc / d;
 
 	if ((diss > EPSILON && dist <= diss - EPSILON) || d == 0.0 || dist <= 0.0)
@@ -111,7 +111,7 @@ rec_return:;
 		pface = (unsigned char*)&node->face;
 
 	loop0:
-    auto face = (long(*(pface + 2)) << 16) | (long(*(pface + 1)) << 8) | (long(*(pface + 0)) << 0);
+    const auto face = (long(*(pface + 2)) << 16) | (long(*(pface + 1)) << 8) | (long(*(pface + 0)) << 0);
 		long vindex[3];
 		vindex[0] = (btrg[face].vindex[0][0] << 0) | (btrg[face].vindex[0][1] << 8) | (btrg[face].vindex[0][2] << 16);
 		vindex[1] = (btrg[face].vindex[1][0] << 0) | (btrg[face].vindex[1][1] << 8) | (btrg[face].vindex[1][2] << 16);
@@ -122,11 +122,11 @@ rec_return:;
 		DVECTOR a = vrt[vindex[1]] - vrt[vindex[0]];
 		DVECTOR b = vrt[vindex[2]] - vrt[vindex[0]];
     auto pvec = dirvec ^ b;
-    auto det = a | pvec;
+    const auto det = a | pvec;
 
     auto c = src - vrt[vindex[0]];
-		double U = c | pvec;
-		double V = dirvec | (c ^ a);
+    const double U = c | pvec;
+    const double V = dirvec | (c ^ a);
 
 		if (det < 0.0)
 		{
@@ -259,7 +259,7 @@ static unsigned short trgclip[65536 * 4];
 bool GEOM::Clip(const PLANE* planes, long nplanes, const VERTEX& center, float radius, ADD_POLYGON_FUNC addpoly)
 {
 	if (!(rhead.flags & FLAGS_BSP_PRESENT)) return false;
-	DVECTOR src(center.x, center.y, center.z);
+  const DVECTOR src(center.x, center.y, center.z);
 
 	attempt++;
 	if (attempt == 0)
@@ -273,7 +273,7 @@ bool GEOM::Clip(const PLANE* planes, long nplanes, const VERTEX& center, float r
 
 rec_loop:;
 
-	double ssrc = (src | node->norm) - node->pd;
+  const double ssrc = (src | node->norm) - node->pd;
 
 	//trace all faces
 	if (ssrc * ssrc < radius * radius)
@@ -281,7 +281,7 @@ rec_loop:;
 		auto* pface = (unsigned char*)&node->face;
 		for (unsigned long f = 0; f < node->nfaces; f++)
 		{
-			long face = (long(*(pface + 2)) << 16) | (long(*(pface + 1)) << 8) | (long(*(pface + 0)) << 0);
+      const long face = (long(*(pface + 2)) << 16) | (long(*(pface + 1)) << 8) | (long(*(pface + 0)) << 0);
 
 			//this triangle was added before
 			if (trgclip[face] != attempt)
@@ -292,7 +292,7 @@ rec_loop:;
 				//copy vertices to poly container
 				for (long v = 0; v < 3; v++)
 				{
-					long vindex = (btrg[face].vindex[v][0] << 0) | (btrg[face].vindex[v][1] << 8) | (btrg[face].vindex[v
+          const long vindex = (btrg[face].vindex[v][0] << 0) | (btrg[face].vindex[v][1] << 8) | (btrg[face].vindex[v
 					][2] << 16);
 					memcpy(&poly[v], &vrt[vindex], sizeof(CVECTOR));
 				}

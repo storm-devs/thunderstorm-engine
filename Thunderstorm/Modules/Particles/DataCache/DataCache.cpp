@@ -32,7 +32,7 @@ void DataCache::CacheSystem(const char* FileName)
 	std::transform(pathStr.begin(), pathStr.end(), pathStr.begin(), tolower);
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 
-  auto pSysFile = fio->_CreateFile(pathStr.c_str());
+  const auto pSysFile = fio->_CreateFile(pathStr.c_str());
 
 	if (pSysFile == INVALID_HANDLE_VALUE)
 	{
@@ -40,7 +40,7 @@ void DataCache::CacheSystem(const char* FileName)
 		return;
 	}
 
-  auto FileSize = fio->_GetFileSize(pSysFile, nullptr);
+  const auto FileSize = fio->_GetFileSize(pSysFile, nullptr);
 
 	auto* pMemBuffer = new uint8_t[FileSize];
 	fio->_ReadFile(pSysFile, pMemBuffer, FileSize, nullptr);

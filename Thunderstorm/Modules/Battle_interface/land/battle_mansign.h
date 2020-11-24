@@ -142,21 +142,21 @@ protected:
 
 inline bool BIManSign::LongACompare(ATTRIBUTES* pA, const char* attrName, long& nCompareVal)
 {
-  auto tmp = nCompareVal;
+  const auto tmp = nCompareVal;
 	nCompareVal = pA->GetAttributeAsDword(attrName);
 	return (nCompareVal != tmp);
 }
 
 inline bool BIManSign::FloatACompare(ATTRIBUTES* pA, const char* attrName, float& fCompareVal)
 {
-  auto tmp = fCompareVal;
+  const auto tmp = fCompareVal;
 	fCompareVal = pA->GetAttributeAsFloat(attrName);
 	return (fCompareVal != tmp);
 }
 
 inline bool BIManSign::StringACompare(ATTRIBUTES* pA, const char* attrName, std::string& sCompareVal)
 {
-  auto pVal = pA->GetAttribute(attrName);
+  const auto pVal = pA->GetAttribute(attrName);
 	if (sCompareVal == pVal) return false;
 	sCompareVal = pVal;
 	return true;
@@ -164,7 +164,7 @@ inline bool BIManSign::StringACompare(ATTRIBUTES* pA, const char* attrName, std:
 
 inline bool BIManSign::FRectACompare(ATTRIBUTES* pA, const char* attrName, FRECT& rCompareVal)
 {
-  auto pVal = pA->GetAttribute(attrName);
+  const auto pVal = pA->GetAttribute(attrName);
 	if (!pVal) return false;
 	FRECT rTmp;
 	rTmp.left = rCompareVal.left;
@@ -182,7 +182,7 @@ inline bool BIManSign::FRectACompare(ATTRIBUTES* pA, const char* attrName, FRECT
 
 inline bool BIManSign::BoolACompare(ATTRIBUTES* pA, const char* attrName, bool& bCompareVal)
 {
-  auto tmp = bCompareVal;
+  const auto tmp = bCompareVal;
 	bCompareVal = pA->GetAttributeAsDword(attrName, bCompareVal ? 1 : 0) != 0;
 	return (bCompareVal != tmp);
 }
@@ -194,10 +194,10 @@ inline uint32_t BIManSign::GetColorByFactor(uint32_t dwLowColor, uint32_t dwHigh
 	long gsrc = (dwLowColor >> 8) & 0xFF;
 	long bsrc = dwLowColor & 0xFF;
 	//
-	long adst = (dwHighColor >> 24) & 0xFF;
-	long rdst = (dwHighColor >> 16) & 0xFF;
-	long gdst = (dwHighColor >> 8) & 0xFF;
-	long bdst = dwHighColor & 0xFF;
+  const long adst = (dwHighColor >> 24) & 0xFF;
+  const long rdst = (dwHighColor >> 16) & 0xFF;
+  const long gdst = (dwHighColor >> 8) & 0xFF;
+  const long bdst = dwHighColor & 0xFF;
 	//
 	asrc += ((long)((adst - asrc) * fFactor)) & 0xFF;
 	rsrc += ((long)((rdst - rsrc) * fFactor)) & 0xFF;

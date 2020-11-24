@@ -323,7 +323,7 @@ void BLADE::Realize(uint32_t Delta_Time)
 
 bool BLADE::LoadBladeModel(MESSAGE& message)
 {
-  auto nBladeIdx = message.Long();
+  const auto nBladeIdx = message.Long();
 	if (nBladeIdx < 0 || nBladeIdx >= BLADE_INFO_QUANTITY) return false;
 
 	man = message.EntityID();
@@ -525,7 +525,7 @@ uint64_t BLADE::ProcessMessage(MESSAGE& message)
 
 void BLADE::AddTieItem(MESSAGE& message)
 {
-  auto nItemIdx = message.Long();
+  const auto nItemIdx = message.Long();
 
 	char mdlName[MAX_PATH];
 	message.String(sizeof(mdlName), mdlName);
@@ -556,8 +556,8 @@ void BLADE::AddTieItem(MESSAGE& message)
 
 void BLADE::DelTieItem(MESSAGE& message)
 {
-  auto nItemIdx = message.Long();
-	long n = FindTieItemByIndex(nItemIdx);
+  const auto nItemIdx = message.Long();
+  const long n = FindTieItemByIndex(nItemIdx);
 	if (n >= 0) items[n].Release();
 }
 

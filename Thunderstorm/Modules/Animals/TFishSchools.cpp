@@ -72,7 +72,7 @@ void TFishSchools::Init()
 //--------------------------------------------------------------------
 uint64_t TFishSchools::ProcessMessage(long _code, MESSAGE& message)
 {
-	uint32_t outValue = 0;
+  const uint32_t outValue = 0;
 
 	switch (_code)
 	{
@@ -99,7 +99,7 @@ void TFishSchools::Execute(uint32_t _dTime)
 	renderService->GetCamera(pos, ang, persp);
 
 	cameraObject.SetXYZ(pos);
-  auto speedK = ((float)_dTime) / 1000.0f;
+  const auto speedK = ((float)_dTime) / 1000.0f;
 	for (auto i = 0; i < fishSchoolsCount; i++)
 	{
 		//respawn near camera if needed
@@ -137,9 +137,9 @@ void TFishSchools::Realize(uint32_t _dTime)
 	for (auto i = 0; i < fishSchoolsCount; i++)
 	{
 		static const auto OSC_AMPLITUDE = 0.1f;
-    auto fishSchoolAngle = fishSchools[i]->GetAngle();
-    auto fishSchoolPos = fishSchools[i]->GetXYZ();
-    auto fishSchoolTime = fishSchools[i]->time / fishSchools[i]->timeDivider;
+    const auto fishSchoolAngle = fishSchools[i]->GetAngle();
+    const auto fishSchoolPos = fishSchools[i]->GetXYZ();
+    const auto fishSchoolTime = fishSchools[i]->time / fishSchools[i]->timeDivider;
 		CVECTOR ang(
 			0.0f, PId2 - fishSchoolAngle - (fishSchools[i]->amplitude * (PId2 / 10.0f) / 0.1f) * cosf(fishSchoolTime),
 			0.0f);

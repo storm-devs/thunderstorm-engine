@@ -75,7 +75,7 @@ bool S_FUNCTAB::GetFuncX(FUNCINFO& fi, uint32_t func_code)
 uint32_t S_FUNCTAB::AddFunc(const FUNCINFO& fi)
 {
 	if (fi.name == nullptr) return INVALID_FUNC_CODE;
-  auto hash = MakeHashValue(fi.name);
+  const auto hash = MakeHashValue(fi.name);
   auto hash_index = MAKEHASHINDEX(hash);
 
 	const auto len = strlen(fi.decl_file_name) + 1;
@@ -165,7 +165,7 @@ uint32_t S_FUNCTAB::MakeHashValue(const char* string)
     auto v = *string++;
 		if ('A' <= v && v <= 'Z') v += 'a' - 'A'; // case independent
 		hval = (hval << 4) + (unsigned long int)v;
-		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
+    const uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
 		if (g != 0)
 		{
 			hval ^= g >> (32 - 8);
@@ -198,7 +198,7 @@ void S_FUNCTAB::InvalidateFunction(uint32_t nFuncHandle)
 {
 	if (nFuncHandle < Func_num)
 	{
-    auto n = nFuncHandle;
+    const auto n = nFuncHandle;
 		UpdateHashTable(n, pTable[n].hash, false);
 		pTable[n].offset = INVALID_FUNC_OFFSET;
 		for (uint32_t i = 0; i < pTable[n].var_num; i++)
@@ -217,13 +217,13 @@ void S_FUNCTAB::InvalidateFunction(uint32_t nFuncHandle)
 uint32_t S_FUNCTAB::FindFunc(const char* func_name)
 {
 	if (func_name == nullptr) return INVALID_FUNC_CODE;
-  auto hash = MakeHashValue(func_name);
+  const auto hash = MakeHashValue(func_name);
 
-  auto hash_index = MAKEHASHINDEX(hash);
-  auto nNum = HashLine[hash_index].nNumElements;
+  const auto hash_index = MAKEHASHINDEX(hash);
+  const auto nNum = HashLine[hash_index].nNumElements;
 	for (uint32_t n = 0; n < nNum; n++)
 	{
-    auto ni = HashLine[hash_index].pElements[n];
+    const auto ni = HashLine[hash_index].pElements[n];
 		if (pTable[ni].hash == hash)
 			if (_stricmp(pTable[ni].name, func_name) == 0) return ni;
 	}
@@ -239,7 +239,7 @@ uint32_t S_FUNCTAB::FindFunc(const char* func_name)
 
 bool S_FUNCTAB::SetFuncOffset(const char* func_name, uint32_t offset)
 {
-  auto n = FindFunc(func_name);
+  const auto n = FindFunc(func_name);
 	if (n == INVALID_FUNC_CODE) return false;
 	pTable[n].offset = offset;
 	return true;
@@ -264,14 +264,14 @@ bool S_FUNCTAB::AddFuncVar(uint32_t func_code, LVARINFO& lvi)
 	if (func_code >= Func_num) return false;
 	if (lvi.name == nullptr) return false;
 
-  auto hash = MakeHashValue(lvi.name);
+  const auto hash = MakeHashValue(lvi.name);
 	for (uint32_t n = 0; n < pTable[func_code].var_num; n++)
 	{
 		if (hash == pTable[func_code].pLocal[n].hash) //return false;
 			if (_stricmp(pTable[func_code].pLocal[n].name, lvi.name) == 0) return false;
 	}
 
-  auto vindex = pTable[func_code].var_num;
+  const auto vindex = pTable[func_code].var_num;
 	pTable[func_code].var_num++;
 	pTable[func_code].pLocal.resize(pTable[func_code].var_num);
 	pTable[func_code].pLocal[vindex].name = nullptr;
@@ -305,7 +305,7 @@ uint32_t S_FUNCTAB::FindVar(uint32_t func_code, const char* var_name)
 {
 	if (var_name == nullptr) return INVALID_VAR_CODE;
 	if (func_code >= Func_num) return INVALID_VAR_CODE;
-  auto hash = MakeHashValue(var_name);
+  const auto hash = MakeHashValue(var_name);
 	for (uint32_t n = 0; n < pTable[func_code].var_num; n++)
 	{
 		if (hash == pTable[func_code].pLocal[n].hash) //return n;
@@ -342,7 +342,7 @@ void S_FUNCTAB::AddCall(uint32_t func_code)
 
 void S_FUNCTAB::UpdateHashTable(uint32_t code, uint32_t hash, bool in)
 {
-  auto hash_index = MAKEHASHINDEX(hash);
+  const auto hash_index = MAKEHASHINDEX(hash);
 
 	for (uint32_t n = 0; n < HashLine[hash_index].nNumElements; n++)
 	{

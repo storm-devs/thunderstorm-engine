@@ -59,9 +59,9 @@ bool PathTracks::Load(const char* fileName)
 		delete data;
 		return false;
 	}
-	long nPoints = ((AntFileHeader *)data)->framesCount;
-	long nStringSize = ((AntFileHeader *)data)->stringsTableSize;
-	long nBoneCount = ((AntFileHeader *)data)->bonesCount;
+  const long nPoints = ((AntFileHeader *)data)->framesCount;
+  const long nStringSize = ((AntFileHeader *)data)->stringsTableSize;
+  const long nBoneCount = ((AntFileHeader *)data)->bonesCount;
 	//Проверяем размеры файла
 	if (size < sizeof(AntFileHeader) + sizeof(char) * nStringSize + sizeof(AntFileBone) * nBoneCount + sizeof(
 		AntFileTrackElement) * nPoints)

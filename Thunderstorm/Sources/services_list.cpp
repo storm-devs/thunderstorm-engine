@@ -16,7 +16,7 @@ SERVICES_LIST::~SERVICES_LIST()
 
 SERVICE* SERVICES_LIST::Add(uint32_t module_code, uint32_t class_code, SERVICE* pointer)
 {
-  auto Pointer = AddRef(module_code);
+  const auto Pointer = AddRef(module_code);
 
 	if (Pointer) return Pointer;
 
@@ -45,7 +45,7 @@ SERVICE* SERVICES_LIST::Add(uint32_t module_code, uint32_t class_code, SERVICE* 
 
 SERVICE* SERVICES_LIST::AddRef(uint32_t module_code)
 {
-  auto node_PTR = FindNode(module_code);
+  const auto node_PTR = FindNode(module_code);
 	if (node_PTR == nullptr) return nullptr;
 	node_PTR->reference++;
 	return node_PTR->pointer;

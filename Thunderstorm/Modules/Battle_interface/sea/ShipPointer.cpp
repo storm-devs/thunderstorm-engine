@@ -97,7 +97,7 @@ uint64_t SHIPPOINTER::ProcessMessage(MESSAGE& message)
 	{
 	case MSG_SP_CHANGESHIP:
 		{
-      auto chrIdx = message.Long();
+      const auto chrIdx = message.Long();
 			m_pShip = FindShipByChrIndex(chrIdx);
 			if (m_pShip == nullptr)
 			{
@@ -136,8 +136,8 @@ void SHIPPOINTER::UpdateShipPointer() const {
     auto k = camper * .05f * sqrtf(~(campos - ourPos));
 		if (k < 1.f) k = 1.f;
 
-    auto cvhorz = k * .5f * !((campos - ourPos) ^ CVECTOR(0.f, 1.f, 0.f));
-		CVECTOR cvvert = k * CVECTOR(0.f, 1.f, 0.f);
+    const auto cvhorz = k * .5f * !((campos - ourPos) ^ CVECTOR(0.f, 1.f, 0.f));
+    const CVECTOR cvvert = k * CVECTOR(0.f, 1.f, 0.f);
 
 		ourPos.y += k * 1.0f;
 

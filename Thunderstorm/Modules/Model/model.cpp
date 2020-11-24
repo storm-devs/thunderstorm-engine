@@ -167,7 +167,7 @@ vrt_loop:	prefetcht0 [eax]
     auto& m1 = bones[vrt.boneid & 0xff];
     auto& m2 = bones[(vrt.boneid >> 8) & 0xff];
 		//Инверсный коэфициент блендинга
-    auto wNeg = 1.0f - vrt.weight;
+    const auto wNeg = 1.0f - vrt.weight;
 		mtx.matrix[0] = -(m1.matrix[0] * vrt.weight + m2.matrix[0] * wNeg);
 		mtx.matrix[1] = m1.matrix[1] * vrt.weight + m2.matrix[1] * wNeg;
 		mtx.matrix[2] = m1.matrix[2] * vrt.weight + m2.matrix[2] * wNeg;
@@ -336,7 +336,7 @@ void MODELR::AniRender()
 uint64_t MODELR::ProcessMessage(MESSAGE& message)
 {
 	char str[256];
-	long code = message.Long();
+  const long code = message.Long();
 	CVECTOR tmp;
 	switch (code)
 	{
@@ -777,7 +777,7 @@ void MODELR::LostRender()
 
 void MODELR::RestoreRender()
 {
-	long fvf = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEXTUREFORMAT2 | D3DFVF_TEX1;
+  const long fvf = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEXTUREFORMAT2 | D3DFVF_TEX1;
 	if (nAniVerts) rs->CreateVertexBuffer(sizeof(GEOS::VERTEX0) * nAniVerts, D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, fvf,
 	                                      D3DPOOL_DEFAULT, &d3dDestVB);
 }

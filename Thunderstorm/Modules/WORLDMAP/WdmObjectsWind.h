@@ -47,7 +47,7 @@ public:
 	//Конструирование поля на заданной области
 	WindField()
 	{
-    auto minX = 0.0f, minZ = 0.0f, maxX = 1.0f, maxZ = 1.0f;
+    const auto minX = 0.0f, minZ = 0.0f, maxX = 1.0f, maxZ = 1.0f;
 		baseX = minX;
 		baseZ = minZ;
 		kX = (WindFieldSize - 2) / (maxX - minX);
@@ -188,8 +188,8 @@ public:
     auto fx2 = fx1 + 1;
     auto fz1 = long(z);
     auto fz2 = fz1 + 1;
-    auto kx = x - fx1;
-    auto kz = z - fz1;
+    const auto kx = x - fx1;
+    const auto kz = z - fz1;
 		if (fx1 < 0) fx1 = 0;
 		if (fx1 >= WindFieldSize) fx1 = WindFieldSize - 1;
 		if (fx2 < 0) fx2 = 0;
@@ -226,8 +226,8 @@ private:
 			steps = 0;
 			for (long i = 0; i < 4; i++)
 			{
-        auto ang = rand() * (3.14159265358979f * 2.0f / RAND_MAX);
-        auto amp = rand() * (4.0f / RAND_MAX);
+        const auto ang = rand() * (3.14159265358979f * 2.0f / RAND_MAX);
+        const auto amp = rand() * (4.0f / RAND_MAX);
 				initors[i][1].x = (amp * sinf(ang) - initors[i][0].x) * (1.0f / (WindFieldSteps - 1));
 				initors[i][1].y = (amp * cosf(ang) - initors[i][0].y) * (1.0f / (WindFieldSteps - 1));
 			}
@@ -240,8 +240,8 @@ private:
 		}
 		for (long i = 0; i < WindFieldSize; i++)
 		{
-      auto w2 = i * 1.0f / (WindFieldSize - 1);
-      auto w1 = 1.0f - w2;
+      const auto w2 = i * 1.0f / (WindFieldSize - 1);
+      const auto w1 = 1.0f - w2;
 			field[0][i].x = w1 * initors[0][0].x + w2 * initors[1][0].x;
 			field[0][i].y = w1 * initors[0][0].y + w2 * initors[1][0].y;
 			field[WindFieldSize - 1][i].x = w1 * initors[2][0].x + w2 * initors[3][0].x;
@@ -270,7 +270,7 @@ private:
 		for (; needLines > 0; needLines--)
 		{
 			//Считаем по линиям
-      auto i = curLine++;
+      const auto i = curLine++;
 			if (curLine >= WindFieldSize)
 			{
 				curLine = -1000;
@@ -326,10 +326,10 @@ private:
 		updateTime = 0.0f;
 		curWind++;
 		if (curWind > 2) curWind = 0;
-    auto frame = (curWind + 1) % 3;
+    const auto frame = (curWind + 1) % 3;
     auto from = &field[0][0];
     auto to = &wind[frame][0][0];
-		long count = WindFieldSize * WindFieldSize;
+    const long count = WindFieldSize * WindFieldSize;
 		for (long i = 0; i < count; i++, from++, to++)
 		{
 			to->x = from->x;

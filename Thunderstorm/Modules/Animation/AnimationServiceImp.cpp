@@ -141,7 +141,7 @@ Animation* AnimationServiceImp::CreateAnimation(const char* animationName)
 		i = LoadAnimation(animationName);
 		if (i < 0) return nullptr;
 	}
-  auto aniIndex = i;
+  const auto aniIndex = i;
 	//Анимация загружена, создаём менеджер анимации
 	for (i = 0; i < animations.size(); i++)
 		if (!animations[i]) break;
@@ -186,7 +186,7 @@ long AnimationServiceImp::LoadAnimation(const char* animationName)
 	}
 	//Получаем имя jfa файла со скелетом
 	strcpy_s(path, ASKW_PATH_JFA);
-	int l = strlen(path);
+  const int l = strlen(path);
 	if (!ani->ReadString(nullptr, ASKW_JFA_FILE, path + l, MAX_PATH - l - 1, nullptr))
 	{
 		api->Trace("Incorrect key \"%s\" in animation file %s.ani", ASKW_JFA_FILE, animationName);
@@ -217,13 +217,13 @@ long AnimationServiceImp::LoadAnimation(const char* animationName)
 			continue;
 		}
 		//Зачитываем времена
-    auto stime = ani->GetLong(path, ASKW_STIME, -1);
+    const auto stime = ani->GetLong(path, ASKW_STIME, -1);
 		if (stime < 0)
 		{
 			api->Trace("Incorrect %s in action [%s] of animation file %s.ani", ASKW_STIME, path, animationName);
 			continue;
 		}
-    auto etime = ani->GetLong(path, ASKW_ETIME, -1);
+    const auto etime = ani->GetLong(path, ASKW_ETIME, -1);
 		if (etime < 0)
 		{
 			api->Trace("Incorrect %s in action [%s] of animation file %s.ani", ASKW_ETIME, path, animationName);
@@ -237,7 +237,7 @@ long AnimationServiceImp::LoadAnimation(const char* animationName)
 			continue;
 		}
 		//Коэфициент скорости воспроизведения
-    auto rate = ani->GetFloat(path, ASKW_RATE, 1.0f);
+    const auto rate = ani->GetFloat(path, ASKW_RATE, 1.0f);
 		aci->SetRate(rate);
 		//Тип анимации
     auto type = at_normal;
@@ -476,7 +476,7 @@ void AnimationServiceImp::LoadUserData(INIFILE* ani, const char* sectionName,
 				continue;
 			}
 			//Ищем окончание строки данных
-      auto uds = key + ++p;
+      const auto uds = key + ++p;
 			for (; key[p] && key[p] != '"'; p++);
 			key[p] = 0;
 			//Добавляем данные
@@ -515,7 +515,7 @@ bool AnimationServiceImp::LoadAN(const char* fname, AnimationInfo* info)
 		//Заводим нужное число костей
 		info->CreateBones(header.nJoints);
 		//Устанавливаем родителей
-    auto prntIndeces = new long[header.nJoints];
+    const auto prntIndeces = new long[header.nJoints];
 		if (!fio->_ReadFile(fl, prntIndeces, header.nJoints * sizeof(long), nullptr))
 		{
 			api->Trace("Incorrect parent indeces block in animation file: %s", fname);

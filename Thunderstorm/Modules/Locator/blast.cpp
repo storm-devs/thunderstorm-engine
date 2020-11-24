@@ -36,7 +36,7 @@ bool BLAST::Init()
 		return false;
 	}
 
-  auto RandomNum = ini->GetLong("geo", "randomnum", 0);
+  const auto RandomNum = ini->GetLong("geo", "randomnum", 0);
 
 	char name[MAX_PATH];
 	if (ini->ReadString("geo", "file", name, sizeof(name), ""))
@@ -64,7 +64,7 @@ void BLAST::AddGeometry(char* name, long num)
 	//Item[n].geo = gs->CreateGeometry(name,0,0);
 
 	Item.resize(ItemsNum + num); //~!~
-  auto gp = gs->CreateGeometry(name, nullptr, 0);
+  const auto gp = gs->CreateGeometry(name, nullptr, 0);
 	for (long n = 0; n < num; n++)
 	{
 		if (n == 0) Item[n + ItemsNum].bDouble = false;
@@ -115,7 +115,7 @@ void BLAST::ProcessTime(uint32_t DT)
 		pSea = (CANNON_TRACE_BASE *)EntityManager::GetEntityPointer(sea_eid);
 	}
 
-	auto Delta_Time = (float)DT; //*0.1;
+  const auto Delta_Time = (float)DT; //*0.1;
   auto bStop = true;
 	for (n = 0; n < ItemsNum; n++)
 	{

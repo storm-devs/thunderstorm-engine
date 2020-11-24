@@ -304,7 +304,7 @@ void FieldList::DelAll()
 
 DataColor* FieldList::FindColor(const char* AttrName)
 {
-	uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
+  const uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
 	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
 		if (Fields[n].Type == FIELD_COLOR)
@@ -324,7 +324,7 @@ DataColor* FieldList::FindColor(const char* AttrName)
 
 DataBool* FieldList::FindBool(const char* AttrName)
 {
-	uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
+  const uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
 	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
 		if (Fields[n].Type == FIELD_BOOL)
@@ -344,7 +344,7 @@ DataBool* FieldList::FindBool(const char* AttrName)
 
 DataFloat* FieldList::FindFloat(const char* AttrName)
 {
-	uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
+  const uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
 	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
 		if (Fields[n].Type == FIELD_FLOAT)
@@ -364,7 +364,7 @@ DataFloat* FieldList::FindFloat(const char* AttrName)
 
 DataGraph* FieldList::FindGraph(const char* AttrName)
 {
-	uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
+  const uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
 
 	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
@@ -385,7 +385,7 @@ DataGraph* FieldList::FindGraph(const char* AttrName)
 
 DataString* FieldList::FindString(const char* AttrName)
 {
-	uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
+  const uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
 
 	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
@@ -406,7 +406,7 @@ DataString* FieldList::FindString(const char* AttrName)
 
 DataPosition* FieldList::FindPosition(const char* AttrName)
 {
-	uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
+  const uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
 
 	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
@@ -427,7 +427,7 @@ DataPosition* FieldList::FindPosition(const char* AttrName)
 
 DataUV* FieldList::FindUV(const char* AttrName)
 {
-	uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
+  const uint32_t SearchHash = TOREMOVE::HashNoCase(AttrName);
 
 	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
@@ -447,7 +447,7 @@ DataUV* FieldList::FindUV(const char* AttrName)
 
 FieldList::FieldDesc* FieldList::FindField(const char* Name)
 {
-	uint32_t SearchHash = TOREMOVE::HashNoCase(Name);
+  const uint32_t SearchHash = TOREMOVE::HashNoCase(Name);
 
 	for (uint32_t n = 0; n < Fields.size(); n++)
 	{
@@ -464,35 +464,35 @@ FieldList::FieldDesc* FieldList::FindField(const char* Name)
 
 float FieldList::GetFloat(const char* AttrName, float def_value)
 {
-  auto pFind = FindFloat(AttrName);
+  const auto pFind = FindFloat(AttrName);
 	if (!pFind) return def_value;
 	return pFind->GetValue();
 }
 
 int FieldList::GetFloatAsInt(const char* AttrName, int def_value)
 {
-  auto val = GetFloat(AttrName, (float)def_value);
+  const auto val = GetFloat(AttrName, (float)def_value);
 	return (int)val;
 }
 
 
 bool FieldList::GetBool(const char* AttrName, bool def_value)
 {
-  auto pFind = FindBool(AttrName);
+  const auto pFind = FindBool(AttrName);
 	if (!pFind) return def_value;
 	return pFind->GetValue();
 }
 
 const char* FieldList::GetString(const char* AttrName, const char* def_value)
 {
-  auto pFind = FindString(AttrName);
+  const auto pFind = FindString(AttrName);
 	if (!pFind) return def_value;
 	return pFind->GetValue();
 }
 
 const Vector& FieldList::GetPosition(const char* AttrName, const Vector& def_value)
 {
-  auto pFind = FindPosition(AttrName);
+  const auto pFind = FindPosition(AttrName);
 	if (!pFind) return def_value;
 	return pFind->GetValue();
 }
@@ -528,13 +528,13 @@ void FieldList::Convert(DataDescripion* pDataDescriptor)
 		Fields[i].MarkForDelete = true;
 	}
 
-	uint32_t NeedFieldsCount = pDataDescriptor->GetFieldCount();
+  const uint32_t NeedFieldsCount = pDataDescriptor->GetFieldCount();
 
 	for (uint32_t n = 0; n < NeedFieldsCount; n++)
 	{
-    auto NeedFieldName = pDataDescriptor->GetFieldName(n);
-    auto NeedFieldType = pDataDescriptor->GetFieldType(n);
-    auto pDesc = FindField(NeedFieldName);
+    const auto NeedFieldName = pDataDescriptor->GetFieldName(n);
+    const auto NeedFieldType = pDataDescriptor->GetFieldType(n);
+    const auto pDesc = FindField(NeedFieldName);
     auto FieldExist = false;
 		if (pDesc)
 		{
@@ -593,7 +593,7 @@ void FieldList::Convert(DataDescripion* pDataDescriptor)
 
 void FieldList::DeleteFieldData(const FieldDesc& pData)
 {
-  auto fldType = pData.Type;
+  const auto fldType = pData.Type;
 
 	switch (fldType)
 	{

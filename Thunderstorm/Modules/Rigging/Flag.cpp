@@ -81,7 +81,7 @@ void FLAG::Execute(uint32_t Delta_Time)
 		//====================================================
 		// Если был изменен ини-файл, то считать инфо из него
 		WIN32_FIND_DATA wfd;
-    auto h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
+    const auto h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
 		if (INVALID_HANDLE_VALUE != h)
 		{
       auto ft_new = wfd.ftLastWriteTime;
@@ -107,7 +107,7 @@ void FLAG::Execute(uint32_t Delta_Time)
 		vertBuf = (FLAGLXVERTEX*)RenderService->LockVertexBuffer(vBuf);
 		if (vertBuf)
 		{
-      auto dt = (float)Delta_Time * 0.02f;
+      const auto dt = (float)Delta_Time * 0.02f;
 			for (auto fn = 0; fn < flagQuantity; fn++)
 				DoMove(flist[fn], dt);
 			RenderService->UnLockVertexBuffer(vBuf);
@@ -138,7 +138,7 @@ void FLAG::Realize(uint32_t Delta_Time)
 
 uint64_t FLAG::ProcessMessage(MESSAGE& message)
 {
-  auto code = message.Long();
+  const auto code = message.Long();
 
 	switch (code)
 	{
@@ -147,8 +147,8 @@ uint64_t FLAG::ProcessMessage(MESSAGE& message)
 		//----------------------
 	case MSG_FLAG_INIT:
 		{
-      auto eidModel = message.EntityID();
-      auto nNation = message.Long();
+      const auto eidModel = message.EntityID();
+      const auto nNation = message.Long();
 
 			MODEL* host_mdl;
 			host_mdl = (MODEL*)EntityManager::GetEntityPointer(eidModel);
@@ -167,7 +167,7 @@ uint64_t FLAG::ProcessMessage(MESSAGE& message)
 			}
 			else
 			{
-        auto oldgdata = gdata;
+        const auto oldgdata = gdata;
 				gdata = new GROUPDATA[groupQuantity + 1];
 				if (gdata == nullptr)
 					throw std::exception("Not memory allocation");
@@ -206,9 +206,9 @@ uint64_t FLAG::ProcessMessage(MESSAGE& message)
 
 	case MSG_FLAG_TO_NEWHOST: // format "lili" (msg_code,oldmodel_id,groupNum,newmodel_id)
 		{
-      auto oldModelID = message.EntityID();
-      auto flagGroupNum = message.Long();
-      auto newModelID = message.EntityID();
+      const auto oldModelID = message.EntityID();
+      const auto flagGroupNum = message.Long();
+      const auto newModelID = message.EntityID();
 			MoveOtherHost(newModelID, flagGroupNum, oldModelID);
 		}
 		break;
@@ -403,7 +403,7 @@ void FLAG::AddLabel(GEOS::LABEL& gl, NODE* nod)
 		}
 		else
 		{
-      auto oldflist = flist;
+      const auto oldflist = flist;
 			flist = new FLAGDATA*[flagQuantity + 1];
 			if (flist == nullptr)
 				throw std::exception("Not memory allocation");
@@ -476,7 +476,7 @@ void FLAG::LoadIni()
 
 	INIFILE* ini;
 	WIN32_FIND_DATA wfd;
-  auto h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
+  const auto h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
 	if (INVALID_HANDLE_VALUE != h)
 	{
 		ft_old = wfd.ftLastWriteTime;
@@ -692,7 +692,7 @@ void FLAG::DoSTORM_DELETE()
 		flagQuantity = nfn;
 		groupQuantity = ngn;
 
-    auto oldflist = flist;
+    const auto oldflist = flist;
 		flist = new FLAGDATA*[flagQuantity];
 		if (flist)
 		{
@@ -702,7 +702,7 @@ void FLAG::DoSTORM_DELETE()
 		else
 			flist = oldflist;
 
-    auto oldgdata = gdata;
+    const auto oldgdata = gdata;
 		gdata = new GROUPDATA[groupQuantity];
 		if (gdata)
 		{
@@ -752,7 +752,7 @@ void FLAG::SetAdd(int flagNum)
 			}
 			else
 			{
-        auto oldflist = flist;
+        const auto oldflist = flist;
 				flagQuantity--;
 				flist = new FLAGDATA*[flagQuantity];
 				if (flist == nullptr)
@@ -820,7 +820,7 @@ void FLAG::MoveOtherHost(entid_t newm_id, long flagNum, entid_t oldm_id)
 	// если нет новой группы, то создаем ее
 	if (newgn == groupQuantity)
 	{
-    auto oldgdata = gdata;
+    const auto oldgdata = gdata;
 		gdata = new GROUPDATA[groupQuantity + 1];
 		if (gdata == nullptr)
 			throw std::exception("Not memory allocation");

@@ -72,7 +72,7 @@ void TFlotsam::Process(uint32_t _dTime)
 	if (!enabled)
 		return;
 
-  auto dTime = _dTime / 1000.0f; // msec -> sec
+  const auto dTime = _dTime / 1000.0f; // msec -> sec
 
 	switch (state)
 	{
@@ -112,7 +112,7 @@ void TFlotsam::Realize(uint32_t _dTime)
 		pos.y = sea->WaveXZ(x, z) + FLOTSAM_DY;
 	else
 		pos.y = y;
-	CVECTOR ang(0.0f, angY, 0.0f);
+  const CVECTOR ang(0.0f, angY, 0.0f);
 	MODEL* model;
 	model = (MODEL *)EntityManager::GetEntityPointer(ModelID);
 	if (model)

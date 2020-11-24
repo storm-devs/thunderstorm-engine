@@ -34,7 +34,7 @@ void PROGRAM::Release()
 bool PROGRAM::RunProgram(char* program_name)
 {
 	if (Running(program_name)) return true;
-  auto code = ProgramNum;
+  const auto code = ProgramNum;
 	ProgramNum++;
 	ProgramBlock = (COMPILER **)realloc(ProgramBlock, ProgramNum * sizeof(COMPILER *));
 
@@ -98,7 +98,7 @@ VDATA* PROGRAM::ProcessEvent(char* event_name)
 
 void PROGRAM::ProcessFrame(uint32_t DeltaTime)
 {
-  auto old_size = ProgramNum;
+  const auto old_size = ProgramNum;
 	for (uint32_t n = 0; n < ProgramNum; n++)
 	{
 		ProgramBlock[n]->ProcessFrame(DeltaTime);

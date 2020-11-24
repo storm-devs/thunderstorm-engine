@@ -86,7 +86,7 @@ void LocationEffects::Execute(uint32_t delta_time)
 
 void LocationEffects::Realize(uint32_t delta_time)
 {
-  auto dltTime = delta_time * 0.001f;
+  const auto dltTime = delta_time * 0.001f;
 	ProcessedFlys(dltTime);
 	ProcessedChrSplash(dltTime);
 	ProcessedShotgun(dltTime);
@@ -174,9 +174,9 @@ inline void LocationEffects::DrawParticles(void* prts, long num, long size, long
 		auto* parts = (Particle *)prts;
 		prts = (char *)prts + size;
     auto pos = camMtx * parts->pos;
-    auto size = parts->size * 0.5f;
-    auto sn = sinf(parts->angle);
-    auto cs = cosf(parts->angle);
+    const auto size = parts->size * 0.5f;
+    const auto sn = sinf(parts->angle);
+    const auto cs = cosf(parts->angle);
     auto color = (long(parts->alpha) << 24);
 		if (!isEx) color |= 0x00ffffff;
 		else color |= 0x00ffffff & ((ParticleEx *)parts)->color;
@@ -242,9 +242,9 @@ void LocationEffects::CreateSplash(const CVECTOR& pos, float power)
 	spl.kTime = 1.4f;
 	for (i = 0; i < LFX_SPLASHES_P_NUM; i++)
 	{
-    auto ang = rand() * (LFX_PI * 2.0f / RAND_MAX);
-    auto r = rand() * (2.0f * LFX_SPLASHES_SRAD / float(RAND_MAX));
-    auto s = 1.0f + rand() * (3.0f / float(RAND_MAX));
+    const auto ang = rand() * (LFX_PI * 2.0f / RAND_MAX);
+    const auto r = rand() * (2.0f * LFX_SPLASHES_SRAD / float(RAND_MAX));
+    const auto s = 1.0f + rand() * (3.0f / float(RAND_MAX));
 		spl.prt[i].dir = CVECTOR(0.3f * sinf(ang), s, 0.3f * cosf(ang));
 		spl.prt[i].pos = pos + CVECTOR(r * sinf(ang), 0.0f, r * cosf(ang));
 		spl.prt[i].angle = 0.0f;
@@ -338,10 +338,10 @@ void LocationEffects::ProcessedFlys(float dltTime)
 	CMatrix view;
 	rs->GetTransform(D3DTS_VIEW, view);
 	view.Transposition();
-	CVECTOR cam = view.Pos();
-	float dax = dltTime * 1.3f;
-	float day = dltTime * 1.4f;
-	float da = dltTime * 5.6f;
+  const CVECTOR cam = view.Pos();
+  const float dax = dltTime * 1.3f;
+  const float day = dltTime * 1.4f;
+  const float da = dltTime * 5.6f;
 	//Расчитываем
 	for (long i = 0; i < numFlys; i++)
 	{
@@ -428,14 +428,14 @@ void LocationEffects::SGRelease()
 void LocationEffects::SGEnvPrt(const CVECTOR& pos, const CVECTOR& ndir)
 {
 	SGInited();
-	long max = sizeof(flinders) / sizeof(flinders[0]);
-	long num = 4 + (rand() & 3);
+  const long max = sizeof(flinders) / sizeof(flinders[0]);
+  const long num = 4 + (rand() & 3);
 	for (long i = 0; i < num && numFlinders < max; i++)
 	{
 		flinders[numFlinders].pos = pos;
 		flinders[numFlinders].spd = ndir;
 		float r = rand() * 0.7f / RAND_MAX;
-		float a = rand() * 6.283185307f / (RAND_MAX + 1);
+    const float a = rand() * 6.283185307f / (RAND_MAX + 1);
 		flinders[numFlinders].spd.y += r * sinf(a);
 		r *= cosf(a);
 		flinders[numFlinders].spd.x += r * ndir.z;
@@ -463,14 +463,14 @@ void LocationEffects::SGEnvPrt(const CVECTOR& pos, const CVECTOR& ndir)
 void LocationEffects::SGBldPrt(const CVECTOR& pos, const CVECTOR& ndir)
 {
 	SGInited();
-	long max = sizeof(blood) / sizeof(blood[0]);
-	long num = 16 + (rand() & 7);
+  const long max = sizeof(blood) / sizeof(blood[0]);
+  const long num = 16 + (rand() & 7);
 	for (long i = 0; i < num && numBlood < max; i++)
 	{
 		blood[numBlood].pos = pos;
 		blood[numBlood].spd = ndir;
 		float r = rand() * 0.7f / RAND_MAX;
-		float a = rand() * 6.283185307f / (RAND_MAX + 1);
+    const float a = rand() * 6.283185307f / (RAND_MAX + 1);
 		blood[numBlood].spd.y += r * sinf(a);
 		r *= cosf(a);
 		blood[numBlood].spd.x += r * ndir.z;
@@ -497,14 +497,14 @@ void LocationEffects::SGBldPrt(const CVECTOR& pos, const CVECTOR& ndir)
 void LocationEffects::SGFirePrt(const CVECTOR& pos, const CVECTOR& ndir)
 {
 	SGInited();
-	long max = sizeof(smoke) / sizeof(smoke[0]);
-	long num = 5 + (rand() & 3);
+  const long max = sizeof(smoke) / sizeof(smoke[0]);
+  const long num = 5 + (rand() & 3);
 	for (long i = 0; i < num && numSmoke < max; i++)
 	{
 		smoke[numSmoke].pos = pos;
 		smoke[numSmoke].spd = ndir;
 		float r = rand() * 0.03f / RAND_MAX;
-		float a = rand() * 6.283185307f / (RAND_MAX + 1);
+    const float a = rand() * 6.283185307f / (RAND_MAX + 1);
 		smoke[numSmoke].spd.y += r * sinf(a);
 		r *= cosf(a);
 		smoke[numSmoke].spd.x += r * ndir.z;

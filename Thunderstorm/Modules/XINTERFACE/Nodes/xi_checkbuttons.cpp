@@ -128,8 +128,8 @@ void CXI_CHECKBUTTONS::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2,
 		sprintf_s(pcKeyName, "section%d", n + 1);
 		if (!ReadIniString(ini1, name1, ini2, name2, pcKeyName, param, sizeof(param), "")) break;
 		const char* pTmpChar = param;
-    auto bSelect = CXI_UTILS::StringGetLong(pTmpChar) != 0;
-    auto bDisable = CXI_UTILS::StringGetLong(pTmpChar) != 0;
+    const auto bSelect = CXI_UTILS::StringGetLong(pTmpChar) != 0;
+    const auto bDisable = CXI_UTILS::StringGetLong(pTmpChar) != 0;
 		AddButton(pTmpChar, bDisable, bSelect);
 	}
 
@@ -260,8 +260,8 @@ uint32_t CXI_CHECKBUTTONS::MessageProc(long msgcode, MESSAGE& message)
 		{
 			char param[1024];
 			message.String(sizeof(param), param);
-      auto bSelect = (message.Long() != 0);
-      auto bDisable = (message.Long() != 0);
+      const auto bSelect = (message.Long() != 0);
+      const auto bDisable = (message.Long() != 0);
 			AddButton(param, bDisable, bSelect);
 			UpdateTextInfo(m_aButton.size() - 1);
 		}
@@ -269,7 +269,7 @@ uint32_t CXI_CHECKBUTTONS::MessageProc(long msgcode, MESSAGE& message)
 
 	case 1: // установить новый текст на кнопку
 		{
-      auto nButtonNum = message.Long() - 1;
+      const auto nButtonNum = message.Long() - 1;
 			char param[1024];
 			message.String(sizeof(param), param);
 			ChangeText(nButtonNum, param);
@@ -279,15 +279,15 @@ uint32_t CXI_CHECKBUTTONS::MessageProc(long msgcode, MESSAGE& message)
 
 	case 2: // установить выбор на кнопку
 		{
-      auto nButtonNum = message.Long() - 1;
-			bool bChoose = (message.Long() != 0);
+      const auto nButtonNum = message.Long() - 1;
+      const bool bChoose = (message.Long() != 0);
 			SetCheckToButton(nButtonNum, bChoose);
 		}
 		break;
 
 	case 3: // получить сосотояние кнопки
 		{
-			long nButtonNum = message.Long() - 1;
+      const long nButtonNum = message.Long() - 1;
 			if (nButtonNum < 0 || nButtonNum >= m_aButton.size()) return 0;
 			return m_aButton[nButtonNum]->bChoose;
 		}
@@ -303,8 +303,8 @@ uint32_t CXI_CHECKBUTTONS::MessageProc(long msgcode, MESSAGE& message)
 
 	case 5: // запретить/разрешить кнопку
 		{
-			long nButtonNum = message.Long() - 1;
-			bool bDisable = (message.Long() != 0);
+      const long nButtonNum = message.Long() - 1;
+      const bool bDisable = (message.Long() != 0);
 			if (nButtonNum < 0 || nButtonNum >= m_aButton.size()) return 0;
 			m_aButton[nButtonNum]->bDisable = bDisable;
 			m_aButton[nButtonNum]->pImg->LoadFromBase(m_sIconGroupName.c_str(),
@@ -394,7 +394,7 @@ void CXI_CHECKBUTTONS::CheckMouseClick(const FXYPOINT& pntMouse)
 			long n;
 			for (n = 0; n < m_aButton.size(); n++)
 			{
-				long nHeight = (long)(m_aButton[n]->aStr.size() * m_fTextLineHeight);
+        const long nHeight = (long)(m_aButton[n]->aStr.size() * m_fTextLineHeight);
 				if (!m_aButton[n]->bDisable)
 				{
 					if (pntMouse.y >= nY && pntMouse.y <= nY + nHeight)
@@ -501,7 +501,7 @@ void CXI_CHECKBUTTONS::UpdateTextInfo(long nButtonNum)
 	{
 		//m_aButton[nButtonNum]->aStr.Add();
 		m_aButton[nButtonNum]->aStr[n].str = asOutStr[n];
-		long nOffset = m_rs->StringWidth((char*)asOutStr[n].c_str(), m_nFontNum, m_fFontScale, 0);
+    const long nOffset = m_rs->StringWidth((char*)asOutStr[n].c_str(), m_nFontNum, m_fFontScale, 0);
 		switch (m_nFontAlignment)
 		{
 		case PR_ALIGN_LEFT: m_aButton[nButtonNum]->aStr[n].fX = 0.f;

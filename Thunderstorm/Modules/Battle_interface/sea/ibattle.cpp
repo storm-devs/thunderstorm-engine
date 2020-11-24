@@ -250,12 +250,12 @@ uint64_t BATTLE_INTERFACE::ProcessMessage(MESSAGE& message)
 		break;
 	case BI_IN_CREATE_SHIP: // "laall"
 		{
-      auto chIdx = message.Long();
-      auto pChAttr = message.AttributePointer();
-      auto pShipAttr = message.AttributePointer();
-      auto bMyShip = (message.Long() != 0L);
-      auto relation = message.Long();
-			uint32_t dwShipColor = message.GetCurrentFormatType() ? message.Long() : 0;
+      const auto chIdx = message.Long();
+      const auto pChAttr = message.AttributePointer();
+      const auto pShipAttr = message.AttributePointer();
+      const auto bMyShip = (message.Long() != 0L);
+      const auto relation = message.Long();
+      const uint32_t dwShipColor = message.GetCurrentFormatType() ? message.Long() : 0;
 			g_ShipList.Add(AttributesPointer ? AttributesPointer->GetAttributeAsDword("MainChrIndex", -1) : -1, chIdx,
 			               pChAttr, pShipAttr, bMyShip, relation, dwShipColor);
 			if (m_pShipIcon) m_pShipIcon->SetUpdate();
@@ -304,8 +304,8 @@ uint64_t BATTLE_INTERFACE::ProcessMessage(MESSAGE& message)
 		{
 			char param[256];
 			message.String(sizeof(param) - 1, param);
-			int hQ = message.Long();
-			int vQ = message.Long();
+      const int hQ = message.Long();
+      const int vQ = message.Long();
 			return m_pShipIcon->AddTexture(param, hQ, vQ);
 		}
 		break;

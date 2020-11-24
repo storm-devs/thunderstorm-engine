@@ -59,7 +59,7 @@ void BIShipIcon::Draw()
 	if (m_nVBufID != -1 && m_nIBufID != -1)
 	{
 		long nStartV = 0;
-		long nStartI = 0;
+    const long nStartI = 0;
 
 		// ship
 		if (m_nShipSquareQ > 0)
@@ -270,7 +270,7 @@ long BIShipIcon::AddTexture(const char* pcTextureName, long nCols, long nRows) c
 
 void BIShipIcon::Recollect()
 {
-  auto n = CalculateShipQuantity();
+  const auto n = CalculateShipQuantity();
 	UpdateBuffers(n);
 }
 
@@ -281,7 +281,7 @@ bool BIShipIcon::IsActive() const {
 
 void BIShipIcon::SetActive(bool bActive)
 {
-  auto bSameActive = (IsActive() == bActive);
+  const auto bSameActive = (IsActive() == bActive);
 	if (m_pCommandList) m_pCommandList->SetActive(bActive);
 	if (bSameActive) return;
 	m_nCommandMode = BI_COMMODE_COMMAND_SELECT;
@@ -324,7 +324,7 @@ void BIShipIcon::ExecuteCommand(CommandType command)
 	case Command_confirm:
 		if (m_pCommandList)
 		{
-      auto nTmp = m_pCommandList->ExecuteConfirm();
+      const auto nTmp = m_pCommandList->ExecuteConfirm();
 			if (nTmp != -1) m_nCommandMode = nTmp;
 		}
 		if (m_nCommandMode == 0)
@@ -450,12 +450,12 @@ long BIShipIcon::CalculateShipQuantity()
 
 void BIShipIcon::UpdateBuffers(long nShipQ)
 {
-  auto nBackSquareQ = nShipQ;
-  auto nShipStateSquareQ = nShipQ * 2;
-	long nShipClassSquareQ = nShipQ;
-	long nShipSquareQ = nShipQ;
+  const auto nBackSquareQ = nShipQ;
+  const auto nShipStateSquareQ = nShipQ * 2;
+  const long nShipClassSquareQ = nShipQ;
+  const long nShipSquareQ = nShipQ;
 
-	long nMaxSquareQ = BIUtils::GetMaxFromFourLong(nBackSquareQ, nShipStateSquareQ, nShipClassSquareQ, nShipSquareQ);
+  const long nMaxSquareQ = BIUtils::GetMaxFromFourLong(nBackSquareQ, nShipStateSquareQ, nShipClassSquareQ, nShipSquareQ);
 	if (m_nMaxSquareQ != nMaxSquareQ)
 	{
 		m_nMaxSquareQ = nMaxSquareQ;
@@ -543,10 +543,10 @@ long BIShipIcon::WriteSquareToVBuff(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32
 {
 	if (!pv) return 0;
 
-	auto fLeft = (float)(center.x - size.x / 2);
-	auto fTop = (float)(center.y - size.y / 2);
-	float fRight = fLeft + size.x;
-	float fBottom = fTop + size.y;
+  const auto fLeft = (float)(center.x - size.x / 2);
+  const auto fTop = (float)(center.y - size.y / 2);
+  const float fRight = fLeft + size.x;
+  const float fBottom = fTop + size.y;
 
 	pv[0].pos.x = fLeft;
 	pv[0].pos.y = fTop;
@@ -599,10 +599,10 @@ long BIShipIcon::WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, const FRECT
 	fTop += size.y * fClampUp;
 	fBottom += size.y * fClampDown;
 
-	float fLeftUV = uv.left + (uv.right - uv.left) * fClampLeft;
-	float fRightUV = uv.right - (uv.right - uv.left) * fClampRight;
-	float fTopUV = uv.top + (uv.bottom - uv.top) * fClampUp;
-	float fBottomUV = uv.bottom - (uv.bottom - uv.top) * fClampDown;
+  const float fLeftUV = uv.left + (uv.right - uv.left) * fClampLeft;
+  const float fRightUV = uv.right - (uv.right - uv.left) * fClampRight;
+  const float fTopUV = uv.top + (uv.bottom - uv.top) * fClampUp;
+  const float fBottomUV = uv.bottom - (uv.bottom - uv.top) * fClampDown;
 
 	pv[0].pos.x = fLeft;
 	pv[0].pos.y = fTop;
@@ -694,14 +694,14 @@ float BIShipIcon::GetProgressShipSP(long nShipNum)
 float BIShipIcon::GetProgressShipClass(long nShipNum)
 {
 	if (m_Ship[nShipNum].nShipClass < 0 || m_Ship[nShipNum].nShipClass >= m_aClassProgress.size()) return 0.f;
-	float f = m_aClassProgress[m_Ship[nShipNum].nShipClass];
+  const float f = m_aClassProgress[m_Ship[nShipNum].nShipClass];
 	return f;
 }
 
 void BIShipIcon::GetShipUVFromPictureIndex(long nPicIndex, FRECT& rUV)
 {
-	long ny = nPicIndex / 8;
-	long nx = nPicIndex - ny * 8;
+  const long ny = nPicIndex / 8;
+  const long nx = nPicIndex - ny * 8;
 	rUV.left = nx * .125f;
 	//rUV.top = ny * .25f;
 	rUV.top = ny * .125f; //boal

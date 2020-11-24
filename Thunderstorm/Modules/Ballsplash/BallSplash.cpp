@@ -43,8 +43,8 @@ uint64_t BALLSPLASH::ProcessMessage(MESSAGE& message)
 {
 	//GUARD(BALLSPLASH::ProcessMessage)
 
-  auto code = message.Long();
-	uint32_t outValue = 0;
+  const auto code = message.Long();
+  const uint32_t outValue = 0;
 
 	switch (code)
 	{
@@ -99,7 +99,7 @@ void BALLSPLASH::Realize(uint32_t _dTime)
 	splashes[lastProcessed].Realize(_dTime);
 
 	// draw top part
-  auto techniqueStarted = renderer->TechniqueExecuteStart("splash2");
+  const auto techniqueStarted = renderer->TechniqueExecuteStart("splash2");
 	TSplash::startRender = true;
 	TSplash::topIndex = 0;
 	lastProcessed = -1;
@@ -141,7 +141,7 @@ void BALLSPLASH::Execute(uint32_t dTime)
 //--------------------------------------------------------------------
 void BALLSPLASH::InitializeSplashes()
 {
-  auto psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
+  const auto psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
 
 	for (auto i = 0; i < MAX_SPLASHES; ++i)
 	{

@@ -60,8 +60,8 @@ void RAIN::Release()
 }
 
 void RAIN::GenerateRandomDrop(CVECTOR* vPos) const {
-  auto fDist = 1.5f + FRAND(fRainRadius);
-  auto fAngle = FRAND(PIm2);
+  const auto fDist = 1.5f + FRAND(fRainRadius);
+  const auto fAngle = FRAND(PIm2);
 	vPos->x = fDist * cosf(fAngle);
 	vPos->z = fDist * sinf(fAngle);
 	vPos->y = fRainHeight - FRAND(fRainHeight*2.0f);
@@ -118,7 +118,7 @@ void RAIN::GenerateRain()
 		pRainBlocks[i].dwTime = dwRainTimeBlend;
 		pRainBlocks[i].vAng.y = FRAND(PIm2);
 
-    auto jitter = fRainWindSpeedJitter; //Weather->GetFloat(whf_rain_wind_speed_jitter);
+    const auto jitter = fRainWindSpeedJitter; //Weather->GetFloat(whf_rain_wind_speed_jitter);
 		pRainBlocks[i].fWindSpeedJitter = FRAND(jitter) - jitter / 2.0f;
 	}
 
@@ -126,7 +126,7 @@ void RAIN::GenerateRain()
 		CreateVertexBuffer(D3DRAINVERTEX_FORMAT, dwNumDrops * 2 * sizeof(RAINVERTEX),D3DUSAGE_WRITEONLY);
 	if (iVertexBuffer < 0) return;
 
-  auto pVertBuf = (RAINVERTEX*)rs->LockVertexBuffer(iVertexBuffer);
+  const auto pVertBuf = (RAINVERTEX*)rs->LockVertexBuffer(iVertexBuffer);
 	if (!pVertBuf) return;
 
 	for (i = 0; i < dwNumDrops; i++)
@@ -199,7 +199,7 @@ void RAIN::Execute(uint32_t Delta_Time)
 }
 
 void RAIN::InitialSomeBlockParameters(long iIdx) const {
-  auto fDist = 6.0f * 5.4f * fWindPower;
+  const auto fDist = 6.0f * 5.4f * fWindPower;
 	pRainBlocks[iIdx].vPos.x = -fDist * sinf(fWindAngle);
 	pRainBlocks[iIdx].vPos.z = -fDist * cosf(fWindAngle);
 	pRainBlocks[iIdx].fWindFlaw = 0.0f;

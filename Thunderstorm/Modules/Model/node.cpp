@@ -45,7 +45,7 @@ bool NODER::Clip()
 	if (isReleaed) return false;
 
 	//check for bounding spheres intersection
-  auto sph_dist = ~(*clip_c - glob_mtx * center);
+  const auto sph_dist = ~(*clip_c - glob_mtx * center);
 	if (sph_dist > (radius + clip_r) * (radius + clip_r)) return false;
 
   auto retval = false;
@@ -55,18 +55,18 @@ bool NODER::Clip()
 		backtrans = &glob_mtx;
 		for (long p = 0; p < clip_nps; p++)
 		{
-      auto x = clip_p[p].D * clip_p[p].Nx - glob_mtx.m[3][0];
-      auto y = clip_p[p].D * clip_p[p].Ny - glob_mtx.m[3][1];
-      auto z = clip_p[p].D * clip_p[p].Nz - glob_mtx.m[3][2];
-      auto Nx = glob_mtx.m[0][0] * clip_p[p].Nx + glob_mtx.m[0][1] * clip_p[p].Ny + glob_mtx.m[0][2] * clip_p[p].
+      const auto x = clip_p[p].D * clip_p[p].Nx - glob_mtx.m[3][0];
+      const auto y = clip_p[p].D * clip_p[p].Ny - glob_mtx.m[3][1];
+      const auto z = clip_p[p].D * clip_p[p].Nz - glob_mtx.m[3][2];
+      const auto Nx = glob_mtx.m[0][0] * clip_p[p].Nx + glob_mtx.m[0][1] * clip_p[p].Ny + glob_mtx.m[0][2] * clip_p[p].
 				Nz;
-      auto Ny = glob_mtx.m[1][0] * clip_p[p].Nx + glob_mtx.m[1][1] * clip_p[p].Ny + glob_mtx.m[1][2] * clip_p[p].
+      const auto Ny = glob_mtx.m[1][0] * clip_p[p].Nx + glob_mtx.m[1][1] * clip_p[p].Ny + glob_mtx.m[1][2] * clip_p[p].
 				Nz;
-      auto Nz = glob_mtx.m[2][0] * clip_p[p].Nx + glob_mtx.m[2][1] * clip_p[p].Ny + glob_mtx.m[2][2] * clip_p[p].
+      const auto Nz = glob_mtx.m[2][0] * clip_p[p].Nx + glob_mtx.m[2][1] * clip_p[p].Ny + glob_mtx.m[2][2] * clip_p[p].
 				Nz;
-      auto lx = glob_mtx.m[0][0] * x + glob_mtx.m[0][1] * y + glob_mtx.m[0][2] * z;
-      auto ly = glob_mtx.m[1][0] * x + glob_mtx.m[1][1] * y + glob_mtx.m[1][2] * z;
-      auto lz = glob_mtx.m[2][0] * x + glob_mtx.m[2][1] * y + glob_mtx.m[2][2] * z;
+      const auto lx = glob_mtx.m[0][0] * x + glob_mtx.m[0][1] * y + glob_mtx.m[0][2] * z;
+      const auto ly = glob_mtx.m[1][0] * x + glob_mtx.m[1][1] * y + glob_mtx.m[1][2] * z;
+      const auto lz = glob_mtx.m[2][0] * x + glob_mtx.m[2][1] * y + glob_mtx.m[2][2] * z;
 			clip_gp[p].nrm.x = Nx;
 			clip_gp[p].nrm.y = Ny;
 			clip_gp[p].nrm.z = Nz;
@@ -105,8 +105,8 @@ float NODER::Update(CMatrix& mtx, CVECTOR& cnt)
 		if (next[l] != nullptr)
 		{
 			CVECTOR cnt; //~!~
-      auto r = static_cast<NODER*>(next[l])->Update(glob_mtx, cnt);
-      auto rad = sqrtf(~(cnt - center)) + r;
+      const auto r = static_cast<NODER*>(next[l])->Update(glob_mtx, cnt);
+      const auto rad = sqrtf(~(cnt - center)) + r;
 			if (rad > radius) radius = rad;
 		}
 
@@ -121,9 +121,9 @@ float NODER::Trace(const CVECTOR& src, const CVECTOR& dst)
 {
 	if (isReleaed) return 2.0f;
 	//check for bounding spheres intersection
-  auto lmn = dst - src;
-  auto dist2ray2 = ~((glob_mtx * center - src) ^ lmn);
-  auto dlmn = ~(lmn);
+  const auto lmn = dst - src;
+  const auto dist2ray2 = ~((glob_mtx * center - src) ^ lmn);
+  const auto dlmn = ~(lmn);
 	//hierarchy test
 	if (dist2ray2 > dlmn * radius * radius) return 2.0f;
 
@@ -133,7 +133,7 @@ float NODER::Trace(const CVECTOR& src, const CVECTOR& dst)
 		for (long n = 0; n < nnext; n++)
 		{
 			if (next[n] == nullptr) continue;
-      auto d = static_cast<NODER*>(next[n])->Trace(src, dst);
+      const auto d = static_cast<NODER*>(next[n])->Trace(src, dst);
 			if (d < best_dist)
 			{
 				best_dist = d;
@@ -146,7 +146,7 @@ float NODER::Trace(const CVECTOR& src, const CVECTOR& dst)
 		CVECTOR _src, _dst;
 		glob_mtx.MulToInv(src, _src);
 		glob_mtx.MulToInv(dst, _dst);
-    auto ds = geo->Trace((GEOS::VERTEX&)_src, (GEOS::VERTEX&)_dst);
+    const auto ds = geo->Trace((GEOS::VERTEX&)_src, (GEOS::VERTEX&)_dst);
 		if (ds < best_dist)
 		{
 			best_dist = ds;
@@ -207,7 +207,7 @@ bool NODER::Init(const char* lightPath, const char* pname, const char* oname, co
 	sys_lmPath = new char[len];
 	memcpy(sys_lmPath, lmPath, len);
 
-  auto tPath = gs->GetTexturePath();
+  const auto tPath = gs->GetTexturePath();
 	len = strlen(tPath) + 1;
 	sys_TexPath = new char[len];
 	memcpy(sys_TexPath, tPath, len);
@@ -235,7 +235,7 @@ bool NODER::Init(const char* lightPath, const char* pname, const char* oname, co
 	parent = par;
 	if (parent == nullptr) strcpy_s(name, pname);
 	//calculate number of labels
-	auto idGeo = geo->FindName("geometry");
+  const auto idGeo = geo->FindName("geometry");
 	nnext = 0;
 	long sti = -1;
 	while ((sti = geo->FindLabelG(sti + 1, idGeo)) > -1) nnext++;
@@ -313,9 +313,9 @@ void NODER::RestoreGeometry()
 {
 	if (!isReleaed) return;
 
-  auto tPath = gs->GetTexturePath();
+  const auto tPath = gs->GetTexturePath();
 	const auto len = strlen(tPath) + 1;
-  auto ttPath = new char[len];
+  const auto ttPath = new char[len];
 	memcpy(ttPath, tPath, len);
 	gs->SetTexturePath(sys_TexPath);
 	geo = gs->CreateGeometry(sys_modelName, sys_LightPath, 0, sys_lmPath);
@@ -342,13 +342,13 @@ void NODER::Draw()
 {
 	if (isReleaed) return;
 
-  auto cnt = glob_mtx * center;
+  const auto cnt = glob_mtx * center;
 
 	//visibility check
 	long p;
 	for (p = 0; p < 4; p++)
 	{
-    auto dist = cnt.x * ViewPlane[p].nrm.x + cnt.y * ViewPlane[p].nrm.y + cnt.z * ViewPlane[p].nrm.z - ViewPlane[p]
+    const auto dist = cnt.x * ViewPlane[p].nrm.x + cnt.y * ViewPlane[p].nrm.y + cnt.z * ViewPlane[p].nrm.z - ViewPlane[p]
 			.d;
 		if (dist > radius) break;
 	}
@@ -358,9 +358,9 @@ void NODER::Draw()
 		CVECTOR cpos, cang;
 		float cpersp;
 		rs->GetCamera(cpos, cang, cpersp);
-		float fdist = ~(cpos - cnt);
-		float fmindist = (max_view_dist + radius) * (max_view_dist + radius);
-		float fmaxdist = (max_view_dist * 1.3f + radius) * (max_view_dist * 1.3f + radius);
+    const float fdist = ~(cpos - cnt);
+    const float fmindist = (max_view_dist + radius) * (max_view_dist + radius);
+    const float fmaxdist = (max_view_dist * 1.3f + radius) * (max_view_dist * 1.3f + radius);
 		if (fdist > fmaxdist) distance_blend = 1.f;
 		else if (fdist < fmindist) distance_blend = 0.f;
 		else distance_blend = (fdist - fmindist) / (fmaxdist - fmindist);
@@ -391,7 +391,7 @@ void NODER::Draw()
 		long p;
 		for (p = 0; p < 4; p++)
 		{
-			float dist = cnt.x * ViewPlane[p].nrm.x + cnt.y * ViewPlane[p].nrm.y + cnt.z * ViewPlane[p].nrm.z -
+      const float dist = cnt.x * ViewPlane[p].nrm.x + cnt.y * ViewPlane[p].nrm.y + cnt.z * ViewPlane[p].nrm.z -
 				ViewPlane[p].d;
 			if (dist > geo_radius) break;
 		}
@@ -409,18 +409,18 @@ void NODER::Draw()
 			//transform viewplanes
 			for (p = 0; p < 4; p++)
 			{
-				float x = ViewPlane[p].d * ViewPlane[p].nrm.x - glob_mtx.m[3][0];
-				float y = ViewPlane[p].d * ViewPlane[p].nrm.y - glob_mtx.m[3][1];
-				float z = ViewPlane[p].d * ViewPlane[p].nrm.z - glob_mtx.m[3][2];
-				float Nx = glob_mtx.m[0][0] * ViewPlane[p].nrm.x + glob_mtx.m[0][1] * ViewPlane[p].nrm.y + glob_mtx.m[0]
+        const float x = ViewPlane[p].d * ViewPlane[p].nrm.x - glob_mtx.m[3][0];
+        const float y = ViewPlane[p].d * ViewPlane[p].nrm.y - glob_mtx.m[3][1];
+        const float z = ViewPlane[p].d * ViewPlane[p].nrm.z - glob_mtx.m[3][2];
+        const float Nx = glob_mtx.m[0][0] * ViewPlane[p].nrm.x + glob_mtx.m[0][1] * ViewPlane[p].nrm.y + glob_mtx.m[0]
 					[2] * ViewPlane[p].nrm.z;
-				float Ny = glob_mtx.m[1][0] * ViewPlane[p].nrm.x + glob_mtx.m[1][1] * ViewPlane[p].nrm.y + glob_mtx.m[1]
+        const float Ny = glob_mtx.m[1][0] * ViewPlane[p].nrm.x + glob_mtx.m[1][1] * ViewPlane[p].nrm.y + glob_mtx.m[1]
 					[2] * ViewPlane[p].nrm.z;
-				float Nz = glob_mtx.m[2][0] * ViewPlane[p].nrm.x + glob_mtx.m[2][1] * ViewPlane[p].nrm.y + glob_mtx.m[2]
+        const float Nz = glob_mtx.m[2][0] * ViewPlane[p].nrm.x + glob_mtx.m[2][1] * ViewPlane[p].nrm.y + glob_mtx.m[2]
 					[2] * ViewPlane[p].nrm.z;
-				float lx = glob_mtx.m[0][0] * x + glob_mtx.m[0][1] * y + glob_mtx.m[0][2] * z;
-				float ly = glob_mtx.m[1][0] * x + glob_mtx.m[1][1] * y + glob_mtx.m[1][2] * z;
-				float lz = glob_mtx.m[2][0] * x + glob_mtx.m[2][1] * y + glob_mtx.m[2][2] * z;
+        const float lx = glob_mtx.m[0][0] * x + glob_mtx.m[0][1] * y + glob_mtx.m[0][2] * z;
+        const float ly = glob_mtx.m[1][0] * x + glob_mtx.m[1][1] * y + glob_mtx.m[1][2] * z;
+        const float lz = glob_mtx.m[2][0] * x + glob_mtx.m[2][1] * y + glob_mtx.m[2][2] * z;
 				TViewPlane[p].nrm.x = Nx;
 				TViewPlane[p].nrm.y = Ny;
 				TViewPlane[p].nrm.z = Nz;
@@ -509,7 +509,7 @@ void NODER::Link(NODE* node)
 //-------------------------------------------------------------------
 entid_t NODER::Unlink2Model()
 {
-	entid_t id = EntityManager::CreateEntity("modelr");
+  const entid_t id = EntityManager::CreateEntity("modelr");
 	auto* mdl = (MODELR*)EntityManager::GetEntityPointer(id);
 
 	//link node to as root

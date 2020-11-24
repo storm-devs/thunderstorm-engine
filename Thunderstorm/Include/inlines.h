@@ -6,7 +6,7 @@ inline unsigned long hash_string(const char* str)
 	while (*str != '\0')
 	{
 		hval = (hval << 4) + (unsigned long int)*str++;
-    auto g = hval & ((unsigned long int)0xf << (32 - 4));
+    const auto g = hval & ((unsigned long int)0xf << (32 - 4));
 		if (g != 0)
 		{
 			hval ^= g >> (32 - 8);
@@ -18,8 +18,8 @@ inline unsigned long hash_string(const char* str)
 
 inline void RotateAroundY(float& x, float& z, float cos, float sin)
 {
-  auto xx = x * cos + z * sin;
-  auto zz = z * cos - x * sin;
+  const auto xx = x * cos + z * sin;
+  const auto zz = z * cos - x * sin;
 	x = xx;
 	z = zz;
 }
@@ -59,14 +59,14 @@ inline bool IntersectLines2D(const CVECTOR& v1, const CVECTOR& v2, const CVECTOR
 	vRes.z = (a2 * c1 - a1 * c2) / (b2 * a1 - a2 * b1);
 	vRes.x = (-b1 * vRes.z - c1) / (a1 + 1e-5f);
 
-  auto half1 = 1.0f / 4.0f * (SQR(v2.x - v1.x) + SQR(v2.z - v1.z));
-  auto d1 = SQR(vRes.x - (v1.x + v2.x) / 2.0f) + SQR(vRes.z - (v1.z + v2.z) / 2.0f);
+  const auto half1 = 1.0f / 4.0f * (SQR(v2.x - v1.x) + SQR(v2.z - v1.z));
+  const auto d1 = SQR(vRes.x - (v1.x + v2.x) / 2.0f) + SQR(vRes.z - (v1.z + v2.z) / 2.0f);
 
 	if (d1 > half1)
 		return false;
 
-  auto half2 = 1.0f / 4.0f * (SQR(v4.x - v3.x) + SQR(v4.z - v3.z));
-  auto d2 = SQR(vRes.x - (v3.x + v4.x) / 2.0f) + SQR(vRes.z - (v3.z + v4.z) / 2.0f);
+  const auto half2 = 1.0f / 4.0f * (SQR(v4.x - v3.x) + SQR(v4.z - v3.z));
+  const auto d2 = SQR(vRes.x - (v3.x + v4.x) / 2.0f) + SQR(vRes.z - (v3.z + v4.z) / 2.0f);
 
 	if (d2 > half2)
 		return false;

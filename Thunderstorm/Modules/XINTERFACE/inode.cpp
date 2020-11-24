@@ -48,7 +48,7 @@ CINODE::~CINODE()
     auto pContrl = m_pCommands[i].pNextControl;
 		while (pContrl != nullptr)
 		{
-      auto pOld = pContrl;
+      const auto pOld = pContrl;
 			pContrl = pContrl->next;
 			delete pOld;
 		}
@@ -86,7 +86,7 @@ void CINODE::FrameProcess(uint32_t DeltaTime)
 
 			if (m_pCommands[m_nCurrentCommandNumber].sRetControl)
 			{
-        auto pTmpNod = ptrOwner->FindNode(m_pCommands[m_nCurrentCommandNumber].sRetControl, nullptr);
+        const auto pTmpNod = ptrOwner->FindNode(m_pCommands[m_nCurrentCommandNumber].sRetControl, nullptr);
 				if (pTmpNod)
 					api->Send_Message(g_idInterface, "lp",MSG_INTERFACE_SET_CURRENT_NODE, pTmpNod);
 			}
@@ -123,7 +123,7 @@ CINODE* CINODE::DoAction(int wActCode, bool& bBreakPress, bool bFirstPress)
 		// execute command
 		while (n != COMMAND_QUANTITY)
 		{
-      auto ac = CommandExecute(pCommandsList[n].code);
+      const auto ac = CommandExecute(pCommandsList[n].code);
 			if (ac == -1) break;
 
 			for (n = 0; n < COMMAND_QUANTITY; n++)
@@ -161,7 +161,7 @@ CINODE* CINODE::FindNode(CINODE* pNod, const char* sNodName)
 		if (pNod->m_nodeName && _stricmp(sNodName, pNod->m_nodeName) == 0) break;
 		if (pNod->m_list)
 		{
-      auto pInsideNod = FindNode(pNod->m_list, sNodName);
+      const auto pInsideNod = FindNode(pNod->m_list, sNodName);
 			if (pInsideNod) return pInsideNod;
 		}
 		pNod = pNod->m_next;
@@ -176,7 +176,7 @@ CINODE* CINODE::FindNode(CINODE* pNod, int nNodType)
 		if (pNod->m_nNodeType == nNodType) break;
 		if (pNod->m_list)
 		{
-      auto pInsideNod = FindNode(pNod->m_list, nNodType);
+      const auto pInsideNod = FindNode(pNod->m_list, nNodType);
 			if (pInsideNod) return pInsideNod;
 		}
 		pNod = pNod->m_next;
@@ -193,7 +193,7 @@ CINODE* CINODE::FindNode(CINODE* pNod, float x, float y)
 			break;
 		if (pNod->m_list)
 		{
-      auto pInsideNod = FindNode(pNod->m_list, x, y);
+      const auto pInsideNod = FindNode(pNod->m_list, x, y);
 			if (pInsideNod) return pInsideNod;
 		}
 		pNod = pNod->m_next;
@@ -283,9 +283,9 @@ bool CINODE::GetMidStr(const char* inStr, char* buf, size_t bufSize, const char*
 		buf[0] = 0;
 		return false;
 	}
-	int lenIn = strlen(inStr);
-	int lenBeg = strlen(begStr);
-	int lenEnd = strlen(endStr);
+  const int lenIn = strlen(inStr);
+  const int lenBeg = strlen(begStr);
+  const int lenEnd = strlen(endStr);
 
 	int i;
   auto fcn = -1, lcn = -1;
@@ -379,14 +379,14 @@ uint32_t CINODE::MessageProc(long msgcode, MESSAGE& message)
 	{
 	case 0: // Execute node command
 		{
-      auto commCode = message.Long();
+      const auto commCode = message.Long();
 			CommandExecute(commCode);
 		}
 		break;
 
 	case 1: // Set clickable status
 		{
-      auto clickState = message.Long();
+      const auto clickState = message.Long();
 			m_bClickable = clickState != 0;
 		}
 		break;
@@ -399,7 +399,7 @@ uint32_t CINODE::MessageProc(long msgcode, MESSAGE& message)
 		{
 			char param[256];
 			message.String(sizeof(param), param);
-      auto commIdx = FindCommand(param);
+      const auto commIdx = FindCommand(param);
 			if (commIdx >= 0) CommandExecute(pCommandsList[commIdx].code);
 		}
 		break;
@@ -437,7 +437,7 @@ bool CINODE::Init(INIFILE* ini1, const char * name1, INIFILE* ini2, const char *
 
 	// get position
 	m_rect = GetIniLongRect(ini1, name1, ini2, name2, "position", m_hostRect);
-	int nAbsoluteRectVal = GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
+  const int nAbsoluteRectVal = GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
 	GetAbsoluteRect(m_rect, nAbsoluteRectVal);
 
 	// glow cursor

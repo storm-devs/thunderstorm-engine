@@ -61,8 +61,8 @@ void GIEditorList::Render()
 	if (m_pSelectImage && m_bShowSelect) m_pSelectImage->Draw();
 
   auto fY = m_frBackRect.top + m_frStrOffset.top;
-  auto fYEnd = m_frBackRect.bottom - m_frStrOffset.bottom;
-  auto fX = m_frBackRect.left + m_frStrOffset.left;
+  const auto fYEnd = m_frBackRect.bottom - m_frStrOffset.bottom;
+  const auto fX = m_frBackRect.left + m_frStrOffset.left;
   auto fWidth = m_frBackRect.right - m_frStrOffset.right - fX;
 
 	for (auto n = m_nTopIndex; n < m_aStrings.size() && fY < fYEnd; n++)
@@ -168,7 +168,7 @@ void GIEditorList::MakeMouseClick(float fX, float fY)
 	if (fX >= frString.left && fX <= frString.right &&
 		fY >= frString.top && fY <= frString.bottom)
 	{
-    auto fLineOffset = fY - frString.top;
+    const auto fLineOffset = fY - frString.top;
 		long nLineNum = 0;
 		if (m_fStrLineStep > 0.f) nLineNum = (long)(fLineOffset / m_fStrLineStep);
 		if (nLineNum != m_nSelectIndex)
@@ -245,7 +245,7 @@ void GIEditorList::UpdateSelectPosition()
 	m_bShowSelect = false;
 	if (m_nSelectIndex < 0) return;
 
-  auto nIdx = m_nSelectIndex - m_nTopIndex;
+  const auto nIdx = m_nSelectIndex - m_nTopIndex;
 	if (nIdx < 0) return;
 
 	m_frSelectRect.top = m_frBackRect.top + m_frStrOffset.top - 2.f + nIdx * m_fStrLineStep;

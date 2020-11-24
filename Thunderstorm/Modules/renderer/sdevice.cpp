@@ -38,8 +38,8 @@ uint32_t DX9SetTexturePath(VS_STACK* pS)
   auto pString = (VDATA*)pS->Pop();
   auto pNumber = (VDATA*)pS->Pop();
 
-	uintptr_t iNumber = pNumber->GetLong();
-  auto pStr = pString->GetString();
+  const uintptr_t iNumber = pNumber->GetLong();
+  const auto pStr = pString->GetString();
 
 	if (!DX9RENDER::pRS)
 	{
@@ -66,8 +66,8 @@ uint32_t DX9SetTexturePath(VS_STACK* pS)
 uint32_t RPrint(VS_STACK* pS)
 {
   auto pString = (VDATA*)pS->Pop();
-	long y = ((VDATA*)pS->Pop())->GetLong();
-	long x = ((VDATA*)pS->Pop())->GetLong();
+  const long y = ((VDATA*)pS->Pop())->GetLong();
+  const long x = ((VDATA*)pS->Pop())->GetLong();
 
 	if (pString->GetString()) DX9RENDER::pRS->Print(x, y, pString->GetString());
 	auto* pVR = (VDATA*)pS->Push();
@@ -77,9 +77,9 @@ uint32_t RPrint(VS_STACK* pS)
 
 uint32_t SetGlowParams(VS_STACK* pS)
 {
-	float fBlurBrushSize = ((VDATA*)pS->Pop())->GetFloat();
-	long Intensivity = ((VDATA*)pS->Pop())->GetLong();
-	long BlurPasses = ((VDATA*)pS->Pop())->GetLong();
+  const float fBlurBrushSize = ((VDATA*)pS->Pop())->GetFloat();
+  const long Intensivity = ((VDATA*)pS->Pop())->GetLong();
+  const long BlurPasses = ((VDATA*)pS->Pop())->GetLong();
 
 	DX9RENDER::pRS->SetGLOWParams(fBlurBrushSize, Intensivity, BlurPasses);
 
@@ -162,21 +162,21 @@ void CreateSphere()
 	DX9sphereNumTrgs = a1 * a2 * 2;
 	DX9sphereVertex = new DX9SphVertex[DX9sphereNumTrgs * 6];
 
-	CVECTOR light = !CVECTOR(0.0f, 0.0f, 1.0f);
+  const CVECTOR light = !CVECTOR(0.0f, 0.0f, 1.0f);
 	float kColor;
 	//заполняем вершины
 	for (long i = 0, t = 0; i < a2; i++)
 	{
-		float r1 = sinf(myPI * i / float(a2));
-		float y1 = cosf(myPI * i / float(a2));
-		float r2 = sinf(myPI * (i + 1) / float(a2));
-		float y2 = cosf(myPI * (i + 1) / float(a2));
+    const float r1 = sinf(myPI * i / float(a2));
+    const float y1 = cosf(myPI * i / float(a2));
+    const float r2 = sinf(myPI * (i + 1) / float(a2));
+    const float y2 = cosf(myPI * (i + 1) / float(a2));
 		for (long j = 0; j < a1; j++)
 		{
-			float x1 = sinf(2.0f * myPI * j / float(a1));
-			float z1 = cosf(2.0f * myPI * j / float(a1));
-			float x2 = sinf(2.0f * myPI * (j + 1) / float(a1));
-			float z2 = cosf(2.0f * myPI * (j + 1) / float(a1));
+      const float x1 = sinf(2.0f * myPI * j / float(a1));
+      const float z1 = cosf(2.0f * myPI * j / float(a1));
+      const float x2 = sinf(2.0f * myPI * (j + 1) / float(a1));
+      const float z2 = cosf(2.0f * myPI * (j + 1) / float(a1));
 			//0
 			DX9sphereVertex[t * 3 + 0].v.x = r1 * x1;
 			DX9sphereVertex[t * 3 + 0].v.y = y1;
@@ -452,7 +452,7 @@ bool DX9RENDER::Init()
 		// videocapture section
 		fFixedFPS = ini->GetFloat("VideoCapture", "FPS", 25);
 		if (fFixedFPS == 0.0f) fFixedFPS = 25.0f;
-		long iCapBuffers = ini->GetLong("VideoCapture", "Buffers", 0);
+    const long iCapBuffers = ini->GetLong("VideoCapture", "Buffers", 0);
 		for (long i = 0; i < iCapBuffers; i++)
 			aCaptureBuffers.push_back(new char[sizeof(uint32_t) * screen_size.x * screen_size.y]);
 
@@ -948,8 +948,8 @@ bool DX9RENDER::DX9BeginScene()
 void DX9RENDER::CreateRenderQuad(float fWidth, float fHeight, float fSrcWidth, float fSrcHeight, float fMulU,
                                  float fMulV)
 {
-	float StartX = -0.5f;
-	float StartY = -0.5f;
+  const float StartX = -0.5f;
+  const float StartY = -0.5f;
 	fWidth -= 0.5f;
 	fHeight -= 0.5f;
 	PostProcessQuad[0].vPos = Vector4(StartX, fHeight, 0.0f, 1.0f);
@@ -957,14 +957,14 @@ void DX9RENDER::CreateRenderQuad(float fWidth, float fHeight, float fSrcWidth, f
 	PostProcessQuad[2].vPos = Vector4(fWidth, fHeight, 0.0f, 1.0f);
 	PostProcessQuad[3].vPos = Vector4(fWidth, StartY, 0.0f, 1.0f);
 
-	float fTexelU = 1.0f / fSrcWidth;
-	float fTexelV = 1.0f / fSrcHeight;
+  const float fTexelU = 1.0f / fSrcWidth;
+  const float fTexelV = 1.0f / fSrcHeight;
 
-	float fNearV = fTexelV * 0.5f;
-	float fFarV = 1.0f - (fTexelV * 0.5f);
+  const float fNearV = fTexelV * 0.5f;
+  const float fFarV = 1.0f - (fTexelV * 0.5f);
 
-	float fNearU = fTexelU * 0.5f;
-	float fFarU = 1.0f - (fTexelU * 0.5f);
+  const float fNearU = fTexelU * 0.5f;
+  const float fFarU = 1.0f - (fTexelU * 0.5f);
 
 	PostProcessQuad[0].v0 = fFarV;
 	PostProcessQuad[0].u0 = fNearU;
@@ -1045,8 +1045,8 @@ void DX9RENDER::BlurGlowTexture()
 
 void DX9RENDER::CopyGlowToScreen()
 {
-	FLOAT sx = (FLOAT)screen_size.x;
-	auto sy = (FLOAT)screen_size.y;
+  const FLOAT sx = (FLOAT)screen_size.x;
+  const auto sy = (FLOAT)screen_size.y;
 	//Рендерим на экран
 	PostProcessQuad[0].vPos = Vector4(0, sy, 0.0f, 1.0f);
 	PostProcessQuad[1].vPos = Vector4(0, 0, 0.0f, 1.0f);
@@ -1066,8 +1066,8 @@ void DX9RENDER::CopyGlowToScreen()
 
 	if (GlowIntensity < 0) GlowIntensity = 0;
 	if (GlowIntensity > 255) GlowIntensity = 255;
-	uint8_t bGLOW = (uint8_t)GlowIntensity;
-	uint32_t dwTFactor = (bGLOW << 24) | (bGLOW << 16) | (bGLOW << 8) | bGLOW;
+  const uint8_t bGLOW = (uint8_t)GlowIntensity;
+  const uint32_t dwTFactor = (bGLOW << 24) | (bGLOW << 16) | (bGLOW << 8) | bGLOW;
 
 	//GLOW экран рисуем....
 	SetRenderState(D3DRS_TEXTUREFACTOR, dwTFactor);
@@ -1082,8 +1082,8 @@ void DX9RENDER::CopyGlowToScreen()
 
 void DX9RENDER::CopyPostProcessToScreen()
 {
-	FLOAT sx = (FLOAT)screen_size.x;
-	auto sy = (FLOAT)screen_size.y;
+  const FLOAT sx = (FLOAT)screen_size.x;
+  const auto sy = (FLOAT)screen_size.y;
 	PostProcessQuad[0].vPos = Vector4(0, sy, 0.0f, 1.0f);
 	PostProcessQuad[1].vPos = Vector4(0, 0, 0.0f, 1.0f);
 	PostProcessQuad[2].vPos = Vector4(sx, sy, 0.0f, 1.0f);
@@ -1273,7 +1273,7 @@ bool DX9RENDER::DX9EndScene()
 
 	if (bVideoCapture) MakeCapture();
 
-	HRESULT hRes = d3d9->Present(nullptr, nullptr, nullptr, nullptr);
+  const HRESULT hRes = d3d9->Present(nullptr, nullptr, nullptr, nullptr);
 
 	if (hRes == D3DERR_DEVICELOST)
 	{
@@ -1283,7 +1283,7 @@ bool DX9RENDER::DX9EndScene()
 #ifndef _XBOX
 	if (bSafeRendering)
 	{
-		HDC dc = GetDC(hwnd);
+    const HDC dc = GetDC(hwnd);
 		SetPixel(dc, 0, 0, 0);
 		ReleaseDC(hwnd, dc);
 	}
@@ -1352,7 +1352,7 @@ long DX9RENDER::TextureCreate(const char* fname)
 		if (i >= 0 && TexPaths[i].str[0] == 0) continue;
 		if (i >= 0)
 		{
-			uint32_t dwLen = strlen(fname);
+      const uint32_t dwLen = strlen(fname);
 
 			long j;
 			for (j = dwLen - 1; j >= 0; j--)
@@ -1379,7 +1379,7 @@ long DX9RENDER::TextureCreate(const char* fname)
 
 		_strupr(_fname);
 
-		unsigned long hf = hash_string(_fname);
+    const unsigned long hf = hash_string(_fname);
 
 		long t;
 		for (t = 0; t < MAX_STEXTURES; t++)
@@ -1816,10 +1816,10 @@ bool DX9RENDER::TextureRelease(long texid)
 		//#ifndef _XBOX
 		if (texLog)
 		{
-			HANDLE fh = fio->_CreateFile("texLoad.txt", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, OPEN_ALWAYS);
+      const HANDLE fh = fio->_CreateFile("texLoad.txt", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, OPEN_ALWAYS);
 
 			totSize -= Textures[texid].dwSize;
-			int bytes = fio->_GetFileSize(fh, nullptr);
+      const int bytes = fio->_GetFileSize(fh, nullptr);
 			char* buf = new char[bytes + 1];
 			fio->_ReadFile(fh, buf, bytes, nullptr);
 			buf[bytes] = 0;
@@ -1883,7 +1883,7 @@ bool DX9RENDER::SetCamera(const CVECTOR& pos, const CVECTOR& ang, float fov)
 bool DX9RENDER::SetCamera(const CVECTOR& pos, const CVECTOR& ang)
 {
 	CMatrix mtx;
-	CVECTOR vOldWordRelationPos = vWordRelationPos;
+  const CVECTOR vOldWordRelationPos = vWordRelationPos;
 	/*if (!pos || !ang)
 	{
 		if (!pos && !ang) return true;
@@ -1937,7 +1937,7 @@ bool DX9RENDER::SetCamera(CVECTOR lookFrom, CVECTOR lookTo, CVECTOR up)
 
 	// Вычислим угол камеры
 	//Ang = 0.0f;
-	CVECTOR vNorm = !(lookTo - lookFrom);
+  const CVECTOR vNorm = !(lookTo - lookFrom);
 	Ang.y = atan2f(vNorm.x, vNorm.z);
 	Ang.x = atan2f(-vNorm.y, sqrtf(vNorm.x * vNorm.x + vNorm.z * vNorm.z));
 	Ang.z = 0.f;
@@ -1968,19 +1968,19 @@ void DX9RENDER::SetNearFarPlane(float fNear, float fFar)
 
 bool DX9RENDER::SetPerspective(float perspective, float fAspectRatio)
 {
-	float near_plane = fNearClipPlane; // Distance to near clipping
-	float far_plane = fFarClipPlane; // Distance to far clipping
-	float fov_horiz = perspective; // Horizontal field of view  angle, in radians
+  const float near_plane = fNearClipPlane; // Distance to near clipping
+  const float far_plane = fFarClipPlane; // Distance to far clipping
+  const float fov_horiz = perspective; // Horizontal field of view  angle, in radians
 	if (fAspectRatio < 0)
 	{
 		fAspectRatio = float(screen_size.y) / screen_size.x;
 	}
 	aspectRatio = fAspectRatio;
-	float fov_vert = perspective * fAspectRatio; // Vertical field of view  angle, in radians
+  const float fov_vert = perspective * fAspectRatio; // Vertical field of view  angle, in radians
 
-	float w = 1.0f / tanf(fov_horiz * 0.5f);
-	float h = 1.0f / tanf(fov_vert * 0.5f);
-	float Q = far_plane / (far_plane - near_plane);
+  const float w = 1.0f / tanf(fov_horiz * 0.5f);
+  const float h = 1.0f / tanf(fov_vert * 0.5f);
+  const float Q = far_plane / (far_plane - near_plane);
 
 	D3DXMATRIX mtx;
 	PZERO(&mtx, sizeof(mtx));
@@ -2223,8 +2223,8 @@ void DX9RENDER::RenderAnimation(long ib, void* src, long numVrts, long minv, lon
                                 bool isUpdateVB)
 {
 	if (numVrts <= 0 || !src || ib < 0) return;
-	uint32_t type = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;
-	long size = numVrts * sizeof(FVF_VERTEX);
+  const uint32_t type = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;
+  const long size = numVrts * sizeof(FVF_VERTEX);
 	if (isUpdateVB || numVrts > numAniVerteces || !aniVBuffer)
 	{
 		//Create vertex buffer
@@ -2566,14 +2566,14 @@ void DX9RENDER::RunStart()
 	{
 		fSin += float(api->GetRDeltaTime()) * 0.001f * fSeaEffectSpeed;
 
-		auto sx = (float)screen_size.x;
-		auto sy = (float)screen_size.y;
+    const auto sx = (float)screen_size.x;
+    const auto sy = (float)screen_size.y;
 
-		auto fDX = float(long(sx * fSeaEffectSize));
-		float fDY = float(long(sy * fSeaEffectSize));
+    const auto fDX = float(long(sx * fSeaEffectSize));
+    const float fDY = float(long(sy * fSeaEffectSize));
 
-		float sx2 = sx + fDX * 2.0f;
-		float sy2 = sy + fDY * 2.0f;
+    const float sx2 = sx + fDX * 2.0f;
+    const float sy2 = sy + fDY * 2.0f;
 
 		for (long y = 0; y < 32; y++)
 		{
@@ -2652,7 +2652,7 @@ void DX9RENDER::RunEnd()
 	DX9EndScene();
 	if (progressTexture >= 0)
 	{
-		long oldCnt = progressSafeCounter;
+    const long oldCnt = progressSafeCounter;
 		ProgressView();
 		progressSafeCounter = oldCnt;
 		if (progressSafeCounter >= 50)
@@ -2694,7 +2694,7 @@ long DX9RENDER::Print(long nFontNum, uint32_t color, long x, long y, const char*
 
 	FontList[nFontNum].font->StoreFontParameters();
 	FontList[nFontNum].font->SetColor(color);
-	long retVal = FontList[nFontNum].font->Print(x, y, Buff_4k);
+  const long retVal = FontList[nFontNum].font->Print(x, y, Buff_4k);
 	FontList[nFontNum].font->RestoreFontParameters();
 	return retVal;
 	//UNGUARD
@@ -2708,12 +2708,12 @@ long DX9RENDER::StringWidth(const char* string, long nFontNum, float fScale, lon
 
 	pFont->StoreFontParameters();
 
-	long xs = screen_size.x;
+  const long xs = screen_size.x;
 	if (scrWidth == 0) scrWidth = xs;
 	if (xs != scrWidth) fScale *= (float)xs / scrWidth;
 	pFont->SetScale(fScale);
 
-	long retVal = pFont->GetStringWidth(string);
+  const long retVal = pFont->GetStringWidth(string);
 	pFont->RestoreFontParameters();
 	return retVal;
 }
@@ -2755,14 +2755,14 @@ long DX9RENDER::ExtPrint(long nFontNum, uint32_t foreColor, uint32_t backColor, 
 	GetRenderTarget(&pRenderTarget);
 	D3DSURFACE_DESC dscrSurface;
 	pRenderTarget->GetDesc(&dscrSurface);
-	long xs = dscrSurface.Width;
-	long ys = dscrSurface.Height;
+  const long xs = dscrSurface.Width;
+  const long ys = dscrSurface.Height;
 	pRenderTarget->Release();
 	if (scrWidth == 0) scrWidth = xs;
 	if (scrHeight == 0) scrHeight = ys;
 	if (xs != scrWidth)
 	{
-		float fHorzScale = (float)xs / scrWidth;
+    const float fHorzScale = (float)xs / scrWidth;
 		x = long(x * fHorzScale);
 		fScale *= fHorzScale;
 	}
@@ -2782,7 +2782,7 @@ long DX9RENDER::ExtPrint(long nFontNum, uint32_t foreColor, uint32_t backColor, 
 	pFont->SetColor(foreColor);
 	pFont->SetShadow(bShadow);
 	pFont->SetScale(fScale);
-	long retVal = pFont->Print(x, y, Buff_4k);
+  const long retVal = pFont->Print(x, y, Buff_4k);
 
 	pFont->RestoreFontParameters();
 	return retVal;
@@ -2800,7 +2800,7 @@ long DX9RENDER::LoadFont(const char* fontName)
 		sDup[sizeof(sDup) - 1] = 0;
 	}
 	fontName = _strupr(sDup);
-	unsigned long hashVal = hash_string(fontName);
+  const unsigned long hashVal = hash_string(fontName);
 
 	long i;
 	for (i = 0; i < nFontQuantity; i++)
@@ -2849,7 +2849,7 @@ bool DX9RENDER::UnloadFont(const char* fontName)
 		sDup[sizeof(sDup) - 1] = 0;
 	}
 	fontName = _strupr(sDup);
-	unsigned long hashVal = hash_string(fontName);
+  const unsigned long hashVal = hash_string(fontName);
 
 	for (int i = 0; i < nFontQuantity; i++)
 		if (FontList[i].hash == hashVal && _stricmp(FontList[i].name, fontName) == 0)
@@ -2898,7 +2898,7 @@ bool DX9RENDER::SetCurFont(const char* fontName)
 		sDup[sizeof(sDup) - 1] = 0;
 	}
 	fontName = _strupr(sDup);
-	unsigned long hashVal = hash_string(fontName);
+  const unsigned long hashVal = hash_string(fontName);
 
 	for (int i = 0; i < nFontQuantity; i++)
 		if (FontList[i].hash == hashVal)
@@ -3306,11 +3306,11 @@ void DX9RENDER::DrawRects(RS_RECT* pRSR, uint32_t dwRectsNum, const char* cBlock
 			RECT_VERTEX* buffer = &data[i * 6];
 			RS_RECT& rect = pRSR[cnt++];
 			CVECTOR pos = camMtx * (rect.vPos + vWordRelationPos);
-			float sizex = rect.fSize * fScaleX;
-			float sizey = rect.fSize * fScaleY;
-			float sn = sinf(rect.fAngle);
-			float cs = cosf(rect.fAngle);
-			long color = rect.dwColor;
+      const float sizex = rect.fSize * fScaleX;
+      const float sizey = rect.fSize * fScaleY;
+      const float sn = sinf(rect.fAngle);
+      const float cs = cosf(rect.fAngle);
+      const long color = rect.dwColor;
 			float u1, v1, u2, v2;
 			if (!bUseSubTextures)
 			{
@@ -3698,7 +3698,7 @@ CVideoTexture* DX9RENDER::GetVideoTexture(const char* sVideoName)
 	VideoTextureEntity* pVTLcur = pVTL;
 
 	// check already loaded
-	unsigned long newHash = hash_string(sVideoName);
+  const unsigned long newHash = hash_string(sVideoName);
 	while (pVTLcur != nullptr)
 	{
 		if (pVTLcur->hash == newHash && _stricmp(pVTLcur->name, sVideoName) == 0)
@@ -3729,7 +3729,7 @@ CVideoTexture* DX9RENDER::GetVideoTexture(const char* sVideoName)
 	if ((pVTLcur->name = new char[len]) == nullptr)
 		throw std::exception("memory allocate error");
 	strcpy_s(pVTLcur->name, len, sVideoName);
-	entid_t ei = EntityManager::CreateEntity("TextureSequence");
+  const entid_t ei = EntityManager::CreateEntity("TextureSequence");
 	pVTLcur->VideoTexture = (CVideoTexture*)EntityManager::GetEntityPointer(ei);
 	if (pVTLcur->VideoTexture != nullptr)
 	{
@@ -3864,7 +3864,7 @@ HRESULT DX9RENDER::ImageBlt(long TextureID, RECT* pDstRect, RECT* pSrcRect)
 
 	TextureSet(0, TextureID);
 
-	bool bDraw = TechniqueExecuteStart("texturedialogfon");
+  const bool bDraw = TechniqueExecuteStart("texturedialogfon");
 	if (bDraw)
 		do
 		{
@@ -3882,7 +3882,7 @@ HRESULT DX9RENDER::ImageBlt(const char* pName, RECT* pDstRect, RECT* pSrcRect)
 {
 	long TextureID;
 	TextureID = TextureCreate(pName);
-	HRESULT hRes = ImageBlt(TextureID, pDstRect, pSrcRect);
+  const HRESULT hRes = ImageBlt(TextureID, pDstRect, pSrcRect);
 	TextureRelease(TextureID);
 	SetProgressImage(pName);
 	return hRes;
@@ -3895,7 +3895,7 @@ void DX9RENDER::SetProgressImage(const char* image)
 		if (progressImageSize > 0 && progressImage) progressImage[0] = 0;
 		return;
 	}
-	long s = strlen(image) + 1;
+  const long s = strlen(image) + 1;
 	if (s > progressImageSize)
 	{
 		progressImageSize = s;
@@ -3912,7 +3912,7 @@ void DX9RENDER::SetTipsImage(const char* image)
 		if (progressTipsImageSize > 0 && progressTipsImage) progressTipsImage[0] = 0;
 		return;
 	}
-	long s = strlen(image) + 1;
+  const long s = strlen(image) + 1;
 	if (s > progressTipsImageSize)
 	{
 		progressTipsImageSize = s;
@@ -3935,7 +3935,7 @@ void DX9RENDER::StartProgressView()
 		//Загружаем текстуру
 		loadFrame = 0;
 		isInPViewProcess = true;
-		long t = TextureCreate("Loading\\progress.tga");
+    const long t = TextureCreate("Loading\\progress.tga");
 		isInPViewProcess = false;
 		if (t < 0)
 		{
@@ -3977,7 +3977,7 @@ void DX9RENDER::ProgressView()
 	if (progressTexture < 0) return;
 	if (isInPViewProcess) return;
 	//Анализируем время
-	uint32_t time = GetTickCount();
+  const uint32_t time = GetTickCount();
 	if (abs((long)(progressUpdateTime - time)) < 50) return;
 	progressUpdateTime = time;
 	isInPViewProcess = true;
@@ -4031,8 +4031,8 @@ void DX9RENDER::ProgressView()
 	}
 	if (backTexture < 0) for (long i = 0; i < 4; i++) v[i].color = 0xffffffff;
 	//Анимированный объект
-	CVECTOR pos(vp.Width * progressFramesPosX, vp.Height * progressFramesPosY, 0.0f);
-	CVECTOR size(vp.Width * progressFramesWidth, vp.Width * progressFramesHeight * m_fHeightDeformator, 0.0f);
+  const CVECTOR pos(vp.Width * progressFramesPosX, vp.Height * progressFramesPosY, 0.0f);
+  const CVECTOR size(vp.Width * progressFramesWidth, vp.Width * progressFramesHeight * m_fHeightDeformator, 0.0f);
 	v[0].x = pos.x;
 	v[0].y = pos.y;
 	v[1].x = pos.x + size.x + 0.5f;
@@ -4042,11 +4042,11 @@ void DX9RENDER::ProgressView()
 	v[3].x = pos.x + size.x + 0.5f;
 	v[3].y = pos.y + size.y + 0.5f;
 	//Размер сетки кадров
-	long sizeX = progressFramesCountX;
-	long sizeY = progressFramesCountY;
+  const long sizeX = progressFramesCountX;
+  const long sizeY = progressFramesCountY;
 	//Позиция текущего кадра
-	long fx = loadFrame % sizeX;
-	long fy = loadFrame / sizeY;
+  const long fx = loadFrame % sizeX;
+  const long fy = loadFrame / sizeY;
 	v[0].u = fx / float(sizeX);
 	v[0].v = fy / float(sizeY);
 	v[1].u = (fx + 1.0f) / float(sizeX);
@@ -4119,15 +4119,15 @@ void DX9RENDER::MakeDrawVector(RS_LINE* pLines, uint32_t dwNumSubLines, const CM
 	pLines[0].vPos = v1;
 	pLines[1].vPos = v1 + (fScale * v2);
 
-	float fRadius = 0.03f * fScale;
-	float fDist = 0.85f * fScale * sqrtf(~v2);
+  const float fRadius = 0.03f * fScale;
+  const float fDist = 0.85f * fScale * sqrtf(~v2);
 
 	for (i = 0; i < dwNumSubLines; i++)
 	{
-		float fAng = PIm2 * float(i) / float(dwNumSubLines);
+    const float fAng = PIm2 * float(i) / float(dwNumSubLines);
 
-		float x = fRadius * sinf(fAng);
-		float z = fRadius * cosf(fAng);
+    const float x = fRadius * sinf(fAng);
+    const float z = fRadius * cosf(fAng);
 
 		CVECTOR vRes;
 
@@ -4145,7 +4145,7 @@ void DX9RENDER::DrawVector(const CVECTOR& v1, const CVECTOR& v2, uint32_t dwColo
 	RS_LINE lines[51 * 2];
 	CMatrix mView;
 
-	float fScale = sqrtf(~(v2 - v1));
+  const float fScale = sqrtf(~(v2 - v1));
 	if (!mView.BuildViewMatrix(v1, v2, CVECTOR(0.0f, 1.0f, 0.0f)))
 		if (!mView.BuildViewMatrix(v1, v2, CVECTOR(1.0f, 0.0f, 0.0f))) return;
 
@@ -4153,7 +4153,7 @@ void DX9RENDER::DrawVector(const CVECTOR& v1, const CVECTOR& v2, uint32_t dwColo
 
 	MakeDrawVector(&lines[0], 50, mView, CVECTOR(1.0f, 1.0f, 0.0f), mView.Pos(), mView.Vz(), fScale, dwColor);
 
-	CMatrix mWorldSave;
+  const CMatrix mWorldSave;
 	GetTransform(D3DTS_WORLD, mWorldSave);
 	SetTransform(D3DTS_WORLD, CMatrix());
 	DrawLines(lines, 51, pTechniqueName);
@@ -4185,7 +4185,7 @@ IDirect3DBaseTexture9* DX9RENDER::CreateTextureFromFileInMemory(const char* pFil
 
 	IDirect3DTexture9* pTexture = nullptr;
 	auto* pTga = (TGA_H *)pFile;
-	D3DFORMAT d3dFormat = (pTga->bpp == 16) ? D3DFMT_DXT1 : D3DFMT_DXT3;
+  const D3DFORMAT d3dFormat = (pTga->bpp == 16) ? D3DFMT_DXT1 : D3DFMT_DXT3;
 	D3DXCreateTextureFromFileInMemoryEx((LPDIRECT3DDEVICE9)GetD3DDevice(), pFile, dwSize, D3DX_DEFAULT, D3DX_DEFAULT, 1,
 	                                    0, d3dFormat, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, nullptr, nullptr,
 	                                    &pTexture);
@@ -4235,7 +4235,7 @@ bool DX9RENDER::SetRenderTarget(IDirect3DCubeTexture9* pRenderTarget, uint32_t F
 {
 	IDirect3DSurface9* pSurface;
 	pRenderTarget->GetCubeMapSurface((D3DCUBEMAP_FACES)FaceType, dwLevel, &pSurface);
-	bool bSuccess = D3D_OK == SetRenderTarget(pSurface, pZStencil);
+  const bool bSuccess = D3D_OK == SetRenderTarget(pSurface, pZStencil);
 	Release(pSurface);
 	return bSuccess;
 }

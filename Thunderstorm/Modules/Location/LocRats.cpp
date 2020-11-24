@@ -64,6 +64,6 @@ void LocRats::Execute(uint32_t delta_time)
 //Рисование
 void LocRats::Realize(uint32_t delta_time)
 {
-  auto dltTime = delta_time * 0.001f;
+  const auto dltTime = delta_time * 0.001f;
 	for (long i = 0; i < num; i++) rat[i].Update(dltTime);
 }

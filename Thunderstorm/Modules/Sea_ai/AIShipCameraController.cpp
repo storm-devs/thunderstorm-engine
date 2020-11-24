@@ -55,7 +55,7 @@ void AIShipCameraController::Execute(float fDeltaTime)
 
 		AIHelper::pRS->GetTransform(D3DTS_VIEW, m);
 		m.Transposition();
-    auto vZ = m.Vz();
+    const auto vZ = m.Vz();
 
     auto bEnemy = false;
 		if (GetAIShip()->GetCannonController()->isCanFire(vZ))
@@ -63,8 +63,8 @@ void AIShipCameraController::Execute(float fDeltaTime)
       auto fBestDistance = 1e8f;
       auto vFirePos = GetAIShip()->GetCannonController()->GetFirePos(vZ);
 
-      auto vFireDir = !(vFirePos - vOurPos);
-      auto fFireDist = sqrtf(~(vFirePos - vOurPos));
+      const auto vFireDir = !(vFirePos - vOurPos);
+      const auto fFireDist = sqrtf(~(vFirePos - vOurPos));
 			vFirePos.y = 0.0f;
 			// check Ships
 			for (i = 0; i < AIShip::AIShips.size(); i++)
@@ -73,7 +73,7 @@ void AIShipCameraController::Execute(float fDeltaTime)
           auto vFakeShipPos = AIShip::AIShips[i]->GetPos() + (!(AIShip::AIShips[i]->GetPos() - vOurPos)) *
 						AIShip::AIShips[i]->GetBoxsize().z * 0.8f;
 					//AIHelper::pRS->DrawSphere(vFakeShipPos, 2.0f, 0xFF00FF00);
-          auto fDistance = (vFakeShipPos - vFirePos).GetLength2D();
+          const auto fDistance = (vFakeShipPos - vFirePos).GetLength2D();
 					//AIShip::AIShips[i]->GetDistance(vFirePos);
 					if (fDistance <= 0.8f * AIShip::AIShips[i]->GetBoxsize().z)
 					{
@@ -94,16 +94,16 @@ void AIShipCameraController::Execute(float fDeltaTime)
 					iMax = pF->GetAllCannonsNum(); // boal
 					for (j = 0; j < iMax; j++)
 					{
-            auto pC = pF->GetCannon(j);
+            const auto pC = pF->GetCannon(j);
 						if (pC->isDamaged()) continue;
-            auto fDistance = pC->GetDistance(vOurPos);
+            const auto fDistance = pC->GetDistance(vOurPos);
 						if (fDistance > fFireDist) continue;
 						if (fDistance > fBestDistance) continue;
-            auto fDot = vFireDir | (!(pC->GetPos() - vOurPos));
+            const auto fDot = vFireDir | (!(pC->GetPos() - vOurPos));
 						if (fDot < 0.0f) continue;
 
             auto vFire2CannonPos = GetAIShip()->GetCannonController()->GetFirePos(vZ, fDistance);
-            auto fRealDistance = ~(vFire2CannonPos - pC->GetPos());
+            const auto fRealDistance = ~(vFire2CannonPos - pC->GetPos());
 						if (fRealDistance > SQR(8.0f)) continue;
 
 						pTargetAPointer = pF->GetACharacter();
@@ -113,7 +113,7 @@ void AIShipCameraController::Execute(float fDeltaTime)
 
 			if (dwTarget != RELATION_UNKNOWN)
 			{
-        auto fRealDeltaTime = (api->GetDeltaTime() == 0) ? 0.0f : float(api->GetRDeltaTime()) * 0.001f;
+        const auto fRealDeltaTime = (api->GetDeltaTime() == 0) ? 0.0f : float(api->GetRDeltaTime()) * 0.001f;
 				fDelta += fRealDeltaTime * 5.0f;
 				while (fDelta > 2.0f)
 				{
@@ -130,14 +130,14 @@ bool AIShipCameraController::Fire()
 
 	AIHelper::pRS->GetTransform(D3DTS_VIEW, m);
 	m.Transposition();
-  auto vZ = m.Vz();
+  const auto vZ = m.Vz();
 	//CVECTOR vZ = m * CVECTOR(0.0f, 0.0f, 1.0f);
 	//vZ = !CVECTOR(vZ.x, 0.0f, vZ.z);
 	if (!GetAIShip()->GetCannonController()->isCanFire(vZ)) return false;
 
 	if (dwTarget != RELATION_UNKNOWN && pTargetAPointer)
 	{
-    auto pMainGroupCharacter = Helper.GetMainCharacter(pTargetAPointer);
+    const auto pMainGroupCharacter = Helper.GetMainCharacter(pTargetAPointer);
 		api->Event(SHIP_FIRE_ACTION, "aal", pTargetAPointer, pMainGroupCharacter, dwTarget);
 	}
 
@@ -156,11 +156,11 @@ void AIShipCameraController::Realize(float fDeltaTime)
 	RS_RECT rCam;
 
 	//AIHelper::pRS->GetTransform(D3DTS_VIEW, m); m.Transposition();	CVECTOR vZ = m.Vz();
-  auto mOldView = m;
+  const auto mOldView = m;
 	AIHelper::pRS->GetTransform(D3DTS_VIEW, mOldView);
 	m = mOldView;
 	m.Transposition();
-  auto vZ = m.Vz();
+  const auto vZ = m.Vz();
 	/*CVECTOR campos,camang;
 	float campersp;
 	AIHelper::pRS->GetCamera(campos,camang,campersp);
@@ -176,7 +176,7 @@ void AIShipCameraController::Realize(float fDeltaTime)
 	//AIHelper::pRS->Print(0,0,"%d",rCam.dwColor);
 
 	rCam.fAngle = 0.0f;
-  auto fSizeMultiply = 0.9f + (0.2f * ((fDelta > 1.0f) ? fDelta : (2.0f - fDelta)));
+  const auto fSizeMultiply = 0.9f + (0.2f * ((fDelta > 1.0f) ? fDelta : (2.0f - fDelta)));
 	rCam.fSize = fSizeMultiply * pACrosshair->GetAttributeAsFloat("Size");
 	//rCam.vPos = campos + m * CVECTOR(0.0f,0.0f,1.0f);
 	rCam.vPos = m * CVECTOR(0.0f, 0.0f, 1.0f);

@@ -44,7 +44,7 @@ uint64_t dwRDTSC;
 void SEA_AI::Execute(uint32_t Delta_Time)
 {
 	RDTSC_B(dwRDTSC);
-  auto fDeltaTime = 0.001f * float(Delta_Time);
+  const auto fDeltaTime = 0.001f * float(Delta_Time);
 
 	if (bFirstInit)
 	{
@@ -64,7 +64,7 @@ extern uint32_t dwTotal;
 
 void SEA_AI::Realize(uint32_t Delta_Time)
 {
-  auto fDeltaTime = 0.001f * float(Delta_Time);
+  const auto fDeltaTime = 0.001f * float(Delta_Time);
 	for (uint32_t i = 0; i < AIGroup::AIGroups.size(); i++)
 	{
 		AIGroup::AIGroups[i]->Realize(fDeltaTime);
@@ -406,7 +406,7 @@ void SEA_AI::Load(const char* pStr)
 
 	AIBalls::pAIBalls->Load(&SL);
 
-  auto dwNumGroups = SL.LoadDword();
+  const auto dwNumGroups = SL.LoadDword();
 	for (uint32_t i = 0; i < dwNumGroups; i++)
 	{
 		AIGroup::AIGroups.push_back(new AIGroup());
@@ -444,7 +444,7 @@ void SEA_AI::AddShip(entid_t eidShip, ATTRIBUTES* pCharacter, ATTRIBUTES* pAShip
 	Assert(pG);
 
 	// search group
-  auto pGName = pG->GetAttribute("Name");
+  const auto pGName = pG->GetAttribute("Name");
 	Assert(pGName);
 
 	AIGroup::FindOrCreateGroup(pGName)->AddShip(eidShip, pCharacter, pAShip);
@@ -457,12 +457,12 @@ void SEA_AI::SetCompanionEnemy(ATTRIBUTES* pACharacter)
 	// delete from old group
   auto pG = AIGroup::FindGroup(pACharacter);
 	Assert(pG);
-  auto pS = pG->ExtractShip(pACharacter);
+  const auto pS = pG->ExtractShip(pACharacter);
 
 	// create and add to new group
   auto pSeaAIG = pACharacter->FindAClass(pACharacter, "SeaAI.Group");
 	Assert(pSeaAIG);
-  auto pGName = pSeaAIG->GetAttribute("Name");
+  const auto pGName = pSeaAIG->GetAttribute("Name");
 	Assert(pGName);
 
 	AIGroup::FindOrCreateGroup(pGName)->InsertShip(pS);

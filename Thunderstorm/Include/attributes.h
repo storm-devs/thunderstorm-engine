@@ -27,8 +27,8 @@ class ATTRIBUTES
 		char xBuffer_4k[4096];
 		if (data_PTR == nullptr) return;
 
-    auto file_h = CreateFile("attributes.log",GENERIC_WRITE,FILE_SHARE_READ, nullptr,OPEN_ALWAYS,
-                             FILE_ATTRIBUTE_NORMAL, nullptr);
+    const auto file_h = CreateFile("attributes.log",GENERIC_WRITE,FILE_SHARE_READ, nullptr,OPEN_ALWAYS,
+                                   FILE_ATTRIBUTE_NORMAL, nullptr);
 		SetFilePointer(file_h, 0, nullptr,FILE_END);
 		va_list args;
 
@@ -171,7 +171,7 @@ public:
 
 	auto VerifyAttributeClass(const char* name)
 	{
-    auto pTemp = GetAttributeClass(name);
+    const auto pTemp = GetAttributeClass(name);
 		return (pTemp) ? pTemp : CreateAttribute(name, "");
 	};
 
@@ -295,7 +295,7 @@ public:
 		ReleaseLeafs();
 		for (const auto& attribute : pASource->pAttributes)
 		{
-      auto i = SetAttribute(attribute->GetThisName(), attribute->Attribute);
+      const auto i = SetAttribute(attribute->GetThisName(), attribute->Attribute);
 			pAttributes[i]->Copy(attribute);
 		}
 	};

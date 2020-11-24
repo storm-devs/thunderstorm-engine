@@ -13,7 +13,7 @@ inline float rand(float r)
 inline float randUpper(float r)
 // returns larger half of random float
 {
-  auto half = r / 2.0f;
+  const auto half = r / 2.0f;
 	return (half + rand(half));
 }
 
@@ -21,7 +21,7 @@ inline float randUpper(float r)
 inline float randCentered(float r)
 // returns random float around 0
 {
-  auto half = r / 2.0f;
+  const auto half = r / 2.0f;
 	return (rand(r) - half);
 }
 #endif

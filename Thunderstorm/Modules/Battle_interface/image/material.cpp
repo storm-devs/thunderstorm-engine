@@ -196,12 +196,12 @@ bool BIImageMaterial::GetOutputRangeByPrioritet(long nBegPrior, long nEndPrior, 
 void BIImageMaterial::RecalculatePrioritetRange()
 {
 	if (m_apImage.size() == 0) return;
-  auto oldMin = m_nMinPrioritet;
-  auto oldMax = m_nMaxPrioritet;
+  const auto oldMin = m_nMinPrioritet;
+  const auto oldMax = m_nMaxPrioritet;
 	m_nMinPrioritet = m_nMaxPrioritet = m_apImage[0]->GetPrioritet();
 	for (long n = 1; n < m_apImage.size(); n++)
 	{
-    auto p = m_apImage[n]->GetPrioritet();
+    const auto p = m_apImage[n]->GetPrioritet();
 		if (p < m_nMinPrioritet) m_nMinPrioritet = p;
 		else if (p > m_nMaxPrioritet) m_nMaxPrioritet = p;
 	}
@@ -212,7 +212,7 @@ void BIImageMaterial::RecalculatePrioritetRange()
 void BIImageMaterial::InsertImageToList(BIImage* pImg)
 {
 	Assert(pImg);
-  auto nPrior = pImg->GetPrioritet();
+  const auto nPrior = pImg->GetPrioritet();
 	long n;
 	for (n = 0; n < m_apImage.size(); n++)
 		if (m_apImage[n]->GetPrioritet() > nPrior)

@@ -290,7 +290,7 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
 
 void SUNGLOW::DrawSunMoon()
 {
-  auto fGlowSize = bMoon ? Glow.fMoonSize : Glow.fSunSize;
+  const auto fGlowSize = bMoon ? Glow.fMoonSize : Glow.fSunSize;
 
 	float fFov;
 	CVECTOR vCamPos, vCamAng;
@@ -303,7 +303,7 @@ void SUNGLOW::DrawSunMoon()
 
 	if (bHaveGlow && vSun.y > fBottomClip - fGlowSize)
 	{
-		CVECTOR vGlowColor = COLOR2VECTOR(Glow.dwColor);
+    const CVECTOR vGlowColor = COLOR2VECTOR(Glow.dwColor);
 
 		if (bMoon) pRS->TextureSet(0, iMoonTex);
 		else pRS->TextureSet(0, iSunTex);
@@ -330,12 +330,12 @@ uint32_t SUNGLOW::AttributeChanged(ATTRIBUTES* pAttribute)
 		return 0;
 	}
 
-  auto pParent = pAttribute->GetParent();
+  const auto pParent = pAttribute->GetParent();
 
 	if (*pParent == "Flares")
 	{
 		bHaveFlare = true;
-    auto pTemp = pAttribute->GetThisAttr();
+    const auto pTemp = pAttribute->GetThisAttr();
 		//flare_t * pFlare = &Flares.aFlares[Flares.aFlares.Add()];
 		flare_t flare;
 		sscanf(pTemp, "%f,%f,%d,%x", &flare.fDist, &flare.fSize, &flare.dwSubTexIndex, &flare.dwColor);
@@ -534,9 +534,9 @@ void SUNGLOW::DrawReflection() const {
 	r_spr.fSize = Reflection.fSize;
 	r_spr.vPos = vSun;
 
-  auto fSunHeightAngle = pWeather->GetFloat(whf_sun_height_angle);
-  auto fCoeffX = Bring2Range(1.0f, 0.6f, 0.0f, 1.0f, fSunHeightAngle);
-  auto fCoeffY = Bring2Range(2.0f, 1.0f, 0.0f, 1.0f, fSunHeightAngle);
+  const auto fSunHeightAngle = pWeather->GetFloat(whf_sun_height_angle);
+  const auto fCoeffX = Bring2Range(1.0f, 0.6f, 0.0f, 1.0f, fSunHeightAngle);
+  const auto fCoeffY = Bring2Range(2.0f, 1.0f, 0.0f, 1.0f, fSunHeightAngle);
 
 	pRS->TextureSet(0, iReflTexture);
 	pRS->DrawRects(&r_spr, 1, Reflection.sTechnique.c_str(), 0, 0, (bSimpleSea) ? fCoeffX : 1.0f,
@@ -545,7 +545,7 @@ void SUNGLOW::DrawReflection() const {
 
 uint64_t SUNGLOW::ProcessMessage(MESSAGE& message)
 {
-  auto iCode = message.Long();
+  const auto iCode = message.Long();
 
 	switch (iCode)
 	{
@@ -565,8 +565,8 @@ void SUNGLOW::DrawRect(uint32_t dwColor, const CVECTOR& pos, float fSize, float 
 	static CMatrix camMtx;
 	pRS->GetTransform(D3DTS_VIEW, camMtx);
 	CVECTOR vx, vy, vp1, vp2, vp3, vp4;
-  auto sn = sinf(fAngle);
-  auto cs = cosf(fAngle);
+  const auto sn = sinf(fAngle);
+  const auto cs = cosf(fAngle);
 	camMtx.MulToInvNorm(CVECTOR(fSize, 0, 0) * cs + CVECTOR(0, fSize, 0) * sn, vx);
 	camMtx.MulToInvNorm(CVECTOR(0, fSize, 0) * cs - CVECTOR(fSize, 0, 0) * sn, vy);
 	vp1 = pos - vx + vy;

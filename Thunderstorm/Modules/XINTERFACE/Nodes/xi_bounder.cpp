@@ -330,11 +330,11 @@ void CXI_BOUNDER::ChangePosition(XYRECT& rNewPos)
 
 	m_rect = rNewPos;
 
-  auto fBoxWidth = float(m_rect.right - m_rect.left) - m_fAngleWidth * 2.f;
-  auto fBoxHeight = float(m_rect.bottom - m_rect.top) - m_fAngleHeight * 2.f;
-  auto fHorzLineWidth = fBoxWidth / m_nHorzLineQuantity;
+  const auto fBoxWidth = float(m_rect.right - m_rect.left) - m_fAngleWidth * 2.f;
+  const auto fBoxHeight = float(m_rect.bottom - m_rect.top) - m_fAngleHeight * 2.f;
+  const auto fHorzLineWidth = fBoxWidth / m_nHorzLineQuantity;
 
-  auto fVertLineWidth = fBoxHeight / m_nVertLineQuantity;
+  const auto fVertLineWidth = fBoxHeight / m_nVertLineQuantity;
 
 	for (i = 0; i < m_nVert; i++)
 	{

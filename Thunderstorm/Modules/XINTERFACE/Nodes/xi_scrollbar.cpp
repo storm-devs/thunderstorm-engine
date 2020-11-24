@@ -124,7 +124,7 @@ void CXI_SCROLLBAR::Draw(bool bSelected, uint32_t Delta_Time)
 			pA = pA->GetAttributeClass(m_nodeName);
 			if (pA)
 			{
-        auto pcStr = pA->GetAttribute("str");
+        const auto pcStr = pA->GetAttribute("str");
 				if (pcStr)
 				{
 					m_rs->ExtPrint(m_nFontID, m_dwFontColor, 0, PR_ALIGN_CENTER, true, m_fFontScale, m_screenSize.x,

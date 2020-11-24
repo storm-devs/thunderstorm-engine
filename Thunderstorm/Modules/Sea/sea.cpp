@@ -203,10 +203,10 @@ bool SEA::Init()
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	CreateVertexDeclaration();
   auto pEngineIni = fio->OpenIniFile(api->EngineIniFileName());
-  auto bDisableHyperThreading = (pEngineIni) ? pEngineIni->GetLong(nullptr, "HyperThreading", 1) == 0 : false;
+  const auto bDisableHyperThreading = (pEngineIni) ? pEngineIni->GetLong(nullptr, "HyperThreading", 1) == 0 : false;
 	bDisableSSE = (pEngineIni) ? pEngineIni->GetLong(nullptr, "DisableSSE", 0) != 0 : false;
 	bIniFoamEnable = (pEngineIni) ? pEngineIni->GetLong("Sea", "FoamEnable", 1) != 0 : false;
-  auto bEnableSSE = (pEngineIni) ? pEngineIni->GetLong(nullptr, "EnableSSE", 0) != 0 : false; //boal
+  const auto bEnableSSE = (pEngineIni) ? pEngineIni->GetLong(nullptr, "EnableSSE", 0) != 0 : false; //boal
 	STORM_DELETE(pEngineIni);
 	if (bEnableSSE)
 	{
@@ -223,7 +223,7 @@ bool SEA::Init()
 		intel.CPUCount(&dwLogicals, &dwCores, &dwPhysicals);
 		api->Trace("Total logical: %d, Total cores: %d, Total physical: %d", dwLogicals, dwCores, dwPhysicals);
 
-    auto dwNumThreads = dwLogicals * dwCores - 1;
+    const auto dwNumThreads = dwLogicals * dwCores - 1;
 
 		for (uint32_t i = 0; i < dwNumThreads; i++)
 		{
@@ -295,7 +295,7 @@ bool SEA::Init()
 		for (uint32_t y = 0; y < YWIDTH; y++)
 			for (uint32_t x = 0; x < XWIDTH; x++)
 			{
-				uint8_t bB = (*pFB);
+        const uint8_t bB = (*pFB);
 				//bB = byte(float(bB - 79.0f) * 255.0f / (139.0f - 79.0f));
 				if (bB < bMin) bMin = bB;
 				if (bB > bMax) bMax = bB;
@@ -314,7 +314,7 @@ bool SEA::Init()
 		for (uint32_t y = 0; y < YWIDTH; y++)
 			for (uint32_t x = 0; x < XWIDTH; x++)
 			{
-        auto dwAddress = x + y * YWIDTH;
+        const auto dwAddress = x + y * YWIDTH;
 				float b1, b2, b3, b4, b5; // -2 -1 0 1 2
 
 				b1 = 0.08f * float(aTmpBumps[(i - 2) & (FRAMES - 1)][dwAddress]);
@@ -545,10 +545,10 @@ bool SEA::EditMode_Update()
 	v4SeaColor = CVECTOR4(10.0f / 255.0f, 55.0f / 255.0f, 100.0f / 255.0f, 1.0f);
 	v4SkyColor = CVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 
-	float fReflection = 0.8f;
-	float fTransparency = 0.7f;
+  const float fReflection = 0.8f;
+  const float fTransparency = 0.7f;
 	float fFrenel = 0.75f;
-	float fAttenuation = 0.9f;
+  const float fAttenuation = 0.9f;
 	v4SeaParameters = CVECTOR4(fAttenuation, fReflection, fTransparency, 0.0f);
 
 	fAmp1 = _fAmp1 = 8.0f;
@@ -706,11 +706,11 @@ void SEA::AddBlock(long iTX, long iTY, long iSize, long iLOD)
 void SEA::BuildTree(long iTX, long iTY, long iLev)
 {
 	long iMaxLOD, iMinLOD;
-	long iSize = long(dwMaxDim >> iLev);
-	float fGSize = fGridStep * iSize;
+  const long iSize = long(dwMaxDim >> iLev);
+  const float fGSize = fGridStep * iSize;
 
-	CVECTOR v1 = vSeaCenterPos + CVECTOR(iTX * fGSize, -fMaxSeaHeight / 2.0f, iTY * fGSize);
-	CVECTOR v2 = v1 + CVECTOR(fGSize, fMaxSeaHeight, fGSize);
+  const CVECTOR v1 = vSeaCenterPos + CVECTOR(iTX * fGSize, -fMaxSeaHeight / 2.0f, iTY * fGSize);
+  const CVECTOR v2 = v1 + CVECTOR(fGSize, fMaxSeaHeight, fGSize);
 
 	if (!isVisibleBBox(vSeaCenterPos, v1, v2)) return;
 
@@ -888,30 +888,30 @@ float SEA::WaveXZ(float x, float z, CVECTOR* pNormal)
 {
 	long iX11, iX12, iX21, iX22, iY11, iY12, iY21, iY22;
 
-	float fDistance = Sqr(x - vCamPos.x) + Sqr(z - vCamPos.z);
+  const float fDistance = Sqr(x - vCamPos.x) + Sqr(z - vCamPos.z);
 	if (fDistance > 1600.0f * 1600.0f)
 	{
 		if (pNormal) *pNormal = CVECTOR(0.0f, 1.0f, 0.0f);
 		return 0.0f;
 	}
 
-	float x1 = (x + vMove1.x) * fScale1;
-	float z1 = (z + vMove1.z) * fScale1;
+  const float x1 = (x + vMove1.x) * fScale1;
+  const float z1 = (z + vMove1.z) * fScale1;
 	iX11 = ffloor(x1 + 0.0f), iX12 = iX11 + 1;
 	iY11 = ffloor(z1 + 0.0f), iY12 = iY11 + 1;
-	float fX1 = (x1 - iX11);
-	float fZ1 = (z1 - iY11);
+  const float fX1 = (x1 - iX11);
+  const float fZ1 = (z1 - iY11);
 	iX11 &= (XWIDTH - 1);
 	iX12 &= (XWIDTH - 1);
 	iY11 &= (XWIDTH - 1);
 	iY12 &= (XWIDTH - 1);
 
-	float x2 = (x + vMove2.x) * fScale2;
-	float z2 = (z + vMove2.z) * fScale2;
+  const float x2 = (x + vMove2.x) * fScale2;
+  const float z2 = (z + vMove2.z) * fScale2;
 	iX21 = ffloor(x2 + 0.0f), iX22 = iX21 + 1;
 	iY21 = ffloor(z2 + 0.0f), iY22 = iY21 + 1;
-	float fX2 = (x2 - iX21);
-	float fZ2 = (z2 - iY21);
+  const float fX2 = (x2 - iX21);
+  const float fZ2 = (z2 - iY21);
 	iX21 &= (XWIDTH - 1);
 	iX22 &= (XWIDTH - 1);
 	iY21 &= (XWIDTH - 1);
@@ -942,8 +942,8 @@ float SEA::WaveXZ(float x, float z, CVECTOR* pNormal)
 	nx4 = pSeaNormalsFrame1[2 * (iX12 + iY12 * XWIDTH) + 0];
 	nz4 = pSeaNormalsFrame1[2 * (iX12 + iY12 * XWIDTH) + 1];
 
-	float nX1 = (nx1 + fX1 * (nx2 - nx1) + fZ1 * (nx3 - nx1) + fX1 * fZ1 * (nx4 + nx1 - nx2 - nx3));
-	float nZ1 = (nz1 + fX1 * (nz2 - nz1) + fZ1 * (nz3 - nz1) + fX1 * fZ1 * (nz4 + nz1 - nz2 - nz3));
+  const float nX1 = (nx1 + fX1 * (nx2 - nx1) + fZ1 * (nx3 - nx1) + fX1 * fZ1 * (nx4 + nx1 - nx2 - nx3));
+  const float nZ1 = (nz1 + fX1 * (nz2 - nz1) + fZ1 * (nz3 - nz1) + fX1 * fZ1 * (nz4 + nz1 - nz2 - nz3));
 
 	nx1 = pSeaNormalsFrame2[2 * (iX21 + iY21 * XWIDTH) + 0];
 	nz1 = pSeaNormalsFrame2[2 * (iX21 + iY21 * XWIDTH) + 1];
@@ -954,8 +954,8 @@ float SEA::WaveXZ(float x, float z, CVECTOR* pNormal)
 	nx4 = pSeaNormalsFrame2[2 * (iX22 + iY22 * XWIDTH) + 0];
 	nz4 = pSeaNormalsFrame2[2 * (iX22 + iY22 * XWIDTH) + 1];
 
-	float nX2 = (nx1 + fX2 * (nx2 - nx1) + fZ2 * (nx3 - nx1) + fX2 * fZ2 * (nx4 + nx1 - nx2 - nx3));
-	float nZ2 = (nz1 + fX2 * (nz2 - nz1) + fZ2 * (nz3 - nz1) + fX2 * fZ2 * (nz4 + nz1 - nz2 - nz3));
+  const float nX2 = (nx1 + fX2 * (nx2 - nx1) + fZ2 * (nx3 - nx1) + fX2 * fZ2 * (nx4 + nx1 - nx2 - nx3));
+  const float nZ2 = (nz1 + fX2 * (nz2 - nz1) + fZ2 * (nz3 - nz1) + fX2 * fZ2 * (nz4 + nz1 - nz2 - nz3));
 	//float nX2 = 0.0f;
 	//float nZ2 = 0.0f;
 
@@ -978,8 +978,8 @@ float SEA::WaveXZ(float x, float z, CVECTOR* pNormal)
 		/*pNormal->x = 0.0f;
 		pNormal->y = 1.0f;
 		pNormal->z = 0.0f;*/
-		float nY1 = sqrtf(1.0f - (Sqr(nX1) + Sqr(nZ1)));
-		float nY2 = sqrtf(1.0f - (Sqr(nX2) + Sqr(nZ2)));
+    const float nY1 = sqrtf(1.0f - (Sqr(nX1) + Sqr(nZ1)));
+    const float nY2 = sqrtf(1.0f - (Sqr(nX2) + Sqr(nZ2)));
 
 		CVECTOR vNormal;
 
@@ -1001,16 +1001,16 @@ void SEA::PrepareIndicesForBlock(uint32_t dwBlockIndex)
 {
 	SeaBlock* pB = &aBlocks[dwBlockIndex];
 
-	float fStep = fGridStep * float(1 << pB->iLOD);
+  const float fStep = fGridStep * float(1 << pB->iLOD);
 	float fSize = fGridStep * pB->iSize;
 	long x, y, size0 = pB->iSize >> pB->iLOD;
 
 	pB->iIStart = iIStart;
 
-	float x1 = float(pB->iTX * pB->iSize) * fGridStep;
-	float y1 = float(pB->iTY * pB->iSize) * fGridStep;
-	float x2 = x1 + float(size0) * fStep;
-	float y2 = y1 + float(size0) * fStep;
+  const float x1 = float(pB->iTX * pB->iSize) * fGridStep;
+  const float y1 = float(pB->iTY * pB->iSize) * fGridStep;
+  const float x2 = x1 + float(size0) * fStep;
+  const float y2 = y1 + float(size0) * fStep;
 
 	pB->iX1 = fftoi(x1 / fGridStep);
 	pB->iX2 = fftoi(x2 / fGridStep);
@@ -1024,24 +1024,24 @@ void SEA::PrepareIndicesForBlock(uint32_t dwBlockIndex)
 		SeaBlock* pB2 = &aBlocks[i];
 
 		// Test Up & Down
-		bool bTestedUp = pB->iY1 == pB2->iY2;
-		bool bTestedDown = pB->iY2 == pB2->iY1;
+    const bool bTestedUp = pB->iY1 == pB2->iY2;
+    const bool bTestedDown = pB->iY2 == pB2->iY1;
 
 		//if (!(GetAsyncKeyState('5')<0))
 		if (bTestedUp || bTestedDown)
 		{
-			long iAddSrc = pB2->iIStart + ((bTestedUp) ? (pB2->iSize0 + 1) * pB2->iSize0 : 0);
-			long iAddDst = pB->iIStart + ((bTestedUp) ? 0 : (pB->iSize0 + 1) * pB->iSize0);
+      const long iAddSrc = pB2->iIStart + ((bTestedUp) ? (pB2->iSize0 + 1) * pB2->iSize0 : 0);
+      const long iAddDst = pB->iIStart + ((bTestedUp) ? 0 : (pB->iSize0 + 1) * pB->iSize0);
 
 			if ((pB->iX1 >= pB2->iX1 && pB->iX2 <= pB2->iX2) || (pB->iX1 <= pB2->iX1 && pB->iX2 >= pB2->iX2))
 			{
-				long iMinX = Max(pB->iX1, pB2->iX1);
-				long iMaxX = Min(pB->iX2, pB2->iX2);
+        const long iMinX = Max(pB->iX1, pB2->iX1);
+        const long iMaxX = Min(pB->iX2, pB2->iX2);
 
-				long iStartDstX = pB->iSize0 * (iMinX - pB->iX1) / (pB->iX2 - pB->iX1);
-				long iStartSrcX = pB2->iSize0 * (iMinX - pB2->iX1) / (pB2->iX2 - pB2->iX1);
+        const long iStartDstX = pB->iSize0 * (iMinX - pB->iX1) / (pB->iX2 - pB->iX1);
+        const long iStartSrcX = pB2->iSize0 * (iMinX - pB2->iX1) / (pB2->iX2 - pB2->iX1);
 
-				long iEndDstX = pB->iSize0 * (iMaxX - pB->iX1) / (pB->iX2 - pB->iX1);
+        const long iEndDstX = pB->iSize0 * (iMaxX - pB->iX1) / (pB->iX2 - pB->iX1);
 				long iEndSrcX = pB2->iSize0 * (iMaxX - pB2->iX1) / (pB2->iX2 - pB2->iX1);
 
 				if (pB->iLOD == pB2->iLOD)
@@ -1056,23 +1056,23 @@ void SEA::PrepareIndicesForBlock(uint32_t dwBlockIndex)
 		}
 
 		// Test Left & Right
-		bool bTestedLeft = pB->iX1 == pB2->iX2;
-		bool bTestedRight = pB->iX2 == pB2->iX1;
+    const bool bTestedLeft = pB->iX1 == pB2->iX2;
+    const bool bTestedRight = pB->iX2 == pB2->iX1;
 		//if ((GetAsyncKeyState('6')<0))
 		if (bTestedLeft || bTestedRight)
 		{
-			long iAddSrc = pB2->iIStart + ((bTestedLeft) ? (pB2->iSize0) : 0);
-			long iAddDst = pB->iIStart + ((bTestedLeft) ? 0 : (pB->iSize0));
+      const long iAddSrc = pB2->iIStart + ((bTestedLeft) ? (pB2->iSize0) : 0);
+      const long iAddDst = pB->iIStart + ((bTestedLeft) ? 0 : (pB->iSize0));
 
 			if ((pB->iY1 >= pB2->iY1 && pB->iY2 <= pB2->iY2) || (pB->iY1 <= pB2->iY1 && pB->iY2 >= pB2->iY2))
 			{
-				long iMinY = Max(pB->iY1, pB2->iY1);
-				long iMaxY = Min(pB->iY2, pB2->iY2);
+        const long iMinY = Max(pB->iY1, pB2->iY1);
+        const long iMaxY = Min(pB->iY2, pB2->iY2);
 
-				long iStartDstY = pB->iSize0 * (iMinY - pB->iY1) / (pB->iY2 - pB->iY1);
-				long iStartSrcY = pB2->iSize0 * (iMinY - pB2->iY1) / (pB2->iY2 - pB2->iY1);
+        const long iStartDstY = pB->iSize0 * (iMinY - pB->iY1) / (pB->iY2 - pB->iY1);
+        const long iStartSrcY = pB2->iSize0 * (iMinY - pB2->iY1) / (pB2->iY2 - pB2->iY1);
 
-				long iEndDstY = pB->iSize0 * (iMaxY - pB->iY1) / (pB->iY2 - pB->iY1);
+        const long iEndDstY = pB->iSize0 * (iMaxY - pB->iY1) / (pB->iY2 - pB->iY1);
 				long iEndSrcY = pB2->iSize0 * (iMaxY - pB2->iY1) / (pB2->iY2 - pB2->iY1);
 
 				if (pB->iLOD == pB2->iLOD)
@@ -1160,15 +1160,15 @@ void SEA::SSE_WaveXZBlock(SeaBlock* pB)
 	long iCurrentV = 0;
 
 	long iIStart1 = pB->iIStart;
-	long iIFirst = pB->iIFirst;
-	long iILast = pB->iILast;
+  const long iIFirst = pB->iIFirst;
+  const long iILast = pB->iILast;
 
 	// calculate
 	for (cz = y1, y = 0; y <= size0; y++, cz += fStep)
 	{
 		for (cx = x1, x = 0; x <= size0; x++, cx += fStep)
 		{
-			uint32_t dwVIndex = pIndices[iIStart1];
+      const uint32_t dwVIndex = pIndices[iIStart1];
 
 			if (long(dwVIndex) < iIFirst || long(dwVIndex) > iILast)
 			{
@@ -1259,15 +1259,15 @@ void SEA::WaveXZBlock(SeaBlock* pB)
 	CVECTOR vNormal, vTmp;
 
 	long iIStart1 = pB->iIStart;
-	long iIFirst = pB->iIFirst;
-	long iILast = pB->iILast;
+  const long iIFirst = pB->iIFirst;
+  const long iILast = pB->iILast;
 
 	// calculate
 	for (cz = y1, y = 0; y <= size0; y++, cz += fStep)
 	{
 		for (cx = x1, x = 0; x <= size0; x++, cx += fStep)
 		{
-			uint32_t dwVIndex = pIndices[iIStart1];
+      const uint32_t dwVIndex = pIndices[iIStart1];
 
 			if (long(dwVIndex) < iIFirst || long(dwVIndex) > iILast)
 			{
@@ -1316,11 +1316,11 @@ uint32_t SEA::ThreadExecute(long iThreadIndex)
 
 	while (true)
 	{
-		uint32_t dwValue = WaitForMultipleObjects(ARRSIZE(hHandles), hHandles, false, INFINITE);
+    const uint32_t dwValue = WaitForMultipleObjects(ARRSIZE(hHandles), hHandles, false, INFINITE);
 
 		if (dwValue >= WAIT_OBJECT_0 && dwValue < WAIT_OBJECT_0 + ARRSIZE(hHandles))
 		{
-			HANDLE hValue = hHandles[dwValue - WAIT_OBJECT_0];
+      const HANDLE hValue = hHandles[dwValue - WAIT_OBJECT_0];
 
 			if (hValue == pSea->hEventCalcMaps)
 			{
@@ -1350,10 +1350,10 @@ uint32_t SEA::ThreadExecute(long iThreadIndex)
 
 void SEA::CalculateNormalMap(float fFrame, float fAmplitude, float* pfOut, std::vector<uint32_t*>& aFrames)
 {
-	long iFrame1 = fftol(fFrame) % aFrames.size();
-	long iFrame2 = (iFrame1 + 1) % aFrames.size();
+  const long iFrame1 = fftol(fFrame) % aFrames.size();
+  const long iFrame2 = (iFrame1 + 1) % aFrames.size();
 
-	float fDelta = fFrame - iFrame1;
+  const float fDelta = fFrame - iFrame1;
 
 	uint32_t* pB1 = aFrames[iFrame1];
 	uint32_t* pB2 = aFrames[iFrame2];
@@ -1361,12 +1361,12 @@ void SEA::CalculateNormalMap(float fFrame, float fAmplitude, float* pfOut, std::
 	for (long y = 0; y < YWIDTH; y++)
 		for (long x = 0; x < XWIDTH; x++)
 		{
-			uint32_t dw1 = pB1[x + y * XWIDTH];
-			uint32_t dw2 = pB2[x + y * XWIDTH];
-			float nx1 = float(short(dw1)) / 32767.5f;
-			float nx2 = float(short(dw2)) / 32767.5f;
-			float nz1 = float(short(dw1 >> 0x10)) / 32767.5f;
-			float nz2 = float(short(dw2 >> 0x10)) / 32767.5f;
+      const uint32_t dw1 = pB1[x + y * XWIDTH];
+      const uint32_t dw2 = pB2[x + y * XWIDTH];
+      const float nx1 = float(short(dw1)) / 32767.5f;
+      const float nx2 = float(short(dw2)) / 32767.5f;
+      const float nz1 = float(short(dw1 >> 0x10)) / 32767.5f;
+      const float nz2 = float(short(dw2 >> 0x10)) / 32767.5f;
 
 			pfOut[2 * (x + y * XWIDTH) + 0] = (nx1 + (nx2 - nx1) * fDelta);
 			pfOut[2 * (x + y * XWIDTH) + 1] = (nz1 + (nz2 - nz1) * fDelta);
@@ -1375,10 +1375,10 @@ void SEA::CalculateNormalMap(float fFrame, float fAmplitude, float* pfOut, std::
 
 void SEA::CalculateHeightMap(float fFrame, float fAmplitude, float* pfOut, std::vector<uint8_t*>& aFrames)
 {
-	long iFrame1 = fftol(fFrame) % aFrames.size();
-	long iFrame2 = (iFrame1 + 1) % aFrames.size();
+  const long iFrame1 = fftol(fFrame) % aFrames.size();
+  const long iFrame2 = (iFrame1 + 1) % aFrames.size();
 
-	float fDelta = fFrame - iFrame1;
+  const float fDelta = fFrame - iFrame1;
 
 	uint8_t* pB1 = aFrames[iFrame1];
 	uint8_t* pB2 = aFrames[iFrame2];
@@ -1386,8 +1386,8 @@ void SEA::CalculateHeightMap(float fFrame, float fAmplitude, float* pfOut, std::
 	for (long y = 0; y < YWIDTH; y++)
 		for (long x = 0; x < XWIDTH; x++)
 		{
-			float f1 = pB1[x + y * XWIDTH];
-			float f2 = pB2[x + y * XWIDTH];
+      const float f1 = pB1[x + y * XWIDTH];
+      const float f2 = pB2[x + y * XWIDTH];
 
 			pfOut[x + y * XWIDTH] = fAmplitude * (f1 + (f2 - f1) * fDelta);
 		}
@@ -1913,16 +1913,16 @@ void SEA::Realize(uint32_t dwDeltaTime)
 
 float SEA::Trace(const CVECTOR& vSrc, const CVECTOR& vDst)
 {
-	long iNumTests = 5;
+  const long iNumTests = 5;
 	float fRes = 2.0f;
-	float fDV = 1.0f / float(iNumTests - 1);
+  const float fDV = 1.0f / float(iNumTests - 1);
 
 	if (vSrc.y > fMaxSeaHeight && vDst.y > fMaxSeaHeight) return 2.0f;
 
 	for (long i = 0; i < iNumTests; i++)
 	{
-		CVECTOR vTemp = vSrc + float(i) * fDV * (vDst - vSrc);
-		float fWaveY = WaveXZ(vTemp.x, vTemp.z, nullptr);
+    const CVECTOR vTemp = vSrc + float(i) * fDV * (vDst - vSrc);
+    const float fWaveY = WaveXZ(vTemp.x, vTemp.z, nullptr);
 
 		if (fWaveY > vTemp.y) return float(i) * fDV;
 	}
@@ -1932,12 +1932,12 @@ float SEA::Trace(const CVECTOR& vSrc, const CVECTOR& vDst)
 
 float SEA::Cannon_Trace(long iBallOwner, const CVECTOR& vSrc, const CVECTOR& vDst)
 {
-	float fRes = Trace(vSrc, vDst);
+  const float fRes = Trace(vSrc, vDst);
 
 	if (fRes <= 1.0f)
 	{
-		CVECTOR vTemp = vSrc + fRes * (vDst - vSrc);
-		float fTmpY = WaveXZ(vTemp.x, vTemp.z, nullptr);
+    const CVECTOR vTemp = vSrc + fRes * (vDst - vSrc);
+    const float fTmpY = WaveXZ(vTemp.x, vTemp.z, nullptr);
 		api->Event(BALL_WATER_HIT, "lfff", iBallOwner, vTemp.x, fTmpY, vTemp.z);
 	}
 
@@ -2135,7 +2135,7 @@ uint32_t SEA::AttributeChanged(ATTRIBUTES* pAttribute)
 	{
 		fMaxSeaHeight = AttributesPointer->GetAttributeAsFloat("MaxSeaHeight", 50.0f);
 
-		float fScale = (fMaxSeaHeight >= _fAmp1 + _fAmp2) ? 1.0f : fMaxSeaHeight / (_fAmp1 + _fAmp2);
+    const float fScale = (fMaxSeaHeight >= _fAmp1 + _fAmp2) ? 1.0f : fMaxSeaHeight / (_fAmp1 + _fAmp2);
 
 		fAmp1 = _fAmp1 * fScale;
 		fAmp2 = _fAmp2 * fScale;

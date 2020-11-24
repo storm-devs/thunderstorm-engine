@@ -156,7 +156,7 @@ void CXI_FOURIMAGE::Draw(bool bSelected, uint32_t Delta_Time)
 			{
 				long posX, posY;
 				posX = (m_imgRect[i].left + m_imgRect[i].right) / 2;
-        auto color = 0xFFFFFFFF;
+        const auto color = 0xFFFFFFFF;
 				/*if(i==m_nSelectItem) color=m_dwCurSelectColor;
 				else color=m_dwBaseColor;*/
 
@@ -317,7 +317,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 			}
 			for (i = 0; i < m_nTexturesQuantity; i++)
 			{
-        auto stmp = pA->GetAttribute(i);
+        const auto stmp = pA->GetAttribute(i);
 				if (stmp == nullptr) m_sGroupName[i] = nullptr;
 				else
 				{
@@ -393,7 +393,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 		}
 	}
 
-  auto bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle");
+  const auto bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle");
 	for (i = 0; i < 4; i++)
 	{
 		sprintf_s(param, "position%d", i + 1);
@@ -548,14 +548,14 @@ void CXI_FOURIMAGE::Update(bool bSelected, uint32_t DeltaTime)
 						m_bColorType = !m_bColorType;
 					}
 
-          auto ad = ALPHA(m_dwDarkSelectColor);
-          auto rd = RED(m_dwDarkSelectColor);
-          auto gd = GREEN(m_dwDarkSelectColor);
-          auto bd = BLUE(m_dwDarkSelectColor);
-          auto al = ALPHA(m_dwLightSelectColor);
-          auto rl = RED(m_dwLightSelectColor);
-          auto gl = GREEN(m_dwLightSelectColor);
-          auto bl = BLUE(m_dwLightSelectColor);
+          const auto ad = ALPHA(m_dwDarkSelectColor);
+          const auto rd = RED(m_dwDarkSelectColor);
+          const auto gd = GREEN(m_dwDarkSelectColor);
+          const auto bd = BLUE(m_dwDarkSelectColor);
+          const auto al = ALPHA(m_dwLightSelectColor);
+          const auto rl = RED(m_dwLightSelectColor);
+          const auto gl = GREEN(m_dwLightSelectColor);
+          const auto bl = BLUE(m_dwLightSelectColor);
 					uint32_t a, r, g, b;
 					if (m_bColorType)
 					{
@@ -605,10 +605,10 @@ bool CXI_FOURIMAGE::IsClick(int buttonID, long xPos, long yPos)
 
 void CXI_FOURIMAGE::ChangePosition(XYRECT& rNewPos)
 {
-  auto nXOffset = rNewPos.left - m_rect.left;
-  auto nYOffset = rNewPos.top - m_rect.top;
-  auto nXToGrow = rNewPos.right - m_rect.right;
-  auto nYToGrow = rNewPos.bottom - m_rect.bottom;
+  const auto nXOffset = rNewPos.left - m_rect.left;
+  const auto nYOffset = rNewPos.top - m_rect.top;
+  const auto nXToGrow = rNewPos.right - m_rect.right;
+  const auto nYToGrow = rNewPos.bottom - m_rect.bottom;
 
 	m_rect = rNewPos;
 

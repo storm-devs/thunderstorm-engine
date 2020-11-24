@@ -80,7 +80,7 @@ void Player::Move(float dltTime)
 	}
 	//tuner.isVisible = !shootgunMode;
 
-  auto oldSGMode = shootgunMode;
+  const auto oldSGMode = shootgunMode;
 	shootgunMode = false;
   auto vd = api->Event("EventSGMode", nullptr);
 	if (vd)
@@ -284,8 +284,8 @@ void Player::Update(float dltTime)
 				{
 					Assert(AttributesPointer);
 					Assert(chr->AttributesPointer);
-					long first = AttributesPointer->GetAttributeAsDword("index", -1);
-					long next = chr->AttributesPointer->GetAttributeAsDword("index", -1);
+          const long first = AttributesPointer->GetAttributeAsDword("index", -1);
+          const long next = chr->AttributesPointer->GetAttributeAsDword("index", -1);
 					if (first >= 0 && next >= 0)
 					{
 						api->Event("dlgReady", "ll", next, first);
@@ -326,7 +326,7 @@ void Player::Update(float dltTime)
 		const auto location = GetLocation();
 		for (long i = 0; i < location->supervisor.numCharacters; i++)
 		{
-      auto chr = location->supervisor.character[i].c;
+      const auto chr = location->supervisor.character[i].c;
 			if (chr != this && chr)
 			{
 				chr->isPlayerEnemy = (api->Send_Message(eid, "sii", "IsEnemy", GetId(), chr->GetId()) != 0);
@@ -367,7 +367,7 @@ void Player::Rotate(float dltTime)
 	{
 		if (!lockRotate)
 		{
-      auto dx = GetRotateH() * 0.067f;
+      const auto dx = GetRotateH() * 0.067f;
 			api->Controls->GetControlState("ChrTurnV", cs);
       auto dz = cs.fValue * 0.067f;
 			if (api->Controls->GetControlState("ChrTurnV1", cs)) dz += cs.fValue * 0.067f;
@@ -385,7 +385,7 @@ void Player::Rotate(float dltTime)
 				mtx.Vx() = !CVECTOR(mtx.Vx());
 				mtx.Vz() = !CVECTOR(mtx.Vz());
 				mtx.Pos() = 0.0f;
-        auto res = mtx * CVECTOR(dx, 0.0f, dz);
+        const auto res = mtx * CVECTOR(dx, 0.0f, dz);
 				Turn(res.x, res.z);
 			}
 		}
@@ -404,7 +404,7 @@ bool Player::GoForward(float dltTime)
 		if (api->Controls->GetControlState("ChrForward2", cs) && cs.lValue != 0) res = true;
 		return res;
 	}
-  auto dx = GetRotateH() * 0.067f;
+  const auto dx = GetRotateH() * 0.067f;
 	api->Controls->GetControlState("ChrTurnV", cs);
   auto dz = cs.fValue * 0.067f;
 	if (api->Controls->GetControlState("ChrTurnV1", cs)) dz += cs.fValue * 0.067f;
@@ -438,7 +438,7 @@ bool Player::IsRunMode(float dltTime)
 		api->Controls->GetControlState("ChrRun", cs);
 		return !(cs.lValue != 0);
 	}
-  auto dx = GetRotateH() * 0.067f;
+  const auto dx = GetRotateH() * 0.067f;
 	api->Controls->GetControlState("ChrTurnV", cs);
   auto dz = cs.fValue * 0.067f;
 	if (api->Controls->GetControlState("ChrTurnV1", cs)) dz += cs.fValue * 0.067f;
@@ -628,10 +628,10 @@ Player* Player::FindAttackCharacter()
 	float minDst;
 	long task = -1;
   auto isFgt = false;
-  auto isEnemy = false;
+  const auto isEnemy = false;
   auto enemyCos = -1.0f;
-  auto cdx = sinf(ay);
-  auto cdz = cosf(ay);
+  const auto cdx = sinf(ay);
+  const auto cdz = cosf(ay);
 	long j = -1;
 	for (long i = 0; i < num; i++)
 	{
@@ -721,7 +721,7 @@ void Player::FireFromShootgun()
 	const auto location = GetLocation();
 	location->GetRS()->GetTransform(D3DTS_VIEW, mtx);
 	mtx.Transposition();
-  auto src = mtx.Pos() + mtx.Vz() * 0.7f;
+  const auto src = mtx.Pos() + mtx.Vz() * 0.7f;
 	api->Send_Message(effects, "sffffff", "SGFireParticles", src.x, src.y - 0.35f, src.z, mtx.Vz().x, mtx.Vz().y,
 	                  mtx.Vz().z);
 
@@ -738,23 +738,23 @@ void Player::FireFromShootgun()
 	ChrsDmg chrs[16];
 	long numChrs = 0;
 
-	auto ids = EntityManager::GetEntityIdIterators(SUN_TRACE);
+  const auto ids = EntityManager::GetEntityIdIterators(SUN_TRACE);
 	for (long i = 0; i < 6; i++)
 	{
 		//Получим позицию куда попадёт картечина
-    auto r = rand() * 3.0f / RAND_MAX;
-    auto a = rand() * 6.283185307f / (RAND_MAX + 1);
+    const auto r = rand() * 3.0f / RAND_MAX;
+    const auto a = rand() * 6.283185307f / (RAND_MAX + 1);
     auto dst = mtx * CVECTOR(r * sinf(a), r * cosf(a), 25.0f);
 		if (collide)
 		{
 			auto id = GetId();
-      auto dist = collide->Trace(ids, src, dst, &id, 0);
+      const auto dist = collide->Trace(ids, src, dst, &id, 0);
 			if (dist <= 1.0f && dist > (0.2f / 25.0f))
 			{
         auto dir = !(src - dst);
 				dst = src + (dst - src) * dist;
 				//Куда то попали
-        auto e = EntityManager::GetEntityPointer(collide->GetObjectID());
+        const auto e = EntityManager::GetEntityPointer(collide->GetObjectID());
 				if (e && e != this)
 				{
 					long n, nm;

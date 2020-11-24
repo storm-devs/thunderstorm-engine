@@ -163,7 +163,7 @@ uint64_t Fader::ProcessMessage(MESSAGE& message)
 			if (numberOfTips > 0)
 			{
 				//sprintf_s(_name, "tips\\tips_%.4u.tga", rand() % numberOfTips);
-        auto pTipsName = rs->GetTipsImage();
+        const auto pTipsName = rs->GetTipsImage();
 				if (pTipsName)
 				{
 					tipsID = rs->TextureCreate(pTipsName);

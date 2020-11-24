@@ -439,7 +439,7 @@ inline Color& Color::operator +=(float f)
 //Распаковать и сложить
 inline Color& Color::operator +=(uint32_t c)
 {
-	Color clr(c);
+  const Color clr(c);
 	*this += clr;
 	return *this;
 }
@@ -485,7 +485,7 @@ inline Color& Color::operator -=(float f)
 ///Распаковать и вычесть
 inline Color& Color::operator -=(uint32_t c)
 {
-	Color clr(c);
+  const Color clr(c);
 	*this = clr;
 	return *this;
 }
@@ -531,7 +531,7 @@ inline Color& Color::operator *=(float f)
 ///Распаковать и умножить
 inline Color& Color::operator *=(uint32_t c)
 {
-	Color clr(c);
+  const Color clr(c);
 	*this *= clr;
 	return *this;
 }
@@ -578,7 +578,7 @@ inline Color& Color::operator /=(float f)
 //Распаковать и разделить
 inline Color& Color::operator /=(uint32_t c)
 {
-	Color clr(c);
+  const Color clr(c);
 	*this /= clr;
 	return *this;
 }
@@ -1145,9 +1145,9 @@ inline float Color::GetDistance(const Color& c) const
 //Получить цветовую дистанцию между цветами в квадрате
 inline float Color::GetDistanceSqr(const Color& c) const
 {
-  auto dr = (r - c.r) * 0.299f;
-  auto dg = (g - c.g) * 0.587f;
-  auto db = (b - c.b) * 0.114f;
+  const auto dr = (r - c.r) * 0.299f;
+  const auto dg = (g - c.g) * 0.587f;
+  const auto db = (b - c.b) * 0.114f;
 	return dr * dr + dg * dg + db * db;
 }
 
@@ -1189,7 +1189,7 @@ inline Color& Color::MulAlpha(float k)
 //Поменять местами r,b
 inline Color& Color::SwapRB()
 {
-  auto t = r;
+  const auto t = r;
 	r = b;
 	b = t;
 	return *this;
@@ -1244,9 +1244,9 @@ inline unsigned short Color::Make565(uint32_t color)
 {
 	//   11111000 11111100 11111000
 	//           11111 111111 11111
-  auto b = (color >> 3) & 0x1f;
-  auto g = (color >> 5) & 0x7e0;
-  auto r = (color >> 8) & 0xf800;
+  const auto b = (color >> 3) & 0x1f;
+  const auto g = (color >> 5) & 0x7e0;
+  const auto r = (color >> 8) & 0xf800;
 	return (unsigned short)(r | g | b);
 }
 
@@ -1255,9 +1255,9 @@ inline unsigned short Color::Make555(uint32_t color)
 {
 	//   11111000 11111000 11111000
 	//           011111 11111 11111
-  auto b = (color >> 3) & 0x1f;
-  auto g = (color >> 6) & 0x3e0;
-  auto r = (color >> 9) & 0x7c00;
+  const auto b = (color >> 3) & 0x1f;
+  const auto g = (color >> 6) & 0x3e0;
+  const auto r = (color >> 9) & 0x7c00;
 	return (unsigned short)(r | g | b);
 }
 
@@ -1266,10 +1266,10 @@ inline unsigned short Color::Make1555(uint32_t color)
 {
 	//   11111000 11111000 11111000
 	//          1 11111 11111 11111
-  auto b = (color >> 3) & 0x1f;
-  auto g = (color >> 6) & 0x3e0;
-  auto r = (color >> 9) & 0x7c00;
-  auto a = (color >> 16) & 0x8000;
+  const auto b = (color >> 3) & 0x1f;
+  const auto g = (color >> 6) & 0x3e0;
+  const auto r = (color >> 9) & 0x7c00;
+  const auto a = (color >> 16) & 0x8000;
 	return (unsigned short)(r | g | b | a);
 }
 
@@ -1278,10 +1278,10 @@ inline unsigned short Color::Make4444(uint32_t color)
 {
 	//  11110000 11111000 11111000 11111000
 	//                  1111 1111 1111 1111
-  auto b = (color >> 4) & 0xf;
-  auto g = (color >> 8) & 0xf0;
-  auto r = (color >> 12) & 0xf00;
-  auto a = (color >> 16) & 0xf000;
+  const auto b = (color >> 4) & 0xf;
+  const auto g = (color >> 8) & 0xf0;
+  const auto r = (color >> 12) & 0xf00;
+  const auto a = (color >> 16) & 0xf000;
 	return (unsigned short)(r | g | b | a);
 }
 

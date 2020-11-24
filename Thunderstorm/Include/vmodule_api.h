@@ -18,7 +18,7 @@ constexpr uint32_t MakeHashValue(const char* string)
 		if ('A' <= v && v <= 'Z') v += 'a' - 'A';
 
 		hval = (hval << 4) + (unsigned long int)v;
-		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
+    const uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
 		if (g != 0)
 		{
 			hval ^= g >> (32 - 8);

@@ -70,7 +70,7 @@ void CXI_STATUSLINE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, c
 	m_nIndx /= 3;
 
 	// Lock vertex and index buffers and get pointers to this
-  auto pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
+  const auto pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
 	auto* pIBuf = (uint16_t*)m_rs->LockIndexBuffer(m_iBuf);
 
 	if (pVBuf != nullptr && pIBuf != nullptr)
@@ -84,9 +84,9 @@ void CXI_STATUSLINE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, c
 		if (pAttr != nullptr) pAttr = pAttr->GetAttributeClass(m_nodeName);
 		if (pAttr != nullptr)
 		{
-      auto fMaxValue = pAttr->GetAttributeAsFloat("Max", 0);
-      auto fMinValue = pAttr->GetAttributeAsFloat("Min", 0);
-      auto fCurValue = pAttr->GetAttributeAsFloat("Value", 0);
+      const auto fMaxValue = pAttr->GetAttributeAsFloat("Max", 0);
+      const auto fMinValue = pAttr->GetAttributeAsFloat("Min", 0);
+      const auto fCurValue = pAttr->GetAttributeAsFloat("Value", 0);
 			if (fMaxValue - fMinValue > 0 && fCurValue >= fMinValue)
 				fMediumX *= (fCurValue - fMinValue) / (fMaxValue - fMinValue);
 		}
@@ -217,9 +217,9 @@ void CXI_STATUSLINE::Refresh() const {
 	if (pAttr != nullptr)
 	{
     auto fMediumX = float(m_rect.right - m_rect.left) - m_fLineOffset * 2.f;
-    auto fMaxValue = pAttr->GetAttributeAsFloat("Max", 0);
-    auto fMinValue = pAttr->GetAttributeAsFloat("Min", 0);
-		float fCurValue = pAttr->GetAttributeAsFloat("Value", 0);
+    const auto fMaxValue = pAttr->GetAttributeAsFloat("Max", 0);
+    const auto fMinValue = pAttr->GetAttributeAsFloat("Min", 0);
+    const float fCurValue = pAttr->GetAttributeAsFloat("Value", 0);
 		if (fMaxValue > fMinValue && fCurValue >= fMinValue && fCurValue <= fMaxValue)
 			fMediumX *= (fCurValue - fMinValue) / (fMaxValue - fMinValue);
 

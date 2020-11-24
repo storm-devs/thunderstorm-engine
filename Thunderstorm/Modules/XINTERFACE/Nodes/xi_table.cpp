@@ -42,9 +42,9 @@ void XI_TableLineDescribe::DrawSpecColor(float fTop) const {
 		XI_NOTEX_VERTEX v[4];
 		v[0].color = v[1].color = v[2].color = v[3].color = m_dwSpecColor;
 		v[0].pos.z = v[1].pos.z = v[2].pos.z = v[3].pos.z = 1.f;
-    auto fBottom = fTop + (float)m_pTable->m_anRowsHeights[m_nRowIndex];
-    auto fLeft = (float)m_pTable->m_rect.left;
-    auto fRight = (float)m_pTable->m_rect.right;
+    const auto fBottom = fTop + (float)m_pTable->m_anRowsHeights[m_nRowIndex];
+    const auto fLeft = (float)m_pTable->m_rect.left;
+    const auto fRight = (float)m_pTable->m_rect.right;
 		v[0].pos.x = fLeft;
 		v[0].pos.y = fTop;
 		v[1].pos.x = fLeft;
@@ -80,7 +80,7 @@ void XI_TableLineDescribe::SetData(long nRowIndex, ATTRIBUTES* pLA, bool bHeader
 	for (c = 0; c < 10000; c++)
 	{
 		sprintf_s(pcAttrName, "td%d", c + 1);
-    auto pA = (pLA ? pLA->GetAttributeClass(pcAttrName) : nullptr);
+    const auto pA = (pLA ? pLA->GetAttributeClass(pcAttrName) : nullptr);
 		if (!pA && c >= m_pTable->m_nColQuantity) break;
 		XI_TableCellDescribe* pTD = nullptr;
 		if (c >= m_aCell.size())
@@ -133,8 +133,8 @@ void XI_TableCellDescribe::Draw(float fLeft, float fTop)
 	fTop += m_pTable->m_pntSpaceSize.y;
 	if (m_aImage.size() > 0)
 	{
-    auto nX = (long)fLeft + m_nLeftLineWidth;
-    auto nY = (long)fTop + m_nTopLineHeight;
+    const auto nX = (long)fLeft + m_nLeftLineWidth;
+    const auto nY = (long)fTop + m_nTopLineHeight;
 		for (n = 0; n < m_aImage.size(); n++)
 			if (m_aImage[n].pImage)
 				m_aImage[n].pImage->Draw(nX + m_aImage[n].offset.x, nY + m_aImage[n].offset.y, IPType_LeftTop);
@@ -146,7 +146,7 @@ void XI_TableCellDescribe::Draw(float fLeft, float fTop)
 	for (n = 0; n < m_aStrings.size(); n++)
 	{
 		if (m_aStrings[n].offset.y != NOTUSE_OFFSET) fY = m_aStrings[n].offset.y;
-    auto fNewY = fY + m_pTable->m_rs->CharHeight(m_nFontID) * m_fScale;
+    const auto fNewY = fY + m_pTable->m_rs->CharHeight(m_nFontID) * m_fScale;
 		if (fNewY >= m_pLine->GetLineHeight()) break; // больше не влазит в таблицу
 
 		CXI_UTILS::PrintTextIntoWindow(m_pTable->m_rs,
@@ -528,10 +528,10 @@ int CXI_TABLE::CommandExecute(int wActCode)
 			// boal -->
 		case ACTION_MOUSERCLICK: // просто спозиционировать курсор
 			{
-        auto n = GetLineByPoint(ptrOwner->GetMousePoint());
+        const auto n = GetLineByPoint(ptrOwner->GetMousePoint());
 				if (n >= 0 && n <= m_nLineQuantity - m_nTopIndex - (m_pHeader ? 0 : 1))
 				{
-          auto nCol = GetColByX((long)ptrOwner->GetMousePoint().x);
+          const auto nCol = GetColByX((long)ptrOwner->GetMousePoint().x);
 					if (m_bDoColsSelect) SelectRow(n, nCol);
 					else SelectRow(n);
 					//api->Event( "OnTableClick", "sll", m_nodeName, m_nSelectIndex, nCol+1 );
@@ -541,10 +541,10 @@ int CXI_TABLE::CommandExecute(int wActCode)
 			// boal <--
 		case ACTION_MOUSECLICK:
 			{
-        auto n = GetLineByPoint(ptrOwner->GetMousePoint());
+        const auto n = GetLineByPoint(ptrOwner->GetMousePoint());
 				if (n >= 0 && n <= m_nLineQuantity - m_nTopIndex - (m_pHeader ? 0 : 1))
 				{
-          auto nCol = GetColByX((long)ptrOwner->GetMousePoint().x);
+          const auto nCol = GetColByX((long)ptrOwner->GetMousePoint().x);
 					if (m_bDoColsSelect) SelectRow(n, nCol);
 					else SelectRow(n);
 					//api->Event( "OnTableClick", "sll", m_nodeName, (m_pHeader?n:(n+1)), nCol+1 );
@@ -722,7 +722,7 @@ void CXI_TABLE::SetInternalName(std::string& sName)
 void CXI_TABLE::ScrollerChanged(float fRelativeScrollPos)
 {
 	if (m_nLineQuantity <= 1) return; // все одно
-	long n = (long)(fRelativeScrollPos * (m_nLineQuantity - 1));
+  const long n = (long)(fRelativeScrollPos * (m_nLineQuantity - 1));
 	if (n != m_nSelectIndex)
 	{
 		SetTopIndexForSelect(n);
@@ -882,7 +882,7 @@ void CXI_TABLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const 
 		m_anRowsHeights.push_back(0);
 	if (m_nRowQuantity > nUsedQ && m_rect.bottom - m_rect.top > nCommonWidth)
 	{
-		long nH = (m_rect.bottom - m_rect.top - nCommonWidth) / (m_nRowQuantity - nUsedQ);
+    const long nH = (m_rect.bottom - m_rect.top - nCommonWidth) / (m_nRowQuantity - nUsedQ);
 		for (n = 0; n < m_anRowsHeights.size(); n++)
 			if (m_anRowsHeights[n] == 0)
 				m_anRowsHeights[n] = nH;
@@ -917,7 +917,7 @@ void CXI_TABLE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, const 
 		m_anColsWidth.push_back(0);
 	if (m_nColQuantity > nUsedQ && m_rect.right - m_rect.left > nCommonWidth)
 	{
-		long nW = (m_rect.right - m_rect.left - m_nBorderWidth - nCommonWidth) / (m_nColQuantity - nUsedQ);
+    const long nW = (m_rect.right - m_rect.left - m_nBorderWidth - nCommonWidth) / (m_nColQuantity - nUsedQ);
 		for (n = 0; n < m_anColsWidth.size(); n++)
 			if (m_anColsWidth[n] == 0)
 				m_anColsWidth[n] = nW;
@@ -1209,7 +1209,7 @@ long CXI_TABLE::GetColByX(long x)
 void CXI_TABLE::SelectRow(long nRowNum)
 {
 	if (nRowNum < (m_pHeader ? 1 : 0) || nRowNum >= m_anRowsHeights.size()) return;
-	long n = m_nTopIndex + nRowNum - (m_pHeader ? 1 : 0);
+  const long n = m_nTopIndex + nRowNum - (m_pHeader ? 1 : 0);
 	SelectLine(n);
 }
 
@@ -1221,7 +1221,7 @@ void CXI_TABLE::SelectRow(long nRowNum, long nColNum)
 		else m_nSelectColIndex = nColNum;
 	}
 	if (nRowNum < (m_pHeader ? 1 : 0) || nRowNum >= m_anRowsHeights.size()) return;
-	long n = m_nTopIndex + nRowNum - (m_pHeader ? 1 : 0);
+  const long n = m_nTopIndex + nRowNum - (m_pHeader ? 1 : 0);
 	SelectLine(n);
 }
 
@@ -1247,14 +1247,14 @@ void CXI_TABLE::SelectCol(long nColNum)
 
 void CXI_TABLE::UpdateSelectImage()
 {
-	long nRow = m_nSelectIndex - m_nTopIndex + (m_pHeader ? 1 : 0);
+  const long nRow = m_nSelectIndex - m_nTopIndex + (m_pHeader ? 1 : 0);
 	if (m_nSelectIndex < 0 || nRow < 0 || nRow >= m_anRowsHeights.size())
 	{
 		m_SelectImg.DisableDraw(true);
 	}
 	else
 	{
-		long nCol = m_nSelectColIndex;
+    const long nCol = m_nSelectColIndex;
 		m_SelectImg.DisableDraw(false);
 		XYRECT pos;
 		pos.top = GetRowTop(nRow);
@@ -1345,7 +1345,7 @@ void CXI_TABLE::UpdateLineQuantity()
 	long nmax = nmin * 2;
 	while (true)
 	{
-		long n = (nmin + nmax) / 2;
+    const long n = (nmin + nmax) / 2;
 		if (n == nmin) break;
 		sprintf_s(pcAttrName, "tr%d", n);
 		if (pARoot->GetAttributeClass(pcAttrName)) // элемент есть - значит старшая половина может иметь конец

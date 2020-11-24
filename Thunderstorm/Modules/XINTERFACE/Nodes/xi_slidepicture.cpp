@@ -12,16 +12,16 @@ void SetTextureCoordinate(XI_ONETEX_VERTEX v[4], FXYRECT tr, float angle)
 	}
 	else
 	{
-    auto x = (tr.left + tr.right) * .5f;
-    auto y = (tr.top + tr.bottom) * .5f;
-    auto width = tr.right - tr.left;
-    auto height = tr.bottom - tr.top;
-    auto ca = cosf(angle);
-    auto sa = sinf(angle);
-    auto wca = width / 2 * ca;
-    auto wsa = width / 2 * sa;
-    auto hca = height / 2 * ca;
-    auto hsa = height / 2 * sa;
+    const auto x = (tr.left + tr.right) * .5f;
+    const auto y = (tr.top + tr.bottom) * .5f;
+    const auto width = tr.right - tr.left;
+    const auto height = tr.bottom - tr.top;
+    const auto ca = cosf(angle);
+    const auto sa = sinf(angle);
+    const auto wca = width / 2 * ca;
+    const auto wsa = width / 2 * sa;
+    const auto hca = height / 2 * ca;
+    const auto hsa = height / 2 * sa;
 		v[0].tu = x + (-wca + hsa);
 		v[0].tv = y + (-wsa - hca);
 		v[1].tu = x + (-wca - hsa);
@@ -100,7 +100,7 @@ void CXI_SLIDEPICTURE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2,
 
 	m_texRect = GetIniFloatRect(ini1, name1, ini2, name2, "textureRect", FXYRECT(0.f, 0.f, 1.f, 1.f));
 
-  auto color = GetIniARGB(ini1, name1, ini2, name2, "color", 0xFFFFFFFF);
+  const auto color = GetIniARGB(ini1, name1, ini2, name2, "color", 0xFFFFFFFF);
 
 	// Create rectangle
 	m_v[0].pos.x = (float)m_rect.left;
@@ -254,8 +254,8 @@ void CXI_SLIDEPICTURE::Update(uint32_t Delta_Time)
 		curRotate = minRotate + rand() * deltaRotate / RAND_MAX;
 	}
 
-  auto xadd = pSlideSpeedList[nCurSlide].xspeed * (Delta_Time / 1000.f);
-  auto yadd = pSlideSpeedList[nCurSlide].yspeed * (Delta_Time / 1000.f);
+  const auto xadd = pSlideSpeedList[nCurSlide].xspeed * (Delta_Time / 1000.f);
+  const auto yadd = pSlideSpeedList[nCurSlide].yspeed * (Delta_Time / 1000.f);
 
 	curAngle += curRotate * Delta_Time / 1000.f;
 

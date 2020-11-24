@@ -63,9 +63,9 @@ void WdmEnemyShip::Update(float dltTime)
 	//Перемещение
 	Move(dltTime);
 	//Расстояние от нас до игрока
-  auto dx = wdmObjects->playerShip->mtx.Pos().x - mtx.Pos().x;
-  auto dz = wdmObjects->playerShip->mtx.Pos().z - mtx.Pos().z;
-  auto d = sqrtf(dx * dx + dz * dz);
+  const auto dx = wdmObjects->playerShip->mtx.Pos().x - mtx.Pos().x;
+  const auto dz = wdmObjects->playerShip->mtx.Pos().z - mtx.Pos().z;
+  const auto d = sqrtf(dx * dx + dz * dz);
 	//Видимость
 	//От удалённости от игрока
 	alpha = 1.0f - (d - wdmObjects->enemyshipViewDistMin) / (wdmObjects->enemyshipViewDistMax - wdmObjects->
@@ -217,16 +217,16 @@ void WdmEnemyShip::Move(float dltTime)
 	//Результирующее
 	dx = 1.0f * mx + 1.5f * ix + 1.1f * sx;
 	dz = 1.0f * mz + 1.5f * iz + 1.1f * sz;
-  auto dl = dx * dx + dz * dz;
+  const auto dl = dx * dx + dz * dz;
 	//Наше направление
-  auto vx = mtx.Vz().x;
-  auto vz = mtx.Vz().z;
-  auto vl = vx * vx + vz * vz;
+  const auto vx = mtx.Vz().x;
+  const auto vz = mtx.Vz().z;
+  const auto vl = vx * vx + vz * vz;
 	//Синус угла между этой парой векторов
   auto sn = vz * dx - vx * dz;
 	if (dl * vl > 0.0f) sn /= sqrtf(dl * vl);
 	//Если игрок сзади, то вырабатываем поворот на полную катушку
-  auto cs = vx * dx + vz * dz;
+  const auto cs = vx * dx + vz * dz;
 	if (cs < 0.0f)
 	{
 		if (sn < 0.0f) sn = -1;
@@ -343,9 +343,9 @@ bool WdmEnemyShip::GeneratePosition(float objRadius, float brnDltAng, float& x, 
 {
 	//Позиция игрока
 	if (!wdmObjects->playerShip) return false;
-  auto psx = wdmObjects->playerShip->mtx.Pos().x;
-  auto psz = wdmObjects->playerShip->mtx.Pos().z;
-  auto psay = ((WdmEnemyShip *)wdmObjects->playerShip)->ay;
+  const auto psx = wdmObjects->playerShip->mtx.Pos().x;
+  const auto psz = wdmObjects->playerShip->mtx.Pos().z;
+  const auto psay = ((WdmEnemyShip *)wdmObjects->playerShip)->ay;
 	//Поля возможных вариантов
 	uint8_t field[32];
 	for (long i = 0; i < 32; i++) field[i] = 0;
@@ -353,14 +353,14 @@ bool WdmEnemyShip::GeneratePosition(float objRadius, float brnDltAng, float& x, 
 	while (true)
 	{
 		//Определим угл
-		long ang = rand() & 31;
+    const long ang = rand() & 31;
 		if (field[ang] != 0xff)
 		{
-      auto angle = psay + brnDltAng * (0.5f - ang / 31.0f);
+      const auto angle = psay + brnDltAng * (0.5f - ang / 31.0f);
 			//Определяем радиус
 			long rad;
 			for (rad = rand() & 7; field[ang] & (1 << rad); rad = rand() & 7);
-      auto radius = wdmObjects->enemyshipBrnDistMin + (wdmObjects->enemyshipBrnDistMax - wdmObjects->
+      const auto radius = wdmObjects->enemyshipBrnDistMin + (wdmObjects->enemyshipBrnDistMax - wdmObjects->
 				enemyshipBrnDistMin) * rad / 7.0f;
 			//Координаты
 			x = psx + radius * sinf(angle);

@@ -270,7 +270,7 @@ BOOL SHIP::ApplyStrength(float dtime, BOOL bCollision)
 		fK = dtime * State.fMassInertia;
 		if (i == 0) // x moving
 		{
-      auto force = new_speed.v[i] - State.vSpeed.v[i];
+      const auto force = new_speed.v[i] - State.vSpeed.v[i];
 			if (SMALL_DELTA(new_speed.v[i]))
 				State.vSpeed.v[i] += fK * force * State.vInertiaAccel.x;
 			else
@@ -280,7 +280,7 @@ BOOL SHIP::ApplyStrength(float dtime, BOOL bCollision)
 		{
 			vSpeedAccel.z = State.vSpeed.v[i];
 
-      auto force = new_speed.v[i] - State.vSpeed.v[i];
+      const auto force = new_speed.v[i] - State.vSpeed.v[i];
 			if (SMALL_DELTA(new_speed.v[i]))
 				State.vSpeed.v[i] += fK * force * State.vInertiaAccel.z;
 			else
@@ -297,7 +297,7 @@ BOOL SHIP::ApplyStrength(float dtime, BOOL bCollision)
 		if (i == 1) // y rotating
 		{
       auto prev_rot = State.vRotate.v[i];
-      auto force = new_rotate.v[i] - State.vRotate.v[i];
+      const auto force = new_rotate.v[i] - State.vRotate.v[i];
 
 			if (SMALL_DELTA(new_rotate.v[i]))
 				State.vRotate.v[i] += fK * force * State.vInertiaAccel.y;
@@ -312,7 +312,7 @@ BOOL SHIP::ApplyStrength(float dtime, BOOL bCollision)
 BOOL SHIP::TouchMove(uint32_t DeltaTime, TOUCH_PARAMS* pTPOld, TOUCH_PARAMS* pTPNew)
 {
 	if (!pTPOld && !pTPNew) return false;
-  auto old_state = State;
+  const auto old_state = State;
 
 	if (pTPOld)
 	{
@@ -343,7 +343,7 @@ BOOL SHIP::TouchMove(uint32_t DeltaTime, TOUCH_PARAMS* pTPOld, TOUCH_PARAMS* pTP
 
 BOOL SHIP::Move(uint32_t DeltaTime, BOOL bCollision)
 {
-  auto dtime = DELTA_TIME(DeltaTime);
+  const auto dtime = DELTA_TIME(DeltaTime);
 	ApplyStrength(dtime, bCollision);
 	if (!bCollision && !isDead())
 	{
@@ -378,7 +378,7 @@ float SHIP::GetRotationAngle(float* pfTime)
 
   auto fDist = 0.0f, fTime = SHIP_TEST_Y_TIME;
   auto fSpeedY = State.vRotate.y;
-  auto fK = SHIP_TEST_Y_TIME * State.fMassInertia * State.vInertiaBrake.y;
+  const auto fK = SHIP_TEST_Y_TIME * State.fMassInertia * State.vInertiaBrake.y;
 
 	while (true) // not funny!!! IT'S SLOW!!!!
 	{
@@ -397,7 +397,7 @@ float SHIP::GetBrakingDistance(float* pfTime)
 	if (State.vSpeed.z < 0.01f) return 0.0f;
   auto fDist = 0.0f, fTime = SHIP_TEST_Z_TIME;
   auto fSpeedZ = State.vSpeed.z;
-  auto fK = SHIP_TEST_Z_TIME * State.fMassInertia * State.vInertiaBrake.z;
+  const auto fK = SHIP_TEST_Z_TIME * State.fMassInertia * State.vInertiaBrake.z;
 
 	while (true) // not funny!!! IT'S SLOW!!!!
 	{
@@ -427,7 +427,7 @@ void SHIP::CheckShip2Strand(float fDeltaTime)
 	for (long i = 0; i < MAX_KEEL_POINTS; i++)
 	{
 		float fRes;
-    auto vTmp = pModel->mtx * vKeelContour[i];
+    const auto vTmp = pModel->mtx * vKeelContour[i];
 		if (!pIsland->GetDepth(vTmp.x, vTmp.z, &fRes)) continue;
 		if (fRes < -10.0f && (fRes + 10.0f) >= vTmp.y)
 		{
@@ -923,9 +923,9 @@ void SHIP::SetLightAndFog(bool bSetLight)
 		bSetLightAndFog = true;
 
 		// ambient
-    auto fScale = Bring2Range(0.0f, 1.0f, -35.0f, 0.0f, State.vPos.y);
+    const auto fScale = Bring2Range(0.0f, 1.0f, -35.0f, 0.0f, State.vPos.y);
 		pRS->GetRenderState(D3DRS_AMBIENT, &dwSaveAmbient);
-		CVECTOR vAmbient = fScale * COLOR2VECTOR(dwSaveAmbient);
+    const CVECTOR vAmbient = fScale * COLOR2VECTOR(dwSaveAmbient);
 		pRS->SetRenderState(D3DRS_AMBIENT, ARGB((dwSaveAmbient >> 24L), vAmbient.x, vAmbient.y, vAmbient.z));
 
 		// light
@@ -947,9 +947,9 @@ void SHIP::SetLightAndFog(bool bSetLight)
 		pRS->SetLight(0, &newLight);
 
 		// fog
-    auto fFogScale = Bring2Range(0.0f, 1.0f, -30.0f, 0.0f, State.vPos.y);
+    const auto fFogScale = Bring2Range(0.0f, 1.0f, -30.0f, 0.0f, State.vPos.y);
 		pRS->GetRenderState(D3DRS_FOGCOLOR, &dwSaveFogColor);
-		CVECTOR vFogColor = fFogScale * COLOR2VECTOR(dwSaveFogColor);
+    const CVECTOR vFogColor = fFogScale * COLOR2VECTOR(dwSaveFogColor);
 		pRS->SetRenderState(D3DRS_FOGCOLOR, ARGB((dwSaveFogColor >> 24L), vFogColor.x, vFogColor.y, vFogColor.z));
 	}
 }
@@ -1056,7 +1056,7 @@ uint64_t SHIP::ProcessMessage(MESSAGE& message)
 	entid_t entity;
 	CVECTOR cpos, cang;
 	float fov;
-  auto code = message.Long();
+  const auto code = message.Long();
 	char str[256], str1[256], str2[256];
 
 	switch (code)
@@ -1093,13 +1093,13 @@ uint64_t SHIP::ProcessMessage(MESSAGE& message)
 		break;
 	case MSG_SHIP_ACTIVATE_FIRE_PLACE:
 		{
-      auto dwFPIndex = uint32_t(message.Long());
+      const auto dwFPIndex = uint32_t(message.Long());
 			message.String(sizeof(str), str);
 			message.String(sizeof(str1), str1);
 			message.String(sizeof(str2), str2);
 			//long iSoundID = message.Long();
-      auto fRunTime = message.Float();
-      auto iBallCharacterIndex = message.Long();
+      const auto fRunTime = message.Float();
+      const auto iBallCharacterIndex = message.Long();
 			Assert(dwFPIndex != INVALID_ARRAY_INDEX && dwFPIndex < aFirePlaces.size());
 			aFirePlaces[dwFPIndex].Run(str, str1, iBallCharacterIndex, str2, fRunTime);
 		}
@@ -1150,17 +1150,17 @@ uint64_t SHIP::ProcessMessage(MESSAGE& message)
 		break;
 	case MSG_SHIP_SETLIGHTSOFF:
 		{
-      auto fTime = message.Float();
-      auto bLigths = message.Long() != 0;
-      auto bFlares = message.Long() != 0;
-      auto bNow = message.Long() != 0;
+      const auto fTime = message.Float();
+      const auto bLigths = message.Long() != 0;
+      const auto bFlares = message.Long() != 0;
+      const auto bNow = message.Long() != 0;
 			if (pShipsLights)
 				pShipsLights->SetLightsOff(this, fTime, bLigths, bFlares, bNow);
 		}
 		break;
 	case MSG_MAST_DELGEOMETRY:
 		{
-      auto pNode = (NODE *)message.Pointer();
+      const auto pNode = (NODE *)message.Pointer();
 			pShipsLights->KillMast(this, pNode, true);
 		}
 		break;
@@ -1209,7 +1209,7 @@ bool SHIP::Mount(ATTRIBUTES* _pAShip)
 
 	EntityManager::AddToLayer(SHIP_CANNON_TRACE, GetId(), iShipPriorityExecute);
 
-  auto pName = GetAShip()->GetAttribute("Name");
+  const auto pName = GetAShip()->GetAttribute("Name");
 	if (!pName)
 	{
 		api->Trace("SHIP::Mount : Can't find attribute name in ShipsTypes %d, char: %d, %s, %s, %s",
@@ -1275,7 +1275,7 @@ bool SHIP::Mount(ATTRIBUTES* _pAShip)
 
 	LoadShipParameters();
 
-	entid_t temp_id = GetId();
+  const entid_t temp_id = GetId();
 	api->Send_Message(touch_id, "li",MSG_SHIP_CREATE, temp_id);
 	api->Send_Message(sea_id, "lic",MSG_SHIP_CREATE, temp_id,
 	                  CVECTOR(State.vPos.x + fXOffset, State.vPos.y, State.vPos.z + fZOffset));
@@ -1297,10 +1297,10 @@ bool SHIP::Mount(ATTRIBUTES* _pAShip)
 	SP.fWidth = State.vBoxSize.x;
 	fGravity = 9.81f;
 
-	auto fCapacity = (float)SP.iCapacity;
+  const auto fCapacity = (float)SP.iCapacity;
 	auto fLength = (float)30;
 
-	float maxw = 10000.0f;
+  const float maxw = 10000.0f;
 	float min_inertia = 0.28f;
 	float max_inertia = 0.003f;
 
@@ -1316,8 +1316,8 @@ bool SHIP::Mount(ATTRIBUTES* _pAShip)
 	ATTRIBUTES* pALights = GetACharacter()->FindAClass(GetACharacter(), "ship.lights");
 	ATTRIBUTES* pAFlares = GetACharacter()->FindAClass(GetACharacter(), "ship.flares");
 
-	bool bLights = (pALights) ? pALights->GetAttributeAsDword() != 0 : false;
-	bool bFlares = (pAFlares) ? pAFlares->GetAttributeAsDword() != 0 : false;
+  const bool bLights = (pALights) ? pALights->GetAttributeAsDword() != 0 : false;
+  const bool bFlares = (pAFlares) ? pAFlares->GetAttributeAsDword() != 0 : false;
 
 	NODE* pFonarDay = pModel->FindNode("fd");
 	NODE* pFonarNight = pModel->FindNode("fn");
@@ -1419,8 +1419,8 @@ void SHIP::CalcRealBoxsize()
 		if (!pN) break;
 		pN->geo->GetInfo(ginfo);
 		CVECTOR vGlobPos = pN->glob_mtx.Pos();
-		CVECTOR vBC = vGlobPos + CVECTOR(ginfo.boxcenter.x, ginfo.boxcenter.y, ginfo.boxcenter.z);
-		CVECTOR vBS = CVECTOR(ginfo.boxsize.x, ginfo.boxsize.y, ginfo.boxsize.z) / 2.0f;
+    const CVECTOR vBC = vGlobPos + CVECTOR(ginfo.boxcenter.x, ginfo.boxcenter.y, ginfo.boxcenter.z);
+    const CVECTOR vBS = CVECTOR(ginfo.boxsize.x, ginfo.boxsize.y, ginfo.boxsize.z) / 2.0f;
 		if (vBC.x - vBS.x < x1) x1 = vBC.x - vBS.x;
 		if (vBC.x + vBS.x > x2) x2 = vBC.x + vBS.x;
 		if (vBC.y - vBS.y < y1) y1 = vBC.y - vBS.y;
@@ -1442,8 +1442,8 @@ void SHIP::ScanShipForFirePlaces()
 	Assert(pModel);
 
 	// search and add fire places
-	std::string sFirePlace = "fireplace";
-	std::string sFirePlaces = "fireplaces";
+  const std::string sFirePlace = "fireplace";
+  const std::string sFirePlaces = "fireplaces";
 	uint32_t dwIdx = 0;
 	while (pNode = pModel->GetNode(dwIdx))
 	{
@@ -1509,18 +1509,18 @@ float SHIP::Cannon_Trace(long iBallOwner, const CVECTOR& vSrc, const CVECTOR& vD
 	MODEL* pModel = GetModel();
 	Assert(pModel);
 
-	long iOurIndex = GetIndex(GetACharacter());
+  const long iOurIndex = GetIndex(GetACharacter());
 	if (iBallOwner == iOurIndex) return 2.0f;
 
 	for (long i = 0; i < iNumMasts; i++)
 		if (!pMasts[i].bBroken)
 		{
 			mast_t* pM = &pMasts[i];
-			float fRes = pM->pNode->Trace(vSrc, vDst);
+      const float fRes = pM->pNode->Trace(vSrc, vDst);
 
 			if (fRes <= 1.0f)
 			{
-				CVECTOR v1 = vSrc + fRes * (vDst - vSrc);
+        const CVECTOR v1 = vSrc + fRes * (vDst - vSrc);
 				VDATA* pV = api->Event(SHIP_MAST_DAMAGE, "llffffaa", SHIP_MAST_TOUCH_BALL, pM->iMastNum, v1.x, v1.y,
 				                       v1.z, pM->fDamage, GetACharacter(), iBallOwner);
 				pM->fDamage = Clamp(pV->GetFloat());
@@ -1528,10 +1528,10 @@ float SHIP::Cannon_Trace(long iBallOwner, const CVECTOR& vSrc, const CVECTOR& vD
 			}
 		}
 
-	float fRes = pModel->Trace(vSrc, vDst);
+  const float fRes = pModel->Trace(vSrc, vDst);
 	if (fRes <= 1.0f)
 	{
-		CVECTOR vDir = !(vDst - vSrc);
+    const CVECTOR vDir = !(vDst - vSrc);
 		CVECTOR vTemp = vSrc + fRes * (vDst - vSrc);
 		// search nearest fire place
 		float fMinDistance = 1e8f;
@@ -1539,7 +1539,7 @@ float SHIP::Cannon_Trace(long iBallOwner, const CVECTOR& vSrc, const CVECTOR& vD
 		for (uint32_t i = 0; i < aFirePlaces.size(); i++)
 			if (!aFirePlaces[i].isActive())
 			{
-				float fDistance = aFirePlaces[i].GetDistance(vTemp);
+        const float fDistance = aFirePlaces[i].GetDistance(vTemp);
 				if (fDistance < fMinDistance)
 				{
 					fMinDistance = fDistance;
@@ -1666,7 +1666,7 @@ void SHIP::Load(CSaveLoad* pSL)
 
 	RealizeLayer = pSL->LoadDword();
 	ExecuteLayer = pSL->LoadDword();
-	std::string sTmp = pSL->LoadString();
+  const std::string sTmp = pSL->LoadString();
 	strcpy_s(cShipIniName, sTmp.c_str());
 	pSL->LoadLong();
 	fGravity = pSL->LoadFloat();
@@ -1722,7 +1722,7 @@ void SHIP::Load(CSaveLoad* pSL)
 		pMasts[i].fDamage = pSL->LoadFloat();
 	}
 
-	uint32_t dwNum = pSL->LoadDword();
+  const uint32_t dwNum = pSL->LoadDword();
 	for (i = 0; i < dwNum; i++)
 	{
 		aFirePlaces[i].Load(pSL);

@@ -214,7 +214,7 @@ void ShipMan::FindNextPoint(SailorsPoints& sailorsPoints, ShipState& shipState)
 	//Найти ближайшую незаряженную пушку
 	if (moveTo != MOVE_TO_CANNON)
 	{
-    auto cannon = GetNearestEmptyCannon(sailorsPoints);
+    const auto cannon = GetNearestEmptyCannon(sailorsPoints);
 		if (cannon >= 0)
 		{
 			path.length = 0;
@@ -321,12 +321,12 @@ bool ShipMan::MoveToPosition(uint32_t& dltTime, SailorsPoints& sailorsPoints, Sh
 {
 	//GUARD_SAILORS(ShipMan::MoveToPosition())
 
-  auto dNow = (float)
+  const auto dNow = (float)
 		SQR(pos.x - ptTo.x)
 		+ SQR(pos.y - ptTo.y)
 		+ SQR(pos.z - ptTo.z);
 
-  auto dFuture = (float)
+  const auto dFuture = (float)
 		SQR(pos.x+manSpeed*dir.x - ptTo.x)
 		+ SQR(pos.y+manSpeed*dir.y - ptTo.y)
 		+ SQR(pos.z+manSpeed*dir.z - ptTo.z);
@@ -710,7 +710,7 @@ void ShipWalk::CreateNewMan(SailorsPoints& sailorsPoints)
 	entid_t manID;
 	shipMan.push_back(ShipMan{});
 
-	int current = shipMan.size() - 1;
+  const int current = shipMan.size() - 1;
 
 	shipMan[current].modelID = EntityManager::CreateEntity("MODELR");
 
@@ -804,7 +804,7 @@ void ShipWalk::Init(entid_t _shipID, int editorMode, char* shipType)
     auto attr = ship->GetACharacter();
     auto mastsAttr = attr->FindAClass(attr, "Ship.Masts");
 
-		int iNumMasts = mastsAttr->GetAttributesNum();
+    const int iNumMasts = mastsAttr->GetAttributesNum();
 
 		for (auto i = 0; i < iNumMasts; i++)
 		{
@@ -1140,8 +1140,8 @@ uint64_t Sailors::ProcessMessage(MESSAGE& message)
 {
 	//GUARD_SAILORS(Sailors::ProcessMessage())
 
-  auto code = message.Long();
-	uint32_t outValue = 0;
+  const auto code = message.Long();
+  const uint32_t outValue = 0;
 	entid_t shipID;
 	char c[20];
 
@@ -1211,7 +1211,7 @@ uint64_t Sailors::ProcessMessage(MESSAGE& message)
 		// Падение мачты
 	case MSG_PEOPLES_ON_SHIP_MASTFALL:
 		{
-      auto attrs = message.AttributePointer();
+      const auto attrs = message.AttributePointer();
 			if (!attrs) return 0;
 
 			for (auto m = 0; m < shipsCount; m++)
@@ -1227,15 +1227,15 @@ uint64_t Sailors::ProcessMessage(MESSAGE& message)
 		// Попадание ядра в корабль
 	case MSG_PEOPLES_ON_SHIP_HULLHIT:
 		{
-      auto attrs = message.AttributePointer();
+      const auto attrs = message.AttributePointer();
 			if (!attrs) return 0;
 
 			for (auto m = 0; m < shipsCount; m++)
 				if (attrs == shipWalk[m].ship->GetACharacter())
 				{
-          auto x = message.Float();
-          auto y = message.Float();
-          auto z = message.Float();
+          const auto x = message.Float();
+          const auto y = message.Float();
+          const auto z = message.Float();
 
 					shipWalk[m].OnHullHit(CVECTOR(x, y, z));
 					return outValue;
@@ -1247,7 +1247,7 @@ uint64_t Sailors::ProcessMessage(MESSAGE& message)
 		// Удаление корабля
 	case MSG_SHIP_DELETE:
 		{
-      auto attrs = message.AttributePointer();
+      const auto attrs = message.AttributePointer();
 			if (attrs)
 				for (auto m = 0; m < shipsCount; m++)
 					if (attrs == shipWalk[m].ship->GetACharacter())

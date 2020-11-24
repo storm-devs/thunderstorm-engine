@@ -86,7 +86,7 @@ uint32_t CXI_KEYCHANGER::MessageProc(long msgcode, MESSAGE& message)
 	{
 	case 0:
 		{
-      auto pA = message.AttributePointer();
+      const auto pA = message.AttributePointer();
 			SetChoosingControls(pA);
 		}
 		break;
@@ -117,7 +117,7 @@ void CXI_KEYCHANGER::SetChoosingControls(ATTRIBUTES* pA)
 		sprintf_s(contrlName, "cntrl_%d", i);
 		m_pbControlsStick[i] = false;
 		m_pControlsID[i] = api->Controls->CreateControl(contrlName);
-    auto keyCode = pA->GetAttribute(i);
+    const auto keyCode = pA->GetAttribute(i);
 		if (keyCode != nullptr)
 		{
 			api->Controls->MapControl(m_pControlsID[i], atoi(keyCode));

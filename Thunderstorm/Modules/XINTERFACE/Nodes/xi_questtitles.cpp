@@ -3,7 +3,7 @@
 void SubRightWord(char* buf, int fontNum, int width, VDX9RENDER* rs)
 {
 	if (buf == nullptr) return;
-	long bufSize = strlen(buf);
+  const long bufSize = strlen(buf);
 	for (auto pEnd = buf + bufSize; pEnd > buf; pEnd--)
 	{
 		if (*pEnd == ' ')
@@ -16,7 +16,7 @@ void SubRightWord(char* buf, int fontNum, int width, VDX9RENDER* rs)
 
 bool CXI_QUESTTITLE::GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize) const {
 	if (pInStr == nullptr || buf == nullptr) return false;
-  auto pStart = pInStr;
+  const auto pStart = pInStr;
   auto bYesEOL = false;
 	while (*pInStr != 0)
 	{
@@ -24,13 +24,13 @@ bool CXI_QUESTTITLE::GetLineNext(int fontNum, char* & pInStr, char* buf, int buf
 		else if (bYesEOL) break;
 		pInStr++;
 	}
-	size_t lineSize = pInStr - pStart;
+  const size_t lineSize = pInStr - pStart;
 	if (lineSize == 0) return false;
 
 	strncpy_s(buf, bufSize, pStart, lineSize);
 	buf[lineSize] = 0;
-  auto strWidth = m_rs->StringWidth(buf, fontNum);
-  auto needWidth = m_rect.right - m_rect.left - m_iconWidth;
+  const auto strWidth = m_rs->StringWidth(buf, fontNum);
+  const auto needWidth = m_rect.right - m_rect.left - m_iconWidth;
 	if (strWidth <= needWidth) return true;
 
 	SubRightWord(buf, fontNum, needWidth, m_rs);
@@ -303,7 +303,7 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES* pA, int topNum)
 	} // boal перенес наверх, иначе не трется, если квестов нет, а были уже
 
 	if (pA == nullptr) return;
-	long aq = pA->GetAttributesNum();
+  const long aq = pA->GetAttributesNum();
 	if (topNum < 0 || topNum >= aq)
 	{
 		api->Trace("quest number out of range");
@@ -349,7 +349,7 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES* pA, int topNum)
 			if (ptrOwner->QuestFileReader()->GetQuestTitle(pTmpQuestRecordID, pAttr->GetThisName(), sizeof(param) - 1,
 			                                               param))
 			{
-				int titleSize = strlen(param);
+        const int titleSize = strlen(param);
 				if (titleSize == 0) m_strList[i].lineQuantity = 0;
 				else
 				{
@@ -385,8 +385,8 @@ void CXI_QUESTTITLE::ScrollerChanged(float fPos)
 
 void CXI_QUESTTITLE::MouseThis(float fX, float fY)
 {
-	float left = (float)m_rect.left - m_selectOffset;
-	auto right = (float)m_rect.right;
+  const float left = (float)m_rect.left - m_selectOffset;
+  const auto right = (float)m_rect.right;
 	if (fX < left || fX > right) return;
 
 	float top, bottom;

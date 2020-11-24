@@ -55,9 +55,9 @@ void LightProcessor::Process()
 		if (shadowTriangle == -1)
 		{
 			//Нормализуем результат
-      auto vrt = geometry->vrt.data();
-      auto numVrt = geometry->numVrt;
-      auto numLights = lights->Num();
+      const auto vrt = geometry->vrt.data();
+      const auto numVrt = geometry->numVrt;
+      const auto numLights = lights->Num();
 			for (long i = 0; i < numVrt; i++)
 			{
 				for (long j = 0; j < numLights; j++)
@@ -118,9 +118,9 @@ void LightProcessor::Process()
 		window->isLockCtrl = true;
 		window->tracePrc = 0.0f;
 		//Сбрасываем состояние цветов
-    auto vrt = geometry->vrt.data();
-    auto numVrt = geometry->numVrt;
-    auto numLights = lights->Num();
+    const auto vrt = geometry->vrt.data();
+    const auto numVrt = geometry->numVrt;
+    const auto numLights = lights->Num();
 		for (long i = 0; i < numVrt; i++)
 		{
 			for (long j = 0; j < numLights; j++)
@@ -148,8 +148,8 @@ void LightProcessor::Process()
 	}
 	if (window->isResetBlurLight)
 	{
-    auto vrt = geometry->vrt.data();
-    auto numVrt = geometry->numVrt;
+    const auto vrt = geometry->vrt.data();
+    const auto numVrt = geometry->numVrt;
 		for (long i = 0; i < numVrt; i++) vrt[i].bc = 0.0f;
 		window->isResetBlurLight = false;
 		CalcLights();
@@ -168,9 +168,9 @@ void LightProcessor::Process()
 
 void LightProcessor::UpdateLightsParam()
 {
-  auto vrt = geometry->vrt.data();
-  auto numVrt = geometry->numVrt;
-  auto numLights = lights->Num();
+  const auto vrt = geometry->vrt.data();
+  const auto numVrt = geometry->numVrt;
+  const auto numLights = lights->Num();
   auto& ls = *lights;
 	float cs, att;
 	float dst;
@@ -244,8 +244,8 @@ void LightProcessor::CalcShadows()
 void LightProcessor::ApplyTriangleShadows(Triangle& t)
 {
   auto& ls = *lights;
-  auto num = ls.Num();
-  auto vrt = geometry->vrt.data();
+  const auto num = ls.Num();
+  const auto vrt = geometry->vrt.data();
 	for (long i = 0; i < num; i++)
 	{
 		//Нужно ли трейсить
@@ -277,8 +277,8 @@ void LightProcessor::ApplyTriangleShadows(Triangle& t)
 			if (t.n.y >= 0.0f)
 			{
 				float sky = 0.0;
-        auto rad = geometry->radius;
-        auto rdx = geometry->radius * 0.2f;
+        const auto rad = geometry->radius;
+        const auto rdx = geometry->radius * 0.2f;
 				if (geometry->Trace(pnt, pnt + CVECTOR(0.0f, rad, 0.0f)) > 1.0f) sky += 1.0f / 5.0f;
 				if (geometry->Trace(pnt, pnt + CVECTOR(rdx, rad, 0.0f)) > 1.0f) sky += 1.0f / 5.0f;
 				if (geometry->Trace(pnt, pnt + CVECTOR(-rdx, rad, 0.0f)) > 1.0f) sky += 1.0f / 5.0f;
@@ -314,20 +314,20 @@ void LightProcessor::ApplyTriangleShadows(Triangle& t)
 //Сгладить затенённость
 void LightProcessor::SmoothShadows()
 {
-  auto lookNorm = window->smoothNorm;
-  auto smoothRad = window->smoothRad;
-  auto kSmoothRad = 1.0f / smoothRad;
+  const auto lookNorm = window->smoothNorm;
+  const auto smoothRad = window->smoothRad;
+  const auto kSmoothRad = 1.0f / smoothRad;
 	double smoothRad2 = smoothRad * smoothRad;
   auto& ls = *lights;
-  auto num = ls.Num();
+  const auto num = ls.Num();
   auto& vrt = geometry->vrt;
 	for (long i = 0; i < LIGHTPRC_SMOOTH_NUM && smoothVertex < geometry->numVrt; i++, smoothVertex++)
 	{
     auto& v = vrt[smoothVertex];
 		//Ищем окружающие вершины
 		octtree->FindVerts(v.p, smoothRad);
-    auto verts = octtree->verts.data();
-    auto numVerts = octtree->numVerts;
+    const auto verts = octtree->verts.data();
+    const auto numVerts = octtree->numVerts;
 
 		/*if constexpr (false)
 		{
@@ -385,14 +385,14 @@ void LightProcessor::SmoothShadows()
 void LightProcessor::BlurLight()
 {
   auto isTrace = window->isTraceBlur;
-  auto blurRad = window->blurRad;
+  const auto blurRad = window->blurRad;
   auto kBlurRad = 1.0f / blurRad;
   auto pw = window->blurAtt;
   auto kCos = window->blurCos;
   auto kCos1 = 1.0f - window->blurCos;
 	double blurRad2 = blurRad * blurRad;
-  auto vrt = geometry->vrt.data();
-  auto numVrt = geometry->numVrt;
+  const auto vrt = geometry->vrt.data();
+  const auto numVrt = geometry->numVrt;
 	for (long i = 0; i < LIGHTPRC_BLUR_NUM && blurVertex < numVrt; i++, blurVertex++)
 	{
     auto& v = vrt[blurVertex];
@@ -465,9 +465,9 @@ void LightProcessor::CalcLights(long lit, bool isCos, bool isAtt, bool isSdw)
 {
 	lights->UpdateLights(lit);
   auto& ls = *lights;
-  auto num = ls.Num();
-  auto vrt = geometry->vrt.data();
-  auto kBlur = window->kBlur;
+  const auto num = ls.Num();
+  const auto vrt = geometry->vrt.data();
+  const auto kBlur = window->kBlur;
 	CVECTOR c;
 	for (long i = 0; i < num; i++)
 	{

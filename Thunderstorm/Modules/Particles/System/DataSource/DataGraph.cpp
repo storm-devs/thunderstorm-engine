@@ -254,7 +254,7 @@ float DataGraph::GetMinAtTime(float Time, float LifeTime)
 {
 	if (bRelative) Time = Time / LifeTime * 100.0f;
 
-	uint32_t Count = MinGraph.size();
+  const uint32_t Count = MinGraph.size();
 	uint32_t Index;
 	if (MinCachedTime < Time)
 		Index = MinCachedIndex;
@@ -264,24 +264,24 @@ float DataGraph::GetMinAtTime(float Time, float LifeTime)
 
 	for (; Index < (Count - 1); Index++)
 	{
-    auto ToTime = MinGraph[Index + 1].Time;
+    const auto ToTime = MinGraph[Index + 1].Time;
 
 		//Если время в нужном диапазоне...
 		//if ((Time >= FromTime) && (Time <= ToTime))
 		if (Time <= ToTime)
 		{
-      auto FromTime = MinGraph[Index].Time;
+      const auto FromTime = MinGraph[Index].Time;
 
-      auto SegmentDeltaTime = ToTime - FromTime;
-      auto ValueDeltaTime = Time - FromTime;
+      const auto SegmentDeltaTime = ToTime - FromTime;
+      const auto ValueDeltaTime = Time - FromTime;
 			float blend_k;
 			if (SegmentDeltaTime > 0.001f)
 				blend_k = ValueDeltaTime / SegmentDeltaTime;
 			else
 				blend_k = 0.0f;
 
-      auto ValueFirst = MinGraph[Index].Val;
-      auto ValueSecond = MinGraph[Index + 1].Val;
+      const auto ValueFirst = MinGraph[Index].Val;
+      const auto ValueSecond = MinGraph[Index + 1].Val;
 
 			MinCachedTime = Time;
 			MinCachedIndex = Index;
@@ -296,7 +296,7 @@ float DataGraph::GetMaxAtTime(float Time, float LifeTime)
 {
 	if (bRelative) Time = Time / LifeTime * 100.0f;
 
-	uint32_t Count = MaxGraph.size();
+  const uint32_t Count = MaxGraph.size();
 
 	uint32_t Index;
 
@@ -307,24 +307,24 @@ float DataGraph::GetMaxAtTime(float Time, float LifeTime)
 
 	for (; Index < (Count - 1); Index++)
 	{
-    auto ToTime = MaxGraph[Index + 1].Time;
+    const auto ToTime = MaxGraph[Index + 1].Time;
 
 		//Если время в нужном диапазоне...
 		//if ((Time >= FromTime) && (Time <= ToTime))
 		if (Time <= ToTime)
 		{
-      auto FromTime = MaxGraph[Index].Time;
+      const auto FromTime = MaxGraph[Index].Time;
 
-      auto SegmentDeltaTime = ToTime - FromTime;
-      auto ValueDeltaTime = Time - FromTime;
+      const auto SegmentDeltaTime = ToTime - FromTime;
+      const auto ValueDeltaTime = Time - FromTime;
 			float blend_k;
 			if (SegmentDeltaTime > 0.001f)
 				blend_k = ValueDeltaTime / SegmentDeltaTime;
 			else
 				blend_k = 0.0f;
 
-      auto ValueFirst = MaxGraph[Index].Val;
-      auto ValueSecond = MaxGraph[Index + 1].Val;
+      const auto ValueFirst = MaxGraph[Index].Val;
+      const auto ValueSecond = MaxGraph[Index + 1].Val;
 
 			MaxCachedTime = Time;
 			MaxCachedIndex = Index;
@@ -338,16 +338,16 @@ float DataGraph::GetMaxAtTime(float Time, float LifeTime)
 float DataGraph::GetValue(float Time, float LifeTime, float K_rand)
 {
 	GraphRead++;
-  auto pMax = GetMaxAtTime(Time, LifeTime);
-  auto pMin = GetMinAtTime(Time, LifeTime);
+  const auto pMax = GetMaxAtTime(Time, LifeTime);
+  const auto pMin = GetMinAtTime(Time, LifeTime);
 	return Lerp(pMin, pMax, K_rand);
 }
 
 float DataGraph::GetRandomValue(float Time, float LifeTime)
 {
 	GraphRead++;
-  auto pMax = GetMaxAtTime(Time, LifeTime);
-  auto pMin = GetMinAtTime(Time, LifeTime);
+  const auto pMax = GetMaxAtTime(Time, LifeTime);
+  const auto pMin = GetMinAtTime(Time, LifeTime);
 	return RandomRange(pMin, pMax);
 }
 
@@ -407,8 +407,8 @@ float DataGraph::GetMaxTime()
 {
   auto MaxVal = 10.0f;
   auto MinVal = 10.0f;
-	uint32_t MaxCount = MaxGraph.size();
-	uint32_t MinCount = MinGraph.size();
+  const uint32_t MaxCount = MaxGraph.size();
+  const uint32_t MinCount = MinGraph.size();
 
 	if (MaxCount > 2) MaxVal = MaxGraph[MaxCount - 2].Time;
 	if (MinCount > 2) MinVal = MinGraph[MinCount - 2].Time;
@@ -453,7 +453,7 @@ void DataGraph::Write(MemFile* File)
 
 
 	//save name
-	uint32_t NameLength = Name.size();
+  const uint32_t NameLength = Name.size();
   auto NameLengthPlusZero = NameLength + 1;
 	File->WriteType(NameLengthPlusZero);
 	Assert(NameLength < 128);

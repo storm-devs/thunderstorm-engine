@@ -101,13 +101,13 @@ uint64_t WaterRings::ProcessMessage(MESSAGE& message)
 			rings[i].x = message.Float()/*+randCentered(0.15f)*/;
 			rings[i].z = message.Float()/*+randCentered(0.15f)*/;
 
-      auto a = message.Float() + PI + randCentered(PId2 / 1.5f);
+      const auto a = message.Float() + PI + randCentered(PId2 / 1.5f);
 			rings[i].cosA = cosf(a);
 			rings[i].sinA = sinf(a);
 
-      auto walk = message.Long() != 0;
-      auto run = message.Long() != 0;
-      auto swim = message.Long() != 0;
+      const auto walk = message.Long() != 0;
+      const auto run = message.Long() != 0;
+      const auto swim = message.Long() != 0;
 			if (!(walk || run || swim))
 			{
 				rings[i].activeTime = 0;
@@ -170,14 +170,14 @@ void WaterRings::UpdateGrid(int _ringI, uint16_t* _iPointer, RING_VERTEX* _vPoin
 		a = 1.f - ((float)(ring->activeTime - FADE_IN_TIME) / FADE_OUT_TIME);
 
 
-	float midX = (GRID_STEPS_COUNT - 1) / 2.f;
-	float midZ = (GRID_STEPS_COUNT - 1) / 2.f;
+  const float midX = (GRID_STEPS_COUNT - 1) / 2.f;
+  const float midZ = (GRID_STEPS_COUNT - 1) / 2.f;
 	RING_VERTEX* ringVertex = _vPointer;
 	float gX, gZ;
 	if (ring->active)
 	{
-		uint32_t texA = ((uint32_t)(a * 50)) << 24;
-		float r = .4f + 1.5f * ring->activeTime / (FADE_IN_TIME + FADE_OUT_TIME);
+    const uint32_t texA = ((uint32_t)(a * 50)) << 24;
+    const float r = .4f + 1.5f * ring->activeTime / (FADE_IN_TIME + FADE_OUT_TIME);
 
 		for (z = 0; z < GRID_STEPS_COUNT; ++z)
 			for (x = 0; x < GRID_STEPS_COUNT; ++x)

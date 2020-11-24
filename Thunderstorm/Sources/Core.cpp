@@ -87,7 +87,7 @@ void CORE::ReleaseBase()
 bool CORE::LoCheck()
 {
 	// ~!~
-  auto test_eid = EntityManager::CreateEntity("LocationP");
+  const auto test_eid = EntityManager::CreateEntity("LocationP");
 	if (!test_eid)
 		return false;
 	auto* pE = EntityManager::GetEntityPointer(test_eid);
@@ -99,7 +99,7 @@ bool CORE::LoCheck()
 
 bool CORE::Run()
 {
-  auto bDebugWindow = true;
+  const auto bDebugWindow = true;
 	if (bDebugWindow && api->Controls && api->Controls->GetDebugAsyncKeyState(VK_F7) < 0)
 		DumpEntitiesInfo();
 	dwNumberScriptCommandsExecuted = 0;
@@ -325,14 +325,14 @@ void CORE::SetTimeScale(float _scale)
 uint64_t CORE::Send_Message(entid_t Destination, const char* Format,...)
 {
 	MESSAGE message;
-  auto ptr = EntityManager::GetEntityPointer(Destination); // check for valid destination
+  const auto ptr = EntityManager::GetEntityPointer(Destination); // check for valid destination
 	if (!ptr)
 		return 0;
 
 	message.Reset(Format); // reset message class
 	PZERO(&message.Sender_ID, sizeof(entid_t));
 	va_start(message.args, Format);
-  auto rc = ((Entity *)ptr)->ProcessMessage(message); // transfer control
+  const auto rc = ((Entity *)ptr)->ProcessMessage(message); // transfer control
 	va_end(message.args);
 	return rc;
 }
@@ -422,7 +422,7 @@ VDATA* CORE::Event(const char* Event_name, const char* Format,...)
 
 void* CORE::MakeClass(const char* class_name)
 {
-	long hash = MakeHashValue(class_name);
+  const long hash = MakeHashValue(class_name);
 	for (const auto c : _pModuleClassRoot)
 		if (c->GetHash() == hash && _stricmp(class_name, c->GetName()) == 0)
 			return c->CreateClass();
@@ -442,7 +442,7 @@ void CORE::ReleaseServices()
 
 VMA* CORE::FindVMA(const char* class_name)
 {
-	long hash = MakeHashValue(class_name);
+  const long hash = MakeHashValue(class_name);
 	for (const auto c : _pModuleClassRoot)
 		if (c->GetHash() == hash && _stricmp(class_name, c->GetName()) == 0)
 			return c;
@@ -478,7 +478,7 @@ void* CORE::CreateService(const char* service_name)
 
 	auto* service_PTR = (SERVICE *)pClass->CreateClass();
 
-  auto class_code = MakeHashValue(service_name);
+  const auto class_code = MakeHashValue(service_name);
 	pClass->SetHash(class_code);
 
 	if (!service_PTR->Init())
@@ -509,7 +509,7 @@ void CORE::ProcessExecute()
 
 	ProcessRunStart(SECTION_EXECUTE);
 
-  auto deltatime = Timer.GetDeltaTime();
+  const auto deltatime = Timer.GetDeltaTime();
 	auto& entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::execute);
 	for (auto id : entIds)
 	{
@@ -527,7 +527,7 @@ void CORE::ProcessRealize()
 	uint64_t ticks;
 	ProcessRunStart(SECTION_REALIZE);
 
-  auto deltatime = Timer.GetDeltaTime();
+  const auto deltatime = Timer.GetDeltaTime();
 	auto& entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::realize);
 	for (auto id : entIds)
 	{
@@ -547,7 +547,7 @@ bool CORE::SaveState(const char* file_name)
 		return false;
 
 	fio->SetDrive(XBOXDRIVE_NONE);
-  auto fh = fio->_CreateFile(file_name,GENERIC_WRITE | GENERIC_READ, 0,CREATE_ALWAYS);
+  const auto fh = fio->_CreateFile(file_name,GENERIC_WRITE | GENERIC_READ, 0,CREATE_ALWAYS);
 	fio->SetDrive();
 
 	if (fh == INVALID_HANDLE_VALUE)
@@ -563,7 +563,7 @@ bool CORE::SaveState(const char* file_name)
 bool CORE::InitiateStateLoading(const char* file_name)
 {
 	fio->SetDrive(XBOXDRIVE_NONE);
-	HANDLE fh = fio->_CreateFile(file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+  const HANDLE fh = fio->_CreateFile(file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	fio->SetDrive();
 	if (fh == INVALID_HANDLE_VALUE) return false;
 	fio->_CloseHandle(fh);
@@ -586,7 +586,7 @@ void CORE::ProcessStateLoading()
 	EraseEntities();
 
 	fio->SetDrive(XBOXDRIVE_NONE);
-	HANDLE fh = fio->_CreateFile(State_file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+  const HANDLE fh = fio->_CreateFile(State_file_name,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	fio->SetDrive();
 	if (fh == INVALID_HANDLE_VALUE) return;
 	Compiler.LoadState(fh);
@@ -603,7 +603,7 @@ void CORE::ProcessRunStart(uint32_t section_code)
 	SERVICE* service_PTR = Services_List.GetService(class_code);
 	while (service_PTR)
 	{
-		uint32_t section = service_PTR->RunSection();
+    const uint32_t section = service_PTR->RunSection();
 		if (section == section_code)
 		{
 			service_PTR->RunStart();
@@ -618,7 +618,7 @@ void CORE::ProcessRunEnd(uint32_t section_code)
 	SERVICE* service_PTR = Services_List.GetService(class_code);
 	while (service_PTR)
 	{
-		uint32_t section = service_PTR->RunSection();
+    const uint32_t section = service_PTR->RunSection();
 		if (section == section_code)
 		{
 			service_PTR->RunEnd();
@@ -750,7 +750,7 @@ uint32_t CORE::MakeHashValue(const char* string)
 		if ('A' <= v && v <= 'Z') v += 'a' - 'A';
 
 		hval = (hval << 4) + (unsigned long int)v;
-		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
+    const uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
 		if (g != 0)
 		{
 			hval ^= g >> (32 - 8);

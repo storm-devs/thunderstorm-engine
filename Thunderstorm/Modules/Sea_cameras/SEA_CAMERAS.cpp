@@ -46,7 +46,7 @@ uint64_t SEA_CAMERAS::ProcessMessage(MESSAGE& message)
 	{
 	case AI_CAMERAS_ADD_CAMERA:
 		{
-      auto eidCamera = message.EntityID();
+      const auto eidCamera = message.EntityID();
 			auto* pCamera = (COMMON_CAMERA*)EntityManager::GetEntityPointer(eidCamera);
 			//if (CamerasArray.Find(pCamera) == INVALID_ARRAY_INDEX) CamerasArray.Add(pCamera);
 			const auto it = std::find(CamerasArray.begin(), CamerasArray.end(), pCamera);
@@ -58,8 +58,8 @@ uint64_t SEA_CAMERAS::ProcessMessage(MESSAGE& message)
 		break;
 	case AI_CAMERAS_SET_CAMERA:
 		{
-      auto eidCamera = message.EntityID();
-      auto pACharacter = message.AttributePointer();
+      const auto eidCamera = message.EntityID();
+      const auto pACharacter = message.AttributePointer();
 			auto* pCamera = (COMMON_CAMERA*)EntityManager::GetEntityPointer(eidCamera);
 			//if (CamerasArray.Find(pCamera) == INVALID_ARRAY_INDEX) CamerasArray.Add(pCamera);
 			const auto it = std::find(CamerasArray.begin(), CamerasArray.end(), pCamera);

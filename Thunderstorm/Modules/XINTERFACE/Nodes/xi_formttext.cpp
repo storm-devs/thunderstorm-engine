@@ -7,7 +7,7 @@
 static void SubRightWord(char* buf, int fontNum, int width, VDX9RENDER* rs)
 {
 	if (buf == nullptr) return;
-	long bufSize = strlen(buf);
+  const long bufSize = strlen(buf);
 	for (auto pEnd = buf + bufSize; pEnd > buf; pEnd--)
 	{
 		if (*pEnd == ' ')
@@ -205,10 +205,10 @@ int CXI_FORMATEDTEXT::CommandExecute(int wActCode)
 	if (m_bUse && !m_bFrized)
 	{
 		if (m_listCur == nullptr) return -1;
-    auto pOldCur = m_listCur;
+    const auto pOldCur = m_listCur;
 		if (wActCode == ACTION_MOUSECLICK || wActCode == ACTION_MOUSERCLICK)
 		{
-      auto fpntMouse = ptrOwner->GetMousePoint();
+      const auto fpntMouse = ptrOwner->GetMousePoint();
 			if (m_bUpEnable && m_idUpEnableTexture >= 0)
 			{
 				if (fpntMouse.x >= m_frUpPos.left && fpntMouse.x <= m_frUpPos.right &&
@@ -328,7 +328,7 @@ bool CXI_FORMATEDTEXT::IsClick(int buttonID, long xPos, long yPos)
 	if (!retVal) return false;
 
 	if (!m_bSelectableCursor) return true;
-	long nNum = long((yPos - m_rect.top) / m_vertOffset + .1f);
+  const long nNum = long((yPos - m_rect.top) / m_vertOffset + .1f);
 	if (nNum < 0 || nNum >= m_allStrings) return true;
 
 	STRING_DESCRIBER* pdescr = m_listCur;
@@ -447,7 +447,7 @@ void CXI_FORMATEDTEXT::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2,
 		CXI_UTILS::StringFillStringArray(param, m_asSyncNodes);
 	}
 
-	int nPosMorph = GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle");
+  const int nPosMorph = GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle");
 
 	m_fFontScale = GetIniFloat(ini1, name1, ini2, name2, "fontScale", 1.f);
 
@@ -632,7 +632,7 @@ bool CXI_FORMATEDTEXT::GetLineNext(int fontNum, char* & pInStr, char* buf, int b
 		else if (bYesEOL > 0) break;
 		pInStr++;
 	}
-	size_t lineSize = pInStr - pStart;
+  const size_t lineSize = pInStr - pStart;
 	if (lineSize > 0)
 	{
 		// заполним буфер без тагов
@@ -658,13 +658,13 @@ bool CXI_FORMATEDTEXT::GetLineNext(int fontNum, char* & pInStr, char* buf, int b
 		buf[j] = 0; // нолем обозначим конец строки
 
 		// если строка большая, то режем ее
-		long strWidth = m_rs->StringWidth(buf, fontNum);
+    const long strWidth = m_rs->StringWidth(buf, fontNum);
 		if (strWidth > m_nCompareWidth)
 		{
 			SubRightWord(buf, fontNum, m_nCompareWidth, m_rs);
 		}
 
-		long q = strlen(buf); // это длина строки без тагов
+    const long q = strlen(buf); // это длина строки без тагов
 		for (i = 0, j = 0; j < q; i++)
 		{
 			if (pStart[i] == '<')
@@ -969,7 +969,7 @@ uint32_t CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE& message)
 			VDATA* pvdat = message.ScriptVariablePointer();
 			if (pvdat != nullptr)
 			{
-				int retVar = AddFormatedText(pvdat->GetString());
+        const int retVar = AddFormatedText(pvdat->GetString());
 				CheckScrollButtons();
 				return retVar;
 			}
@@ -978,7 +978,7 @@ uint32_t CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE& message)
 
 	case 1: // установить указатель на указанный текст в списке (по его номеру)
 		{
-			long nGrNum = message.Long();
+      const long nGrNum = message.Long();
 			if (m_bSelectableCursor)
 				SetVertexToNewGroup(true, FindUpGroup(nGrNum), FindDownGroup(nGrNum));
 			CheckScrollButtons();
@@ -1067,7 +1067,7 @@ uint32_t CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE& message)
 	case 8: // Установить цвет для группы
 		{
 			int grNum = message.Long();
-			uint32_t newColor = message.Long();
+      const uint32_t newColor = message.Long();
 
 			if (grNum < 0) grNum = m_nStringGroupQuantity - 1;
 
@@ -1092,7 +1092,7 @@ uint32_t CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE& message)
 
 	case 10:
 		{
-			int grNum = message.Long();
+      const int grNum = message.Long();
 			VDATA* pvdat = message.ScriptVariablePointer();
 			if (pvdat != nullptr) ReplaceString(grNum, pvdat->GetString());
 		}
@@ -1104,7 +1104,7 @@ uint32_t CXI_FORMATEDTEXT::MessageProc(long msgcode, MESSAGE& message)
 
 	case 12: // узнать вертикальную координату требуемой строки
 		{
-			long n = message.Long();
+      const long n = message.Long();
 			long curY = m_rect.top + m_nVAlignmentOffset;
 			int i = 0;
 			for (STRING_DESCRIBER* sd = m_listCur; sd != nullptr && i < m_allStrings; sd = sd->next, i++)
@@ -1247,8 +1247,8 @@ void CXI_FORMATEDTEXT::MouseThis(float fX, float fY)
 
 void CXI_FORMATEDTEXT::CheckScrollButtons()
 {
-	bool oldUp = m_bUpEnable;
-	bool oldDown = m_bDownEnable;
+  const bool oldUp = m_bUpEnable;
+  const bool oldDown = m_bDownEnable;
 	if (m_listCur == nullptr)
 	{
 		m_bUpEnable = m_bDownEnable = false;
@@ -1330,19 +1330,19 @@ void CXI_FORMATEDTEXT::SetSpecialStrings(ATTRIBUTES* pARoot)
 	m_nStringGroupQuantity = 0;
 	m_nAllTextStrings = 0;
 
-	int q = pARoot->GetAttributesNum();
+  const int q = pARoot->GetAttributesNum();
 	for (int i = 0; i < q; i++)
 	{
 		ATTRIBUTES* pA = pARoot->GetAttributeClass(i);
 		if (pA == nullptr) continue;
 		char* tmpstr = pA->GetAttribute("str");
 		if (tmpstr == nullptr) continue;
-		int pos = pA->GetAttributeAsDword("pos", -1);
+    const int pos = pA->GetAttributeAsDword("pos", -1);
 		while (pos > m_nAllTextStrings)
 			AddFormatedText("\n");
 		if (pos >= 0)
 		{
-			int oldCompareWidth = m_nCompareWidth; // что бы не было переносов
+      const int oldCompareWidth = m_nCompareWidth; // что бы не было переносов
 			m_nCompareWidth = 1000;
 			AddFormatedText(tmpstr);
 			m_nCompareWidth = oldCompareWidth;
@@ -1404,7 +1404,7 @@ void CXI_FORMATEDTEXT::ReplaceString(long nGrpNum, const char* pSrcStr)
 		return;
 	}
 
-	uint32_t dwOldColor = dscrCur->color;
+  const uint32_t dwOldColor = dscrCur->color;
 
 	while (dscrCur && dscrCur->strGroup == nGrpNum)
 	{

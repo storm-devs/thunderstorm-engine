@@ -68,7 +68,7 @@ void WdmCloud::Update(float dltTime)
 	//Перемещение облака
 	Move(dltTime);
 	//Время для перемещения партиклов внутри облака
-  auto dlt = dltTime * 0.1f;
+  const auto dlt = dltTime * 0.1f;
 	for (long i = 0; i < numRects; i++)
 	{
 		rect[i].vPos = pos + move[i].pos;
@@ -89,7 +89,7 @@ void WdmCloud::Update(float dltTime)
 	}
 	if (curMove >= numRects) curMove = 0;
 	//Скорость партикла
-  auto i = curMove++;
+  const auto i = curMove++;
 	//Центровое воздействие
 	dltTime = move[i].dTime;
 	move[i].dTime = 0.0f;
@@ -191,7 +191,7 @@ void WdmCloud::Update(float dltTime)
 			if (!r.isLive)
 			{
 				rainBurnTime += 0.01f;
-        auto p = rand() % numRects;
+        const auto p = rand() % numRects;
 				r.isLive = true;
 				r.pos = rect[p].vPos;
 				r.pos.y -= 10.0f;
@@ -248,7 +248,7 @@ void WdmCloud::Render(VDX9RENDER* rs)
 	//Рисуем молнии если надо
 	Vertex lght[4];
 	rs->TextureSet(0, lightning);
-	uint32_t lightningColor = (uint8_t(globalAlpha * 255.0f) << 24) | 0x00ffffff;
+  const uint32_t lightningColor = (uint8_t(globalAlpha * 255.0f) << 24) | 0x00ffffff;
 	for (long i = 0; i < numRects; i++)
 	{
     auto& r = rect[i];
@@ -258,7 +258,7 @@ void WdmCloud::Render(VDX9RENDER* rs)
 			{
 				const auto kFrames = 1.0f / 4.0f;
 				const auto width = 10.0f;
-        auto u = ((r.dwColor >> 8) & 3) * kFrames;
+        const auto u = ((r.dwColor >> 8) & 3) * kFrames;
         auto& vx = view.Vx();
 				lght[0].pos = r.vPos - vx * width - CVECTOR(0.0f, 3.0f, 0.0f);
 				lght[0].c = lightningColor;
@@ -319,9 +319,9 @@ void WdmCloud::BuildCloud(long n)
 	for (long i = 0; i < n; i++, numRects++)
 	{
 		FindPartPos(move[i].pos);
-		uint32_t sz = rand() & 0xff;
+    const uint32_t sz = rand() & 0xff;
 		rect[i].fSize = WdmStormSizeMin + (WdmStormSizeMax - WdmStormSizeMin) * (sz / 255.0f);
-		uint32_t clr = rand() & 0xf;
+    const uint32_t clr = rand() & 0xf;
 		rect[i].dwColor = 0xf0f00000 | (clr << 24) | (clr << 16) | sz;
 		rect[i].fAngle = 0.0f;
 		rect[i].dwSubTexture = rand() & 3;

@@ -33,16 +33,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	//_VSYSTEM_API = &System_Api;
 
 	/* Read config */
-	uint32_t dwMaxFPS = 0;
+  uint32_t dwMaxFPS = 0;
   auto ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
-	/*if (ini)
+	if (ini)
 	{
+		// !~!
 		dwMaxFPS = (uint32_t)ini->GetLong(nullptr, "max_fps", 0);
-		bDebugWindow = ini->GetLong(nullptr, "DebugWindow", 0) == 1;
-		bAcceleration = ini->GetLong(nullptr, "Acceleration", 0) == 1;
+		auto bDebugWindow = ini->GetLong(nullptr, "DebugWindow", 0) == 1;
+		auto bAcceleration = ini->GetLong(nullptr, "Acceleration", 0) == 1;
 
 		delete ini;
-	}*/
+	}
 
 	/* Register and show window */
 	const auto windowName = "Thunderstorm";

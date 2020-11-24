@@ -11,7 +11,7 @@ namespace TOREMOVE
       auto c = *str++;
 			if (c >= 'A' && c <= 'Z') c += 'a' - 'A';
 			hval = (hval << 4) + (unsigned long)c;
-      auto g = hval & ((unsigned long)0xf << (32 - 4));
+      const auto g = hval & ((unsigned long)0xf << (32 - 4));
 			if (g != 0)
 			{
 				hval ^= g >> (32 - 8);

@@ -134,7 +134,7 @@ void Astronomy::STARS::Init(ATTRIBUTES* pAP)
 	fio->_CloseHandle(hFile);
 	}*/
 
-  auto hFile = fio->_CreateFile(sCatalog);
+  const auto hFile = fio->_CreateFile(sCatalog);
 	if (INVALID_HANDLE_VALUE != hFile)
 	{
 		uint32_t dwSize;
@@ -152,7 +152,7 @@ void Astronomy::STARS::Init(ATTRIBUTES* pAP)
 		iVertexBufferColors = pRS->CreateVertexBuffer(0, dwSize * sizeof(uint32_t),
 		                                              D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
 
-    auto pVPos = (CVECTOR *)pRS->LockVertexBuffer(iVertexBuffer);
+    const auto pVPos = (CVECTOR *)pRS->LockVertexBuffer(iVertexBuffer);
 		auto* pVColors = (uint32_t *)pRS->LockVertexBuffer(iVertexBufferColors);
 
     auto bRecalculateData = true;
@@ -193,7 +193,7 @@ void Astronomy::STARS::Init(ATTRIBUTES* pAP)
 				if (s.fMag > fMinMag) fMinMag = s.fMag;
 
 				s.vPos = CVECTOR(cosf(s.fDec) * cosf(s.fRA), cosf(s.fDec) * sinf(s.fRA), sinf(s.fDec));
-        auto vPos = fRadius * s.vPos;
+        const auto vPos = fRadius * s.vPos;
 				s.fAlpha = (vPos.y < fHeightFade) ? Clamp(vPos.y / fHeightFade) : 1.0f;
 
 				pVPos[i] = vPos;
@@ -451,7 +451,7 @@ void Astronomy::STARS::TimeUpdate(ATTRIBUTES* pAP)
 	for (uint32_t i = 0; i < aStars.size(); i++)
 	{
     auto& s = aStars[i];
-    auto vPos = fRadius * s.vPos;
+    const auto vPos = fRadius * s.vPos;
 		s.fAlpha = (vPos.y < fHeightFade) ? Clamp(vPos.y / fHeightFade) : 1.0f;
 		pVPos[i] = vPos;
 	}

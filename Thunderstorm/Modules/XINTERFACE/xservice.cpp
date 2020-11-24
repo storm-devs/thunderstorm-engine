@@ -159,13 +159,13 @@ bool XSERVICE::GetTexturePos(int nTextureModify, long pictureNum, FXYRECT& texRe
 			rectTmp.bottom = (float)m_pImage[pictureNum].pTextureRect.bottom;
 			if (nTextureModify & TEXTURE_MODIFY_HORZFLIP)
 			{
-        auto tmp = rectTmp.left + m_fWAdd * 2.f;
+        const auto tmp = rectTmp.left + m_fWAdd * 2.f;
 				rectTmp.left = rectTmp.right - m_fWAdd * 2.f;
 				rectTmp.right = tmp;
 			}
 			if (nTextureModify & TEXTURE_MODIFY_VERTFLIP)
 			{
-        auto tmp = rectTmp.top + m_fHAdd * 2.f;
+        const auto tmp = rectTmp.top + m_fHAdd * 2.f;
 				rectTmp.top = rectTmp.bottom - m_fHAdd * 2.f;
 				rectTmp.bottom = tmp;
 			}
@@ -189,7 +189,7 @@ bool XSERVICE::GetTexturePos(int nTextureModify, const char* sImageListName, con
 void XSERVICE::GetTextureCutForSize(const char* pcImageListName, const FXYPOINT& pntLeftTopUV, const XYPOINT& pntSize,
                                     long nSrcWidth, long nSrcHeight, FXYRECT& outUV)
 {
-  auto n = FindGroup(pcImageListName);
+  const auto n = FindGroup(pcImageListName);
 	if (n >= 0)
 	{
 		if (nSrcWidth < m_pList[n].textureWidth) nSrcWidth = m_pList[n].textureWidth;
@@ -217,7 +217,7 @@ void XSERVICE::LoadAllPicturesInfo()
 
 	// initialize ini file
 	WIN32_FIND_DATA wfd;
-  auto h = fio->_FindFirstFile(LISTS_INIFILE, &wfd);
+  const auto h = fio->_FindFirstFile(LISTS_INIFILE, &wfd);
 	if (INVALID_HANDLE_VALUE != h)
 		fio->_FindClose(h);
 	ini = fio->OpenIniFile((char*)LISTS_INIFILE);
@@ -265,7 +265,7 @@ void XSERVICE::LoadAllPicturesInfo()
 				while (ini->ReadStringNext(section, "picture", param, sizeof(param) - 1));
 
 			// resize image list
-      auto oldpImage = m_pImage;
+      const auto oldpImage = m_pImage;
 			m_pImage = new PICTUREDESCR[m_dwImageQuantity + m_pList[i].pictureQuantity];
 			if (m_pImage == nullptr)
 				throw std::exception("allocate memory error");

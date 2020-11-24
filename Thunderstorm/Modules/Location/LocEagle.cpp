@@ -82,7 +82,7 @@ void LocEagle::Execute(uint32_t delta_time)
 	auto* m = (MODEL *)EntityManager::GetEntityPointer(mdl);
 	if (!m) return;
 	//Обновляем позицию
-  auto dltTime = delta_time * 0.001f;
+  const auto dltTime = delta_time * 0.001f;
 	time += kTime * dltTime;
 	if (time >= 1.0f)
 	{

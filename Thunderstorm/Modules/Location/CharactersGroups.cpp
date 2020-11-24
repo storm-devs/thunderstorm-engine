@@ -137,20 +137,20 @@ void CharactersGroups::Execute(uint32_t delta_time)
 	#endif
 	#endif*/ //boal свои у нас читы
 	//Время
-  auto dltTime = delta_time * 0.001f;
+  const auto dltTime = delta_time * 0.001f;
 	//Исполняем группы
-  auto playerGroup = FindGroupIndex("Player");
+  const auto playerGroup = FindGroupIndex("Player");
   auto playerAlarm = 0.0f;
   auto playerActive = false;
   auto isDeactivate = false;
 	for (long i = 0; i < numGroups; i++)
 	{
-    auto rel = groups[i]->relations;
+    const auto rel = groups[i]->relations;
 		for (long j = 0; j <= i; j++)
 		{
 			rel[j].alarm -= dltTime * rel[j].alarmdown;
 			if (rel[j].alarm < 0.0f) rel[j].alarm = 0.0f;
-      auto lastActive = rel[j].isActive;
+      const auto lastActive = rel[j].isActive;
 			if (rel[j].alarm <= rel[j].alarmmin) rel[j].isActive = false;
 			if (rel[j].alarm >= rel[j].alarmmax) rel[j].isActive = true;
 			if (rel[j].isActive != lastActive)
@@ -191,7 +191,7 @@ void CharactersGroups::Execute(uint32_t delta_time)
 	{
 		if (curExecuteChr < location->supervisor.numCharacters)
 		{
-      auto c = location->supervisor.character[curExecuteChr].c;
+      const auto c = location->supervisor.character[curExecuteChr].c;
 			CharacterVisibleCheck(c);
 			curExecuteChr++;
 		}
@@ -214,9 +214,9 @@ void CharactersGroups::CharacterVisibleCheck(Character* chr)
 	//Удалим отработавшие цели
 	RemoveInvalidTargets(chr);
 	//Группа персонажа
-  auto gi = GetCharacterGroup(chr);
+  const auto gi = GetCharacterGroup(chr);
 	if (gi < 0) return;
-  auto grp = groups[gi];
+  const auto grp = groups[gi];
 	//Видимая область
 	long num;
 	if (location->supervisor.FindCharacters(fnd, num, chr, grp->look, CGS_VIEWANGLE, 0.05f))
@@ -239,7 +239,7 @@ void CharactersGroups::FindEnemyFromFindList(Character* chr, Group* grp, long nu
 	for (long i = 0; i < num; i++)
 	{
 		//Группа найденного персонажа
-    auto gi = GetCharacterGroup(fnd[i].c);
+    const auto gi = GetCharacterGroup(fnd[i].c);
 		if (gi < 0) continue;
     auto& r = FindRelation(grp->index, gi);
 		if (r.curState != rs_enemy) continue;
@@ -256,11 +256,11 @@ void CharactersGroups::FindEnemyFromFindList(Character* chr, Group* grp, long nu
 	{
 		for (long i = 0; i < num; i++)
 		{
-      auto c = fnd[i].c;
+      const auto c = fnd[i].c;
 			//Если невидим, то пропустим его
 			if (!chr->VisibleTest(c)) continue;
 			//Получим группу персонажа
-      auto cgrp = GetCharacterGroup(c);
+      const auto cgrp = GetCharacterGroup(c);
 			if (cgrp < 0) continue;
 			//Группа найденного персонажа
       auto& r = FindRelation(grp->index, cgrp);
@@ -269,7 +269,7 @@ void CharactersGroups::FindEnemyFromFindList(Character* chr, Group* grp, long nu
 			{
 				if (grp->index != cgrp)
 				{
-          auto tgrp = GetCharacterGroup(targets[j]);
+          const auto tgrp = GetCharacterGroup(targets[j]);
 					if (tgrp >= 0)
 					{
             auto& tr = FindRelation(cgrp, tgrp);
@@ -291,7 +291,7 @@ bool CharactersGroups::AddEnemyTarget(Character* chr, Character* enemy, float ma
 {
 	if (!chr || !enemy) return false;
 	//Обновим аларм
-  auto isSelf = false;
+  const auto isSelf = false;
   auto& r = FindRelation(GetCharacterGroup(chr), GetCharacterGroup(enemy));
 	Assert(!isSelf);
 	r.alarm = 1.0f;
@@ -332,7 +332,7 @@ void CharactersGroups::RemoveAllInvalidTargets()
 bool CharactersGroups::RemoveInvalidTargets(Character* chr, Character* check)
 {
 	if (!chr) return false;
-  auto gi = GetCharacterGroup(chr);
+  const auto gi = GetCharacterGroup(chr);
 	if (gi < 0)
 	{
 		chr->numTargets = 0;
@@ -349,7 +349,7 @@ bool CharactersGroups::RemoveInvalidTargets(Character* chr, Character* check)
 			if (!c->IsDead())
 			{
 				//Персонаж существует и о нём помнят
-        auto gc = GetCharacterGroup(c);
+        const auto gc = GetCharacterGroup(c);
         auto& r = FindRelation(gi, gc);
 				if (r.curState == rs_enemy)
 				{
@@ -491,8 +491,8 @@ uint32_t CharactersGroups::AttributeChanged(ATTRIBUTES* apnt)
 //Проверить на действительность цель
 bool CharactersGroups::MsgIsValidateTarget(MESSAGE& message)
 {
-  auto chr = message.EntityID();
-  auto trg = message.EntityID();
+  const auto chr = message.EntityID();
+  const auto trg = message.EntityID();
 	auto* c = (Character *)EntityManager::GetEntityPointer(chr);
 	if (!c) return false;
 	auto* en = (Character *)EntityManager::GetEntityPointer(trg);
@@ -500,14 +500,14 @@ bool CharactersGroups::MsgIsValidateTarget(MESSAGE& message)
 	CVECTOR vP1, vP2;
 	c->GetPosition(vP1);
 	en->GetPosition(vP2);
-  auto fDistance = sqrtf(~(vP1 - vP2));
+  const auto fDistance = sqrtf(~(vP1 - vP2));
 	AttributesPointer->SetAttributeUseFloat("distance", fDistance);
 	return RemoveInvalidTargets(c, en);
 }
 
 //Найти оптимальную цель
 bool CharactersGroups::MsgGetOptimalTarget(MESSAGE& message) const {
-  auto chr = message.EntityID();
+  const auto chr = message.EntityID();
 	auto* c = (Character *)EntityManager::GetEntityPointer(chr);
 	if (!c) return false;
   auto vd = message.ScriptVariablePointer();
@@ -518,8 +518,8 @@ bool CharactersGroups::MsgGetOptimalTarget(MESSAGE& message) const {
 	{
 		CVECTOR pos, p;
 		c->GetPosition(pos);
-    auto numChr = location->supervisor.numCharacters;
-    auto cEx = location->supervisor.character;
+    const auto numChr = location->supervisor.numCharacters;
+    const auto cEx = location->supervisor.character;
 		//Выберем оптимальную цель
 		float value;
 		s = -1;
@@ -576,8 +576,8 @@ bool CharactersGroups::MsgGetOptimalTarget(MESSAGE& message) const {
 //Враг ли данный персонаж
 bool CharactersGroups::MsgIsEnemy(MESSAGE& message)
 {
-  auto g1 = GetCharacterGroup((Character *)EntityManager::GetEntityPointer(message.EntityID()));
-  auto g2 = GetCharacterGroup((Character *)EntityManager::GetEntityPointer(message.EntityID()));
+  const auto g1 = GetCharacterGroup((Character *)EntityManager::GetEntityPointer(message.EntityID()));
+  const auto g2 = GetCharacterGroup((Character *)EntityManager::GetEntityPointer(message.EntityID()));
 	if (g1 < 0 || g2 < 0) return false;
   auto isSelf = false;
   auto& r = FindRelation(g1, g2, &isSelf);
@@ -589,8 +589,8 @@ bool CharactersGroups::MsgIsEnemy(MESSAGE& message)
 void CharactersGroups::MsgAttack(MESSAGE& message)
 {
 	//Получим группы
-  auto gAttack = GetGroup(message);
-  auto gHit = GetGroup(message);
+  const auto gAttack = GetGroup(message);
+  const auto gHit = GetGroup(message);
 	Assert(gAttack);
 	Assert(gHit);
   auto& r = FindRelation(gAttack->index, gHit->index);
@@ -621,8 +621,8 @@ void CharactersGroups::MsgAddTarget(MESSAGE& message)
 	auto* enemy = (Character *)EntityManager::GetEntityPointer(eid);
 	if (!chr || !enemy) return;
 	//Проверяем на враждебность
-  auto g1 = GetCharacterGroup(chr);
-  auto g2 = GetCharacterGroup(enemy);
+  const auto g1 = GetCharacterGroup(chr);
+  const auto g2 = GetCharacterGroup(enemy);
 	if (g1 < 0 || g2 < 0) return;
   auto isSelf = false;
   auto& r = FindRelation(g1, g2, &isSelf);
@@ -636,7 +636,7 @@ void CharactersGroups::MsgAddTarget(MESSAGE& message)
 	{
 		for (long i = 0; i < num; i++)
 		{
-      auto c = fnd[i].c;
+      const auto c = fnd[i].c;
 			//Если невидим, то пропустим его
 			if (!chr->VisibleTest(c)) continue;
 			//Группа найденного персонажа
@@ -650,7 +650,7 @@ void CharactersGroups::MsgAddTarget(MESSAGE& message)
 //Обновить цели у данного персонажа
 void CharactersGroups::MsgUpdChrTrg(MESSAGE& message)
 {
-  auto eid = message.EntityID();
+  const auto eid = message.EntityID();
 	auto* chr = (Character *)EntityManager::GetEntityPointer(eid);
 	if (chr) CharacterVisibleCheck(chr);
 }
@@ -676,7 +676,7 @@ void CharactersGroups::MsgReleaseGroup(MESSAGE& message)
 //Зарегистрировать группу
 long CharactersGroups::RegistryGroup(const char* groupName)
 {
-  auto idxgrp = FindGroupIndex(groupName);
+  const auto idxgrp = FindGroupIndex(groupName);
 	if (idxgrp >= 0) return idxgrp;
 	//Регестрируем
 	if (numGroups >= maxGroups)
@@ -725,7 +725,7 @@ long CharactersGroups::RegistryGroup(const char* groupName)
 
 void CharactersGroups::ReleaseGroup(const char* groupName)
 {
-  auto idxgrp = FindGroupIndex(groupName);
+  const auto idxgrp = FindGroupIndex(groupName);
 	if (idxgrp < 0) return; // нет группы нечего удалять
 	if (numGroups > 1)
 	{
@@ -739,7 +739,7 @@ void CharactersGroups::ReleaseGroup(const char* groupName)
 bool CharactersGroups::MsgSetGroupLook(MESSAGE& message)
 {
 	//Текущая группа
-  auto grp = GetGroup(message, false);
+  const auto grp = GetGroup(message, false);
 	if (!grp) return false;
 	//Радиус
 	grp->look = message.Float();
@@ -751,7 +751,7 @@ bool CharactersGroups::MsgSetGroupLook(MESSAGE& message)
 bool CharactersGroups::MsgSetGroupHear(MESSAGE& message)
 {
 	//Текущая группа
-  auto grp = GetGroup(message, false);
+  const auto grp = GetGroup(message, false);
 	if (!grp) return false;
 	//Радиус
 	grp->hear = message.Float();
@@ -763,7 +763,7 @@ bool CharactersGroups::MsgSetGroupHear(MESSAGE& message)
 bool CharactersGroups::MsgSetGroupSay(MESSAGE& message)
 {
 	//Текущая группа
-  auto grp = GetGroup(message, false);
+  const auto grp = GetGroup(message, false);
 	if (!grp) return false;
 	//Радиус
 	grp->say = message.Float();
@@ -775,7 +775,7 @@ bool CharactersGroups::MsgSetGroupSay(MESSAGE& message)
 bool CharactersGroups::MsgSetGroupPriority(MESSAGE& message)
 {
 	//Текущая группа
-  auto grp = GetGroup(message, false);
+  const auto grp = GetGroup(message, false);
 	if (!grp) return false;
 	//Приоритет
 	grp->priority = message.Long();
@@ -786,9 +786,9 @@ bool CharactersGroups::MsgSetGroupPriority(MESSAGE& message)
 bool CharactersGroups::MsgSetAlarm(MESSAGE& message)
 {
 	//Текущая группа
-  auto g1 = GetGroup(message, false);
+  const auto g1 = GetGroup(message, false);
 	if (!g1) return false;
-  auto g2 = GetGroup(message, false);
+  const auto g2 = GetGroup(message, false);
 	if (!g2) return false;
   auto isSelf = false;
   auto& r = FindRelation(g1->index, g2->index, &isSelf);
@@ -807,9 +807,9 @@ bool CharactersGroups::MsgSetAlarm(MESSAGE& message)
 bool CharactersGroups::MsgSetAlarmDown(MESSAGE& message)
 {
 	//Текущая группа
-  auto g1 = GetGroup(message, false);
+  const auto g1 = GetGroup(message, false);
 	if (!g1) return false;
-  auto g2 = GetGroup(message, false);
+  const auto g2 = GetGroup(message, false);
 	if (!g2) return false;
   auto isSelf = false;
   auto& r = FindRelation(g1->index, g2->index, &isSelf);
@@ -823,7 +823,7 @@ bool CharactersGroups::MsgSetAlarmDown(MESSAGE& message)
 //Добавить в группу персонажа
 bool CharactersGroups::MoveCharacterToGroup(MESSAGE& message)
 {
-  auto eid = message.EntityID();
+  const auto eid = message.EntityID();
 	auto* chr = (Character *)EntityManager::GetEntityPointer(eid);
 	if (!chr) return false;
 	//Создадим группу
@@ -932,12 +932,12 @@ void CharactersGroups::MsgSetAlarmReaction(MESSAGE& message)
 //Исключить персонажа из всех групп
 void CharactersGroups::RemoveCharacterFromAllGroups(entid_t chr)
 {
-  auto ch = chr ? (Character *)EntityManager::GetEntityPointer(chr) : nullptr;
+  const auto ch = chr ? (Character *)EntityManager::GetEntityPointer(chr) : nullptr;
 	//Удалим персонажа из предыдущей группы
 	for (long i = 0; i < numGroups; i++)
 	{
     auto g = groups[i];
-    auto cid = g->c;
+    const auto cid = g->c;
 		for (long j = 0; j < g->numChr;)
 		{
 			auto* c = (Character *)EntityManager::GetEntityPointer(cid[j]);
@@ -953,7 +953,7 @@ void CharactersGroups::RemoveCharacterFromAllGroups(entid_t chr)
 //Выгрузка персонажа
 void CharactersGroups::UnloadCharacter(MESSAGE& message)
 {
-  auto eid = message.EntityID();
+  const auto eid = message.EntityID();
 	RemoveCharacterFromAllGroups(eid);
 }
 
@@ -977,7 +977,7 @@ CharactersGroups::Group* CharactersGroups::GetGroup(MESSAGE& message, bool isReg
 //Найти группу по имени
 CharactersGroups::Group* CharactersGroups::FindGroup(const char* name)
 {
-  auto gi = FindGroupIndex(name);
+  const auto gi = FindGroupIndex(name);
 	if (gi < 0)
 		return nullptr;
 	return groups[gi];
@@ -987,8 +987,8 @@ CharactersGroups::Group* CharactersGroups::FindGroup(const char* name)
 inline long CharactersGroups::FindGroupIndex(const char* name)
 {
 	if (!name) return -1;
-  auto l = String::GetLen(name);
-  auto h = String::GetHash(name);
+  const auto l = String::GetLen(name);
+  const auto h = String::GetHash(name);
 
 	//Ищем среди зарегистрированных
 	for (long i = 0; i < numGroups; i++)
@@ -1131,14 +1131,14 @@ void CharactersGroups::LoadDataRelations()
 	}
   auto saveData = AttributesPointer->FindAClass(AttributesPointer, "savedata");
 	if (!saveData) return;
-	long numG = saveData->GetAttributesNum();
+  const long numG = saveData->GetAttributesNum();
 	for (long i = 0; i < numG; i++)
 	{
     auto grp = saveData->GetAttributeClass(i);
 		//Регестрируем первую группу
 		const char* gname = grp->GetAttribute("name1");
 		if (!gname) gname = "";
-    auto g1 = RegistryGroup(gname);
+    const auto g1 = RegistryGroup(gname);
 		groups[g1]->look = grp->GetAttributeAsFloat("look1", groups[g1]->look);
 		groups[g1]->hear = grp->GetAttributeAsFloat("hear1", groups[g1]->hear);
 		groups[g1]->say = grp->GetAttributeAsFloat("say1", groups[g1]->say);
@@ -1146,7 +1146,7 @@ void CharactersGroups::LoadDataRelations()
 		//Регестрируем вторую группу
 		gname = grp->GetAttribute("name2");
 		if (!gname) gname = "";
-    auto g2 = RegistryGroup(gname);
+    const auto g2 = RegistryGroup(gname);
 		groups[g2]->look = grp->GetAttributeAsFloat("look2", groups[g2]->look);
 		groups[g2]->hear = grp->GetAttributeAsFloat("hear2", groups[g2]->hear);
 		groups[g2]->say = grp->GetAttributeAsFloat("say2", groups[g2]->say);
@@ -1192,7 +1192,7 @@ void CharactersGroups::RestoreStates()
 		for (long j = 0; j < i; j++)
 		{
       auto& r = FindRelation(i, j);
-      auto oldState = r.isActive;
+      const auto oldState = r.isActive;
 			if (r.alarmdown > 0) r.alarm = 0.0f;
 			if (r.alarm <= r.alarmmin) r.isActive = false;
 			if (r.alarm >= r.alarmmax) r.isActive = true;

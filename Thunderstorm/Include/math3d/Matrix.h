@@ -485,12 +485,12 @@ inline Matrix& Matrix::Set(const Matrix& matrix)
 inline Matrix& Matrix::Build(float angX, float angY, float angZ, float x, float y, float z)
 {
 	//Синусы и косинусы углов поворота
-  auto sinAx = sinf(angX);
-  auto cosAx = cosf(angX);
-  auto sinAy = sinf(angY);
-  auto cosAy = cosf(angY);
-  auto sinAz = sinf(angZ);
-  auto cosAz = cosf(angZ);
+  const auto sinAx = sinf(angX);
+  const auto cosAx = cosf(angX);
+  const auto sinAy = sinf(angY);
+  const auto cosAy = cosf(angY);
+  const auto sinAz = sinf(angZ);
+  const auto cosAz = cosf(angZ);
 	//Создаём матрицу с порядком вращений rz*rx*ry
 	m[0][0] = cosAz * cosAy + sinAz * sinAx * sinAy; //vx.x
 	m[0][1] = sinAz * cosAx; //vx.y
@@ -537,12 +537,12 @@ inline Matrix& Matrix::Build(const Vector& ang)
 inline Matrix& Matrix::BuildXYZ(float angX, float angY, float angZ, float x, float y, float z)
 {
 	//Синусы и косинусы углов поворота
-  auto sinAx = sinf(angX);
-  auto cosAx = cosf(angX);
-  auto sinAy = sinf(angY);
-  auto cosAy = cosf(angY);
-  auto sinAz = sinf(angZ);
-  auto cosAz = cosf(angZ);
+  const auto sinAx = sinf(angX);
+  const auto cosAx = cosf(angX);
+  const auto sinAy = sinf(angY);
+  const auto cosAy = cosf(angY);
+  const auto sinAz = sinf(angZ);
+  const auto cosAz = cosf(angZ);
 	//Создаём матрицу с порядком вращений rx*ry*rz
 	m[0][0] = cosAy * cosAz;
 	m[0][1] = cosAy * sinAz;
@@ -685,7 +685,7 @@ inline Matrix& Matrix::BuildProjection(float viewAngle, float vpWidth, float vpH
 			mov		[eax + 15*4], edx
 		}*/
 	//Заполняем матрицу
-  auto Q = double(zFar) / double(zFar - zNear);
+  const auto Q = double(zFar) / double(zFar - zNear);
 	m[0][0] = float(1.0 / tan(viewAngle * 0.5));
 	m[1][1] = float(1.0 / tan((vpHeight / vpWidth) * viewAngle * 0.5));
 	m[2][2] = float(Q);
@@ -737,7 +737,7 @@ inline Matrix& Matrix::BuildOrtoProjection(float vpWidth, float vpHeight, float 
 				mov		[eax + 15*4], edx
 		}*/
 	//Заполняем матрицу
-  auto Q = 1.0 / double(zFar - zNear);
+  const auto Q = 1.0 / double(zFar - zNear);
 	m[0][0] = 2.0f / vpWidth;
 	m[1][1] = 2.0f / vpHeight;
 	m[2][2] = float(Q);
@@ -790,7 +790,7 @@ inline Matrix& Matrix::BuildShadowProjection(float viewAngle, float vpWidth, flo
 				mov		[eax + 15*4], edx
 		}*/
 	//Заполняем матрицу
-  auto Q = 1.0 / double(zFar - zNear);
+  const auto Q = 1.0 / double(zFar - zNear);
 	m[0][0] = float(1.0 / tan(viewAngle * 0.5));
 	m[1][1] = float(1.0 / tan((vpHeight / vpWidth) * viewAngle * 0.5));
 	m[2][2] = float(Q);
@@ -1399,7 +1399,7 @@ inline Vector4 Matrix::Projection(Vector vertex, float vphWidth05, float vphHeig
 	res.z = m[0][2] * vertex.x + m[1][2] * vertex.y + m[2][2] * vertex.z + m[3][2];
 	res.w = m[0][3] * vertex.x + m[1][3] * vertex.y + m[2][3] * vertex.z + m[3][3];
 	//Коэфициент нормализации
-  auto w = 1.0f / res.w;
+  const auto w = 1.0f / res.w;
 	//Нормализуем
 	res.x = (1.0f + res.x * w) * vphWidth05;
 	res.y = (1.0f - res.y * w) * vphHeight05;
@@ -1420,7 +1420,7 @@ inline void Matrix::Projection(Vector4* dstArray, Vector* srcArray, long num, fl
 		dstArray->z = m[0][2] * srcArray->x + m[1][2] * srcArray->y + m[2][2] * srcArray->z + m[3][2];
 		dstArray->w = m[0][3] * srcArray->x + m[1][3] * srcArray->y + m[2][3] * srcArray->z + m[3][3];
 		//Коэфициент нормализации
-    auto w = 1.0f / dstArray->w;
+    const auto w = 1.0f / dstArray->w;
 		//Нормализуем
 		dstArray->x = (1.0f + dstArray->x * w) * vphWidth05;
 		dstArray->y = (1.0f - dstArray->y * w) * vphHeight05;

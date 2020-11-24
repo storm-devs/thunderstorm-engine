@@ -1268,7 +1268,7 @@ void SAIL::LoadSailIni()
 
 	INIFILE* ini;
 	WIN32_FIND_DATA wfd;
-	HANDLE h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
+  const HANDLE h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
 	if (INVALID_HANDLE_VALUE != h)
 	{
 		ft_old = wfd.ftLastWriteTime;
@@ -1374,8 +1374,8 @@ float SAIL::Trace(const CVECTOR& src, const CVECTOR& dst)
 	for (int i = 0; i < groupQuantity; i++)
 	{
 		if (gdata[i].bDeleted) continue;
-		CVECTOR minp = gdata[i].boxCenter - gdata[i].boxSize;
-		CVECTOR maxp = gdata[i].boxCenter + gdata[i].boxSize;
+    const CVECTOR minp = gdata[i].boxCenter - gdata[i].boxSize;
+    const CVECTOR maxp = gdata[i].boxCenter + gdata[i].boxSize;
 
 		if (!(src.x <= maxp.x && src.x >= minp.x &&
 				src.y <= maxp.y && src.y >= minp.y &&
@@ -1501,7 +1501,7 @@ void SAIL::FirstRun()
 				for (i = 0; i < 2; i++)
 					if (slist[sn]->sailtrope.rrs[i])
 					{
-						int tieNum = slist[sn]->sailtrope.rrs[i]->tiePoint;
+            const int tieNum = slist[sn]->sailtrope.rrs[i]->tiePoint;
 						CVECTOR endVect;
 						((ROPE_BASE*)EntityManager::GetEntityPointer(ropeEI))->GetEndPoint(
 							&endVect, slist[sn]->sailtrope.rrs[i]->ropenum, gdata[slist[sn]->HostNum].modelEI);
@@ -1559,7 +1559,7 @@ float SAIL::Cannon_Trace(long iBallOwner, const CVECTOR& src, const CVECTOR& dst
 	bCannonTrace = true;
 	g_iBallOwnerIdx = iBallOwner;
 
-	float retVal = Trace(src, dst);
+  const float retVal = Trace(src, dst);
 
 	bCannonTrace = false;
 	g_iBallOwnerIdx = -1;
@@ -1568,7 +1568,7 @@ float SAIL::Cannon_Trace(long iBallOwner, const CVECTOR& src, const CVECTOR& dst
 	{
 		if (!slist[traceSail]->bFreeSail && !gdata[slist[traceSail]->HostNum].bDeleted)
 		{
-			CVECTOR damagePoint = src + (dst - src) * retVal;
+      const CVECTOR damagePoint = src + (dst - src) * retVal;
 			auto* pvai = (VAI_OBJBASE *)EntityManager::GetEntityPointer(gdata[slist[traceSail]->HostNum].shipEI);
 			ATTRIBUTES* pA = nullptr;
 			if (pvai != nullptr) pA = pvai->GetACharacter();
@@ -1708,8 +1708,8 @@ void SAIL::DeleteSailGroup()
 	bUse = false;
 	int gn, sn, i;
 
-	int old_sailQuantity = sailQuantity;
-	int old_groupQuantity = groupQuantity;
+  const int old_sailQuantity = sailQuantity;
+  const int old_groupQuantity = groupQuantity;
 
 	// удалим все паруса из удаленных группы //
 	//---------------------------------------//
@@ -1878,7 +1878,7 @@ void SAIL::DoNoRopeSailToNewHost(entid_t newModel, entid_t newHost, entid_t oldH
 	// в найденной группе пройдемся по парусам
 	for (int si = 0; si < gdata[ogn].sailQuantity; si++)
 	{
-		int sn = gdata[ogn].sailIdx[si];
+    const int sn = gdata[ogn].sailIdx[si];
 		NODE* nod = nullptr;
 		for (int k = 0; k < 1000; k++)
 		{
@@ -1948,13 +1948,13 @@ void sailPrint(VDX9RENDER* rs, const CVECTOR& pos3D, float rad, long line, const
 	view.Transposition();
 	float dist = ~(pos3D - view.Pos());
 	if (dist >= rad * rad) return;
-	float d = view.Vz() | view.Pos();
+  const float d = view.Vz() | view.Pos();
 	if ((pos3D | view.Vz()) < d) return;
 	rs->GetViewport(&vp);
 	mtx.Projection((CVECTOR *)&pos3D, &vrt, 1, vp.Width * 0.5f, vp.Height * 0.5f, sizeof(CVECTOR),
 	               sizeof(MTX_PRJ_VECTOR));
 	//Ищем позицию
-	long fh = rs->CharHeight(FONT_DEFAULT) / 2;
+  const long fh = rs->CharHeight(FONT_DEFAULT) / 2;
 	vrt.y -= (line + 0.5f) * fh;
 	//Прозрачность
 	long color = 0xffffffff;
@@ -1973,7 +1973,7 @@ SAILONE* SAIL::FindSailFromData(int gn, const char* nodeName, const char* grName
 	sscanf(grName, "%d", &grNum);
 	for (int i = 0; i < gdata[gn].sailQuantity; i++)
 	{
-		int sn = gdata[gn].sailIdx[i];
+    const int sn = gdata[gn].sailIdx[i];
 		if (slist[sn]->hostNode != nullptr &&
 			strcmp(slist[sn]->hostNode->GetName(), nodeName) == 0 &&
 			slist[sn]->groupNum == grNum)
@@ -2056,13 +2056,13 @@ SAILONE_BASE* SAIL::FindSailForCharacter(int chrIdx, char* nodeName, int grNum)
 {
 	if (nodeName == nullptr) return nullptr;
 
-	int gn = FindGroupForCharacter(chrIdx);
+  const int gn = FindGroupForCharacter(chrIdx);
 
 	if (gn >= 0 && gn < groupQuantity)
 	{
 		for (int idx = 0; idx < gdata[gn].sailQuantity; idx++)
 		{
-			int sn = gdata[gn].sailIdx[idx];
+      const int sn = gdata[gn].sailIdx[idx];
 			if (slist[sn]->hostNode != nullptr &&
 				slist[sn]->groupNum == grNum &&
 				strcmp(slist[sn]->hostNode->GetName(), nodeName) == 0)
@@ -2117,7 +2117,7 @@ void SAIL::RestoreRender()
 }
 
 int SAIL::GetSailStateForCharacter(int chrIdx) const {
-	int gn = FindGroupForCharacter(chrIdx);
+  const int gn = FindGroupForCharacter(chrIdx);
 	if (gn < 0 || gn >= groupQuantity) return 0;
 	switch (gdata[gn].curSailSet)
 	{
@@ -2137,17 +2137,17 @@ uint32_t SAIL::ScriptProcessing(const char* name, MESSAGE& message)
 
 	if (_stricmp(name, "RandomSailsDmg") == 0)
 	{
-		long chrIdx = message.Long();
-		float fDmg = message.Float();
-		int gn = FindGroupForCharacter(chrIdx);
+    const long chrIdx = message.Long();
+    const float fDmg = message.Float();
+    const int gn = FindGroupForCharacter(chrIdx);
 		if (gn >= 0 && gn < groupQuantity) DoRandomsSailsDmg(chrIdx, gn, fDmg);
 	}
 
 	if (_stricmp(name, "SailRollSpeed") == 0)
 	{
-		long chrIdx = message.Long();
-		float fSpeed = message.Float();
-		int gn = FindGroupForCharacter(chrIdx);
+    const long chrIdx = message.Long();
+    const float fSpeed = message.Float();
+    const int gn = FindGroupForCharacter(chrIdx);
 		if (gn >= 0 && gn < groupQuantity)
 			gdata[gn].fRollingSpeed = fSpeed * ROLLINGSPEED;
 	}
@@ -2166,15 +2166,15 @@ void SAIL::DoRandomsSailsDmg(int chrIdx, int gn, float fDmg)
 
 	for (int _sailsQnt = gdata[gn].sailQuantity; _sailsQnt > 0;)
 	{
-		int tmp = rand() % _sailsQnt;
-		int sn = _sailsIdx[tmp];
+    const int tmp = rand() % _sailsQnt;
+    const int sn = _sailsIdx[tmp];
 
 		int holeIdx = rand() % slist[sn]->GetMaxHoleCount();
 		for (int j = 0; j < 14 && slist[sn]->ss.hole[holeIdx]; j++)
 			if (holeIdx < (int)slist[sn]->GetMaxHoleCount() - 1) holeIdx++;
 			else holeIdx = 0;
 
-		bool bOldHole = slist[sn]->ss.hole[holeIdx];
+    const bool bOldHole = slist[sn]->ss.hole[holeIdx];
 		slist[sn]->ss.hole[holeIdx] = true;
 		int nNewHoleCount = slist[sn]->ss.holeCount;
 		if (!bOldHole) nNewHoleCount++;

@@ -45,7 +45,7 @@ void Blood::Execute(uint32_t delta_time)
 {
 	if (nUsedTQ < ON_LIVETIME_BLOOD_TRIANGLES) return;
 
-  auto fDeltaTime = delta_time * 0.001f;
+  const auto fDeltaTime = delta_time * 0.001f;
 	for (long n = 0; n < aBlood.size(); n++)
 	{
 		aBlood[n].fLiveTime -= fDeltaTime;
@@ -169,7 +169,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 	if (fTrace <= 1.f)
 		cpos.y = src.y + (dst.y - src.y) * fTrace;
 
-  auto nThisBloodQ = CheckBloodQuantityInRadius(cpos,BLOOD_RADIUS, 4);
+  const auto nThisBloodQ = CheckBloodQuantityInRadius(cpos,BLOOD_RADIUS, 4);
 	if (nThisBloodQ >= 4)
 	{
 		// уже много крови в этом месте
@@ -321,7 +321,7 @@ void Blood::SetVertexByPos(BloodVertex& v, const CVECTOR& pos, const CVECTOR& vc
 
 long Blood::CheckBloodQuantityInRadius(const CVECTOR& cpos, float fDist, long nLimitQ)
 {
-  auto fDistPow2 = fDist * fDist;
+  const auto fDistPow2 = fDist * fDist;
 	long nCurQ = 0;
 	for (long n = 0; n < aBlood.size(); n++)
 	{

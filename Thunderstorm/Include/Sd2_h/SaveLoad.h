@@ -29,7 +29,7 @@ public:
 		if (bSave)
 		{
 			const auto size = dwCurSize * 2 + 8 + 1;
-			auto pFFSave = new char[size];
+      const auto pFFSave = new char[size];
 			sprintf_s(pFFSave, size, "%.8x", dwCurSize);
 			for (uint32_t i = 0; i < dwCurSize; i++)
 				sprintf_s(&pFFSave[8 + i * 2], 3, "%.2x", uint8_t(pSaveBuffer[i]));
@@ -59,7 +59,7 @@ public:
 		dwCurSize = 0;
 
     auto pV = api->Event("SeaLoad_GetPointer", "sl", "seasave", -1);
-    auto pSave = pV->GetAClass()->GetAttribute("save");
+    const auto pSave = pV->GetAClass()->GetAttribute("save");
 		uint32_t dwSize;
 		char str[256];
 		strncpy_s(str, pSave, 8);
@@ -121,13 +121,13 @@ public:
 	{
 		if (str.size())
 		{
-			uint32_t dwLen = str.size() + 1;
+      const uint32_t dwLen = str.size() + 1;
 			SaveDword(dwLen);
 			Write(str.c_str(), dwLen);
 		}
 		else
 		{
-			uint32_t dwLen = 0;
+      const uint32_t dwLen = 0;
 			SaveDword(dwLen);
 		}
 	}
@@ -192,7 +192,7 @@ public:
 		uint32_t dwLen;
 		Read(&dwLen, sizeof(dwLen));
 		if (dwLen == 0) return std::string();
-    auto pBuffer = new char[dwLen];
+    const auto pBuffer = new char[dwLen];
 		Read(pBuffer, dwLen);
 		str = pBuffer;
 		delete[] pBuffer;
@@ -223,8 +223,8 @@ public:
 
 	ATTRIBUTES* LoadAPointer(const char* pStr)
 	{
-    auto iIndex = LoadLong();
-    auto str = LoadString();
+    const auto iIndex = LoadLong();
+    const auto str = LoadString();
 		if (str == "character" && iIndex < 0) return nullptr;
     auto pV = api->Event("SeaLoad_GetPointer", "sl", pStr, iIndex);
 		return (pV) ? pV->GetAClass() : nullptr;

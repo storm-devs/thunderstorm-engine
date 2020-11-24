@@ -166,8 +166,8 @@ bool Grass::LoadData(const char* patchName)
     auto& hdr = *(GRSHeader *)load;
 		if (hdr.id != GRASS_ID) throw "invalide file id";
 		if (hdr.ver != GRASS_VER) throw "invalide file version";
-    auto minisize = hdr.miniX * hdr.miniZ;
-    auto elements = hdr.numElements;
+    const auto minisize = hdr.miniX * hdr.miniZ;
+    const auto elements = hdr.numElements;
 		if (size != sizeof(GRSHeader) + minisize * sizeof(GRSMiniMapElement) + elements * sizeof(GRSMapElement)) throw
 			"incorrect file data -> file size";
 		if (hdr.miniX <= 0 || hdr.miniX > 100000 || hdr.miniZ <= 0 || hdr.miniZ > 100000) throw
@@ -190,7 +190,7 @@ bool Grass::LoadData(const char* patchName)
 			translate[i] = uint8_t((i * 255) / 15);
 		}
 		block = new GRSMapElementEx[elements];
-    auto src = (GRSMapElement *)(load + sizeof(GRSHeader) + minisize * sizeof(GRSMiniMapElement));
+    const auto src = (GRSMapElement *)(load + sizeof(GRSHeader) + minisize * sizeof(GRSMiniMapElement));
 		for (long i = 0; i < elements; i++)
 		{
       auto& sb = src[i];
@@ -210,12 +210,12 @@ bool Grass::LoadData(const char* patchName)
 		for (long z = 0; z < miniZ; z++)
 		{
 			GRSMiniMapElement* line = &miniMap[z * miniX];
-			float cz = startZ + z * GRASS_BLK_DST;
+      const float cz = startZ + z * GRASS_BLK_DST;
 			for (long x = 0; x < miniX; x++)
 			{
-				float cx = startX + x * GRASS_BLK_DST;
+        const float cx = startX + x * GRASS_BLK_DST;
 				GRSMapElementEx* el = block + line[x].start;
-				long count = line[x].num[0];
+        const long count = line[x].num[0];
 				for (long i = 0; i < count; i++)
 				{
 					el[i].x += cx;
@@ -296,7 +296,7 @@ void Grass::Execute(uint32_t delta_time)
 		if (!param->Get(spd)) spd = 0.0f;
 		if (spd < 0.0f) spd = 0.0f;
 		if (spd > 30.0f) spd = 30.0f;
-		float wf = powf(spd * (1.0f / 30.0f), 0.5f);
+    const float wf = powf(spd * (1.0f / 30.0f), 0.5f);
 		if (initForce < 20)
 		{
 			initForce++;
@@ -605,9 +605,9 @@ void Grass::RenderBlock(const CVECTOR& camPos, const PLANE* plane, long numPlane
 	//Блок, который рисуем
 	GRSMiniMapElement& mm = miniMap[mz * miniX + mx];
 	//Дистанция от центра кластера (бокса) до камеры в 2D
-	float cx = m_fDataScale * (startX + (mx + 0.5f) * GRASS_BLK_DST);
-	float cz = m_fDataScale * (startZ + (mz + 0.5f) * GRASS_BLK_DST);
-	float dist = (cx - camPos.x) * (cx - camPos.x) + (cz - camPos.z) * (cz - camPos.z);
+  const float cx = m_fDataScale * (startX + (mx + 0.5f) * GRASS_BLK_DST);
+  const float cz = m_fDataScale * (startZ + (mz + 0.5f) * GRASS_BLK_DST);
+  const float dist = (cx - camPos.x) * (cx - camPos.x) + (cz - camPos.z) * (cz - camPos.z);
 	//Ограничение по дальности
 	if (dist >= m_fMaxVisibleDist * m_fMaxVisibleDist) return;
 	//Определение видимости
@@ -645,13 +645,13 @@ inline bool Grass::VisibleTest(const PLANE* plane, long numPlanes, const CVECTOR
 {
 	for (long i = 0; i < numPlanes; i++)
 	{
-		float d = plane[i].D;
-		float minX = min.x * plane[i].Nx;
-		float minY = min.y * plane[i].Ny;
-		float minZ = min.z * plane[i].Nz;
-		float maxX = max.x * plane[i].Nx;
-		float maxY = max.y * plane[i].Ny;
-		float maxZ = max.z * plane[i].Nz;
+    const float d = plane[i].D;
+    const float minX = min.x * plane[i].Nx;
+    const float minY = min.y * plane[i].Ny;
+    const float minZ = min.z * plane[i].Nz;
+    const float maxX = max.x * plane[i].Nx;
+    const float maxY = max.y * plane[i].Ny;
+    const float maxZ = max.z * plane[i].Nz;
 		if (minX + minY + minZ >= d) continue;
 		if (minX + maxY + minZ >= d) continue;
 		if (maxX + maxY + minZ >= d) continue;
@@ -687,10 +687,10 @@ inline void Grass::RenderBlock(GRSMiniMapElement& mme, float kLod)
 	if (kBlend > 1.0f) kBlend = 1.0f;
 	if (kBlend < 0.0f) kBlend = 0.0f;
 	//Количество травинок всего
-	long num = mme.num[lod];
+  const long num = mme.num[lod];
 	Assert(num <= GRASS_CNT_MIN + GRASS_CNT_DLT);
 	//Количество рисуемое без лодирования
-	long lodNum = lod < 3 ? mme.num[lod + 1] : 0;
+  const long lodNum = lod < 3 ? mme.num[lod + 1] : 0;
 	//Ветренное дополнение
 	float wAddX, wAddZ, kwDirX, kwDirZ;
 	if (quality <= rq_middle)
@@ -718,15 +718,15 @@ inline void Grass::RenderBlock(GRSMiniMapElement& mme, float kLod)
 		if (quality <= rq_middle)
 		{
 			//Позиция
-			float x = b[i].x;
-			float y = b[i].y;
-			float z = b[i].z;
+      const float x = b[i].x;
+      const float y = b[i].y;
+      const float z = b[i].z;
 			//Волны ветра
-			float dx = winDir.x * x * 0.5f + phase[3];
-			float dz = winDir.z * z * 0.5f + phase[4];
-			float k1 = sinf(dx + dz);
-			float a1 = (0.001f + sinPh5 * sinf((dx + dz) * 0.5f));
-			float k2 = cosf(winDir.z * x * (a1 + sinPh6) - winDir.x * z * a1);
+      const float dx = winDir.x * x * 0.5f + phase[3];
+      const float dz = winDir.z * z * 0.5f + phase[4];
+      const float k1 = sinf(dx + dz);
+      const float a1 = (0.001f + sinPh5 * sinf((dx + dz) * 0.5f));
+      const float k2 = cosf(winDir.z * x * (a1 + sinPh6) - winDir.x * z * a1);
 			float kamp = powf(k1 * k2 * 0.5f + 0.5f, winPow) + winF10 + winForce * 0.7f;
 			if (kamp > 1.0f) kamp = 1.0f;
 			//Результирующий вектор смещения
@@ -748,7 +748,7 @@ inline void Grass::RenderBlock(GRSMiniMapElement& mme, float kLod)
 						if (dst > 0.0f)
 						{
 							dst = sqrtf(dst);
-							float k = 0.5f / dst;
+              const float k = 0.5f / dst;
 							pldx *= k;
 							pldz *= k;
 						}
@@ -853,9 +853,9 @@ long Grass::GetColor(CVECTOR color)
 	if (color.y < 0.0f) color.y = 0.0f;
 	if (color.z > 1.0f) color.z = 1.0f;
 	if (color.z < 0.0f) color.z = 0.0f;
-	long r = long(color.z * 255.0f);
-	long g = long(color.y * 255.0f);
-	long b = long(color.x * 255.0f);
+  const long r = long(color.z * 255.0f);
+  const long g = long(color.y * 255.0f);
+  const long b = long(color.x * 255.0f);
 	return (r << 16) | (g << 8) | b;
 }
 

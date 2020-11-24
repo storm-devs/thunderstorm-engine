@@ -112,7 +112,7 @@ bool Window::Init(VDX9RENDER* rs)
 				{
 					auto r = float(x);
 					auto g = float(y);
-          auto b = float(255 - x);
+          const auto b = float(255 - x);
           auto k = r > g ? r : g;
 					if (k < b) k = b;
 					k = 255.0f / k;
@@ -130,7 +130,7 @@ bool Window::Init(VDX9RENDER* rs)
 
 void Window::InitList(LighterLights& ls)
 {
-  auto maxSize = ls.Num();
+  const auto maxSize = ls.Num();
 	numElements = 7;
 	list = new ListElement[numElements + maxSize];
 	memset(list, 0, (numElements + maxSize) * sizeof(ListElement));
@@ -400,10 +400,10 @@ void Window::Draw(float dltTime)
 	//Подложка
 	DrawLRect(winx, winy, winx + winw, winy + winh + (selected >= 0 ? list[selected].h : 0), bkgColor, frmColor);
 	//Кнопка закрывашка
-  auto clsx = winx + winw - 20.0f;
-  auto clsy = winy + 5.0f;
-  auto clsw = 15.0f;
-  auto clsh = 15.0f;
+  const auto clsx = winx + winw - 20.0f;
+  const auto clsy = winy + 5.0f;
+  const auto clsw = 15.0f;
+  const auto clsh = 15.0f;
   auto c = selColor;
   auto cl = frmColor;
 	if (cursx >= clsx && cursx < clsx + clsw && cursy >= clsy && cursy < clsy + clsh)
@@ -416,12 +416,12 @@ void Window::Draw(float dltTime)
 	DrawLine(clsx + 2.0f, clsy + 2.0f, clsx + clsw - 1.0f, clsy + clsh - 1.0f, cl);
 	DrawLine(clsx + clsw - 2.0f, clsy + 2.0f, clsx + 1.0f, clsy + clsh - 1.0f, cl);
 	//Заголовок списка
-  auto lstx = winx + 5.0f;
+  const auto lstx = winx + 5.0f;
   auto lsty = winy + 5.0f;
-  auto lstw = 240.0f;
+  const auto lstw = 240.0f;
   auto lsth = 22.0f;
-  auto lstbx = lstx + lstw;
-  auto lstbw = lsth;
+  const auto lstbx = lstx + lstw;
+  const auto lstbw = lsth;
 	c = selColor;
 	cl = frmColor;
 	if (listWait <= 0.0f)
@@ -548,12 +548,12 @@ void Window::Draw(float dltTime)
 	//Список
 	if (isList)
 	{
-		long numLines = 16;
+    const long numLines = 16;
 		lsty += lsth;
 		lsth = lsth * numLines;
 		DrawLRect(lstx, lsty, lstx + lstw + lstbw, lsty + lsth, 0xe0000000, frmColor);
 		DrawLine(lstbx, lsty, lstbx, lsty + lsth, frmColor);
-    auto isCheck = (cursx >= lstbx && cursx < lstbx + lstbw && cursy >= lsty && cursy < lsty + lsth);
+    const auto isCheck = (cursx >= lstbx && cursx < lstbx + lstbw && cursy >= lsty && cursy < lsty + lsth);
 		c = selColor;
 		cl = frmColor;
 		if (isCheck && cursy <= lsty + lstbw)
@@ -589,7 +589,7 @@ void Window::Draw(float dltTime)
 		//Цикл отрисовки
 		if (listPos > numElements - numLines / 2) listPos = float(numElements - numLines / 2);
 		if (listPos < 0.0f) listPos = 0.0f;
-    auto str = long(listPos);
+    const auto str = long(listPos);
 		long sel = -1;
 		if (cursx >= lstx && cursx < lstx + lstw && cursy >= lsty && cursy < lsty + lsth)
 		{
@@ -602,7 +602,7 @@ void Window::Draw(float dltTime)
 		y = lsty;
 		for (long i = str, cnt = 0; i < numElements && cnt < numLines; i++, cnt++)
 		{
-      auto clr = textColor;
+      const auto clr = textColor;
 			if (cnt == sel)
 			{
 				DrawLRect(lstx + 3, y, lstx + lstw - 3, y + lstbw, 0xff808080, 0);
@@ -694,7 +694,7 @@ void Window::Print(long color, float xleft, float xright, float y, float scale, 
   auto x = xleft;
 	if (isAlign)
 	{
-    auto strw = rs->StringWidth(stringBuffer, font) * scale;
+    const auto strw = rs->StringWidth(stringBuffer, font) * scale;
 		x = (xright + xleft - strw) * 0.5f;
 	}
 	rs->ExtPrint(font, color, 0, 0, false, scale, 0, 0, long(x), long(y), stringBuffer);
@@ -703,9 +703,9 @@ void Window::Print(long color, float xleft, float xright, float y, float scale, 
 void Window::DrawCursor()
 {
 	Vertex v[3];
-  auto p1x = cursx + 15.0f, p1y = cursy + 20.0f;
-  auto p2x = cursx + 15.0f * 1.2f - 20.0f * 0.4f, p2y = cursy + 20.0f * 1.2f + 15.0f * 0.4f;
-	float p3x = cursx + 15.0f * 1.2f + 20.0f * 0.4f, p3y = cursy + 20.0f * 1.2f - 15.0f * 0.4f;
+  const auto p1x = cursx + 15.0f, p1y = cursy + 20.0f;
+  const auto p2x = cursx + 15.0f * 1.2f - 20.0f * 0.4f, p2y = cursy + 20.0f * 1.2f + 15.0f * 0.4f;
+  const float p3x = cursx + 15.0f * 1.2f + 20.0f * 0.4f, p3y = cursy + 20.0f * 1.2f - 15.0f * 0.4f;
 	v[0].x = cursx;
 	v[0].y = cursy;
 	v[0].z = 0.5f;
@@ -744,11 +744,11 @@ bool Window::Slider(long id, float y, const char* text, float& value, float min,
 	x += 40.0f;
 	y += 1.0f;
 	DrawLRect(x, winy + y, x + sldLen, winy + y + 5.0f, 0, frmColor);
-	float szx = isSmallSlider ? 3.0f : 8.0f;
-	float szy = isSmallSlider ? 3.0f : 5.0f;
+  const float szx = isSmallSlider ? 3.0f : 8.0f;
+  const float szy = isSmallSlider ? 3.0f : 5.0f;
 	//Движёк
 	uint32_t c = 0xcc000000;
-	float oldv = v;
+  const float oldv = v;
 	if (!isPikerActive && !isList)
 	{
 		if (isActiveMouseState)
@@ -794,9 +794,9 @@ bool Window::ColorPicker(long id, float y, CVECTOR& ref, float st, CVECTOR& res)
 	//Расчитываем цвет
 	UpdateColors();
 	//Рисуем прямоугольник
-	float x = winx + 60.0f + sldLen;
-	float w = 50.0f;
-	float h = 50.0f;
+  const float x = winx + 60.0f + sldLen;
+  const float w = 50.0f;
+  const float h = 50.0f;
 	if (res.x < 0.0f) res.x = 0.0f;
 	if (res.y < 0.0f) res.y = 0.0f;
 	if (res.z < 0.0f) res.z = 0.0f;
@@ -804,7 +804,7 @@ bool Window::ColorPicker(long id, float y, CVECTOR& ref, float st, CVECTOR& res)
 	if (knrm < res.z) knrm = res.z;
 	if (knrm <= 1.0f) knrm = 1.0f;
 	knrm = 255.0f / knrm;
-	uint32_t color = (uint32_t(res.x * knrm) << 16) | (uint32_t(res.y * knrm) << 8) | (uint32_t(res.z * knrm) << 0);
+  const uint32_t color = (uint32_t(res.x * knrm) << 16) | (uint32_t(res.y * knrm) << 8) | (uint32_t(res.z * knrm) << 0);
 	DrawLRect(x, winy + y, x + w, winy + y + h, 0xff000000 | color, frmColor);
 	//Рисуем пикер
 	if (isPikerActive)
@@ -814,8 +814,8 @@ bool Window::ColorPicker(long id, float y, CVECTOR& ref, float st, CVECTOR& res)
 		//Цветовой квадрат
 		float x1 = x - 256.0f - 4.0f;
 		float y1 = winy + y + 3.0f;
-		float x2 = x - 4.0f;
-		float y2 = winy + y + 256.0f + 3.0f;
+    const float x2 = x - 4.0f;
+    const float y2 = winy + y + 256.0f + 3.0f;
 		struct Vrt
 		{
 			float x, y;
@@ -911,8 +911,8 @@ bool Window::Button(float x, float y, float w, float h, const char* text, long* 
 void Window::Checker(float x, float y, const char* text, bool& res)
 {
 	uint32_t c = selColor;
-	float s = 10.0f;
-	float h = 20.0f;
+  const float s = 10.0f;
+  const float h = 20.0f;
 	//Проверим на изменение
 	if (cursx >= winx + x && cursx <= winx + x + s)
 	{

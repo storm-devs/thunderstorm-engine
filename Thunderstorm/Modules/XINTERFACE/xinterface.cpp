@@ -239,7 +239,7 @@ void XINTERFACE::SetDevice()
   auto pvd = api->Event("GetQuestTextFileName", "");
 	if (pvd != nullptr)
 	{
-		int nq = pvd->GetElementsNum();
+    const int nq = pvd->GetElementsNum();
 		const char* pstr;
 		for (auto i = 0; i < nq; i++)
 		{
@@ -308,7 +308,7 @@ void XINTERFACE::Execute(uint32_t Delta_Time)
 		api->Event(m_pEvents->sEventName, "ls", m_pEvents->nCommandIndex, m_pEvents->sNodeName);
 		if (m_pEvents != nullptr)
 		{
-      auto pE = m_pEvents;
+      const auto pE = m_pEvents;
 			m_pEvents = m_pEvents->next;
 			delete pE;
 		}
@@ -1157,8 +1157,8 @@ void XINTERFACE::LoadIni()
 	// установить параметры экрана
 	if (ini->GetLong(platform, "bDynamicScaling", 0) != 0)
 	{
-		POINT screen_size = pRenderService->GetScreenSize();
-		float aspect = float(screen_size.x) / float(screen_size.y);
+    const POINT screen_size = pRenderService->GetScreenSize();
+    const float aspect = float(screen_size.x) / float(screen_size.y);
 		fScale = 1.f;
 		dwScreenWidth = 600 * aspect;
 		dwScreenHeight = 600;
@@ -1292,7 +1292,7 @@ void XINTERFACE::LoadDialog(char* sFileName)
 			else priority = 80;
 			if (!_stricmp(param, "PC") || !_stricmp(param, "XBOX") || !_stricmp(param, "LANG"))
 			{
-				bool bThisXBOX = false;
+        const bool bThisXBOX = false;
 #ifdef _XBOX
 				bThisXBOX = true;
 #endif
@@ -1352,7 +1352,7 @@ void XINTERFACE::LoadDialog(char* sFileName)
 	if (m_pContHelp != nullptr)
 	{
 		HELPEntity* pHlist = ((CXI_CONTEXTHELP*)m_pContHelp)->m_pHelpList;
-		long nListSize = ((CXI_CONTEXTHELP*)m_pContHelp)->m_helpQuantity;
+    const long nListSize = ((CXI_CONTEXTHELP*)m_pContHelp)->m_helpQuantity;
 		for (int n = 0; n < nListSize; n++)
 			pHlist[n].pNode = m_pNodes->FindNode(pHlist[n].nodeName);
 	}
@@ -1479,7 +1479,7 @@ void XINTERFACE::SFLB_CreateNode(INIFILE* pOwnerIni, INIFILE* pUserIni, const ch
 				char stmp[sizeof(param)];
 				sscanf(param, "%[^,]", stmp);
 				// search command
-				int nComNum = FindCommand(stmp);
+        const int nComNum = FindCommand(stmp);
 				if (nComNum == -1) continue;
 
 				pNewNod->m_bSelected = true;
@@ -2478,9 +2478,9 @@ void XINTERFACE::ShowPrevTexture()
 	uint32_t dwBlendColor = m_nBlendColor;
 	if (dwBlendColor > 0xFFL)
 		dwBlendColor = 0xFFL;
-	uint32_t dwColor = 0xFFFFFF | (dwBlendColor << 24L);
+  const uint32_t dwColor = 0xFFFFFF | (dwBlendColor << 24L);
 
-	float fWaveAmplitude = m_fWaveAmplitude * sinf(3.14f * m_nBlendColor / m_nBlendStepMax);
+  const float fWaveAmplitude = m_fWaveAmplitude * sinf(3.14f * m_nBlendColor / m_nBlendStepMax);
 	for (int ix = 0; ix < m_nColumnQuantity + 1; ix++)
 	{
 		pV[idx].color = pV[idx + 1].color = dwColor;
@@ -2648,7 +2648,7 @@ uint32_t XINTERFACE::AttributeChanged(ATTRIBUTES* patr)
 
 bool XINTERFACE::SFLB_DoSaveFileData(char* saveName, char* saveData) const {
 	if (saveName == nullptr || saveData == nullptr) return false;
-	long slen = strlen(saveData) + 1;
+  const long slen = strlen(saveData) + 1;
 	if (slen <= 1)
 		return false;
 
@@ -2785,7 +2785,7 @@ char* XINTERFACE::SaveFileFind(long saveNum, char* buffer, size_t bufSize, long&
 			sprintf_s(param, "%s\\*", sSavePath);
 		}
 		// start save file finding
-		HANDLE h = fio->_FindFirstFile(param, &wfd);
+    const HANDLE h = fio->_FindFirstFile(param, &wfd);
 		if (h != INVALID_HANDLE_VALUE)
 		{
 			do
@@ -2878,7 +2878,7 @@ bool XINTERFACE::NewSaveFileName(char* fileName) const {
 	if (sSavePath == nullptr) sprintf_s(param, "%s", fileName);
 	else sprintf_s(param, "%s\\%s", sSavePath, fileName);
 
-	HANDLE h = fio->_FindFirstFile(param, &wfd);
+  const HANDLE h = fio->_FindFirstFile(param, &wfd);
 	if (h == INVALID_HANDLE_VALUE) return true;
 
 	fio->_FindClose(h);
@@ -2895,7 +2895,7 @@ void XINTERFACE::DeleteSaveFile(char* fileName)
 	WIN32_FIND_DATA wfd;
 	if (sSavePath == nullptr) sprintf_s(param, "%s", fileName);
 	else sprintf_s(param, "%s\\%s", sSavePath, fileName);
-	HANDLE h = fio->_FindFirstFile(param, &wfd);
+  const HANDLE h = fio->_FindFirstFile(param, &wfd);
 	if (INVALID_HANDLE_VALUE != h)
 	{
 		fio->_FindClose(h);
@@ -2931,7 +2931,7 @@ uint32_t XINTERFACE_BASE::GetBlendColor(uint32_t minCol, uint32_t maxCol, float 
 void XINTERFACE::SetOtherData(char* cDat)
 {
 	auto xorMul = (uint8_t)CriptedName[sizeof(FINDBYTES)];
-	auto xorAdd = (uint8_t)CriptedName[sizeof(FINDBYTES) + 1];
+  const auto xorAdd = (uint8_t)CriptedName[sizeof(FINDBYTES) + 1];
 	auto* crdata = (uint8_t*)&CriptedName[sizeof(FINDBYTES) + 2];
 	auto* outDat = (uint8_t*)cDat;
 	for (int i = 0; i < sizeof(CriptedName) - sizeof(FINDBYTES) - 2; i++)
@@ -3043,14 +3043,14 @@ long XINTERFACE::PrintIntoWindow(long wl, long wr, long idFont, uint32_t dwFCol,
 		{
 			// Строку разбить с выдвижением на заданное число
 			int maxWidth = 0;
-			int nPrev = -1;
+      const int nPrev = -1;
 			char strLocTmp[1024];
 			strcpy_s(strLocTmp, str);
 			while (nPrev) //~!~
 			{
 				int nStart = FindMaxStrForWidth(pRenderService, nWidthForScaleCorrecting, strLocTmp, idFont, scale);
-				int curWidth = PrintIntoWindow(wl, wr, idFont, dwFCol, dwBCol, align, shadow, scale, sxs, sys, left,
-				                               top, &strLocTmp[nStart]);
+        const int curWidth = PrintIntoWindow(wl, wr, idFont, dwFCol, dwBCol, align, shadow, scale, sxs, sys, left,
+                                             top, &strLocTmp[nStart]);
 				if (curWidth > maxWidth) maxWidth = curWidth;
 				if (nStart == 0) break;
 				while (nStart > 0 && strLocTmp[nStart - 1] == 0x20) nStart--;
@@ -3088,7 +3088,7 @@ long XINTERFACE::PrintIntoWindow(long wl, long wr, long idFont, uint32_t dwFCol,
 		while (nEnd > 0 && strRight > wr)
 		{
 			nEnd--;
-			char chOld = newStr[nEnd];
+      const char chOld = newStr[nEnd];
 			newStr[nEnd] = 0;
 			strWidth = pRenderService->StringWidth(newStr, idFont, scale);
 			newStr[nEnd] = chOld;
@@ -3096,7 +3096,7 @@ long XINTERFACE::PrintIntoWindow(long wl, long wr, long idFont, uint32_t dwFCol,
 		}
 		if (nEnd > 0)
 		{
-			char chOld = newStr[nEnd];
+      const char chOld = newStr[nEnd];
 			newStr[nEnd] = 0;
 			strWidth = pRenderService->ExtPrint(idFont, dwFCol, dwBCol, PR_ALIGN_LEFT, shadow, scale, sxs, sys,
 			                                    strLeft, top, "%s", newStr);
@@ -3144,7 +3144,7 @@ char* AddAttributesStringsToBuffer(char* inBuffer, char* prevStr, ATTRIBUTES* pA
 	if (prevStr != nullptr)
 		prevLen = strlen(prevStr) + _countof(".") - 1;
 
-	int q = pAttr->GetAttributesNum();
+  const int q = pAttr->GetAttributesNum();
 	for (int k = 0; k < q; k++)
 	{
 		ATTRIBUTES* pA = pAttr->GetAttributeClass(k);
@@ -3288,7 +3288,7 @@ void XINTERFACE::LoadOptionsFile(char* fileName, ATTRIBUTES* pAttr)
 	if (fh == INVALID_HANDLE_VALUE) return;
 
 	uint32_t dwRealSize;
-	uint32_t dwSaveSize = fio->_GetFileSize(fh, nullptr);
+  const uint32_t dwSaveSize = fio->_GetFileSize(fh, nullptr);
 	if (dwSaveSize == 0)
 	{
 		api->Event("evntOptionsBreak");
@@ -3432,7 +3432,7 @@ int XINTERFACE::LoadIsExist()
 		sprintf_s(param, "%s\\*", sSavePath);
 	}
 
-	HANDLE h = fio->_FindFirstFile(param, &wfd);
+  const HANDLE h = fio->_FindFirstFile(param, &wfd);
 	bool bFindFile = h != INVALID_HANDLE_VALUE;
 	for (int findQ = 0; bFindFile; findQ++)
 	{
@@ -3588,7 +3588,7 @@ void CONTROLS_CONTAINER::Execute(uint32_t delta_time)
 				if (fVal == 0.f) fVal = insideCS.lValue * pDescr->fValLimit;
 				if (cs.fValue < fVal) cs.fValue = fVal;
 
-				long lVal = insideCS.lValue;
+        const long lVal = insideCS.lValue;
 				if (cs.lValue < lVal) cs.lValue = lVal;
 			}
 			pDescr = pDescr->next;
@@ -3611,7 +3611,7 @@ bool CONTROLS_CONTAINER::CreateConteinerList(ATTRIBUTES* pA)
 {
 	if (!pA) return false;
 
-	int q = pA->GetAttributesNum();
+  const int q = pA->GetAttributesNum();
 	for (int i = 0; i < q; i++)
 	{
 		ATTRIBUTES* pAttr = pA->GetAttributeClass(i);
@@ -3621,7 +3621,7 @@ bool CONTROLS_CONTAINER::CreateConteinerList(ATTRIBUTES* pA)
 		AddContainer(containerName);
 		SetContainerLimitVal(containerName, (float)atof(pAttr->GetThisAttr()));
 
-		int cntSize = pAttr->GetAttributesNum();
+    const int cntSize = pAttr->GetAttributesNum();
 		for (int n = 0; n < cntSize; n++)
 		{
 			AddControlsToContainer(containerName, pAttr->GetAttributeName(n), (float)atof(pAttr->GetAttribute(n)));
@@ -3730,8 +3730,8 @@ bool CheckPCcd()
 			char CheckName[1024];
 			sprintf_s(CheckName, "%c:\\%s", drive - 1 + 'A', CHECK_FILE_NAME);
 			SetErrorMode(SEM_FAILCRITICALERRORS);
-			HANDLE hFile = CreateFile(CheckName, GENERIC_READ, FILE_SHARE_READ,
-			                          nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+      const HANDLE hFile = CreateFile(CheckName, GENERIC_READ, FILE_SHARE_READ,
+                                      nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 			if (hFile == INVALID_HANDLE_VALUE)
 			{
 				SetErrorMode(0);

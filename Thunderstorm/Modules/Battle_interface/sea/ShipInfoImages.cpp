@@ -345,7 +345,7 @@ void ShipInfoImages::CalculateDirectingVectors(const CVECTOR& pos)
 
 void ShipInfoImages::WriteSquareVertex(SII_VERTEX* pV, const CVECTOR& center, const CVECTOR& offset, const FPOINT& size,
                                        const FRECT& uv, float fProgress) const {
-	CVECTOR vVert = size.y * m_vUpDir;
+  const CVECTOR vVert = size.y * m_vUpDir;
 
 	// left side
 	//--------------

@@ -178,7 +178,7 @@ long ModelArray::FindModel(const char* modelName)
 		buf[MA_MAX_NAME_LENGTH - 1] = 0;
 	}
 	//»щем хэшь значение
-  auto hash = CalcHashString(buf);
+  const auto hash = CalcHashString(buf);
 	//»щем модельку
 	for (long i = 0; i < numModels; i++)
 	{
@@ -232,7 +232,7 @@ void ModelArray::SetUVSlide(long modelIndex, float u0, float v0, float u1, float
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
 	if (!model[modelIndex].slider) model[modelIndex].slider = new UVSlider;
-  auto sl = model[modelIndex].slider;
+  const auto sl = model[modelIndex].slider;
 	sl->u0 = sl->v0 = 0.0f;
 	sl->u1 = sl->v1 = 0.0f;
 	sl->us0 = u0;
@@ -261,7 +261,7 @@ void ModelArray::SetReflection(long modelIndex, float scale)
 	if (!model[modelIndex].reflection) model[modelIndex].reflection = new Relection();
 	if (scale < 0.0f) scale = 0.0f;
 	if (scale > 1.0f) scale = 1.0f;
-	auto alpha = uint32_t(scale * 255.0f);
+  const auto alpha = uint32_t(scale * 255.0f);
 	model[modelIndex].reflection->tfactor = (alpha << 24) | 0x00ffffff;
   auto mdl = (*this)[modelIndex];
 	if (mdl) mdl->SetRenderTuner(model[modelIndex].reflection);
@@ -328,7 +328,7 @@ uint32_t ModelArray::CalcHashString(const char* str)
     auto c = *str++;
 		if (c >= 'A' && c <= 'Z') c += 'a' - 'A';
 		hval = (hval << 4) + (unsigned long int)c;
-    auto g = hval & ((unsigned long int)0xf << (32 - 4));
+    const auto g = hval & ((unsigned long int)0xf << (32 - 4));
 		if (g != 0)
 		{
 			hval ^= g >> (32 - 8);
@@ -372,7 +372,7 @@ void ModelArray::Relection::Set(MODEL* model, VDX9RENDER* rs)
 
 void ModelArray::Relection::Restore(MODEL* model, VDX9RENDER* rs)
 {
-	CMatrix mtx;
+  const CMatrix mtx;
 	rs->SetTransform(D3DTS_TEXTURE1, mtx);
 }
 
@@ -418,7 +418,7 @@ float ModelArray::Trace(const CVECTOR& src, const CVECTOR& dst)
 		if (model[i].isVisible)
 		{
 			auto* mdl = (MODEL *)EntityManager::GetEntityPointer(model[i].id);
-      auto km = mdl->Trace(src, dst);
+      const auto km = mdl->Trace(src, dst);
 			if (k > km)
 			{
 				k = km;

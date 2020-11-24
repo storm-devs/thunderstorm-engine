@@ -261,14 +261,14 @@ char* COMPILER::LoadFile(const char* file_name, uint32_t& file_size, bool bFullP
 		fh = fio->_CreateFile(buffer,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 
 	if (fh == INVALID_HANDLE_VALUE) return nullptr;
-  auto fsize = fio->_GetFileSize(fh, nullptr);
+  const auto fsize = fio->_GetFileSize(fh, nullptr);
 	if (fsize == INVALID_FILE_SIZE)
 	{
 		fio->_CloseHandle(fh);
 		return nullptr;
 	}
 
-  auto pData = (char *)new char[fsize + 1];
+  const auto pData = (char *)new char[fsize + 1];
 	fio->_ReadFile(fh, pData, fsize, &dwR);
 	if (fsize != dwR)
 	{
@@ -315,7 +315,7 @@ void COMPILER::DTrace(const char* data_PTR, ...)
 	//char LogBuffer[MAX_PATH + MAX_PATH];
 	char LogBuffer[4096];
 	if (data_PTR == nullptr) return;
-  auto file_h = fio->_CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
+  const auto file_h = fio->_CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
 	fio->_SetFilePointer(file_h, 0, nullptr,FILE_END);
 	va_list args;
 	va_start(args, data_PTR);
@@ -350,7 +350,7 @@ void COMPILER::DTrace(const char* data_PTR, ...)
 bool COMPILER::AppendProgram(char* & pBase_program, uint32_t& Base_program_size, const char* pAppend_program,
                              uint32_t& Append_program_size, bool bAddLinefeed)
 {
-  auto offset = Base_program_size;
+  const auto offset = Base_program_size;
 	if (pAppend_program == nullptr) return false;
 	if (bAddLinefeed)
 	{
@@ -389,7 +389,7 @@ void COMPILER::SetError(const char* data_PTR, ...)
 	char LogBuffer[MAX_PATH + MAX_PATH];
 	char ErrorBuffer[MAX_PATH + MAX_PATH];
 	if (data_PTR == nullptr) return;
-  auto file_h = fio->_CreateFile(COMPILER_ERRORLOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
+  const auto file_h = fio->_CreateFile(COMPILER_ERRORLOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
 	fio->_SetFilePointer(file_h, 0, nullptr,FILE_END);
 	va_list args;
 	va_start(args, data_PTR);
@@ -433,7 +433,7 @@ void COMPILER::SetWarning(const char* data_PTR, ...)
 	char LogBuffer[MAX_PATH + MAX_PATH];
 	char ErrorBuffer[MAX_PATH + MAX_PATH];
 	if (data_PTR == nullptr) return;
-  auto file_h = fio->_CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
+  const auto file_h = fio->_CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
 	fio->_SetFilePointer(file_h, 0, nullptr,FILE_END);
 	va_list args;
 	va_start(args, data_PTR);
@@ -543,7 +543,7 @@ bool COMPILER::CreateProgram(const char* file_name)
 	}
 //*/
 	LoadPreprocess();
-	bool bRes = BC_LoadSegment(file_name);
+  const bool bRes = BC_LoadSegment(file_name);
 
 	/*	for(DWORD m=0;m<HASH_TABLE_SIZE;m++)
 		{
@@ -559,7 +559,7 @@ bool COMPILER::CreateProgram(const char* file_name)
 bool COMPILER::Run()
 {
 	pRun_fi = nullptr;
-	uint32_t function_code = FuncTab.FindFunc("Main");
+  const uint32_t function_code = FuncTab.FindFunc("Main");
 	DATA* pResult;
 	bFirstRun = false;
 	BC_Execute(function_code, pResult);
@@ -584,7 +584,7 @@ bool COMPILER::Run()
 
 void COMPILER::FindErrorSource()
 {
-	uint32_t segment_index = GetSegmentIndex(RunningSegmentID);
+  const uint32_t segment_index = GetSegmentIndex(RunningSegmentID);
 	if (segment_index == INVALID_SEGMENT_INDEX) return;
 
 	uint32_t index;
@@ -656,7 +656,7 @@ void COMPILER::SetEventHandler(const char* event_name, const char* func_name, lo
 		return;
 	}
 
-	uint32_t func_code = FuncTab.FindFunc(func_name);
+  const uint32_t func_code = FuncTab.FindFunc(func_name);
 	if (func_code == INVALID_FUNC_CODE)
 	{
 		SetError("Invalid function code in SetEventHandler");
@@ -686,7 +686,7 @@ void COMPILER::DelEventHandler(const char* event_name, const char* func_name)
 		return;
 	}
 
-	uint32_t func_code = FuncTab.FindFunc(func_name);
+  const uint32_t func_code = FuncTab.FindFunc(func_name);
 	if (func_code == INVALID_FUNC_CODE)
 	{
 		SetError("Invalid function code in DelEventHandler");
@@ -752,7 +752,7 @@ VDATA* COMPILER::ProcessEvent(const char* event_name)
 		}
 
 
-		uint32_t nStackVars = SStack.GetDataNum(); // remember stack elements num
+    const uint32_t nStackVars = SStack.GetDataNum(); // remember stack elements num
 		RDTSC_B(nTicks);
 		BC_Execute(ei.pFuncInfo[n].func_code, pResult);
 		RDTSC_E(nTicks);
@@ -852,7 +852,7 @@ void COMPILER::UnloadSegment(const char* segment_name)
 	{
 		if (strcmp(SegmentTable[n].name, segment_name) == 0)
 		{
-			uint32_t segment_id = SegmentTable[n].id;
+      const uint32_t segment_id = SegmentTable[n].id;
 			SegmentTable[n].bUnload = true;
 			FuncTab.InvalidateBySegmentID(segment_id);
 			VarTab.InvalidateBySegmentID(segment_id);
@@ -920,7 +920,7 @@ bool COMPILER::BC_LoadSegment(const char* file_name)
 		if (!found) id++;
 	}
 
-	uint32_t index = SegmentsNum;
+  const uint32_t index = SegmentsNum;
 	SegmentsNum++;
 	//SegmentTable = (SEGMENT_DESC *)RESIZE(SegmentTable,SegmentsNum*sizeof(SEGMENT_DESC));
 	SegmentTable.resize(SegmentsNum);
@@ -938,7 +938,7 @@ bool COMPILER::BC_LoadSegment(const char* file_name)
 
 	SegmentTable[index].Files_list = new STRINGS_LIST;
 	SegmentTable[index].Files_list->SetStringDataSize(sizeof(OFFSET_INFO));
-	bool bRes = Compile(SegmentTable[index]);
+  const bool bRes = Compile(SegmentTable[index]);
 	if (!bRes)
 	{
 		delete SegmentTable[index].name;
@@ -959,11 +959,11 @@ bool COMPILER::ProcessDebugExpression(const char* pExpression, DATA& Result)
 {
 	if (pExpression == nullptr) return false;
 
-	uint32_t nDataSize = strlen(pExpression) + strlen("return ") + 2;
+  const uint32_t nDataSize = strlen(pExpression) + strlen("return ") + 2;
 	if (nDataSize > nDebExpBufferSize)
 	{
 		//	pDebExpBuffer = (char *)RESIZE(pDebExpBuffer,nDataSize);
-		auto newPtr = new char[nDataSize];
+    const auto newPtr = new char[nDataSize];
 		memcpy(newPtr, pDebExpBuffer, nDebExpBufferSize);
 		delete pDebExpBuffer;
 		pDebExpBuffer = newPtr;
@@ -977,11 +977,11 @@ bool COMPILER::SetOnDebugExpression(const char* pLValue, const char* pRValue, DA
 {
 	if (pLValue == nullptr || pRValue == nullptr) return false;
 
-	uint32_t nDataSize = strlen(pLValue) + strlen(pRValue) + 5;
+  const uint32_t nDataSize = strlen(pLValue) + strlen(pRValue) + 5;
 	if (nDataSize > nDebExpBufferSize)
 	{
 		//pDebExpBuffer = (char *)RESIZE(pDebExpBuffer,nDataSize);
-		auto newPtr = new char[nDataSize];
+    const auto newPtr = new char[nDataSize];
 		memcpy(newPtr, pDebExpBuffer, nDebExpBufferSize);
 		delete pDebExpBuffer;
 		pDebExpBuffer = newPtr;
@@ -1041,7 +1041,7 @@ bool COMPILER::ProcessDebugExpression0(const char* pExpression, DATA& Result)
 
 
 	// save current pointers values
-	uint32_t mem_InstructionPointer = InstructionPointer;
+  const uint32_t mem_InstructionPointer = InstructionPointer;
 	//mem_ip = ip;
 	FUNCINFO* mem_pfi = pRun_fi;
 	const char* mem_codebase = pRunCodeBase;
@@ -1052,7 +1052,7 @@ bool COMPILER::ProcessDebugExpression0(const char* pExpression, DATA& Result)
 	//DWORD old_data_num;
 	//old_data_num = SStack.GetDataNum(); trace("old_data_num: %d",old_data_num);
 
-	uint32_t stackN = SStack.GetDataNum();
+  const uint32_t stackN = SStack.GetDataNum();
 
 	try
 	{
@@ -1141,7 +1141,7 @@ void COMPILER::ResizeBCodeBuffer(SEGMENT_DESC& Segment, uint32_t add_size)
 	{
 		Segment.BCode_Buffer_size += BCODE_BUFFER_BLOCKSIZE;
 		//Segment.pCode = (char *)RESIZE(Segment.pCode,Segment.BCode_Buffer_size);
-		auto newPtr = new char[Segment.BCode_Buffer_size];
+    const auto newPtr = new char[Segment.BCode_Buffer_size];
 		memcpy(newPtr, Segment.pCode, Segment.BCode_Program_size);
 		delete Segment.pCode;
 		Segment.pCode = newPtr;
@@ -1175,7 +1175,7 @@ void COMPILER::CompileToken(SEGMENT_DESC& Segment, S_TOKEN_TYPE Token_type, uint
 	}
 
 	//pCompileTokenTempBuffer = (char *)RESIZE(pCompileTokenTempBuffer,data_blocks_num * (sizeof(char *) + sizeof(uint32_t)));
-	auto newPtr = new char[data_blocks_num * (sizeof(char *) + sizeof(uint32_t))];
+  const auto newPtr = new char[data_blocks_num * (sizeof(char *) + sizeof(uint32_t))];
 	delete pCompileTokenTempBuffer;
 	pCompileTokenTempBuffer = newPtr;
 
@@ -1231,7 +1231,7 @@ bool COMPILER::InitInternalFunctions()
 
 	// register internal functions ------------
 
-	uint32_t internal_functions_num = GetIntFunctionsNum();
+  const uint32_t internal_functions_num = GetIntFunctionsNum();
 	for (uint32_t n = 0; n < internal_functions_num; n++)
 	{
 		fi.segment_id = INTERNAL_SEGMENT_ID;
@@ -3846,7 +3846,7 @@ bool COMPILER::BC_CallFunction(uint32_t func_code, uint32_t& ip, DATA* & pVResul
 	{
 		pVResult = nullptr;
 		RDTSC_B(nTicks);
-		uint32_t nResult = call_fi.pImportedFunc(&SStack);
+    const uint32_t nResult = call_fi.pImportedFunc(&SStack);
 		if (nResult == IFUNCRESULT_OK)
 		{
 			if (call_fi.return_type != TVOID)
@@ -5860,7 +5860,7 @@ bool COMPILER::CompileUnknown(SEGMENT_DESC& Segment)
 	}
 
 	//def_code = DefineTable.GetStringCode(Token.GetData());
-	uint32_t def_code = DefTab.FindDef(Token.GetData());
+  const uint32_t def_code = DefTab.FindDef(Token.GetData());
 	if (def_code != INVALID_DEF_CODE)
 	{
 		DEFINFO di;
@@ -5883,7 +5883,7 @@ bool COMPILER::CompileUnknown(SEGMENT_DESC& Segment)
 		return true;
 	}
 
-	uint32_t lab_code = LabelTable.GetStringCode(Token.GetData());
+  const uint32_t lab_code = LabelTable.GetStringCode(Token.GetData());
 	if (lab_code != INVALID_ORDINAL_NUMBER)
 	{
 		LabelTable.SetStringData(lab_code, &Segment.BCode_Program_size);
@@ -5897,7 +5897,7 @@ bool COMPILER::CompileUnknown(SEGMENT_DESC& Segment)
 S_TOKEN_TYPE COMPILER::DetectUnknown(uint32_t& code)
 {
 	// check for valid function code
-	uint32_t func_code = FuncTab.FindFunc(Token.GetData());
+  const uint32_t func_code = FuncTab.FindFunc(Token.GetData());
 
 	if (func_code != INVALID_FUNC_CODE)
 	{
@@ -5921,7 +5921,7 @@ S_TOKEN_TYPE COMPILER::DetectUnknown(uint32_t& code)
 		return VARIABLE;
 	}
 
-	uint32_t def_code = DefTab.FindDef(Token.GetData());
+  const uint32_t def_code = DefTab.FindDef(Token.GetData());
 	if (def_code != INVALID_DEF_CODE)
 	{
 		code = def_code;
@@ -5950,7 +5950,7 @@ S_TOKEN_TYPE COMPILER::DetectUnknown(uint32_t& code)
 
 void COMPILER::ExitProgram()
 {
-	uint32_t function_code = FuncTab.FindFunc("ExitMain");
+  const uint32_t function_code = FuncTab.FindFunc("ExitMain");
 	if (function_code != INVALID_FUNC_CODE)
 	{
 		DATA* pResult;
@@ -5985,9 +5985,9 @@ void COMPILER::SaveData(const void* data_PTR, uint32_t data_size)
 
 	if (dwCurPointer + data_size > dwMaxSize)
 	{
-		uint32_t dwNewAllocate = (1 + (dwCurPointer + data_size) / (1024 * 1024)) * (1024 * 1024);
+    const uint32_t dwNewAllocate = (1 + (dwCurPointer + data_size) / (1024 * 1024)) * (1024 * 1024);
 		//pBuffer = (char*)RESIZE(pBuffer, dwNewAllocate);
-		auto newPtr = new char[dwNewAllocate];
+    const auto newPtr = new char[dwNewAllocate];
 		memcpy(newPtr, pBuffer, dwMaxSize);
 		delete pBuffer;
 		pBuffer = newPtr;
@@ -6046,7 +6046,7 @@ bool COMPILER::FindReferencedVariable(DATA* pRef, uint32_t& var_index, uint32_t&
 {
 	VARINFO vi;
 
-	uint32_t nVarNum = VarTab.GetVarNum();
+  const uint32_t nVarNum = VarTab.GetVarNum();
 	for (uint32_t n = 0; n < nVarNum; n++)
 	{
 		VarTab.GetVarX(vi, n);
@@ -6079,7 +6079,7 @@ bool COMPILER::FindReferencedVariableByRootA(ATTRIBUTES* pA, uint32_t& var_index
 {
 	VARINFO vi;
 
-	uint32_t nVarNum = VarTab.GetVarNum();
+  const uint32_t nVarNum = VarTab.GetVarNum();
 	for (uint32_t n = 0; n < nVarNum; n++)
 	{
 		VarTab.GetVarX(vi, n);
@@ -6114,7 +6114,7 @@ ATTRIBUTES* COMPILER::TraceARoot(ATTRIBUTES* pA, const char* & pAccess)
 	if (pA == nullptr) return nullptr; // error or invalid argument
 	if (pA->GetParent() == nullptr) return pA; // root found
 
-	long slen = strlen(pA->GetThisName()) + 1;
+  const long slen = strlen(pA->GetThisName()) + 1;
 
 	char* pAS = new char[slen];
 
@@ -6128,7 +6128,7 @@ ATTRIBUTES* COMPILER::TraceARoot(ATTRIBUTES* pA, const char* & pAccess)
 	{
 		const auto len = slen + strlen(pAccess) + 1;
 		//pAS = (char *)RESIZE(pAS, len);
-		auto newPtr = new char[len];
+    const auto newPtr = new char[len];
 		memcpy(newPtr, pAS, len);
 		delete pAS;
 		pAS = newPtr;
@@ -6201,14 +6201,14 @@ void COMPILER::SaveString(const char* pS)
 		WriteVDword(0);
 		return;
 	}
-	uint32_t n = strlen(pS) + 1;
+  const uint32_t n = strlen(pS) + 1;
 	WriteVDword(n);
 	SaveData(pS, n);
 }
 
 char* COMPILER::ReadString()
 {
-	uint32_t n = ReadVDword();
+  const uint32_t n = ReadVDword();
 	if (n == 0) return nullptr;
 
 	char* pBuffer = new char[n];
@@ -6518,7 +6518,7 @@ void COMPILER::SaveVariable(DATA* pV, bool bdim)
 
 bool COMPILER::OnLoad()
 {
-	uint32_t function_code = FuncTab.FindFunc("OnLoad");
+  const uint32_t function_code = FuncTab.FindFunc("OnLoad");
 	DATA* pResult;
 	BC_Execute(function_code, pResult);
 	return true;
@@ -6536,7 +6536,7 @@ bool COMPILER::SaveState(HANDLE fh)
 	dwMaxSize = 0;
 
 	DATA* pResult;
-	uint32_t function_code = FuncTab.FindFunc("OnSave");
+  const uint32_t function_code = FuncTab.FindFunc("OnSave");
 	if (function_code != INVALID_FUNC_CODE)
 		BC_Execute(function_code, pResult);
 
@@ -6561,7 +6561,7 @@ bool COMPILER::SaveState(HANDLE fh)
 		else SaveString(SCodec.GetNext());
 	}
 
-	uint32_t nSegNum = 1; //SegmentsNum;
+  const uint32_t nSegNum = 1; //SegmentsNum;
 	// 2. Data Segments
 	WriteVDword(nSegNum);
 
@@ -6575,7 +6575,7 @@ bool COMPILER::SaveState(HANDLE fh)
 	}
 
 	// 5. Variables table
-	uint32_t nVarNum = VarTab.GetVarNum();
+  const uint32_t nVarNum = VarTab.GetVarNum();
 	WriteVDword(nVarNum);
 
 	for (n = 0; n < nVarNum; n++)
@@ -6651,7 +6651,7 @@ bool COMPILER::LoadState(HANDLE fh)
 	ProgramDirectory = ReadString();
 
 	// 4. SCodec data
-	uint32_t nSCStringsNum = ReadVDword();
+  const uint32_t nSCStringsNum = ReadVDword();
 	for (n = 0; n < nSCStringsNum; n++)
 	{
 		pString = ReadString();
@@ -6663,7 +6663,7 @@ bool COMPILER::LoadState(HANDLE fh)
 	}
 
 
-	uint32_t nSegments2Load = ReadVDword();
+  const uint32_t nSegments2Load = ReadVDword();
 
 	// 3.  Segments names
 	// 3.a Initialize internal functions
@@ -6681,7 +6681,7 @@ bool COMPILER::LoadState(HANDLE fh)
 
 
 	// 5. Variables table, all variables created during previous step, just read value
-	uint32_t nVarNum = ReadVDword();
+  const uint32_t nVarNum = ReadVDword();
 	for (n = 0; n < nVarNum; n++)
 	{
 		pString = ReadString();
@@ -6782,11 +6782,11 @@ bool COMPILER::SetSaveData(const char* file_name, void* save_data, long data_siz
 	EXTDATA_HEADER exdh;
 
 	fio->SetDrive(XBOXDRIVE_NONE);
-	HANDLE fh = fio->_CreateFile(file_name, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, OPEN_EXISTING);
+  const HANDLE fh = fio->_CreateFile(file_name, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, OPEN_EXISTING);
 	fio->SetDrive();
 	if (fh == INVALID_HANDLE_VALUE) return false;
 
-	uint32_t dwFileSize = fio->_GetFileSize(fh, nullptr);
+  const uint32_t dwFileSize = fio->_GetFileSize(fh, nullptr);
 	auto* pVDat = (VDATA*)api->GetScriptVariable("savefile_info");
 	if (pVDat && pVDat->GetString())
 		sprintf_s(exdh.sFileInfo, sizeof(exdh.sFileInfo), "%s", pVDat->GetString());
@@ -6968,7 +6968,7 @@ bool COMPILER::SetSaveData(const char* file_name, void* save_data, long data_siz
 void* COMPILER::GetSaveData(const char* file_name, long& data_size)
 {
 	fio->SetDrive(XBOXDRIVE_NONE);
-	HANDLE fh = fio->_CreateFile(file_name, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
+  const HANDLE fh = fio->_CreateFile(file_name, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 	fio->SetDrive();
 	if (fh == INVALID_HANDLE_VALUE)
 	{
@@ -7174,7 +7174,7 @@ uint32_t COMPILER::SetScriptFunction(IFUNCINFO* pFuncInfo)
 		return INVALID_FUNCHANDLE;
 	}
 
-	uint32_t nFuncHandle = FuncTab.FindFunc(pFuncInfo->pFuncName);
+  const uint32_t nFuncHandle = FuncTab.FindFunc(pFuncInfo->pFuncName);
 	if (nFuncHandle != INVALID_FUNC_CODE)
 	{
 		FuncTab.GetFuncX(fi, nFuncHandle);
@@ -7205,7 +7205,7 @@ uint32_t COMPILER::SetScriptFunction(IFUNCINFO* pFuncInfo)
 	if (pFuncInfo->pReturnValueName == nullptr) fi.return_type = TVOID;
 	else
 	{
-		S_TOKEN_TYPE TokenType = Token.Keyword2TokenType(pFuncInfo->pReturnValueName);
+    const S_TOKEN_TYPE TokenType = Token.Keyword2TokenType(pFuncInfo->pReturnValueName);
 		switch (TokenType)
 		{
 		case TVOID:
@@ -7226,7 +7226,7 @@ uint32_t COMPILER::SetScriptFunction(IFUNCINFO* pFuncInfo)
 	}
 
 
-	uint32_t funch = FuncTab.AddFunc(fi);
+  const uint32_t funch = FuncTab.AddFunc(fi);
 	return funch;
 }
 
@@ -7241,7 +7241,7 @@ DATA* COMPILER::GetOperand(const char* pCodeBase, uint32_t& ip, S_TOKEN_TYPE* pT
 	VARINFO vi;
 	DATA* pVar;
 
-	S_TOKEN_TYPE sttResult = BC_TokenGet(ip, token_data_size);
+  const S_TOKEN_TYPE sttResult = BC_TokenGet(ip, token_data_size);
 	if (pTokenType) *pTokenType = sttResult;
 	switch (sttResult)
 	{
@@ -7285,7 +7285,7 @@ void COMPILER::FormatAllDialog(char* directory_name)
 	WIN32_FIND_DATA ffd;
 	char sFileName[MAX_PATH];
 	sprintf_s(sFileName, "%s\\*.c", directory_name);
-	HANDLE fh = fio->_FindFirstFile(sFileName, &ffd);
+  const HANDLE fh = fio->_FindFirstFile(sFileName, &ffd);
 	if (fh != INVALID_HANDLE_VALUE)
 	{
 		sprintf_s(sFileName, "%s\\%s", directory_name, ffd.cFileName);
@@ -7322,14 +7322,14 @@ void COMPILER::FormatDialog(char* file_name)
 	char* pFileData = LoadFile(file_name, FileSize, true);
 	if (pFileData == nullptr) { return; }
 
-	HANDLE fh = fio->_CreateFile(sFileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
+  const HANDLE fh = fio->_CreateFile(sFileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
 	if (fh == INVALID_HANDLE_VALUE) return;
 
 	//sprintf_s(sFileName,"PROGRAM\\%s",file_name);
 	strcpy_s(sFileName, file_name);
 	sFileName[strlen(sFileName) - 1] = 0;
 	strcat_s(sFileName, "h");
-	HANDLE fhH = fio->_CreateFile(sFileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
+  const HANDLE fhH = fio->_CreateFile(sFileName,GENERIC_WRITE,FILE_SHARE_READ,CREATE_ALWAYS);
 	if (fhH == INVALID_HANDLE_VALUE)
 	{
 		fio->_CloseHandle(fh);
@@ -7342,7 +7342,7 @@ void COMPILER::FormatDialog(char* file_name)
 	//if(pFileData == 0) {fio->_CloseHandle(fh); fio->_CloseHandle(fhH); return;}
 
 	uint32_t n;
-	uint32_t nFullNameLen = strlen(file_name);
+  const uint32_t nFullNameLen = strlen(file_name);
 	for (n = nFullNameLen; n > 0; n--)
 	{
 		if (file_name[n] == '\\') break;

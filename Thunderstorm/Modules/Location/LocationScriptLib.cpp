@@ -58,7 +58,7 @@ inline bool CheckID(VDATA* vd, const char* id, bool& res)
 	if (!a) return false;
 	a = a->GetAttributeClass("id");
 	if (!a) return true;
-  auto attr = a->GetThisAttr();
+  const auto attr = a->GetThisAttr();
 	if (!attr) return true;
 	res = _stricmp(attr, id) == 0;
 	return true;
@@ -143,10 +143,10 @@ uint32_t slNativeFastFind(VS_STACK* pS, LocationFindCacheElement* cache, long ca
 		}
 	}
 	//Придётся искать по массиву
-	long num = pArray->GetElementsNum();
+  const long num = pArray->GetElementsNum();
 	for (long i = 0; i < num; i++)
 	{
-    auto vd = (VDATA *)pArray->GetArrayElement(i);
+    const auto vd = (VDATA *)pArray->GetArrayElement(i);
 		if (CheckID(vd, charactersFindBuf.name, res))
 		{
 			if (res)
@@ -190,7 +190,7 @@ uint32_t slNativeFindLaodLocation(VS_STACK* pS)
 		pReturn->Set(-1L);
 		return IFUNCRESULT_OK;
 	}
-	long index = l->AttributesPointer->GetAttributeAsDword("index", -1L);
+  const long index = l->AttributesPointer->GetAttributeAsDword("index", -1L);
 	pReturn->Set(index);
 	return IFUNCRESULT_OK;
 }

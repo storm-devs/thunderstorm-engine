@@ -38,7 +38,7 @@ DATA* S_STACK::Push(DATA* pdataclass)
 	if (Data_num > STACK_BUFFER_LIMIT) throw std::exception("stack overflaw");
 	if (Data_num >= Buffer_size)
 	{
-    auto offset = Buffer_size;
+    const auto offset = Buffer_size;
 		Buffer_size += STACK_BUFFER_BLOCK_SIZE;
 		pStackData.resize(Buffer_size);
 		//trace("stack: %d",Buffer_size);

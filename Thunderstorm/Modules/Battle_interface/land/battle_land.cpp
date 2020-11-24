@@ -93,8 +93,8 @@ uint64_t BATTLE_LAND_INTERFACE::ProcessMessage(MESSAGE& message)
 		{
 			char param[256];
 			message.String(sizeof(param) - 1, param);
-			int hQ = message.Long();
-			int vQ = message.Long();
+      const int hQ = message.Long();
+      const int vQ = message.Long();
 			if (m_pManSign) return m_pManSign->AddTexture(param, hQ, vQ);
 			return -1;
 		}
@@ -138,7 +138,7 @@ void BATTLE_LAND_INTERFACE::EndShow()
 
 void BATTLE_LAND_INTERFACE::SetShowParameters()
 {
-  auto pA = AttributesPointer ? AttributesPointer->GetAttributeClass("Parameters") : nullptr;
+  const auto pA = AttributesPointer ? AttributesPointer->GetAttributeClass("Parameters") : nullptr;
 	m_bShowCommandos = 0 != BIUtils::GetLongFromAttr(pA, "DoShowCommandos", true);
 
 	m_pManSign = new BIManSign(GetId(), m_pRS);

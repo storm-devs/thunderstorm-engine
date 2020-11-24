@@ -157,7 +157,7 @@ void SoundService::ProcessFader(int idx)
 		return;
 	}
 
-  auto fTime = api->GetDeltaTime() * 0.001f;
+  const auto fTime = api->GetDeltaTime() * 0.001f;
 
 	PlayingSounds[idx].fFaderCurrentVolume += PlayingSounds[idx].fFaderDeltaInSec * fTime;
 
@@ -270,7 +270,7 @@ int SoundService::FindEmptySlot() const {
 
 //--------------------------------------------------------------------
 const char* SoundService::GetRandomName(tAlias* _alias) const {
-  auto randomFloat = rand(_alias->fMaxProbabilityValue);
+  const auto randomFloat = rand(_alias->fMaxProbabilityValue);
   auto currentNameIndex = 0;
   auto currentFloat = 0.f;
 
@@ -295,7 +295,7 @@ const char* SoundService::GetRandomName(tAlias* _alias) const {
 
 int SoundService::GetAliasIndexByName(const char* szAliasName)
 {
-	uint32_t dwSearchHash = TOREMOVE::HashNoCase(szAliasName);
+  const uint32_t dwSearchHash = TOREMOVE::HashNoCase(szAliasName);
 	for (uint32_t i = 0; i < Aliases.size(); i++)
 	{
 		if (Aliases[i].dwNameHash == dwSearchHash)
@@ -330,7 +330,7 @@ TSD_ID SoundService::SoundPlay(const char* _name,
 	if (!strchr(_name, '\\'))
 	{
 		//Пробуем найти в алиасах
-    auto AliasIdx = GetAliasIndexByName(_name);
+    const auto AliasIdx = GetAliasIndexByName(_name);
 		if (AliasIdx >= 0 && Aliases[AliasIdx].SoundFiles.size() > 0)
 		{
 			//Играем из алиаса звук...
@@ -414,7 +414,7 @@ TSD_ID SoundService::SoundPlay(const char* _name,
 	else
 	{
 		//Для всех остальных звуков берем из кеша
-    auto CacheIdx = GetFromCache(SoundName.c_str(), _type);
+    const auto CacheIdx = GetFromCache(SoundName.c_str(), _type);
 		if (CacheIdx < 0)
 		{
 			return 0;
@@ -432,7 +432,7 @@ TSD_ID SoundService::SoundPlay(const char* _name,
 
 
 	//--------
-	TSD_ID SoundID = SoundIdx + 1;
+  const TSD_ID SoundID = SoundIdx + 1;
 
 	PlayingSounds[SoundIdx].type = _volumeType;
 
@@ -448,7 +448,7 @@ TSD_ID SoundService::SoundPlay(const char* _name,
 
 	if (SoundIdx <= 1)
 	{
-    auto OGGpos = GetOGGPosition(SoundName.c_str());
+    const auto OGGpos = GetOGGPosition(SoundName.c_str());
 		PlayingSounds[SoundIdx].channel->setPosition(OGGpos, FMOD_TIMEUNIT_MS);
 
 		_prior = 0;
@@ -760,8 +760,8 @@ void SoundService::SetCameraPosition(const CVECTOR& _cameraPosition)
 //--------------------------------------------------------------------
 void SoundService::SetCameraOrientation(const CVECTOR& _nose, const CVECTOR& _head)
 {
-  auto nose = !_nose;
-  auto head = !_head;
+  const auto nose = !_nose;
+  const auto head = !_head;
 
 	vListenerForward.x = nose.x;
 	vListenerForward.y = nose.y;
@@ -1276,7 +1276,7 @@ void SoundService::DebugDraw()
 
 int SoundService::GetFromCache(const char* szName, eSoundType _type)
 {
-	uint32_t dwSearchHash = TOREMOVE::HashNoCase(szName);
+  const uint32_t dwSearchHash = TOREMOVE::HashNoCase(szName);
 
 	for (uint32_t i = 0; i < SoundCache.size(); i++)
 	{
@@ -1341,13 +1341,13 @@ void SoundService::DebugPrint3D(const CVECTOR& pos3D, float rad, long line, floa
 	view.Transposition();
 	float dist = ~(pos3D - view.Pos());
 	if (dist >= rad * rad) return;
-	float d = view.Vz() | view.Pos();
+  const float d = view.Vz() | view.Pos();
 	if ((pos3D | view.Vz()) < d) return;
 	rs->GetViewport(&vp);
 	mtx.Projection((CVECTOR *)&pos3D, &vrt, 1, vp.Width * 0.5f, vp.Height * 0.5f, sizeof(CVECTOR),
 	               sizeof(MTX_PRJ_VECTOR));
 	//Ищем позицию
-	long fh = rs->CharHeight(FONT_DEFAULT) / 2;
+  const long fh = rs->CharHeight(FONT_DEFAULT) / 2;
 	vrt.y -= (line + 0.5f) * fh;
 	//Прозрачность	
 	const float kDist = 0.75f;
@@ -1537,7 +1537,7 @@ bool SoundService::AddSoundSchemeChannel(char* in_string, bool _looped /*= false
 	// try to convert forthcoming numbers
 	int n1, n2;
 	float f1;
-	int numbersConverted = sscanf(++col, "%d, %d, %f", &n1, &n2, &f1);
+  const int numbersConverted = sscanf(++col, "%d, %d, %f", &n1, &n2, &f1);
 	switch (numbersConverted)
 	{
 	case 1:
@@ -1575,7 +1575,7 @@ void SoundService::ProcessSoundSchemes()
 	// handle schemes
 	//if (!schemesEnabled) return;
 
-	uint32_t dTime = api->GetDeltaTime();
+  const uint32_t dTime = api->GetDeltaTime();
 
 	for (uint32_t i = 0; i < SoundSchemeChannels.size(); i++)
 	{
@@ -1606,7 +1606,7 @@ void SoundService::ProcessSoundSchemes()
 
 int SoundService::GetOGGPositionIndex(const char* szName)
 {
-	uint32_t dwHash = TOREMOVE::HashNoCase(szName);
+  const uint32_t dwHash = TOREMOVE::HashNoCase(szName);
 
 	for (uint32_t i = 0; i < OGGPosition.size(); i++)
 	{
@@ -1624,7 +1624,7 @@ int SoundService::GetOGGPositionIndex(const char* szName)
 
 unsigned int SoundService::GetOGGPosition(const char* szName)
 {
-	int idx = GetOGGPositionIndex(szName);
+  const int idx = GetOGGPositionIndex(szName);
 	if (idx >= 0)
 	{
 		return OGGPosition[idx].position;
@@ -1635,7 +1635,7 @@ unsigned int SoundService::GetOGGPosition(const char* szName)
 
 void SoundService::SetOGGPosition(const char* szName, unsigned int pos)
 {
-	int idx = GetOGGPositionIndex(szName);
+  const int idx = GetOGGPositionIndex(szName);
 	if (idx >= 0)
 	{
 		OGGPosition[idx].position = pos;

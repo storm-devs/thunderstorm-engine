@@ -198,7 +198,7 @@ void Lights::Realize(uint32_t delta_time)
 	rs->GetTransform(D3DTS_VIEW, camMtx);
 	rs->SetTransform(D3DTS_VIEW, CMatrix());
 	rs->SetTransform(D3DTS_WORLD, CMatrix());
-  auto camPDist = -(pos.x * camMtx.Vx().z + pos.y * camMtx.Vy().z + pos.z * camMtx.Vz().z);
+  const auto camPDist = -(pos.x * camMtx.Vx().z + pos.y * camMtx.Vy().z + pos.z * camMtx.Vz().z);
 	for (long i = 0, n = 0; i < numLights; i++)
 	{
 		//Источник
@@ -209,17 +209,17 @@ void Lights::Realize(uint32_t delta_time)
     auto dist = ls.pos.x * camMtx.Vx().z + ls.pos.y * camMtx.Vy().z + ls.pos.z * camMtx.Vz().z + camPDist;
 		if (dist < -2.0f * l.coronaSize) continue;
 		//Дистанция
-    auto dx = ls.pos.x - pos.x;
-    auto dy = ls.pos.y - pos.y;
-    auto dz = ls.pos.z - pos.z;
+    const auto dx = ls.pos.x - pos.x;
+    const auto dy = ls.pos.y - pos.y;
+    const auto dz = ls.pos.z - pos.z;
     auto d = dx * dx + dy * dy + dz * dz;
     auto isVisible = d < l.coronaRange2;
 		if (!isVisible) continue;
 		//Видимость
 		if (collide)
 		{
-      auto dist = collide->Trace(EntityManager::GetEntityIdIterators(SUN_TRACE), pos,
-                                 CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z), lampModels, numLampModels);
+      const auto dist = collide->Trace(EntityManager::GetEntityIdIterators(SUN_TRACE), pos,
+                                       CVECTOR(ls.pos.x, ls.pos.y, ls.pos.z), lampModels, numLampModels);
 			isVisible = dist > 1.0f;
 		}
 		ls.corona += isVisible ? 0.008f * delta_time : -0.008f * delta_time;
@@ -247,7 +247,7 @@ void Lights::Realize(uint32_t delta_time)
 		if (d > 0.1f) d = 0.1f;
 		d += 1.0f;
 		//Текущий размер
-    auto size = d * l.coronaSize;
+    const auto size = d * l.coronaSize;
 		//Прозрачность
 		alpha *= d;
 		if (alpha < 0.0f) alpha = 0.0f;
@@ -397,7 +397,7 @@ long Lights::AddMovingLight(const char* type, const CVECTOR& pos)
 	}
 	if (idx == 1000) return -1;
 
-  auto nType = FindLight(type);
+  const auto nType = FindLight(type);
 	if (nType < 0) return -1;
 
 	MovingLight movingLight;
@@ -417,7 +417,7 @@ void Lights::UpdateMovingLight(long id, const CVECTOR& pos)
 	for (long n = 0; n < aMovingLight.size(); n++)
 		if (aMovingLight[n].id == id)
 		{
-      auto i = aMovingLight[n].light;
+      const auto i = aMovingLight[n].light;
 			if (i >= 0 && i < numLights)
 				lights[i].pos = *(D3DVECTOR*)&pos;
 			return;
@@ -464,11 +464,11 @@ void Lights::SetCharacterLights(const CVECTOR* const pos)
 			i = aLightsSort[n];
 
 			//Смотрим дистанцию
-      auto dx = (pos->x - lights[i].pos.x);
-      auto dy = (pos->y - lights[i].pos.y);
-      auto dz = (pos->z - lights[i].pos.z);
-      auto dst = dx * dx + dy * dy + dz * dz + 2.0f;
-			float rng = types[lights[i].type].dxLight.Range;
+      const auto dx = (pos->x - lights[i].pos.x);
+      const auto dy = (pos->y - lights[i].pos.y);
+      const auto dz = (pos->z - lights[i].pos.z);
+      const auto dst = dx * dx + dy * dy + dz * dz + 2.0f;
+      const float rng = types[lights[i].type].dxLight.Range;
 
 			if (dst <= rng * rng)
 			{

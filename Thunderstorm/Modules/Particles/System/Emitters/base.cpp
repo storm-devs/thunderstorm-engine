@@ -35,22 +35,22 @@ BaseEmitter::~BaseEmitter()
 //Родить новые партиклы 
 void BaseEmitter::BornParticles(float DeltaTime)
 {
-  auto SavedTime = ElapsedTime;
+  const auto SavedTime = ElapsedTime;
 	if (!Visible) return;
 	Matrix matTransform;
 
   auto MatrixBlend = 0.0f;
-  auto MatrixBlendInc = 1.0f / INTERPOLATION_STEPS;
+  const auto MatrixBlendInc = 1.0f / INTERPOLATION_STEPS;
 
 	for (auto i = 0; i < (int)INTERPOLATION_STEPS; i++)
 	{
 		BlendMatrix(matWorldTransform, matWorldTransformOld, matWorldTransformNew, MatrixBlend);
 
-    auto TransformPos = Position * matWorldTransform;
+    const auto TransformPos = Position * matWorldTransform;
 		matWorldTransform.pos = TransformPos;
 		MatrixBlend += MatrixBlendInc;
 
-    auto DeltaTimeDiv = DeltaTime / INTERPOLATION_STEPS;
+    const auto DeltaTimeDiv = DeltaTime / INTERPOLATION_STEPS;
 		IncreaseTime(DeltaTimeDiv);
 
 		// Если запаузился эмиттер досрочный выход
@@ -275,10 +275,10 @@ void BaseEmitter::Teleport(const Matrix& matWorld)
 
 void BaseEmitter::BlendMatrix(Matrix& result, const Matrix& mat1, const Matrix& mat2, float BlendK)
 {
-	Quaternion qRot1(mat1);
-	Quaternion qRot2(mat2);
-  auto vPos1 = mat1.pos;
-  auto vPos2 = mat2.pos;
+  const Quaternion qRot1(mat1);
+  const Quaternion qRot2(mat2);
+  const auto vPos1 = mat1.pos;
+  const auto vPos2 = mat2.pos;
 
 	Quaternion qBlend;
 	qBlend.SLerp(qRot1, qRot2, BlendK);

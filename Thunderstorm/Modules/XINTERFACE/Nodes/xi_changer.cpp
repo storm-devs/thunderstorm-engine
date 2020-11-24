@@ -78,7 +78,7 @@ void CXI_CHANGER::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 	char param[255];
 	FXYPOINT fPnt;
 
-  auto bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
+  const auto bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
 
 	// get position quantity
 	m_nPlaceQuantity = 0;
@@ -308,7 +308,7 @@ uint32_t CXI_CHANGER::MessageProc(long msgcode, MESSAGE& message)
 	{
 	case 0: // Set position to N
 		{
-			int n = message.Long();
+      const int n = message.Long();
 			if (n >= 0 && n < m_nPlaceQuantity && n != m_nCurrentPos)
 			{
 				m_nCurrentPos = n;

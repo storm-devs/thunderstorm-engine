@@ -53,7 +53,7 @@ void BISignIcon::Draw()
 	if (m_nVBufID != -1 && m_nIBufID != -1)
 	{
 		long nStartV = 0;
-		long nStartI = 0;
+    const long nStartI = 0;
 
 		// sign face
 		if (m_nSignFaceSquareQ > 0)
@@ -222,7 +222,7 @@ void BISignIcon::Init(ATTRIBUTES* pRoot, ATTRIBUTES* pA)
 
 void BISignIcon::Recollect()
 {
-  auto n = CalculateSignQuantity();
+  const auto n = CalculateSignQuantity();
 	UpdateBuffers(n);
 }
 
@@ -300,12 +300,12 @@ long BISignIcon::CalculateSignQuantity()
 
 void BISignIcon::UpdateBuffers(long nQ)
 {
-  auto nBackSquareQ = nQ;
-  auto nSignStateSquareQ = nQ * 2;
-  auto nSignStarSquareQ = nQ;
-  auto nSignFaceSquareQ = nQ;
+  const auto nBackSquareQ = nQ;
+  const auto nSignStateSquareQ = nQ * 2;
+  const auto nSignStarSquareQ = nQ;
+  const auto nSignFaceSquareQ = nQ;
 
-  auto nMaxSignQ = BIUtils::GetMaxFromFourLong(nBackSquareQ, nSignStateSquareQ, nSignStarSquareQ, nSignFaceSquareQ);
+  const auto nMaxSignQ = BIUtils::GetMaxFromFourLong(nBackSquareQ, nSignStateSquareQ, nSignStarSquareQ, nSignFaceSquareQ);
 	if (m_nMaxSquareQ != nMaxSignQ)
 	{
 		m_nMaxSquareQ = nMaxSignQ;
@@ -392,10 +392,10 @@ long BISignIcon::WriteSquareToVBuff(BI_COLOR_VERTEX* pv, const FRECT& uv, uint32
 {
 	if (!pv) return 0;
 
-	auto fLeft = (float)(center.x - size.x / 2);
-	auto fTop = (float)(center.y - size.y / 2);
-  auto fRight = fLeft + size.x;
-  auto fBottom = fTop + size.y;
+  const auto fLeft = (float)(center.x - size.x / 2);
+  const auto fTop = (float)(center.y - size.y / 2);
+  const auto fRight = fLeft + size.x;
+  const auto fBottom = fTop + size.y;
 
 	pv[0].pos.x = fLeft;
 	pv[0].pos.y = fTop;
@@ -447,10 +447,10 @@ long BISignIcon::WriteSquareToVBuffWithProgress(BI_COLOR_VERTEX* pv, const FRECT
 	fTop += size.y * fClampUp;
 	fBottom += size.y * fClampDown;
 
-  auto fLeftUV = uv.left + (uv.right - uv.left) * fClampLeft;
-  auto fRightUV = uv.right - (uv.right - uv.left) * fClampRight;
-  auto fTopUV = uv.top + (uv.bottom - uv.top) * fClampUp;
-  auto fBottomUV = uv.bottom - (uv.bottom - uv.top) * fClampDown;
+  const auto fLeftUV = uv.left + (uv.right - uv.left) * fClampLeft;
+  const auto fRightUV = uv.right - (uv.right - uv.left) * fClampRight;
+  const auto fTopUV = uv.top + (uv.bottom - uv.top) * fClampUp;
+  const auto fBottomUV = uv.bottom - (uv.bottom - uv.top) * fClampDown;
 
 	pv[0].pos.x = fLeft;
 	pv[0].pos.y = fTop;

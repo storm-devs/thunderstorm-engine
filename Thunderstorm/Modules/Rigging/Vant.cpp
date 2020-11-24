@@ -85,7 +85,7 @@ void VANT::Execute(uint32_t Delta_Time)
 		//====================================================
 		// Если был изменен ини-файл, то считать инфо из него
 		WIN32_FIND_DATA wfd;
-    auto h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
+    const auto h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
 		if (INVALID_HANDLE_VALUE != h)
 		{
       auto ft_new = wfd.ftLastWriteTime;
@@ -110,7 +110,7 @@ void VANT::Realize(uint32_t Delta_Time) const {
 		uint32_t ambient;
 		RenderService->GetRenderState(D3DRS_AMBIENT, &ambient);
 		RenderService->SetRenderState(D3DRS_TEXTUREFACTOR, ambient);
-    auto bDraw = RenderService->TechniqueExecuteStart("ShipVant");
+    const auto bDraw = RenderService->TechniqueExecuteStart("ShipVant");
 		if (!bDraw) return;
 
 		// draw nature vants
@@ -140,13 +140,13 @@ void VANT::Realize(uint32_t Delta_Time) const {
 
 uint64_t VANT::ProcessMessage(MESSAGE& message)
 {
-  auto code = message.Long();
+  const auto code = message.Long();
 
 	switch (code)
 	{
 	case MSG_VANT_INIT:
 		{
-      auto oldvantQuantity = vantQuantity;
+      const auto oldvantQuantity = vantQuantity;
 			if (gdata == nullptr)
 			{
 				if ((gdata = new GROUPDATA[1]) == nullptr)
@@ -155,7 +155,7 @@ uint64_t VANT::ProcessMessage(MESSAGE& message)
 			}
 			else
 			{
-        auto oldgdata = gdata;
+        const auto oldgdata = gdata;
 				if ((gdata = new GROUPDATA[groupQuantity + 1]) == nullptr)
 					throw std::exception("Not memory allocation");
 				memcpy(gdata, oldgdata, sizeof(GROUPDATA) * groupQuantity);
@@ -200,7 +200,7 @@ uint64_t VANT::ProcessMessage(MESSAGE& message)
 				else
 				{
 					groupQuantity--;
-          auto oldgdata = gdata;
+          const auto oldgdata = gdata;
 					gdata = new GROUPDATA[groupQuantity];
 					if (gdata == nullptr) gdata = oldgdata;
 					else
@@ -244,7 +244,7 @@ uint64_t VANT::ProcessMessage(MESSAGE& message)
 
 	case MSG_VANT_DEL_GROUP:
 		{
-			entid_t tmp_id = message.EntityID();
+      const entid_t tmp_id = message.EntityID();
 			for (int i = 0; i < groupQuantity; i++)
 				if (gdata[i].model_id == tmp_id)
 				{
@@ -257,7 +257,7 @@ uint64_t VANT::ProcessMessage(MESSAGE& message)
 
 	case MSG_VANT_DEL_MAST:
 		{
-			entid_t tmp_id = message.EntityID();
+      const entid_t tmp_id = message.EntityID();
 			NODE* mastNode = (NODE*)message.Pointer();
 			if (mastNode == nullptr) break;
 			for (int i = 0; i < groupQuantity; i++)
@@ -397,7 +397,7 @@ void VANT::SetVertexes() const {
 			pv[iv + 2].tu = treangXr;
 			pv[iv + 2].tv = treangYd;
 			//
-			float fh = sqrtf(~((rPos + lPos) * .5f - uPos));
+      const float fh = sqrtf(~((rPos + lPos) * .5f - uPos));
 			auto ftmp = (float)(int)(fh / hRopeHeight + .5f);
 			pv[iv + 3].tu = ropeXl;
 			pv[iv + 3].tv = 0.f;
@@ -428,7 +428,7 @@ void VANT::SetVertexes() const {
 			// Set up ropes points
 			CVECTOR sp = uPos - horzDirect * (.5f * upWidth) + vertDirect * upHeight;
 			CVECTOR dp = horzDirect * (upWidth / (float)(ROPE_QUANT - 1));
-			float dtmp = (vRopeXr - vRopeXl) / (float)VANT_EDGE;
+      const float dtmp = (vRopeXr - vRopeXl) / (float)VANT_EDGE;
 			for (i = 0; i < ROPE_QUANT; i++)
 			{
 				for (j = 0; j <= VANT_EDGE; j++)
@@ -603,7 +603,7 @@ void VANT::LoadIni()
 
 	INIFILE* ini;
 	WIN32_FIND_DATA wfd;
-	HANDLE h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
+  const HANDLE h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
 	if (INVALID_HANDLE_VALUE != h)
 	{
 		ft_old = wfd.ftLastWriteTime;
@@ -777,7 +777,7 @@ void VANT::doMove()
 
 bool VANT::VectCmp(CVECTOR v1, CVECTOR v2, float minCmpVal) // return true if equal
 {
-	CVECTOR dv = v1 - v2;
+  const CVECTOR dv = v1 - v2;
 
 	if (dv.x > minCmpVal || dv.x < -minCmpVal ||
 		dv.y > minCmpVal || dv.y < -minCmpVal ||
@@ -867,7 +867,7 @@ void VANT::DoSTORM_DELETE()
 		gdata[gn].nIndx = 0;
 		for (int idx = 0; idx < gdata[gn].vantQuantity; idx++)
 		{
-			int vn = gdata[gn].vantIdx[idx];
+      const int vn = gdata[gn].vantIdx[idx];
 			if (vlist[vn]->bDeleted || gdata[gn].bDeleted)
 			{
 				delete vlist[vn];

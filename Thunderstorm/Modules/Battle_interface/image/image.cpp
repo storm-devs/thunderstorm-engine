@@ -130,7 +130,7 @@ void BIImage::CutClock(float fBegin, float fEnd, float fFactor)
 	fp.x = 0.5f;
 	fp.y = 0.5f;
 	m_aRelPos.push_back(fp);
-  auto fEndAng = fBegin + (fEnd - fBegin) * fFactor;
+  const auto fEndAng = fBegin + (fEnd - fBegin) * fFactor;
 	// первая/начальная точка на часах
 	m_aRelPos.push_back(GetClockPoint(fBegin, fp));
 	// следующие углы

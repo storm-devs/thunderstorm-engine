@@ -390,7 +390,7 @@ char SOURCE_VIEW::cDelimTable[256];
 void SOURCE_VIEW::SetCharacterMap(char* pMap, const char* pStr)
 {
 	PZERO(pMap, 256);
-	uint32_t dwLen = strlen(pStr);
+  const uint32_t dwLen = strlen(pStr);
 	for (uint32_t i = 0; i < dwLen; i++) pMap[pStr[i]] = true;
 }
 
@@ -537,9 +537,9 @@ bool SOURCE_VIEW::OpenSourceFile(const char* _filename)
 	strcat_s(DirectoryName, "\\");
 	strcat_s(DirectoryName, _filename);
 
-	HANDLE fh = fio->_CreateFile(DirectoryName);
+  const HANDLE fh = fio->_CreateFile(DirectoryName);
 	if (fh == INVALID_HANDLE_VALUE) return false;
-	uint32_t nDataSize = fio->_GetFileSize(fh, nullptr);
+  const uint32_t nDataSize = fio->_GetFileSize(fh, nullptr);
 
 	nTopLine = 0;
 	delete pSourceFile;
@@ -581,7 +581,7 @@ bool SOURCE_VIEW::OpenSourceFile(const char* _filename)
 	SetFocus(hOwn);
 
 	// set bookmarks]
-	std::string sSourceFileName = SourceFileName;
+  const std::string sSourceFileName = SourceFileName;
 	for (int n = 0; n < nLinesNum; n++)
 	{
 		std::string sTmp = sSourceFileName + "," + std::to_string(n);
@@ -610,14 +610,14 @@ void SOURCE_VIEW::OnPaint()
 	PAINTSTRUCT PS;
 	uint32_t nFrom, nTo;
 
-	std::string sSourceFileName = SourceFileName;
+  const std::string sSourceFileName = SourceFileName;
 
-	HDC dc = BeginPaint(hOwn, &PS);
-	HGDIOBJ hFont_old = SelectObject(dc, hFont);
+  const HDC dc = BeginPaint(hOwn, &PS);
+  const HGDIOBJ hFont_old = SelectObject(dc, hFont);
 
-	HBRUSH hControlBrush = CreateSolidBrush(WRGB(255, 255, 0));
-	HBRUSH hBreakBrush = CreateSolidBrush(WRGB(255, 104, 104));
-	HBRUSH hBookmarkBrush = CreateSolidBrush(WRGB(199, 243, 196));
+  const HBRUSH hControlBrush = CreateSolidBrush(WRGB(255, 255, 0));
+  const HBRUSH hBreakBrush = CreateSolidBrush(WRGB(255, 104, 104));
+  const HBRUSH hBookmarkBrush = CreateSolidBrush(WRGB(199, 243, 196));
 
 	SetBkMode(dc,TRANSPARENT);
 	//SetBkMode(dc,OPAQUE);
@@ -654,7 +654,7 @@ void SOURCE_VIEW::OnPaint()
 			}
 
 			{
-				uint32_t nLineStatus = CDebug.GetLineStatus(SourceFileName, n);
+        const uint32_t nLineStatus = CDebug.GetLineStatus(SourceFileName, n);
 				RECT SelectionRect;
 				SelectionRect = Pos;
 				SelectionRect.top = y;
@@ -826,8 +826,8 @@ void SOURCE_VIEW::StartSelection(uint32_t x_pos)
 
 	if (nActiveLine >= nLinesNum) return;
 
-	HDC dc = GetDC(hOwn);
-	HGDIOBJ hFont_old = SelectObject(dc, hFont);
+  const HDC dc = GetDC(hOwn);
+  const HGDIOBJ hFont_old = SelectObject(dc, hFont);
 	SetBkMode(dc,TRANSPARENT);
 
 	char* pLine = pSourceFile + pLineOffset[nActiveLine];
@@ -843,7 +843,7 @@ void SOURCE_VIEW::StartSelection(uint32_t x_pos)
 		BeginPath(dc);
 		TabbedTextOut(dc,X_OFFSET, 0, pLine, nSymNum + 1, 0, nullptr, 0);
 		EndPath(dc);
-		HRGN r = PathToRegion(dc);
+    const HRGN r = PathToRegion(dc);
 		if (r)
 		{
 			GetRgnBox(r, &RR);
@@ -870,8 +870,8 @@ void SOURCE_VIEW::MoveSelection(uint32_t x_pos)
 
 	if (nActiveLine >= nLinesNum) return;
 
-	HDC dc = GetDC(hOwn);
-	HGDIOBJ hFont_old = SelectObject(dc, hFont);
+  const HDC dc = GetDC(hOwn);
+  const HGDIOBJ hFont_old = SelectObject(dc, hFont);
 	SetBkMode(dc,TRANSPARENT);
 
 	char* pLine = pSourceFile + pLineOffset[nActiveLine];
@@ -886,7 +886,7 @@ void SOURCE_VIEW::MoveSelection(uint32_t x_pos)
 		BeginPath(dc);
 		TabbedTextOut(dc,X_OFFSET, 0, pLine, nSymNum + 1, 0, nullptr, 0);
 		EndPath(dc);
-		HRGN r = PathToRegion(dc);
+    const HRGN r = PathToRegion(dc);
 		if (r)
 		{
 			GetRgnBox(r, &RR);
@@ -923,8 +923,8 @@ void SOURCE_VIEW::InvalidateLineSection(uint32_t line, uint32_t r1, uint32_t r2)
 		to = r2;
 	}
 
-	HDC dc = GetDC(hOwn);
-	HGDIOBJ hFont_old = SelectObject(dc, hFont);
+  const HDC dc = GetDC(hOwn);
+  const HGDIOBJ hFont_old = SelectObject(dc, hFont);
 	SetBkMode(dc,TRANSPARENT);
 
 	char* pLine = pSourceFile + pLineOffset[line]; // + old_pos.collumn;
@@ -956,8 +956,8 @@ void SOURCE_VIEW::DetCursorPos(uint32_t x_pos, uint32_t y_pos)
 
 	CURSOR_POS old_pos = Cursor;
 
-	HDC dc = GetDC(hOwn);
-	HGDIOBJ hFont_old = SelectObject(dc, hFont);
+  const HDC dc = GetDC(hOwn);
+  const HGDIOBJ hFont_old = SelectObject(dc, hFont);
 	SetBkMode(dc,TRANSPARENT);
 
 	char* pLine = pSourceFile + pLineOffset[nActiveLine]; // + old_pos.collumn;
@@ -1017,7 +1017,7 @@ void SOURCE_VIEW::ToogleBookmark()
 	if (nActiveLine < nLinesNum)
 	{
 		pBookmarks[nActiveLine] = !pBookmarks[nActiveLine];
-		std::string sFilename = std::string(SourceFileName) + "," + std::to_string(nActiveLine);
+    const std::string sFilename = std::string(SourceFileName) + "," + std::to_string(nActiveLine);
 		if (pBookmarks[nActiveLine])
 			htBookmarks[sFilename] = nActiveLine;
 		else
@@ -1035,10 +1035,10 @@ void SOURCE_VIEW::ClearAllBookmarks()
 
 void SOURCE_VIEW::GoNextBookmark()
 {
-	int nStartLine = (nActiveLine < nTopLine || nActiveLine > nTopLine + nClientLinesSize) ? nTopLine : nActiveLine;
+  const int nStartLine = (nActiveLine < nTopLine || nActiveLine > nTopLine + nClientLinesSize) ? nTopLine : nActiveLine;
 	for (long i = 1; i < nLinesNum; i++)
 	{
-		int iLine = (nStartLine + i) % nLinesNum;
+    const int iLine = (nStartLine + i) % nLinesNum;
 		if (pBookmarks[iLine])
 		{
 			SetActiveLine(iLine);
@@ -1061,7 +1061,7 @@ const char* SOURCE_VIEW::GetToken(const char* pStr, std::string& sResult)
 
 	while (*pStr)
 	{
-		char cSym = *pStr;
+    const char cSym = *pStr;
 
 		if (cDelimTable[cSym])
 		{
@@ -1285,10 +1285,10 @@ void SOURCE_VIEW::FindNext()
 	//sFindStr.Lower();
 	std::transform(sFindStr.begin(), sFindStr.end(), sFindStr.begin(), tolower);
 
-	int nStartLine = (nActiveLine < nTopLine || nActiveLine > nTopLine + nClientLinesSize) ? nTopLine : nActiveLine;
+  const int nStartLine = (nActiveLine < nTopLine || nActiveLine > nTopLine + nClientLinesSize) ? nTopLine : nActiveLine;
 	for (long i = 1; i < nLinesNum; i++)
 	{
-		int iLine = (nStartLine + i) % nLinesNum;
+    const int iLine = (nStartLine + i) % nLinesNum;
 		char str[2048];
 
 		int nTextLen;

@@ -23,8 +23,8 @@ CXI_SCROLLTEXT::~CXI_SCROLLTEXT()
 void CXI_SCROLLTEXT::Draw(bool bSelected, uint32_t Delta_Time)
 {
 	char param[MAX_PICE_STRING_SIZE];
-  auto curX = 0L;
-  auto curY = 0L;
+  const auto curX = 0L;
+  const auto curY = 0L;
 	if (m_bUse)
 	{
 		for (auto i = 0; i < m_nPiceQuantity; i++)
@@ -33,7 +33,7 @@ void CXI_SCROLLTEXT::Draw(bool bSelected, uint32_t Delta_Time)
 			{
 			case PICE_TYPE_STRING:
 				{
-          auto chStart = m_pStrList[i].data.strDescr.startOffset;
+          const auto chStart = m_pStrList[i].data.strDescr.startOffset;
           auto chQuant = m_pStrList[i].data.strDescr.charQuantity;
 					if (chQuant > MAX_PICE_STRING_SIZE - 1) chQuant = MAX_PICE_STRING_SIZE - 1;
 					strncpy_s(param, &m_pText[chStart], chQuant);
@@ -187,12 +187,12 @@ long CXI_SCROLLTEXT::FillPices(char* pt, size_t beg, size_t size, long& idx, STR
 	pt[size] = 0; // обозначим конец строки
 	while (true)
 	{
-    auto pstr = &pt[beg];
+    const auto pstr = &pt[beg];
 		long chQuantity = 0;
 		resStr[0] = 0;
 		while (true)
 		{
-      auto sw = GetStringWord(&pstr[chQuantity], param, sizeof(param) - 1);
+      const auto sw = GetStringWord(&pstr[chQuantity], param, sizeof(param) - 1);
 			if (sw == 0) break;
 			chQuantity += sw;
 			strncpy_s(resStr, pstr, chQuantity);

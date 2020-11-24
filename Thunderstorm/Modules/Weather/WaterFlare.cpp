@@ -101,14 +101,14 @@ void WATERFLARE::Realize(uint32_t Delta_Time) const {
 
 	for (long i = 0; i < iFlaresNum; i++)
 	{
-    auto fDeltaTime = float(Delta_Time) * 0.001f;
+    const auto fDeltaTime = float(Delta_Time) * 0.001f;
 		pfAlpha[i] += fDeltaTime;
 		if (pfAlpha[i] > 2.0f)
 		{
 			pfAlpha[i] = 0.0f;
 			pRSRect[i].vPos = CVECTOR(FRAND(200.0f), 0.0f,FRAND(200.0f));
 		}
-		auto dwAlpha = uint32_t(255.0f * ((pfAlpha[i] > 1.0f) ? 2.0f - pfAlpha[i] : pfAlpha[i]));
+    const auto dwAlpha = uint32_t(255.0f * ((pfAlpha[i] > 1.0f) ? 2.0f - pfAlpha[i] : pfAlpha[i]));
 		pRSRect[i].dwColor = RGB(dwAlpha, dwAlpha, dwAlpha);
 	}
 

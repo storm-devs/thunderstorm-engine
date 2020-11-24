@@ -222,7 +222,7 @@ long FONT::GetStringWidth(const char* Text)
 	if (Text == nullptr) return 0;
 	FLOAT_RECT pos;
 	float xoffset = 0;
-	long s_num = strlen(Text);
+  const long s_num = strlen(Text);
 
 	for (long i = 0; i < s_num; i++)
 	{
@@ -335,7 +335,7 @@ long FONT::Print(long x, long y, char* data_PTR)
 	s_num = strlen(data_PTR);
 	if (s_num == 0) return 0;
 
-  auto bDraw = RenderService->TechniqueExecuteStart(techniqueName);
+  const auto bDraw = RenderService->TechniqueExecuteStart(techniqueName);
 	if (!bDraw) return xoffset;
 
 	RenderService->TextureSet(0, TextureID);

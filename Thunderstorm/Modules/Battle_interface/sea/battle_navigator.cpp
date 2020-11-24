@@ -25,8 +25,8 @@ CVECTOR g_externPos;
 
 void BATTLE_NAVIGATOR::CalculateTextureRect(FRECT& texRect, long num, long hq, long vq)
 {
-  auto yNum = num / hq;
-  auto xNum = num - yNum * hq;
+  const auto yNum = num / hq;
+  const auto xNum = num - yNum * hq;
 
 	texRect.left = 1.f / hq * xNum;
 	texRect.right = 1.f / hq * (xNum + 1);
@@ -88,7 +88,7 @@ void BATTLE_NAVIGATOR::Draw() const {
 	int n;
 
 	// set world matrix
-	CMatrix matw;
+  const CMatrix matw;
 	rs->SetTransform(D3DTS_WORLD, matw);
 
 	// градиентная подложка
@@ -362,8 +362,8 @@ void BATTLE_NAVIGATOR::UpdateFireRangeBuffer() const {
 	auto* pv = (BI_NOTEXTURE_VERTEX *)rs->LockVertexBuffer(m_idFireZoneVBuf);
 	if (pv == nullptr) return;
 
-  auto psd = g_ShipList.GetMainCharacterShip();
-  auto pAttr = g_ShipList.GetMainCharacterShipAttr();
+  const auto psd = g_ShipList.GetMainCharacterShip();
+  const auto pAttr = g_ShipList.GetMainCharacterShipAttr();
 	if (psd != nullptr && pAttr != nullptr)
 	{
 		FillOneSideFireRange(&pv[0], pAttr, psd->pAttr, "cannonf");
@@ -391,7 +391,7 @@ void BATTLE_NAVIGATOR::FillOneSideFireRange(BI_NOTEXTURE_VERTEX* pv, ATTRIBUTES*
 	if (fFireZone > m_fMapRadius) fFireZone = m_fMapRadius;
 
   auto curAng = fDirAng - fSizeAng / 2.f;
-  auto dAng = fSizeAng / (float)(BI_ONESIDE_SIZE - 1);
+  const auto dAng = fSizeAng / (float)(BI_ONESIDE_SIZE - 1);
 	for (auto i = 0; i < BI_ONESIDE_SIZE; i++, curAng += dAng)
 	{
 		pv[i + 1].pos.x = m_XNavigator + sinf(curAng) * fFireZone;
@@ -419,7 +419,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER* RenderService, Entity* pOwnerEI)
 	//
 	m_fShipSpeedScale = api->Entity_GetAttributeAsFloat(BIUtils::idBattleInterface, "ShipSpeedScaler", 1.f);
 
-  auto pARoot = api->Entity_GetAttributeClass(BIUtils::idBattleInterface, "navigation");
+  const auto pARoot = api->Entity_GetAttributeClass(BIUtils::idBattleInterface, "navigation");
 
 	m_fAspectRatio = BIUtils::GetFloatFromAttr(pARoot, "aspectRatio", 1.f);
 
@@ -682,7 +682,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER* RenderService, Entity* pOwnerEI)
 	auto* pv = (BI_NOTEXTURE_VERTEX*)rs->LockVertexBuffer(m_idFireZoneVBuf);
 	if (pv != nullptr)
 	{
-    auto vCenter = CVECTOR((float)m_XNavigator, (float)m_YNavigator, 1.f);
+    const auto vCenter = CVECTOR((float)m_XNavigator, (float)m_YNavigator, 1.f);
 		for (i = 0; i < FIRERANGE_QUANTITY; i++)
 		{
 			pv[i].w = .5f;
@@ -761,12 +761,12 @@ long BATTLE_NAVIGATOR::SetRectangleVertexPos(BI_ONETEXTURE_VERTEX* v, float x, f
 	}
 	else
 	{
-    auto ca = cosf(angle);
-    auto sa = sinf(angle);
-    auto wca = width / 2 * ca;
-    auto wsa = width / 2 * sa;
-    auto hca = height / 2 * ca;
-    auto hsa = height / 2 * sa;
+    const auto ca = cosf(angle);
+    const auto sa = sinf(angle);
+    const auto wca = width / 2 * ca;
+    const auto wsa = width / 2 * sa;
+    const auto hca = height / 2 * ca;
+    const auto hsa = height / 2 * sa;
 		v[0].pos.x = x + (-wca + hsa);
 		v[0].pos.y = y + (-wsa - hca) * m_fAspectRatio;
 		v[1].pos.x = x + (-wca - hsa);
@@ -792,12 +792,12 @@ long BATTLE_NAVIGATOR::SetRectangleVertexTex(BI_ONETEXTURE_VERTEX* v, float x, f
 	}
 	else
 	{
-    auto ca = cosf(angle);
-    auto sa = sinf(angle);
-    auto wca = width / 2 * ca;
-    auto wsa = width / 2 * sa;
-    auto hca = height / 2 * ca;
-    auto hsa = height / 2 * sa;
+    const auto ca = cosf(angle);
+    const auto sa = sinf(angle);
+    const auto wca = width / 2 * ca;
+    const auto wsa = width / 2 * sa;
+    const auto hca = height / 2 * ca;
+    const auto hsa = height / 2 * sa;
 		v[0].tu = x + (-wca + hsa);
 		v[0].tv = y + (-wsa - hca);
 		v[1].tu = x + (-wca - hsa);
@@ -873,7 +873,7 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 	}
 	else
 	{
-    auto cPos = psd->pShip->GetPos();
+    const auto cPos = psd->pShip->GetPos();
 		m_fXPos = cPos.x;
 		m_fYPos = cPos.z;
 	}
@@ -883,7 +883,7 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 		m_fCurScale = m_fDefaultScale; //m_fMaxScale;
 	}
 	// get ship y angle
-  auto cAng = psd->pShip->GetAng();
+  const auto cAng = psd->pShip->GetAng();
 	m_fAngle = cAng.y;
 	m_fShipSpeed = ((SHIP_BASE*)psd->pShip)->State.vSpeed.z;
 	m_fShipSpeed *= m_fShipSpeedScale; // boal приведение скорости тут нужнее
@@ -949,9 +949,9 @@ void BATTLE_NAVIGATOR::SetAnotherShip()
 {
 	auto* pv = (BI_COLORONLY_VERTEX*)rs->LockVertexBuffer(m_idShipsVBuf);
 	if (pv == nullptr) return;
-  auto pMainCharacter = g_ShipList.GetMainCharacterShip();
+  const auto pMainCharacter = g_ShipList.GetMainCharacterShip();
   auto idx = 0;
-  auto fSqrMapRad = m_fMapRadius * m_fMapRadius;
+  const auto fSqrMapRad = m_fMapRadius * m_fMapRadius;
 
 	m_nvShips = 0L;
 	// Fill ships buffer
@@ -963,7 +963,7 @@ void BATTLE_NAVIGATOR::SetAnotherShip()
     auto fX = (psd->pShip->GetPos().x - m_fXPos) * m_fMapRadius / (m_fWorldRad * m_fCurScale);
     auto fY = (psd->pShip->GetPos().z - m_fYPos) * m_fMapRadius / (m_fWorldRad * m_fCurScale);
 		if (fX * fX + fY * fY > fSqrMapRad) continue;
-    auto tmp = fX * cosf(m_fAngle) - fY * sinf(m_fAngle);
+    const auto tmp = fX * cosf(m_fAngle) - fY * sinf(m_fAngle);
 		fY = m_YNavigator - (fY * cosf(m_fAngle) + fX * sinf(m_fAngle)) * m_fAspectRatio;
 		fX = tmp + m_XNavigator;
 		// определить цвет отображаемого корабля
@@ -987,7 +987,7 @@ void BATTLE_NAVIGATOR::SetAnotherShip()
 		if (psd->isDead)
 			dwColor = m_dwDeadShipColor;
 		// определить угол корабля
-    auto fAngle = psd->pShip->GetAng().y - m_fAngle;
+    const auto fAngle = psd->pShip->GetAng().y - m_fAngle;
 		// заполнить буфер
 		pv[idx].col = pv[idx + 1].col = pv[idx + 2].col = dwColor;
 		pv[idx + 0].pos.x = fX + m_fShipShowRad * sinf(fAngle);
@@ -1087,26 +1087,26 @@ long BATTLE_NAVIGATOR::SetRectangleSegVertexPos(BI_ONETEXTURE_VERTEX* v, float x
 	while (endAngle < 0) endAngle += 2 * PI;
 	while (endAngle > 2 * PI) endAngle -= 2 * PI;
 
-  auto alpha = atan2f(width / 2, height / 2);
+  const auto alpha = atan2f(width / 2, height / 2);
 
-  auto begseg = begAngle < alpha
-                  ? 0
-                  : begAngle < (PI - alpha)
-                  ? 1
-                  : begAngle < (PI + alpha)
-                  ? 2
-                  : begAngle < (2 * PI - alpha)
-                  ? 3
-                  : 0;
-  auto endseg = endAngle < alpha
-                  ? 0
-                  : endAngle < (PI - alpha)
-                  ? 1
-                  : endAngle < (PI + alpha)
-                  ? 2
-                  : endAngle < (2 * PI - alpha)
-                  ? 3
-                  : 0;
+  const auto begseg = begAngle < alpha
+                        ? 0
+                        : begAngle < (PI - alpha)
+                        ? 1
+                        : begAngle < (PI + alpha)
+                        ? 2
+                        : begAngle < (2 * PI - alpha)
+                        ? 3
+                        : 0;
+  const auto endseg = endAngle < alpha
+                        ? 0
+                        : endAngle < (PI - alpha)
+                        ? 1
+                        : endAngle < (PI + alpha)
+                        ? 2
+                        : endAngle < (2 * PI - alpha)
+                        ? 3
+                        : 0;
 
 	v[0].pos.x = x;
 	v[0].pos.y = y;
@@ -1169,26 +1169,26 @@ long BATTLE_NAVIGATOR::SetRectangleSegVertexTex(BI_ONETEXTURE_VERTEX* v, float x
 	while (endAngle < 0) endAngle += 2 * PI;
 	while (endAngle > 2 * PI) endAngle -= 2 * PI;
 
-  auto alpha = atan2f(width / 2, height / 2);
+  const auto alpha = atan2f(width / 2, height / 2);
 
-  auto begseg = begAngle < alpha
-                  ? 0
-                  : begAngle < (PI - alpha)
-                  ? 1
-                  : begAngle < (PI + alpha)
-                  ? 2
-                  : begAngle < (2 * PI - alpha)
-                  ? 3
-                  : 0;
-  auto endseg = endAngle < alpha
-                  ? 0
-                  : endAngle < (PI - alpha)
-                  ? 1
-                  : endAngle < (PI + alpha)
-                  ? 2
-                  : endAngle < (2 * PI - alpha)
-                  ? 3
-                  : 0;
+  const auto begseg = begAngle < alpha
+                        ? 0
+                        : begAngle < (PI - alpha)
+                        ? 1
+                        : begAngle < (PI + alpha)
+                        ? 2
+                        : begAngle < (2 * PI - alpha)
+                        ? 3
+                        : 0;
+  const auto endseg = endAngle < alpha
+                        ? 0
+                        : endAngle < (PI - alpha)
+                        ? 1
+                        : endAngle < (PI + alpha)
+                        ? 2
+                        : endAngle < (2 * PI - alpha)
+                        ? 3
+                        : 0;
 
 	v[0].tu = x;
 	v[0].tv = y;

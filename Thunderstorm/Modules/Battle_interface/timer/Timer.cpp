@@ -40,13 +40,13 @@ void BITimer::Realize(uint32_t delta_time)
 
 uint64_t BITimer::ProcessMessage(MESSAGE& message)
 {
-  auto nMsgCod = message.Long();
+  const auto nMsgCod = message.Long();
 	switch (nMsgCod)
 	{
 	case 0:
 		{
 			char eventName[512];
-      auto fTime = message.Float();
+      const auto fTime = message.Float();
 			message.String(sizeof(eventName) - 1, eventName);
 			OpenTimer(fTime, eventName);
 		}

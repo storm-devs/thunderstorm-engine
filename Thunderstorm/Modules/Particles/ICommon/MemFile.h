@@ -42,8 +42,8 @@ public:
 
 		for (uint32_t i = 0; i < GetLength(); i++)
 		{
-      auto Buffer1 = (uint8_t*)GetBuffer();
-      auto Buffer2 = (uint8_t*)pMemfile->GetBuffer();
+      const auto Buffer1 = (uint8_t*)GetBuffer();
+      const auto Buffer2 = (uint8_t*)pMemfile->GetBuffer();
 
 			if (Buffer1[i] != Buffer2[i]) return false;
 		}
@@ -107,7 +107,7 @@ public:
 	uint32_t Read(void* Buffer, uint32_t size)
 	{
 		if (!Data) return 0;
-    auto real_size = CurPos + size;
+    const auto real_size = CurPos + size;
 		if (real_size > MaxLen) size = size - (real_size - MaxLen);
 		if (size <= 0) return 0;
 		memcpy(Buffer, (Data + CurPos), size);
@@ -127,7 +127,7 @@ public:
 		if (!DataIsMy) return 0;
 		if (!Data) return 0;
 
-    auto real_size = CurPos + size;
+    const auto real_size = CurPos + size;
 		if (real_size > MaxLen) size = size - (real_size - MaxLen);
 		if (size <= 0) return 0;
 

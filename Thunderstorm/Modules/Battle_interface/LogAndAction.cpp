@@ -11,8 +11,8 @@ static entid_t g_ILogAndActions;
 
 void CalculateTexturePos(FRECT& texRect, int hort, int vert, int numt)
 {
-  auto vn = numt / hort;
-  auto hn = numt - vn * hort;
+  const auto vn = numt / hort;
+  const auto hn = numt - vn * hort;
 	texRect.right = (texRect.left = (float)hn / hort) + 1.f / hort;
 	texRect.bottom = (texRect.top = (float)vn / vert) + 1.f / vert;
 }
@@ -66,7 +66,7 @@ void ILogAndActions::Execute(uint32_t delta_time)
 		api->Event("BI_FastCommand", "s", m_sActionName);
 
 	// погасим строки
-  auto colDelta = delta_time * m_fBlendSpeed;
+  const auto colDelta = delta_time * m_fBlendSpeed;
 	STRING_DESCR* prev_sd = nullptr;
 	STRING_DESCR* sd;
 	for (sd = m_sRoot; sd != nullptr;)
@@ -88,7 +88,7 @@ void ILogAndActions::Execute(uint32_t delta_time)
 	}
 
 	// пододвинуть строки на свободные позиции
-  auto delta = delta_time * m_fShiftSpeed;
+  const auto delta = delta_time * m_fShiftSpeed;
   auto top = 0.f;
 	for (sd = m_sRoot; sd != nullptr; sd = sd->next)
 	{
@@ -107,7 +107,7 @@ uint64_t ILogAndActions::ProcessMessage(MESSAGE& message)
 	{
 	case LOG_ADD_STRING:
 		{
-      auto stringImmortal = message.Long() != 0;
+      const auto stringImmortal = message.Long() != 0;
 			char param[256];
 			message.String(sizeof(param) - 1, param);
 			if (stringImmortal)
@@ -158,16 +158,16 @@ uint64_t ILogAndActions::ProcessMessage(MESSAGE& message)
 	case LOG_AND_ACTIONS_INIT:
 		{
 			m_sOldActionName[0] = '0';
-      auto bfc = message.Long();
-      auto bls = message.Long();
+      const auto bfc = message.Long();
+      const auto bls = message.Long();
 			Create(bfc != 0, bls != 0);
 		}
 		break;
 	case LOG_AND_ACTIONS_CHANGE:
 		{
 			m_sOldActionName[0] = '0';
-      auto bfc = message.Long();
-      auto bls = message.Long();
+      const auto bfc = message.Long();
+      const auto bls = message.Long();
 			ActionChange(bfc != 0, bls != 0);
 		}
 		break;
@@ -177,7 +177,7 @@ uint64_t ILogAndActions::ProcessMessage(MESSAGE& message)
 	case LI_CLEAR_STRINGS:
 		while (m_sRoot != nullptr)
 		{
-      auto p = m_sRoot;
+      const auto p = m_sRoot;
 			m_sRoot = p->next;
 			STORM_DELETE(p->str);
 			delete p;
@@ -455,7 +455,7 @@ void ILogAndActions::SetString(char* str, bool immortal)
 		last->next = newDescr;
 		if (newDescr->offset + m_nStringOffset > m_nWindowHeight)
 		{
-			long offsetDelta = (long)newDescr->offset + m_nStringOffset - m_nWindowHeight;
+      const long offsetDelta = (long)newDescr->offset + m_nStringOffset - m_nWindowHeight;
 			for (STRING_DESCR* tmpDescr = m_sRoot; tmpDescr != nullptr;)
 			{
 				if ((tmpDescr->offset -= offsetDelta) < 0)
@@ -488,7 +488,7 @@ void ILogAndActions::SetAction(char* actionName)
 	strcpy_s(m_sActionName, actionName);
 	// set texture coordinates for this action icon
 	FRECT texRect;
-	long curIconNum = pA->GetAttributeAsDword("IconNum", 0);
+  const long curIconNum = pA->GetAttributeAsDword("IconNum", 0);
 	if (curIconNum == -1)
 	{
 		m_bThatRealAction = false;

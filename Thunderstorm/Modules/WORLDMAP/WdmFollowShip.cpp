@@ -37,9 +37,9 @@ bool WdmFollowShip::Load(const char* modelName)
 	if (wdmObjects->playerShip)
 	{
 		//Определяем угл
-		double sn = wdmObjects->playerShip->mtx.Pos().x - mtx.Pos().x;
+    const double sn = wdmObjects->playerShip->mtx.Pos().x - mtx.Pos().x;
 		double cs = wdmObjects->playerShip->mtx.Pos().z - mtx.Pos().z;
-    auto l = sn * sn + cs * cs;
+    const auto l = sn * sn + cs * cs;
 		if (l > 0.0) cs /= sqrt(l);
 		if (cs > 1.0) cs = 1.0;
 		if (cs < -1.0) cs = -1.0;

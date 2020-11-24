@@ -220,14 +220,14 @@ inline bool NPCharacter::PrTest(float probability, float& testTime)
 	if (testTime < 1.0f / 5.0f) return false;
 	testTime = rand() * (0.02f / RAND_MAX);
 	if (probability <= 0.0f) return false;
-  auto r = rand() * (1.0f / RAND_MAX);
+  const auto r = rand() * (1.0f / RAND_MAX);
 	return r < probability;
 }
 
 //Проверить событие
 inline bool NPCharacter::PrTest(float probability)
 {
-  auto r = rand() * (1.0f / RAND_MAX);
+  const auto r = rand() * (1.0f / RAND_MAX);
 	return r < probability;
 }
 

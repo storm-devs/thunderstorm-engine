@@ -86,7 +86,7 @@ void Debris::Update(float dltTime)
 		}
 	}
 	//Полёт
-  auto h = pillar.GetHeight();
+  const auto h = pillar.GetHeight();
 	for (long i = 0; i < flyCounter; i++)
 	{
 		//Обновляем позицию по высоте
@@ -184,7 +184,7 @@ void Debris::NormalazedModels()
 
 MODEL* Debris::SelectModel(float& maxSpd)
 {
-  auto rnd = rand() * (1.0f / RAND_MAX);
+  const auto rnd = rand() * (1.0f / RAND_MAX);
   auto sum = 0.0f;
 	long i;
 	for (i = 0; i < numModels - 1; i++)
@@ -202,7 +202,7 @@ MODEL* Debris::SelectModel(float& maxSpd)
 
 bool Debris::IsShip()
 {
-	CVECTOR p(pillar.GetX(0.0f), 0.0f, pillar.GetZ(0.0f));
+  const CVECTOR p(pillar.GetX(0.0f), 0.0f, pillar.GetZ(0.0f));
 	CVECTOR pos;
 	auto& entities = EntityManager::GetEntityIdVector("ship");
 	for (auto id : entities)
@@ -215,7 +215,7 @@ bool Debris::IsShip()
 		Assert(ship->GetMatrix());
 		ship->GetMatrix()->MulToInv(p, pos);
 		//Проверим попадание в бокс
-    auto s = ship->GetBoxsize();
+    const auto s = ship->GetBoxsize();
 		if (pos.x < -s.x - 6.0f || pos.x > s.x + 6.0f)
 			continue;
 		if (pos.z < -s.z - 6.0f || pos.z > s.z + 6.0f)

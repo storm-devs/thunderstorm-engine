@@ -237,14 +237,14 @@ inline Quaternion& Quaternion::operator *=(float f)
 //Умножить
 inline Quaternion& Quaternion::operator *=(const Quaternion& q)
 {
-  auto a = (w + x) * (q.w + q.x);
-  auto b = (z - y) * (q.y - q.z);
-  auto c = (x - w) * (q.y - q.z);
-  auto d = (y + z) * (q.x - q.w);
-  auto e = (x + z) * (q.x + q.y);
-  auto f = (x - z) * (q.x - q.y);
-  auto g = (w + y) * (q.w - q.z);
-  auto h = (w - y) * (q.w + q.z);
+  const auto a = (w + x) * (q.w + q.x);
+  const auto b = (z - y) * (q.y - q.z);
+  const auto c = (x - w) * (q.y - q.z);
+  const auto d = (y + z) * (q.x - q.w);
+  const auto e = (x + z) * (q.x + q.y);
+  const auto f = (x - z) * (q.x - q.y);
+  const auto g = (w + y) * (q.w - q.z);
+  const auto h = (w - y) * (q.w + q.z);
 	x = a - (e + f + g + h) * 0.5f;
 	y = -c + (e - f + g - h) * 0.5f;
 	z = -d + (e - f - g + h) * 0.5f;
@@ -255,7 +255,7 @@ inline Quaternion& Quaternion::operator *=(const Quaternion& q)
 //Разделить
 inline Quaternion& Quaternion::operator /=(float f)
 {
-  auto k = 1.0 / f;
+  const auto k = 1.0 / f;
 	x = float(x * k);
 	y = float(y * k);
 	z = float(z * k);
@@ -400,7 +400,7 @@ inline void Quaternion::Set(float qx, float qy, float qz, float qw)
 //Сконструировать из матрицы
 inline void Quaternion::Set(const Matrix& mtx)
 {
-  auto tr = mtx.m[0][0] + mtx.m[1][1] + mtx.m[2][2];
+  const auto tr = mtx.m[0][0] + mtx.m[1][1] + mtx.m[2][2];
 	if (tr > 0.0f)
 	{
 		double s = sqrt(tr + 1.0f);
@@ -501,8 +501,8 @@ inline Quaternion& Quaternion::SLerp(const Quaternion& q1, const Quaternion& q2,
 	if (1.0 - cosomega > 0.1)
 	{
 		//slerp
-    auto omega = acos(cosomega);
-    auto sinomega = 1.0 / sin(omega);
+    const auto omega = acos(cosomega);
+    const auto sinomega = 1.0 / sin(omega);
 		k0 = sin(omega * (1.0 - kBlend)) * sinomega;
 		k1 = sin(omega * kBlend) * sinomega;
 	}
@@ -528,10 +528,10 @@ inline Quaternion& Quaternion::SLerp(const Quaternion& q1, const Quaternion& q2,
 //Получить из кватерниона матрицу
 inline void Quaternion::GetMatrix(Matrix& mtx) const
 {
-  auto xx = x * x * 2.0f, xy = x * y * 2.0f, xz = x * z * 2.0f;
-  auto yy = y * y * 2.0f, yz = y * z * 2.0f;
-  auto zz = z * z * 2.0f;
-  auto wx = w * x * 2.0f, wy = w * y * 2.0f, wz = w * z * 2.0f;
+  const auto xx = x * x * 2.0f, xy = x * y * 2.0f, xz = x * z * 2.0f;
+  const auto yy = y * y * 2.0f, yz = y * z * 2.0f;
+  const auto zz = z * z * 2.0f;
+  const auto wx = w * x * 2.0f, wy = w * y * 2.0f, wz = w * z * 2.0f;
 	mtx.m[0][0] = 1.0f - (yy + zz);
 	mtx.m[0][1] = xy + wz;
 	mtx.m[0][2] = xz - wy;

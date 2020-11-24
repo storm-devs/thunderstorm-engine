@@ -106,7 +106,7 @@ bool GetNextIdFromList(char* & sptr, char* bufQuestID, size_t nSizeBufQuestID, c
 static void SubRightWord(char* buf, int fontNum, int width, VDX9RENDER* rs)
 {
 	if (buf == nullptr) return;
-	long bufSize = strlen(buf);
+  const long bufSize = strlen(buf);
 	for (auto pEnd = buf + bufSize; pEnd > buf; pEnd--)
 	{
 		if (*pEnd == ' ')
@@ -132,7 +132,7 @@ void CXI_QUESTTEXTS::ReleaseStringes()
 
 bool CXI_QUESTTEXTS::GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize) const {
 	if (pInStr == nullptr || buf == nullptr) return false;
-  auto pStart = pInStr;
+  const auto pStart = pInStr;
   auto bYesEOL = false;
 	while (*pInStr != 0)
 	{
@@ -146,7 +146,7 @@ bool CXI_QUESTTEXTS::GetLineNext(int fontNum, char* & pInStr, char* buf, int buf
 
 	strncpy_s(buf, bufSize, pStart, lineSize);
 	buf[lineSize] = 0;
-  auto strWidth = m_rs->StringWidth(buf, fontNum);
+  const auto strWidth = m_rs->StringWidth(buf, fontNum);
 	if (strWidth <= m_rect.right - m_rect.left) return true;
 
 	SubRightWord(buf, fontNum, m_rect.right - m_rect.left, m_rs);
@@ -186,7 +186,7 @@ void CXI_QUESTTEXTS::Draw(bool bSelected, uint32_t Delta_Time)
 	for (auto sd = m_listCur; sd != nullptr && i < m_allStrings; sd = sd->next, i++)
 	{
 		// отобразить строки
-    auto curColor = sd->complete ? m_dwCompleteColor : m_dwNonCompleteColor;
+    const auto curColor = sd->complete ? m_dwCompleteColor : m_dwNonCompleteColor;
 		if (sd->lineStr != nullptr && sd->lineStr[0] != 0)
 			m_rs->ExtPrint(m_idFont, curColor, 0,PR_ALIGN_LEFT, true, 1.f, m_screenSize.x, m_screenSize.y,
 			               m_rect.left, curY, "%s", sd->lineStr);
@@ -299,7 +299,7 @@ void CXI_QUESTTEXTS::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, c
 void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES* pA, int qn)
 {
 	if (pA == nullptr) return;
-	long aq = pA->GetAttributesNum();
+  const long aq = pA->GetAttributesNum();
 	if (qn < 0) qn = 0;
 	if (qn >= aq) qn = aq - 1;
 
@@ -315,7 +315,7 @@ void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES* pA, int qn)
   auto pAttr = pA->GetAttributeClass(qn);
 	if (pAttr == nullptr) return;
 
-  auto cFlag = pAttr->GetAttributeAsDword("Complete", 0) != 0;
+  const auto cFlag = pAttr->GetAttributeAsDword("Complete", 0) != 0;
   auto pATextList = pAttr->GetAttributeClass("Text");
 	const char* questLogName = pAttr->GetAttribute("LogName");
 	if (!questLogName) questLogName = pAttr->GetThisName();
@@ -323,7 +323,7 @@ void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES* pA, int qn)
 	std::vector<std::string> asStringList;
 	if (ptrOwner->QuestFileReader() && pATextList)
 	{
-		long q = pATextList->GetAttributesNum();
+    const long q = pATextList->GetAttributesNum();
 		for (auto n = q - 1; n >= 0; n--)
 		{
 			ATTRIBUTES* pAttr = pATextList->GetAttributeClass(n);

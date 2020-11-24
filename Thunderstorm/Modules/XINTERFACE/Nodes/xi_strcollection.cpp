@@ -57,7 +57,7 @@ void CXI_STRCOLLECTION::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2
 	int i;
 	char param[256];
 
-  auto bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
+  const auto bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
 
   auto ini = ini1;
   auto name = name1;
@@ -179,8 +179,8 @@ void CXI_STRCOLLECTION::SetInternalName(std::string& sName)
 
 void CXI_STRCOLLECTION::ChangePosition(XYRECT& rNewPos)
 {
-  auto nX = rNewPos.left - m_rect.left;
-  auto nY = rNewPos.top - m_rect.top;
+  const auto nX = rNewPos.left - m_rect.left;
+  const auto nY = rNewPos.top - m_rect.top;
 	if (nX != 0 || nY != 0)
 	{
 		if (m_nEditIndex >= 0 && m_nEditIndex < m_nStr)
@@ -298,17 +298,17 @@ uint32_t CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 			pstr->bShadow = message.Long() != 0; // msg
 			pstr->fScale = message.Float(); // msg
 			// обязательная ширина
-			int nWidth = message.Long(); // msg
+      const int nWidth = message.Long(); // msg
 			if (nWidth > 0)
 			{
-				int realWidth = m_rs->StringWidth(paramStr, pstr->nFontNum, pstr->fScale);
+        const int realWidth = m_rs->StringWidth(paramStr, pstr->nFontNum, pstr->fScale);
 				if (realWidth > nWidth) pstr->fScale *= (float)(nWidth - 1) / realWidth;
 			}
 		}
 		break;
 	case 1: // изменить строку по номеру
 		{
-      auto n = message.Long() - 1;
+      const auto n = message.Long() - 1;
 			char param[512];
 			message.String(sizeof(param), param);
 			ChangeString(n, param);
@@ -316,8 +316,8 @@ uint32_t CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 		break;
 	case 2: // скопировать строку с одного места на другое (первая строка имеет номер 1)
 		{
-      auto nDst = message.Long() - 1;
-      auto nSrc = message.Long() - 1;
+      const auto nDst = message.Long() - 1;
+      const auto nSrc = message.Long() - 1;
 			if (nDst >= 0 && nSrc >= 0 &&
 				nDst < m_nStr && nSrc < m_nStr)
 			{
@@ -332,8 +332,8 @@ uint32_t CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 		break;
 	case 3: // поменять цвет строки
 		{
-			long nStr = message.Long() - 1;
-			uint32_t nColor = message.Long();
+      const long nStr = message.Long() - 1;
+      const uint32_t nColor = message.Long();
 			ChangeStringColor(nStr, nColor);
 		}
 		break;

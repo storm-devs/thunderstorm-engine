@@ -37,7 +37,7 @@ void AISeaGoods::SetDevice()
 
 void AISeaGoods::Execute(uint32_t dwDeltaTime)
 {
-  auto fDeltaTime = float(dwDeltaTime) * 0.001f;
+  const auto fDeltaTime = float(dwDeltaTime) * 0.001f;
 
 	if (!pSea)
 		pSea = (SEA_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
@@ -81,8 +81,8 @@ void AISeaGoods::Execute(uint32_t dwDeltaTime)
 				{
           auto pS = aShips[k];
           auto pACharacter = pS->GetACharacter();
-					int iCharacterIndex = GetIndex(pS->GetACharacter());
-          auto fDistance = sqrtf(~(pS->State.vPos - pI->vPos));
+          const int iCharacterIndex = GetIndex(pS->GetACharacter());
+          const auto fDistance = sqrtf(~(pS->State.vPos - pI->vPos));
 					if (fDistance <= pS->State.vBoxSize.z * fDistanceMultiply)
 					{
             auto pVData = api->Event(SHIP_EAT_SWIM_GOOD, "llsl", iCharacterIndex, pI->iCharIndex,
@@ -111,7 +111,7 @@ void AISeaGoods::Realize(uint32_t dwDeltaTime)
 		if (aGoods[i]->pGeo)
 			for (uint32_t j = 0; j < aGoods[i]->aItems.size(); j++)
 			{
-        auto pI = &aGoods[i]->aItems[j];
+        const auto pI = &aGoods[i]->aItems[j];
 
 				// set world matrix for item
 				CMatrix m;
@@ -126,7 +126,7 @@ void AISeaGoods::Realize(uint32_t dwDeltaTime)
 
 uint32_t AISeaGoods::AttributeChanged(ATTRIBUTES* pAttribute)
 {
-  auto pParent = pAttribute->GetParent();
+  const auto pParent = pAttribute->GetParent();
 
 	if (*pAttribute == "Add")
 	{

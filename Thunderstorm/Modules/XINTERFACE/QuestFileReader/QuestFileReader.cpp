@@ -42,10 +42,10 @@ long GetToken(const char* & ps)
 	while (*ps == 32 || *ps == 9) ps++;
 
 	// получаем размер лексемы
-  auto ptoken = ps;
+  const auto ptoken = ps;
 	while (*ps != 0 && (unsigned)*ps > 0x20 && *ps != 0x0D && *ps != 0x0A)
 		ps++;
-	size_t tokensize = ps - ptoken;
+  const size_t tokensize = ps - ptoken;
 	if (tokensize == 0) return TOKEN_VOID;
 
 	for (auto i = 0; i < TOKENTABLE_SIZE; i++)
@@ -146,7 +146,7 @@ static const char* GetTitleString(char* buf, const char* & ptr, size_t& slen)
 	while (ptr != nullptr)
 	{
 		// Возмем очередную строку
-    auto cstr = GetNextString(ptr);
+    const auto cstr = GetNextString(ptr);
 		if (ptr != cstr && cstr != nullptr)
 		{
 			// если полученная строка является заголовком квеста
@@ -156,7 +156,7 @@ static const char* GetTitleString(char* buf, const char* & ptr, size_t& slen)
 			{
 				// получим id этого квеста
 				GetSubStringFromString(tmpstr, buf, 256);
-        auto retVal = ptr;
+        const auto retVal = ptr;
 				// найдем конец заголовка квеста
 				while (ptr != nullptr)
 				{
@@ -202,14 +202,14 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 	{
 		for (long n = 0; n < m_aQuestFileName.size(); n++)
 		{
-      auto hfile = fio->_CreateFile(m_aQuestFileName[n].c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
+      const auto hfile = fio->_CreateFile(m_aQuestFileName[n].c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 			if (hfile == INVALID_HANDLE_VALUE)
 			{
 				api->Trace("WARNING! Can`t open quest log file %s", m_aQuestFileName[n].c_str());
 				continue;
 			}
 
-      auto filesize = fio->_GetFileSize(hfile, nullptr);
+      const auto filesize = fio->_GetFileSize(hfile, nullptr);
 			if (filesize == 0)
 			{
 				api->Trace("Empty quest log file %s", m_aQuestFileName[n].c_str());
@@ -263,7 +263,7 @@ bool QUEST_FILE_READER::GetQuestTitle(const char* questId, const char* questUniq
 
 	buffer[0] = 0;
 
-  auto n = FindQuestByID(questId);
+  const auto n = FindQuestByID(questId);
 	if (n < 0)
 	{
 		api->Trace("WARNING! Can`t find title whith ID = %s", questId);
@@ -277,8 +277,8 @@ bool QUEST_FILE_READER::GetQuestTitle(const char* questId, const char* questUniq
 void QUEST_FILE_READER::GetRecordTextList(std::vector<std::string>& asStringList, const char* pcQuestID,
                                           const char* pcTextID, const char* pcUserData)
 {
-  auto nQuestIndex = FindQuestByID(pcQuestID);
-  auto nTextIndex = FindTextByID(nQuestIndex, pcTextID);
+  const auto nQuestIndex = FindQuestByID(pcQuestID);
+  const auto nTextIndex = FindTextByID(nQuestIndex, pcTextID);
 	if (nQuestIndex < 0 || nTextIndex < 0) return;
 
 	m_sCurQuestTitle = "";
@@ -369,7 +369,7 @@ void QUEST_FILE_READER::ReadUserData(const char* sQuestName, long nRecordIndex)
 
   auto pVD = api->Event("evntQuestUserData", "sl", sQuestName, nRecordIndex);
 	if (!pVD) return;
-  auto pStr = pVD->GetString();
+  const auto pStr = pVD->GetString();
 	if (!pStr || pStr[0] == 0) return;
 
 	FillUserDataList(pStr, m_aQuestData);
@@ -441,14 +441,14 @@ void QUEST_FILE_READER::SetQuestTextFileName(const char* pcFileName)
 	m_aQuestFileName.push_back(std::string(pcFileName));
 
 	// открываем этот файл
-	HANDLE hfile = fio->_CreateFile(pcFileName, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
+  const HANDLE hfile = fio->_CreateFile(pcFileName, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 	if (hfile == INVALID_HANDLE_VALUE)
 	{
 		api->Trace("WARNING! Can`t open quest log file %s", pcFileName);
 		return;
 	}
 	// его размер
-	uint32_t filesize = fio->_GetFileSize(hfile, nullptr);
+  const uint32_t filesize = fio->_GetFileSize(hfile, nullptr);
 	if (filesize == 0)
 	{
 		api->Trace("Empty quest log file %s", pcFileName);
@@ -499,7 +499,7 @@ void QUEST_FILE_READER::AddQuestFromBuffer(const char* pcSrcBuffer)
 		}
 		const char* pcLine = GetNextString(pcStr);
 		const char* pcToken = pcLine;
-		long nToken = GetToken(pcToken);
+    const long nToken = GetToken(pcToken);
 		switch (nToken)
 		{
 		case TOKEN_QUEST:
@@ -554,7 +554,7 @@ void QUEST_FILE_READER::WriteToString(std::string& sDst, const char* pcStart, co
 	while( pcEnd>pcStart && (*(UCHAR*)(pcEnd-1)<=0x20) )
 		pcEnd--;   */ // boal нефиг удалать пробелы в начале строки!!!
 
-	char chTmp = *pcEnd;
+  const char chTmp = *pcEnd;
 	*(char*)pcEnd = 0;
 	sDst = pcStart;
 	*(char*)pcEnd = chTmp;
@@ -574,7 +574,7 @@ void QUEST_FILE_READER::AddToQuestList(std::string& sQuestID, std::string& sText
 		m_aQuest.push_back(descr);
 	}
 
-	long t = FindTextByID(q, sTextID.c_str());
+  const long t = FindTextByID(q, sTextID.c_str());
 	if (t < 0)
 	{
 		QuestDescribe::TextDescribe descr;

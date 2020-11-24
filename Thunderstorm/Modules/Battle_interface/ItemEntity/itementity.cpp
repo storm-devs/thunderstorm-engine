@@ -31,13 +31,13 @@ void ItemEntity::Realize(uint32_t delta_time)
 
 uint64_t ItemEntity::ProcessMessage(MESSAGE& message)
 {
-  auto nMsgCod = message.Long();
+  const auto nMsgCod = message.Long();
 	switch (nMsgCod)
 	{
 	case 0: // Tie item to moving locator
 		{
 			DeleteParticle();
-      auto mdlEID = GetModelEIDFromCharacterEID(message.EntityID());
+      const auto mdlEID = GetModelEIDFromCharacterEID(message.EntityID());
 			char locName[255];
 			message.String(sizeof(locName) - 1, locName);
 			m_bTieToLocator = TieToLocator(mdlEID, locName);
@@ -84,8 +84,8 @@ uint64_t ItemEntity::ProcessMessage(MESSAGE& message)
 	case 5:
 		{
 			DeleteParticle();
-      auto mdlID = GetModelEIDFromCharacterEID(message.EntityID());
-      auto mdlToTieID = GetModelEIDFromCharacterEID(message.EntityID());
+      const auto mdlID = GetModelEIDFromCharacterEID(message.EntityID());
+      const auto mdlToTieID = GetModelEIDFromCharacterEID(message.EntityID());
 			char sLocName[255];
 			message.String(sizeof(sLocName) - 1, sLocName);
 			char sStartEvntName[255];
@@ -105,8 +105,8 @@ bool ItemEntity::ReadAndCreate()
 	BIUtils::ReadVectorFormAttr(AttributesPointer, "pos.vx", m_mtxpos.Vx(), CVECTOR(0.f));
 	BIUtils::ReadVectorFormAttr(AttributesPointer, "pos.vy", m_mtxpos.Vy(), CVECTOR(0.f));
 	BIUtils::ReadVectorFormAttr(AttributesPointer, "pos.vz", m_mtxpos.Vz(), CVECTOR(0.f));
-  auto pcModelName = BIUtils::GetStringFromAttr(AttributesPointer, "model", "");
-  auto pcTechnique = BIUtils::GetStringFromAttr(AttributesPointer, "technique", "");
+  const auto pcModelName = BIUtils::GetStringFromAttr(AttributesPointer, "model", "");
+  const auto pcTechnique = BIUtils::GetStringFromAttr(AttributesPointer, "technique", "");
 	if (pcModelName)
 	{
 		if (m_eidModel = EntityManager::CreateEntity("modelr"))
@@ -309,7 +309,7 @@ bool ItemEntity::CreateParticle()
 			const auto eidParticle = EntityManager::GetEntityId("particles");
 			if (eidParticle)
 			{
-				auto vPos = m_mtxpos.Pos();
+        const auto vPos = m_mtxpos.Pos();
 				m_pParticle = (VPARTICLE_SYSTEM*)api->Send_Message(eidParticle, "lsffffffl", PS_CREATE_RIC,
 				                                                   pcParticleName, vPos.x, vPos.y, vPos.z, 0.0f, 1.0f,
 				                                                   0.0f, 0);

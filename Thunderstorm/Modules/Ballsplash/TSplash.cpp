@@ -35,7 +35,7 @@ uint32_t Desaturate(uint32_t _color, float _k)
   auto r = (_color >> 16) & 0xFF;
   auto g = (_color >> 8) & 0xFF;
   auto b = (_color) & 0xFF;
-  auto grayed = (r + g + b) / 3;
+  const auto grayed = (r + g + b) / 3;
 
 	r = (uint32_t)(grayed * _k + r * (1.f - _k));
 	g = (uint32_t)(grayed * _k + g * (1.f - _k));
@@ -172,7 +172,7 @@ void TSplash::Start(const CVECTOR& _pos, const CVECTOR& _dir)
 float TSplash::HeightF(uint32_t _time, float _r, float _k)
 {
   auto tPhase = ((float)_time) * (2.f * PId2 / (SPLASH_FRAME_DELAY * SPLASH_FRAMES_COUNT));
-  auto rK = (GRID_LENGTH - _r) / GRID_LENGTH;
+  const auto rK = (GRID_LENGTH - _r) / GRID_LENGTH;
   auto k = ((float)_time) / SPLASH_FADE_TIME;
 	if (k > 1.0f)
 		k = 1.0f;
@@ -215,13 +215,13 @@ bool TSplash::Process(uint32_t _dTime)
 	RDTSC_B(ticksFill);
 
   auto vertices = startVertices + topIndex * GRID_STEPS * GRID_STEPS;
-  auto stepSize = ((float)GRID_LENGTH) / ((float)GRID_STEPS);
-  auto halfSize = GRID_LENGTH / 2.0f;
+  const auto stepSize = ((float)GRID_LENGTH) / ((float)GRID_STEPS);
+  const auto halfSize = GRID_LENGTH / 2.0f;
 	CVECTOR curPos;
 	float localHeight;
 
 	//calculate alpha
-	int dt = time - SPLASH_FRAMES_COUNT * SPLASH_FRAME_DELAY / 2;
+  const int dt = time - SPLASH_FRAMES_COUNT * SPLASH_FRAME_DELAY / 2;
 	uint32_t alpha;
 	if (time < SPLASH_FADE_IN_TIME)
 		alpha = (uint32_t)(255.f * time / SPLASH_FADE_IN_TIME);
@@ -380,7 +380,7 @@ void TSplash::Realize(uint32_t _dTime)
 	RDTSC_B(ticksRealize);
 
 	static uint32_t ambient, tfactor, oldAmbient, alpha;
-	CMatrix m;
+  const CMatrix m;
 	renderer->SetTransform(D3DTS_WORLD, (D3DMATRIX *)m);
 	renderer->TextureSet(0, texture);
 
@@ -407,7 +407,7 @@ void TSplash::Realize2(uint32_t _dTime)
 	RDTSC_B(ticksRealize);
 
 	static uint32_t ambient, fogColor, oldAmbient;
-	CMatrix m;
+  const CMatrix m;
 	renderer->SetTransform(D3DTS_WORLD, (D3DMATRIX *)m);
 	renderer->TextureSet(0, texture2);
 	renderer->TextureSet(1, texture2);

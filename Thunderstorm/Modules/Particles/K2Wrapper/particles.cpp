@@ -37,7 +37,7 @@ bool PARTICLES::Init()
 
 uint64_t PARTICLES::ProcessMessage(MESSAGE& message)
 {
-  auto code = message.Long();
+  const auto code = message.Long();
 
 	static char ps_name[MAX_PATH];
 	CVECTOR pos, angles;
@@ -148,7 +148,7 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE& message)
 			normal.x = message.Float();
 			normal.y = message.Float();
 			normal.z = message.Float();
-			auto fLen = (double)normal.Normalize();
+      const auto fLen = (double)normal.Normalize();
 
 			if (fLen)
 			{
@@ -187,7 +187,7 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE& message)
 		}
 	case PS_VALIDATE_PARTICLE:
 		{
-			auto SystemID = message.Pointer();
+      const auto SystemID = message.Pointer();
 			for (uint32_t n = 0; n < CreatedSystems.size(); n++)
 				if (CreatedSystems[n].pSystem == (PARTICLE_SYSTEM*)SystemID)
 					return 1;
@@ -297,7 +297,7 @@ void PARTICLES::DeleteResource(PARTICLE_SYSTEM* pResource)
 void PARTICLES::Realize(uint32_t Delta_Time)
 {
 	bSystemDelete = true;
-	float fDeltaTime = (float)Delta_Time * 0.001f;
+  const float fDeltaTime = (float)Delta_Time * 0.001f;
 	pManager->Execute(fDeltaTime);
 
 

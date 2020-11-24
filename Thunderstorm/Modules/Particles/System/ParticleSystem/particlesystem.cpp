@@ -52,12 +52,12 @@ uint32_t ParticleSystem::Execute(float DeltaTime)
 
 void ParticleSystem::CreateFromDataSource(DataSource* pDataSource)
 {
-  auto EmitterCount = pDataSource->GetEmitterCount();
+  const auto EmitterCount = pDataSource->GetEmitterCount();
 	if (EmitterCount <= 0) return;
 
 	for (auto n = 0; n < EmitterCount; n++)
 	{
-    auto pEmitterDecription = pDataSource->GetEmitterDesc(n);
+    const auto pEmitterDecription = pDataSource->GetEmitterDesc(n);
 		IEmitter* pEmitter = nullptr;
 		switch (pEmitterDecription->Type)
 		{

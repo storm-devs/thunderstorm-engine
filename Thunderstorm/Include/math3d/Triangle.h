@@ -255,16 +255,16 @@ inline bool Triangle::FindClosestPoint(const Vector& trgNormal, Vector& pointOnP
 		const auto& pe = p[i + 1 < 3 ? i + 1 : 0];
     auto edge = pe - ps;
 		//Если треугольник имеет недопустимый размер ребра, не тестим больше его
-    auto edgeLen = edge.Normalize();
+    const auto edgeLen = edge.Normalize();
 		if (edgeLen < 1e-37f) return false;
 		//Ортоганальная плоскость
 		Plane orto(edge ^ trgNormal, ps);
 		//Определяем положение точки
-    auto distToEdge = orto.Dist(pointOnPlane);
+    const auto distToEdge = orto.Dist(pointOnPlane);
 		if (distToEdge > 0.0f)
 		{
 			//Определяем длинну проекции (pointOnPlane - ps) на ребре
-      auto prjLength = edge | (pointOnPlane - ps);
+      const auto prjLength = edge | (pointOnPlane - ps);
 			if (prjLength < 0.0f)
 			{
 				cPoint = &ps;
@@ -311,12 +311,12 @@ inline Triangle::CoIntersectionResult Triangle::IsCoplanarIntersection(const Tri
   auto nt = (t.p1 - t.p2) ^ (t.p1 - t.p3);
 	if (nt.Normalize() < 0.0000001f) return cir_deg_t;
 	//Проверим копланарность
-  auto cs = n | nt;
+  const auto cs = n | nt;
 	static const auto cosMin = cosf(0.5f * 3.141592654f / 180.0f);
 	if (cs < cosMin) return cir_none;
 	//Дистанция плоскостей
-  auto d = n | p1;
-  auto dt = n | t.p1;
+  const auto d = n | p1;
+  const auto dt = n | t.p1;
 	if (fabs(d - dt) > intsEps) return cir_none;
 	//Проверим на совпадение
 	if (~(p1 - t.p1) + ~(p2 - t.p2) + ~(p3 - t.p3) < intsEps * intsEps) return cir_equal;
@@ -336,8 +336,8 @@ inline Triangle::CoIntersectionResult Triangle::IsCoplanarIntersection(const Tri
 	if (!count) return cir_coplanar;
 	for (long s = 0; s < count; s++)
 	{
-    auto e = s + 1 < count ? s + 1 : 0;
-    auto dist = ~(poly2[e] - poly2[s]);
+    const auto e = s + 1 < count ? s + 1 : 0;
+    const auto dist = ~(poly2[e] - poly2[s]);
 		if (dist < intsEps * intsEps) return cir_coplanar;
 	}
 	return cir_intersection;
@@ -352,7 +352,7 @@ inline long Triangle::z_sysClipTriangleEdgePlane(Plane plane, Vector src[8], Vec
 		//Если в области, добавляем вершину
 		if (ds <= 0.0f) dst[c++] = src[s];
 		//Индекс следующего
-    auto e = s + 1 < count ? s + 1 : 0;
+    const auto e = s + 1 < count ? s + 1 : 0;
 		//Дистанции до плоскости
 		de = plane * src[e];
 		//Если с одной стороны, то продолжаем

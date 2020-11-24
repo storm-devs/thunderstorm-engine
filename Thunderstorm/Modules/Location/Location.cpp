@@ -52,7 +52,7 @@ Location::Location()
 Location::~Location()
 {
 	if (!AttributesPointer) return;
-  auto atr = AttributesPointer->FindAClass(AttributesPointer, "locators");
+  const auto atr = AttributesPointer->FindAClass(AttributesPointer, "locators");
 	if (atr) AttributesPointer->DeleteAttributeClassX(atr);
 #ifndef _XBOX
 	//EntityManager::EraseEntity(cubeShotMaker);
@@ -108,7 +108,7 @@ void Location::Execute(uint32_t delta_time)
 	//Обсчёт персонажей
 	if (!isDebugView) Update(delta_time);
 	//Обсчёт сообщений
-  auto dltTime = delta_time * 0.001f;
+  const auto dltTime = delta_time * 0.001f;
 	for (long i = 0; i < sizeof(message) / sizeof(DmgMessage); i++)
 	{
 		if (message[i].alpha <= 0.0f) continue;
@@ -138,7 +138,7 @@ void Location::Execute(uint32_t delta_time)
 
 void Location::Realize(uint32_t delta_time)
 {
-  auto fDeltaTime = float(delta_time) * 0.001f;
+  const auto fDeltaTime = float(delta_time) * 0.001f;
 
 	fCausticFrame += fDeltaTime * fCausticSpeed;
 
@@ -222,7 +222,7 @@ uint64_t Location::ProcessMessage(MESSAGE& message)
 			message.String(sizeof(tech), tech);
 			tech[sizeof(tech) - 1] = 0;
 			level = message.Long();
-      auto dynamicLightsOn = message.Long();
+      const auto dynamicLightsOn = message.Long();
 			lastLoadStaticModel = LoadStaticModel(name, tech, level, dynamicLightsOn == 1);
 			return lastLoadStaticModel >= 0;
 		}
@@ -406,7 +406,7 @@ uint64_t Location::ProcessMessage(MESSAGE& message)
 LocatorArray* Location::FindLocatorsGroup(const char* gName)
 {
 	if (!gName || !gName[0]) return nullptr;
-  auto hash = LocatorArray::CalcHashString(gName);
+  const auto hash = LocatorArray::CalcHashString(gName);
 	for (long i = 0; i < numLocators; i++)
 	{
 		if (locators[i]->CompareGroup(gName, hash)) return locators[i];
@@ -417,7 +417,7 @@ LocatorArray* Location::FindLocatorsGroup(const char* gName)
 long Location::LoadStaticModel(const char* modelName, const char* tech, long level, bool useDynamicLights)
 {
 	lights = (Lights *)EntityManager::GetEntityPointer(lightsid);
-  auto im = model.CreateModel(modelName, tech, level, true, useDynamicLights ? GetLights() : nullptr);
+  const auto im = model.CreateModel(modelName, tech, level, true, useDynamicLights ? GetLights() : nullptr);
 	if (im < 0) return -1;
 	//Указатель на геометрию
   auto mdl = model[im];
@@ -426,13 +426,13 @@ long Location::LoadStaticModel(const char* modelName, const char* tech, long lev
 		model.DeleteModel(im);
 		return -1;
 	}
-  auto node = mdl->GetNode(0);
+  const auto node = mdl->GetNode(0);
 	if (!node)
 	{
 		model.DeleteModel(im);
 		return -1;
 	}
-  auto g = node->geo;
+  const auto g = node->geo;
 	if (!g)
 	{
 		model.DeleteModel(im);
@@ -451,7 +451,7 @@ long Location::LoadStaticModel(const char* modelName, const char* tech, long lev
 	{
 		g->GetLabel(i, label);
 		if (!label.group_name || !label.group_name[0]) continue;
-    auto hash = LocatorArray::CalcHashString(label.group_name);
+    const auto hash = LocatorArray::CalcHashString(label.group_name);
 		long j;
 		for (j = 0; j < numLocators; j++)
 		{
@@ -467,7 +467,7 @@ long Location::LoadStaticModel(const char* modelName, const char* tech, long lev
 			numLocators++;
 			locators[j] = new LocatorArray(label.group_name);
 		}
-    auto locIndex = locators[j]->FindByName(label.name);
+    const auto locIndex = locators[j]->FindByName(label.name);
 		if (locIndex < 0)
 		{
       auto& mtxx = *((CMatrix *)label.m);
@@ -505,7 +505,7 @@ bool Location::LoadCharacterPatch(const char* ptcName)
 	strcat_s(path, ptcName);
 	strcat_s(path, ".ptc");
 	//Загружаем патч
-  auto result = ptc.Load(path);
+  const auto result = ptc.Load(path);
 	if (!result) api->Trace("Can't loaded patch data file %s.ptc for npc.", ptcName);
 	return result;
 }
@@ -548,9 +548,9 @@ bool Location::MessageEx(const char* name, MESSAGE& message)
 	else if (_stricmp(name, "AddFlys") == 0)
 	{
 		const auto effects = EntityManager::GetEntityId("LocationEffects");
-    auto x = message.Float();
-    auto y = message.Float();
-    auto z = message.Float();
+    const auto x = message.Float();
+    const auto y = message.Float();
+    const auto z = message.Float();
 		api->Send_Message(effects, "sfff", "AddFly", x, y, z);
 		return true;
 	}
@@ -617,7 +617,7 @@ bool Location::MessageEx(const char* name, MESSAGE& message)
 	{
 		char modelname[MAX_PATH];
 		message.String(sizeof(modelname), modelname);
-		long n = model.FindModel(modelname);
+    const long n = model.FindModel(modelname);
 		if (n >= 0) model.DeleteModel(n);
 		return true;
 	}
@@ -625,7 +625,7 @@ bool Location::MessageEx(const char* name, MESSAGE& message)
 	{
 		char modelname[MAX_PATH];
 		message.String(sizeof(modelname), modelname);
-		long n = model.FindModel(modelname);
+    const long n = model.FindModel(modelname);
 		if (n >= 0)
 			//api->LayerDel("realize", model.RealizerID(n));
 			api->Send_Message(model.RealizerID(n), "ll", 2, 0);
@@ -635,19 +635,19 @@ bool Location::MessageEx(const char* name, MESSAGE& message)
 		char modelname[MAX_PATH];
 		message.String(sizeof(modelname), modelname);
 		long layer = message.Long();
-		long n = model.FindModel(modelname);
+    const long n = model.FindModel(modelname);
 		if (n >= 0)
 			//EntityManager::AddToLayer(realize, model.RealizerID(n), layer);
 			api->Send_Message(model.RealizerID(n), "ll", 2, 1);
 	}
 	else if (_stricmp(name, "SetGrassParams") == 0)
 	{
-		float fScale = message.Float();
-		float fMaxWidth = message.Float();
-		float fMaxHeight = message.Float();
-		float fMinVisibleDist = message.Float();
-		float fMaxVisibleDist = message.Float();
-		float fMinGrassLod = message.Float();
+    const float fScale = message.Float();
+    const float fMaxWidth = message.Float();
+    const float fMaxHeight = message.Float();
+    const float fMinVisibleDist = message.Float();
+    const float fMaxVisibleDist = message.Float();
+    const float fMinGrassLod = message.Float();
 		api->Send_Message(grass, "lffffff", MSG_GRASS_SET_PARAM,
 		                  fScale, fMaxWidth, fMaxHeight, fMinVisibleDist, fMaxVisibleDist, fMinGrassLod);
 	}
@@ -768,14 +768,14 @@ void Location::DrawLocators(LocatorArray* la)
 		rs->TextureSet(0, -1);
 		rs->TextureSet(1, -1);
 		//Стартуем технику
-		bool isSet = rs->TechniqueExecuteStart("DbgDrawLocators");
+    const bool isSet = rs->TechniqueExecuteStart("DbgDrawLocators");
 		rs->SetRenderState(D3DRS_TEXTUREFACTOR, la->color);
 		//Рисуем
 		for (long i = 0; i < la->Num(); i++)
 		{
 			//Рисуем шарик
 			la->GetLocatorPos(i, mPos);
-			float rad = la->GetLocatorRadius(i) * la->kViewRadius;
+      const float rad = la->GetLocatorRadius(i) * la->kViewRadius;
 			if (rad <= 0.0f) continue;
 			mPos.m[0][0] *= rad;
 			mPos.m[0][1] *= rad;
@@ -802,15 +802,15 @@ void Location::DrawLocators(LocatorArray* la)
 	//Получим текущие размеры vp
 	static D3DVIEWPORT9 vp;
 	rs->GetViewport(&vp);
-	float w = vp.Width * 0.5f;
-	float h = vp.Height * 0.5f;
+  const float w = vp.Width * 0.5f;
+  const float h = vp.Height * 0.5f;
 	CVECTOR lvrt;
 	MTX_PRJ_VECTOR vrt;
-	long fh = rs->CharHeight(FONT_DEFAULT);
-	long gw = rs->StringWidth(la->GetGroupName()) / 2;
+  const long fh = rs->CharHeight(FONT_DEFAULT);
+  const long gw = rs->StringWidth(la->GetGroupName()) / 2;
 	view.Transposition();
-	float d = view.Vz() | view.Pos();
-	float viewDst = la->viewDist * la->viewDist;
+  const float d = view.Vz() | view.Pos();
+  const float viewDst = la->viewDist * la->viewDist;
 	//Рисуем
 	for (long i = 0; i < la->Num(); i++)
 	{
@@ -824,7 +824,7 @@ void Location::DrawLocators(LocatorArray* la)
 		lvrt.y += lbh;
 		mtx.Projection(&lvrt, &vrt, 1, w, h, sizeof(CVECTOR), sizeof(MTX_PRJ_VECTOR));
 		rs->Print(long(vrt.x - gw), long(vrt.y - fh), la->GetGroupName());
-		long lw = rs->StringWidth((char *)la->LocatorName(i)) / 2;
+    const long lw = rs->StringWidth((char *)la->LocatorName(i)) / 2;
 		rs->Print(long(vrt.x - lw), long(vrt.y), (char *)la->LocatorName(i));
 	}
 	rs->SetTransform(D3DTS_WORLD, CMatrix());
@@ -866,22 +866,22 @@ void Location::CreateSphere()
 	sphereNumTrgs = a1 * a2 * 2;
 	sphereVertex = new SphVertex[sphereNumTrgs * 6];
 
-	CVECTOR light = !CVECTOR(0.0f, 0.0f, 1.0f);
+  const CVECTOR light = !CVECTOR(0.0f, 0.0f, 1.0f);
 	float kColor;
 	//Заполняем вершины
 	long t = 0;
 	for (long i = 0; i < a2; i++)
 	{
-		float r1 = sinf(myPI * i / float(a2));
-		float y1 = cosf(myPI * i / float(a2));
-		float r2 = sinf(myPI * (i + 1) / float(a2));
-		float y2 = cosf(myPI * (i + 1) / float(a2));
+    const float r1 = sinf(myPI * i / float(a2));
+    const float y1 = cosf(myPI * i / float(a2));
+    const float r2 = sinf(myPI * (i + 1) / float(a2));
+    const float y2 = cosf(myPI * (i + 1) / float(a2));
 		for (long j = 0; j < a1; j++)
 		{
-			float x1 = sinf(2.0f * myPI * j / float(a1));
-			float z1 = cosf(2.0f * myPI * j / float(a1));
-			float x2 = sinf(2.0f * myPI * (j + 1) / float(a1));
-			float z2 = cosf(2.0f * myPI * (j + 1) / float(a1));
+      const float x1 = sinf(2.0f * myPI * j / float(a1));
+      const float z1 = cosf(2.0f * myPI * j / float(a1));
+      const float x2 = sinf(2.0f * myPI * (j + 1) / float(a1));
+      const float z2 = cosf(2.0f * myPI * (j + 1) / float(a1));
 			//0
 			sphereVertex[t * 3 + 0].v.x = r1 * x1;
 			sphereVertex[t * 3 + 0].v.y = y1;
@@ -960,13 +960,13 @@ void Location::Print(const CVECTOR& pos3D, float rad, long line, float alpha, ui
 	view.Transposition();
 	float dist = ~(pos3D - view.Pos());
 	if (dist >= rad * rad) return;
-	float d = view.Vz() | view.Pos();
+  const float d = view.Vz() | view.Pos();
 	if ((pos3D | view.Vz()) < d) return;
 	rs->GetViewport(&vp);
 	mtx.Projection((CVECTOR *)&pos3D, &vrt, 1, vp.Width * 0.5f, vp.Height * 0.5f, sizeof(CVECTOR),
 	               sizeof(MTX_PRJ_VECTOR));
 	//Ищем позицию
-	float fh = rs->CharHeight(FONT_DEFAULT) * 0.8f;
+  const float fh = rs->CharHeight(FONT_DEFAULT) * 0.8f;
 	vrt.y -= (line + 0.5f) * fh * scale;
 	//Прозрачность
 	const float kDist = 0.75f;
@@ -997,11 +997,11 @@ void Location::AddDamageMessage(const CVECTOR& pos3D, float hit, float curhp, fl
 	if (maxhp > 0.0f) k = curhp / maxhp;
 	if (k < 0.0f) k = 0.0f;
 	if (k > 1.0f) k = 1.0f;
-	float r1 = 0.2f, g1 = 1.0f, b1 = 0.2f;
-	float r2 = 1.0f, g2 = 0.2f, b2 = 0.2f;
-	float r = r2 + (r1 - r2) * k;
-	float g = g2 + (g1 - g2) * k;
-	float b = b2 + (b1 - b2) * k;
+  const float r1 = 0.2f, g1 = 1.0f, b1 = 0.2f;
+  const float r2 = 1.0f, g2 = 0.2f, b2 = 0.2f;
+  const float r = r2 + (r1 - r2) * k;
+  const float g = g2 + (g1 - g2) * k;
+  const float b = b2 + (b1 - b2) * k;
 	message[curMessage].c = (long(r * 255.0f) << 16) | (long(g * 255.0f) << 8) | long(b * 255.0f);
 }
 
@@ -1037,7 +1037,7 @@ void Location::TestLocatorsInPatch(MESSAGE& message)
 		api->Event("LocatorsEventTrace", "lsss", 0, buf + 2048, buf, "");
 		return;
 	}
-	long num = la->Num();
+  const long num = la->Num();
 	if (num <= 0)
 	{
 		sprintf_s(buf, sizeof(buf), "Warning: Locators group '%s' not contain locators.", la->GetGroupName());
@@ -1059,7 +1059,7 @@ void Location::TestLocatorsInPatch(MESSAGE& message)
 		}
 		else
 		{
-			float ldist = pos.y - y;
+      const float ldist = pos.y - y;
 			if (fabsf(ldist) > 0.2f)
 			{
 				sprintf_s(buf, sizeof(buf), "Warning: Locator '%s':'%s' very far from patch: %fm", la->GetGroupName(),
@@ -1098,9 +1098,9 @@ void Location::DrawEnemyBars()
 	{
 		//Ищем позицию точки на экране
 		CVECTOR& pos3D = enemyBar[i].p;
-		float dist = ~(pos3D - view.Pos());
+    const float dist = ~(pos3D - view.Pos());
 		if (dist >= maxViewDist * maxViewDist) continue;
-		float d = view.Vz() | view.Pos();
+    const float d = view.Vz() | view.Pos();
 		if ((pos3D | view.Vz()) < d) continue;
 		MTX_PRJ_VECTOR vrt;
 		mtx.Projection((CVECTOR *)&pos3D, &vrt, 1, vp.Width * 0.5f, vp.Height * 0.5f, sizeof(CVECTOR),
@@ -1149,7 +1149,7 @@ void Location::DrawEnemyBars()
 		float height = (64.0f * vrt.rhw) * 0.5f;
 		if (width > vp.Width * 0.1f)
 		{
-			float k = vp.Width * 0.1f / width;
+      const float k = vp.Width * 0.1f / width;
 			width *= k;
 			height *= k;
 		}
@@ -1230,12 +1230,12 @@ void Location::DrawEnemyBars()
 void Location::CorrectBar(float v, float start, float end, BarVertex* vrt)
 {
 	end = start + (end - start) * v;
-	float dx = vrt[1].p.x - vrt[0].p.x;
-	float du = vrt[1].u - vrt[0].u;
-	float startX = vrt[0].p.x + dx * start;
-	float startU = vrt[0].u + du * start;
-	float endX = vrt[0].p.x + dx * end;
-	float endU = vrt[0].u + du * end;
+  const float dx = vrt[1].p.x - vrt[0].p.x;
+  const float du = vrt[1].u - vrt[0].u;
+  const float startX = vrt[0].p.x + dx * start;
+  const float startU = vrt[0].u + du * start;
+  const float endX = vrt[0].p.x + dx * end;
+  const float endU = vrt[0].u + du * end;
 	vrt[0].p.x = startX;
 	vrt[0].u = startU;
 	vrt[1].p.x = endX;

@@ -40,7 +40,7 @@ void ISPYGLASS::ImageParam::ChangeIcon(BIImageRender* pImgRender, const char* pc
 	}
 	else
 	{
-    auto nPrior = pImage ? pImage->GetPrioritet() : ImagePrioritet_DefaultValue;
+    const auto nPrior = pImage ? pImage->GetPrioritet() : ImagePrioritet_DefaultValue;
 		STORM_DELETE(pImage);
 		sTextureName = pcTextureName;
 		pImage = (BIImage*)pImgRender->CreateImage(BIType_square, sTextureName.c_str(), dwColor, rUV, rPos, nPrior);
@@ -500,7 +500,7 @@ void ISPYGLASS::ChangeTelescopeType(const char* pcTextureName, float fZoomScale,
 void ISPYGLASS::UpdateCamera()
 {
 	if (!m_bIsOn) return;
-	float fTime = api->GetDeltaTime() * .001f;
+  const float fTime = api->GetDeltaTime() * .001f;
 	m_Camera.fCurUpdatingTime += fTime;
 
 	if (!m_Camera.bIsActive)

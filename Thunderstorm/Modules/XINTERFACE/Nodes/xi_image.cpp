@@ -84,7 +84,7 @@ void CXI_IMAGE::LoadAccordingToString(const char* pcImageParam)
 	for (auto pcParam = (char*)pcImageParam; pcParam && pcParam[0];)
 	{
 		if (nullptr == CXI_UTILS::StringGetTokenID(pcParam, tokenID, sizeof(tokenID))) break;
-    auto nTokenCode = CXI_UTILS::StringGetTokenCode(tokenID);
+    const auto nTokenCode = CXI_UTILS::StringGetTokenCode(tokenID);
 		switch (nTokenCode)
 		{
 		case InterfaceToken_color:
@@ -231,7 +231,7 @@ void CXI_IMAGE::SetPosition(long nX, long nY, ImagePointType ptype)
 
 void CXI_IMAGE::SetPosition(XYRECT& pos)
 {
-  auto bDoTextureUpdate = (m_pntSize.x != pos.right - pos.left) || (m_pntSize.y != pos.bottom - pos.top);
+  const auto bDoTextureUpdate = (m_pntSize.x != pos.right - pos.left) || (m_pntSize.y != pos.bottom - pos.top);
 	if (m_pntLeftTop.x != pos.left ||
 		m_pntLeftTop.y != pos.top ||
 		bDoTextureUpdate)
@@ -261,7 +261,7 @@ void CXI_IMAGE::SetDifferentPosition(long nLeft, long nTop, long nWidth, long nH
 		break;
 	}
 
-	bool bDoTextureUpdate = (nWidth != m_pntSize.x || nHeight != m_pntSize.y);
+  const bool bDoTextureUpdate = (nWidth != m_pntSize.x || nHeight != m_pntSize.y);
 	if (nX != m_pntLeftTop.x || nY != m_pntLeftTop.y ||
 		bDoTextureUpdate)
 	{

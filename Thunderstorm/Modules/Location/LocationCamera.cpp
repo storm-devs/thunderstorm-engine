@@ -136,11 +136,11 @@ void LocationCamera::Realize(uint32_t delta_time)
 	api->Controls->GetControlState("ChrCamSpecMode", cs);
 	isSpecialMode = cs.state == CST_ACTIVE;
 	//Временной отрезок
-  auto dltTime = delta_time * 0.001f;
+  const auto dltTime = delta_time * 0.001f;
 	if (isSleep) return;
 	if (!Set()) return;
 	//Управление
-  auto oldAx = ax;
+  const auto oldAx = ax;
 	api->Controls->GetControlState("ChrCamTurnV", cs);
 	dAx = -cs.lValue * 0.05f; //*0.005f;
 	if (character->IsDead()) dAx = 0.0f;
@@ -306,7 +306,7 @@ void LocationCamera::Realize(uint32_t delta_time)
   auto sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
 	if (sb && wmode != cwm_free && location->IsSwimming())
 	{
-    auto seaY = sb->WaveXZ(camPos.x, camPos.z) + 1.0f;
+    const auto seaY = sb->WaveXZ(camPos.x, camPos.z) + 1.0f;
 		if (realPos.y < seaY) realPos.y = seaY;
 	}
 
@@ -393,12 +393,12 @@ uint64_t LocationCamera::ProcessMessage(MESSAGE& message)
 
 	case -1:
 		{
-      auto fSpeed = message.Float();
-      auto fTime = message.Float();
-      auto fMin = message.Float();
-      auto fMax = message.Float();
-      auto fAngSpeed = message.Float();
-      auto fAngMax = message.Float();
+      const auto fSpeed = message.Float();
+      const auto fTime = message.Float();
+      const auto fMin = message.Float();
+      const auto fMax = message.Float();
+      const auto fAngSpeed = message.Float();
+      const auto fAngMax = message.Float();
 			TurnOnDynamicFov(fSpeed, fTime, fMin, fMax, fAngSpeed, fAngMax);
 		}
 		break;
@@ -407,7 +407,7 @@ uint64_t LocationCamera::ProcessMessage(MESSAGE& message)
 		{
 			char trackname[MAX_PATH];
 			message.String(sizeof(trackname), trackname);
-      auto fTrackTime = message.Float();
+      const auto fTrackTime = message.Float();
 			LoadCameraTrack(trackname, fTrackTime);
       auto pA = message.AttributePointer();
 			//SetTrackCameraPauses(pA);
@@ -618,8 +618,8 @@ void LocationCamera::ProcessDynamicFov(float fDeltaTime, const CVECTOR& vFrom, c
 			}
 		}
 
-    auto v = vTo - vFrom;
-    auto fAng = atan2f(v.x, v.z);
+    const auto v = vTo - vFrom;
+    const auto fAng = atan2f(v.x, v.z);
 		CMatrix mrot(0.f, 0.f, dynamic_fog.fCurAngle);
 		mrot.RotateY(fAng);
 		vUp = mrot * vUp;
@@ -728,7 +728,7 @@ void LocationCamera::TurnOffTrackCamera()
 
 void LocationCamera::ProcessTrackCamera()
 {
-  auto fTrackTime = TrackPauseProcess();
+  const auto fTrackTime = TrackPauseProcess();
 
 	if (fTrackTime >= m_fTrackMaxTime)
 	{

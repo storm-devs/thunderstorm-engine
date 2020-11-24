@@ -47,7 +47,7 @@ bool BIUtils::ReadStringFromAttr(ATTRIBUTES* pA, const char* name, char* buf, lo
 char* BIUtils::GetStringFromAttr(ATTRIBUTES* pA, const char* name, const char* defVal)
 {
 	if (pA == nullptr || name == nullptr) return (char*)defVal;
-  auto aVal = pA->GetAttribute(name);
+  const auto aVal = pA->GetAttribute(name);
 	if (aVal == nullptr) return (char*)defVal;
 	return aVal;
 }
@@ -55,7 +55,7 @@ char* BIUtils::GetStringFromAttr(ATTRIBUTES* pA, const char* name, const char* d
 long BIUtils::GetTextureFromAttr(VDX9RENDER* rs, ATTRIBUTES* pA, const char* sAttrName)
 {
 	if (!rs || !pA) return -1;
-  auto sname = pA->GetAttribute(sAttrName);
+  const auto sname = pA->GetAttribute(sAttrName);
 	if (!sname || sname[0] == 0) return -1;
 	return rs->TextureCreate(sname);
 }
@@ -65,7 +65,7 @@ bool BIUtils::ReadRectFromAttr(ATTRIBUTES* pA, const char* name, FRECT& rOut, FR
 	rOut = rDefault;
 	if (pA && name)
 	{
-    auto pcStr = pA->GetAttribute(name);
+    const auto pcStr = pA->GetAttribute(name);
 		if (pcStr)
 		{
 			sscanf(pcStr, "%f,%f,%f,%f", &rOut.left, &rOut.top, &rOut.right, &rOut.bottom);
@@ -80,7 +80,7 @@ bool BIUtils::ReadRectFromAttr(ATTRIBUTES* pA, const char* name, RECT& rOut, REC
 	rOut = rDefault;
 	if (pA && name)
 	{
-    auto pcStr = pA->GetAttribute(name);
+    const auto pcStr = pA->GetAttribute(name);
 		if (pcStr)
 		{
 			sscanf(pcStr, "%d,%d,%d,%d", &rOut.left, &rOut.top, &rOut.right, &rOut.bottom);
@@ -96,7 +96,7 @@ bool BIUtils::ReadPosFromAttr(ATTRIBUTES* pA, const char* name, float& fX, float
 	fY = fYDef;
 	if (pA && name)
 	{
-    auto pcStr = pA->GetAttribute(name);
+    const auto pcStr = pA->GetAttribute(name);
 		if (pcStr)
 		{
 			sscanf(pcStr, "%f,%f", &fX, &fY);
@@ -190,13 +190,13 @@ ATTRIBUTES* BIUtils::GetAttributesFromPath(ATTRIBUTES* pA,...)
 uint32_t BIUtils::GetIntervalColor(uint32_t minV, uint32_t maxV, float fpar)
 {
 	long a = minV >> 24L;
-	long ad = (long)(maxV >> 24L) - a;
+  const long ad = (long)(maxV >> 24L) - a;
 	long r = (minV & 0xFF0000) >> 16;
-	long rd = (long)((maxV & 0xFF0000) >> 16) - r;
+  const long rd = (long)((maxV & 0xFF0000) >> 16) - r;
 	long g = (minV & 0xFF00) >> 8;
-	long gd = (long)((maxV & 0xFF00) >> 8) - g;
+  const long gd = (long)((maxV & 0xFF00) >> 8) - g;
 	long b = minV & 0xFF;
-	long bd = (long)(maxV & 0xFF) - b;
+  const long bd = (long)(maxV & 0xFF) - b;
 
 	a += long(ad * fpar);
 	r += long(rd * fpar);
@@ -244,7 +244,7 @@ void BIUtils::FillTextInfoArray(VDX9RENDER* pRS, ATTRIBUTES* pA, std::vector<BIT
 	if (!pA) return;
 	tia.clear();
 
-	long q = pA->GetAttributesNum();
+  const long q = pA->GetAttributesNum();
 	tia.reserve(q);
 	for (long n = 0; n < q; n++)
 	{
@@ -362,7 +362,7 @@ void BILinesInfo::Init(VDX9RENDER* rs, ATTRIBUTES* pA)
 	pRS = rs;
 	if (!pA) return;
 
-	long q = pA->GetAttributesNum();
+  const long q = pA->GetAttributesNum();
 	for (long n = 0; n < q; n++)
 	{
 		ATTRIBUTES* pAttr = pA->GetAttributeClass(n);
@@ -371,9 +371,9 @@ void BILinesInfo::Init(VDX9RENDER* rs, ATTRIBUTES* pA)
 		//long bi = lines.Add();
 		//long ei = lines.Add();
 		lines.push_back(RS_LINE2D{});
-		auto bi = lines.size() - 1;
+    const auto bi = lines.size() - 1;
 		lines.push_back(RS_LINE2D{});
-		auto ei = lines.size() - 1;
+    const auto ei = lines.size() - 1;
 
 		lines[bi].rhw = lines[ei].rhw = 0.5f;
 		lines[bi].vPos.z = lines[ei].vPos.z = 1.f;
@@ -434,7 +434,7 @@ void BIImagesInfo::Init(VDX9RENDER* rs, ATTRIBUTES* pA)
 	pImgRender = new BIImageRender(rs);
 	if (!pImgRender) return;
 
-	long q = pA->GetAttributesNum();
+  const long q = pA->GetAttributesNum();
 	for (long n = 0; n < q; n++)
 	{
 		ATTRIBUTES* pAImg = pA->GetAttributeClass(n);
@@ -534,7 +534,7 @@ void BIBorderInfo::Draw()
 			bUp = true;
 		}
 	}
-	uint32_t dwColor = BIUtils::GetIntervalColor(dwColor1, dwColor2, fCur);
+  const uint32_t dwColor = BIUtils::GetIntervalColor(dwColor1, dwColor2, fCur);
 	FRECT int_pos;
 	BIUtils::GetIntervalRect(fCur, int_pos1, int_pos2, int_pos);
 

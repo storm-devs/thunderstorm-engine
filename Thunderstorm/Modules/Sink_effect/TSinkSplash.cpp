@@ -40,11 +40,11 @@ void TSinkSplash::Start(const CVECTOR& _pos, uint16_t* _indexes, SINK_VERTEX* _v
 	enabled = true;
 	growK = rand(1.5f) + randUpper(0.1f);
 
-  auto midY = sea->WaveXZ(center.x, center.z) + SPLASH_MOVE_Y;
+  const auto midY = sea->WaveXZ(center.x, center.z) + SPLASH_MOVE_Y;
 	distortDivider = rand(SPLASH_DISTORT_DIVIDER) + 10.0f;
 	//	_VSYSTEM_API->Trace("i=%X, v=%X", _indexes, _vertexes);
-  auto stepSize = GRID_LENGTH / GRID_STEPS;
-  auto halfSize = GRID_LENGTH / 2.0f;
+  const auto stepSize = GRID_LENGTH / GRID_STEPS;
+  const auto halfSize = GRID_LENGTH / 2.0f;
 	for (uint16_t z = 0; z < GRID_STEPS; ++z)
 		for (uint16_t x = 0; x < GRID_STEPS; ++x)
 		{
@@ -78,7 +78,7 @@ float TSinkSplash::HeightF(uint32_t _time, float _r, float _k)
   auto tPhase = ((float)_time) * (PI / SPLASH_FADE_TIME);
 
   auto fCos = 1 / (_r + SPLASH_START_ARG + _time / distortDivider);
-  auto secondPart = ((GRID_LENGTH - _r) / GRID_LENGTH) * (1.0f + fabs(
+  const auto secondPart = ((GRID_LENGTH - _r) / GRID_LENGTH) * (1.0f + fabs(
 		sin((-PI * ((float)_time) / SPLASH_FADE_TIME) + PIm2 * _r / GRID_LENGTH)));
   auto k = ((float)_time) / SPLASH_FADE_TIME;
 	if (k > 1.0f)
@@ -92,9 +92,9 @@ void TSinkSplash::Process(uint32_t _dTime, uint16_t* _indexes, SINK_VERTEX* _ver
 	if (!enabled)
 		return;
 
-  auto alpha = rand(PI * 2);
+  const auto alpha = rand(PI * 2);
   auto rho = randUpper(MAX_RHO);
-  auto r = SPLASH_RADIUS;
+  const auto r = SPLASH_RADIUS;
 	static CVECTOR pos;
 	static CVECTOR localDir;
 	pos = center;
@@ -114,9 +114,9 @@ void TSinkSplash::Process(uint32_t _dTime, uint16_t* _indexes, SINK_VERTEX* _ver
 		return;
 	}
 
-  auto midY = sea->WaveXZ(center.x, center.z) + SPLASH_MOVE_Y;
-  auto stepSize = ((float)GRID_LENGTH) / ((float)GRID_STEPS);
-  auto halfSize = GRID_LENGTH / 2.0f;
+  const auto midY = sea->WaveXZ(center.x, center.z) + SPLASH_MOVE_Y;
+  const auto stepSize = ((float)GRID_LENGTH) / ((float)GRID_STEPS);
+  const auto halfSize = GRID_LENGTH / 2.0f;
 	CVECTOR curPos;
 	int x, z;
 	float localHeight, prolongK;
@@ -124,7 +124,7 @@ void TSinkSplash::Process(uint32_t _dTime, uint16_t* _indexes, SINK_VERTEX* _ver
 	for (z = 0; z < GRID_STEPS; ++z)
 		for (x = 0; x < GRID_STEPS; ++x)
 		{
-      auto curPosNormed = !CVECTOR(stepSize * x - halfSize, 0.0f, stepSize * z - halfSize);
+      const auto curPosNormed = !CVECTOR(stepSize * x - halfSize, 0.0f, stepSize * z - halfSize);
 			prolongK = curPosNormed.x * this->dir.x + curPosNormed.z * this->dir.z;
 			curPos.x = (center.x + stepSize * x) - halfSize;
 			curPos.z = (center.z + stepSize * z) - halfSize;

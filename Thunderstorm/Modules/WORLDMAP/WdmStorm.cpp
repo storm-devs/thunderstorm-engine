@@ -88,7 +88,7 @@ WdmStorm::WdmStorm()
 	for (long i = 0; i < 8; i++) w[i] = 0;
 	//Раскидываем облака
 	long x, z;
-  auto globSign = (rand() & 1) != 0;
+  const auto globSign = (rand() & 1) != 0;
 	for (long i = 0; i < num; i++)
 	{
 		cloud[i] = (WdmCloud *)wdmObjects->wm->AddObject(new WdmCloud(), 101);
@@ -140,9 +140,9 @@ bool WdmStorm::CheckIntersection(float x, float z, float r)
 	for (long i = 0; i < num; i++)
 		if (cloud[i])
 		{
-      auto cx = pos.x + cloudPos[i].x;
-      auto cz = pos.z + cloudPos[i].z;
-      auto d = (cx - x) * (cx - x) + (cz - z) * (cz - z);
+      const auto cx = pos.x + cloudPos[i].x;
+      const auto cz = pos.z + cloudPos[i].z;
+      const auto d = (cx - x) * (cx - x) + (cz - z) * (cz - z);
 			if (d < r) return true;
 		}
 	return false;
@@ -228,7 +228,7 @@ void WdmStorm::Update(float dltTime)
 		if (cloud[i])
 		{
 			//Повернём облако вокруг центра
-			float rotAng = rotSpd[i] * dltTime;
+      const float rotAng = rotSpd[i] * dltTime;
 			CMatrix m(0.0f, rotAng, 0.0f);
 			cloudPos[i] = m * CVECTOR(cloudPos[i]);
 			//Установим альфу

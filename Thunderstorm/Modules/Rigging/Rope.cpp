@@ -110,7 +110,7 @@ void ROPE::Execute(uint32_t Delta_Time)
 		vertBuf = (ROPEVERTEX*)RenderService->LockVertexBuffer(vBuf);
 		if (vertBuf)
 		{
-      auto dtime = (float)Delta_Time * .02f;
+      const auto dtime = (float)Delta_Time * .02f;
 			for (auto i = 0; i < ropeQuantity; i++)
 			{
 				if (rlist[i]->bUse && !gdata[rlist[i]->HostGroup].bDeleted)
@@ -118,7 +118,7 @@ void ROPE::Execute(uint32_t Delta_Time)
 					//DoMove(rlist[i]);
 				else if (rlist[i]->len != 0.f) // set all vertex to point(0,0,0)
 				{
-          auto nulVect = CVECTOR(0.f, 0.f, 0.f);
+          const auto nulVect = CVECTOR(0.f, 0.f, 0.f);
 					for (auto idx = rlist[i]->sv; idx < rlist[i]->sv + rlist[i]->nv; idx++)
 						vertBuf[idx].pos = nulVect;
 				}
@@ -151,7 +151,7 @@ void ROPE::Realize(uint32_t Delta_Time)
 			RenderService->GetCamera(cp, ca, pr);
 			pr = tanf(pr * .5f);
 
-      auto bDraw = RenderService->TechniqueExecuteStart("ShipRope");
+      const auto bDraw = RenderService->TechniqueExecuteStart("ShipRope");
 
 			if (bDraw)
 			{
@@ -189,15 +189,15 @@ void ROPE::Realize(uint32_t Delta_Time)
 
 uint64_t ROPE::ProcessMessage(MESSAGE& message)
 {
-  auto code = message.Long();
+  const auto code = message.Long();
 	entid_t tmp_id;
 
 	switch (code)
 	{
 	case MSG_ROPE_INIT:
 		{
-      auto tmp_shipEI = message.EntityID();
-      auto tmp_modelEI = message.EntityID();
+      const auto tmp_shipEI = message.EntityID();
+      const auto tmp_modelEI = message.EntityID();
 			auto* mdl = (MODEL*)EntityManager::GetEntityPointer(tmp_modelEI);
 			if (mdl == nullptr)
 			{
@@ -205,10 +205,10 @@ uint64_t ROPE::ProcessMessage(MESSAGE& message)
 				return 0;
 			}
 
-      auto wFirstRope = ropeQuantity;
+      const auto wFirstRope = ropeQuantity;
 			if (gdata != nullptr)
 			{
-        auto oldgdata = gdata;
+        const auto oldgdata = gdata;
 				gdata = new GROUPDATA[groupQuantity + 1];
 				if (gdata == nullptr)
 				{
@@ -444,8 +444,8 @@ void ROPE::SetVertexes(ROPEDATA* pr, float dtime) const {
 
 	vertnum++;
 
-	CVECTOR dtV = (cve - cvb - pr->cv) / (float)pr->segquant;
-	CVECTOR deepV = pr->vDeep * (4.f / (float)(pr->segquant * pr->segquant));
+  const CVECTOR dtV = (cve - cvb - pr->cv) / (float)pr->segquant;
+  const CVECTOR deepV = pr->vDeep * (4.f / (float)(pr->segquant * pr->segquant));
 	for (int segn = 0; segn <= pr->segquant; segn++)
 	{
 		CVECTOR cv = cvb;
@@ -647,7 +647,7 @@ void ROPE::AddLabel(GEOS::LABEL& lbl, NODE* nod, bool bDontSage)
 			norm = ce - cb;
 			cvert = norm.z / rd->len;
 			svert = norm.y / rd->len;
-			float ftmp = sqrtf(norm.x * norm.x + norm.z * norm.z);
+      const float ftmp = sqrtf(norm.x * norm.x + norm.z * norm.z);
 			if (ftmp >= 0.0001f)
 			{
 				chorz = norm.z / ftmp;
@@ -866,7 +866,7 @@ void ROPE::FirstRun()
 void ROPE::SetTextureGrid(ROPEDATA* pv) const {
 	int iv = pv->sv;
 
-	float tvMax = sqrtf(~(*pv->eMatWorld * pv->pEnd - *pv->bMatWorld * pv->pBeg));
+  const float tvMax = sqrtf(~(*pv->eMatWorld * pv->pEnd - *pv->bMatWorld * pv->pBeg));
 
 	vertBuf[iv].tu = 0.f;
 	vertBuf[iv].tv = 0.f;
@@ -877,7 +877,7 @@ void ROPE::SetTextureGrid(ROPEDATA* pv) const {
 	// Set begin segment point and delta point
 	iv++;
 	float tv = ROPE_END_LENGTH / ROPE_TEX_LEN;
-	float dtv = (tvMax / ROPE_TEX_LEN - tv) / (float)pv->segquant;
+  const float dtv = (tvMax / ROPE_TEX_LEN - tv) / (float)pv->segquant;
 	for (int j = 0; j <= pv->segquant; j++)
 	{
 		for (int i = 0; i < ROPE_EDGE; i++)
@@ -901,7 +901,7 @@ void ROPE::SetAdd(int firstNum)
 		// удалить плохие веревки
 		while (rlist[rn]->bMatWorld == nullptr || rlist[rn]->eMatWorld == nullptr)
 		{
-			long gn = rlist[rn]->HostGroup;
+      const long gn = rlist[rn]->HostGroup;
 			const char* pcModlName = nullptr;
 			auto* pMdl = (MODEL*)EntityManager::GetEntityPointer(gdata[gn].modelEI);
 			if (pMdl && pMdl->GetNode(0))
@@ -960,7 +960,7 @@ void ROPE::SetAdd(int firstNum)
 
 void ROPE::DoSTORM_DELETE()
 {
-	uint32_t oldnVert = nVert;
+  const uint32_t oldnVert = nVert;
 
 	// пройтись по удаленным группам и пометить на удаление все принадлежащие им веревки
 	for (int gn = 0; gn < groupQuantity; gn++)
@@ -1101,7 +1101,7 @@ void ROPE::DoDeleteUntie(entid_t mdl_id, NODE* rnod, int gNum)
 	{
 		for (int ri = 0; ri < gdata[gn].ropeQuantity; ri++)
 		{
-			int rn = gdata[gn].ropeIdx[ri];
+      const int rn = gdata[gn].ropeIdx[ri];
 			if (((rlist[rn]->bMatWorld == &rnod->glob_mtx) &&
 					(rlist[rn]->bgnum == gNum)) ||
 				((rlist[rn]->eMatWorld == &rnod->glob_mtx) &&

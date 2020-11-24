@@ -32,7 +32,7 @@ bool Lighter::Init()
 	//Проверяем, будем ли работать
   auto ini = fio->OpenIniFile("resource\\ini\\loclighter.ini");
 	if (!ini) return false;
-  auto isLoading = ini->GetLong(nullptr, "loading", 0);
+  const auto isLoading = ini->GetLong(nullptr, "loading", 0);
 	autoTrace = ini->GetLong(nullptr, "autotrace", 0) != 0;
 	autoSmooth = ini->GetLong(nullptr, "autosmooth", 0) != 0;
 	window.isSmallSlider = ini->GetLong(nullptr, "smallslider", 0) != 0;
@@ -58,7 +58,7 @@ bool Lighter::Init()
 //Исполнение
 void Lighter::Execute(uint32_t delta_time)
 {
-  auto dltTime = delta_time * 0.001f;
+  const auto dltTime = delta_time * 0.001f;
 	if (window.isSaveLight)
 	{
 		window.isSaveLight = false;
@@ -207,7 +207,7 @@ void Lighter::MsgAddModel(MESSAGE& message)
 		api->Trace("Location lighter: no model name, skip it!");
 		return;
 	}
-  auto model = message.EntityID();
+  const auto model = message.EntityID();
 	geometry.AddObject(name, model);
 }
 
@@ -239,11 +239,11 @@ void Lighter::MsgAddLight(MESSAGE& message)
 	clr.y = message.Float();
 	clr.z = message.Float();
 	//Затухание
-  auto att0 = message.Float();
-  auto att1 = message.Float();
-  auto att2 = message.Float();
+  const auto att0 = message.Float();
+  const auto att1 = message.Float();
+  const auto att2 = message.Float();
 	//Дистанция
-  auto range = message.Float();
+  const auto range = message.Float();
 	//Имя группы
 	char group[512];
 	message.String(511, group);

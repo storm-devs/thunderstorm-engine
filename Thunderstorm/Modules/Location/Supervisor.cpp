@@ -77,7 +77,7 @@ void Supervisor::Update(float dltTime)
 		if (character[i].c->liveValue < 0 || character[i].c->deadName) continue;
 		character[i].c->startColCharacter = chr;
     auto curPos(character[i].c->curPos);
-    auto radius = character[i].c->radius;
+    const auto radius = character[i].c->radius;
 		for (auto j = i + 1; j < numCharacters; j++)
 		{
 			//Пропустим мёртвых
@@ -88,7 +88,7 @@ void Supervisor::Update(float dltTime)
       auto d = ~(curPos - cj->curPos);
 			//Растояние взаимодействия персонажей
       auto r = radius + cj->radius;
-      auto rr = r * 4.0f;
+      const auto rr = r * 4.0f;
 			if (d > rr * rr) continue;
 			//Сохраняем характера
 			colchr[chr].c = cj;
@@ -214,7 +214,7 @@ void Supervisor::PostUpdate(float dltTime)
 		for (long i = 0; i < 5; i++)
 		{
 			if (curUpdate >= numCharacters) break;
-      auto dlt = time - character[curUpdate].lastTime;
+      const auto dlt = time - character[curUpdate].lastTime;
 			character[curUpdate].lastTime = time;
 			if (EntityManager::GetEntityPointer(character[curUpdate].c->GetId()))
 			{
@@ -248,9 +248,9 @@ bool Supervisor::CheckPosition(float x, float y, float z, Character* c) const {
 	for (long i = 0; i < numCharacters; i++)
 	{
 		if (character[i].c == c) continue;
-    auto dx = x - character[i].c->curPos.x;
-    auto dy = y - character[i].c->curPos.y;
-    auto dz = z - character[i].c->curPos.z;
+    const auto dx = x - character[i].c->curPos.x;
+    const auto dy = y - character[i].c->curPos.y;
+    const auto dz = z - character[i].c->curPos.z;
 		if (fabsf(dy) > character[i].c->height * 0.8f) continue;
 		if (dx * dx + dz * dz > character[i].c->radius * 0.8f) continue;
 		return false;
@@ -356,7 +356,7 @@ bool Supervisor::FindCharacters(FindCharacter fndCharacter[MAX_CHARACTERS], long
 //Найти оптимальный локатор для продолжения прогулки персонажа
 long Supervisor::FindForvardLocator(LocatorArray* la, const CVECTOR& pos, const CVECTOR& norm, bool lookChr) const {
 	if (!la) return -1;
-  auto num = la->Num();
+  const auto num = la->Num();
 	CVECTOR lpos;
 	float maxcs;
 	long l = -1;

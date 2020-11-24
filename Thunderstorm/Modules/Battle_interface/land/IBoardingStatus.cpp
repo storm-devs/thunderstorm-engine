@@ -34,8 +34,8 @@ uint64_t IBoardingStatus::ProcessMessage(MESSAGE& message)
 		break;
 	case LOG_SET_CHARCTER_HP:
 		{
-      auto myHP = message.Float();
-      auto enemyHP = message.Float();
+      const auto myHP = message.Float();
+      const auto enemyHP = message.Float();
 			SetCharactersHP(myHP, enemyHP);
 		}
 		break;

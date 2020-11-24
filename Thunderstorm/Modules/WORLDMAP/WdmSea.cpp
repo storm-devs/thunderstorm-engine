@@ -64,8 +64,8 @@ WdmSea::WdmSea()
 	Assert(triangle);
 	for (long j = 0, p = 0; j < WDM_SEA_SECTIONS_Z; j++)
 	{
-    auto trg = triangle + j * WDM_SEA_SECTIONS_X * 2;
-    auto base = j * (WDM_SEA_SECTIONS_X + 1);
+    const auto trg = triangle + j * WDM_SEA_SECTIONS_X * 2;
+    const auto base = j * (WDM_SEA_SECTIONS_X + 1);
 		for (long i = 0; i < WDM_SEA_SECTIONS_X; i++)
 		{
 			trg[i * 2 + 0].index[0] = uint16_t(base + i);
@@ -164,7 +164,7 @@ void WdmSea::Update(float dltTime)
 	dltTime = 1.0f / 80.0f; //~!~
 	//Анимированная текстура
 	aniFrame += dltTime * WDM_SEA_ANIFPS;
-	float maxAni = sizeof(aniTextures) / sizeof(long);
+  const float maxAni = sizeof(aniTextures) / sizeof(long);
 	aniFrame /= maxAni;
 	aniFrame = (aniFrame - long(aniFrame)) * maxAni;
 	Assert(aniFrame < maxAni);
@@ -224,7 +224,7 @@ void WdmSea::Update(float dltTime)
 		}
 		//Обновляем параметры
     auto& r = flareRect[f.index];
-    auto k = 1.0f - (f.time - 0.5f) * (f.time - 0.5f) * 4.0f;
+    const auto k = 1.0f - (f.time - 0.5f) * (f.time - 0.5f) * 4.0f;
 		r.fSize = k * 0.3f;
 		r.dwColor = (r.dwColor & 0xffff) | (long(k * k * k * k * k * k * 255.0f) << 24);
 		r.fAngle += dltTime * 8.0f * sinf(f.phase + f.time * 6.0f);
@@ -252,8 +252,8 @@ void WdmSea::Update(float dltTime)
 			f.k = 1.0f / (0.8f + 0.5f * rand() * (1.0f / RAND_MAX));
 			f.phase = rand() * (2.0f * PI / RAND_MAX);
       auto& r = flareRect[f.index];
-      auto pang = rand() * (2.0f * PI / RAND_MAX);
-      auto prad = rand() * (300.0f / RAND_MAX);
+      const auto pang = rand() * (2.0f * PI / RAND_MAX);
+      const auto prad = rand() * (300.0f / RAND_MAX);
 			r.vPos.x = playerX + prad * sinf(pang);
 			r.vPos.y = 0.0f;
 			r.vPos.z = playerZ + prad * cosf(pang);
@@ -288,7 +288,7 @@ void WdmSea::LRender(VDX9RENDER* rs)
 	Render(rs, "WdmSeaDraw2");
 	//Рисование анимированной текстуры
 	//Определяем пару кадров и коэфициент блендинга между ними
-  auto curFrame = long(aniFrame);
+  const auto curFrame = long(aniFrame);
   auto nextFrame = curFrame + 1;
 	if (nextFrame >= sizeof(aniTextures) / sizeof(long)) nextFrame = 0;
   auto k = 255.0f * (aniFrame - long(aniFrame));
@@ -321,7 +321,7 @@ void WdmSea::LRender(VDX9RENDER* rs)
 			y = (y - miny) / (maxy - miny);
 			if (y < 0.0f) y = 0.0f;
 			y = (1.0f - y) * (1.0f - y);
-      auto c = long(y * 255.0f) << 24;
+      const auto c = long(y * 255.0f) << 24;
 			rs->TextureSet(0, flareTexture);
 			rs->SetRenderState(D3DRS_TEXTUREFACTOR, (c << 24) | (c << 16) | (c << 8) | c);
 			rs->DrawRects(flareRect, flareCount, "WdmSeaDrawFlare");

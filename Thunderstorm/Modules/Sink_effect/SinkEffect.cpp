@@ -41,14 +41,14 @@ uint64_t SINKEFFECT::ProcessMessage(MESSAGE& message)
 {
 	//GUARD(SINKEFFECT::ProcessMessage)
 
-  auto code = message.Long();
-	uint32_t outValue = 0;
+  const auto code = message.Long();
+  const uint32_t outValue = 0;
 
 	switch (code)
 	{
 	case MSG_SHIP_DELETE:
 		{
-      auto attrs = message.AttributePointer();
+      const auto attrs = message.AttributePointer();
 			if (attrs)
 			{
 				auto& entities = EntityManager::GetEntityIdVector("ship");
@@ -124,7 +124,7 @@ void SINKEFFECT::Execute(uint32_t _dTime)
 //--------------------------------------------------------------------
 void SINKEFFECT::InitializeSinks()
 {
-  auto psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
+  const auto psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
 
 	for (auto i = 0; i < MAX_SINKS; ++i)
 	{

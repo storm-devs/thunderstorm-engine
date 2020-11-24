@@ -249,7 +249,7 @@ void NPCharacter::Update(float dltTime)
 	//Напишем отладочную информацию
 	if (location->IsDebugView())
 	{
-    auto isDebugEx = location->IsExDebugView();
+    const auto isDebugEx = location->IsExDebugView();
 		//if(AttributesPointer && AttributesPointer->GetAttributeAsDword("hideInfo", 0)) return;
 		const auto rad = 25.0f;
 		const char* id = nullptr;
@@ -348,7 +348,7 @@ void NPCharacter::SetEscapeTask(Character* c)
 	GetPosition(vOurPos);
 
   auto fCurDist = sqrtf(~(vOurPos - vPos));
-	CVECTOR vDir = !(vOurPos - vPos);
+  const CVECTOR vDir = !(vOurPos - vPos);
 
 	SetFightMode(false);
 	SetRunMode(true);
@@ -457,14 +457,14 @@ void NPCharacter::UpdateFollowCharacter(float dltTime)
 	auto* c = (NPCharacter *)EntityManager::GetEntityPointer(task.target);
 	if (!c || c->deadName != nullptr || c->liveValue < 0)
 	{
-		NPCTask tsk = task.task;
+    const NPCTask tsk = task.task;
 		task.task = npct_none;
 		CmdStay();
 		FailureCommand(tsk);
 		return;
 	}
 	//Проверим растояние до цели
-	float dst = ~(c->curPos - curPos);
+  const float dst = ~(c->curPos - curPos);
 	if (task.isFollowInit == 0)
 	{
 		task.isFollowInit = 1;
@@ -495,14 +495,14 @@ void NPCharacter::UpdateEscapeCharacter(float dltTime)
 	auto* c = (NPCharacter *)EntityManager::GetEntityPointer(task.target);
 	if (!c || c->deadName != nullptr || c->liveValue < 0)
 	{
-		NPCTask tsk = task.task;
+    const NPCTask tsk = task.task;
 		task.task = npct_none;
 		CmdStay();
 		FailureCommand(tsk);
 		return;
 	}
 	//Уходим по радиальной линии
-	float fDist = (bMusketer) ? fMusketerDistance * 0.7f : NPC_STOP_ESCAPE;
+  const float fDist = (bMusketer) ? fMusketerDistance * 0.7f : NPC_STOP_ESCAPE;
 	CmdEscape(c->curPos.x, c->curPos.y, c->curPos.z, fDist);
 	if (isSlide)
 	{
@@ -524,7 +524,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 	auto* c = (NPCharacter *)EntityManager::GetEntityPointer(task.target);
 	if (!c || c->deadName != nullptr || c->liveValue < 0 || c == this)
 	{
-		NPCTask tsk = task.task;
+    const NPCTask tsk = task.task;
 		task.task = npct_none;
 		CmdStay();
 		FailureCommand(tsk);
@@ -538,7 +538,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 		FightTick();
 	}
 	//Проверим растояние до цели
-	float dst = ~(c->curPos - curPos);
+  const float dst = ~(c->curPos - curPos);
 	//Переход в режим боя
 	if (dst > NPC_FIGHT_RUN_DIST * NPC_FIGHT_RUN_DIST)
 	{
@@ -565,7 +565,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 		}
 	}
 
-	bool bGunLoaded = IsGunLoad();
+  const bool bGunLoaded = IsGunLoad();
 
 	if (fgtSetType == fgt_fire || fMusketerFireTime > 0.0f)
 		bCurrentActionIsFire = true;
@@ -585,8 +585,8 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 
 	float kdst;
 
-	bool bVisTarget = VisibleTest(c);
-	bool bFarTarget = dst > NPC_FIGHT_FIRE_DIST * NPC_FIGHT_FIRE_DIST;
+  const bool bVisTarget = VisibleTest(c);
+  const bool bFarTarget = dst > NPC_FIGHT_FIRE_DIST * NPC_FIGHT_FIRE_DIST;
 	Character* target = FindGunTarget(kdst, true);
 
 	if (bVisTarget && !bFarTarget) // если таргет видимый, то пытаемся застрелить его
@@ -611,8 +611,8 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 			c->GetPosition(vPos);
 			GetPosition(vOurPos);
 
-			float fCurDist = sqrtf(~(vOurPos - vPos));
-			CVECTOR vDir = !(vOurPos - vPos);
+      const float fCurDist = sqrtf(~(vOurPos - vPos));
+      const CVECTOR vDir = !(vOurPos - vPos);
 
 			SetFightMode(false);
 			SetRunMode(true);
@@ -636,8 +636,8 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 	{
 		if (command.cmd != aicmd_gotopoint && !bCurrentActionIsFire)
 		{
-			float fDist = (bMusketer && !bMusketerNoMove) ? fMusketerDistance * 0.9f : NPC_FIGHT_GO_DIST;
-			float fDistTo = (bMusketer && !bMusketerNoMove) ? fMusketerDistance * 0.7f : NPC_FIGHT_GO_DIST;
+      const float fDist = (bMusketer && !bMusketerNoMove) ? fMusketerDistance * 0.9f : NPC_FIGHT_GO_DIST;
+      const float fDistTo = (bMusketer && !bMusketerNoMove) ? fMusketerDistance * 0.7f : NPC_FIGHT_GO_DIST;
 			if (dst > fDist * fDist)
 			{
 				//Надо подойти ближе
@@ -681,7 +681,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 						if (dx * sinf(ay) + dz * cosf(ay) > 0.65f)
 						{
 							//Определяем текущую цель
-							float _ay = ay;
+              const float _ay = ay;
 							ay = ang;
 							float kdst;
 							Character* target = FindGunTarget(kdst);
@@ -725,10 +725,10 @@ void NPCharacter::UpdateFightCharacter(float dltTime)
 			{
 				if (target != c)
 				{
-					float tdx = curPos.x - target->curPos.x;
-					float tdz = curPos.z - target->curPos.z;
-					float edx = curPos.x - c->curPos.x;
-					float edz = curPos.z - c->curPos.z;
+          const float tdx = curPos.x - target->curPos.x;
+          const float tdz = curPos.z - target->curPos.z;
+          const float edx = curPos.x - c->curPos.x;
+          const float edz = curPos.z - c->curPos.z;
 					if (edz * tdx + edx * tdz < 0.0f)
 					{
 						Turn(ay - 0.1f);
@@ -790,8 +790,8 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter* enemy)
 {
 	if (!enemy) return;
 	//Смотрим на свои желания
-	bool wishAttact = wantToAttack;
-	bool wishDefence = wantToDefence;
+  const bool wishAttact = wantToAttack;
+  const bool wishDefence = wantToDefence;
 	//Если ничего не желаем - экономим ресурсы и ничего больше не делаем
 	if (!(wishAttact | wishDefence)) return;
 	//Получаем режим выбора цели для атаки
@@ -815,12 +815,12 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter* enemy)
 		return;
 	if (!num) return;
 	//Наша группа
-	long grpIndex = chrGroup->FindGroupIndex(group);
+  const long grpIndex = chrGroup->FindGroupIndex(group);
 	//Таблица врагов
 	static EnemyState enemies[MAX_CHARACTERS];
 	long enemyCounter = 0;
 	//Наше направление
-	CVECTOR dir(sinf(ay), 0.0f, cosf(ay));
+  const CVECTOR dir(sinf(ay), 0.0f, cosf(ay));
 	//Вычисляем врагов
 	bool isFreeBack = isRecoilEnable;
 	static const float backAng = -cosf(45.0f * (3.1415926535f / 180.0f));
@@ -833,7 +833,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter* enemy)
 		fc.d2 = sqrtf(fc.d2);
 		if (isFreeBack)
 		{
-			float cs = dir.x * fc.dx + dir.z * fc.dz;
+      const float cs = dir.x * fc.dx + dir.z * fc.dz;
 			if (cs < 0.0f)
 			{
 				if (-cs >= backAng * fc.d2)
@@ -844,7 +844,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter* enemy)
 		}
 		//		if(!chr->isFight) continue;
 		//Группа воюющего
-		long grp = chrGroup->FindGroupIndex(chr->group);
+    const long grp = chrGroup->FindGroupIndex(chr->group);
 		//Отношение его группы к нашей
 		if (chrGroup->FindRelation(grpIndex, grp).curState != CharactersGroups::rs_enemy) continue;
 		//Это враг
@@ -888,7 +888,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter* enemy)
 		for (long i = 0, j = -1; i < enemyCounter; i++)
 		{
 			EnemyState& es = enemies[i];
-			float k = es.state * 1.0f + (es.dir + 1.0f) * 0.5f;
+      const float k = es.state * 1.0f + (es.dir + 1.0f) * 0.5f;
 			if (enemy)
 			{
 				if (kSel < k)
@@ -950,7 +950,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter* enemy)
 	if (isBreakAttack)
 	{
 		//Вероятность распознания пробивающей атаки
-		float prbDetect = fightLevel * fightLevel * 0.9f;
+    const float prbDetect = fightLevel * fightLevel * 0.9f;
 		if (PrTest(prbDetect))
 		{
 			if (!isFreeBack)
@@ -1039,7 +1039,7 @@ void NPCharacter::DoFightAttack(Character* enemy, long enemyCounter, bool wishDe
 		max += attack[i].prb;
 	}
 	if (count == 0 || max <= 0.0f) return;
-	float r = rand() * (max / RAND_MAX);
+  const float r = rand() * (max / RAND_MAX);
 	float p = 0.0f;
 	long i;
 	for (i = 0; i < count; i++)
@@ -1055,12 +1055,12 @@ void NPCharacter::DoFightAttack(Character* enemy, long enemyCounter, bool wishDe
 void NPCharacter::DoFightBlock(bool needParry)
 {
 	wantToDefence = false;
-	float sum = defencePrbBlock + defencePrbParry;
+  const float sum = defencePrbBlock + defencePrbParry;
 	if (sum <= 0.0f) return;
-	float parryEnergy = GetActEnergy("parry");
-	float used = GetEnergy() - parryEnergy;
-	float minTime = 0.8f + (1.0f - fightLevel) * 0.8f;
-	float maxTime = minTime + (1.1f - fightLevel) * 2.5f;
+  const float parryEnergy = GetActEnergy("parry");
+  const float used = GetEnergy() - parryEnergy;
+  const float minTime = 0.8f + (1.0f - fightLevel) * 0.8f;
+  const float maxTime = minTime + (1.1f - fightLevel) * 2.5f;
 	blockTime = minTime + rand() * (1.0f / RAND_MAX) * (maxTime - minTime);
 	if (used < 0.0f)
 	{
@@ -1072,7 +1072,7 @@ void NPCharacter::DoFightBlock(bool needParry)
 		Parry();
 		return;
 	}
-	float noParryThreshold = (fightLevel * 0.3f + rand() * (0.3f / RAND_MAX));
+  const float noParryThreshold = (fightLevel * 0.3f + rand() * (0.3f / RAND_MAX));
 	if (used < noParryThreshold)
 	{
 		Block();

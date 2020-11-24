@@ -44,7 +44,7 @@ bool LIGHTNING::LoadState(ENTITY_STATE* state)
 
 void LIGHTNING::Execute(uint32_t Delta_Time)
 {
-  auto fDeltaTime = float(Delta_Time) * 0.001f;
+  const auto fDeltaTime = float(Delta_Time) * 0.001f;
 
 	for (uint32_t i = 0; i < aLightnings.size(); i++)
 	{
@@ -82,10 +82,10 @@ void LIGHTNING::Realize(uint32_t Delta_Time)
 		pRS->TextureSet(0, iLightningTexture);
 		for (i = 0; i < aLightnings.size(); i++)
 		{
-      auto pL = &aLightnings[i];
+      const auto pL = &aLightnings[i];
       auto pR = &rs_rect;
 
-			auto dwAlpha = uint32_t(255.0f * pL->fAlpha);
+      const auto dwAlpha = uint32_t(255.0f * pL->fAlpha);
 			pR->dwSubTexture = pL->dwSubTexture;
 			pR->dwColor = RGB(dwAlpha, dwAlpha, dwAlpha);
 			pR->vPos = pL->vPos;
@@ -100,10 +100,10 @@ void LIGHTNING::Realize(uint32_t Delta_Time)
 		pRS->TextureSet(0, iFlashTexture);
 		for (i = 0; i < aLightnings.size(); i++)
 		{
-      auto pL = &aLightnings[i];
+      const auto pL = &aLightnings[i];
       auto pR = &rs_rect;
 
-			auto dwAlpha = uint32_t(255.0f * pL->fAlpha * pL->fPower);
+      const auto dwAlpha = uint32_t(255.0f * pL->fAlpha * pL->fPower);
 			pR->dwColor = RGB(dwAlpha, dwAlpha, dwAlpha);
 			pR->vPos = pL->vPos;
 			pR->fSize = pL->Flash.fSize;
@@ -164,7 +164,7 @@ void LIGHTNING::CalcFlashPower(lightning_t* pL) const {
 
 	for (uint32_t i = 0; i < 3; i++)
 	{
-    auto fRes = pCollide->Trace(EntityManager::GetEntityIdIterators(SUN_TRACE), vCamPos, vTrace[i], nullptr, 0);
+    const auto fRes = pCollide->Trace(EntityManager::GetEntityIdIterators(SUN_TRACE), vCamPos, vTrace[i], nullptr, 0);
 		if (fRes <= 1.0f) fPower -= 0.31f;
 	}
 	pL->fPower = fPower;
@@ -174,7 +174,7 @@ uint32_t LIGHTNING::AttributeChanged(ATTRIBUTES* pAttribute)
 {
 	//std::string sTextureName;
 
-  auto pParent = pAttribute->GetParent();
+  const auto pParent = pAttribute->GetParent();
 
 	if (*pAttribute == "Clear")
 	{

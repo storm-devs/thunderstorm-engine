@@ -5,7 +5,7 @@
 IDirect3DTexture9* GetTexFromEvent(VDATA* vdat)
 {
 	if (vdat == nullptr) return nullptr;
-	uintptr_t dwTmp = vdat->GetLong();
+  const uintptr_t dwTmp = vdat->GetLong();
 	return (IDirect3DTexture9*)dwTmp;
 }
 
@@ -60,7 +60,7 @@ void CXI_SCROLLIMAGE::Draw(bool bSelected, uint32_t Delta_Time)
 			if ((m_fCurrentDistance >= m_fMoveDistance && m_fDeltaMove >= 0.f) ||
 				(m_fCurrentDistance <= m_fMoveDistance && m_fDeltaMove <= 0.f))
 				m_fCurrentDistance = m_fMoveDistance;
-      auto fDelta = ChangeDinamicParameters(m_fCurrentDistance);
+      const auto fDelta = ChangeDinamicParameters(m_fCurrentDistance);
 			m_fCurrentDistance += fDelta;
 			m_fMoveDistance += fDelta;
 			if (m_fMoveDistance == m_fCurrentDistance)
@@ -90,14 +90,14 @@ void CXI_SCROLLIMAGE::Draw(bool bSelected, uint32_t Delta_Time)
 
 				for (n = 0; n < m_nSlotsQnt; n++)
 				{
-					int ad = ALPHA(m_dwNormalColor[n]);
-					int rd = RED(m_dwNormalColor[n]);
-					int gd = GREEN(m_dwNormalColor[n]);
-					int bd = BLUE(m_dwNormalColor[n]);
-					int al = ALPHA(m_dwSelectColor[n]);
-					int rl = RED(m_dwSelectColor[n]);
-					int gl = GREEN(m_dwSelectColor[n]);
-					int bl = BLUE(m_dwSelectColor[n]);
+          const int ad = ALPHA(m_dwNormalColor[n]);
+          const int rd = RED(m_dwNormalColor[n]);
+          const int gd = GREEN(m_dwNormalColor[n]);
+          const int bd = BLUE(m_dwNormalColor[n]);
+          const int al = ALPHA(m_dwSelectColor[n]);
+          const int rl = RED(m_dwSelectColor[n]);
+          const int gl = GREEN(m_dwSelectColor[n]);
+          const int bl = BLUE(m_dwSelectColor[n]);
 					int a, r, g, b;
 					if (m_bColorType)
 					{
@@ -220,7 +220,7 @@ void CXI_SCROLLIMAGE::Draw(bool bSelected, uint32_t Delta_Time)
 						pScroll = pScroll->next;
 						continue;
 					}
-					float texCorrect = (m_rect.left - pos.left) / (pos.right - pos.left);
+          const float texCorrect = (m_rect.left - pos.left) / (pos.right - pos.left);
 					rectTex.left += texCorrect * (rectTex.right - rectTex.left);
 					pos.left = (float)m_rect.left;
 				}
@@ -231,7 +231,7 @@ void CXI_SCROLLIMAGE::Draw(bool bSelected, uint32_t Delta_Time)
 						pScroll = pScroll->next;
 						continue;
 					}
-					float texCorrect = (m_rect.right - pos.right) / (pos.right - pos.left);
+          const float texCorrect = (m_rect.right - pos.right) / (pos.right - pos.left);
 					rectTex.right += texCorrect * (rectTex.right - rectTex.left);
 					pos.right = (float)m_rect.right;
 				}
@@ -670,8 +670,8 @@ float CXI_SCROLLIMAGE::ChangeDinamicParameters(float fXDelta)
 	bool bIncrement = true;
 	float curXCenter = m_pCenter.x + fXDelta;
 	int curImage = m_nCurImage;
-	long lrBorderDist = m_rect.right - m_pCenter.x;
-	long llBorderDist = m_pCenter.x - m_rect.left;
+  const long lrBorderDist = m_rect.right - m_pCenter.x;
+  const long llBorderDist = m_pCenter.x - m_rect.left;
 
 	int newCurImage = m_nCurImage;
 	float fNewCurCenter = curXCenter;
@@ -758,7 +758,7 @@ float CXI_SCROLLIMAGE::ChangeDinamicParameters(float fXDelta)
 		pScroll->pCenter.y = (float)m_pCenter.y;
 
 		float lpos = curXCenter - m_ImageSize.x * .5f;
-		float rpos = curXCenter + m_ImageSize.x * .5f;
+    const float rpos = curXCenter + m_ImageSize.x * .5f;
 
 		if (m_pCenter.x >= lpos && m_pCenter.x <= rpos)
 		{
@@ -980,10 +980,10 @@ bool CXI_SCROLLIMAGE::IsClick(int buttonID, long xPos, long yPos)
 
 void CXI_SCROLLIMAGE::ChangePosition(XYRECT& rNewPos)
 {
-	long nLeftOffset = rNewPos.left - m_rect.left;
-	long nTopOffset = rNewPos.top - m_rect.top;
-	long nRightOffset = rNewPos.right - m_rect.right;
-	long nBottomOffset = rNewPos.bottom - m_rect.bottom;
+  const long nLeftOffset = rNewPos.left - m_rect.left;
+  const long nTopOffset = rNewPos.top - m_rect.top;
+  const long nRightOffset = rNewPos.right - m_rect.right;
+  const long nBottomOffset = rNewPos.bottom - m_rect.bottom;
 
 	m_rAbsolutePosition.left += nLeftOffset;
 	m_rAbsolutePosition.top += nTopOffset;
@@ -1408,16 +1408,16 @@ int CXI_SCROLLIMAGE::FindClickedImageNum() const {
 	int n;
 	int i = 0;
 
-	FXYPOINT fp = ptrOwner->GetMousePoint();
+  const FXYPOINT fp = ptrOwner->GetMousePoint();
 	SCROLLEntity* pscroll;
 	for (pscroll = m_pScroll; pscroll != nullptr; pscroll = pscroll->next)
 	{
 		float flx = .5f * pscroll->fCurScale * m_ImageSize.x;
-		float frx = pscroll->pCenter.x + flx;
+    const float frx = pscroll->pCenter.x + flx;
 		flx = pscroll->pCenter.x - flx;
 
 		float fty = .5f * pscroll->fCurScale * m_ImageSize.y;
-		float fby = pscroll->pCenter.y + fty;
+    const float fby = pscroll->pCenter.y + fty;
 		fty = pscroll->pCenter.y - fty;
 
 		if (pscroll->pCenter.x >= m_pCenter.x) i++;
@@ -1492,7 +1492,7 @@ int CXI_SCROLLIMAGE::GetLeftQuantity() const {
 
 float CXI_SCROLLIMAGE::GetShiftDistance(int shiftIdx) const {
 	int i = 0;
-	int n = shiftIdx < 0 ? -shiftIdx : shiftIdx;
+  const int n = shiftIdx < 0 ? -shiftIdx : shiftIdx;
 
 	bool bNoFindRight = true;
 	auto fright = (float)m_pCenter.x;
@@ -1539,7 +1539,7 @@ void CXI_SCROLLIMAGE::UpdateTexturesGroup()
 
 	char* * pPrevGroup = m_sGroupName;
 	long* prevTex = m_nGroupTex;
-	int nPrevQ = m_nGroupQuantity;
+  const int nPrevQ = m_nGroupQuantity;
 
 	// get textures
 	ATTRIBUTES* pAttribute = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
@@ -1567,7 +1567,7 @@ void CXI_SCROLLIMAGE::UpdateTexturesGroup()
 					continue;
 				}
 
-				int itmp = FindTexGroupFromOld(pPrevGroup, stmp, nPrevQ);
+        const int itmp = FindTexGroupFromOld(pPrevGroup, stmp, nPrevQ);
 				if (itmp != -1)
 				{
 					m_sGroupName[i] = pPrevGroup[itmp];
@@ -1678,14 +1678,14 @@ uint32_t CXI_SCROLLIMAGE::MessageProc(long msgcode, MESSAGE& message)
 }
 
 long CXI_SCROLLIMAGE::GetMousePointedPictureNum() const {
-	FXYPOINT mp = ptrOwner->GetMousePoint();
+  const FXYPOINT mp = ptrOwner->GetMousePoint();
 	if (mp.x < m_rect.left || mp.x > m_rect.right ||
 		mp.y < m_rect.top || mp.y > m_rect.bottom)
 	{
 		return -1;
 	}
 
-	float curXCenter = m_pScroll ? m_pScroll->pCenter.x : (m_rect.left + m_rect.right) / 2;
+  const float curXCenter = m_pScroll ? m_pScroll->pCenter.x : (m_rect.left + m_rect.right) / 2;
 	long n = 0;
 	if (mp.x < curXCenter)
 	{

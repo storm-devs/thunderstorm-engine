@@ -3,13 +3,13 @@
 
 bool ISLAND::DoZapSuperGeneratorDecodeFile(const char* sname)
 {
-  auto hFile = fio->_CreateFile(sname, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
+  const auto hFile = fio->_CreateFile(sname, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
 		TGA_H tga_head;
 
 		fio->_ReadFile(hFile, &tga_head, sizeof(tga_head), nullptr);
-		uint32_t dwSize = tga_head.width;
+    const uint32_t dwSize = tga_head.width;
 		auto* pTempMap = new uint8_t[dwSize * dwSize];
 		fio->_ReadFile(hFile, pTempMap, dwSize * dwSize, nullptr);
 		fio->_CloseHandle(hFile);

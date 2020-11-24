@@ -253,14 +253,14 @@ void GEOM::Draw(const PLANE* pl, long np, MATERIAL_FUNC mtf) const
 		long cp;
 		for (cp = 0; cp < np; cp++)
 		{
-      auto dist = object[o].center.x * pl[cp].nrm.x + object[o].center.y * pl[cp].nrm.y + object[o].center.z * pl
+      const auto dist = object[o].center.x * pl[cp].nrm.x + object[o].center.y * pl[cp].nrm.y + object[o].center.z * pl
 				[cp].nrm.z - pl[cp].d;
 			if (dist > object[o].radius) break;
 			//if(dist<-object[o].radius)	break;
 		}
 		if (cp < np) continue;
 
-    auto vb = &vbuff[object[o].vertex_buff];
+    const auto vb = &vbuff[object[o].vertex_buff];
 		srv.SetVertexBuffer(vb->stride, vb->dev_buff);
 		srv.SetMaterial(material[object[o].material]);
 		if (mtf != nullptr) mtf(material[object[o].material]);
@@ -288,20 +288,20 @@ bool GEOM::GetCollisionDetails(TRACE_INFO& ti) const
 	vindex[2] = (btrg[traceid].vindex[2][0] << 0) | (btrg[traceid].vindex[2][1] << 8) | (btrg[traceid].vindex[2][2] <<
 		16);
 
-  auto ve = dst - src;
-	DVECTOR a = vrt[vindex[1]] - vrt[vindex[0]];
-	DVECTOR b = vrt[vindex[2]] - vrt[vindex[0]];
-  auto pvec = ve ^ b;
-	double det = a | pvec;
-	double invdet = 1.0 / det;
-	DVECTOR c = src - vrt[vindex[0]];
+  const auto ve = dst - src;
+  const DVECTOR a = vrt[vindex[1]] - vrt[vindex[0]];
+  const DVECTOR b = vrt[vindex[2]] - vrt[vindex[0]];
+  const auto pvec = ve ^ b;
+  const double det = a | pvec;
+  const double invdet = 1.0 / det;
+  const DVECTOR c = src - vrt[vindex[0]];
 
 	ti.a = float((c | pvec) * invdet);
 	ti.b = float((ve | (c ^ a)) * invdet);
 
 	//plane info
-	DVECTOR nrm = !(a ^ b);
-	double pldist = nrm | vrt[vindex[0]];
+  const DVECTOR nrm = !(a ^ b);
+  const double pldist = nrm | vrt[vindex[0]];
 	ti.plane.nrm.x = float(nrm.x);
 	ti.plane.nrm.y = float(nrm.y);
 	ti.plane.nrm.z = float(nrm.z);

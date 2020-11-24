@@ -21,7 +21,7 @@ LocatorArray::LocatorArray(const char* groupName)
 	bytesInLNArray = 0;
 	if (groupName)
 	{
-		long l = strlen(groupName) + 1;
+    const long l = strlen(groupName) + 1;
 		group = new char[l];
 		memcpy(group, groupName, l);
 	}
@@ -78,10 +78,10 @@ float LocatorArray::FindNearesLocator(float x, float y, float z, long* locIndex)
 {
 	if (locIndex) *locIndex = -1;
   auto dist = 1000000000.0f;
-	CVECTOR v(x, y, z);
+  const CVECTOR v(x, y, z);
 	for (long i = 0; i < numLocators; i++)
 	{
-    auto d = ~(locator[i].mtx.Pos() - v);
+    const auto d = ~(locator[i].mtx.Pos() - v);
 		if (dist > d)
 		{
 			if (locIndex) *locIndex = i;
@@ -98,14 +98,14 @@ long LocatorArray::FindNearesLocatorCl(float x, float y, float z, float height2,
 	for (long i = 0; i < numLocators; i++)
 	{
 		//if(fabsf(y - locator[i].mtx.Pos().y) > height2) continue;
-    auto r = GetLocatorRadius(i);
+    const auto r = GetLocatorRadius(i);
 
 		if (fabsf(y - locator[i].mtx.Pos().y) > r) continue;
 
 		if (r <= 0.0f) continue;
-    auto vx = locator[i].mtx.Pos().x - x;
-    auto vz = locator[i].mtx.Pos().z - z;
-    auto d = vx * vx + vz * vz;
+    const auto vx = locator[i].mtx.Pos().x - x;
+    const auto vz = locator[i].mtx.Pos().z - z;
+    const auto d = vx * vx + vz * vz;
 		if (r * r <= d) continue;
 		if (locIndex >= 0)
 		{
@@ -128,7 +128,7 @@ long LocatorArray::FindNearesLocatorCl(float x, float y, float z, float height2,
 long LocatorArray::FindByName(const char* locName)
 {
 	if (!locName) return -1;
-  auto hash = CalcHashString(locName);
+  const auto hash = CalcHashString(locName);
 	for (long i = 0; i < numLocators; i++)
 	{
 		if (locator[i].name >= 0)
@@ -151,7 +151,7 @@ long LocatorArray::CalcHashString(const char* str)
     auto c = *str++;
 		if (c >= 'A' && c <= 'Z') c += 'a' - 'A';
 		hval = (hval << 4) + (unsigned long int)c;
-    auto g = hval & ((unsigned long int)0xf << (32 - 4));
+    const auto g = hval & ((unsigned long int)0xf << (32 - 4));
 		if (g != 0)
 		{
 			hval ^= g >> (32 - 8);

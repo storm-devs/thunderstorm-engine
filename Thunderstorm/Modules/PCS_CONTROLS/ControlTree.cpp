@@ -197,7 +197,7 @@ void ControlTree::Release()
 ControlTree::ControlChild* ControlTree::FindControlChild(long idx)
 {
 	if (idx < 0 || idx >= m_nControlsNum) return &m_RootControl;
-  auto pCC = FindControlChild(idx, &m_RootControl);
+  const auto pCC = FindControlChild(idx, &m_RootControl);
 	if (pCC) return pCC;
 	return &m_RootControl;
 }
@@ -208,7 +208,7 @@ ControlTree::ControlChild* ControlTree::FindControlChild(long idx, ControlChild*
 	if (pParent->index == idx) return pParent;
 	for (long n = 0; n < pParent->aChild.size(); n++)
 	{
-    auto pCC = FindControlChild(idx, &pParent->aChild[n]);
+    const auto pCC = FindControlChild(idx, &pParent->aChild[n]);
 		if (pCC) return pCC;
 	}
 	return nullptr;
@@ -235,7 +235,7 @@ bool ControlTree::AddOutControl(const char* pcOutControlName, bool isActive)
 	}
 
 	// нажата контролка
-  auto cs_prev = m_aOutControlList[n].state;
+  const auto cs_prev = m_aOutControlList[n].state;
 	if (isActive)
 	{
 		if (cs_prev == CST_INACTIVE || cs_prev == CST_INACTIVATED)

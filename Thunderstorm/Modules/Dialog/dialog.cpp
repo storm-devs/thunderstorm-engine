@@ -61,7 +61,7 @@ void DIALOG::DlgTextDescribe::ChangeText(const char* pcText)
 		if (pcText[n] == '\\' &&
 			(pcText[n + 1] == 'n' || pcText[n + 1] == 'N'))
 		{
-      auto pcTmp = new char[4 + n - i];
+      const auto pcTmp = new char[4 + n - i];
 			Assert(pcTmp);
 			if (n - i > 0) memcpy(pcTmp, &pcText[i], (n - i) * sizeof(char));
 			memcpy(&pcTmp[n - i], "...", 4 * sizeof(char));
@@ -266,10 +266,10 @@ void DIALOG::DlgLinkDescribe::Show(long nY)
 
 void DIALOG::DlgLinkDescribe::ShowEditMode(long nX, long nY, long nTextIdx)
 {
-  auto nKeyQ = api->Controls->GetKeyBufferLength();
+  const auto nKeyQ = api->Controls->GetKeyBufferLength();
 	if (nKeyQ > 0)
 	{
-    auto pKeys = api->Controls->GetKeyBuffer();
+    const auto pKeys = api->Controls->GetKeyBuffer();
 		if (pKeys)
 		{
 			for (long n = 0; n < nKeyQ; n++)
@@ -326,7 +326,7 @@ void DIALOG::DlgLinkDescribe::ShowEditMode(long nX, long nY, long nTextIdx)
 		{
 			if (nEditCharIndex < (long)asText[nTextIdx].size())
 			{
-        auto cTmp = asText[nTextIdx][nEditCharIndex];
+        const auto cTmp = asText[nTextIdx][nEditCharIndex];
 				asText[nTextIdx][nEditCharIndex] = 0;
 				nW = rs->StringWidth((char*)asText[nTextIdx].c_str(), nFontID, fScale, 0);
 				asText[nTextIdx][nEditCharIndex] = cTmp;
@@ -396,7 +396,7 @@ DIALOG::~DIALOG()
 
 void DIALOG::CreateBack()
 {
-	long nSquareQuantity = 9 + 3 + 1; // 9-for back, 3-for name & 1-for divider
+  const long nSquareQuantity = 9 + 3 + 1; // 9-for back, 3-for name & 1-for divider
 	m_nIQntBack = 6 * nSquareQuantity; // 6 индексов в одном прямоугольнике
 	m_nVQntBack = 4 * nSquareQuantity; // 4 вертекса в одном прямоуголькнике
 
@@ -406,7 +406,7 @@ void DIALOG::CreateBack()
 	if (m_idIBufBack == -1)
 		m_idIBufBack = RenderService->CreateIndexBuffer(m_nIQntBack * sizeof(uint16_t));
 
-  auto pI = (uint16_t*)RenderService->LockIndexBuffer(m_idIBufBack);
+  const auto pI = (uint16_t*)RenderService->LockIndexBuffer(m_idIBufBack);
 	if (pI)
 	{
 		for (long n = 0; n < nSquareQuantity; n++)
@@ -498,7 +498,7 @@ void DIALOG::FillDivider()
 	if (!m_BackParams.bShowDivider) return;
 
 	XI_TEX_VERTEX* pV = (XI_TEX_VERTEX*)RenderService->LockVertexBuffer(m_idVBufBack);
-	auto fDividerY = (float)(textViewport.Y + m_BackParams.nDividerOffsetY);
+  const auto fDividerY = (float)(textViewport.Y + m_BackParams.nDividerOffsetY);
 	SetVerticesForSquare(&pV[m_nVQntBack - 4], m_BackParams.m_frDividerUV,
 	                     m_BackParams.m_frBorderInt.left + m_BackParams.nDividerOffsetX, fDividerY,
 	                     m_BackParams.m_frBorderInt.right - m_BackParams.nDividerOffsetX,
@@ -749,7 +749,7 @@ void DIALOG::AddToStringArrayLimitedByWidth(const char* pcSrcText, long nFontID,
 		{
 			// boal fix пробел в конце строки
 			param[n] = 0;
-			long nW = RenderService->StringWidth(param, nFontID, fScale);
+      const long nW = RenderService->StringWidth(param, nFontID, fScale);
 			if (nW < nLimitWidth && pcSrcText[nCur] != 0)
 			{
 				// пока еще не перешли предел по ширине
@@ -911,7 +911,7 @@ void DIALOG::Realize(uint32_t Delta_Time)
 		{
 			if (m_DlgLinks.nSelectLine > 0)
 				m_DlgLinks.nSelectLine--;
-			long nTmp = (m_DlgLinks.nSelectLine > 0) ? m_DlgLinks.anLineEndIndex[m_DlgLinks.nSelectLine - 1] : 0;
+      const long nTmp = (m_DlgLinks.nSelectLine > 0) ? m_DlgLinks.anLineEndIndex[m_DlgLinks.nSelectLine - 1] : 0;
 			if (m_DlgLinks.nStartIndex > nTmp)
 			{
 				m_DlgLinks.nStartIndex = nTmp;
@@ -1100,8 +1100,8 @@ void DIALOG::UpdateDlgTexts()
 
 void DIALOG::UpdateDlgViewport()
 {
-	long nTextHeight = m_DlgText.GetShowHeight();
-	long nLinksHeight = m_DlgText.IsLastPage() ? m_DlgLinks.GetShowHeight() : 0;
+  const long nTextHeight = m_DlgText.GetShowHeight();
+  const long nLinksHeight = m_DlgText.IsLastPage() ? m_DlgLinks.GetShowHeight() : 0;
 
 	long nAllHeight = nTextHeight;
 	if (nLinksHeight > 0)
@@ -1119,7 +1119,7 @@ void DIALOG::UpdateDlgViewport()
 	textViewport.Y = (unsigned long)((long)m_BackParams.m_frBorderInt.bottom - nAllHeight - GetScrHeight(
 		DIALOG_BOTTOM_LINESPACE));
 
-	float fTopBorder = textViewport.Y - GetScrHeight(DIALOG_TOP_LINESPACE);
+  const float fTopBorder = textViewport.Y - GetScrHeight(DIALOG_TOP_LINESPACE);
 	if (m_BackParams.m_frBorderInt.top != fTopBorder)
 	{
 		m_BackParams.m_frBorderInt.top = fTopBorder;

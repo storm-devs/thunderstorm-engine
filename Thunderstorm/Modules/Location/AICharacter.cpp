@@ -240,8 +240,8 @@ void AICharacter::CmdProcessGotoPoint(float dltTime)
 	goForce.y = 0.0f;
 	goForce.z = command.tpnt.z - curPos.z;
   auto fl = sqrtf(~goForce);
-  auto sn = sinf(ay);
-  auto cs = cosf(ay);
+  const auto sn = sinf(ay);
+  const auto cs = cosf(ay);
 	if (fl <= 0.0f)
 	{
 		goForce.x = command.pnt.x - curPos.x;
@@ -277,8 +277,8 @@ void AICharacter::CmdProcessGotoPoint(float dltTime)
 		StopMove();
 	}
 	//Если дошли, то надо остановиться
-  auto dx = command.pnt.x - curPos.x;
-  auto dz = command.pnt.z - curPos.z;
+  const auto dx = command.pnt.x - curPos.x;
+  const auto dz = command.pnt.z - curPos.z;
   auto d = dx * dx + dz * dz;
 	const auto location = GetLocation();
 	if (location->IsDebugView())
@@ -340,7 +340,7 @@ void AICharacter::CmdUpdateGotoPoint(float dltTime)
 		StartMove();
 		//if(location->IsDebugView()) location->DrawLine(curPos, 0xffff0000, curPos + force*2.0f, 0xffff0000, false);
 		Turn(force.x, force.z);
-    auto l = force.x * force.x + force.z * force.z;
+    const auto l = force.x * force.x + force.z * force.z;
 		if (l < 0.7f) kSpd = likeKSpd * l / 0.7f;
 		else kSpd = likeKSpd;
 		//Если скользим по краю - остановимся и подождём
@@ -430,7 +430,7 @@ void AICharacter::CmdUpdateEscape(float dltTime)
 	const auto location = GetLocation();
 	if (location->IsDebugView()) location->DrawLine(curPos, 0xffff0000, curPos + force * 2.0f, 0xffff0000, false);
 	Turn(force.x, force.z);
-  auto l = force.x * force.x + force.z * force.z;
+  const auto l = force.x * force.x + force.z * force.z;
 	if (l < 0.7f) kSpd = likeKSpd * l / 0.7f;
 	else kSpd = likeKSpd;
 }
@@ -443,7 +443,7 @@ long AICharacter::FindNodeIndex(const CVECTOR& pos, float* hy)
 {
 	const auto location = GetLocation();
 	float yy;
-  auto node = location->GetPtcData().FindNode(pos, yy);
+  const auto node = location->GetPtcData().FindNode(pos, yy);
 	if (hy) *hy = yy;
 	return node;
 }
@@ -471,7 +471,7 @@ void AICharacter::CalcRepulsionForces()
 {
 	if (numColCharacter <= 0) return;
 	float k;
-  auto kn = 1.0f / numColCharacter;
+  const auto kn = 1.0f / numColCharacter;
 	for (long i = 0; i < numColCharacter; i++)
 	{
 		const auto location = GetLocation();
@@ -479,20 +479,20 @@ void AICharacter::CalcRepulsionForces()
 		if (ci.d == 0.0f) continue;
 		auto* c = (AICharacter *)ci.c;
 		if (command.exch == c || c->command.exch == this) continue;
-    auto dx = c->curPos.x - curPos.x;
-    auto dz = c->curPos.z - curPos.z;
-    auto kd = 1.0f / ci.d;
-    auto kr = kn * (ci.maxD - ci.d) / ci.maxD;
+    const auto dx = c->curPos.x - curPos.x;
+    const auto dz = c->curPos.z - curPos.z;
+    const auto kd = 1.0f / ci.d;
+    const auto kr = kn * (ci.maxD - ci.d) / ci.maxD;
 		//Сила расталкивания
-    auto sx = dx * kr * kd * kd;
-    auto sz = dz * kr * kd * kd;
+    const auto sx = dx * kr * kd * kd;
+    const auto sz = dz * kr * kd * kd;
 		separation.x -= sx;
 		separation.z -= sz;
 		c->separation.x += sx;
 		c->separation.z += sz;
 		//Сила выравнивания направлений
 		k = 1.0f - fabsf(goForce.x * c->goForce.x + goForce.z * c->goForce.z);
-    auto af = (goForce + c->goForce) * (kn * kr * kd * k);
+    const auto af = (goForce + c->goForce) * (kn * kr * kd * k);
 		if (af.x * dx + af.z * dz < 0.0f)
 		{
 			alignment += af;
@@ -504,7 +504,7 @@ void AICharacter::CalcRepulsionForces()
 			c->alignment += af;
 		}
 		//Сила для обхода
-    auto kcs = goForce.x * dx + goForce.z * dz;
+    const auto kcs = goForce.x * dx + goForce.z * dz;
 		if (kcs > 0.0f)
 		{
 			k = kn * kr * kd * kcs;
@@ -521,10 +521,10 @@ void AICharacter::CalcRepulsionForces()
 bool AICharacter::FindIntersection(const CVECTOR& s, const CVECTOR& e, const CVECTOR& cur, const CVECTOR& to,
                                    CVECTOR& res)
 {
-  auto deX = e.x - s.x;
-  auto deZ = e.z - s.z;
-  auto dX = to.x - cur.x;
-  auto dZ = to.z - cur.z;
+  const auto deX = e.x - s.x;
+  const auto deZ = e.z - s.z;
+  const auto dX = to.x - cur.x;
+  const auto dZ = to.z - cur.z;
 	//Плоскасть проходящая через отрезок перемещения
   auto nx = dZ;
   auto nz = -dX;
@@ -537,10 +537,10 @@ bool AICharacter::FindIntersection(const CVECTOR& s, const CVECTOR& e, const CVE
 	nl = sqrtf(nl);
 	nx /= nl;
 	nz /= nl;
-  auto d = cur.x * nx + cur.z * nz;
+  const auto d = cur.x * nx + cur.z * nz;
 	//Расстояния вершин ребра до плоскости
-  auto ds = nx * s.x + nz * s.z - d;
-  auto de = nx * e.x + nz * e.z - d;
+  const auto ds = nx * s.x + nz * s.z - d;
+  const auto de = nx * e.x + nz * e.z - d;
 	//Решим что делать
 	if (ds != de)
 	{
@@ -571,7 +571,7 @@ bool AICharacter::FindIntersection(const CVECTOR& s, const CVECTOR& e, const CVE
 float AICharacter::Angle(double vx, double vz, float defAy)
 {
 	//Вычисляем угол
-  auto l = vx * vx + vz * vz;
+  const auto l = vx * vx + vz * vz;
 	if (l <= 0.0) return defAy;
 	vz = acos(vz / sqrt(l));
 	if (vx < 0) vz = -vz;

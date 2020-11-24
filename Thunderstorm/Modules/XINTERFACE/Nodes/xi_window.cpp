@@ -30,8 +30,8 @@ void CXI_WINDOW::ChangePosition(XYRECT& rNewPos)
 	if (rNewPos.top == m_rect.top &&
 		rNewPos.left == m_rect.left)
 		return; // нечего менять - та же позиция
-  auto nXAdd = rNewPos.left - m_rect.left;
-  auto nYAdd = rNewPos.top - m_rect.top;
+  const auto nXAdd = rNewPos.left - m_rect.left;
+  const auto nYAdd = rNewPos.top - m_rect.top;
 	m_rect = rNewPos;
 
 	for (long n = 0; n < m_aNodeNameList.size(); n++)
@@ -83,7 +83,7 @@ void CXI_WINDOW::SetShow(bool bShow)
 	// проход по всем нодам и включить/выключить их
 	for (long n = 0; n < m_aNodeNameList.size(); n++)
 	{
-    auto pNod = ptrOwner->FindNode(m_aNodeNameList[n].c_str(), nullptr);
+    const auto pNod = ptrOwner->FindNode(m_aNodeNameList[n].c_str(), nullptr);
 		if (pNod)
 		{
 			pNod->m_bUse = bShow;
@@ -100,7 +100,7 @@ void CXI_WINDOW::SetActive(bool bActive)
 	// проход по всем нодам и залочить/разлочить их
 	for (long n = 0; n < m_aNodeNameList.size(); n++)
 	{
-    auto pNod = ptrOwner->FindNode(m_aNodeNameList[n].c_str(), nullptr);
+    const auto pNod = ptrOwner->FindNode(m_aNodeNameList[n].c_str(), nullptr);
 		if (pNod)
 		{
 			pNod->m_bLockedNode = !bActive;

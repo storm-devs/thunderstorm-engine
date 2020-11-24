@@ -42,7 +42,7 @@ BillBoardProcessor::BillBoardProcessor()
 
 	CreateVertexDeclaration();
 
-	int RectVertexSize = sizeof(RECT_VERTEX);
+  const int RectVertexSize = sizeof(RECT_VERTEX);
 
 	pVBuffer = pRS->CreateVertexBuffer(0, MAX_BILLBOARDS * RectVertexSize * 4, D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
 	Assert(pVBuffer != -1);
@@ -148,7 +148,7 @@ void BillBoardProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velo
 	pData->Spin = pFields->GetRandomGraphVal(PARTICLE_SPIN, EmitterTime, EmitterLifeTime);
 	pData->Spin = pData->Spin * MUL_DEGTORAD;
 
-  auto VelocityPower = pFields->GetRandomGraphVal(PARTICLE_VELOCITY_POWER, EmitterTime, EmitterLifeTime);
+  const auto VelocityPower = pFields->GetRandomGraphVal(PARTICLE_VELOCITY_POWER, EmitterTime, EmitterLifeTime);
 	pData->Velocity = pData->Velocity * VelocityPower;
 	pData->UMass = fabsf(pData->Mass);
 
@@ -180,7 +180,7 @@ void BillBoardProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velo
 	pData->KTrackZ = FRAND(1.0f);
 
 
-  auto pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
+  const auto pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
 	if (_stricmp(pEmitterName, "none") == 0)
 	{
 		pData->AttachedEmitter = nullptr;
@@ -205,8 +205,8 @@ void BillBoardProcessor::Process(float DeltaTime)
 	{
 		Particles[n]->ElapsedTime += DeltaTime;
 
-    auto Time = Particles[n]->ElapsedTime;
-    auto LifeTime = Particles[n]->LifeTime;
+    const auto Time = Particles[n]->ElapsedTime;
+    const auto LifeTime = Particles[n]->LifeTime;
 
 		//		_mm_prefetch ((const char *)Particles[n+1], _MM_HINT_T0);
 
@@ -228,7 +228,7 @@ void BillBoardProcessor::Process(float DeltaTime)
 		if (Drag > 1.0f) Drag = 1.0f;
 
 
-    auto GravK = Particles[n]->graph_GravK->GetValue(Time, LifeTime, Particles[n]->GravKK);
+    const auto GravK = Particles[n]->graph_GravK->GetValue(Time, LifeTime, Particles[n]->GravKK);
 
 		AddGravityForce(Particles[n]->ExternalForce, Particles[n]->Mass, GravK);
 		SolvePhysic(Particles[n]->PhysPos, Particles[n]->Velocity, Particles[n]->ExternalForce, Particles[n]->UMass,
@@ -294,7 +294,7 @@ void BillBoardProcessor::Process(float DeltaTime)
 uint32_t BillBoardProcessor::CalcDistanceToCamera()
 {
 	uint32_t VisParticles = 0;
-	Matrix mView;
+  const Matrix mView;
 	pRS->GetTransform(D3DTS_VIEW, mView);
 	for (uint32_t j = 0; j < Particles.size(); j++)
 	{

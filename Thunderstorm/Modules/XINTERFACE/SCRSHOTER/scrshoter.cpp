@@ -135,8 +135,8 @@ bool SCRSHOTER::MakeScreenShot()
 	if (hr == D3D_OK)
 	{
 		// Создать набор отступов по ординатам
-    auto pHorzOff = new int[SS_TEXTURE_WIDTH];
-    auto pVertOff = new int[SS_TEXTURE_HEIGHT];
+    const auto pHorzOff = new int[SS_TEXTURE_WIDTH];
+    const auto pVertOff = new int[SS_TEXTURE_HEIGHT];
 		if (!pHorzOff || !pVertOff)
 		{
 			throw std::exception("allocate memory error");
@@ -162,7 +162,7 @@ bool SCRSHOTER::MakeScreenShot()
 		int vi, hi;
 		for (vi = 0; vi < SS_TEXTURE_HEIGHT; vi++)
 		{
-      auto pInPxl = (uint8_t*)pIn + inRect.Pitch * pVertOff[vi];
+      const auto pInPxl = (uint8_t*)pIn + inRect.Pitch * pVertOff[vi];
 			auto* pOutPxl = (uint32_t*)((uint8_t*)pOut + outRect.Pitch * vi);
 			for (hi = 0; hi < SS_TEXTURE_WIDTH; hi++)
 			{
@@ -196,14 +196,14 @@ bool SCRSHOTER::MakeScreenShot()
 	if (pRenderTarg != nullptr) pRenderTarg->Release();
 
 	// Наложим на шот текстуру с рамкой
-	int nTextureID = rs->TextureCreate("interfaces\\EmptyBorder.tga");
+  const int nTextureID = rs->TextureCreate("interfaces\\EmptyBorder.tga");
 	if (nTextureID >= 0)
 	{
 		IDirect3DTexture9* pScrShotTex = nullptr;
 		if (D3D_OK == rs->CreateTexture(SS_TEXTURE_WIDTH,SS_TEXTURE_HEIGHT, 1,D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
 		                                D3DPOOL_DEFAULT, &pScrShotTex))
 		{
-			uint32_t BI_SCRSHOTER_VERTEX_FORMAT = (D3DFVF_XYZRHW | D3DFVF_TEX1 | D3DFVF_TEXTUREFORMAT2);
+      const uint32_t BI_SCRSHOTER_VERTEX_FORMAT = (D3DFVF_XYZRHW | D3DFVF_TEX1 | D3DFVF_TEXTUREFORMAT2);
 			struct BI_SCRSHOTER_VERTEX
 			{
 				CVECTOR pos;
@@ -277,7 +277,7 @@ uint64_t SCRSHOTER::ProcessMessage(MESSAGE& message)
 			pvdat = message.ScriptVariablePointer();
 
       auto pRetTex = AddSaveTexture(param, param2);
-      auto strDat = FindSaveData(param2);
+      const auto strDat = FindSaveData(param2);
 			if (pvdat)
 				if (!strDat) pvdat->Set("\0");
 				else pvdat->Set(strDat);
@@ -389,7 +389,7 @@ IDirect3DTexture9* SCRSHOTER::GetTexFromSave(char* fileName, char** pDatStr) con
 		}
 		if (pDatStr)
 		{
-			int strLen = startIdx - sizeof(SAVE_DATA_HANDLE);
+      const int strLen = startIdx - sizeof(SAVE_DATA_HANDLE);
 			*pDatStr = new char[strLen + 1];
 			if (!*pDatStr) { throw std::exception("allocate memory error"); }
 			strncpy_s(*pDatStr, strLen + 1, &pdat[sizeof(SAVE_DATA_HANDLE)], strLen);

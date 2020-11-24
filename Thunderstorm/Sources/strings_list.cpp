@@ -37,7 +37,7 @@ bool STRINGS_LIST::AddString(const char* _char_PTR)
 {
 	//GUARD(STRINGS_LIST::AddString)
 	if (_char_PTR == nullptr) throw std::exception("zero string");
-  auto hash = MakeHashValue(_char_PTR);
+  const auto hash = MakeHashValue(_char_PTR);
 	if (String_Table_PTR == nullptr) // first time
 	{
 		String_Table_PTR = (char * *)malloc(sizeof(char*) * SL_BLOCK_SIZE);
@@ -81,7 +81,7 @@ uint32_t STRINGS_LIST::GetStringCode(const char* _char_PTR)
 	{
 		return INVALID_ORDINAL_NUMBER;
 	}
-  auto hash = MakeHashValue(_char_PTR);
+  const auto hash = MakeHashValue(_char_PTR);
 
 	/*for(n=0;n<CACHE_SIZE;n++) 
 	{
@@ -186,7 +186,7 @@ uint32_t STRINGS_LIST::MakeHashValue(const char* string)
 		if ('A' <= v && v <= 'Z') v += 'a' - 'A';
 
 		hval = (hval << 4) + (unsigned long int)v;
-		uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
+    const uint32_t g = hval & ((unsigned long int)0xf << (32 - 4));
 		if (g != 0)
 		{
 			hval ^= g >> (32 - 8);

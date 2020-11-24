@@ -50,7 +50,7 @@ void GIEditor::Release()
 void GIEditor::Render() const {
 	if (!m_bShowMode) return;
 
-  auto pntMouse = m_pGIOwner->GetMousePoint();
+  const auto pntMouse = m_pGIOwner->GetMousePoint();
 	m_pNodeList->CheckMouseInside(pntMouse.x, pntMouse.y);
 	if (m_bSubNameOn) m_pSubNameList->CheckMouseInside(pntMouse.x, pntMouse.y);
 
@@ -266,7 +266,7 @@ void GIEditor::DrawSizeBox() const {
 		// boal -->
 		// idFont, dwFCol, dwBCol, align, shadow, scale, sxs, sys,
 		//left, top, "%s", str
-    auto m_fontID = m_pGIOwner->GetRenderService()->LoadFont("interface_normal");
+    const auto m_fontID = m_pGIOwner->GetRenderService()->LoadFont("interface_normal");
 		m_pGIOwner->GetRenderService()->ExtPrint(m_fontID, 0xFFFFFFFF, 0, PR_ALIGN_LEFT, false, 1.0, 800, 600,
 		                                         10, 10, "(%d, %d) - (%d, %d) W - %d H - %d",
 		                                         (int)m_pEditableNode->m_rect.left,

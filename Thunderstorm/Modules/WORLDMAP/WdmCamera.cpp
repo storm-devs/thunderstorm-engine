@@ -46,7 +46,7 @@ WdmCamera::~WdmCamera()
 void WdmCamera::Init(float defAy, float defHeight)
 {
 	const auto pi2 = 2.0f * 3.14159265f;
-  auto k = defAy / pi2;
+  const auto k = defAy / pi2;
 	ang.y = (k - long(k)) * pi2;
 	if (defHeight < WDM_CAMERA_HEIGHT_MIN) defHeight = WDM_CAMERA_HEIGHT_MIN;
 	if (defHeight > WDM_CAMERA_HEIGHT_MAX) defHeight = WDM_CAMERA_HEIGHT_MAX;
@@ -62,15 +62,15 @@ void WdmCamera::Move(float dltTime, VDX9RENDER* rs)
   auto ang = this->ang;
   auto k = dltTime * 2.0f;
 	if (k > 1.0f) k = 1.0f;
-  auto shipAy = ((WdmPlayerShip *)wdmObjects->playerShip)->GetAy();
-  auto dltAng = shipAy - elasticAy;
+  const auto shipAy = ((WdmPlayerShip *)wdmObjects->playerShip)->GetAy();
+  const auto dltAng = shipAy - elasticAy;
 	if (dltAng > pi) elasticAy += 2.0f * pi;
 	if (dltAng < -pi) elasticAy -= 2.0f * pi;
 	elasticAy += (shipAy - elasticAy) * k;
 
 	if (!isInit) elasticAy = shipAy;
 
-  auto freeMode = CurrentFreeMode();
+  const auto freeMode = CurrentFreeMode();
 	if (isFreeMode != freeMode)
 	{
 		if (freeMode)
@@ -92,17 +92,17 @@ void WdmCamera::Move(float dltTime, VDX9RENDER* rs)
 	if (lock) ang.y = 0.0f;
 
 
-  auto cs = cosf(ang.y);
-  auto sn = sinf(ang.y);
-  auto csX = cosf(ang.x);
-  auto snX = sinf(ang.x);
-  auto movelrspd = 50.0f * MoveLeftRight(dltTime);
-  auto moveudspd = 50.0f * MoveUpDown(dltTime);
-  auto rotspd = 1.0f * RotLeftRight(dltTime);
-  auto zoomspd = 30.0f * ZoomInOut(dltTime);
+  const auto cs = cosf(ang.y);
+  const auto sn = sinf(ang.y);
+  const auto csX = cosf(ang.x);
+  const auto snX = sinf(ang.x);
+  const auto movelrspd = 50.0f * MoveLeftRight(dltTime);
+  const auto moveudspd = 50.0f * MoveUpDown(dltTime);
+  const auto rotspd = 1.0f * RotLeftRight(dltTime);
+  const auto zoomspd = 30.0f * ZoomInOut(dltTime);
 	//“очка на высоте 0 в которую смотрим относительно текущий позиции камеры
-  auto cx = sn * pos.y * csX / snX;
-  auto cz = cs * pos.y * csX / snX;
+  const auto cx = sn * pos.y * csX / snX;
+  const auto cz = cs * pos.y * csX / snX;
   auto r = sqrtf(cx * cx + cz * cz);
 	//ѕеремещение свободной камеры
 	if (CurrentFreeMode() && isInit)
@@ -175,14 +175,14 @@ void WdmCamera::Move(float dltTime, VDX9RENDER* rs)
 
 void WdmCamera::CheckRange()
 {
-  auto cs = cosf(ang.y);
-  auto sn = sinf(ang.y);
-  auto csX = cosf(ang.x);
-  auto snX = sinf(ang.x);
+  const auto cs = cosf(ang.y);
+  const auto sn = sinf(ang.y);
+  const auto csX = cosf(ang.x);
+  const auto snX = sinf(ang.x);
 	//“очка, в которую смотрим
-  auto cx = pos.x + sn * pos.y * csX / snX;
-  auto cz = pos.z + cs * pos.y * csX / snX;
-  auto ccx = cx, ccz = cz;
+  const auto cx = pos.x + sn * pos.y * csX / snX;
+  const auto cz = pos.z + cs * pos.y * csX / snX;
+  const auto ccx = cx, ccz = cz;
 	//ќграничиваем координату
 	//if(cx < -0.5f*WDM_WORLD_SIZE_X) cx = -0.5f*WDM_WORLD_SIZE_X;
 	//if(cx > 0.5f*WDM_WORLD_SIZE_X) cx = 0.5f*WDM_WORLD_SIZE_X;

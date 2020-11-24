@@ -102,7 +102,7 @@ void MAST::Execute(uint32_t Delta_Time)
 		//====================================================
 		// ≈сли был изменен ини-файл, то считать инфо из него
 		WIN32_FIND_DATA wfd;
-    auto h = fio->_FindFirstFile(MAST_INI_FILE, &wfd);
+    const auto h = fio->_FindFirstFile(MAST_INI_FILE, &wfd);
 		if (INVALID_HANDLE_VALUE != h)
 		{
       auto ft_new = wfd.ftLastWriteTime;
@@ -201,10 +201,10 @@ void MAST::Mount(entid_t modelEI, entid_t shipEI, NODE* mastNodePointer)
 	oldmodel_id = modelEI;
 	ship_id = shipEI;
 
-  auto ropeEI = EntityManager::GetEntityId("rope");
-  auto sailEI = EntityManager::GetEntityId("sail");
-  auto flagEI = EntityManager::GetEntityId("flag");
-  auto vantEI = EntityManager::GetEntityId("vant");
+  const auto ropeEI = EntityManager::GetEntityId("rope");
+  const auto sailEI = EntityManager::GetEntityId("sail");
+  const auto flagEI = EntityManager::GetEntityId("flag");
+  const auto vantEI = EntityManager::GetEntityId("vant");
 
 	// найдем аттрибуты
 	VAI_OBJBASE* pVAI = nullptr;
@@ -315,7 +315,7 @@ void MAST::Mount(entid_t modelEI, entid_t shipEI, NODE* mastNodePointer)
 				continue;
 
 			auto* sb = (SHIP_BASE*)EntityManager::GetEntityPointer(ship);
-			float tmpDist = ~(sb->State.vPos - mm.mov);
+      const float tmpDist = ~(sb->State.vPos - mm.mov);
 			if (tmpDist < minDist)
 			{
 				minDist = tmpDist;
@@ -355,10 +355,10 @@ void MAST::Mount(entid_t modelEI, entid_t shipEI, NODE* mastNodePointer)
 		// проверим начальную точку мачты, и если она посажена в корабль, то
 		// подравн€ть ее до точки соприкосновени€ с кораблем
 		CVECTOR bv = mastNodePointer->glob_mtx * mm.bp;
-		CVECTOR ev = mastNodePointer->glob_mtx * mm.ep;
+    const CVECTOR ev = mastNodePointer->glob_mtx * mm.ep;
 		// обнулим локальную матрицу
 		mastNodePointer->loc_mtx.SetIdentity();
-		float tmpTrace = oldmdl->Trace(ev, bv);
+    const float tmpTrace = oldmdl->Trace(ev, bv);
 		if (tmpTrace <= 1.f)
 		{
 			bv = ev + (bv - ev) * tmpTrace;
@@ -400,7 +400,7 @@ void MAST::LoadIni()
 
 	INIFILE* ini;
 	WIN32_FIND_DATA wfd;
-	HANDLE h = fio->_FindFirstFile(MAST_INI_FILE, &wfd);
+  const HANDLE h = fio->_FindFirstFile(MAST_INI_FILE, &wfd);
 	if (INVALID_HANDLE_VALUE != h)
 	{
 		ft_old = wfd.ftLastWriteTime;
@@ -600,12 +600,12 @@ int MAST::GetSlide(entid_t mod, CVECTOR& pbeg, CVECTOR& pend, CVECTOR& dp, CVECT
 	int retVal = 0;
 
 	// коллизи€ реи
-	CVECTOR vl = lrey;
-	CVECTOR vr = rrey;
-	CVECTOR vcentr = (vl + vr) * .5f;
+  const CVECTOR vl = lrey;
+  const CVECTOR vr = rrey;
+  const CVECTOR vcentr = (vl + vr) * .5f;
 	float ang = 0.f;
-	float lf = pCollide->Trace(mod, vl, vcentr);
-	float rf = pCollide->Trace(mod, vr, vcentr);
+  const float lf = pCollide->Trace(mod, vl, vcentr);
+  const float rf = pCollide->Trace(mod, vr, vcentr);
 
 	if ((lf <= 1.f && rf > 1.f) || (lf > 1.f && rf <= 1.f))
 	{

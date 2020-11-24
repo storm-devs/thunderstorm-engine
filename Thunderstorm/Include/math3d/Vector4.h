@@ -223,7 +223,7 @@ inline Vector4& Vector4::operator =(const Vector4& v)
 //Нормализовать w компаненту
 inline void Vector4::Normalize()
 {
-  auto k = 1.0 / w;
+  const auto k = 1.0 / w;
 	x = float(k * x);
 	y = float(k * y);
 	z = float(k * z);

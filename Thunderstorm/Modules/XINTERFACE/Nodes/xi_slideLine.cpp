@@ -108,7 +108,7 @@ void CXI_SLIDELINE::ChangePosition(XYRECT& rNewPos)
 {
 	m_rect = rNewPos;
 
-  auto pv = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
+  const auto pv = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
 	if (pv)
 	{
 		pv[0].pos.x = pv[1].pos.x = (float)m_rect.left;
@@ -117,7 +117,7 @@ void CXI_SLIDELINE::ChangePosition(XYRECT& rNewPos)
 		pv[1].pos.y = pv[3].pos.y = (float)m_rect.bottom;
 
     auto left = (float)(m_rect.left + m_nBaseLeft - m_nPointerLeft);
-    auto right = (float)(m_rect.right - m_nBaseLeft + m_nPointerLeft - m_nPointerWidth);
+    const auto right = (float)(m_rect.right - m_nBaseLeft + m_nPointerLeft - m_nPointerWidth);
 		left = left + (right - left) / m_nGrateQuantity * m_nCurValue;
 
 		pv[4].pos.x = pv[5].pos.x = left;
@@ -152,13 +152,13 @@ void CXI_SLIDELINE::DoMouseControl()
 	if (!m_bClickable || !m_bSelected || m_bLockedNode) return;
 	CONTROL_STATE cs;
 	api->Controls->GetControlState("ILClick", cs);
-  auto fmp = ptrOwner->GetMousePoint();
+  const auto fmp = ptrOwner->GetMousePoint();
 	if (cs.state == CST_ACTIVATED)
 	{
 		if (fmp.x < m_rect.left) return;
 		if (fmp.x > m_rect.right) return;
 
-    auto ftop = (m_rect.bottom + m_rect.top - m_nPointerHeight) / 2.f;
+    const auto ftop = (m_rect.bottom + m_rect.top - m_nPointerHeight) / 2.f;
 		if (fmp.y < ftop) return;
 		if (fmp.y > ftop + m_nPointerHeight) return;
 
@@ -273,7 +273,7 @@ void CXI_SLIDELINE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 		pv[1].pos.y = pv[3].pos.y = (float)m_rect.bottom;
 
 		auto left = (float)(m_rect.left + m_nBaseLeft - m_nPointerLeft);
-		float right = (float)(m_rect.right - m_nBaseLeft + m_nPointerLeft - m_nPointerWidth);
+    const float right = (float)(m_rect.right - m_nBaseLeft + m_nPointerLeft - m_nPointerWidth);
 		left = left + (right - left) / m_nGrateQuantity * m_nCurValue;
 
 		pv[4].pos.x = pv[5].pos.x = left;
@@ -295,7 +295,7 @@ void CXI_SLIDELINE::SetNewValue(long newValue)
 	m_nCurValue = newValue;
 
 	auto left = (float)(m_rect.left + m_nBaseLeft - m_nPointerLeft);
-	auto right = (float)(m_rect.right - m_nBaseLeft + m_nPointerLeft - m_nPointerWidth);
+  const auto right = (float)(m_rect.right - m_nBaseLeft + m_nPointerLeft - m_nPointerWidth);
 	left = left + (right - left) / m_nGrateQuantity * m_nCurValue;
 
 	auto* pv = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVBuf);
