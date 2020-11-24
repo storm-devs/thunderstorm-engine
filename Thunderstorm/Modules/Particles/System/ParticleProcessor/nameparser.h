@@ -52,7 +52,7 @@ public:
 			{
 				NamesString[n] = 0;
 
-        auto ModelName = NamesString + FromChar;
+        auto* ModelName = NamesString + FromChar;
 				if (ModelName[0] != '\0')
 				{
 					Tokens.push_back(ModelName);

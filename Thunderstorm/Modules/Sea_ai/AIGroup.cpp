@@ -26,7 +26,7 @@ AIGroup::~AIGroup()
 
 void AIGroup::AddShip(entid_t eidShip, ATTRIBUTES* pACharacter, ATTRIBUTES* pAShip)
 {
-  const auto pAMode = pACharacter->FindAClass(pACharacter, "Ship.Mode");
+  auto* const pAMode = pACharacter->FindAClass(pACharacter, "Ship.Mode");
 	AIShip* pShip = nullptr;
 	if (pAMode)
 	{
@@ -64,7 +64,7 @@ bool AIGroup::isMainGroup()
 
 AIShip* AIGroup::GetMainShip()
 {
-  auto pShip = AIShip::FindShip(GetCommanderACharacter());
+  auto* pShip = AIShip::FindShip(GetCommanderACharacter());
 	//return AIShip::FindShip(GetCommanderACharacter());
 	/*if (aGroupShips.size() == 0) return null;
 	if (isMainGroup()) 
@@ -82,7 +82,7 @@ void AIGroup::Execute(float fDeltaTime)
 		if (!sLocationNearOtherGroup.empty())
 		{
       const auto fNewAng = FRAND(PIm2);
-      const auto pG = FindGroup(sLocationNearOtherGroup.c_str());
+      auto* const pG = FindGroup(sLocationNearOtherGroup.c_str());
       auto vNewGroupPos = pG->vInitGroupPos + ((100.0f + FRAND(200.0f)) * CVECTOR(
 				sinf(fNewAng), 0.0f, cosf(fNewAng)));
 			if (pG)

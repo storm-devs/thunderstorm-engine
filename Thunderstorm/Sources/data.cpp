@@ -515,7 +515,7 @@ bool DATA::Get(const char* attribute_name, const char* & value)
 	}
 	if (AttributesClass == nullptr) return false;
 	//pAValue = Attributes.GetAttribute(attribute_name);
-  const auto pAValue = AttributesClass->GetAttribute(attribute_name);
+  auto* const pAValue = AttributesClass->GetAttribute(attribute_name);
 	if (pAValue == nullptr) return false;
 	value = pAValue;
 	return true;
@@ -1992,7 +1992,7 @@ bool DATA::Copy(DATA* pV)
 
 		if (Data_type == VAR_REFERENCE)
 		{
-      auto pVV = GetVarPointer();
+      auto* pVV = GetVarPointer();
 			if (pVV == nullptr)
 			{
 				Error(UNINIT_REF);
@@ -2655,7 +2655,7 @@ bool DATA::RefConvert()
 		Error(UNINIT_REF);
 		return false;
 	}
-  const auto pV = pReference->GetVarPointer();
+  auto* const pV = pReference->GetVarPointer();
 	if (!pV)
 	{
 		Error(UNINIT_REF);

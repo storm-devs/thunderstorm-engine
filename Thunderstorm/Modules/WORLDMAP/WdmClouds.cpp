@@ -294,7 +294,7 @@ void WdmClouds::LRender(VDX9RENDER* rs)
 {
 	long cnt = 0;
 	//Получаем фрустум камеры
-  auto plane = rs->GetPlanes();
+  auto* plane = rs->GetPlanes();
 	//Определяем глобальную альфу в зависимости от дистанции до камеры
 	CMatrix view;
 	rs->GetTransform(D3DTS_VIEW, view);

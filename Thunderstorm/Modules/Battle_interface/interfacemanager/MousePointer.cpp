@@ -40,7 +40,7 @@ void MousePointer::Update()
 void MousePointer::InitMouseCursors()
 {
 	m_nCurrentCursor = -1;
-  auto pACursors = m_pARoot ? m_pARoot->GetAttributeClass("cursors") : nullptr;
+  auto* pACursors = m_pARoot ? m_pARoot->GetAttributeClass("cursors") : nullptr;
 	if (!pACursors) return;
 
 	BIUtils::ReadPosFromAttr(pACursors, "size", m_cursorsize.x, m_cursorsize.y, 32, 32);
@@ -54,7 +54,7 @@ void MousePointer::InitMouseCursors()
   const long q = pACursors->GetAttributesNum();
 	for (long n = 0; n < q; n++)
 	{
-    auto pA = pACursors->GetAttributeClass(n);
+    auto* pA = pACursors->GetAttributeClass(n);
 		if (pA)
 		{
       const long i = pA->GetAttributeAsDword("index", -1);

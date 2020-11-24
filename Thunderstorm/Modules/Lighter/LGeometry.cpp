@@ -79,7 +79,7 @@ void LGeometry::AddObject(const char* name, entid_t model)
 	strcat_s(object[numObjects].name, len, "_");
 	strcat_s(object[numObjects].name, len, lightPath);
 	strcat_s(object[numObjects].name, len, ".col");
-  const auto str = object[numObjects].name;
+  auto* const str = object[numObjects].name;
 	for (long s = 0, d = 0; str[d]; s++)
 	{
 		if (str[s] >= 'a' && str[s] <= 'z') str[s] -= 'a' - 'A';
@@ -119,8 +119,8 @@ bool LGeometry::Process(VDX9RENDER* rs, long numLights)
 		//Пересчитать матрицы
 		object[i].m->Update();
 		//Получаем геометрию
-    auto node = object[i].m->GetNode(0);
-    auto g = node->geo;
+    auto* node = object[i].m->GetNode(0);
+    auto* g = node->geo;
 		if (!g)
 		{
 			api->Trace("Location lighter: incorrent model %s (node not include geos)", object[i].nameReal);
@@ -147,7 +147,7 @@ bool LGeometry::Process(VDX9RENDER* rs, long numLights)
 			vbuffer[numVBuffers].vbID = vbID;
 			vbuffer[numVBuffers++].start = numVrt;
 			//Получаем вершины
-      auto vbuf = rs->GetVertexBuffer(vbID);
+      auto* vbuf = rs->GetVertexBuffer(vbID);
 			D3DVERTEXBUFFER_DESC desc;
 			if (!vbuf || vbuf->GetDesc(&desc) != D3D_OK)
 			{
@@ -254,7 +254,7 @@ bool LGeometry::Process(VDX9RENDER* rs, long numLights)
 			}
 			vb = vbuffer[vb].start + obj.start_vertex;
 			//Читаем треугольники
-      auto triangles = idx + obj.striangle * 3;
+      auto* triangles = idx + obj.striangle * 3;
 			for (long t = 0; t < obj.ntriangles; t++)
 			{
 				//Относительные индексы

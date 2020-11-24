@@ -178,7 +178,7 @@ long AnimationServiceImp::LoadAnimation(const char* animationName)
 	strcat_s(path, animationName);
 	strcat_s(path, ".ani");
 	//Открываем ini файл, описывающий анимацию
-  auto ani = fio->OpenIniFile(path);
+  auto* ani = fio->OpenIniFile(path);
 	if (!ani)
 	{
 		api->Trace("Cannot open animation file %s", path);
@@ -230,7 +230,7 @@ long AnimationServiceImp::LoadAnimation(const char* animationName)
 			continue;
 		}
 		//Добавляем действие
-    auto aci = info->AddAction(path, stime, etime);
+    auto* aci = info->AddAction(path, stime, etime);
 		if (aci == nullptr)
 		{
 			api->Trace("Warning! Action [%s] of animation file %s.ani is repeated, skip it", path, animationName);
@@ -315,7 +315,7 @@ long AnimationServiceImp::LoadAnimation(const char* animationName)
 					           key + 257, path, animationName);
 					continue;
 				}
-        auto em = key + p;
+        auto* em = key + p;
 				//Ищем окончание числа
 				for (; key[p] >= '0' && key[p] <= '9'; p++);
 				float tm = 0;
@@ -476,7 +476,7 @@ void AnimationServiceImp::LoadUserData(INIFILE* ani, const char* sectionName,
 				continue;
 			}
 			//Ищем окончание строки данных
-      const auto uds = key + ++p;
+      auto* const uds = key + ++p;
 			for (; key[p] && key[p] != '"'; p++);
 			key[p] = 0;
 			//Добавляем данные
@@ -490,7 +490,7 @@ void AnimationServiceImp::LoadUserData(INIFILE* ani, const char* sectionName,
 //Загрузить AN
 bool AnimationServiceImp::LoadAN(const char* fname, AnimationInfo* info)
 {
-  auto fl = INVALID_HANDLE_VALUE;
+  auto* fl = INVALID_HANDLE_VALUE;
 	try
 	{
 		fl = fio->_CreateFile(fname, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
@@ -515,7 +515,7 @@ bool AnimationServiceImp::LoadAN(const char* fname, AnimationInfo* info)
 		//Заводим нужное число костей
 		info->CreateBones(header.nJoints);
 		//Устанавливаем родителей
-    const auto prntIndeces = new long[header.nJoints];
+    auto* const prntIndeces = new long[header.nJoints];
 		if (!fio->_ReadFile(fl, prntIndeces, header.nJoints * sizeof(long), nullptr))
 		{
 			api->Trace("Incorrect parent indeces block in animation file: %s", fname);

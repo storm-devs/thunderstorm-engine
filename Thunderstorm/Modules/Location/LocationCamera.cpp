@@ -303,7 +303,7 @@ void LocationCamera::Realize(uint32_t delta_time)
 		isTeleport = false;
 	}
   auto realPos = camPos;
-  auto sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
+  auto* sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
 	if (sb && wmode != cwm_free && location->IsSwimming())
 	{
     const auto seaY = sb->WaveXZ(camPos.x, camPos.z) + 1.0f;
@@ -409,7 +409,7 @@ uint64_t LocationCamera::ProcessMessage(MESSAGE& message)
 			message.String(sizeof(trackname), trackname);
       const auto fTrackTime = message.Float();
 			LoadCameraTrack(trackname, fTrackTime);
-      auto pA = message.AttributePointer();
+      auto* pA = message.AttributePointer();
 			//SetTrackCameraPauses(pA);
 		}
 		break;
@@ -464,11 +464,11 @@ void LocationCamera::SetMode(CameraWorkMode wm)
 void LocationCamera::ExecuteLook(float dltTime)
 {
 	//Определим точку размещения камеры
-  auto mdl = character->Model();
+  auto* mdl = character->Model();
 	if (!mdl) return;
-  auto node = mdl->GetNode(0);
+  auto* node = mdl->GetNode(0);
 	if (!node || !node->geo) return;
-  auto ani = mdl->GetAnimation();
+  auto* ani = mdl->GetAnimation();
 	long strIndex = -1;
 	auto idCamera = node->geo->FindName("camera");
 	if (ani && (strIndex = node->geo->FindLabelN(strIndex + 1, idCamera)) > -1)
@@ -629,7 +629,7 @@ void LocationCamera::ProcessDynamicFov(float fDeltaTime, const CVECTOR& vFrom, c
 void LocationCamera::StoreRestoreDynamicFov(bool bStore)
 {
 	if (!AttributesPointer) return;
-  auto pA = AttributesPointer->GetAttributeClass("DynamicFov");
+  auto* pA = AttributesPointer->GetAttributeClass("DynamicFov");
 	if (!pA) pA = AttributesPointer->CreateSubAClass(AttributesPointer, "DynamicFov");
 	if (!pA) return;
 

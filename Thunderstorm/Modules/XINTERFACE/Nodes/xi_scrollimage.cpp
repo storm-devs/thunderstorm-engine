@@ -69,7 +69,7 @@ void CXI_SCROLLIMAGE::Draw(bool bSelected, uint32_t Delta_Time)
 				m_bDoMove = false;
 
 				// Set new current image
-        auto tmpAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+        auto* tmpAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 				if (tmpAttr != nullptr)
 					tmpAttr->SetAttributeUseDword("current", m_nCurImage);
 

@@ -114,7 +114,7 @@ STRSERVICE::~STRSERVICE()
 
 	while (m_pUsersBlocks != nullptr)
 	{
-    auto pUSB = m_pUsersBlocks;
+    auto* pUSB = m_pUsersBlocks;
 		m_pUsersBlocks = m_pUsersBlocks->next;
 		if (pUSB->psStrName != nullptr)
 		{
@@ -245,7 +245,7 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 	//==========================================================================
 	// reread fonts
 	//==========================================================================
-  auto RenderService = (VDX9RENDER *)api->CreateService("dx9render");
+  auto* RenderService = (VDX9RENDER *)api->CreateService("dx9render");
 	if (RenderService)
 	{
 		char fullIniPath[512];
@@ -360,9 +360,9 @@ void STRSERVICE::SetLanguage(const char* sLanguage)
 	//=======================================================================
 	// Перечитаем пользовательские файлы
 	//=======================================================================
-  const auto pOldURoot = m_pUsersBlocks;
+  auto* const pOldURoot = m_pUsersBlocks;
 	m_pUsersBlocks = nullptr;
-	for (auto pUSB = pOldURoot; pUSB != nullptr; pUSB = pUSB->next)
+	for (auto* pUSB = pOldURoot; pUSB != nullptr; pUSB = pUSB->next)
 	{
 		if (pUSB->nref <= 0) continue;
     const long newID = OpenUsersStringFile(pUSB->fileName);

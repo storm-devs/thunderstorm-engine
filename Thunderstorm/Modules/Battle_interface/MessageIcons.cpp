@@ -87,7 +87,7 @@ void MESSAGE_ICONS::Update(uint32_t deltaTime)
 				q = m_pIconsAttr[i]->GetAttributesNum();
 				for (n = 0; n < q; n++)
 				{
-          auto pA = m_pIconsAttr[i]->GetAttributeClass(n);
+          auto* pA = m_pIconsAttr[i]->GetAttributeClass(n);
 					int picNum = pA->GetAttributeAsDword("pic");
 					int k;
 					for (k = 0; k < m_pMsgColumns[i].rowQ; k++)
@@ -157,7 +157,7 @@ void MESSAGE_ICONS::StartData(ATTRIBUTES* pAData[MESSAGE_ICONS_COLUMN_QUANTITY],
 		if (q > m_nMsgIconRowQnt) q = m_nMsgIconRowQnt;
 		for (j = 0; j < q; j++)
 		{
-      auto pA = pAData[i]->GetAttributeClass(j);
+      auto* pA = pAData[i]->GetAttributeClass(j);
 			if (!pA) continue;
 			m_pMsgColumns[i].pRow[j].pic = pA->GetAttributeAsDword("pic", -1);
 			m_pMsgColumns[i].pRow[j].bottom = (float)(m_nBottomY - (m_nMsgIconHeight + m_nMsgIconDist) * j);
@@ -186,7 +186,7 @@ bool MESSAGE_ICONS::InitData(entid_t host_eid, VDX9RENDER* _rs, ATTRIBUTES* pARo
 	m_fBlindTimeUp = pARoot->GetAttributeAsFloat("BlindUpTime", .5f);
 	m_fBlindTimeDown = pARoot->GetAttributeAsFloat("BlindDownTime", 1.f);
 
-  const auto stmp = pARoot->GetAttribute("texture");
+  auto* const stmp = pARoot->GetAttribute("texture");
 	if (stmp != nullptr) m_idMsgIconsTexture = rs->TextureCreate(stmp);
 	m_nHorzTextureSize = pARoot->GetAttributeAsDword("TexHSize", 1);
 	m_nVertTextureSize = pARoot->GetAttributeAsDword("TexVSize", 1);

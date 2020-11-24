@@ -42,7 +42,7 @@ long GetToken(const char* & ps)
 	while (*ps == 32 || *ps == 9) ps++;
 
 	// получаем размер лексемы
-  const auto ptoken = ps;
+  const auto* const ptoken = ps;
 	while (*ps != 0 && (unsigned)*ps > 0x20 && *ps != 0x0D && *ps != 0x0A)
 		ps++;
   const size_t tokensize = ps - ptoken;
@@ -142,21 +142,21 @@ static const char* GetTitleString(char* buf, const char* & ptr, size_t& slen)
 		return nullptr;
 	}
 	buf[0] = 0;
-  auto startp = ptr;
+  const auto* startp = ptr;
 	while (ptr != nullptr)
 	{
 		// Возмем очередную строку
-    const auto cstr = GetNextString(ptr);
+    const auto* const cstr = GetNextString(ptr);
 		if (ptr != cstr && cstr != nullptr)
 		{
 			// если полученная строка является заголовком квеста
-      auto tmpstr = cstr;
+      const auto* tmpstr = cstr;
 			int tokType = GetToken(tmpstr);
 			if (tokType == TOKEN_QUEST)
 			{
 				// получим id этого квеста
 				GetSubStringFromString(tmpstr, buf, 256);
-        const auto retVal = ptr;
+        const auto* const retVal = ptr;
 				// найдем конец заголовка квеста
 				while (ptr != nullptr)
 				{
@@ -202,7 +202,7 @@ bool QUEST_FILE_READER::InitQuestsQuery()
 	{
 		for (long n = 0; n < m_aQuestFileName.size(); n++)
 		{
-      const auto hfile = fio->_CreateFile(m_aQuestFileName[n].c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
+      auto* const hfile = fio->_CreateFile(m_aQuestFileName[n].c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 			if (hfile == INVALID_HANDLE_VALUE)
 			{
 				api->Trace("WARNING! Can`t open quest log file %s", m_aQuestFileName[n].c_str());
@@ -367,9 +367,9 @@ void QUEST_FILE_READER::ReadUserData(const char* sQuestName, long nRecordIndex)
 
 	if (!sQuestName) return;
 
-  auto pVD = api->Event("evntQuestUserData", "sl", sQuestName, nRecordIndex);
+  auto* pVD = api->Event("evntQuestUserData", "sl", sQuestName, nRecordIndex);
 	if (!pVD) return;
-  const auto pStr = pVD->GetString();
+  auto* const pStr = pVD->GetString();
 	if (!pStr || pStr[0] == 0) return;
 
 	FillUserDataList(pStr, m_aQuestData);

@@ -32,7 +32,7 @@ void DataCache::CacheSystem(const char* FileName)
 	std::transform(pathStr.begin(), pathStr.end(), pathStr.begin(), tolower);
 	//MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 
-  const auto pSysFile = fio->_CreateFile(pathStr.c_str());
+  auto* const pSysFile = fio->_CreateFile(pathStr.c_str());
 
 	if (pSysFile == INVALID_HANDLE_VALUE)
 	{

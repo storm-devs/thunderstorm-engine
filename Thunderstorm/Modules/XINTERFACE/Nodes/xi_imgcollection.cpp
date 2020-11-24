@@ -124,7 +124,7 @@ void CXI_IMGCOLLECTION::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2
 
 		// Lock vertex and index buffers and get pointers to this
 		auto* pVBuf = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
-    const auto pIBuf = (uint16_t*)m_rs->LockIndexBuffer(iBuf);
+    auto* const pIBuf = (uint16_t*)m_rs->LockIndexBuffer(iBuf);
 
 		if (pVBuf != nullptr && pIBuf != nullptr)
 		{
@@ -251,8 +251,8 @@ void CXI_IMGCOLLECTION::UpdateBuffers()
 {
 	if (vBuf == -1 || iBuf == -1) return;
 
-  const auto pVBuf = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
-  const auto pIBuf = (uint16_t*)m_rs->LockIndexBuffer(iBuf);
+  auto* const pVBuf = (XI_ONETEX_VERTEX*)m_rs->LockVertexBuffer(vBuf);
+  auto* const pIBuf = (uint16_t*)m_rs->LockIndexBuffer(iBuf);
 
 	if (pVBuf != nullptr && pIBuf != nullptr)
 	{
@@ -319,7 +319,7 @@ void CXI_IMGCOLLECTION::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());

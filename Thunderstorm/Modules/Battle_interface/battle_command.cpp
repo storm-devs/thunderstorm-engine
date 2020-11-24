@@ -44,8 +44,8 @@ void BICommandList::Draw()
 			if (m_aCooldownUpdate[n].fTime < 0)
 			{
 				m_aCooldownUpdate[n].fTime = m_aCooldownUpdate[n].fUpdateTime;
-        auto pDat = api->Event("neGetCooldownFactor", "s",
-                               m_aUsedCommand[m_aCooldownUpdate[n].nIconNum].sCommandName.c_str());
+        auto* pDat = api->Event("neGetCooldownFactor", "s",
+                                m_aUsedCommand[m_aCooldownUpdate[n].nIconNum].sCommandName.c_str());
 				if (pDat) m_aUsedCommand[m_aCooldownUpdate[n].nIconNum].fCooldownFactor = pDat->GetFloat();
 				UpdateShowIcon();
 			}
@@ -108,7 +108,7 @@ long BICommandList::ExecuteConfirm()
 	if (!m_aUsedCommand[m_nSelectedCommandIndex].sCommandName.empty())
 	{
 		m_sCurrentCommandName = m_aUsedCommand[m_nSelectedCommandIndex].sCommandName;
-    auto pVD = api->Event("BI_CommandEndChecking", "s", m_sCurrentCommandName.c_str());
+    auto* pVD = api->Event("BI_CommandEndChecking", "s", m_sCurrentCommandName.c_str());
 		if (pVD != nullptr) pVD->Get(endCode);
 	}
 	else
@@ -284,7 +284,7 @@ void BICommandList::Init()
 		q = pATextures->GetAttributesNum();
 		for (n = 0; n < q; n++)
 		{
-      auto pA = pATextures->GetAttributeClass(n);
+      auto* pA = pATextures->GetAttributeClass(n);
 			if (pA)
 			{
 				TextureDescr td = {
@@ -339,7 +339,7 @@ long BICommandList::AddToIconList(long nTextureNum, long nNormPictureNum, long n
 
 	if (nCooldownPictureNum >= 0)
 	{
-    auto pDat = api->Event("neGetCooldownFactor", "s", pcCommandName);
+    auto* pDat = api->Event("neGetCooldownFactor", "s", pcCommandName);
 		if (pDat) m_aUsedCommand[n].fCooldownFactor = pDat->GetFloat();
 		CoolDownUpdateData data;
 		data.fUpdateTime = data.fTime = 1.f;
@@ -392,9 +392,9 @@ long BICommandList::ClockIconAdd(long nForePictureNum, long nBackPictureNum, lon
 	FRECT uv;
 	m_pImgRender->CreateImage(BIType_square, m_aTexture[nTextureNum].sFileName.c_str(), 0xFF808080,
 	                          GetPictureUV(nTextureNum, nBackPictureNum, uv), rpos);
-  auto pImg = m_pImgRender->CreateImage(BIType_clocksquare, m_aTexture[nTextureNum].sFileName.c_str(),
-                                        0xFF808080,
-                                        GetPictureUV(nTextureNum, nForePictureNum, uv), rpos);
+  auto* pImg = m_pImgRender->CreateImage(BIType_clocksquare, m_aTexture[nTextureNum].sFileName.c_str(),
+                                         0xFF808080,
+                                         GetPictureUV(nTextureNum, nForePictureNum, uv), rpos);
 	if (pImg) pImg->CutClock(0.f, 1.f, fFactor);
 	return 1;
 }
@@ -486,7 +486,7 @@ void BICommandList::UpdateShowIcon()
 				i += ClockIconAdd(m_aUsedCommand[n].nSelPictureIndex, m_aUsedCommand[n].nCooldownPictureIndex,
 				                  m_aUsedCommand[n].nTextureIndex, rPos, m_aUsedCommand[n].fCooldownFactor);
 			SetNote(m_aUsedCommand[n].sNote.c_str(), (rPos.left + rPos.right) / 2, (rPos.top + rPos.bottom) / 2);
-      const auto pSD = g_ShipList.FindShip(m_aUsedCommand[n].nCharIndex);
+      auto* const pSD = g_ShipList.FindShip(m_aUsedCommand[n].nCharIndex);
 			if (pSD)
 			{
 				api->Event("evntBISelectShip", "ll", pSD->characterIndex, pSD->relation != BI_RELATION_ENEMY);
@@ -544,9 +544,9 @@ ATTRIBUTES* BICommandList::GetCurrentCommandAttribute() const {
   const long q = pAR->GetAttributesNum();
 	for (long n = 0; n < q; n++)
 	{
-    auto pA = pAR->GetAttributeClass(n);
+    auto* pA = pAR->GetAttributeClass(n);
 		if (!pA) continue;
-    const auto pcCommName = pA->GetAttribute("event");
+    auto* const pcCommName = pA->GetAttribute("event");
 		if (m_sCurrentCommandName == pcCommName) return pA;
 	}
 	return nullptr;

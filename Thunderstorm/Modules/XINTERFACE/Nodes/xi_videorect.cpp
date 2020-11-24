@@ -17,9 +17,9 @@ void CXI_VIDEORECT::Draw(bool bSelected, uint32_t Delta_Time)
 {
 	if (m_bUse)
 	{
-		if (const auto ptr = EntityManager::GetEntityPointer(m_eiVideo))
+		if (auto* const ptr = EntityManager::GetEntityPointer(m_eiVideo))
 		{
-      const auto pTex = ((xiBaseVideo*)ptr)->GetCurrentVideoTexture();
+      auto* const pTex = ((xiBaseVideo*)ptr)->GetCurrentVideoTexture();
 			if (pTex != nullptr)
 			{
 				// Create rectangle
@@ -84,7 +84,7 @@ void CXI_VIDEORECT::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -131,7 +131,7 @@ void CXI_VIDEORECT::StartVideoPlay(char* videoFileName)
 	m_eiVideo = EntityManager::CreateEntity("CAviPlayer");
 	m_rectTex.bottom = 1.f - m_rectTex.bottom;
 	m_rectTex.top = 1.f - m_rectTex.top;
-	if (const auto ptr = EntityManager::GetEntityPointer(m_eiVideo))
+	if (auto* const ptr = EntityManager::GetEntityPointer(m_eiVideo))
 		((xiBaseVideo*)ptr)->SetShowVideo(false);
 	api->Send_Message(m_eiVideo, "ls", MSG_SET_VIDEO_PLAY, videoFileName);
 

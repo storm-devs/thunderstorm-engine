@@ -97,7 +97,7 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE& message)
 			angles.z = message.Float();
 			lifetime = message.Long();
 
-      auto pSystem = CreateSystem(ps_name, lifetime);
+      auto* pSystem = CreateSystem(ps_name, lifetime);
 			if (!pSystem) return 0;
 
 			pSystem->SetEmitter(pos, angles);
@@ -125,7 +125,7 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE& message)
 			angles.z = message.Float();
 			lifetime = message.Long();
 
-      auto pSystem = CreateSystem(ps_name, lifetime);
+      auto* pSystem = CreateSystem(ps_name, lifetime);
 			if (!pSystem) return 0;
 
 
@@ -167,7 +167,7 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE& message)
 
 			lifetime = message.Long();
 
-      auto pSystem = CreateSystem(ps_name, lifetime);
+      auto* pSystem = CreateSystem(ps_name, lifetime);
 			if (!pSystem) return 0;
 
 			pSystem->SetEmitter(pos, angles);
@@ -187,7 +187,7 @@ uint64_t PARTICLES::ProcessMessage(MESSAGE& message)
 		}
 	case PS_VALIDATE_PARTICLE:
 		{
-      const auto SystemID = message.Pointer();
+      auto* const SystemID = message.Pointer();
 			for (uint32_t n = 0; n < CreatedSystems.size(); n++)
 				if (CreatedSystems[n].pSystem == (PARTICLE_SYSTEM*)SystemID)
 					return 1;

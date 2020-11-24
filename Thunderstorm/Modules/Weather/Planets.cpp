@@ -37,12 +37,12 @@ void Astronomy::PLANETS::Init(ATTRIBUTES* pAP)
 	//fPlanetScale = ((pAScale) ? pAScale->GetAttributeAsFloat() : 1.0f);
 	TimeUpdate(pAP);
 
-  auto pAPlanets = pAP->FindAClass(pAP, "Planets.Planet");
+  auto* pAPlanets = pAP->FindAClass(pAP, "Planets.Planet");
 	if (pAPlanets)
 		for (uint32_t i = 0; i < pAPlanets->GetAttributesNum(); i++)
 		{
-      auto pAPlanet = pAPlanets->GetAttributeClass(i);
-      auto pAMag = pAPlanet->GetAttributeClass("Mag");
+      auto* pAPlanet = pAPlanets->GetAttributeClass(i);
+      auto* pAMag = pAPlanet->GetAttributeClass("Mag");
 
 			std::string sName = pAPlanet->GetThisName();
 
@@ -154,7 +154,7 @@ void Astronomy::PLANETS::Realize(double dDeltaTime, double dHour)
 
 void Astronomy::PLANETS::TimeUpdate(ATTRIBUTES* pAP)
 {
-  auto pAPlan = pAP ? pAP->GetAttributeClass("Planets") : nullptr;
+  auto* pAPlan = pAP ? pAP->GetAttributeClass("Planets") : nullptr;
 	fPlanetScale = 1.f;
 	fPlanetFade = 1.f;
 	fFadeTimeStart = -1.f;

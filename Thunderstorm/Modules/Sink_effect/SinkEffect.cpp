@@ -48,10 +48,10 @@ uint64_t SINKEFFECT::ProcessMessage(MESSAGE& message)
 	{
 	case MSG_SHIP_DELETE:
 		{
-      const auto attrs = message.AttributePointer();
+      auto* const attrs = message.AttributePointer();
 			if (attrs)
 			{
-				auto& entities = EntityManager::GetEntityIdVector("ship");
+        const auto& entities = EntityManager::GetEntityIdVector("ship");
 				for (auto ent : entities)
 				{
 					/*
@@ -124,7 +124,7 @@ void SINKEFFECT::Execute(uint32_t _dTime)
 //--------------------------------------------------------------------
 void SINKEFFECT::InitializeSinks()
 {
-  const auto psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
+  auto* const psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
 
 	for (auto i = 0; i < MAX_SINKS; ++i)
 	{

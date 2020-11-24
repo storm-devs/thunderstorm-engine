@@ -136,9 +136,9 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 					dwBytes = abs((long)CDebug.SourceView->nEndSelection - (long)CDebug.SourceView->nStartSelection) +
 						1;
 
-          auto hMem = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, dwBytes);
+          auto* hMem = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, dwBytes);
 
-          auto lptstrCopy = (char *)GlobalLock(hMem);
+          auto* lptstrCopy = (char *)GlobalLock(hMem);
 					if (CDebug.SourceView->nEndSelection > CDebug.SourceView->nStartSelection)
 						memcpy(lptstrCopy,
 						       CDebug.SourceView->pSourceFile + CDebug.SourceView->pLineOffset[CDebug
@@ -346,7 +346,7 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
 		case WM_VSCROLL:
       auto nScrollCode = (int)LOWORD(wParam); // scroll bar value 
 			int nPos = (short int)HIWORD(wParam); // scroll box position 
-      auto hwndScrollBar = (HWND)lParam; // handle to scroll bar 
+      auto* hwndScrollBar = (HWND)lParam; // handle to scroll bar 
 
 			switch (nScrollCode)
 			{
@@ -455,7 +455,7 @@ SOURCE_VIEW::SOURCE_VIEW(HWND _hMain, HINSTANCE _hInst)
 	//OpenSourceFile("program\\ps.c");
 	//OpenSourceFile("program\\seadogs.c");
 
-  auto pI = fio->OpenIniFile(PROJECT_NAME);
+  auto* pI = fio->OpenIniFile(PROJECT_NAME);
 	if (pI)
 	{
 		char buffer[1024];

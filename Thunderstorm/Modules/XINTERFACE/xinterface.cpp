@@ -236,7 +236,7 @@ void XINTERFACE::SetDevice()
 	{
 		throw std::exception("Not memory allocate");
 	}
-  auto pvd = api->Event("GetQuestTextFileName", "");
+  auto* pvd = api->Event("GetQuestTextFileName", "");
 	if (pvd != nullptr)
 	{
     const int nq = pvd->GetElementsNum();
@@ -254,7 +254,7 @@ void XINTERFACE::SetDevice()
 
 	if (AttributesPointer)
 	{
-    auto pA = AttributesPointer->GetAttributeClass("GameTime");
+    auto* pA = AttributesPointer->GetAttributeClass("GameTime");
 		if (pA)
 		{
 			m_dwGameTimeSec = pA->GetAttributeAsDword("sec", 0);
@@ -308,7 +308,7 @@ void XINTERFACE::Execute(uint32_t Delta_Time)
 		api->Event(m_pEvents->sEventName, "ls", m_pEvents->nCommandIndex, m_pEvents->sNodeName);
 		if (m_pEvents != nullptr)
 		{
-      const auto pE = m_pEvents;
+      auto* const pE = m_pEvents;
 			m_pEvents = m_pEvents->next;
 			delete pE;
 		}
@@ -329,7 +329,7 @@ void XINTERFACE::Execute(uint32_t Delta_Time)
 
 	DoControl();
 
-  auto pNod = m_pNodes;
+  auto* pNod = m_pNodes;
 	while (pNod != nullptr)
 	{
 		pNod->FrameProcess(Delta_Time);
@@ -364,7 +364,7 @@ void XINTERFACE::Realize(uint32_t Delta_Time)
 	DrawNode(m_pNodes, Delta_Time, 0, 80);
 
 	// Do mouse move
-  auto pOldNode = m_pCurNode;
+  auto* pOldNode = m_pCurNode;
 	MouseMove();
 	if (pOldNode != m_pCurNode)
 	{
@@ -374,7 +374,7 @@ void XINTERFACE::Realize(uint32_t Delta_Time)
 	// show dinamic pictures
 	XI_ONLYONETEX_VERTEX pV[4];
 	for (auto i = 0; i < 4; i++) pV[i].pos.z = 1.f;
-  auto pImg = m_imgLists;
+  auto* pImg = m_imgLists;
 	uint32_t oldTFactor;
 	pRenderService->GetRenderState(D3DRS_TEXTUREFACTOR, &oldTFactor);
 	while (pImg != nullptr)
@@ -418,13 +418,13 @@ void XINTERFACE::Realize(uint32_t Delta_Time)
 	// Show dinamic stringes
 	if (m_nStringQuantity > 0)
 	{
-    auto tmpAttr = api->Entity_GetAttributeClass(g_idInterface, "strings");
+    auto* tmpAttr = api->Entity_GetAttributeClass(g_idInterface, "strings");
 
 		if (tmpAttr != nullptr)
 			for (auto i = 0; i < m_nStringQuantity; i++)
 				if (m_stringes[i].bUsed)
 				{
-          auto tmps = tmpAttr->GetAttribute(m_stringes[i].sStringName);
+          auto* tmps = tmpAttr->GetAttribute(m_stringes[i].sStringName);
 					pRenderService->ExtPrint(m_stringes[i].fontNum, m_stringes[i].dwColor, 0, m_stringes[i].eAlignment,
 					                         true, m_stringes[i].fScale, dwScreenWidth, dwScreenHeight, m_stringes[i].x,
 					                         m_stringes[i].y, "%s", tmpAttr->GetAttribute(m_stringes[i].sStringName));
@@ -473,7 +473,7 @@ uint64_t XINTERFACE::ProcessMessage(MESSAGE& message)
 			message.String(sizeof(param) - 1, param);
 			if (m_pNodes != nullptr)
 			{
-        auto pNode = m_pNodes->FindNode(param);
+        auto* pNode = m_pNodes->FindNode(param);
 				if (pNode != nullptr)
 				{
           auto msgCode = message.Long();
@@ -506,7 +506,7 @@ uint64_t XINTERFACE::ProcessMessage(MESSAGE& message)
 		{
 			char param[256];
 			message.String(sizeof(param) - 1, param);
-      auto pNewCurNode = (m_pNodes != nullptr ? m_pNodes->FindNode(param) : nullptr);
+      auto* pNewCurNode = (m_pNodes != nullptr ? m_pNodes->FindNode(param) : nullptr);
 			if (pNewCurNode != nullptr)
 				SetCurNode(pNewCurNode);
 		}
@@ -517,7 +517,7 @@ uint64_t XINTERFACE::ProcessMessage(MESSAGE& message)
 			char param[256];
 			message.String(sizeof(param) - 1, param);
 			int nUsingCode = message.Long();
-      auto pTmpNod = (m_pNodes != nullptr ? m_pNodes->FindNode(param) : nullptr);
+      auto* pTmpNod = (m_pNodes != nullptr ? m_pNodes->FindNode(param) : nullptr);
 			if (pTmpNod != nullptr)
 				pTmpNod->SetUsing(nUsingCode != 0);
 		}
@@ -529,7 +529,7 @@ uint64_t XINTERFACE::ProcessMessage(MESSAGE& message)
 			message.String(sizeof(sNodeName) - 1, sNodeName);
       auto nItemNum = message.Long();
 
-      auto pScrollNode = (m_pNodes != nullptr ? m_pNodes->FindNode(sNodeName) : nullptr);
+      auto* pScrollNode = (m_pNodes != nullptr ? m_pNodes->FindNode(sNodeName) : nullptr);
 			if (pScrollNode != nullptr)
 			{
 				if (pScrollNode->m_nNodeType == NODETYPE_SCROLLIMAGE)

@@ -327,8 +327,8 @@ private:
 		curWind++;
 		if (curWind > 2) curWind = 0;
     const auto frame = (curWind + 1) % 3;
-    auto from = &field[0][0];
-    auto to = &wind[frame][0][0];
+    auto* from = &field[0][0];
+    auto* to = &wind[frame][0][0];
     const long count = WindFieldSize * WindFieldSize;
 		for (long i = 0; i < count; i++, from++, to++)
 		{

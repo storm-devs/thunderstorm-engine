@@ -86,7 +86,7 @@ VAI_OBJBASE* AICannon::GetAIObjPointer() const
 
 float AICannon::GetDirY() const {
 	CMatrix mRot;
-  auto pAIObj = GetAIObjPointer();
+  auto* pAIObj = GetAIObjPointer();
 
 	(*pAIObj->GetMatrix()).Get3X3(mRot);
 
@@ -96,7 +96,7 @@ float AICannon::GetDirY() const {
 
 CVECTOR AICannon::GetDir() const {
 	CMatrix mRot;
-  auto pAIObj = GetAIObjPointer();
+  auto* pAIObj = GetAIObjPointer();
 	(*pAIObj->GetMatrix()).Get3X3(mRot);
 	return mRot * vDir;
 }
@@ -110,7 +110,7 @@ void AICannon::RealFire()
 	CMatrix mRot;
 	// calculate real world cannon position and direction,
 	// calculate fire height and azimuth angle, and call script
-  auto pAIObj = GetAIObjPointer();
+  auto* pAIObj = GetAIObjPointer();
   const auto vPosTemp = *pAIObj->GetMatrix() * vPos;
 	(*pAIObj->GetMatrix()).Get3X3(mRot);
 
@@ -134,7 +134,7 @@ bool AICannon::Fire(float _fSpeedV0, const CVECTOR& _vFirePos)
 {
 	if (isFired() || isRecharged() || isDamaged() || isEmpty()) return false;
 
-  auto pAIObj = GetAIObjPointer();
+  auto* pAIObj = GetAIObjPointer();
   const auto vPosTemp = *pAIObj->GetMatrix() * vPos;
 	CMatrix mRot;
 	(*pAIObj->GetMatrix()).Get3X3(mRot);
@@ -151,7 +151,7 @@ bool AICannon::Fire(float _fSpeedV0, const CVECTOR& _vFirePos)
 	fSpeedV0 = _fSpeedV0;
 
 	// calculate in script timeout before real fire
-  auto pVData = api->Event(CANNON_GET_FIRE_TIME, "a", pAHolder->GetACharacter());
+  auto* pVData = api->Event(CANNON_GET_FIRE_TIME, "a", pAHolder->GetACharacter());
 	Assert(pVData);
 	fTotalTime2Action = fTime2Action = pVData->GetFloat();
 	return true;
@@ -172,7 +172,7 @@ void AICannon::Unload()
 
 void AICannon::Load()
 {
-  auto pVData = api->Event(CANNON_LOAD, "a", pAHolder->GetACharacter());
+  auto* pVData = api->Event(CANNON_LOAD, "a", pAHolder->GetACharacter());
 	Assert(pVData);
 	bEmpty = pVData->GetLong() == 0;
 }
@@ -186,7 +186,7 @@ void AICannon::Recharge()
 	bRecharged = true;
 
 	// calculate in script recharge time, and possibility of recharge
-  auto pVData = api->Event(CANNON_GET_RECHARGE_TIME, "a", pAHolder->GetACharacter());
+  auto* pVData = api->Event(CANNON_GET_RECHARGE_TIME, "a", pAHolder->GetACharacter());
 	Assert(pVData);
 	fTotalTime2Action = fTime2Action = pVData->GetFloat();
 }

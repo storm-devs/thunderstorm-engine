@@ -45,7 +45,7 @@ void AIShipTaskController::DoAttackRotate()
   const auto vFirePos = GetCurrentTaskAIObj()->GetPos();
   const auto vOurDir = CVECTOR(sinf(GetAIShip()->GetAng().y), 0.0f, cosf(GetAIShip()->GetAng().y));
 
-  auto pCC = GetAIShip()->GetCannonController();
+  auto* pCC = GetAIShip()->GetCannonController();
 
   const auto dwBort = pCC->GetBestFireBortOnlyDistance(vFirePos, 20.0f + FRAND(50.0f));
 
@@ -83,7 +83,7 @@ void AIShipTaskController::FindRunAwayPoint()
 	{
 		for (uint32_t k = 0; k < AIFort::pAIFort->GetNumForts(); k++)
 		{
-      const auto pFort = AIFort::pAIFort->GetFort(k);
+      auto* const pFort = AIFort::pAIFort->GetFort(k);
 			if (!Helper.isEnemy(pFort->GetACharacter(), GetAIShip()->GetACharacter())) continue;
 			if (!pFort->isNormalMode()) continue;
 
@@ -102,7 +102,7 @@ void AIShipTaskController::FindRunAwayPoint()
 	{
 		// Получаем направление ветра
     auto fWindAngle = -PI;
-    auto pAWind = GetAIShip()->GetACharacter()->FindAClass(GetAIShip()->GetACharacter(), "SeaAI.WindAngle");
+    auto* pAWind = GetAIShip()->GetACharacter()->FindAClass(GetAIShip()->GetACharacter(), "SeaAI.WindAngle");
 		if (pAWind) fWindAngle = pAWind->GetAttributeAsFloat();
     const auto vWindDir = CVECTOR(cosf(fWindAngle), 0.0f, sinf(fWindAngle));
 		//api->Trace("fWindAngle = %.3f", fWindAngle);
@@ -114,8 +114,8 @@ void AIShipTaskController::FindRunAwayPoint()
 	else
 	{
 		// Если из скрипта возвращается 1 - то используем скриптовую точку
-    auto pV = api->Event(SHIP_GET_RUNAWAY_POINT, "aff", GetAIShip()->GetACharacter(), vRAPoint.x, vRAPoint.z);
-    auto pARAP = GetAIShip()->GetACharacter()->FindAClass(GetAIShip()->GetACharacter(), "SeaAI.RunAwayPnt");
+    auto* pV = api->Event(SHIP_GET_RUNAWAY_POINT, "aff", GetAIShip()->GetACharacter(), vRAPoint.x, vRAPoint.z);
+    auto* pARAP = GetAIShip()->GetACharacter()->FindAClass(GetAIShip()->GetACharacter(), "SeaAI.RunAwayPnt");
 		vRAPoint.y = 0.0f;
 		vRAPoint.x = pARAP->GetAttributeAsFloat("x", 0.0f);
 		vRAPoint.z = pARAP->GetAttributeAsFloat("z", 0.0f);
@@ -132,8 +132,8 @@ void AIShipTaskController::FindRunAwayPoint()
 
 void AIShipTaskController::DoTask(float fDeltaTime)
 {
-  const auto pTask = GetCurrentTask();
-  auto pTaskAIObj = GetCurrentTaskAIObj();
+  auto* const pTask = GetCurrentTask();
+  auto* pTaskAIObj = GetCurrentTaskAIObj();
 
 	switch (pTask->dwTaskType)
 	{
@@ -189,7 +189,7 @@ void AIShipTaskController::Execute(float fDeltaTime)
 
 void AIShipTaskController::SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskType, CVECTOR& vPnt)
 {
-  auto pTask = GetTask(dwPriority);
+  auto* pTask = GetTask(dwPriority);
 
 	pTask->SetActive(true);
 	pTask->dwTaskType = _dwNewTaskType;
@@ -200,7 +200,7 @@ void AIShipTaskController::SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskTy
 
 void AIShipTaskController::SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskType, ATTRIBUTES* _pATaskCharacter)
 {
-  auto pTask = GetTask(dwPriority);
+  auto* pTask = GetTask(dwPriority);
 
 	pTask->SetActive(true);
 	pTask->pATaskCharacter = _pATaskCharacter;
@@ -209,7 +209,7 @@ void AIShipTaskController::SetNewTask(uint32_t dwPriority, uint32_t _dwNewTaskTy
 
 bool AIShipTaskController::isAttack(ATTRIBUTES* pAOtherCharacter)
 {
-  const auto pTask = GetCurrentTask();
+  auto* const pTask = GetCurrentTask();
 	if (pTask && pTask->pATaskCharacter == pAOtherCharacter) //~!~
 	{
 		switch (pTask->dwTaskType)

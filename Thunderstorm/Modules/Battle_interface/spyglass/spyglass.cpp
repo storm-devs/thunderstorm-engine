@@ -420,8 +420,8 @@ void ISPYGLASS::FindNewTargetShip()
 	// find ships
 	long nFindedCharIndex = -1;
   auto fFindedDistance = 2.f;
-  auto pMainSD = g_ShipList.GetMainCharacterShip();
-	for (auto pSD = g_ShipList.GetShipRoot(); pSD; pSD = pSD->next)
+  auto* pMainSD = g_ShipList.GetMainCharacterShip();
+	for (auto* pSD = g_ShipList.GetShipRoot(); pSD; pSD = pSD->next)
 	{
 		if (pMainSD == pSD) continue;
     auto fTrace = pSD->pShip->Trace(src, dst);
@@ -433,7 +433,7 @@ void ISPYGLASS::FindNewTargetShip()
 	}
 
 	// find fort
-  auto pFort = GetFort();
+  auto* pFort = GetFort();
 	if (pFort)
 	{
 		float fTrace = pFort->Trace(src, dst);

@@ -208,7 +208,7 @@ uint64_t ROPE::ProcessMessage(MESSAGE& message)
       const auto wFirstRope = ropeQuantity;
 			if (gdata != nullptr)
 			{
-        const auto oldgdata = gdata;
+        auto* const oldgdata = gdata;
 				gdata = new GROUPDATA[groupQuantity + 1];
 				if (gdata == nullptr)
 				{

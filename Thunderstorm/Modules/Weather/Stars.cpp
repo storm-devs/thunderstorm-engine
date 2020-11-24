@@ -54,13 +54,13 @@ void Astronomy::STARS::Init(ATTRIBUTES* pAP)
 
 	pAP = pAP->FindAClass(pAP, "Stars");
 	if (!pAP) return;
-  auto pASpectrs = pAP->FindAClass(pAP, "Spectr");
+  auto* pASpectrs = pAP->FindAClass(pAP, "Spectr");
 
 	if (pASpectrs)
 	{
 		for (uint32_t i = 0; i < pASpectrs->GetAttributesNum(); i++)
 		{
-      auto pAS = pASpectrs->GetAttributeClass(i);
+      auto* pAS = pASpectrs->GetAttributeClass(i);
 			char str[2];
 			str[0] = pAS->GetThisName()[0];
 			str[1] = 0;
@@ -134,7 +134,7 @@ void Astronomy::STARS::Init(ATTRIBUTES* pAP)
 	fio->_CloseHandle(hFile);
 	}*/
 
-  const auto hFile = fio->_CreateFile(sCatalog);
+  auto* const hFile = fio->_CreateFile(sCatalog);
 	if (INVALID_HANDLE_VALUE != hFile)
 	{
 		uint32_t dwSize;
@@ -152,11 +152,11 @@ void Astronomy::STARS::Init(ATTRIBUTES* pAP)
 		iVertexBufferColors = pRS->CreateVertexBuffer(0, dwSize * sizeof(uint32_t),
 		                                              D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC);
 
-    const auto pVPos = (CVECTOR *)pRS->LockVertexBuffer(iVertexBuffer);
+    auto* const pVPos = (CVECTOR *)pRS->LockVertexBuffer(iVertexBuffer);
 		auto* pVColors = (uint32_t *)pRS->LockVertexBuffer(iVertexBufferColors);
 
     auto bRecalculateData = true;
-    auto hOutFile = fio->_CreateFile("resource\\star.dat");
+    auto* hOutFile = fio->_CreateFile("resource\\star.dat");
 		if (INVALID_HANDLE_VALUE != hOutFile)
 		{
 			uint32_t dwFileLen;

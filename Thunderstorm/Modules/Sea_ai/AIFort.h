@@ -107,7 +107,7 @@ public:
 		}
 
 		bool isNormalMode() const {
-      auto pAFM = GetACharacter()->FindAClass(GetACharacter(), "Fort.Mode");
+      auto* pAFM = GetACharacter()->FindAClass(GetACharacter(), "Fort.Mode");
 			if (pAFM) return (pAFM->GetAttributeAsDword() == FORT_NORMAL);
 			return false;
 		}

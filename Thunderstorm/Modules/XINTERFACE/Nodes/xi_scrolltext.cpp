@@ -86,7 +86,7 @@ void CXI_SCROLLTEXT::SetText(const char* newText)
 		memcpy(m_pText, newText, len);
 
 		// получить все части из текста
-    auto pCh = m_pText;
+    auto* pCh = m_pText;
 		m_idFont = FONT_DEFAULT;
 		m_dwFontColor = ARGB(255, 255, 255, 255);
 		long idx = 0;
@@ -142,7 +142,7 @@ void CXI_SCROLLTEXT::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -187,7 +187,7 @@ long CXI_SCROLLTEXT::FillPices(char* pt, size_t beg, size_t size, long& idx, STR
 	pt[size] = 0; // обозначим конец строки
 	while (true)
 	{
-    const auto pstr = &pt[beg];
+    auto* const pstr = &pt[beg];
 		long chQuantity = 0;
 		resStr[0] = 0;
 		while (true)

@@ -222,7 +222,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 	{
 		auto* m = (MODEL *)EntityManager::GetEntityPointer(it->second);
 		if (!m) continue;
-    auto root = m->GetNode(0);
+    auto* root = m->GetNode(0);
 		m->Clip(p, 6, cpos, BLOOD_RADIUS, AddClipPoligon);
 	}
 
@@ -231,7 +231,7 @@ void Blood::AddBlood(const CVECTOR& pos)
 	{
 		auto* m = (MODEL *)EntityManager::GetEntityPointer(aModels[n]);
 		if (!m) continue;
-    auto root = m->GetNode(0);
+    auto* root = m->GetNode(0);
 		m->Clip(p, 6, cpos, BLOOD_RADIUS, AddClipPoligon);
 	}
 

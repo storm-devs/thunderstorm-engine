@@ -377,7 +377,7 @@ void WEATHER::GetVector(uint32_t dwCode, CVECTOR* vOut)
 
 uint32_t WEATHER::AttributeChanged(ATTRIBUTES* pAttribute)
 {
-  const auto pParent = pAttribute->GetParent(); // if (*pAttribute == "Hour")
+  auto* const pParent = pAttribute->GetParent(); // if (*pAttribute == "Hour")
 	if (*pParent == "fog")
 	{
 		if (*pAttribute == "Enable")

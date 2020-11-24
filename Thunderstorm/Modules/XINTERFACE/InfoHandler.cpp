@@ -114,7 +114,7 @@ bool InfoHandler::DoPreOut()
 		fScale = AttributesPointer->GetAttributeAsFloat("scale", 1.f);
 		nOutOffset = AttributesPointer->GetAttributeAsDword("offset", m_rs->CharHeight(0));
 	}
-  const auto picTexureFile = AttributesPointer->GetAttribute("picfilename");
+  auto* const picTexureFile = AttributesPointer->GetAttribute("picfilename");
 
   const uint32_t TMP_VERTEX_FORMAT = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_TEXTUREFORMAT2);
 	struct TMP_VERTEX
@@ -227,7 +227,7 @@ bool InfoHandler::DoPreOut()
       const int topY = (desc.Height - nRowQ * nOutOffset) / 2;
 			for (ps = inStrStart; ps != nullptr && *ps;)
 			{
-        const auto oldps = ps;
+        auto* const oldps = ps;
 				ps = GetCutString(ps, nOutWidth, fScale);
 				if (!ps || ps == oldps) break;
 				StringToBufer(outStr, sizeof(outStr), oldps, ps - oldps);

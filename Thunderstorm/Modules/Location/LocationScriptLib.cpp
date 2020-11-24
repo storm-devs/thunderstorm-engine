@@ -54,11 +54,11 @@ inline bool CheckID(VDATA* vd, const char* id, bool& res)
 {
 	res = false;
 	if (!vd || !id || !id[0]) return false;
-  auto a = vd->GetAClass();
+  auto* a = vd->GetAClass();
 	if (!a) return false;
 	a = a->GetAttributeClass("id");
 	if (!a) return true;
-  const auto attr = a->GetThisAttr();
+  auto* const attr = a->GetThisAttr();
 	if (!attr) return true;
 	res = _stricmp(attr, id) == 0;
 	return true;
@@ -92,18 +92,18 @@ void slAddToCache(LocationFindCacheElement* element, long size, const char* name
 uint32_t slNativeFastFind(VS_STACK* pS, LocationFindCacheElement* cache, long cacheSize)
 {
 	//Получить строки
-  auto pStr = (VDATA*)pS->Pop();
+  auto* pStr = (VDATA*)pS->Pop();
 	const char* nm = nullptr;
 	if (!pStr->Get(nm)) return IFUNCRESULT_FAILED;
 	if (nm) charactersFindBuf.Set(nm);
 	else charactersFindBuf.Set("");
 	//Массив персонажей
-  auto pArray = (VDATA*)pS->Pop();
+  auto* pArray = (VDATA*)pS->Pop();
 	if (!pArray) return IFUNCRESULT_FAILED;
 	pArray = (VDATA*)pArray->GetReference();
 	if (!pArray) return IFUNCRESULT_FAILED;
 	//Возвращаемое значение
-  auto pReturn = (VDATA*)pS->Push();
+  auto* pReturn = (VDATA*)pS->Push();
 	if (!pReturn) return IFUNCRESULT_FAILED;
 	if (!charactersFindBuf.name[0])
 	{
@@ -146,7 +146,7 @@ uint32_t slNativeFastFind(VS_STACK* pS, LocationFindCacheElement* cache, long ca
   const long num = pArray->GetElementsNum();
 	for (long i = 0; i < num; i++)
 	{
-    const auto vd = (VDATA *)pArray->GetArrayElement(i);
+    auto* const vd = (VDATA *)pArray->GetArrayElement(i);
 		if (CheckID(vd, charactersFindBuf.name, res))
 		{
 			if (res)

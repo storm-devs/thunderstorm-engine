@@ -237,7 +237,7 @@ BOOL TOUCH::BuildContour(long ship_idx)
 {
 	long i, j;
 
-  auto pTS = pShips[ship_idx];
+  auto* pTS = pShips[ship_idx];
 
 	for (j = 0; j < 2; j++)
 	{
@@ -417,7 +417,7 @@ long TOUCH::ProcessImpulse(long iOurIdx, CVECTOR vPos, CVECTOR vDir, float fPowe
 	ZERO(strength);
 	strength.bInertia = false;
 
-  auto pS1 = pShips[iOurIdx];
+  auto* pS1 = pShips[iOurIdx];
 
   const auto vSDirZ = CVECTOR(0.0f, 0.0f, 1.0f);
   const auto vSDirX = CVECTOR(1.0f, 0.0f, 0.0f);
@@ -546,7 +546,7 @@ bool TOUCH::IsSinked(long iIndex)
 {
 	if (iIndex == ISLAND_CODE) return false;
 
-  auto pShip = pShips[iIndex]->pShip;
+  auto* pShip = pShips[iIndex]->pShip;
 	if (pShip->isDead())
 	{
     const auto fY = pShip->GetBoxsize().y;

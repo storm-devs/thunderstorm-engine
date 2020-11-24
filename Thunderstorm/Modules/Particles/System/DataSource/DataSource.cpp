@@ -165,7 +165,7 @@ void DataSource::CreatePointEmitter(MemFile* pMemFile)
 {
 	//api->Trace ("Particles info: Point emitter");
 	Emitters.push_back(EmitterDesc{});
-  auto PointEmitter = &Emitters.back();
+  auto* PointEmitter = &Emitters.back();
 	//EmitterDesc* PointEmitter = &Emitters[Emitters.Add()];
 	PointEmitter->Fields.Load(pMemFile);
 
@@ -254,31 +254,31 @@ FieldList* DataSource::CreateEmptyPointEmitter(const char* EmitterName)
 {
 	Emitters.push_back(EmitterDesc{});
 	//EmitterDesc* PointEmitter = &Emitters[Emitters.Add()];
-  auto PointEmitter = &Emitters.back();
+  auto* PointEmitter = &Emitters.back();
 	PointEmitter->Fields.Convert(&PointEmitterDesc);
 	PointEmitter->Type = POINT_EMITTER;
 
-  auto pEmitterName = PointEmitter->Fields.FindString(EMITTER_NAME);
+  auto* pEmitterName = PointEmitter->Fields.FindString(EMITTER_NAME);
 
 	if (pEmitterName)
 	{
 		pEmitterName->SetValue(EmitterName);
 	}
 
-  auto pEmitterLifeTime = PointEmitter->Fields.FindFloat(EMITTER_LIFETIME);
+  auto* pEmitterLifeTime = PointEmitter->Fields.FindFloat(EMITTER_LIFETIME);
 
 	if (pEmitterLifeTime)
 	{
 		pEmitterLifeTime->SetValue(1.0f);
 	}
 
-  auto pAngleX = PointEmitter->Fields.FindGraph(EMISSION_DIR_X);
+  auto* pAngleX = PointEmitter->Fields.FindGraph(EMISSION_DIR_X);
 	if (pAngleX) pAngleX->SetNegative(true);
 
-  auto pAngleY = PointEmitter->Fields.FindGraph(EMISSION_DIR_Y);
+  auto* pAngleY = PointEmitter->Fields.FindGraph(EMISSION_DIR_Y);
 	if (pAngleY) pAngleY->SetNegative(true);
 
-  auto pAngleZ = PointEmitter->Fields.FindGraph(EMISSION_DIR_Z);
+  auto* pAngleZ = PointEmitter->Fields.FindGraph(EMISSION_DIR_Z);
 	if (pAngleZ) pAngleZ->SetNegative(true);
 
 	return &PointEmitter->Fields;
@@ -288,7 +288,7 @@ int DataSource::FindEmitter(const char* Name)
 {
 	for (uint32_t n = 0; n < Emitters.size(); n++)
 	{
-    const auto pString = Emitters[n].Fields.FindString(EMITTER_NAME);
+    auto* const pString = Emitters[n].Fields.FindString(EMITTER_NAME);
 		if (pString)
 		{
 			if (_stricmp(pString->GetValue(), Name) == 0)
@@ -308,52 +308,52 @@ FieldList* DataSource::CreateBillBoardParticle(const char* ParticleName, const c
 
 	Emitters[EmitterIndex].Particles.push_back(ParticleDesc{});
 	//ParticleDesc *pDesc = &Emitters[EmitterIndex].Particles[Emitters[EmitterIndex].Particles.Add()];
-  auto pDesc = &Emitters[EmitterIndex].Particles.back();
+  auto* pDesc = &Emitters[EmitterIndex].Particles.back();
 	pDesc->Type = BILLBOARD_PARTICLE;
 	pDesc->Fields.Convert(&BillboardParticleDesc);
 
-  auto pParticleName = pDesc->Fields.FindString(PARTICLE_NAME);
+  auto* pParticleName = pDesc->Fields.FindString(PARTICLE_NAME);
 	if (pParticleName) pParticleName->SetValue(ParticleName);
 
-  auto pAttachedEmitter = pDesc->Fields.FindString(ATTACHEDEMITTER_NAME);
+  auto* pAttachedEmitter = pDesc->Fields.FindString(ATTACHEDEMITTER_NAME);
 	if (pAttachedEmitter) pAttachedEmitter->SetValue("none");
 
-  auto pSize = pDesc->Fields.FindGraph(PARTICLE_SIZE);
+  auto* pSize = pDesc->Fields.FindGraph(PARTICLE_SIZE);
 	if (pSize) pSize->SetDefaultValue(3.0f, 2.0f);
 
-  auto pEmissionRate = pDesc->Fields.FindGraph(PARTICLE_EMISSION_RATE);
+  auto* pEmissionRate = pDesc->Fields.FindGraph(PARTICLE_EMISSION_RATE);
 	if (pEmissionRate) pEmissionRate->SetDefaultValue(10.0f, 10.0f);
 
-  auto pLifeTime = pDesc->Fields.FindGraph(PARTICLE_LIFE_TIME);
+  auto* pLifeTime = pDesc->Fields.FindGraph(PARTICLE_LIFE_TIME);
 	if (pLifeTime) pLifeTime->SetDefaultValue(10.0f, 10.0f);
 
 
-  auto pMaxCount = pDesc->Fields.FindFloat(PARTICLE_MAX_COUNT);
+  auto* pMaxCount = pDesc->Fields.FindFloat(PARTICLE_MAX_COUNT);
 	if (pMaxCount) pMaxCount->SetValue(100);
 
-  auto pColorG = pDesc->Fields.FindColor(PARTICLE_COLOR);
+  auto* pColorG = pDesc->Fields.FindColor(PARTICLE_COLOR);
 	if (pColorG) pColorG->SetDefaultValue(Color(1.0f, 1.0f, 1.0f, 1.0f));
 
-  auto pGravityK = pDesc->Fields.FindGraph(PARTICLE_GRAVITATION_K);
+  auto* pGravityK = pDesc->Fields.FindGraph(PARTICLE_GRAVITATION_K);
 	if (pGravityK) pGravityK->SetDefaultValue(100.0f, 100.0f);
 
 
-  auto pTrackX = pDesc->Fields.FindGraph(PARTICLE_TRACK_X);
+  auto* pTrackX = pDesc->Fields.FindGraph(PARTICLE_TRACK_X);
 	if (pTrackX) pTrackX->SetNegative(true);
 
-  auto pTrackY = pDesc->Fields.FindGraph(PARTICLE_TRACK_Y);
+  auto* pTrackY = pDesc->Fields.FindGraph(PARTICLE_TRACK_Y);
 	if (pTrackY) pTrackY->SetNegative(true);
 
-  auto pTrackZ = pDesc->Fields.FindGraph(PARTICLE_TRACK_Z);
+  auto* pTrackZ = pDesc->Fields.FindGraph(PARTICLE_TRACK_Z);
 	if (pTrackZ) pTrackZ->SetNegative(true);
 
-  auto pVelocity = pDesc->Fields.FindGraph(PARTICLE_VELOCITY_POWER);
+  auto* pVelocity = pDesc->Fields.FindGraph(PARTICLE_VELOCITY_POWER);
 	if (pVelocity) pVelocity->SetNegative(true);
 
-  auto pMass = pDesc->Fields.FindGraph(PARTICLE_MASS);
+  auto* pMass = pDesc->Fields.FindGraph(PARTICLE_MASS);
 	if (pMass) pMass->SetNegative(true);
 
-  auto pSpin = pDesc->Fields.FindGraph(PARTICLE_SPIN);
+  auto* pSpin = pDesc->Fields.FindGraph(PARTICLE_SPIN);
 	if (pSpin) pSpin->SetNegative(true);
 
 	return &pDesc->Fields;
@@ -366,51 +366,51 @@ FieldList* DataSource::CreateModelParticle(const char* ParticleName, const char*
 
 	Emitters[EmitterIndex].Particles.push_back(ParticleDesc{});
 	//ParticleDesc *pDesc = &Emitters[EmitterIndex].Particles[Emitters[EmitterIndex].Particles.Add()];
-  auto pDesc = &Emitters[EmitterIndex].Particles.back();
+  auto* pDesc = &Emitters[EmitterIndex].Particles.back();
 	pDesc->Type = MODEL_PARTICLE;
 	pDesc->Fields.Convert(&ModelParticleDesc);
 
-  auto pParticleName = pDesc->Fields.FindString(PARTICLE_NAME);
+  auto* pParticleName = pDesc->Fields.FindString(PARTICLE_NAME);
 	if (pParticleName) pParticleName->SetValue(ParticleName);
 
-  auto pAttachedEmitter = pDesc->Fields.FindString(ATTACHEDEMITTER_NAME);
+  auto* pAttachedEmitter = pDesc->Fields.FindString(ATTACHEDEMITTER_NAME);
 	if (pAttachedEmitter) pAttachedEmitter->SetValue("none");
 
-  auto pMaxCount = pDesc->Fields.FindFloat(PARTICLE_MAX_COUNT);
+  auto* pMaxCount = pDesc->Fields.FindFloat(PARTICLE_MAX_COUNT);
 	if (pMaxCount) pMaxCount->SetValue(100);
 
-  auto pEmissionRate = pDesc->Fields.FindGraph(PARTICLE_EMISSION_RATE);
+  auto* pEmissionRate = pDesc->Fields.FindGraph(PARTICLE_EMISSION_RATE);
 	if (pEmissionRate) pEmissionRate->SetDefaultValue(10.0f, 10.0f);
 
-  auto pLifeTime = pDesc->Fields.FindGraph(PARTICLE_LIFE_TIME);
+  auto* pLifeTime = pDesc->Fields.FindGraph(PARTICLE_LIFE_TIME);
 	if (pLifeTime) pLifeTime->SetDefaultValue(10.0f, 10.0f);
 
-  auto pGravityK = pDesc->Fields.FindGraph(PARTICLE_GRAVITATION_K);
+  auto* pGravityK = pDesc->Fields.FindGraph(PARTICLE_GRAVITATION_K);
 	if (pGravityK) pGravityK->SetDefaultValue(100.0f, 100.0f);
 
-  auto pTrackX = pDesc->Fields.FindGraph(PARTICLE_TRACK_X);
+  auto* pTrackX = pDesc->Fields.FindGraph(PARTICLE_TRACK_X);
 	if (pTrackX) pTrackX->SetNegative(true);
 
-  auto pTrackY = pDesc->Fields.FindGraph(PARTICLE_TRACK_Y);
+  auto* pTrackY = pDesc->Fields.FindGraph(PARTICLE_TRACK_Y);
 	if (pTrackY) pTrackY->SetNegative(true);
 
-  auto pTrackZ = pDesc->Fields.FindGraph(PARTICLE_TRACK_Z);
+  auto* pTrackZ = pDesc->Fields.FindGraph(PARTICLE_TRACK_Z);
 	if (pTrackZ) pTrackZ->SetNegative(true);
 
-  auto pVelocity = pDesc->Fields.FindGraph(PARTICLE_VELOCITY_POWER);
+  auto* pVelocity = pDesc->Fields.FindGraph(PARTICLE_VELOCITY_POWER);
 	if (pVelocity) pVelocity->SetNegative(true);
 
-  auto pMass = pDesc->Fields.FindGraph(PARTICLE_MASS);
+  auto* pMass = pDesc->Fields.FindGraph(PARTICLE_MASS);
 	if (pMass) pMass->SetNegative(true);
 
 
-  auto pSpinX = pDesc->Fields.FindGraph(PARTICLE_SPIN_X);
+  auto* pSpinX = pDesc->Fields.FindGraph(PARTICLE_SPIN_X);
 	if (pSpinX) pSpinX->SetNegative(true);
 
-  auto pSpinY = pDesc->Fields.FindGraph(PARTICLE_SPIN_Y);
+  auto* pSpinY = pDesc->Fields.FindGraph(PARTICLE_SPIN_Y);
 	if (pSpinY) pSpinY->SetNegative(true);
 
-  auto pSpinZ = pDesc->Fields.FindGraph(PARTICLE_SPIN_Z);
+  auto* pSpinZ = pDesc->Fields.FindGraph(PARTICLE_SPIN_Z);
 	if (pSpinZ) pSpinZ->SetNegative(true);
 
 	return &pDesc->Fields;

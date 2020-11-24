@@ -163,7 +163,7 @@ void CXI_SCROLLER::MakeOwnedControl()
 {
 	for (long n = 0; n < (long)m_asOwnedNodes.size(); n++)
 	{
-    const auto pNode = ((XINTERFACE*)EntityManager::GetEntityPointer(g_idInterface))->FindNode(
+    auto* const pNode = ((XINTERFACE*)EntityManager::GetEntityPointer(g_idInterface))->FindNode(
 			m_asOwnedNodes[n].c_str(), nullptr);
 		if (!pNode) continue;
 		switch (pNode->m_nNodeType)
@@ -271,7 +271,7 @@ void CXI_SCROLLER::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());

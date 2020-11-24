@@ -79,7 +79,7 @@ public:
 
 	virtual bool isDead(ATTRIBUTES* pACharacter) const
 	{
-    const auto pAIObj = AIHelper::FindAIInnerObj(pACharacter);
+    auto* const pAIObj = AIHelper::FindAIInnerObj(pACharacter);
 		Assert(pAIObj);
 		return pAIObj->isDead();
 	};

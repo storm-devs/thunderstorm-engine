@@ -67,7 +67,7 @@ void AICharacter::Move(float dltTime)
 //Провести дополнительные расчёты
 void AICharacter::Calculate(float dltTime)
 {
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	CalcRepulsionForces();
 	CVECTOR slideForce;
 	location->GetPtcData().FindForce(currentNode, slideForce);
@@ -280,7 +280,7 @@ void AICharacter::CmdProcessGotoPoint(float dltTime)
   const auto dx = command.pnt.x - curPos.x;
   const auto dz = command.pnt.z - curPos.z;
   auto d = dx * dx + dz * dz;
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	if (location->IsDebugView())
 	{
     auto dist = sqrtf(d) * 10.0f;
@@ -362,7 +362,7 @@ void AICharacter::CmdUpdateGotoPoint(float dltTime)
 	{
 		if (command.waitTime <= 0.0f)
 		{
-			const auto location = GetLocation();
+      auto* const location = GetLocation();
 			if (location->supervisor.CheckPosition(command.pnt.x, command.pnt.y, command.pnt.z, this))
 			{
 				//Продолжаем путь
@@ -427,7 +427,7 @@ void AICharacter::CmdProcessEscape(float dltTime)
 
 void AICharacter::CmdUpdateEscape(float dltTime)
 {
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	if (location->IsDebugView()) location->DrawLine(curPos, 0xffff0000, curPos + force * 2.0f, 0xffff0000, false);
 	Turn(force.x, force.z);
   const auto l = force.x * force.x + force.z * force.z;
@@ -441,7 +441,7 @@ void AICharacter::CmdUpdateEscape(float dltTime)
 //Найти индекс нода для данной координаты
 long AICharacter::FindNodeIndex(const CVECTOR& pos, float* hy)
 {
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	float yy;
   const auto node = location->GetPtcData().FindNode(pos, yy);
 	if (hy) *hy = yy;
@@ -452,7 +452,7 @@ long AICharacter::FindNodeIndex(const CVECTOR& pos, float* hy)
 bool AICharacter::FindDirectional()
 {
 	if (command.tnode < 0 || command.node < 0) return false;
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	if (!location->GetPtcData().FindPathDir(command.tnode, CVECTOR(command.tpnt), command.node, command.pnt,
 	                                        command.tnode, command.tpnt)) return false;
 	if (location->IsDebugView())
@@ -474,7 +474,7 @@ void AICharacter::CalcRepulsionForces()
   const auto kn = 1.0f / numColCharacter;
 	for (long i = 0; i < numColCharacter; i++)
 	{
-		const auto location = GetLocation();
+    auto* const location = GetLocation();
     auto& ci = location->supervisor.colchr[startColCharacter + i];
 		if (ci.d == 0.0f) continue;
 		auto* c = (AICharacter *)ci.c;

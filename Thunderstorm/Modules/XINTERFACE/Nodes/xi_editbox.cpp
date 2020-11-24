@@ -102,7 +102,7 @@ void CXI_EDITBOX::Draw(bool bSelected, uint32_t Delta_Time)
 	}
 
 	// show out string
-  auto pA = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+  auto* pA = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 	char* tmpstr = nullptr;
 	if (pA) tmpstr = pA->GetAttribute("strdata");
 	if (tmpstr) m_rs->ExtPrint(m_nStrFontNum, 0xFFFFFFFF, 0,PR_ALIGN_CENTER, true, m_fStrScale, m_screenSize.x,
@@ -146,11 +146,11 @@ int CXI_EDITBOX::CommandExecute(int wActCode)
 		case ACTION_MOUSECLICK:
 			{
 				if (m_nCurAlphaNum < 0 || m_nCurAlphaNum >= m_nAlphaQuantity) break;
-        auto pA = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+        auto* pA = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 				if (pA == nullptr) break;
 				char param[256];
 				param[0] = 0;
-        const auto tmpstr = pA->GetAttribute("strdata");
+        auto* const tmpstr = pA->GetAttribute("strdata");
 				switch (m_alpha[m_bUpChrRegistrOffset + m_nCurAlphaNum])
 				{
 				case '*':
@@ -300,7 +300,7 @@ void CXI_EDITBOX::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -356,7 +356,7 @@ void CXI_EDITBOX::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 
 	if (ReadIniString(ini1, name1, ini2, name2, "alphabet", param, sizeof(param) - 1, ""))
 	{
-    auto pTmpStr = pStringService->GetString(pStringService->GetStringNum(param));
+    auto* pTmpStr = pStringService->GetString(pStringService->GetStringNum(param));
 		if (pTmpStr == nullptr) pTmpStr = param;
 		int nLen = strlen(pTmpStr);
 		if (nLen > sizeof(m_alpha) / 2 - 1) nLen = sizeof(m_alpha) / 2 - 1;
@@ -366,7 +366,7 @@ void CXI_EDITBOX::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 	}
 	if (ReadIniString(ini1, name1, ini2, name2, "alphabetUP", param, sizeof(param) - 1, ""))
 	{
-    auto pTmpStr = pStringService->GetString(pStringService->GetStringNum(param));
+    auto* pTmpStr = pStringService->GetString(pStringService->GetStringNum(param));
 		if (pTmpStr == nullptr) pTmpStr = param;
 		auto len = strlen(pTmpStr) + 1;
 		if (len > sizeof(m_alpha) / 2 - 1) len = sizeof(m_alpha) / 2 - 1;
@@ -421,7 +421,7 @@ void CXI_EDITBOX::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, cons
 	m_fChrTopOffset = .5f * (m_fVAdd * HEIGHT_SCALE_USED - m_rs->CharHeight(m_nChrFontNum) * m_fChrScale);
 	m_fHAdd = (float)(m_rect.right - m_rect.left - m_nLeftOffset * 2) / m_nHorz;
 
-  const auto pvt = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVB);
+  auto* const pvt = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_idVB);
 	auto topButtons = (float)m_nTopOffset;
 	idx = 0;
 	for (j = 0; j < m_nVert; j++)

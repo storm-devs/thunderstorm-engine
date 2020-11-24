@@ -135,8 +135,8 @@ bool SCRSHOTER::MakeScreenShot()
 	if (hr == D3D_OK)
 	{
 		// Создать набор отступов по ординатам
-    const auto pHorzOff = new int[SS_TEXTURE_WIDTH];
-    const auto pVertOff = new int[SS_TEXTURE_HEIGHT];
+    auto* const pHorzOff = new int[SS_TEXTURE_WIDTH];
+    auto* const pVertOff = new int[SS_TEXTURE_HEIGHT];
 		if (!pHorzOff || !pVertOff)
 		{
 			throw std::exception("allocate memory error");
@@ -162,7 +162,7 @@ bool SCRSHOTER::MakeScreenShot()
 		int vi, hi;
 		for (vi = 0; vi < SS_TEXTURE_HEIGHT; vi++)
 		{
-      const auto pInPxl = (uint8_t*)pIn + inRect.Pitch * pVertOff[vi];
+      auto* const pInPxl = (uint8_t*)pIn + inRect.Pitch * pVertOff[vi];
 			auto* pOutPxl = (uint32_t*)((uint8_t*)pOut + outRect.Pitch * vi);
 			for (hi = 0; hi < SS_TEXTURE_WIDTH; hi++)
 			{
@@ -276,8 +276,8 @@ uint64_t SCRSHOTER::ProcessMessage(MESSAGE& message)
 			message.String(sizeof(param2) - 1, param2);
 			pvdat = message.ScriptVariablePointer();
 
-      auto pRetTex = AddSaveTexture(param, param2);
-      const auto strDat = FindSaveData(param2);
+      auto* pRetTex = AddSaveTexture(param, param2);
+      auto* const strDat = FindSaveData(param2);
 			if (pvdat)
 				if (!strDat) pvdat->Set("\0");
 				else pvdat->Set(strDat);
@@ -297,7 +297,7 @@ uint64_t SCRSHOTER::ProcessMessage(MESSAGE& message)
 
 IDirect3DTexture9* SCRSHOTER::FindSaveTexture(char* fileName) const {
 	if (!fileName) return nullptr;
-  auto ps = m_list;
+  auto* ps = m_list;
 	while (ps)
 	{
 		if (ps->fileName && _stricmp(fileName, ps->fileName) == 0) return ps->m_pTex;

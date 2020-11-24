@@ -150,7 +150,7 @@ void BaseEmitter::AttachToDataSource(DataSource::EmitterDesc* pEmitter)
 
 	for (uint32_t n = 0; n < pEmitter->Particles.size(); n++)
 	{
-    auto pDesc = &pEmitter->Particles[n];
+    auto* pDesc = &pEmitter->Particles[n];
 		switch (pDesc->Type)
 		{
 		case BILLBOARD_PARTICLE:
@@ -181,7 +181,7 @@ void BaseEmitter::CreateBillBoardParticle(FieldList& Fields)
 
 	ParticleTypes.push_back(structParticleType{});
 	//structParticleType* NewBillBoard = &ParticleTypes[ParticleTypes.Add()];
-  auto NewBillBoard = &ParticleTypes.back();
+  auto* NewBillBoard = &ParticleTypes.back();
 	NewBillBoard->Type = BILLBOARD_PARTICLE;
 	NewBillBoard->EmissionRate = Fields.FindGraph(EMISSION_RATE);
 	NewBillBoard->MaxParticlesCount = Fields.GetFloatAsInt(MAX_PARTICLES_COUNT);
@@ -199,7 +199,7 @@ void BaseEmitter::CreateModelParticle(FieldList& Fields)
 
 	ParticleTypes.push_back(structParticleType{});
 	//structParticleType* NewModel = &ParticleTypes[ParticleTypes.Add()];
-  auto NewModel = &ParticleTypes.back();
+  auto* NewModel = &ParticleTypes.back();
 	NewModel->Type = MODEL_PARTICLE;
 	NewModel->EmissionRate = Fields.FindGraph(PARTICLE_EMISSION_RATE);
 	NewModel->MaxParticlesCount = Fields.GetFloatAsInt(PARTICLE_MAX_COUNT);
@@ -400,7 +400,7 @@ void BaseEmitter::Editor_UpdateCachedData()
 
 void BaseEmitter::SetName(const char* Name)
 {
-  auto EmitterName = pEmitter->Fields.FindString(EMITTER_NAME);
+  auto* EmitterName = pEmitter->Fields.FindString(EMITTER_NAME);
 	Assert(EmitterName);
 	EmitterName->SetValue(Name);
 	Editor_UpdateCachedData();

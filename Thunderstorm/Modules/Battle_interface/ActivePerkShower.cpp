@@ -79,7 +79,7 @@ uint64_t ActivePerkShower::ProcessMessage(MESSAGE& message)
 		{
 			char param[256];
 			message.String(sizeof(param), param);
-      const auto pA = message.AttributePointer();
+      auto* const pA = message.AttributePointer();
 			if (_stricmp(param, "add") == 0) AddIconToList(pA);
 			else if (_stricmp(param, "del") == 0) DelIconFromList(pA);
 		}
@@ -103,7 +103,7 @@ bool ActivePerkShower::CreateTextures(ATTRIBUTES* pATextureRoot)
 
 	for (auto i = 0; i < q; i++)
 	{
-    auto pA = pATextureRoot->GetAttributeClass(i);
+    auto* pA = pATextureRoot->GetAttributeClass(i);
 		if (pA == nullptr)
 		{
 			m_pTexDescr[i].m_idTexture = -1;
@@ -205,7 +205,7 @@ bool ActivePerkShower::InitIconsList(ATTRIBUTES* pAIconsRoot)
 	{
 		m_pIconsList[i].m_nPicNum = 0;
 		m_pIconsList[i].m_nPicTexIdx = 0;
-    auto pA = pAIconsRoot->GetAttributeClass(i);
+    auto* pA = pAIconsRoot->GetAttributeClass(i);
 		if (pA != nullptr)
 		{
 			m_pIconsList[i].m_nPicNum = pA->GetAttributeAsDword("texture", 0);
@@ -233,7 +233,7 @@ void ActivePerkShower::AddIconToList(ATTRIBUTES* pAItemDescr)
 	if (m_pIconsList == nullptr) m_pIconsList = new _PICTURE_DESCR[m_nIShowQ];
 	else
 	{
-    const auto old_pIconsList = m_pIconsList;
+    auto* const old_pIconsList = m_pIconsList;
 		m_pIconsList = new _PICTURE_DESCR[m_nIShowQ];
 		if (m_pIconsList != nullptr)
 		{

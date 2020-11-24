@@ -64,7 +64,7 @@ void BLAST::AddGeometry(char* name, long num)
 	//Item[n].geo = gs->CreateGeometry(name,0,0);
 
 	Item.resize(ItemsNum + num); //~!~
-  const auto gp = gs->CreateGeometry(name, nullptr, 0);
+  auto* const gp = gs->CreateGeometry(name, nullptr, 0);
 	for (long n = 0; n < num; n++)
 	{
 		if (n == 0) Item[n + ItemsNum].bDouble = false;

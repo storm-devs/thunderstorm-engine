@@ -92,7 +92,7 @@ GEOS* GEOMETRY::CreateGeometry(const char* file_name, const char* light_file_nam
 	{
 		sprintf_s(lightPath, "%s\\%s", lmPath, file_name);
 		//strcpy_s(lightPath, light_file_name);
-    const auto bs = strrchr(lightPath, '\\');
+    auto* const bs = strrchr(lightPath, '\\');
 		if (bs != nullptr) *bs = 0;
 	}
 
@@ -118,7 +118,7 @@ GEOS* GEOMETRY::CreateGeometry(const char* file_name, const char* light_file_nam
 		else
 		{
 			//sprintf_s(lfn, "resource\\lighting\\%s.col", light_file_name);
-      auto elf = light_file_name;
+      const auto* elf = light_file_name;
 			if (elf[0] == '\\') elf++;
 			if (elf[0] == '\\') elf++;
 			sprintf_s(lfn, "resource\\models\\%s_%s.col", file_name, elf);
@@ -192,7 +192,7 @@ void GEOM_SERVICE_R::SetRenderService(VDX9RENDER* render_service)
 HANDLE GEOM_SERVICE_R::OpenFile(const char* fname)
 {
 	if (RenderService) RenderService->ProgressView();
-  const auto fl = fio->_CreateFile(fname,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+  auto* const fl = fio->_CreateFile(fname,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 	if (fl == INVALID_HANDLE_VALUE)
 		if (_strcmpi(&fname[strlen(fname) - 4], ".col") == 0); //	api->Trace("geometry::can't open file %s", fname);
 		else throw "can't open geometry file";
@@ -503,7 +503,7 @@ void GEOM_SERVICE_R::DrawIndexedPrimitive(long minv, long numv, long vrtsize, lo
 	//draw animation
 	if (transform_func != nullptr)
 	{
-    auto cavb = &avb[CurentVertexBuffer - SHIFT_VALUE];
+    auto* cavb = &avb[CurentVertexBuffer - SHIFT_VALUE];
 
 		auto* transformed_vb = (IDirect3DVertexBuffer9*)transform_func(cavb->buff, minv, numv, cavb->nvertices);
 		if (!bCaustic)

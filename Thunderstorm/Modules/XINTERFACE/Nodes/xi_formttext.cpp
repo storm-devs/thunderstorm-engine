@@ -8,7 +8,7 @@ static void SubRightWord(char* buf, int fontNum, int width, VDX9RENDER* rs)
 {
 	if (buf == nullptr) return;
   const long bufSize = strlen(buf);
-	for (auto pEnd = buf + bufSize; pEnd > buf; pEnd--)
+	for (auto* pEnd = buf + bufSize; pEnd > buf; pEnd--)
 	{
 		if (*pEnd == ' ')
 		{
@@ -143,7 +143,7 @@ void CXI_FORMATEDTEXT::Draw(bool bSelected, uint32_t Delta_Time)
 
   auto curY = m_rect.top + m_nVAlignmentOffset;
   auto i = 0;
-	for (auto sd = m_listCur; sd != nullptr && i < m_allStrings; sd = sd->next, i++)
+	for (auto* sd = m_listCur; sd != nullptr && i < m_allStrings; sd = sd->next, i++)
 	{
 		// отобразить строки
 		if (sd->lineStr != nullptr && sd->lineStr[0] != 0)
@@ -205,7 +205,7 @@ int CXI_FORMATEDTEXT::CommandExecute(int wActCode)
 	if (m_bUse && !m_bFrized)
 	{
 		if (m_listCur == nullptr) return -1;
-    const auto pOldCur = m_listCur;
+    auto* const pOldCur = m_listCur;
 		if (wActCode == ACTION_MOUSECLICK || wActCode == ACTION_MOUSERCLICK)
 		{
       const auto fpntMouse = ptrOwner->GetMousePoint();
@@ -239,7 +239,7 @@ int CXI_FORMATEDTEXT::CommandExecute(int wActCode)
 				break;
 			case ACTION_SPEEDUP:
 				{
-          auto pStrDscr = m_listCur;
+          auto* pStrDscr = m_listCur;
 					for (auto i = 0; i < m_allStrings; i++)
 					{
 						if (pStrDscr->prev == nullptr) break;
@@ -251,7 +251,7 @@ int CXI_FORMATEDTEXT::CommandExecute(int wActCode)
 				break;
 			case ACTION_SPEEDDOWN:
 				{
-          auto pStrDscr = m_listCur;
+          auto* pStrDscr = m_listCur;
 					for (int i = 0; i < m_allStrings; i++)
 					{
 						if (pStrDscr->next == nullptr) break;

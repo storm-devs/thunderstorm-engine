@@ -4,7 +4,7 @@ void SubRightWord(char* buf, int fontNum, int width, VDX9RENDER* rs)
 {
 	if (buf == nullptr) return;
   const long bufSize = strlen(buf);
-	for (auto pEnd = buf + bufSize; pEnd > buf; pEnd--)
+	for (auto* pEnd = buf + bufSize; pEnd > buf; pEnd--)
 	{
 		if (*pEnd == ' ')
 		{
@@ -16,7 +16,7 @@ void SubRightWord(char* buf, int fontNum, int width, VDX9RENDER* rs)
 
 bool CXI_QUESTTITLE::GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize) const {
 	if (pInStr == nullptr || buf == nullptr) return false;
-  const auto pStart = pInStr;
+  auto* const pStart = pInStr;
   auto bYesEOL = false;
 	while (*pInStr != 0)
 	{
@@ -211,7 +211,7 @@ void CXI_QUESTTITLE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -335,7 +335,7 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES* pA, int topNum)
 		{
 			m_strList[i].lineQuantity = 0;
 			m_strList[i].dwSpecColor = 0;
-      auto pAttr = pA->GetAttributeClass(topNum + i);
+      auto* pAttr = pA->GetAttributeClass(topNum + i);
 			if (pAttr == nullptr)
 			{
 				m_strList[i].complete = false;
@@ -354,7 +354,7 @@ void CXI_QUESTTITLE::SetNewTopQuest(ATTRIBUTES* pA, int topNum)
 				else
 				{
 					char lineName[sizeof(param)];
-          auto pstr = param;
+          auto* pstr = param;
 					int ln = 0;
 					while (GetLineNext(m_idFont, pstr, lineName, sizeof(lineName)))
 					{

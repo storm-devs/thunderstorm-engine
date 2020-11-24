@@ -196,7 +196,7 @@ void CXI_CONTEXTHELP::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -295,7 +295,7 @@ uint32_t CXI_CONTEXTHELP::MessageProc(long msgcode, MESSAGE& message)
 
 	case 1: // получить временную строку
 		{
-      auto pvdat = message.ScriptVariablePointer();
+      auto* pvdat = message.ScriptVariablePointer();
 			if (pvdat == nullptr) return 0;
 			if (m_sTempString == nullptr && m_idTempString == -1) return 0;
 
@@ -307,7 +307,7 @@ uint32_t CXI_CONTEXTHELP::MessageProc(long msgcode, MESSAGE& message)
 
 			if (m_idTempString >= 0)
 			{
-        const auto pstr = pStringService->GetStringName(m_idTempString);
+        auto* const pstr = pStringService->GetStringName(m_idTempString);
 				if (pstr != nullptr)
 				{
 					pvdat->Set(pstr);

@@ -37,7 +37,7 @@ int CXI_FOURIMAGE::CommandExecute(int wActCode)
 			break;
 		case ACTION_UPSTEP:
 			{
-        auto pvdat = api->Event("FI_UpCom", "l", m_nSelectItem);
+        auto* pvdat = api->Event("FI_UpCom", "l", m_nSelectItem);
 				if (pvdat == nullptr || pvdat->GetLong() == 0) newSelectItem -= 2;
 			}
 			break;
@@ -82,7 +82,7 @@ int CXI_FOURIMAGE::CommandExecute(int wActCode)
 			m_nSelectItem = newSelectItem;
 
 		// set new current item
-    auto tmpAttr = api->Entity_GetAttributeClass(g_idInterface, "FourImage");
+    auto* tmpAttr = api->Entity_GetAttributeClass(g_idInterface, "FourImage");
 		tmpAttr->SetAttributeUseDword("current", m_nSelectItem);
 	}
 	return retVal;
@@ -290,7 +290,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 		m_xTwoOffset = 0;
 	}
 
-  auto pAttribute = api->Entity_GetAttributeClass(g_idInterface, "FourImage");
+  auto* pAttribute = api->Entity_GetAttributeClass(g_idInterface, "FourImage");
 	if (pAttribute != nullptr)
 	{
 		m_nSelectItem = pAttribute->GetAttributeAsDword("current", 0);
@@ -304,7 +304,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 		else m_twoBadTexture = -1;
 
 		// get textures
-    auto pA = pAttribute->GetAttributeClass("ImagesGroup");
+    auto* pA = pAttribute->GetAttributeClass("ImagesGroup");
 		if (pA == nullptr) m_nTexturesQuantity = 0;
 		else
 		{
@@ -317,7 +317,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 			}
 			for (i = 0; i < m_nTexturesQuantity; i++)
 			{
-        const auto stmp = pA->GetAttribute(i);
+        auto* const stmp = pA->GetAttribute(i);
 				if (stmp == nullptr) m_sGroupName[i] = nullptr;
 				else
 				{
@@ -336,7 +336,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 		for (i = 0; i < 4; i++)
 		{
 			sprintf_s(param, "pic%d", i + 1);
-      auto pAttrTmp = pAttribute->GetAttributeClass(param);
+      auto* pAttrTmp = pAttribute->GetAttributeClass(param);
 			if (pAttrTmp != nullptr)
 			{
 				m_bUsed[i] = pAttrTmp->GetAttributeAsDword("selected", 0) != 0;
@@ -348,7 +348,7 @@ void CXI_FOURIMAGE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 				if (m_twoTexID[i] != -1 && m_twoTexID[i] < m_nTexturesQuantity) m_twoImgID[i] = pPictureService->
 					GetImageNum(m_sGroupName[m_twoTexID[i]], pAttrTmp->GetAttribute("img2"));
 				else m_twoImgID[i] = -1;
-        auto tmps = pAttrTmp->GetAttribute("str1");
+        auto* tmps = pAttrTmp->GetAttribute("str1");
 				if (tmps != nullptr && *tmps == '#')
 				{
 					const auto len = strlen(tmps);
@@ -647,7 +647,7 @@ void CXI_FOURIMAGE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -670,7 +670,7 @@ void CXI_FOURIMAGE::SaveParametersToIni()
 void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 {
 	char param[256];
-  auto pAttribute = api->Entity_GetAttributeClass(g_idInterface, "FourImage");
+  auto* pAttribute = api->Entity_GetAttributeClass(g_idInterface, "FourImage");
 	if (pAttribute != nullptr)
 	{
 		for (auto i = (nItemNum == -1 ? 0 : nItemNum); i < (nItemNum == -1 ? 4 : nItemNum + 1); i++)
@@ -686,7 +686,7 @@ void CXI_FOURIMAGE::ChangeItem(int nItemNum)
 				m_pTwoStr[i] = nullptr;
 			}
 			sprintf_s(param, "pic%d", i + 1);
-      auto pAttrTmp = pAttribute->GetAttributeClass(param);
+      auto* pAttrTmp = pAttribute->GetAttributeClass(param);
 			if (pAttrTmp != nullptr)
 			{
 				char* sptr;

@@ -3,7 +3,7 @@
 
 bool ISLAND::DoZapSuperGeneratorDecodeFile(const char* sname)
 {
-  const auto hFile = fio->_CreateFile(sname, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
+  auto* const hFile = fio->_CreateFile(sname, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
 		TGA_H tga_head;
@@ -29,7 +29,7 @@ void ISLAND::DoZapSuperGeneratorInnerDecodeFiles(const char* sub_dir, const char
 
 	sprintf_s(file_mask, "resource\\foam\\%s%s%s", (sub_dir) ? sub_dir : "", (sub_dir) ? "\\" : "", "*.*");
 
-  auto hFile = FindFirstFile(file_mask, &wfd);
+  auto* hFile = FindFirstFile(file_mask, &wfd);
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
 		do

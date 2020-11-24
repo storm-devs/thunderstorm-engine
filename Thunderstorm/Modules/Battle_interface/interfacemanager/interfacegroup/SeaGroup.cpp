@@ -14,7 +14,7 @@ void BI_SeaGroup::Init()
 {
 	BI_BaseGroup::Init();
 
-  auto pARoot = Manager()->AttributesPointer;
+  auto* pARoot = Manager()->AttributesPointer;
 	if (pARoot) pARoot = pARoot->GetAttributeClass("sea");
 	if (!pARoot) return;
 
@@ -35,7 +35,7 @@ void BI_SeaGroup::Init()
 		ZERO(pos);
 		BIUtils::ReadRectFromAttr(pA, "pos", pos, pos);
 
-    const auto pNod = Manager()->CreateImageNode(texture, uv, pos, color, BIImagePrioritet_Group_Beg);
+    auto* const pNod = Manager()->CreateImageNode(texture, uv, pos, color, BIImagePrioritet_Group_Beg);
 		if (pNod)
 			m_aNodes.push_back(pNod);
 		//Manager()->GetImageRender()->CreateImage( BIType_square, texture, color, uv, pos, BIImagePrioritet_Group_Beg );

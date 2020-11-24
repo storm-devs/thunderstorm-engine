@@ -152,7 +152,7 @@ void SailorsEditor::LoadFromIni(std::string fileName)
 {
 	char param[256];
 
-  auto pIni = fio->OpenIniFile(fileName.c_str());
+  auto* pIni = fio->OpenIniFile(fileName.c_str());
 
 	if (!pIni)
 	{

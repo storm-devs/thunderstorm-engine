@@ -399,14 +399,14 @@ long BIManSign::CalculateManQuantity()
 		m_Man[n].nShootCurrent = 0;
 	}
 
-  auto pAttr = m_pARoot ? m_pARoot->GetAttributeClass("data") : nullptr;
+  auto* pAttr = m_pARoot ? m_pARoot->GetAttributeClass("data") : nullptr;
 	if (pAttr) pAttr = pAttr->GetAttributeClass("icons");
 	char attrname[128];
 	if (pAttr)
 		for (n = 0; n < MAX_MAN_QUANTITY; n++)
 		{
 			sprintf_s(attrname, sizeof(attrname), "id%d", n);
-      const auto pA = pAttr->GetAttributeClass(attrname);
+      auto* const pA = pAttr->GetAttributeClass(attrname);
 			if (!pA) continue;
 			m_Man[m_nManQuantity].nCharacterIndex = -1;
 			m_Man[m_nManQuantity].nSlotIndex = n;
@@ -669,7 +669,7 @@ float BIManSign::GetGunProgressByIndex(long nIdx)
 
 void BIManSign::CheckDataChange()
 {
-  auto pAttr = m_pARoot ? m_pARoot->GetAttributeClass("data") : nullptr;
+  auto* pAttr = m_pARoot ? m_pARoot->GetAttributeClass("data") : nullptr;
 	if (pAttr && BoolACompare(pAttr, "alarm", m_bIsAlarmOn)) m_bMakeVertexFill = true;
 	if (pAttr) pAttr = pAttr->GetAttributeClass("icons");
 	if (!pAttr) return;
@@ -679,7 +679,7 @@ void BIManSign::CheckDataChange()
 	{
 		if (m_Man[n].nSlotIndex < 0) continue;
 		sprintf_s(attrname, sizeof(attrname), "id%d", m_Man[n].nSlotIndex);
-    const auto pA = pAttr->GetAttributeClass(attrname);
+    auto* const pA = pAttr->GetAttributeClass(attrname);
 		if (!pA) continue;
 
 		if (LongACompare(pA, "chrindex", m_Man[n].nCharacterIndex)) m_bMakeVertexFill = true;

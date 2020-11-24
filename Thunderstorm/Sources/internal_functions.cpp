@@ -2524,7 +2524,7 @@ bool COMPILER::CreateMessage(MESSAGE_SCRIPT* pMs, uint32_t s_off, uint32_t var_o
 	if (pMs == nullptr) return false;
 
 	// read format string
-  auto pV = SStack.Read(s_off, var_offset);
+  auto* pV = SStack.Read(s_off, var_offset);
 	if (!pV)
 	{
 		SetError(INVALID_FA);

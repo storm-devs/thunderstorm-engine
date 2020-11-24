@@ -105,8 +105,8 @@ bool ItemEntity::ReadAndCreate()
 	BIUtils::ReadVectorFormAttr(AttributesPointer, "pos.vx", m_mtxpos.Vx(), CVECTOR(0.f));
 	BIUtils::ReadVectorFormAttr(AttributesPointer, "pos.vy", m_mtxpos.Vy(), CVECTOR(0.f));
 	BIUtils::ReadVectorFormAttr(AttributesPointer, "pos.vz", m_mtxpos.Vz(), CVECTOR(0.f));
-  const auto pcModelName = BIUtils::GetStringFromAttr(AttributesPointer, "model", "");
-  const auto pcTechnique = BIUtils::GetStringFromAttr(AttributesPointer, "technique", "");
+  auto* const pcModelName = BIUtils::GetStringFromAttr(AttributesPointer, "model", "");
+  auto* const pcTechnique = BIUtils::GetStringFromAttr(AttributesPointer, "technique", "");
 	if (pcModelName)
 	{
 		if (m_eidModel = EntityManager::CreateEntity("modelr"))
@@ -155,7 +155,7 @@ void ItemEntity::SetModelToPosition(const CMatrix& mtx) const {
 void ItemEntity::SetTechnique(const char* pcTechnique) const {
 	if (m_pModel)
 	{
-    auto pRootNod = m_pModel->GetNode(0);
+    auto* pRootNod = m_pModel->GetNode(0);
 		if (pRootNod)
 		{
 			pRootNod->SetTechnique(pcTechnique);
@@ -215,8 +215,8 @@ void ItemEntity::DrawIntoLocator()
 
 		if ((sti = m_pMdlNode->geo->FindLabelN(sti + 1, idLoc)) > -1)
 		{
-      auto ani = pMdl->GetAnimation();
-      auto bones = &ani->GetAnimationMatrix(0);
+      auto* ani = pMdl->GetAnimation();
+      auto* bones = &ani->GetAnimationMatrix(0);
 
 			GEOS::LABEL lb;
 			m_pMdlNode->geo->GetLabel(sti, lb);
@@ -248,7 +248,7 @@ void ItemEntity::DrawIntoLocator()
 
 entid_t ItemEntity::GetModelEIDFromCharacterEID(entid_t chrEID)
 {
-	if (auto data = (VDATA*)api->GetScriptVariable("g_TmpModelVariable"))
+	if (auto* data = (VDATA*)api->GetScriptVariable("g_TmpModelVariable"))
 	{
 		api->Send_Message(chrEID, "le", MSG_CHARACTER_GETMODEL, data);
 		return data->GetEntityID();
@@ -260,9 +260,9 @@ entid_t ItemEntity::GetModelEIDFromCharacterEID(entid_t chrEID)
 void ItemEntity::SetEventListener(entid_t mdlEID, entid_t mdlToTieEID, const char* pcLocName, const char* pcStartEvent,
                                   const char* pcEndEvent)
 {
-	auto pMdl = (MODEL*)EntityManager::GetEntityPointer(mdlEID);
+  auto* pMdl = (MODEL*)EntityManager::GetEntityPointer(mdlEID);
 	if (!pMdl) return;
-	auto a = pMdl->GetAnimation();
+  auto* a = pMdl->GetAnimation();
 	if (a)
 	{
 		m_eventListener.item = this;
@@ -287,10 +287,10 @@ void ItemEntity::EventListener::Event(Animation* animation, long playerIndex, co
 	}
 	if (!m_bStartWaiting && m_sEndEvent == eventName)
 	{
-		auto pMdl = (MODEL*)EntityManager::GetEntityPointer(m_eidListenedModel);
+    auto* pMdl = (MODEL*)EntityManager::GetEntityPointer(m_eidListenedModel);
 		if (pMdl)
 		{
-      auto a = pMdl->GetAnimation();
+      auto* a = pMdl->GetAnimation();
 			if (a) a->SetEventListener(nullptr);
 		}
 		item->EndEventProcess();
@@ -303,7 +303,7 @@ bool ItemEntity::CreateParticle()
 
 	if (m_bVisible)
 	{
-		const auto pcParticleName = BIUtils::GetStringFromAttr(AttributesPointer, "particle", "");
+    auto* const pcParticleName = BIUtils::GetStringFromAttr(AttributesPointer, "particle", "");
 		if (pcParticleName && pcParticleName[0])
 		{
 			const auto eidParticle = EntityManager::GetEntityId("particles");

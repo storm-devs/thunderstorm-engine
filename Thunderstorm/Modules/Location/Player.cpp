@@ -47,7 +47,7 @@ Player::~Player()
 
 bool Player::PostInit()
 {
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	if (!location->supervisor.player) location->supervisor.player = this;
 	baterfl = EntityManager::GetEntityId("Animals");
 	return NPCharacter::PostInit();
@@ -82,7 +82,7 @@ void Player::Move(float dltTime)
 
   const auto oldSGMode = shootgunMode;
 	shootgunMode = false;
-  auto vd = api->Event("EventSGMode", nullptr);
+  auto* vd = api->Event("EventSGMode", nullptr);
 	if (vd)
 	{
 		long data = 0;
@@ -279,7 +279,7 @@ void Player::Update(float dltTime)
 			if (cs.state == CST_ACTIVATED) aDialog = true;
 			if (activatedDialog)
 			{
-        auto chr = FindDialogCharacter();
+        auto* chr = FindDialogCharacter();
 				if (chr)
 				{
 					Assert(AttributesPointer);
@@ -308,7 +308,7 @@ void Player::Update(float dltTime)
 			if (IsFireFindTarget())
 			{
 				float kDist;
-        auto c = FindGunTarget(kDist);
+        auto* c = FindGunTarget(kDist);
 				if (c) c->Select();
 			}
 		}
@@ -323,10 +323,10 @@ void Player::Update(float dltTime)
 	//Перебираем персонажей в поисках врагов к игроку
 	if (const auto eid = EntityManager::GetEntityId("CharactersGroups"))
 	{
-		const auto location = GetLocation();
+    auto* const location = GetLocation();
 		for (long i = 0; i < location->supervisor.numCharacters; i++)
 		{
-      const auto chr = location->supervisor.character[i].c;
+      auto* const chr = location->supervisor.character[i].c;
 			if (chr != this && chr)
 			{
 				chr->isPlayerEnemy = (api->Send_Message(eid, "sii", "IsEnemy", GetId(), chr->GetId()) != 0);
@@ -376,7 +376,7 @@ void Player::Rotate(float dltTime)
 			{
 				//Повернём вектор относительно камеры
 				CMatrix mtx;
-				const auto location = GetLocation();
+        auto* const location = GetLocation();
 				location->GetRS()->GetTransform(D3DTS_VIEW, mtx);
 				mtx.Transposition3X3();
 				mtx.Vy() = CVECTOR(0.0f, 1.0f, 0.0f);
@@ -619,7 +619,7 @@ bool Player::IsChangeFightMode()
 //Найти атакующего противника
 Player* Player::FindAttackCharacter()
 {
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	static long num = 0;
@@ -718,7 +718,7 @@ void Player::FireFromShootgun()
   auto dx = sinf(ay);
   auto dz = cosf(ay);
 	CMatrix mtx;
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	location->GetRS()->GetTransform(D3DTS_VIEW, mtx);
 	mtx.Transposition();
   const auto src = mtx.Pos() + mtx.Vz() * 0.7f;
@@ -754,7 +754,7 @@ void Player::FireFromShootgun()
         auto dir = !(src - dst);
 				dst = src + (dst - src) * dist;
 				//Куда то попали
-        const auto e = EntityManager::GetEntityPointer(collide->GetObjectID());
+        auto* const e = EntityManager::GetEntityPointer(collide->GetObjectID());
 				if (e && e != this)
 				{
 					long n, nm;

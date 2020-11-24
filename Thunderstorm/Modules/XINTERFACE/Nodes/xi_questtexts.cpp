@@ -40,7 +40,7 @@ CXI_QUESTTEXTS::STRING_DESCRIBER* CXI_QUESTTEXTS::STRING_DESCRIBER::Add(const ch
 bool GetNextIdFromList(char* & sptr, char* bufQuestID, size_t nSizeBufQuestID, char* buf, size_t bufSize, char* dataBuf)
 {
 	if (sptr == nullptr) return false;
-  auto sstart = sptr;
+  auto* sstart = sptr;
 	long idSize = 0;
 	while (*sptr != 0)
 	{
@@ -107,7 +107,7 @@ static void SubRightWord(char* buf, int fontNum, int width, VDX9RENDER* rs)
 {
 	if (buf == nullptr) return;
   const long bufSize = strlen(buf);
-	for (auto pEnd = buf + bufSize; pEnd > buf; pEnd--)
+	for (auto* pEnd = buf + bufSize; pEnd > buf; pEnd--)
 	{
 		if (*pEnd == ' ')
 		{
@@ -132,7 +132,7 @@ void CXI_QUESTTEXTS::ReleaseStringes()
 
 bool CXI_QUESTTEXTS::GetLineNext(int fontNum, char* & pInStr, char* buf, int bufSize) const {
 	if (pInStr == nullptr || buf == nullptr) return false;
-  const auto pStart = pInStr;
+  auto* const pStart = pInStr;
   auto bYesEOL = false;
 	while (*pInStr != 0)
 	{
@@ -183,7 +183,7 @@ void CXI_QUESTTEXTS::Draw(bool bSelected, uint32_t Delta_Time)
 
   auto curY = m_rect.top;
   auto i = 0;
-	for (auto sd = m_listCur; sd != nullptr && i < m_allStrings; sd = sd->next, i++)
+	for (auto* sd = m_listCur; sd != nullptr && i < m_allStrings; sd = sd->next, i++)
 	{
 		// отобразить строки
     const auto curColor = sd->complete ? m_dwCompleteColor : m_dwNonCompleteColor;
@@ -261,7 +261,7 @@ void CXI_QUESTTEXTS::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -312,11 +312,11 @@ void CXI_QUESTTEXTS::StartQuestShow(ATTRIBUTES* pA, int qn)
 		STORM_DELETE(m_listCur);
 	}
 
-  auto pAttr = pA->GetAttributeClass(qn);
+  auto* pAttr = pA->GetAttributeClass(qn);
 	if (pAttr == nullptr) return;
 
   const auto cFlag = pAttr->GetAttributeAsDword("Complete", 0) != 0;
-  auto pATextList = pAttr->GetAttributeClass("Text");
+  auto* pATextList = pAttr->GetAttributeClass("Text");
 	const char* questLogName = pAttr->GetAttribute("LogName");
 	if (!questLogName) questLogName = pAttr->GetThisName();
 

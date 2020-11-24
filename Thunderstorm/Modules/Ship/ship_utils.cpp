@@ -8,7 +8,7 @@ BOOL SHIP::BuildContour(CVECTOR* vContour, long& iNumVContour)
 {
 	iNumVContour = 0;
 
-  auto pEnt = GetModel();
+  auto* pEnt = GetModel();
 	Assert(pEnt);
 
 	CVECTOR vSrc, vDst, vP, vP1, vP2;
@@ -149,28 +149,28 @@ bool SHIP::BuildMasts()
 {
 	char str[256];
 
-  auto pEnt = GetModel();
+  auto* pEnt = GetModel();
 	Assert(pEnt);
 
 	// build mast list
 	long iNum, iIdx = 0;
 	while (true)
 	{
-    auto pNode = (NODE*)pEnt->GetNode(iIdx);
+    auto* pNode = (NODE*)pEnt->GetNode(iIdx);
 		if (!pNode) break;
-    const auto cNodeName = pNode->GetName();
+    const auto* const cNodeName = pNode->GetName();
 		if (_strnicmp(cNodeName,MAST_IDENTIFY,_countof(MAST_IDENTIFY) - 1) == 0)
 		{
 			CVECTOR vBSize, vBCenter, vUp, vDown, vTemp;
 
-      auto pAMasts = GetACharacter()->FindAClass(GetACharacter(), "Ship.Masts");
+      auto* pAMasts = GetACharacter()->FindAClass(GetACharacter(), "Ship.Masts");
 			if (!pAMasts)
 				pAMasts = GetACharacter()->CreateSubAClass(GetACharacter(), "Ship.Masts");
 
 			sscanf((const char*)&cNodeName[_countof(MAST_IDENTIFY) - 1], "%d", &iNum);
 			pMasts.resize(iNumMasts + 1);
 
-      auto pM = &pMasts[iNumMasts];
+      auto* pM = &pMasts[iNumMasts];
 			pM->iMastNum = iNum;
 			pM->bBroken = false;
 			pM->fDamage = 0.0f;
@@ -199,7 +199,7 @@ bool SHIP::BuildMasts()
 			}
 
 			sprintf_s(str, "%s", pNode->GetName());
-      auto pAMast = pAMasts->FindAClass(pAMasts, str);
+      auto* pAMast = pAMasts->FindAClass(pAMasts, str);
 			if (pAMast && pAMast->GetAttributeAsFloat() >= 1.0f)
 			{
 				pM->fDamage = 1.0f;

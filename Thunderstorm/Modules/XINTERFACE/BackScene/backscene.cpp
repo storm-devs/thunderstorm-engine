@@ -75,7 +75,7 @@ void InterfaceBackScene::MenuDescr::Set(CMatrix* pMtx, const char* pcActiveName,
 {
 	if (!pcTechniqueName) pcTechniqueName = "InterfaceBackScene_Menu";
 	sEventName = pcEvent;
-  auto pGeo = (VGEOMETRY*)api->CreateService("Geometry");
+  auto* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
 	if (pGeo)
 		if (pcPathName && pcPathName[0]) pGeo->SetTexturePath((std::string("MainMenu\\") + pcPathName + "\\").c_str());
 		else pGeo->SetTexturePath("MainMenu\\");
@@ -304,7 +304,7 @@ uint64_t InterfaceBackScene::ProcessMessage(MESSAGE& message)
 	case 3: // create menu list
 		{
       const auto nStartIdx = message.Long();
-      const auto pA = message.AttributePointer();
+      auto* const pA = message.AttributePointer();
 			CreateMenuList(nStartIdx, pA);
 		}
 		break;
@@ -374,7 +374,7 @@ void InterfaceBackScene::LoadModel(const char* pcModelName)
 		EntityManager::EraseEntity(m_eiLocators);
 		m_pLocators = nullptr;
 	}
-  auto pGeo = (VGEOMETRY*)api->CreateService("Geometry");
+  auto* pGeo = (VGEOMETRY*)api->CreateService("Geometry");
 	if (pGeo) pGeo->SetTexturePath(
 		(std::string("MainMenu\\") + XINTERFACE::pThis->StringService()->GetLanguage() + "\\").c_str());
 	// create model
@@ -409,11 +409,11 @@ void InterfaceBackScene::SetCameraPosition(const char* pcLocatorName)
 void InterfaceBackScene::SetShipPosition(const char* pcLocName, ATTRIBUTES* pAChar) const {
 	if (!pcLocName || !pAChar || !m_pLocators) return;
 
-  auto pAPos = pAChar->FindAClass(pAChar, "Ship.Pos");
+  auto* pAPos = pAChar->FindAClass(pAChar, "Ship.Pos");
 	if (!pAPos) pAPos = pAChar->CreateSubAClass(pAChar, "Ship.Pos");
 	Assert(pAPos);
 
-  auto pAAng = pAChar->FindAClass(pAChar, "Ship.Ang");
+  auto* pAAng = pAChar->FindAClass(pAChar, "Ship.Ang");
 	if (!pAAng) pAAng = pAChar->CreateSubAClass(pAChar, "Ship.Ang");
 	Assert(pAAng);
 
@@ -432,7 +432,7 @@ bool InterfaceBackScene::FindLocator(const char* pcLocName, CMatrix* pMtx, CVECT
 	if (!pcLocName || !m_pLocators) return false;
 	for (long n = 0; n < 100; n++)
 	{
-    auto pNod = m_pLocators->GetNode(n);
+    auto* pNod = m_pLocators->GetNode(n);
 		if (!pNod) break;
 		GEOS::INFO ginf;
 		pNod->geo->GetInfo(ginf);
@@ -470,7 +470,7 @@ void InterfaceBackScene::SetLocatorPosition(MODEL* pModel, const char* pcLocName
 	{
 		for (long n = 0; n < 100; n++)
 		{
-      const auto pNod = pModel->GetNode(n);
+      auto* const pNod = pModel->GetNode(n);
 			if (!pNod) break;
 			GEOS::INFO ginf;
 			pNod->geo->GetInfo(ginf);

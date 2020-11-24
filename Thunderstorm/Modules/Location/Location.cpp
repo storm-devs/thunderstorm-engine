@@ -52,7 +52,7 @@ Location::Location()
 Location::~Location()
 {
 	if (!AttributesPointer) return;
-  const auto atr = AttributesPointer->FindAClass(AttributesPointer, "locators");
+  auto* const atr = AttributesPointer->FindAClass(AttributesPointer, "locators");
 	if (atr) AttributesPointer->DeleteAttributeClassX(atr);
 #ifndef _XBOX
 	//EntityManager::EraseEntity(cubeShotMaker);
@@ -116,7 +116,7 @@ void Location::Execute(uint32_t delta_time)
 		message[i].alpha -= dltTime * 0.4f;
 	}
 	//ќбновление данных дл€ травы
-  auto grs = (Grass *)EntityManager::GetEntityPointer(grass);
+  auto* grs = (Grass *)EntityManager::GetEntityPointer(grass);
 	if (grs)
 	{
 		for (long i = 0; i < supervisor.numCharacters; i++)
@@ -420,19 +420,19 @@ long Location::LoadStaticModel(const char* modelName, const char* tech, long lev
   const auto im = model.CreateModel(modelName, tech, level, true, useDynamicLights ? GetLights() : nullptr);
 	if (im < 0) return -1;
 	//”казатель на геометрию
-  auto mdl = model[im];
+  auto* mdl = model[im];
 	if (!mdl)
 	{
 		model.DeleteModel(im);
 		return -1;
 	}
-  const auto node = mdl->GetNode(0);
+  auto* const node = mdl->GetNode(0);
 	if (!node)
 	{
 		model.DeleteModel(im);
 		return -1;
 	}
-  const auto g = node->geo;
+  auto* const g = node->geo;
 	if (!g)
 	{
 		model.DeleteModel(im);

@@ -51,7 +51,7 @@ bool Lights::Init()
 	if (!rs) throw std::exception("No service: dx9render");
 	collide = (COLLIDE *)api->CreateService("COLL");
 	//Зачитаем параметры
-  auto ini = fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
+  auto* ini = fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
 	if (!ini)
 	{
 		api->Trace("Location lights not inited -> RESOURCES\\Ini\\lights.ini not found");

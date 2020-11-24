@@ -59,7 +59,7 @@ void LOCATOR::LocateForI_L2(ATTRIBUTES* pA, GEOS* g, GEOS::LABEL& label)
 	{
 		g->GetLabel(stringIndex, label2);
 		sprintf_s(name, "l%d", n);
-    auto pAA = pA->CreateSubAClass(pA, name);
+    auto* pAA = pA->CreateSubAClass(pA, name);
 		pAA->SetAttributeUseFloat("x", label2.m[3][0]);
 		pAA->SetAttributeUseFloat("y", label2.m[3][1]);
 		pAA->SetAttributeUseFloat("z", label2.m[3][2]);
@@ -93,7 +93,7 @@ void LOCATOR::LocateForI(VDATA* pData)
 		return;
 	}
 	char sFileLocators[256];
-  const auto pAFilesPath = pA->FindAClass(pA, "filespath.models");
+  auto* const pAFilesPath = pA->FindAClass(pA, "filespath.models");
 	sprintf_s(sFileLocators, "%s\\%s", (pAFilesPath) ? pAFilesPath->GetThisAttr() : "", pA->GetAttribute("locators"));
 	rs->SetLoadTextureEnable(false);
 	g = gs->CreateGeometry(sFileLocators, "", 0);
@@ -139,7 +139,7 @@ void LOCATOR::LocateForI(VDATA* pData)
 	if (pAA)
 		for (n = 0; n < (long)pAA->GetAttributesNum(); n++)
 		{
-      auto pARC = pAA->GetAttributeClass(n);
+      auto* pARC = pAA->GetAttributeClass(n);
 			if (!pARC->FindAClass(pARC, "x"))
 			{
 				api->Trace("LOCATOR: Can't find locator with name: %s, geo: %s", pARC->GetAttribute("name"),
@@ -198,11 +198,11 @@ void LOCATOR::LocateForI(VDATA* pData)
 			LocateForI_Locators(pAA, g, groupID, _XYZ_);
 	}
 
-  auto pGA = pA->FindAClass(pA, "LoadGroup");
+  auto* pGA = pA->FindAClass(pA, "LoadGroup");
 	if (pGA)
 		for (n = 0; n < (long)pGA->GetAttributesNum(); n++)
 		{
-      const auto pARC = pGA->GetAttributeClass(n);
+      auto* const pARC = pGA->GetAttributeClass(n);
 			const char* pLoadGroupName = pARC->GetThisAttr();
 			if (!pLoadGroupName) continue;
 

@@ -217,7 +217,7 @@ Character::Detector::Detector(LocatorArray* _la)
 
 void Character::Detector::Check(float dltTime, Character* ch)
 {
-	const auto location = ch->GetLocation();
+  auto* const location = ch->GetLocation();
   auto dist = 0.0f;
   const auto lIndex = la->FindNearesLocatorCl(ch->curPos.x, ch->curPos.y, ch->curPos.z, 1.0f, dist);
 	if (lIndex >= 0)
@@ -258,7 +258,7 @@ void Character::Detector::Check(float dltTime, Character* ch)
 
 void Character::Detector::Exit(Character* ch)
 {
-	const auto location = ch->GetLocation();
+  auto* const location = ch->GetLocation();
 
 	if (lastLocator >= 0)
 	{
@@ -282,7 +282,7 @@ Character::RTuner::RTuner()
 
 void Character::RTuner::Set(MODEL* model, VDX9RENDER* rs)
 {
-  auto n = model->GetNode(0);
+  auto* n = model->GetNode(0);
 	if (!n) return;
 	if (n->GetTechnique()[0]) return;
 	if (alpha < 0.0f) alpha = 0.0f;
@@ -323,9 +323,9 @@ void Character::RTuner::Set(MODEL* model, VDX9RENDER* rs)
 			n->SetTechnique("AnimationBlend");
 		}
 	}
-	if (const auto location = character->GetLocation())
+	if (auto* const location = character->GetLocation())
 	{
-    auto ls = location->GetLights();
+    auto* ls = location->GetLights();
 		if (ls)
 			ls->SetCharacterLights(&character->curPos);
 	}
@@ -333,15 +333,15 @@ void Character::RTuner::Set(MODEL* model, VDX9RENDER* rs)
 
 void Character::RTuner::Restore(MODEL* model, VDX9RENDER* rs)
 {
-	if (const auto location = character->GetLocation())
+	if (auto* const location = character->GetLocation())
 	{
-    auto ls = location->GetLights();
+    auto* ls = location->GetLights();
 		if (ls)
 			ls->DelCharacterLights();
 	}
-  auto n = model->GetNode(0);
+  auto* n = model->GetNode(0);
 	if (!n) return;
-  const auto chr = n->GetTechnique();
+  const auto* const chr = n->GetTechnique();
 	if (*((uint32_t *)chr) != 'minA' || *((uint32_t *)(chr + 4)) != 'oita') return;
 	n->SetTechnique("");
 	rs->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
@@ -358,7 +358,7 @@ float Character::RTuner::GetAlpha() const {
 void Character::EventListener::Event(Animation* animation, long index, long eventID, AnimationEvent event)
 {
 	if (!animation || index != 0) return;
-  const auto c = animation->Player(0).GetAction();
+  const auto* const c = animation->Player(0).GetAction();
 	if (!c) return;
 	character->ActionEvent(c, animation, index, eventID, event);
 }
@@ -595,7 +595,7 @@ Character::~Character()
 	auto* m = (MODEL*)EntityManager::GetEntityPointer(mdl);
 	if (m)
 	{
-    auto a = m->GetAnimation();
+    auto* a = m->GetAnimation();
 		if (a)
 		{
 			a->SetEventListener(nullptr);
@@ -606,7 +606,7 @@ Character::~Character()
 		}
 	}
 
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	// удаляем источник в руке
 	if (m_nHandLightID >= 0 && location && !isDeleted)
 		location->GetLights()->DelMovingLight(m_nHandLightID);
@@ -633,7 +633,7 @@ Character::~Character()
 bool Character::Init()
 {
 	//Указатель на локацию
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	if (!location) return false;
 	effects = EntityManager::GetEntityId("LocationEffects");
 	soundService = (VSoundService *)api->CreateService("SoundService");
@@ -762,7 +762,7 @@ uint64_t Character::ProcessMessage(MESSAGE& message)
 		return 1;
 	case MSG_CHARACTER_VIEWDAMAGE:
 		{
-			const auto location = GetLocation();
+      auto* const location = GetLocation();
 			float hit = message.Float();
 			float chp = message.Float();
 			float mhp = message.Float();
@@ -1032,7 +1032,7 @@ MODEL* Character::Model() const {
 //Переместить модельку в точку x, y, z
 bool Character::Teleport(float x, float y, float z)
 {
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	//Модель
 	isJump = false;
 	MODEL* man = Model();
@@ -1051,7 +1051,7 @@ bool Character::Teleport(float x, float y, float z)
 //Переместить модельку в точку x, y, z и направить по ay
 bool Character::Teleport(float x, float y, float z, float ay)
 {
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	//Модель
 	isJump = false;
 	MODEL* man = Model();
@@ -1072,7 +1072,7 @@ bool Character::Teleport(float x, float y, float z, float ay)
 //Переместить модельку в локатор
 bool Character::Teleport(const char* group, const char* locator)
 {
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	if (!group || !group[0] || !locator || !locator[0]) return false;
 	LocatorArray* la = location->FindLocatorsGroup(group);
 	if (!la) return false;
@@ -1685,7 +1685,7 @@ void Character::Dead()
   const float _ay = ay;
 	static Supervisor::FindCharacter fnd[MAX_CHARACTERS];
 	static long numChr = 0;
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	for (long i = 0; i < num; i++)
 	{
 		ay = _ay + dead[i].ang;
@@ -1774,7 +1774,7 @@ void Character::Reset()
 //Перемещаем персонажа в желаемую позицию
 void Character::Move(float dltTime)
 {
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 
 	if (lockMove) dltTime = 0.0f;
 	if (recoilWait > 0.0f) recoilWait -= dltTime;
@@ -2056,7 +2056,7 @@ void Character::Move(float dltTime)
 //Обновить позицию персонажа
 void Character::Update(float dltTime)
 {
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 
 	//Обновление полосок
 	if (isPlayerEnemy && isFight && !IsDead())
@@ -2578,7 +2578,7 @@ void Character::PlayStep()
 	if (!soundService) return;
 	if (isSwim) return;
 	auto* sb = (SEA_BASE *)EntityManager::GetEntityPointer(sea);
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	if (sb && location->IsSwimming())
 	{
 		//Проверим высоту моря
@@ -2710,7 +2710,7 @@ void Character::SetSoundPosition(long id)
 {
 	if (!soundService || id == SOUND_INVALID_ID) return;
 	CVECTOR pos = curPos + CVECTOR(0.0f, 1.0f, 0.0f);
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	if (location->supervisor.player)
 	{
 		VDX9RENDER* rs = location->GetRS();
@@ -2844,7 +2844,7 @@ bool Character::zAddDetector(MESSAGE& message)
 		if (_stricmp(detector[i]->la->GetGroupName(), group) == 0) return false;
 	}
 	//Ищем группу
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	LocatorArray* la = location->FindLocatorsGroup(group);
 	if (!la) return false;
 	detector[numDetectors++] = new Detector(la);
@@ -2951,7 +2951,7 @@ bool Character::zTurnByLoc(MESSAGE& message)
 	group[sizeof(group) - 1] = 0;
 	message.String(sizeof(name) - 1, name);
 	name[sizeof(name) - 1] = 0;
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	LocatorArray* la = location->FindLocatorsGroup(group);
 	if (!la) return false;
   const long li = la->FindByName(name);
@@ -3038,7 +3038,7 @@ uint32_t Character::zExMessage(MESSAGE& message)
 		api->Send_Message(blade, "ll", 1002, i);
 		return 1;
 	}
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	if (_stricmp(msg, "HandLightOn") == 0)
 	{
 		// удалим старый источник
@@ -3203,7 +3203,7 @@ bool Character::zPlaySound(MESSAGE& message)
 //Проверка возможности слететь
 bool Character::TestJump(CVECTOR pos)
 {
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	MODEL* jpm = location->JmpPatch();
 	if (!jpm) return false;
   const CVECTOR src(pos.x, pos.y + 1.0f, pos.z);
@@ -3240,7 +3240,7 @@ bool Character::TestJump(CVECTOR pos)
 
 bool Character::BuildJump(CVECTOR pos, float fAng)
 {
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	// нет патча для прыгания - нет и прыжков
 	MODEL* jpm = location->JmpPatch();
 	if (!jpm) return false;
@@ -3310,7 +3310,7 @@ bool Character::BuildJump(CVECTOR pos, float fAng)
 
 bool Character::TraceWithObstacle(const CVECTOR& src, const CVECTOR& dst)
 {
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	if (location->Trace(src, dst) > 1.f) return false;
 	return true;
 }
@@ -4402,7 +4402,7 @@ float Character::GetAniPlayTime()
 
 Character* Character::FindDialogCharacter()
 {
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	if (IsFight() || liveValue < 0 || deadName) return nullptr;
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
@@ -4521,7 +4521,7 @@ inline void Character::CheckAttackHit()
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	long num = 0;
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	if (!location->supervisor.FindCharacters(fndCharacter, num, this, attackDist, attackAng, 0.1f, 0.0f, false,
 	                                         true)) return;
 	//Перебираем всех врагов
@@ -4607,7 +4607,7 @@ Character* Character::FindGunTarget(float& kDist, bool bOnlyEnemyTest)
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	static long num = 0;
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	if (!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_FIGHT_FIREDIST,
 	                                         CHARACTER_FIGHT_FIREANG, 0.4f, 30.0f, false)) return nullptr;
 	float minDst;
@@ -4668,7 +4668,7 @@ void Character::FindNearCharacters(MESSAGE& message)
 	//Найдём окружающих персонажей
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	static long n = 0;
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	if (!location->supervisor.FindCharacters(fndCharacter, n, this, rad, viewAng, planeDist, ax, isSort))
 	{
 		num->Set(0L);
@@ -4717,7 +4717,7 @@ bool Character::CharactersVisibleTest(MESSAGE& message)
 bool Character::VisibleTest(Character* chr)
 {
 	if (!chr) return false;
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	//Тест по оси персонажа
 	if (location->VisibleTest(curPos + CVECTOR(0.0f, height * 0.9f, 0.0f),
 	                          chr->curPos + CVECTOR(0.0f, chr->height * 0.97f, 0.0f))) return true;
@@ -4863,7 +4863,7 @@ bool Character::CheckObstacle(float fx, float fz, float fzlen)
 	float fHDist;
 	CVECTOR vsrc, vdst;
 
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 
 	// проверим среднюю точку
 	vsrc = CVECTOR(xmed, 50.f, zmed);
@@ -4930,7 +4930,7 @@ long Character::GetRandomIndexByObstacle(ObstacleZone* pZone, long num)
 
 Location* Character::GetLocation()
 {
-	const auto location = static_cast<Location*>(EntityManager::GetEntityPointer(loc_id));
+  auto* const location = static_cast<Location*>(EntityManager::GetEntityPointer(loc_id));
 
 	if (location)
 		return location;

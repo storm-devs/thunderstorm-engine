@@ -56,7 +56,7 @@ void IBoardingStatus::Realize(uint32_t delta_time)
 void IBoardingStatus::Create()
 {
 	// Установить параметры для иконки активного действия
-  auto pA = api->Entity_GetAttributePointer(GetId());
+  auto* pA = api->Entity_GetAttributePointer(GetId());
 	if (pA != nullptr)
 	{
 		m_myPos.x = (float)pA->GetAttributeAsDword("myLeft", 10);

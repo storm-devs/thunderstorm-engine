@@ -81,8 +81,8 @@ void Supervisor::Update(float dltTime)
 		for (auto j = i + 1; j < numCharacters; j++)
 		{
 			//Пропустим мёртвых
-      auto ci = character[i].c;
-      auto cj = character[j].c;
+      auto* ci = character[i].c;
+      auto* cj = character[j].c;
 			if (cj->liveValue < 0 || cj->deadName) continue;
 			//Расстояние между персонажами
       auto d = ~(curPos - cj->curPos);

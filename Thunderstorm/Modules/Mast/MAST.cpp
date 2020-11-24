@@ -102,7 +102,7 @@ void MAST::Execute(uint32_t Delta_Time)
 		//====================================================
 		// Если был изменен ини-файл, то считать инфо из него
 		WIN32_FIND_DATA wfd;
-    const auto h = fio->_FindFirstFile(MAST_INI_FILE, &wfd);
+    auto* const h = fio->_FindFirstFile(MAST_INI_FILE, &wfd);
 		if (INVALID_HANDLE_VALUE != h)
 		{
       auto ft_new = wfd.ftLastWriteTime;
@@ -114,7 +114,7 @@ void MAST::Execute(uint32_t Delta_Time)
 			}
 		}
 		doMove(Delta_Time);
-    auto mdl = (MODEL*)EntityManager::GetEntityPointer(model_id);
+    auto* mdl = (MODEL*)EntityManager::GetEntityPointer(model_id);
 		if (mdl) mdl->Update();
 	}
 	else
@@ -308,7 +308,7 @@ void MAST::Mount(entid_t modelEI, entid_t shipEI, NODE* mastNodePointer)
 		float minDist = 10000.f;
 		SHIP_BASE* minDstShip;
 
-		auto& ships = EntityManager::GetEntityIdVector("ship");
+    const auto& ships = EntityManager::GetEntityIdVector("ship");
 		for (auto ship : ships)
 		{
 			if (ship == ship_id)
@@ -545,7 +545,7 @@ void MAST::doMove(uint32_t DeltaTime)
 					}
 				}
 				// коллизим с кораблем
-				auto& ships = EntityManager::GetEntityIdVector("ship");
+        const auto& ships = EntityManager::GetEntityIdVector("ship");
 				for (auto ship : ships)
 				{
 					if (EntityManager::GetEntityPointer(ship) == nullptr) continue;

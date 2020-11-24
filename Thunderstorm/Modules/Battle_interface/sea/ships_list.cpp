@@ -46,7 +46,7 @@ void TMP_LONG_STACK::Push(long data)
 			api->Trace("WARNING! push for TMP_LONG_STACK impossible - array grid <= 0");
 			return;
 		}
-    const auto pold = ldat;
+    auto* const pold = ldat;
 		ldat = new long[datsize + sizeIncr];
 		if (ldat == nullptr) { throw std::exception("allocate memory error"); }
 		if (pold != nullptr)
@@ -102,7 +102,7 @@ void SetNLongData(VDATA* pvd, int n, ...)
 
 	for (auto i = 0; i < n; i++)
 	{
-    const auto pIVal = va_arg(args, long*);
+    auto* const pIVal = va_arg(args, long*);
 		if (!pIVal) break;
     const auto nDefVal = va_arg(args, long);
 		if (pvd) pvd->Get(*pIVal, i);
@@ -126,7 +126,7 @@ SHIP_DESCRIBE_LIST::~SHIP_DESCRIBE_LIST()
 
 void SHIP_DESCRIBE_LIST::ShipSink(long charIdx)
 {
-  const auto sd = FindShip(charIdx);
+  auto* const sd = FindShip(charIdx);
 	if (sd == nullptr) return;
 	sd->isDead = true;
 }
@@ -136,7 +136,7 @@ void SHIP_DESCRIBE_LIST::Release(long charIdx)
 	if (charIdx == -1L) return;
 	if (root == nullptr) return;
 
-  auto sd = root;
+  auto* sd = root;
 	if (root->characterIndex == charIdx)
 	{
 		root = root->next;
@@ -144,7 +144,7 @@ void SHIP_DESCRIBE_LIST::Release(long charIdx)
 		return;
 	}
 
-  auto pr = root->next;
+  auto* pr = root->next;
 	while (pr != nullptr)
 	{
 		if (pr->characterIndex == charIdx)
@@ -181,7 +181,7 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES* pChAttr,
 	pr->pShip = nullptr;
 	pr->dwShipColor = dwShipColor;
 
-  const auto pAttr = pChAttr->GetAttributeClass("Ship");
+  auto* const pAttr = pChAttr->GetAttributeClass("Ship");
 	assert(pAttr!=NULL);
 	pr->pAttr = pAttr;
 	long lTmp;
@@ -192,12 +192,12 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES* pChAttr,
 	pr->next = nullptr;
 
 	// find this ship
-	auto& entities = EntityManager::GetEntityIdVector("ship");
+  const auto& entities = EntityManager::GetEntityIdVector("ship");
 	for (auto ship : entities)
 	{
-    auto vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);
+    auto* vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);
 		if (vob == nullptr) continue;
-    auto pA = vob->GetACharacter();
+    auto* pA = vob->GetACharacter();
 		if ((long)pA->GetAttributeAsDword("index") == chIdx)
 		{
 			pr->pShip = vob;
@@ -216,7 +216,7 @@ void SHIP_DESCRIBE_LIST::Add(long mainChrIndex, long chIdx, ATTRIBUTES* pChAttr,
 		}
 	} while( NetFindClassNext(false,&ei) );*/
 
-  auto ptmp = root;
+  auto* ptmp = root;
 	if (ptmp == nullptr) root = pr;
 	else
 	{
@@ -236,7 +236,7 @@ void SHIP_DESCRIBE_LIST::ReleaseAll()
 {
 	while (root != nullptr)
 	{
-    const auto ptmp = root;
+    auto* const ptmp = root;
 		root = root->next;
 		delete ptmp;
 	}
@@ -246,7 +246,7 @@ void SHIP_DESCRIBE_LIST::ReleaseAll()
 }
 
 SHIP_DESCRIBE_LIST::SHIP_DESCR* SHIP_DESCRIBE_LIST::FindShip(long idxCharacter) const {
-	for (auto ptmp = root; ptmp != nullptr; ptmp = ptmp->next)
+	for (auto* ptmp = root; ptmp != nullptr; ptmp = ptmp->next)
 		if (ptmp->characterIndex == idxCharacter)
 			return ptmp;
 	return nullptr;
@@ -258,12 +258,12 @@ void SHIP_DESCRIBE_LIST::Refresh()
 
 	TMP_LONG_STACK tls;
 
-	auto& entities = EntityManager::GetEntityIdVector("ship");
+  const auto& entities = EntityManager::GetEntityIdVector("ship");
 	for (auto ship : entities)
 	{
-    auto vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);
+    auto* vob = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);
 		if (vob == nullptr) continue;
-    auto pA = vob->GetACharacter();
+    auto* pA = vob->GetACharacter();
 		if (pA == nullptr) continue;
 		tls.Push((long)pA->GetAttributeAsDword("index"));
 	}

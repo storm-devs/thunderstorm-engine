@@ -109,11 +109,11 @@ ShipTracks::ShipTrack::~ShipTrack()
 
 bool ShipTracks::ShipTrack::Update(SHIP_BASE* pShip)
 {
-  auto pAChar = pShip->GetACharacter();
+  auto* pAChar = pShip->GetACharacter();
 	Assert(pAChar);
-  auto pATrack = pAChar->FindAClass(pAChar, "Ship.Track");
-  auto pATrack1 = pAChar->FindAClass(pAChar, "Ship.Track1");
-  auto pATrack2 = pAChar->FindAClass(pAChar, "Ship.Track2");
+  auto* pATrack = pAChar->FindAClass(pAChar, "Ship.Track");
+  auto* pATrack1 = pAChar->FindAClass(pAChar, "Ship.Track1");
+  auto* pATrack2 = pAChar->FindAClass(pAChar, "Ship.Track2");
 
 	if (!pATrack || !pATrack1 || !pATrack2) return false;
 	if (!pATrack->GetAttributeAsDword("Enable", 0)) return false;

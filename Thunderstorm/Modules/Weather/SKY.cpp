@@ -93,7 +93,7 @@ void SKY::CreateFogSphere()
       const auto fSin = sinf(float(x) / float(iNumAngles) * PIm2);
       const auto vPos = CVECTOR(R1 * fCos, h, R1 * fSin);
 			pVerts[idx].pos = vPos;
-      auto pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
+      auto* pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
 			Assert(pvData);
 			pVerts[idx].diffuse = (uint32_t)pvData->GetLong();
 			//pVerts[idx].diffuse = CalcFogDiffuse(pVerts[idx].pos);
@@ -119,7 +119,7 @@ void SKY::CreateFogSphere()
 	}
   const auto vPos = CVECTOR(0.0f, R, 0.0f);
 	pVerts[idx].pos = vPos;
-  auto pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
+  auto* pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
 	Assert(pvData);
 	pVerts[idx].diffuse = (uint32_t)pvData->GetLong();
 	if (pVerts) memcpy(pVertBuf, pVerts, iFogNumVerts * sizeof(FOGVERTEX));
@@ -140,7 +140,7 @@ void SKY::UpdateFogSphere()
 	iNumLevels = 64;
 	iNumAngles = 8;
 	iFogNumVerts = iNumAngles * iNumLevels + 1;
-  const auto pVertBuf = (FOGVERTEX*)pRS->LockVertexBuffer(iFogVertsID);
+  auto* const pVertBuf = (FOGVERTEX*)pRS->LockVertexBuffer(iFogVertsID);
 
 	for (y = 0; y < iNumLevels; y++)
 	{
@@ -152,7 +152,7 @@ void SKY::UpdateFogSphere()
       const auto fSin = sinf(float(x) / float(iNumAngles) * PIm2);
 			vPos = CVECTOR(R1 * fCos, h, R1 * fSin);
 			pVertBuf[idx].pos = vPos;
-      auto pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
+      auto* pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
 			Assert(pvData);
 			pVertBuf[idx].diffuse = (uint32_t)pvData->GetLong();
 
@@ -161,7 +161,7 @@ void SKY::UpdateFogSphere()
 	}
 	vPos = CVECTOR(0.0f, R, 0.0f);
 	pVertBuf[idx].pos = vPos;
-  auto pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
+  auto* pvData = api->Event(WEATHER_CALC_FOG_COLOR, "fff", vPos.x, vPos.y, vPos.z);
 	Assert(pvData);
 	pVertBuf[idx].diffuse = (uint32_t)pvData->GetLong();
 	pRS->UnLockVertexBuffer(iFogVertsID);
@@ -488,7 +488,7 @@ void SKY::FillSkyDirArray(ATTRIBUTES* pAttribute)
 	{
 		for (long n = 0; n < q; n++)
 		{
-      const auto attrName = pAttribute->GetAttributeName(n);
+      const auto* const attrName = pAttribute->GetAttributeName(n);
 			if (attrName && attrName[0] == 'd' && attrName[1] >= '0' && attrName[1] <= '9')
 			{
         const auto i = atol(&attrName[1]);

@@ -107,8 +107,8 @@ void CAviPlayer::Realize(uint32_t delta_time)
 		if (hr != S_OK) return;
 
     auto nPitch = d3dlkRect.Pitch;
-    auto pOutData = (char*)d3dlkRect.pBits;
-    auto pInData = (char*)ddsd.lpSurface;
+    auto* pOutData = (char*)d3dlkRect.pBits;
+    auto* pInData = (char*)ddsd.lpSurface;
     const auto copySize = ddsd.lPitch < d3dlkRect.Pitch ? ddsd.lPitch : d3dlkRect.Pitch;
 		for (i = 0; i < (int)ddsd.dwHeight; i++)
 		{

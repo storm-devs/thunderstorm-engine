@@ -94,7 +94,7 @@ void WM_INTERFACE::LoadIniFile()
 {
 	m_pShipIcon = new WMShipIcon(GetId(), rs);
 	Assert(m_pShipIcon);
-  auto pA = AttributesPointer ? AttributesPointer->GetAttributeClass("wm_sign") : nullptr;
+  auto* pA = AttributesPointer ? AttributesPointer->GetAttributeClass("wm_sign") : nullptr;
 	m_pShipIcon->Init(AttributesPointer, pA);
 	m_nCommandListVerticalOffset = pA ? pA->GetAttributeAsDword("commandlistverticaloffset") : -48;
 

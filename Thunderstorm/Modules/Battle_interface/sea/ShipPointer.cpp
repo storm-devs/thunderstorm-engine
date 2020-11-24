@@ -53,7 +53,7 @@ bool SHIPPOINTER::Init()
 		rs->UnLockVertexBuffer(m_idVBuf);
 	}
 
-  auto pA = api->Entity_GetAttributeClass(GetId(), "textures");
+  auto* pA = api->Entity_GetAttributeClass(GetId(), "textures");
 	if (pA == nullptr)
 	{
 		api->Trace("WARNING! object SHIPPOINTER hav`t attribute TEXTURES");
@@ -153,7 +153,7 @@ void SHIPPOINTER::UpdateShipPointer() const {
 VAI_OBJBASE* SHIPPOINTER::FindShipByChrIndex(long chrIdx) const {
 	if (chrIdx == -1) return nullptr;
 
-	auto& entities = EntityManager::GetEntityIdVector("ship");
+  const auto& entities = EntityManager::GetEntityIdVector("ship");
 	for (auto ship : entities)
 	{
 		VAI_OBJBASE* ps = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);

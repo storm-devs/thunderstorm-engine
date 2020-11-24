@@ -47,7 +47,7 @@ void AISeaGoods::Execute(uint32_t dwDeltaTime)
 	for (uint32_t i = 0; i < aGoods.size(); i++)
 		for (uint32_t j = 0; j < aGoods[i]->aItems.size(); j++)
 		{
-      auto pI = &aGoods[i]->aItems[j];
+      auto* pI = &aGoods[i]->aItems[j];
 			pI->fTime -= fDeltaTime;
 
 			pI->vPos.y = pSea->WaveXZ(pI->vPos.x, pI->vPos.z, &pI->vNormal);
@@ -70,7 +70,7 @@ void AISeaGoods::Execute(uint32_t dwDeltaTime)
 				aShips.clear();
 
 				// enumerate ships
-				auto& entities = EntityManager::GetEntityIdVector("ship");
+        const auto& entities = EntityManager::GetEntityIdVector("ship");
 				for (auto ent : entities)
 				{
 					aShips.push_back((SHIP_BASE*)EntityManager::GetEntityPointer(ent));
@@ -80,13 +80,13 @@ void AISeaGoods::Execute(uint32_t dwDeltaTime)
 				for (uint32_t k = 0; k < aShips.size(); k++)
 				{
           auto pS = aShips[k];
-          auto pACharacter = pS->GetACharacter();
+          auto* pACharacter = pS->GetACharacter();
           const int iCharacterIndex = GetIndex(pS->GetACharacter());
           const auto fDistance = sqrtf(~(pS->State.vPos - pI->vPos));
 					if (fDistance <= pS->State.vBoxSize.z * fDistanceMultiply)
 					{
-            auto pVData = api->Event(SHIP_EAT_SWIM_GOOD, "llsl", iCharacterIndex, pI->iCharIndex,
-                                     pI->sGoodName, pI->iQuantity);
+            auto* pVData = api->Event(SHIP_EAT_SWIM_GOOD, "llsl", iCharacterIndex, pI->iCharIndex,
+                                      pI->sGoodName, pI->iQuantity);
 						if (pVData->GetLong() || bDeleteGoodAnyway)
 						{
 							//aGoods[i]->aItems.ExtractNoShift(j); 
@@ -111,7 +111,7 @@ void AISeaGoods::Realize(uint32_t dwDeltaTime)
 		if (aGoods[i]->pGeo)
 			for (uint32_t j = 0; j < aGoods[i]->aItems.size(); j++)
 			{
-        const auto pI = &aGoods[i]->aItems[j];
+        auto* const pI = &aGoods[i]->aItems[j];
 
 				// set world matrix for item
 				CMatrix m;
@@ -126,7 +126,7 @@ void AISeaGoods::Realize(uint32_t dwDeltaTime)
 
 uint32_t AISeaGoods::AttributeChanged(ATTRIBUTES* pAttribute)
 {
-  const auto pParent = pAttribute->GetParent();
+  auto* const pParent = pAttribute->GetParent();
 
 	if (*pAttribute == "Add")
 	{

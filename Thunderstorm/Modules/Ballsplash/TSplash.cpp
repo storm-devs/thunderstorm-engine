@@ -104,7 +104,7 @@ void TSplash::Initialize(INIFILE* _ini, IDirect3DDevice9* _device, SEA_BASE* _se
 		texture2 = renderer->TextureCreate("splash.tga");
 
 		// INDEXES 1
-    auto indexes = /*iBuffer*/ (uint16_t *)renderer->LockIndexBuffer(iBuffer);
+    auto* indexes = /*iBuffer*/ (uint16_t *)renderer->LockIndexBuffer(iBuffer);
 
     auto startIndex = 0;
 		for (auto i = 0; i < MAX_SPLASHES; i++, startIndex += GRID_STEPS * GRID_STEPS)
@@ -214,7 +214,7 @@ bool TSplash::Process(uint32_t _dTime)
 	uint64_t ticksFill;
 	RDTSC_B(ticksFill);
 
-  auto vertices = startVertices + topIndex * GRID_STEPS * GRID_STEPS;
+  auto* vertices = startVertices + topIndex * GRID_STEPS * GRID_STEPS;
   const auto stepSize = ((float)GRID_LENGTH) / ((float)GRID_STEPS);
   const auto halfSize = GRID_LENGTH / 2.0f;
 	CVECTOR curPos;
@@ -298,7 +298,7 @@ bool TSplash::Process2(uint32_t _dTime)
 	uint64_t ticksFill;
 	RDTSC_B(ticksFill);
 
-  auto vertices = startVertices2 + topIndex * 4 * VPLANES_COUNT;
+  auto* vertices = startVertices2 + topIndex * 4 * VPLANES_COUNT;
   auto u = dU * (int)(time / SPLASH_FRAME_DELAY);
 	if (u > (1.f - dU))
 		u = 1.f - dU;

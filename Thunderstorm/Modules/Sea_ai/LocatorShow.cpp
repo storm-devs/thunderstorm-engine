@@ -51,7 +51,7 @@ const char* SeaLocatorShow::GetLocatorName(ATTRIBUTES* pA)
 
 const char* SeaLocatorShow::GetLocatorGroupName(ATTRIBUTES* pA)
 {
-  const auto pAParent = pA->GetParent();
+  auto* const pAParent = pA->GetParent();
 	Assert(pAParent);
 	return pAParent->GetThisName();
 }

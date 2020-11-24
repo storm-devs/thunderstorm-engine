@@ -61,7 +61,7 @@ void ModelProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velocity
                                  const Matrix& matWorld, float EmitterTime, float EmitterLifeTime, FieldList* pFields,
                                  uint32_t* pActiveCount, uint32_t dwGUID)
 {
-  auto pData = AllocParticle();
+  auto* pData = AllocParticle();
 
 	//Сработает если партиклов будет > MAX_BILLBOARDS, столько их быть не должно :))))
 	if (!pData)
@@ -70,8 +70,8 @@ void ModelProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velocity
 		return;
 	}
 
-  const auto GeomNames = pFields->GetString(PARTICLE_GEOM_NAMES);
-  const auto pGeomName = Parser.GetRandomName(GeomNames);
+  const auto* const GeomNames = pFields->GetString(PARTICLE_GEOM_NAMES);
+  const auto* const pGeomName = Parser.GetRandomName(GeomNames);
 	pData->pScene = pMasterManager->GetModel(pGeomName);
 
 
@@ -142,7 +142,7 @@ void ModelProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velocity
 	pData->KTrackZ = FRAND(1.0f);
 
 
-  const auto pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
+  const auto* const pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
 	if (_stricmp(pEmitterName, "none") == 0)
 	{
 		pData->AttachedEmitter = nullptr;

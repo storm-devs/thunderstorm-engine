@@ -81,7 +81,7 @@ void CXI_IMAGE::LoadAccordingToString(const char* pcImageParam)
 	char tokenString[512];
   auto bSetColor = false;
 	m_bThisIsColorRectangle = true;
-	for (auto pcParam = (char*)pcImageParam; pcParam && pcParam[0];)
+	for (auto* pcParam = (char*)pcImageParam; pcParam && pcParam[0];)
 	{
 		if (nullptr == CXI_UTILS::StringGetTokenID(pcParam, tokenID, sizeof(tokenID))) break;
     const auto nTokenCode = CXI_UTILS::StringGetTokenCode(tokenID);

@@ -16,7 +16,7 @@ SERVICES_LIST::~SERVICES_LIST()
 
 SERVICE* SERVICES_LIST::Add(uint32_t module_code, uint32_t class_code, SERVICE* pointer)
 {
-  const auto Pointer = AddRef(module_code);
+  auto* const Pointer = AddRef(module_code);
 
 	if (Pointer) return Pointer;
 
@@ -45,7 +45,7 @@ SERVICE* SERVICES_LIST::Add(uint32_t module_code, uint32_t class_code, SERVICE* 
 
 SERVICE* SERVICES_LIST::AddRef(uint32_t module_code)
 {
-  const auto node_PTR = FindNode(module_code);
+  auto* const node_PTR = FindNode(module_code);
 	if (node_PTR == nullptr) return nullptr;
 	node_PTR->reference++;
 	return node_PTR->pointer;
@@ -53,7 +53,7 @@ SERVICE* SERVICES_LIST::AddRef(uint32_t module_code)
 
 SERVICE* SERVICES_LIST::Find(uint32_t module_code)
 {
-  auto node_PTR = List;
+  auto* node_PTR = List;
 	while (node_PTR)
 	{
 		if (node_PTR->module_code == module_code) return node_PTR->pointer;
@@ -64,7 +64,7 @@ SERVICE* SERVICES_LIST::Find(uint32_t module_code)
 
 SERVICE* SERVICES_LIST::Find(uint32_t module_code, uint32_t class_code)
 {
-  auto node_PTR = List;
+  auto* node_PTR = List;
 	while (node_PTR)
 	{
 		if (node_PTR->module_code == module_code)
@@ -78,7 +78,7 @@ SERVICE* SERVICES_LIST::Find(uint32_t module_code, uint32_t class_code)
 
 SERVICE_NODE* SERVICES_LIST::FindNode(uint32_t module_code)
 {
-  auto node_PTR = List;
+  auto* node_PTR = List;
 	while (node_PTR)
 	{
 		if (node_PTR->module_code == module_code) return node_PTR;

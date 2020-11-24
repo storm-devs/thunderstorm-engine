@@ -207,7 +207,7 @@ bool NODER::Init(const char* lightPath, const char* pname, const char* oname, co
 	sys_lmPath = new char[len];
 	memcpy(sys_lmPath, lmPath, len);
 
-  const auto tPath = gs->GetTexturePath();
+  const auto* const tPath = gs->GetTexturePath();
 	len = strlen(tPath) + 1;
 	sys_TexPath = new char[len];
 	memcpy(sys_TexPath, tPath, len);
@@ -313,9 +313,9 @@ void NODER::RestoreGeometry()
 {
 	if (!isReleaed) return;
 
-  const auto tPath = gs->GetTexturePath();
+  const auto* const tPath = gs->GetTexturePath();
 	const auto len = strlen(tPath) + 1;
-  const auto ttPath = new char[len];
+  auto* const ttPath = new char[len];
 	memcpy(ttPath, tPath, len);
 	gs->SetTexturePath(sys_TexPath);
 	geo = gs->CreateGeometry(sys_modelName, sys_LightPath, 0, sys_lmPath);

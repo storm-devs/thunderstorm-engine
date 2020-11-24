@@ -21,7 +21,7 @@ TButterflies::~TButterflies()
 //--------------------------------------------------------------------
 void TButterflies::LoadSettings()
 {
-  auto ini = fio->OpenIniFile(ANIMALS_INI_FILENAME);
+  auto* ini = fio->OpenIniFile(ANIMALS_INI_FILENAME);
 	if (!ini)
 		return;
 

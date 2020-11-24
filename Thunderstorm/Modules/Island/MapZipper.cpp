@@ -96,7 +96,7 @@ bool MapZipper::Load(std::string sFileName)
 {
 	UnInit();
 
-  const auto hFile = fio->_CreateFile(sFileName.c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
+  auto* const hFile = fio->_CreateFile(sFileName.c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
 	if (hFile == INVALID_HANDLE_VALUE) return false;
 	fio->_ReadFile(hFile, &dwSizeX, sizeof(dwSizeX), nullptr);
 	fio->_ReadFile(hFile, &dwDX, sizeof(dwDX), nullptr);
@@ -114,7 +114,7 @@ bool MapZipper::Load(std::string sFileName)
 
 bool MapZipper::Save(std::string sFileName)
 {
-  const auto hFile = fio->_CreateFile(sFileName.c_str(), GENERIC_WRITE, FILE_SHARE_READ, OPEN_ALWAYS);
+  auto* const hFile = fio->_CreateFile(sFileName.c_str(), GENERIC_WRITE, FILE_SHARE_READ, OPEN_ALWAYS);
 	if (hFile == INVALID_HANDLE_VALUE) return false;
 	fio->_WriteFile(hFile, &dwSizeX, sizeof(dwSizeX), nullptr);
 	fio->_WriteFile(hFile, &dwDX, sizeof(dwDX), nullptr);

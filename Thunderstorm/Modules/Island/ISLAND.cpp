@@ -175,7 +175,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 		pRS->SetLight(0, &lt);
 		for (uint32_t k = 0; k < aForts.size(); k++)
 		{
-			const auto ent = EntityManager::GetEntityPointer(aForts[k]);
+      auto* const ent = EntityManager::GetEntityPointer(aForts[k]);
       auto mOld = ((MODEL*)ent)->mtx;
 			((MODEL*)ent)->mtx = mOld * mTemp;
 
@@ -197,7 +197,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 		pRS->SetRenderState(D3DRS_FOGENABLE, false);
 		//pRS->SetRenderState(D3DRS_AMBIENT, RGB(dwAmbient/4,dwAmbient/4,dwAmbient/4));
 
-    auto pSeaBed = (MODEL*)EntityManager::GetEntityPointer(seabed_id);
+    auto* pSeaBed = (MODEL*)EntityManager::GetEntityPointer(seabed_id);
 		if (pSeaBed)
 			pSeaBed->ProcessStage(Stage::realize, Delta_Time);
 	}
@@ -212,7 +212,7 @@ void ISLAND::Realize(uint32_t Delta_Time)
 	uint32_t i;
 	for (i = 0; i < aSpheres.size(); i++)
 	{
-    auto pModel = (MODEL*)EntityManager::GetEntityPointer(aSpheres[i]);
+    auto* pModel = (MODEL*)EntityManager::GetEntityPointer(aSpheres[i]);
     auto vPos = AIPath.GetPointPos(i);
 		if (pModel)
 			pModel->mtx.BuildPosition(vPos.x, 5.0f, vPos.z);
@@ -471,7 +471,7 @@ void ISLAND::CreateDirectories(char* pDir)
 bool ISLAND::CreateShadowMap(char* pDir, char* pName)
 {
   const std::string sDir;
-	const auto pWeather = (WEATHER_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("Weather"));
+  auto* const pWeather = (WEATHER_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("Weather"));
 	if (pWeather == nullptr)
 		throw std::exception("No found WEATHER entity!");
 

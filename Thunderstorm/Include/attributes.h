@@ -27,8 +27,8 @@ class ATTRIBUTES
 		char xBuffer_4k[4096];
 		if (data_PTR == nullptr) return;
 
-    const auto file_h = CreateFile("attributes.log",GENERIC_WRITE,FILE_SHARE_READ, nullptr,OPEN_ALWAYS,
-                                   FILE_ATTRIBUTE_NORMAL, nullptr);
+    auto* const file_h = CreateFile("attributes.log",GENERIC_WRITE,FILE_SHARE_READ, nullptr,OPEN_ALWAYS,
+                                    FILE_ATTRIBUTE_NORMAL, nullptr);
 		SetFilePointer(file_h, 0, nullptr,FILE_END);
 		va_list args;
 
@@ -57,7 +57,7 @@ class ATTRIBUTES
 
 	ATTRIBUTES* CreateNewAttribute(uint32_t name_code)
 	{
-		auto attr = pAttributes.emplace_back(new ATTRIBUTES(pVStringCodec));
+    auto* attr = pAttributes.emplace_back(new ATTRIBUTES(pVStringCodec));
 
 		attr->SetParent(this);
 		attr->nNameCode = name_code;
@@ -120,7 +120,7 @@ public:
 		}
 
 		const auto len = GetLen(strlen(_val) + 1);
-		const auto oldPtr = Attribute;
+    auto* const oldPtr = Attribute;
 		Attribute = new char[len];
 		strcpy_s(Attribute, len, _val);
 		delete[] oldPtr;
@@ -171,7 +171,7 @@ public:
 
 	auto VerifyAttributeClass(const char* name)
 	{
-    const auto pTemp = GetAttributeClass(name);
+    auto* const pTemp = GetAttributeClass(name);
 		return (pTemp) ? pTemp : CreateAttribute(name, "");
 	};
 
@@ -269,7 +269,7 @@ public:
 	ATTRIBUTES* CreateAttribute(const char* name, const char* attribute)
 	{
 		if (name == nullptr) return nullptr;
-		auto attr = pAttributes.emplace_back(new ATTRIBUTES(pVStringCodec));
+    auto* attr = pAttributes.emplace_back(new ATTRIBUTES(pVStringCodec));
 
 		attr->SetParent(this);
 		attr->SetName(name);
@@ -404,7 +404,7 @@ public:
 
 	ATTRIBUTES* CreateAttribute(uint32_t name_code, const char* attribute)
 	{
-		auto attr = pAttributes.emplace_back(new ATTRIBUTES(pVStringCodec));
+    auto* attr = pAttributes.emplace_back(new ATTRIBUTES(pVStringCodec));
 
 		attr->SetParent(this);
 		attr->nNameCode = name_code;
@@ -441,7 +441,7 @@ public:
 			{
 				if (attribute)
 				{
-					const auto oldPtr = pAttributes[n]->Attribute;
+          auto* const oldPtr = pAttributes[n]->Attribute;
 					pAttributes[n]->Attribute = new char[len];
 					strcpy_s(pAttributes[n]->Attribute, len, attribute);
 					delete[] oldPtr;
@@ -456,7 +456,7 @@ public:
 			}
 		}
 
-		auto attr = pAttributes.emplace_back(new ATTRIBUTES(pVStringCodec));
+    auto* attr = pAttributes.emplace_back(new ATTRIBUTES(pVStringCodec));
 
 		attr->SetParent(this);
 		attr->nNameCode = name_code;

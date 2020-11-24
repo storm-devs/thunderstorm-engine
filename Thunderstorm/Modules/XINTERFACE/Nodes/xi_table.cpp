@@ -80,7 +80,7 @@ void XI_TableLineDescribe::SetData(long nRowIndex, ATTRIBUTES* pLA, bool bHeader
 	for (c = 0; c < 10000; c++)
 	{
 		sprintf_s(pcAttrName, "td%d", c + 1);
-    const auto pA = (pLA ? pLA->GetAttributeClass(pcAttrName) : nullptr);
+    auto* const pA = (pLA ? pLA->GetAttributeClass(pcAttrName) : nullptr);
 		if (!pA && c >= m_pTable->m_nColQuantity) break;
 		XI_TableCellDescribe* pTD = nullptr;
 		if (c >= m_aCell.size())

@@ -41,7 +41,7 @@ CharacterAnimationKipper::~CharacterAnimationKipper()
 bool CharacterAnimationKipper::Init()
 {
 	//Проверим что единственные
-	auto& entities = EntityManager::GetEntityIdVector("CharacterAnimationKipper");
+  const auto& entities = EntityManager::GetEntityIdVector("CharacterAnimationKipper");
 	for (auto eid : entities)
 	{
 		if (EntityManager::GetEntityPointer(eid) == this)

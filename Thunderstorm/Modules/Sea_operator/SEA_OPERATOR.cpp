@@ -84,7 +84,7 @@ uint64_t SEA_OPERATOR::ProcessMessage(MESSAGE& message)
 		break;
 	case MSG_SEA_OPERATOR_BALL_UPDATE:
 		{
-      const auto attr = message.AttributePointer();
+      auto* const attr = message.AttributePointer();
 			if (myShip->GetACharacter() != attr)
 				break;
 
@@ -123,7 +123,7 @@ uint64_t SEA_OPERATOR::ProcessMessage(MESSAGE& message)
 			ballPosition.y = message.Float();
 			ballPosition.z = message.Float();
 
-      const auto shipAttr = message.AttributePointer();
+      auto* const shipAttr = message.AttributePointer();
 			if (shipAttr == myShip->GetACharacter())
 				HandleShipHit();
 		}
@@ -173,7 +173,7 @@ void SEA_OPERATOR::FirstInit()
 {
 	sea = (SEA_BASE*)EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea"));
 
-	auto& entities = EntityManager::GetEntityIdVector("ship");
+  const auto& entities = EntityManager::GetEntityIdVector("ship");
 	for (auto ent : entities)
 	{
 		SetIfMyShip(ent);
@@ -192,7 +192,7 @@ void SEA_OPERATOR::ProcessActions(uint32_t _dTime)
 {
 	if (active)
 	{
-    auto currentAction = actionBuffer.TopElement();
+    auto* currentAction = actionBuffer.TopElement();
 		if ((currentAction->actionTime != -1) && (currentAction->timePassed >= currentAction->actionTime))
 		{
 			StartNewAction();
@@ -208,7 +208,7 @@ void SEA_OPERATOR::ProcessActions(uint32_t _dTime)
 //--------------------------------------------------------------------
 void SEA_OPERATOR::StartNewAction()
 {
-  auto currentAction = actionBuffer.TopElement();
+  auto* currentAction = actionBuffer.TopElement();
 	if (active && !currentAction)
 	{
 		active = false;
@@ -242,7 +242,7 @@ void SEA_OPERATOR::SetIfMyShip(entid_t _shipID)
 	auto* ship = (SHIP_BASE *)EntityManager::GetEntityPointer(_shipID);
 	if (!ship)
 		return;
-  auto attr = ship->GetACharacter();
+  auto* attr = ship->GetACharacter();
 	if (attr->GetAttribute("MainCharacter"))
 		myShip = ship;
 }

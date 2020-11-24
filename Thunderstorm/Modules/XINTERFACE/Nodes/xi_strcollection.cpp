@@ -59,8 +59,8 @@ void CXI_STRCOLLECTION::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2
 
   const auto bRelativeRect = !GetIniLong(ini1, name1, ini2, name2, "bAbsoluteRectangle", 0);
 
-  auto ini = ini1;
-  auto name = name1;
+  auto* ini = ini1;
+  const auto* name = name1;
 	if (!ini1)
 	{
 		ini = ini2;
@@ -201,7 +201,7 @@ void CXI_STRCOLLECTION::SaveParametersToIni()
 {
 	//	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -272,7 +272,7 @@ uint32_t CXI_STRCOLLECTION::MessageProc(long msgcode, MESSAGE& message)
 			char paramID[256], paramStr[512];
 			message.String(sizeof(paramID), paramID); // msg
 			message.String(sizeof(paramStr), paramStr); // msg
-      auto pstr = CreateNewDinamicString(paramID, paramStr);
+      auto* pstr = CreateNewDinamicString(paramID, paramStr);
 			if (pstr == nullptr) return -1;
 			// string font
 			char fontName[256];

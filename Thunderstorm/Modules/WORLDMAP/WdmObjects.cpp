@@ -149,7 +149,7 @@ GEOS* WdmObjects::CreateGeometry(const char* path)
 	modelPath = "WorldMap\\";
 	modelPath += path;
 	gs->SetTexturePath("WorldMap\\Geometry\\");
-  const auto geo = gs->CreateGeometry(modelPath.c_str(), "", 0);
+  auto* const geo = gs->CreateGeometry(modelPath.c_str(), "", 0);
 	gs->SetTexturePath("");
 	//Добавляем в таблицу
 	//Model & m = models[models.Add()];

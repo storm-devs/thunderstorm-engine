@@ -134,7 +134,7 @@ uint64_t ILogAndActions::ProcessMessage(MESSAGE& message)
 						if (last == m_sRoot) m_sRoot = m_sRoot->next;
 						else
 						{
-							for (auto prev = m_sRoot; prev != nullptr && prev->next != last; prev = prev->next)
+							for (auto* prev = m_sRoot; prev != nullptr && prev->next != last; prev = prev->next)
 								if (prev != nullptr && prev->next == last) //~!~
 								{
 									prev->next = last->next;
@@ -177,7 +177,7 @@ uint64_t ILogAndActions::ProcessMessage(MESSAGE& message)
 	case LI_CLEAR_STRINGS:
 		while (m_sRoot != nullptr)
 		{
-      const auto p = m_sRoot;
+      auto* const p = m_sRoot;
 			m_sRoot = p->next;
 			STORM_DELETE(p->str);
 			delete p;
@@ -246,7 +246,7 @@ void ILogAndActions::Realize(uint32_t delta_time)
 	if (m_bShowLogStrings)
 	{
 		if (m_sRoot == nullptr) return;
-    auto ptr = m_sRoot;
+    auto* ptr = m_sRoot;
 		long nAlign = PR_ALIGN_LEFT;
     auto strX = m_nWindowLeft;
 		if (m_nWindowRight >= 0)
@@ -278,7 +278,7 @@ void ILogAndActions::Create(bool bFastComShow, bool bLogStringShow)
 	m_bShowLogStrings = bLogStringShow;
 
 	// Установить параметры для иконки активного действия
-  auto pA = api->Entity_GetAttributeClass(g_ILogAndActions, "ActiveActions");
+  auto* pA = api->Entity_GetAttributeClass(g_ILogAndActions, "ActiveActions");
 	if (pA != nullptr)
 	{
 		m_idIconTexture = rs->TextureCreate(pA->GetAttribute("TextureName"));

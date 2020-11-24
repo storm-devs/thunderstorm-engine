@@ -165,7 +165,7 @@ bool CXI_TWOPICTURE::IsClick(int buttonID, long xPos, long yPos)
 
 void CXI_TWOPICTURE::UpdateRectangles()
 {
-  auto pA = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+  auto* pA = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 	if (m_bLeftSelect)
 	{
 		SetRectanglePos(m_vOne, m_leftPicCenter + m_PressOffset, m_picSize);
@@ -246,7 +246,7 @@ void CXI_TWOPICTURE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());

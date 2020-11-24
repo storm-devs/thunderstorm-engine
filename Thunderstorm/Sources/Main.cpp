@@ -34,7 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 
 	/* Read config */
   uint32_t dwMaxFPS = 0;
-  auto ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
+  auto* ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
 	if (ini)
 	{
 		// !~!
@@ -46,7 +46,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	}
 
 	/* Register and show window */
-	const auto windowName = "Thunderstorm";
+  const auto* const windowName = "Thunderstorm";
 
 	WNDCLASSEX wndclass;
 	wndclass.cbSize = sizeof(wndclass);
@@ -63,7 +63,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	wndclass.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
 	RegisterClassExA(&wndclass);
 
-	const auto hwnd = CreateWindowA(windowName, windowName, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInstance, NULL);
+  auto* const hwnd = CreateWindowA(windowName, windowName, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInstance, NULL);
 	ShowWindow(hwnd, SW_SHOWNORMAL);
 
 	/* Init stuff */

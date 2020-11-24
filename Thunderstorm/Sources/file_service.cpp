@@ -281,7 +281,7 @@ BOOL FILE_SERVICE::_SetFileAttributes(const char* lpFileName, uint32_t dwFileAtt
 
 BOOL FILE_SERVICE::FileExist(const char* file_name)
 {
-  const auto fh = _CreateFile(file_name);
+  auto* const fh = _CreateFile(file_name);
 	if (fh == INVALID_HANDLE_VALUE) return false;
 	CloseHandle(fh);
 	return true;
@@ -293,7 +293,7 @@ BOOL FILE_SERVICE::FileExist(const char* file_name)
 
 INIFILE* FILE_SERVICE::CreateIniFile(const char* file_name, bool fail_if_exist)
 {
-  auto fh = _CreateFile(file_name,GENERIC_READ, 0,OPEN_EXISTING);
+  auto* fh = _CreateFile(file_name,GENERIC_READ, 0,OPEN_EXISTING);
 	if (fh != INVALID_HANDLE_VALUE && fail_if_exist)
 	{
 		_CloseHandle(fh);
@@ -390,7 +390,7 @@ BOOL FILE_SERVICE::LoadFile(const char* file_name, char* * ppBuffer, uint32_t* d
 {
 	if (ppBuffer == nullptr) return false;
 
-  const auto hFile = _CreateFile(file_name);
+  auto* const hFile = _CreateFile(file_name);
 	if (INVALID_HANDLE_VALUE == hFile) return false;
   const auto dwLowSize = _GetFileSize(hFile, nullptr);
 	if (dwSize) *dwSize = dwLowSize;

@@ -801,8 +801,8 @@ void ShipWalk::Init(entid_t _shipID, int editorMode, char* shipType)
 		if (sailorsPoints.points.count <= 0 || sailorsPoints.links.count <= 0) return;
 
 		//Найти сломанные мачты
-    auto attr = ship->GetACharacter();
-    auto mastsAttr = attr->FindAClass(attr, "Ship.Masts");
+    auto* attr = ship->GetACharacter();
+    auto* mastsAttr = attr->FindAClass(attr, "Ship.Masts");
 
     const int iNumMasts = mastsAttr->GetAttributesNum();
 
@@ -814,7 +814,7 @@ void ShipWalk::Init(entid_t _shipID, int editorMode, char* shipType)
 
 		// people count
 		//ATTRIBUTES *att = ship->GetACharacter();
-    auto paShip = ship->GetAShip();
+    auto* paShip = ship->GetAShip();
     auto peopleCount = 5;
 		if (paShip)
 		{
@@ -1108,8 +1108,8 @@ void Sailors::Realize(uint32_t dltTime)
 			if (shipWalk[m].ship && !shipWalk[m].shipState.dead && !editorMode)
 			{
 				///shipState
-        auto shipAttr = shipWalk[m].ship->GetACharacter();
-        auto shipModeAttr = shipAttr->FindAClass(shipAttr, "ship.POS.mode");
+        auto* shipAttr = shipWalk[m].ship->GetACharacter();
+        auto* shipModeAttr = shipAttr->FindAClass(shipAttr, "ship.POS.mode");
 
 				if (shipModeAttr)
 				{
@@ -1211,7 +1211,7 @@ uint64_t Sailors::ProcessMessage(MESSAGE& message)
 		// Падение мачты
 	case MSG_PEOPLES_ON_SHIP_MASTFALL:
 		{
-      const auto attrs = message.AttributePointer();
+      auto* const attrs = message.AttributePointer();
 			if (!attrs) return 0;
 
 			for (auto m = 0; m < shipsCount; m++)
@@ -1227,7 +1227,7 @@ uint64_t Sailors::ProcessMessage(MESSAGE& message)
 		// Попадание ядра в корабль
 	case MSG_PEOPLES_ON_SHIP_HULLHIT:
 		{
-      const auto attrs = message.AttributePointer();
+      auto* const attrs = message.AttributePointer();
 			if (!attrs) return 0;
 
 			for (auto m = 0; m < shipsCount; m++)
@@ -1247,7 +1247,7 @@ uint64_t Sailors::ProcessMessage(MESSAGE& message)
 		// Удаление корабля
 	case MSG_SHIP_DELETE:
 		{
-      const auto attrs = message.AttributePointer();
+      auto* const attrs = message.AttributePointer();
 			if (attrs)
 				for (auto m = 0; m < shipsCount; m++)
 					if (attrs == shipWalk[m].ship->GetACharacter())

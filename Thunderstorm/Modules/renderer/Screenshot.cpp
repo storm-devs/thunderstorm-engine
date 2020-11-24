@@ -9,7 +9,7 @@ void DX9RENDER::PrepareCapture()
 	hCaptureDC = CreateCompatibleDC(hDesktopDC);
 	hCaptureBitmap = CreateCompatibleBitmap(hDesktopDC, screen_size.x, screen_size.y);
 
-  const auto OldBmp = (HBITMAP)SelectObject(hCaptureDC, hCaptureBitmap);
+  auto* const OldBmp = (HBITMAP)SelectObject(hCaptureDC, hCaptureBitmap);
 	lpbi = (LPBITMAPINFO)(new char[sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD)]);
 	PZERO(lpbi, sizeof(BITMAPINFO));
 	lpbi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -37,7 +37,7 @@ void DX9RENDER::SaveCaptureBuffers()
 		TgaHead.width = (uint16_t)screen_size.x;
 		TgaHead.height = (uint16_t)screen_size.y;
 		sprintf_s(cFileName, "k3cap_%04d.tga", fi + i);
-    const auto hFile = fio->_CreateFile(cFileName, GENERIC_WRITE, FILE_SHARE_READ, CREATE_ALWAYS);
+    auto* const hFile = fio->_CreateFile(cFileName, GENERIC_WRITE, FILE_SHARE_READ, CREATE_ALWAYS);
 		WriteFile(hFile, &TgaHead, sizeof(TGA_H), (LPDWORD)&Written, nullptr);
 		WriteFile(hFile, aCaptureBuffers[i], screen_size.x * screen_size.y * sizeof(uint32_t), (LPDWORD)&Written,
 		          nullptr);
@@ -64,7 +64,7 @@ bool DX9RENDER::MakeCapture()
 		Beep(5000, 150);
 	}
 
-  const auto OldBmp = (HBITMAP)SelectObject(hCaptureDC, hCaptureBitmap);
+  auto* const OldBmp = (HBITMAP)SelectObject(hCaptureDC, hCaptureBitmap);
 	BitBlt(hCaptureDC, 0, 0, screen_size.x, screen_size.y, hDesktopDC, 0, 0, SRCCOPY);
 	SelectObject(hCaptureDC, OldBmp);
 	GetDIBits(hCaptureDC, hCaptureBitmap, 0, screen_size.y, aCaptureBuffers[dwCaptureBuffersReady], lpbi,

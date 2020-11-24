@@ -108,14 +108,14 @@ bool CORE::Run()
 
 	Timer.Run(); // calc delta time
 
-	auto pVCTime = static_cast<VDATA *>(api->GetScriptVariable("iRealDeltaTime"));
+  auto* pVCTime = static_cast<VDATA *>(api->GetScriptVariable("iRealDeltaTime"));
 	if (pVCTime)
 		pVCTime->Set(static_cast<long>(GetRDeltaTime()));
 
 	SYSTEMTIME st;
 	GetLocalTime(&st);
 
-	auto pVYear = static_cast<VDATA *>(api->GetScriptVariable("iRealYear"));
+  auto* pVYear = static_cast<VDATA *>(api->GetScriptVariable("iRealYear"));
 	auto* pVMonth = static_cast<VDATA *>(api->GetScriptVariable("iRealMonth"));
 	auto* pVDay = static_cast<VDATA *>(api->GetScriptVariable("iRealDay"));
 
@@ -246,7 +246,7 @@ void CORE::ProcessEngineIniFile()
 
 	bEngineIniProcessed = true;
 
-  auto engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
+  auto* engine_ini = File_Service.OpenIniFile(ENGINE_INI_FILE_NAME);
 	if (engine_ini == nullptr) throw std::exception("no 'engine.ini' file");
 
   auto res = engine_ini->ReadString(nullptr, "program_directory", String, sizeof(String), "");
@@ -292,7 +292,7 @@ void CORE::ProcessEngineIniFile()
 
 bool CORE::LoadClassesTable()
 {
-	for (auto c : _pModuleClassRoot)
+	for (auto* c : _pModuleClassRoot)
 	{
 		const auto hash = MakeHashValue(c->GetName());
 		c->SetHash(hash);
@@ -325,7 +325,7 @@ void CORE::SetTimeScale(float _scale)
 uint64_t CORE::Send_Message(entid_t Destination, const char* Format,...)
 {
 	MESSAGE message;
-  const auto ptr = EntityManager::GetEntityPointer(Destination); // check for valid destination
+  auto* const ptr = EntityManager::GetEntityPointer(Destination); // check for valid destination
 	if (!ptr)
 		return 0;
 
@@ -423,7 +423,7 @@ VDATA* CORE::Event(const char* Event_name, const char* Format,...)
 void* CORE::MakeClass(const char* class_name)
 {
   const long hash = MakeHashValue(class_name);
-	for (const auto c : _pModuleClassRoot)
+	for (auto* const c : _pModuleClassRoot)
 		if (c->GetHash() == hash && _stricmp(class_name, c->GetName()) == 0)
 			return c->CreateClass();
 
@@ -433,7 +433,7 @@ void* CORE::MakeClass(const char* class_name)
 
 void CORE::ReleaseServices()
 {
-	for (const auto c : _pModuleClassRoot)
+	for (auto* const c : _pModuleClassRoot)
 		if (c->Service())
 			c->Clear();
 
@@ -443,7 +443,7 @@ void CORE::ReleaseServices()
 VMA* CORE::FindVMA(const char* class_name)
 {
   const long hash = MakeHashValue(class_name);
-	for (const auto c : _pModuleClassRoot)
+	for (auto* const c : _pModuleClassRoot)
 		if (c->GetHash() == hash && _stricmp(class_name, c->GetName()) == 0)
 			return c;
 
@@ -452,7 +452,7 @@ VMA* CORE::FindVMA(const char* class_name)
 
 VMA* CORE::FindVMA(long hash)
 {
-	for (const auto c : _pModuleClassRoot)
+	for (auto* const c : _pModuleClassRoot)
 		if (c->GetHash() == hash)
 			return c;
 
@@ -461,7 +461,7 @@ VMA* CORE::FindVMA(long hash)
 
 void* CORE::CreateService(const char* service_name)
 {
-  auto pClass = FindVMA(service_name);
+  auto* pClass = FindVMA(service_name);
 	if (pClass == nullptr)
 	{
 		CheckAutoExceptions(0);
@@ -510,10 +510,10 @@ void CORE::ProcessExecute()
 	ProcessRunStart(SECTION_EXECUTE);
 
   const auto deltatime = Timer.GetDeltaTime();
-	auto& entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::execute);
+  const auto& entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::execute);
 	for (auto id : entIds)
 	{
-		if (auto ptr = EntityManager::GetEntityPointer(id))
+		if (auto* ptr = EntityManager::GetEntityPointer(id))
 		{
 			ptr->ProcessStage(Entity::Stage::execute, deltatime);
 		}
@@ -528,10 +528,10 @@ void CORE::ProcessRealize()
 	ProcessRunStart(SECTION_REALIZE);
 
   const auto deltatime = Timer.GetDeltaTime();
-	auto& entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::realize);
+  const auto& entIds = EntityManager::GetEntityIdVector(EntityManager::Layer::Type::realize);
 	for (auto id : entIds)
 	{
-		if (auto ptr = EntityManager::GetEntityPointer(id))
+		if (auto* ptr = EntityManager::GetEntityPointer(id))
 		{
 			ptr->ProcessStage(Entity::Stage::realize, deltatime);
 		}
@@ -547,7 +547,7 @@ bool CORE::SaveState(const char* file_name)
 		return false;
 
 	fio->SetDrive(XBOXDRIVE_NONE);
-  const auto fh = fio->_CreateFile(file_name,GENERIC_WRITE | GENERIC_READ, 0,CREATE_ALWAYS);
+  auto* const fh = fio->_CreateFile(file_name,GENERIC_WRITE | GENERIC_READ, 0,CREATE_ALWAYS);
 	fio->SetDrive();
 
 	if (fh == INVALID_HANDLE_VALUE)

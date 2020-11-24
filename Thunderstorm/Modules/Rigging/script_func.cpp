@@ -28,13 +28,13 @@ uint32_t _ShipSailState(VS_STACK* pS)
 
 uint32_t _GetAssembledString(VS_STACK* pS)
 {
-  auto pAttrPnt = (VDATA*)pS->Pop();
+  auto* pAttrPnt = (VDATA*)pS->Pop();
 	if (!pAttrPnt) return IFUNCRESULT_FAILED;
-  auto pAttr = pAttrPnt->GetAClass();
+  auto* pAttr = pAttrPnt->GetAClass();
 
-  auto pFormatStr = (VDATA*)pS->Pop();
+  auto* pFormatStr = (VDATA*)pS->Pop();
 	if (!pFormatStr) return IFUNCRESULT_FAILED;
-  const auto formatStr = pFormatStr->GetString();
+  auto* const formatStr = pFormatStr->GetString();
 
 	char retString[1024];
 	retString[0] = 0;

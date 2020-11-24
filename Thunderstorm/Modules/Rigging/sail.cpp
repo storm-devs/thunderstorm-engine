@@ -270,7 +270,7 @@ void SAIL::Execute(uint32_t Delta_Time)
 			{
 				char pcTmpMastName[256];
 				sprintf_s(pcTmpMastName, "mast%d", nTmpMastNum);
-        auto nod = pTmpMdl->FindNode(pcTmpMastName);
+        auto* nod = pTmpMdl->FindNode(pcTmpMastName);
 				if (nod)
 				{
 					entid_t eiMastTmp;
@@ -310,7 +310,7 @@ void SAIL::Execute(uint32_t Delta_Time)
 		//====================================================
 		// Если был изменен ини-файл, то считать инфо из него
 		WIN32_FIND_DATA wfd;
-    auto h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
+    auto* h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
 		if (INVALID_HANDLE_VALUE != h)
 		{
       auto ft_new = wfd.ftLastWriteTime;

@@ -36,7 +36,7 @@ void CXI_WINDOW::ChangePosition(XYRECT& rNewPos)
 
 	for (long n = 0; n < m_aNodeNameList.size(); n++)
 	{
-    auto pNod = ptrOwner->FindNode(m_aNodeNameList[n].c_str(), nullptr);
+    auto* pNod = ptrOwner->FindNode(m_aNodeNameList[n].c_str(), nullptr);
 		if (pNod)
 		{
       auto r = pNod->m_rect;
@@ -53,7 +53,7 @@ void CXI_WINDOW::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -68,7 +68,7 @@ void CXI_WINDOW::SaveParametersToIni()
 
 	for (long n = 0; n < m_aNodeNameList.size(); n++)
 	{
-    auto pNod = ptrOwner->FindNode(m_aNodeNameList[n].c_str(), nullptr);
+    auto* pNod = ptrOwner->FindNode(m_aNodeNameList[n].c_str(), nullptr);
 		if (pNod)
 			pNod->SaveParametersToIni();
 	}
@@ -83,7 +83,7 @@ void CXI_WINDOW::SetShow(bool bShow)
 	// проход по всем нодам и включить/выключить их
 	for (long n = 0; n < m_aNodeNameList.size(); n++)
 	{
-    const auto pNod = ptrOwner->FindNode(m_aNodeNameList[n].c_str(), nullptr);
+    auto* const pNod = ptrOwner->FindNode(m_aNodeNameList[n].c_str(), nullptr);
 		if (pNod)
 		{
 			pNod->m_bUse = bShow;
@@ -100,7 +100,7 @@ void CXI_WINDOW::SetActive(bool bActive)
 	// проход по всем нодам и залочить/разлочить их
 	for (long n = 0; n < m_aNodeNameList.size(); n++)
 	{
-    const auto pNod = ptrOwner->FindNode(m_aNodeNameList[n].c_str(), nullptr);
+    auto* const pNod = ptrOwner->FindNode(m_aNodeNameList[n].c_str(), nullptr);
 		if (pNod)
 		{
 			pNod->m_bLockedNode = !bActive;
@@ -111,7 +111,7 @@ void CXI_WINDOW::SetActive(bool bActive)
 
 void CXI_WINDOW::AddNode(const char* pcNodeName)
 {
-  auto pNod = ptrOwner->FindNode(pcNodeName, nullptr);
+  auto* pNod = ptrOwner->FindNode(pcNodeName, nullptr);
 	if (!pNod)
 	{
 		api->Trace("Warning! CXI_WINDOW::AddNode(%s) : Node not found", pcNodeName);

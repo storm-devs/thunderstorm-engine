@@ -53,7 +53,7 @@ bool Fader::Init()
 {
 	//Проверим что единственные
 
-	auto& entities = EntityManager::GetEntityIdVector("Fader");
+  const auto& entities = EntityManager::GetEntityIdVector("Fader");
 	for (auto eid : entities)
 	{
 		if (eid != GetId())
@@ -84,7 +84,7 @@ bool Fader::Init()
 	//Зачитаем количество типсов, если надо
 	if (!numberOfTips)
 	{
-    auto ini = fio->OpenIniFile(api->EngineIniFileName());
+    auto* ini = fio->OpenIniFile(api->EngineIniFileName());
 		if (ini)
 		{
 			numberOfTips = ini->GetLong(nullptr, "numoftips", -1);
@@ -163,7 +163,7 @@ uint64_t Fader::ProcessMessage(MESSAGE& message)
 			if (numberOfTips > 0)
 			{
 				//sprintf_s(_name, "tips\\tips_%.4u.tga", rand() % numberOfTips);
-        const auto pTipsName = rs->GetTipsImage();
+        auto* const pTipsName = rs->GetTipsImage();
 				if (pTipsName)
 				{
 					tipsID = rs->TextureCreate(pTipsName);

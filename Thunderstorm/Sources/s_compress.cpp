@@ -40,7 +40,7 @@ bool COMPRESS::Pack(const char* pSource, uint32_t nSourceSize, char* & pDestinat
 	if (pSource == nullptr) return false;
 
 	uint32_t nBufferSize = 1024;
-  auto pDataBuffer = (char *)malloc(nBufferSize);
+  auto* pDataBuffer = (char *)malloc(nBufferSize);
 	memset(pDataBuffer, 0, nBufferSize);
 
 	pDataBuffer[0] = pSource[0];
@@ -89,7 +89,7 @@ bool COMPRESS::APack(const char* pSource, uint32_t nSourceSize, char* & pDestina
 
 	// set buffer for accumulating word
 	uint32_t nBufferSize = 1024;
-  auto pDataBuffer = (char *)malloc(nBufferSize);
+  auto* pDataBuffer = (char *)malloc(nBufferSize);
 	memset(pDataBuffer, 0, nBufferSize);
 
 	// initial value bits on code is 8
@@ -138,7 +138,7 @@ bool COMPRESS::AppendCode(char* & pDestination, uint32_t& nPackedSize, uint32_t 
 	if (pDestination == nullptr) pDestination = (char *)malloc(nBSize);
 	else pDestination = (char *)realloc(pDestination, nPackedSize + nBSize);
 	if (pDestination == nullptr) return false;
-  const auto pB = (char *)&nCode;
+  auto* const pB = (char *)&nCode;
 	*((char *)(pDestination + nPackedSize)) = pB[0];
 	nPackedSize++;
 	*((char *)(pDestination + nPackedSize)) = pB[1];
@@ -229,7 +229,7 @@ bool COMPRESS::AppendData(char* & pDestination, uint32_t& nUnpackedSize, char* p
 
 bool COMPRESS::ReadCode(const char* pSource, uint32_t nSourceSize, uint32_t& nOffset, uint32_t& nResult)
 {
-  const auto pB = (char *)&nResult;
+  auto* const pB = (char *)&nResult;
 	nResult = 0;
 	pB[0] = *((char *)(pSource + nOffset));
 	nOffset++;

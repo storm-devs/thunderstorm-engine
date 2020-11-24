@@ -131,10 +131,10 @@ bool AddPoly(const CVECTOR* vr, long nverts)
 //------------------------------------------------------------------------------------
 void Shadow::Realize(uint32_t Delta_Time)
 {
-  auto obj = (MODEL*)EntityManager::GetEntityPointer(entity);
+  auto* obj = (MODEL*)EntityManager::GetEntityPointer(entity);
 	if (!obj) return;
 
-  auto pV = api->Event("EWhr_GetShadowDensity");
+  auto* pV = api->Event("EWhr_GetShadowDensity");
 	HEAD_DENSITY = ((VDATA*)pV->GetArrayElement(0))->GetLong();
 	DENSITY = ((VDATA*)pV->GetArrayElement(1))->GetLong();
 
@@ -145,7 +145,7 @@ void Shadow::Realize(uint32_t Delta_Time)
   auto fogDensity = pV->GetFloat();
 
 	//MODEL *obj = (MODEL*)EntityManager::GetEntityPointer(entity);
-  auto node = obj->GetNode(0);
+  auto* node = obj->GetNode(0);
 	GEOS::INFO gi;
 	node->geo->GetInfo(gi);
 	objPos = obj->mtx.Pos();

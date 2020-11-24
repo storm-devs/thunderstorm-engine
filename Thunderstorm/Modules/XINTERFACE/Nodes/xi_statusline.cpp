@@ -70,7 +70,7 @@ void CXI_STATUSLINE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, c
 	m_nIndx /= 3;
 
 	// Lock vertex and index buffers and get pointers to this
-  const auto pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
+  auto* const pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
 	auto* pIBuf = (uint16_t*)m_rs->LockIndexBuffer(m_iBuf);
 
 	if (pVBuf != nullptr && pIBuf != nullptr)
@@ -80,7 +80,7 @@ void CXI_STATUSLINE::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, c
 		// get lenght of filled status line
 		m_fLineOffset = GetIniFloat(ini1, name1, ini2, name2, "lineOffset", 0.f);
     auto fMediumX = float(m_rect.right - m_rect.left) - m_fLineOffset * 2.f;
-    auto pAttr = api->Entity_GetAttributeClass(g_idInterface, "StatusLine");
+    auto* pAttr = api->Entity_GetAttributeClass(g_idInterface, "StatusLine");
 		if (pAttr != nullptr) pAttr = pAttr->GetAttributeClass(m_nodeName);
 		if (pAttr != nullptr)
 		{
@@ -184,7 +184,7 @@ void CXI_STATUSLINE::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -212,7 +212,7 @@ void CXI_STATUSLINE::Refresh() const {
 	if (m_vBuf == -1) return;
 	auto* pVBuf = (XI_ONLYONETEX_VERTEX*)m_rs->LockVertexBuffer(m_vBuf);
 
-  auto pAttr = api->Entity_GetAttributeClass(g_idInterface, "StatusLine");
+  auto* pAttr = api->Entity_GetAttributeClass(g_idInterface, "StatusLine");
 	if (pAttr != nullptr) pAttr = pAttr->GetAttributeClass(m_nodeName);
 	if (pAttr != nullptr)
 	{

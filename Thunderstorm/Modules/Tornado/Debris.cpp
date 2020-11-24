@@ -167,7 +167,7 @@ void Debris::AddModel(const char* modelName, float prt, float spd)
 	}
 	gs->SetTexturePath("");
 	//Настраиваем
-  auto node = m->GetNode(0);
+  auto* node = m->GetNode(0);
 	if (node) node->SetTechnique("TornadoDebris");
 	//Сохраняем
 	mdl[numModels].mdl = m;
@@ -204,7 +204,7 @@ bool Debris::IsShip()
 {
   const CVECTOR p(pillar.GetX(0.0f), 0.0f, pillar.GetZ(0.0f));
 	CVECTOR pos;
-	auto& entities = EntityManager::GetEntityIdVector("ship");
+  const auto& entities = EntityManager::GetEntityIdVector("ship");
 	for (auto id : entities)
 	{
 		//Указатель на объект

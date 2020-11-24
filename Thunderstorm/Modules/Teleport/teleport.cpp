@@ -16,12 +16,12 @@ bool GetStringLine(char* & pStr, char* bufer, long bufSize)
 	if (pStr == nullptr || bufer == nullptr || bufSize == 0) return false;
 	bufer[0] = 0;
 
-  auto ps = pStr;
+  auto* ps = pStr;
 	while (*ps && (*ps == 32 || *ps == 9 || *ps == 10 || *ps == 13)) ps++;
-  const auto pStart = ps;
+  auto* const pStart = ps;
 
 	while (*ps && *ps != 10 && *ps != 13) ps++;
-  auto pEnd = ps;
+  auto* pEnd = ps;
 	pStr = pEnd;
 
 	if (pEnd == pStart && *ps == 0) return false;
@@ -181,7 +181,7 @@ uint64_t TMPTELEPORT::ProcessMessage(MESSAGE& message)
 	{
 	case 42222:
 		{
-      const auto pA = message.AttributePointer();
+      auto* const pA = message.AttributePointer();
 			SetShowData(pA);
 			if (m_nStrQuantity == 0)
 				m_nShowType = 0;
@@ -207,7 +207,7 @@ void TMPTELEPORT::SetShowData(ATTRIBUTES* pA)
 
 	for (auto i = 0; i < m_nStrQuantity; i++)
 	{
-    const auto tmpStr = pA->GetAttribute(i);
+    auto* const tmpStr = pA->GetAttribute(i);
 		m_descrArray[i].name = nullptr;
 		m_descrArray[i].num = i;
 		if (tmpStr == nullptr) continue;
@@ -254,7 +254,7 @@ void TMPTELEPORT::XChange(TELEPORT_DESCR& d1, TELEPORT_DESCR& d2)
 	d1.num = d2.num;
 	d2.num = n;
 
-  const auto nm = d1.name;
+  auto* const nm = d1.name;
 	d1.name = d2.name;
 	d2.name = nm;
 }
@@ -263,16 +263,16 @@ bool FINDFILESINTODIRECTORY::Init()
 {
 	if (AttributesPointer)
 	{
-    const auto dirName = AttributesPointer->GetAttribute("dir");
-    const auto maskName = AttributesPointer->GetAttribute("mask");
+    auto* const dirName = AttributesPointer->GetAttribute("dir");
+    auto* const maskName = AttributesPointer->GetAttribute("mask");
 		char fullName[512];
 		fullName[0] = 0;
 		if (dirName) sprintf_s(fullName, "%s\\", dirName);
 		if (maskName) strcat_s(fullName, maskName);
 		else strcat_s(fullName, "*.*");
 		WIN32_FIND_DATA finddat;
-    const auto hdl = fio->_FindFirstFile(fullName, &finddat);
-    auto pA = AttributesPointer->CreateSubAClass(AttributesPointer, "filelist");
+    auto* const hdl = fio->_FindFirstFile(fullName, &finddat);
+    auto* pA = AttributesPointer->CreateSubAClass(AttributesPointer, "filelist");
 		for (auto file_idx = 0; hdl != INVALID_HANDLE_VALUE; file_idx++)
 		{
 			char sname[32];
@@ -292,11 +292,11 @@ bool FINDDIALOGNODES::Init()
 {
 	if (AttributesPointer)
 	{
-    const auto fileName = AttributesPointer->GetAttribute("file");
-    auto pA = AttributesPointer->CreateSubAClass(AttributesPointer, "nodelist");
+    auto* const fileName = AttributesPointer->GetAttribute("file");
+    auto* pA = AttributesPointer->CreateSubAClass(AttributesPointer, "nodelist");
 		if (fileName && pA)
 		{
-      const auto hfile = fio->_CreateFile(fileName,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
+      auto* const hfile = fio->_CreateFile(fileName,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
 			if (hfile == INVALID_HANDLE_VALUE)
 			{
 				api->Trace("WARNING! Can`t dialog file %s", fileName);
@@ -311,7 +311,7 @@ bool FINDDIALOGNODES::Init()
 				return false;
 			}
 
-      const auto fileBuf = new char[filesize + 1];
+      auto* const fileBuf = new char[filesize + 1];
 			if (fileBuf == nullptr)
 			{
 				api->Trace("Can`t create buffer for read dialog file %s", fileName);
@@ -332,7 +332,7 @@ bool FINDDIALOGNODES::Init()
 			fileBuf[filesize] = 0;
 
 			// теперь есть буфер - начнем его анализировать
-      auto pStr = fileBuf;
+      auto* pStr = fileBuf;
 			char param[1024];
 
       auto nodIdx = 0;

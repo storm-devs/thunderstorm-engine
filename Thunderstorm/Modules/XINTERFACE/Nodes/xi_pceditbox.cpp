@@ -139,7 +139,7 @@ void CXI_PCEDITBOX::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -252,7 +252,7 @@ void CXI_PCEDITBOX::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 		}
 	}
 
-  auto pA = ptrOwner->AttributesPointer->GetAttributeClass(m_nodeName);
+  auto* pA = ptrOwner->AttributesPointer->GetAttributeClass(m_nodeName);
 	if (!pA) pA = ptrOwner->AttributesPointer->CreateSubAClass(ptrOwner->AttributesPointer, m_nodeName);
 	if (pA && !pA->GetAttribute("str")) pA->CreateAttribute("str", "");
 }

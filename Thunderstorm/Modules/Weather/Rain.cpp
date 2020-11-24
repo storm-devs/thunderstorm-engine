@@ -126,7 +126,7 @@ void RAIN::GenerateRain()
 		CreateVertexBuffer(D3DRAINVERTEX_FORMAT, dwNumDrops * 2 * sizeof(RAINVERTEX),D3DUSAGE_WRITEONLY);
 	if (iVertexBuffer < 0) return;
 
-  const auto pVertBuf = (RAINVERTEX*)rs->LockVertexBuffer(iVertexBuffer);
+  auto* const pVertBuf = (RAINVERTEX*)rs->LockVertexBuffer(iVertexBuffer);
 	if (!pVertBuf) return;
 
 	for (i = 0; i < dwNumDrops; i++)
@@ -145,7 +145,7 @@ void RAIN::GenerateRain()
 	iVBSeaDrops = rs->CreateVertexBuffer(D3DSEADROPVERTEX_FORMAT, NUM_SEA_DROPS * 4 * sizeof(SEADROPVERTEX),
 	                                     D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
 
-  auto pI = (uint16_t *)rs->LockIndexBuffer(iIBSeaDrops);
+  auto* pI = (uint16_t *)rs->LockIndexBuffer(iIBSeaDrops);
 	if (pI)
 	{
 		for (long i = 0; i < NUM_SEA_DROPS; i++)

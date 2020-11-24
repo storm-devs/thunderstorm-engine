@@ -48,7 +48,7 @@ void LIGHTNING::Execute(uint32_t Delta_Time)
 
 	for (uint32_t i = 0; i < aLightnings.size(); i++)
 	{
-    auto pL = &aLightnings[i];
+    auto* pL = &aLightnings[i];
 		if (pL->fTime > 0.0f)
 		{
 			pL->fAlpha = (uint32_t(pL->fTime * 1000.0f) & pL->dwFlickerTime) ? 1.0f : 0.0f;
@@ -82,8 +82,8 @@ void LIGHTNING::Realize(uint32_t Delta_Time)
 		pRS->TextureSet(0, iLightningTexture);
 		for (i = 0; i < aLightnings.size(); i++)
 		{
-      const auto pL = &aLightnings[i];
-      auto pR = &rs_rect;
+      auto* const pL = &aLightnings[i];
+      auto* pR = &rs_rect;
 
       const auto dwAlpha = uint32_t(255.0f * pL->fAlpha);
 			pR->dwSubTexture = pL->dwSubTexture;
@@ -100,8 +100,8 @@ void LIGHTNING::Realize(uint32_t Delta_Time)
 		pRS->TextureSet(0, iFlashTexture);
 		for (i = 0; i < aLightnings.size(); i++)
 		{
-      const auto pL = &aLightnings[i];
-      auto pR = &rs_rect;
+      auto* const pL = &aLightnings[i];
+      auto* pR = &rs_rect;
 
       const auto dwAlpha = uint32_t(255.0f * pL->fAlpha * pL->fPower);
 			pR->dwColor = RGB(dwAlpha, dwAlpha, dwAlpha);
@@ -125,7 +125,7 @@ uint64_t LIGHTNING::ProcessMessage(MESSAGE& message)
 			// add new lightning
 			aLightnings.push_back(lightning_t{});
 			//lightning_t * pL = &aLightnings[aLightnings.Add()];
-      auto pL = &aLightnings.back();
+      auto* pL = &aLightnings.back();
 
 			pL->dwSubTexture = message.Long();
 			message.String(sizeof(pL->sTechnique), pL->sTechnique);
@@ -174,7 +174,7 @@ uint32_t LIGHTNING::AttributeChanged(ATTRIBUTES* pAttribute)
 {
 	//std::string sTextureName;
 
-  const auto pParent = pAttribute->GetParent();
+  auto* const pParent = pAttribute->GetParent();
 
 	if (*pAttribute == "Clear")
 	{

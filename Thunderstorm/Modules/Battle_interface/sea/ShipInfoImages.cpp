@@ -322,7 +322,7 @@ float ShipInfoImages::GetProgressCrew(SHIP_DESCRIBE_LIST::SHIP_DESCR* pSD)
 {
 	if (!pSD || !pSD->pAttr) return 0.f;
 	if (pSD->maxCrew <= 0) return 0.f;
-  auto pA = pSD->pAttr->GetAttributeClass("crew");
+  auto* pA = pSD->pAttr->GetAttributeClass("crew");
 	if (!pA) return 0.f;
   auto f = pA->GetAttributeAsFloat("quantity", 0.f) / (float)pSD->maxCrew;
 	if (f < 0.f) f = 0.f;

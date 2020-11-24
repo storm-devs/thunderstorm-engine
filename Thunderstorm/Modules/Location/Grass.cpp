@@ -190,7 +190,7 @@ bool Grass::LoadData(const char* patchName)
 			translate[i] = uint8_t((i * 255) / 15);
 		}
 		block = new GRSMapElementEx[elements];
-    const auto src = (GRSMapElement *)(load + sizeof(GRSHeader) + minisize * sizeof(GRSMiniMapElement));
+    auto* const src = (GRSMapElement *)(load + sizeof(GRSHeader) + minisize * sizeof(GRSMiniMapElement));
 		for (long i = 0; i < elements; i++)
 		{
       auto& sb = src[i];

@@ -38,7 +38,7 @@ void BIManCommandList::Init()
 
 	m_nIconShowMaxQuantity = 5;
 	// boal -->
-  auto pA = m_pARoot;
+  auto* pA = m_pARoot;
 	if (pA) pA = pA->GetAttributeClass("CommandList");
 	if (pA)
 	{
@@ -55,19 +55,19 @@ long BIManCommandList::CommandAdding()
 {
 	api->Event("BI_SetPossibleCommands", "l", m_nCurrentCommandCharacterIndex);
 	long retVal = 0;
-  auto pAttr = m_pARoot->GetAttributeClass("Commands");
+  auto* pAttr = m_pARoot->GetAttributeClass("Commands");
 	if (!pAttr) return 0;
   const long attrQuant = pAttr->GetAttributesNum();
 
 	for (long i = 0; i < attrQuant; i++)
 	{
-    auto pA = pAttr->GetAttributeClass(i);
+    auto* pA = pAttr->GetAttributeClass(i);
 		if (pA == nullptr) continue; // нет такого атрибута
 		if (pA->GetAttributeAsDword("enable", 0) == 0) continue; // команда недоступна
     const long pictureNum = pA->GetAttributeAsDword("picNum", 0);
     const long selPictureNum = pA->GetAttributeAsDword("selPicNum", 0);
     const long texNum = pA->GetAttributeAsDword("texNum", -1);
-    const auto eventName = pA->GetAttribute("event");
+    auto* const eventName = pA->GetAttribute("event");
 		retVal += AddToIconList(texNum, pictureNum, selPictureNum, -1,
 		                        -1, eventName, -1, nullptr, pA->GetAttribute("note"));
 	}
@@ -78,19 +78,19 @@ long BIManCommandList::CommandAdding()
 long BIManCommandList::UserIconsAdding()
 {
 	long retVal = 0;
-  auto pAttr = m_pARoot->GetAttributeClass("UserIcons");
+  auto* pAttr = m_pARoot->GetAttributeClass("UserIcons");
 	if (!pAttr) return 0;
   const long attrQuant = pAttr->GetAttributesNum();
 
 	for (long i = 0; i < attrQuant; i++)
 	{
-    auto pA = pAttr->GetAttributeClass(i);
+    auto* pA = pAttr->GetAttributeClass(i);
 		if (pA == nullptr) continue; // нет такого атрибута
 		if (pA->GetAttributeAsDword("enable", 0) == 0) continue; // команда недоступна
     const long pictureNum = pA->GetAttributeAsDword("pic", 0);
     const long selPictureNum = pA->GetAttributeAsDword("selpic", 0);
     const long textureNum = pA->GetAttributeAsDword("tex", -1);
-    const auto eventName = pA->GetAttribute("event");
+    auto* const eventName = pA->GetAttribute("event");
 		retVal += AddToIconList(textureNum, pictureNum, selPictureNum, -1, -1, eventName, i + 1,
 		                        pA->GetAttribute("name"), pA->GetAttribute("note"));
 	}
@@ -102,20 +102,20 @@ long BIManCommandList::AbilityAdding()
 {
 	api->Event("evntSetUsingAbility", "l", m_nCurrentCommandCharacterIndex);
 	long retVal = 0;
-  auto pAttr = m_pARoot->GetAttributeClass("AbilityIcons");
+  auto* pAttr = m_pARoot->GetAttributeClass("AbilityIcons");
 	if (!pAttr) return 0;
   const long attrQuant = pAttr->GetAttributesNum();
 
 	for (long i = 0; i < attrQuant; i++)
 	{
-    auto pA = pAttr->GetAttributeClass(i);
+    auto* pA = pAttr->GetAttributeClass(i);
 		if (pA == nullptr) continue; // нет такого атрибута
 		if (pA->GetAttributeAsDword("enable", 0) == 0) continue; // команда недоступна
     const long pictureNum = pA->GetAttributeAsDword("picNum", 0);
     const long selPictureNum = pA->GetAttributeAsDword("selPicNum", 0);
     const long textureNum = pA->GetAttributeAsDword("texNum", -1);
 		//retVal += AddToIconList( textureNum, pictureNum, selPictureNum, -1, -1, pA->GetThisName(), i, null, pA->GetAttribute("note") );
-    const auto eventName = pA->GetAttribute("event");
+    auto* const eventName = pA->GetAttribute("event");
 		retVal += AddToIconList(textureNum, pictureNum, selPictureNum, -1,
 		                        -1, eventName, -1, nullptr, pA->GetAttribute("note"));
 	}
@@ -125,7 +125,7 @@ long BIManCommandList::AbilityAdding()
 
 long BIManCommandList::AddCancelIcon()
 {
-  auto pA = m_pARoot->GetAttributeClass("Commands");
+  auto* pA = m_pARoot->GetAttributeClass("Commands");
 	if (pA) pA = pA->GetAttributeClass("Cancel");
 	if (!pA) return 0;
   const long pictureNum = pA->GetAttributeAsDword("picNum", 0);

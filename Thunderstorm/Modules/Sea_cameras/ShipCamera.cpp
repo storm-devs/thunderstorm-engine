@@ -60,9 +60,9 @@ void SHIP_CAMERA::Execute(uint32_t dwDeltaTime)
 
   const auto fDeltaTime = 0.001f * float(api->GetDeltaTime());
 
-  auto pModel = GetModelPointer();
+  auto* pModel = GetModelPointer();
 	Assert(pModel);
-  const auto mtx = &pModel->mtx;
+  auto* const mtx = &pModel->mtx;
 	vCenter = mtx->Pos();
 
 	fModelAy = float(atan2(mtx->Vz().x, mtx->Vz().z));
@@ -201,7 +201,7 @@ uint32_t SHIP_CAMERA::AttributeChanged(ATTRIBUTES* pAttr)
 void SHIP_CAMERA::ShipsCollision(CVECTOR& pos)
 {
 	CVECTOR p;
-	auto& entities = EntityManager::GetEntityIdVector("ship");
+  const auto& entities = EntityManager::GetEntityIdVector("ship");
 	for (auto ent : entities)
 	{
 		//Указатель на объект

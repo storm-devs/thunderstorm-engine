@@ -217,7 +217,7 @@ void XSERVICE::LoadAllPicturesInfo()
 
 	// initialize ini file
 	WIN32_FIND_DATA wfd;
-  const auto h = fio->_FindFirstFile(LISTS_INIFILE, &wfd);
+  auto* const h = fio->_FindFirstFile(LISTS_INIFILE, &wfd);
 	if (INVALID_HANDLE_VALUE != h)
 		fio->_FindClose(h);
 	ini = fio->OpenIniFile((char*)LISTS_INIFILE);
@@ -265,7 +265,7 @@ void XSERVICE::LoadAllPicturesInfo()
 				while (ini->ReadStringNext(section, "picture", param, sizeof(param) - 1));
 
 			// resize image list
-      const auto oldpImage = m_pImage;
+      auto* const oldpImage = m_pImage;
 			m_pImage = new PICTUREDESCR[m_dwImageQuantity + m_pList[i].pictureQuantity];
 			if (m_pImage == nullptr)
 				throw std::exception("allocate memory error");

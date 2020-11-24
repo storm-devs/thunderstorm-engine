@@ -22,7 +22,7 @@ TSeagulls::~TSeagulls()
 //--------------------------------------------------------------------
 void TSeagulls::LoadSettings()
 {
-  auto ini = fio->OpenIniFile(ANIMALS_INI_FILENAME);
+  auto* ini = fio->OpenIniFile(ANIMALS_INI_FILENAME);
 	if (!ini)
 	{
 		countAdd = SEAGULL_ADD_COUNT;

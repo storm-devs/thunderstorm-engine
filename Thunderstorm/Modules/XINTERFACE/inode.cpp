@@ -45,10 +45,10 @@ CINODE::~CINODE()
 		STORM_DELETE(m_pCommands[i].sRetControl);
 		STORM_DELETE(m_pCommands[i].sEventName);
 
-    auto pContrl = m_pCommands[i].pNextControl;
+    auto* pContrl = m_pCommands[i].pNextControl;
 		while (pContrl != nullptr)
 		{
-      const auto pOld = pContrl;
+      auto* const pOld = pContrl;
 			pContrl = pContrl->next;
 			delete pOld;
 		}
@@ -68,12 +68,12 @@ void CINODE::FrameProcess(uint32_t DeltaTime)
 		if (m_nDoDelay == 0)
 		{
 			// redirect command to subnodes
-      auto pContrl = m_pCommands[m_nCurrentCommandNumber].pNextControl;
+      auto* pContrl = m_pCommands[m_nCurrentCommandNumber].pNextControl;
 			while (pContrl != nullptr)
 			{
 				if (pContrl->sControlName)
 				{
-          auto pTmpNod = ptrOwner->FindNode(pContrl->sControlName, nullptr);
+          auto* pTmpNod = ptrOwner->FindNode(pContrl->sControlName, nullptr);
 					if (pTmpNod)
 						pTmpNod->CommandExecute(pContrl->command);
 				}
@@ -86,7 +86,7 @@ void CINODE::FrameProcess(uint32_t DeltaTime)
 
 			if (m_pCommands[m_nCurrentCommandNumber].sRetControl)
 			{
-        const auto pTmpNod = ptrOwner->FindNode(m_pCommands[m_nCurrentCommandNumber].sRetControl, nullptr);
+        auto* const pTmpNod = ptrOwner->FindNode(m_pCommands[m_nCurrentCommandNumber].sRetControl, nullptr);
 				if (pTmpNod)
 					api->Send_Message(g_idInterface, "lp",MSG_INTERFACE_SET_CURRENT_NODE, pTmpNod);
 			}
@@ -161,7 +161,7 @@ CINODE* CINODE::FindNode(CINODE* pNod, const char* sNodName)
 		if (pNod->m_nodeName && _stricmp(sNodName, pNod->m_nodeName) == 0) break;
 		if (pNod->m_list)
 		{
-      const auto pInsideNod = FindNode(pNod->m_list, sNodName);
+      auto* const pInsideNod = FindNode(pNod->m_list, sNodName);
 			if (pInsideNod) return pInsideNod;
 		}
 		pNod = pNod->m_next;
@@ -176,7 +176,7 @@ CINODE* CINODE::FindNode(CINODE* pNod, int nNodType)
 		if (pNod->m_nNodeType == nNodType) break;
 		if (pNod->m_list)
 		{
-      const auto pInsideNod = FindNode(pNod->m_list, nNodType);
+      auto* const pInsideNod = FindNode(pNod->m_list, nNodType);
 			if (pInsideNod) return pInsideNod;
 		}
 		pNod = pNod->m_next;
@@ -193,7 +193,7 @@ CINODE* CINODE::FindNode(CINODE* pNod, float x, float y)
 			break;
 		if (pNod->m_list)
 		{
-      const auto pInsideNod = FindNode(pNod->m_list, x, y);
+      auto* const pInsideNod = FindNode(pNod->m_list, x, y);
 			if (pInsideNod) return pInsideNod;
 		}
 		pNod = pNod->m_next;

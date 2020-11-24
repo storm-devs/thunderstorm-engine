@@ -118,7 +118,7 @@ bool Sharks::Shark::Init(float vp_x, float vp_z, bool isLoadModel)
 	mdl->GetAnimation()->SetEvent(ae_end, 0, this);
 	mdl->GetAnimation()->Player(0).SetAction("stand");
 	mdl->GetAnimation()->Player(0).Play();
-  auto node = mdl->GetNode(0);
+  auto* node = mdl->GetNode(0);
 	if (!node) return false;
 	node->SetTechnique("Shark");
 	return true;
@@ -390,10 +390,10 @@ inline void Sharks::Shark::IslandCollision(ISLAND_BASE* ib, long numPnt, float r
 void Sharks::Shark::Event(Animation* animation, long index, long eventID, AnimationEvent event)
 {
 	if (aniTime > 0.0f) return;
-	static auto actStand = "stand";
-	static auto actSwim = "Shark_Swim";
-	static auto actJump = "Shark_Jump";
-  const auto act = animation->Player(0).GetAction();
+	static const auto* actStand = "stand";
+	static const auto* actSwim = "Shark_Swim";
+	static const auto* actJump = "Shark_Jump";
+  const auto* const act = animation->Player(0).GetAction();
   const long rnd = rand();
 	animation->Player(0).Stop();
 	if (angs.x > 0.0f && (rnd & 1) || speedUp)
@@ -539,7 +539,7 @@ bool Sharks::Init()
 	auto* v = (VDATA *)api->GetScriptVariable("Environment");
 	if (v)
 	{
-    auto root = v->GetAClass();
+    auto* root = v->GetAClass();
 		if (root)
 		{
       const auto time = root->GetAttributeAsFloat("time");
@@ -586,7 +586,7 @@ void Sharks::Execute(uint32_t delta_time)
 		for (auto j = i + 1; j < num; j++) shark[i].Repulsion(shark[j]);
 	//”читываем корабли
 
-	auto& entities = EntityManager::GetEntityIdVector("ship");
+  const auto& entities = EntityManager::GetEntityIdVector("ship");
 	for (auto ent : entities)
 	{
 		//”казатель на объект

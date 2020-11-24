@@ -251,8 +251,8 @@ uint64_t BATTLE_INTERFACE::ProcessMessage(MESSAGE& message)
 	case BI_IN_CREATE_SHIP: // "laall"
 		{
       const auto chIdx = message.Long();
-      const auto pChAttr = message.AttributePointer();
-      const auto pShipAttr = message.AttributePointer();
+      auto* const pChAttr = message.AttributePointer();
+      auto* const pShipAttr = message.AttributePointer();
       const auto bMyShip = (message.Long() != 0L);
       const auto relation = message.Long();
       const uint32_t dwShipColor = message.GetCurrentFormatType() ? message.Long() : 0;
@@ -326,7 +326,7 @@ uint64_t BATTLE_INTERFACE::ProcessMessage(MESSAGE& message)
 
 void BATTLE_INTERFACE::CheckSeaState()
 {
-  auto main_sd = g_ShipList.GetMainCharacterShip();
+  auto* main_sd = g_ShipList.GetMainCharacterShip();
 	if (main_sd == nullptr) return;
 
 	long nReloadTargetIndex = -1;
@@ -339,7 +339,7 @@ void BATTLE_INTERFACE::CheckSeaState()
   auto bSailTo = false, bLandTroops = false, bMap = true;
   auto bAttack = false, bDefend = false, bReload = false;
 
-	for (auto ps = g_ShipList.GetShipRoot(); ps != nullptr; ps = ps->next)
+	for (auto* ps = g_ShipList.GetShipRoot(); ps != nullptr; ps = ps->next)
 	{
 		if (ps == main_sd) continue;
 		bSailTo = true;

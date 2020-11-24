@@ -23,7 +23,7 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
   auto flsz = 0;
 	if (lightname != nullptr)
 	{
-		auto ltfl = srv.OpenFile(lightname);
+    auto* ltfl = srv.OpenFile(lightname);
 		flsz = srv.FileSize(ltfl);
 		if (flsz > 0)
 		{
@@ -34,7 +34,7 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 		srv.CloseFile(ltfl);
 	}
 
-	auto file = srv.OpenFile(fname);
+  auto* file = srv.OpenFile(fname);
 	//read header
 	srv.ReadFile(file, &rhead, sizeof(RDF_HEAD));
 	if (rhead.version != RDF_VERSION) throw "invalid version";
@@ -52,12 +52,12 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 	srv.ReadFile(file, tname, rhead.ntextures * sizeof(long));
 
 	//read materials
-  auto rmat = (RDF_MATERIAL*)srv.malloc(sizeof(RDF_MATERIAL) * rhead.nmaterials);
+  auto* rmat = (RDF_MATERIAL*)srv.malloc(sizeof(RDF_MATERIAL) * rhead.nmaterials);
 	srv.ReadFile(file, rmat, sizeof(RDF_MATERIAL) * rhead.nmaterials);
 	material = (MATERIAL*)srv.malloc(sizeof(MATERIAL) * rhead.nmaterials);
 
 	//read lights
-  auto rlig = (RDF_LIGHT*)srv.malloc(sizeof(RDF_LIGHT) * rhead.nlights);
+  auto* rlig = (RDF_LIGHT*)srv.malloc(sizeof(RDF_LIGHT) * rhead.nlights);
 	srv.ReadFile(file, rlig, sizeof(RDF_LIGHT) * rhead.nlights);
 	light = (LIGHT*)srv.malloc(sizeof(LIGHT) * rhead.nlights);
 	for (long l = 0; l < rhead.nlights; l++)
@@ -87,7 +87,7 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 	srv.free(rlig);
 
 	//read labels
-  auto lab = (RDF_LABEL*)srv.malloc(sizeof(RDF_LABEL)* rhead.nlabels);
+  auto* lab = (RDF_LABEL*)srv.malloc(sizeof(RDF_LABEL)* rhead.nlabels);
 	srv.ReadFile(file, lab, sizeof(RDF_LABEL)* rhead.nlabels);
 	label = (LABEL*)srv.malloc(sizeof(LABEL)* rhead.nlabels);
 	for (long lb = 0; lb < rhead.nlabels; lb++)
@@ -102,7 +102,7 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 	srv.free(lab);
 
 	//read objects
-  auto obj = (RDF_OBJECT*)srv.malloc(sizeof(RDF_OBJECT)* rhead.nobjects);
+  auto* obj = (RDF_OBJECT*)srv.malloc(sizeof(RDF_OBJECT)* rhead.nobjects);
 	atriangles = (long*)srv.malloc(sizeof(long) * rhead.nobjects);
 	srv.ReadFile(file, obj, sizeof(RDF_OBJECT) * rhead.nobjects);
 	object = (OBJECT*)srv.malloc(sizeof(OBJECT) * rhead.nobjects);
@@ -127,13 +127,13 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 
 	//read triangles
 	idx_buff = srv.CreateIndexBuffer(rhead.ntriangles * sizeof(RDF_TRIANGLE));
-  auto trg = (RDF_TRIANGLE*)srv.LockIndexBuffer(idx_buff);
+  auto* trg = (RDF_TRIANGLE*)srv.LockIndexBuffer(idx_buff);
 	srv.ReadFile(file, trg, sizeof(RDF_TRIANGLE) * rhead.ntriangles);
 	srv.UnlockIndexBuffer(idx_buff);
 
   auto nvertices = 0;
 	//read vertex buffers
-  auto rvb = (RDF_VERTEXBUFF*)srv.malloc(rhead.nvrtbuffs * sizeof(RDF_VERTEXBUFF));
+  auto* rvb = (RDF_VERTEXBUFF*)srv.malloc(rhead.nvrtbuffs * sizeof(RDF_VERTEXBUFF));
 	srv.ReadFile(file, rvb, rhead.nvrtbuffs * sizeof(RDF_VERTEXBUFF));
 	vbuff = (VERTEX_BUFFER*)srv.malloc(rhead.nvrtbuffs * sizeof(VERTEX_BUFFER));
 	long v;
@@ -148,7 +148,7 @@ GEOM::GEOM(const char* fname, const char* lightname, GEOM_SERVICE& _srv, long fl
 	}
 	srv.free(rvb);
 	//read vertices
-  auto _colData = colData;
+  auto* _colData = colData;
 	if (lightname != nullptr && flsz / 4 != nvertices)
 	{
 		srv.free(colData);
@@ -260,7 +260,7 @@ void GEOM::Draw(const PLANE* pl, long np, MATERIAL_FUNC mtf) const
 		}
 		if (cp < np) continue;
 
-    const auto vb = &vbuff[object[o].vertex_buff];
+    auto* const vb = &vbuff[object[o].vertex_buff];
 		srv.SetVertexBuffer(vb->stride, vb->dev_buff);
 		srv.SetMaterial(material[object[o].material]);
 		if (mtf != nullptr) mtf(material[object[o].material]);

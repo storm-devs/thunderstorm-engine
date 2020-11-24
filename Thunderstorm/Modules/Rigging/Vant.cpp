@@ -85,7 +85,7 @@ void VANT::Execute(uint32_t Delta_Time)
 		//====================================================
 		// Если был изменен ини-файл, то считать инфо из него
 		WIN32_FIND_DATA wfd;
-    const auto h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
+    auto* const h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
 		if (INVALID_HANDLE_VALUE != h)
 		{
       auto ft_new = wfd.ftLastWriteTime;
@@ -155,7 +155,7 @@ uint64_t VANT::ProcessMessage(MESSAGE& message)
 			}
 			else
 			{
-        const auto oldgdata = gdata;
+        auto* const oldgdata = gdata;
 				if ((gdata = new GROUPDATA[groupQuantity + 1]) == nullptr)
 					throw std::exception("Not memory allocation");
 				memcpy(gdata, oldgdata, sizeof(GROUPDATA) * groupQuantity);
@@ -200,7 +200,7 @@ uint64_t VANT::ProcessMessage(MESSAGE& message)
 				else
 				{
 					groupQuantity--;
-          const auto oldgdata = gdata;
+          auto* const oldgdata = gdata;
 					gdata = new GROUPDATA[groupQuantity];
 					if (gdata == nullptr) gdata = oldgdata;
 					else

@@ -110,8 +110,8 @@ uint64_t SEA_AI::ProcessMessage(MESSAGE& message)
 	case AI_MESSAGE_ADD_SHIP:
 		{
       auto eidShip = message.EntityID();
-      auto pACharacter = message.AttributePointer();
-      auto pAShip = message.AttributePointer();
+      auto* pACharacter = message.AttributePointer();
+      auto* pAShip = message.AttributePointer();
 			AddShip(eidShip, pACharacter, pAShip);
 		}
 		break;
@@ -128,7 +128,7 @@ uint64_t SEA_AI::ProcessMessage(MESSAGE& message)
 	case AI_MESSAGE_GROUP_SET_COMMANDER:
 		{
 			message.String(sizeof(cGroupName), cGroupName);
-      auto pCharacter = message.AttributePointer();
+      auto* pCharacter = message.AttributePointer();
 			AIGroup::GroupSetCommander(cGroupName, pCharacter);
 		}
 		break;
@@ -136,7 +136,7 @@ uint64_t SEA_AI::ProcessMessage(MESSAGE& message)
 		{
 			message.String(sizeof(cGroupName), cGroupName);
       auto fDistance = message.Float();
-      auto pVData = message.ScriptVariablePointer();
+      auto* pVData = message.ScriptVariablePointer();
 			pVData->Set(AIGroup::GetAttackHP(cGroupName, fDistance));
 		}
 		break;
@@ -153,9 +153,9 @@ uint64_t SEA_AI::ProcessMessage(MESSAGE& message)
 		break;
 	case AI_MESSAGE_SHIP_SET_SAIL_STATE:
 		{
-      auto pCharacter = message.AttributePointer();
+      auto* pCharacter = message.AttributePointer();
       auto fSailState = message.Float();
-      auto pAIShip = AIShip::FindShip(pCharacter);
+      auto* pAIShip = AIShip::FindShip(pCharacter);
 			if (!pAIShip)
 			{
 				api->Trace("SeaAI err: SetSailState, can't find ship for character = %s",
@@ -249,37 +249,37 @@ uint64_t SEA_AI::ProcessMessage(MESSAGE& message)
 		break;
 	case AI_MESSAGE_SHIP_GET_ATTACK_HP:
 		{
-      auto pACharacter = message.AttributePointer();
+      auto* pACharacter = message.AttributePointer();
       auto fDistance = message.Float();
-      auto pVD = message.ScriptVariablePointer();
+      auto* pVD = message.ScriptVariablePointer();
 			pVD->Set(AIShip::FindShip(pACharacter)->GetAttackHP(fDistance));
 		}
 		break;
 	case AI_MESSAGE_SHIP_CHANGE_GROUP:
 		{
-      auto pACharacter = message.AttributePointer();
+      auto* pACharacter = message.AttributePointer();
 			message.String(sizeof(cGroupName), cGroupName);
 			AIGroup::ShipChangeGroup(pACharacter, cGroupName);
 		}
 		break;
 	case AI_MESSAGE_CANNON_FIRE:
 		{
-      auto pACharacter = message.AttributePointer();
+      auto* pACharacter = message.AttributePointer();
       auto bCameraOutside = (message.Long() == 1);
 			AIShip::ShipFire(pACharacter, bCameraOutside);
 		}
 		break;
 	case AI_MESSAGE_SET_OFFICER_2_SHIP:
 		{
-      auto pACharacter1 = message.AttributePointer();
-      auto pACharacter2 = message.AttributePointer();
+      auto* pACharacter1 = message.AttributePointer();
+      auto* pACharacter2 = message.AttributePointer();
 			AIGroup::SetOfficerCharacter2Ship(pACharacter1, pACharacter2);
 		}
 		break;
 	case AI_MESSAGE_SWAP_SHIPS:
 		{
-      auto pACharacter1 = message.AttributePointer();
-      auto pACharacter2 = message.AttributePointer();
+      auto* pACharacter1 = message.AttributePointer();
+      auto* pACharacter2 = message.AttributePointer();
 			AIGroup::SwapCharactersShips(pACharacter1, pACharacter2);
 		}
 		break;
@@ -296,10 +296,10 @@ uint64_t SEA_AI::ProcessMessage(MESSAGE& message)
 		break;
 	case AI_MESSAGE_SAIL_2_CHARACTER:
 		{
-      auto pACharacter = message.AttributePointer();
+      auto* pACharacter = message.AttributePointer();
       auto fDistance = message.Float();
       auto fAngle = message.Float();
-      auto pAIShip = AIShip::FindShip(pACharacter);
+      auto* pAIShip = AIShip::FindShip(pACharacter);
 			Assert(pAIShip);
       auto vPos = pAIShip->GetPos() + (fDistance * CVECTOR(sinf(fAngle), 0.0f, cosf(fAngle)));
 
@@ -308,7 +308,7 @@ uint64_t SEA_AI::ProcessMessage(MESSAGE& message)
 		break;
 	case AI_MESSAGE_CHARACTER_DEAD:
 		{
-      auto pAIObj = AIHelper::FindAIInnerObj(message.AttributePointer());
+      auto* pAIObj = AIHelper::FindAIInnerObj(message.AttributePointer());
 			if (pAIObj)
 			{
 				pAIObj->SetDead(true);
@@ -318,15 +318,15 @@ uint64_t SEA_AI::ProcessMessage(MESSAGE& message)
 		break;
 	case AI_MESSAGE_GET_RELATION:
 		{
-      auto pACharacter1 = message.AttributePointer();
-      auto pACharacter2 = message.AttributePointer();
-      auto pVData = message.ScriptVariablePointer();
+      auto* pACharacter1 = message.AttributePointer();
+      auto* pACharacter2 = message.AttributePointer();
+      auto* pVData = message.ScriptVariablePointer();
 			pVData->Set((long)Helper.GetRelationSafe(pACharacter1, pACharacter2));
 		}
 		break;
 	case AI_MESSAGE_SET_COMPANION_ENEMY:
 		{
-      auto pACharacter = message.AttributePointer();
+      auto* pACharacter = message.AttributePointer();
 			SetCompanionEnemy(pACharacter);
 		}
 		break;
@@ -338,13 +338,13 @@ uint64_t SEA_AI::ProcessMessage(MESSAGE& message)
 		{
 			float fTmpCannonDamage, x, y, z;
 
-      auto pACharacter = message.AttributePointer();
+      auto* pACharacter = message.AttributePointer();
 			fTmpCannonDamage = message.Float();
 			x = message.Float();
 			y = message.Float();
 			z = message.Float();
 
-      auto pAIShip = AIShip::FindShip(pACharacter);
+      auto* pAIShip = AIShip::FindShip(pACharacter);
 			Assert(pAIShip);
 			pAIShip->GetCannonController()->CheckCannonsBoom(fTmpCannonDamage, CVECTOR(x, y, z));
 		}
@@ -352,9 +352,9 @@ uint64_t SEA_AI::ProcessMessage(MESSAGE& message)
 		// boal 08.08.06 метод пересчета орудий на корабле -->
 	case AI_MESSAGE_RESEARCH_CANNONS:
 		{
-      auto pACharacter = message.AttributePointer();
+      auto* pACharacter = message.AttributePointer();
 
-      auto pAIShip = AIShip::FindShip(pACharacter);
+      auto* pAIShip = AIShip::FindShip(pACharacter);
 			Assert(pAIShip);
 			pAIShip->GetCannonController()->ResearchCannons();
 		}
@@ -440,11 +440,11 @@ uint32_t SEA_AI::AttributeChanged(ATTRIBUTES* pAttribute)
 void SEA_AI::AddShip(entid_t eidShip, ATTRIBUTES* pCharacter, ATTRIBUTES* pAShip)
 {
 	Assert(pCharacter && pAShip);
-  auto pG = pCharacter->FindAClass(pCharacter, "SeaAI.Group");
+  auto* pG = pCharacter->FindAClass(pCharacter, "SeaAI.Group");
 	Assert(pG);
 
 	// search group
-  const auto pGName = pG->GetAttribute("Name");
+  auto* const pGName = pG->GetAttribute("Name");
 	Assert(pGName);
 
 	AIGroup::FindOrCreateGroup(pGName)->AddShip(eidShip, pCharacter, pAShip);
@@ -455,14 +455,14 @@ void SEA_AI::SetCompanionEnemy(ATTRIBUTES* pACharacter)
 	Assert(pACharacter);
 
 	// delete from old group
-  auto pG = AIGroup::FindGroup(pACharacter);
+  auto* pG = AIGroup::FindGroup(pACharacter);
 	Assert(pG);
-  const auto pS = pG->ExtractShip(pACharacter);
+  auto* const pS = pG->ExtractShip(pACharacter);
 
 	// create and add to new group
-  auto pSeaAIG = pACharacter->FindAClass(pACharacter, "SeaAI.Group");
+  auto* pSeaAIG = pACharacter->FindAClass(pACharacter, "SeaAI.Group");
 	Assert(pSeaAIG);
-  const auto pGName = pSeaAIG->GetAttribute("Name");
+  auto* const pGName = pSeaAIG->GetAttribute("Name");
 	Assert(pGName);
 
 	AIGroup::FindOrCreateGroup(pGName)->InsertShip(pS);

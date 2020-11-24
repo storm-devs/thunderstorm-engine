@@ -91,7 +91,7 @@ void CXI_LINECOLLECTION::SaveParametersToIni()
 {
 	//	char pcWriteParam[2048];
 
-  const auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* const pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());

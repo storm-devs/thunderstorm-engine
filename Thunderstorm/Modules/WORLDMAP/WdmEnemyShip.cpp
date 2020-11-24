@@ -98,7 +98,7 @@ void WdmEnemyShip::Update(float dltTime)
 			slowingAlfa = deleteAlpha;
 			if (deleteAlpha < 0.0f)
 			{
-        auto delEnc = "";
+        const auto* delEnc = "";
 				if (saveAttribute)
 				{
 					delEnc = saveAttribute->GetThisName();

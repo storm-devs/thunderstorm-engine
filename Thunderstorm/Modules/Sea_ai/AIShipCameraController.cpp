@@ -23,7 +23,7 @@ bool AIShipCameraController::Init()
 	iCrosshairTex = AIHelper::pRS->TextureCreate(pACrosshair->GetAttribute("Texture"));
 	dwSubTexturesX = pACrosshair->GetAttributeAsDword("SubTexX");
 	dwSubTexturesY = pACrosshair->GetAttributeAsDword("SubTexY");
-  auto pAColors = pACrosshair->GetAttributeClass("colors");
+  auto* pAColors = pACrosshair->GetAttributeClass("colors");
 	if (pAColors)
 	{
 		Colors[RELATION_UNKNOWN] = pAColors->GetAttributeAsDword("default");
@@ -90,11 +90,11 @@ void AIShipCameraController::Execute(float fDeltaTime)
 			if (AIFort::pAIFort)
 				for (i = 0; i < AIFort::pAIFort->GetNumForts(); i++)
 				{
-          auto pF = AIFort::pAIFort->GetFort(i);
+          auto* pF = AIFort::pAIFort->GetFort(i);
 					iMax = pF->GetAllCannonsNum(); // boal
 					for (j = 0; j < iMax; j++)
 					{
-            const auto pC = pF->GetCannon(j);
+            auto* const pC = pF->GetCannon(j);
 						if (pC->isDamaged()) continue;
             const auto fDistance = pC->GetDistance(vOurPos);
 						if (fDistance > fFireDist) continue;
@@ -137,7 +137,7 @@ bool AIShipCameraController::Fire()
 
 	if (dwTarget != RELATION_UNKNOWN && pTargetAPointer)
 	{
-    const auto pMainGroupCharacter = Helper.GetMainCharacter(pTargetAPointer);
+    auto* const pMainGroupCharacter = Helper.GetMainCharacter(pTargetAPointer);
 		api->Event(SHIP_FIRE_ACTION, "aal", pTargetAPointer, pMainGroupCharacter, dwTarget);
 	}
 

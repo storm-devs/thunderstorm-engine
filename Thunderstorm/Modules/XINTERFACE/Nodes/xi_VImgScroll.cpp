@@ -67,7 +67,7 @@ void CXI_VIMAGESCROLL::Draw(bool bSelected, uint32_t Delta_Time)
 				m_bDoMove = false;
 
 				// Set new current image
-        auto tmpAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+        auto* tmpAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 				if (tmpAttr != nullptr)
 					tmpAttr->SetAttributeUseDword("current", m_nCurImage);
 
@@ -423,12 +423,12 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, 
 		m_pStrParam[i].m_dwBackColor = GetIniARGB(ini1, name1, ini2, name2, param1, 0);
 	}
 
-  auto pAttribute = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+  auto* pAttribute = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
 	if (pAttribute != nullptr)
 	{
 		// get special technique name and color
 		m_dwSpecTechniqueARGB = pAttribute->GetAttributeAsDword("SpecTechniqueColor");
-    const auto sTechnique = pAttribute->GetAttribute("SpecTechniqueName");
+    auto* const sTechnique = pAttribute->GetAttribute("SpecTechniqueName");
 		if (sTechnique != nullptr)
 		{
 			const auto len = strlen(sTechnique) + 1;
@@ -455,7 +455,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, 
 			m_nCurImage = 0;
 
 		// get textures
-    auto pA = pAttribute->GetAttributeClass("ImagesGroup");
+    auto* pA = pAttribute->GetAttributeClass("ImagesGroup");
 		if (pA != nullptr)
 		{
 			m_nGroupQuantity = pA->GetAttributesNum();
@@ -469,7 +469,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, 
 				}
 				for (i = 0; i < m_nGroupQuantity; i++)
 				{
-          const auto stmp = pA->GetAttribute(i);
+          auto* const stmp = pA->GetAttribute(i);
 					if (stmp == nullptr) continue;
 					const auto len = strlen(stmp) + 1;
 					m_sGroupName[i] = new char[len];
@@ -523,7 +523,7 @@ void CXI_VIMAGESCROLL::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, 
 			char attrName[256];
 			char* sStringName;
 			sprintf_s(attrName, "pic%d", i + 1);
-      auto pListEntity = pAttribute->GetAttributeClass(attrName);
+      auto* pListEntity = pAttribute->GetAttributeClass(attrName);
 
 			// Fill image descriptor by default value
 			//------------------------------------------------------
@@ -665,7 +665,7 @@ float CXI_VIMAGESCROLL::ChangeDinamicParameters(float fYDelta)
   auto fNewCurCenter = curYCenter;
 
 	SCROLLEntity* pPrevScroll = nullptr;
-  auto pScroll = m_pScroll;
+  auto* pScroll = m_pScroll;
 
 	while (true)
 	{
@@ -707,7 +707,7 @@ float CXI_VIMAGESCROLL::ChangeDinamicParameters(float fYDelta)
 				       sizeof(IMAGEDESCRIBE) * (m_nListSize - 1 - curImage));
 			m_nListSize--;
 			// Передвинем все уже используемые картинки
-			for (auto pSTmp = m_pScroll; pSTmp != nullptr && pSTmp != pScroll; pSTmp = pSTmp->next)
+			for (auto* pSTmp = m_pScroll; pSTmp != nullptr && pSTmp != pScroll; pSTmp = pSTmp->next)
 				if (pSTmp->imageNum > curImage)
 					pSTmp->imageNum--;
 			if (!bIncrement)
@@ -820,7 +820,7 @@ float CXI_VIMAGESCROLL::ChangeDinamicParameters(float fYDelta)
 
 	if (pScroll->next != nullptr)
 	{
-    auto pScr = pScroll->next;
+    auto* pScr = pScroll->next;
 		pScroll->next = nullptr;
 		while (pScr != nullptr)
 		{

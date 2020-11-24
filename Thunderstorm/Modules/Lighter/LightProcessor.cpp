@@ -55,7 +55,7 @@ void LightProcessor::Process()
 		if (shadowTriangle == -1)
 		{
 			//Нормализуем результат
-      const auto vrt = geometry->vrt.data();
+      auto* const vrt = geometry->vrt.data();
       const auto numVrt = geometry->numVrt;
       const auto numLights = lights->Num();
 			for (long i = 0; i < numVrt; i++)
@@ -118,7 +118,7 @@ void LightProcessor::Process()
 		window->isLockCtrl = true;
 		window->tracePrc = 0.0f;
 		//Сбрасываем состояние цветов
-    const auto vrt = geometry->vrt.data();
+    auto* const vrt = geometry->vrt.data();
     const auto numVrt = geometry->numVrt;
     const auto numLights = lights->Num();
 		for (long i = 0; i < numVrt; i++)
@@ -148,7 +148,7 @@ void LightProcessor::Process()
 	}
 	if (window->isResetBlurLight)
 	{
-    const auto vrt = geometry->vrt.data();
+    auto* const vrt = geometry->vrt.data();
     const auto numVrt = geometry->numVrt;
 		for (long i = 0; i < numVrt; i++) vrt[i].bc = 0.0f;
 		window->isResetBlurLight = false;
@@ -168,7 +168,7 @@ void LightProcessor::Process()
 
 void LightProcessor::UpdateLightsParam()
 {
-  const auto vrt = geometry->vrt.data();
+  auto* const vrt = geometry->vrt.data();
   const auto numVrt = geometry->numVrt;
   const auto numLights = lights->Num();
   auto& ls = *lights;
@@ -245,7 +245,7 @@ void LightProcessor::ApplyTriangleShadows(Triangle& t)
 {
   auto& ls = *lights;
   const auto num = ls.Num();
-  const auto vrt = geometry->vrt.data();
+  auto* const vrt = geometry->vrt.data();
 	for (long i = 0; i < num; i++)
 	{
 		//Нужно ли трейсить
@@ -326,7 +326,7 @@ void LightProcessor::SmoothShadows()
     auto& v = vrt[smoothVertex];
 		//Ищем окружающие вершины
 		octtree->FindVerts(v.p, smoothRad);
-    const auto verts = octtree->verts.data();
+    auto* const verts = octtree->verts.data();
     const auto numVerts = octtree->numVerts;
 
 		/*if constexpr (false)
@@ -391,14 +391,14 @@ void LightProcessor::BlurLight()
   auto kCos = window->blurCos;
   auto kCos1 = 1.0f - window->blurCos;
 	double blurRad2 = blurRad * blurRad;
-  const auto vrt = geometry->vrt.data();
+  auto* const vrt = geometry->vrt.data();
   const auto numVrt = geometry->numVrt;
 	for (long i = 0; i < LIGHTPRC_BLUR_NUM && blurVertex < numVrt; i++, blurVertex++)
 	{
     auto& v = vrt[blurVertex];
 		//Ищем окружающие вершины
 		octtree->FindVerts(v.p, blurRad);
-    auto verts = octtree->verts.data();
+    auto* verts = octtree->verts.data();
     auto numVerts = octtree->numVerts;
 
 		continue;
@@ -466,7 +466,7 @@ void LightProcessor::CalcLights(long lit, bool isCos, bool isAtt, bool isSdw)
 	lights->UpdateLights(lit);
   auto& ls = *lights;
   const auto num = ls.Num();
-  const auto vrt = geometry->vrt.data();
+  auto* const vrt = geometry->vrt.data();
   const auto kBlur = window->kBlur;
 	CVECTOR c;
 	for (long i = 0; i < num; i++)

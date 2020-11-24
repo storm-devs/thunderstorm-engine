@@ -138,7 +138,7 @@ void BATTLE_LAND_INTERFACE::EndShow()
 
 void BATTLE_LAND_INTERFACE::SetShowParameters()
 {
-  const auto pA = AttributesPointer ? AttributesPointer->GetAttributeClass("Parameters") : nullptr;
+  auto* const pA = AttributesPointer ? AttributesPointer->GetAttributeClass("Parameters") : nullptr;
 	m_bShowCommandos = 0 != BIUtils::GetLongFromAttr(pA, "DoShowCommandos", true);
 
 	m_pManSign = new BIManSign(GetId(), m_pRS);
@@ -153,7 +153,7 @@ void BATTLE_LAND_INTERFACE::SetShowParameters()
 }
 
 void BATTLE_LAND_INTERFACE::UpdateCommandos() const {
-  auto pA = AttributesPointer ? AttributesPointer->GetAttributeClass("data") : nullptr;
+  auto* pA = AttributesPointer ? AttributesPointer->GetAttributeClass("data") : nullptr;
 	if (pA) pA = pA->GetAttributeClass("icons");
 	if (!pA) return;
 }

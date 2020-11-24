@@ -300,7 +300,7 @@ bool DECK_CAMERA::FindPath()
 	pModel = GetModelPointer();
 	Assert(pModel); // если есть адрес у объекта
 
-  const auto pNewPathNode = pModel->FindNode("path");
+  auto* const pNewPathNode = pModel->FindNode("path");
 	Assert(pNewPathNode);
 	if (pathNode != pNewPathNode)
 	{
@@ -349,7 +349,7 @@ void DECK_CAMERA::SetStartPos()
 
 		for (auto i = 0; i < 1000; i++)
 		{
-      auto root = pModel->GetNode(i);
+      auto* root = pModel->GetNode(i);
 			if (root == nullptr) break;
 			GEOS::INFO gi;
 			root->geo->GetInfo(gi);

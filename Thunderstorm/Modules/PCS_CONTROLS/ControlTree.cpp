@@ -160,7 +160,7 @@ void ControlTree::Process()
 long ControlTree::AddControlChild(long nParentIdx, const char* pcControlName, const char* pcOutControlName,
                                   float fTimeOut)
 {
-  auto pParent = FindControlChild(nParentIdx);
+  auto* pParent = FindControlChild(nParentIdx);
 	if (!pParent) return -1;
 	ControlChild child;
 	child.bActive = false;
@@ -197,7 +197,7 @@ void ControlTree::Release()
 ControlTree::ControlChild* ControlTree::FindControlChild(long idx)
 {
 	if (idx < 0 || idx >= m_nControlsNum) return &m_RootControl;
-  const auto pCC = FindControlChild(idx, &m_RootControl);
+  auto* const pCC = FindControlChild(idx, &m_RootControl);
 	if (pCC) return pCC;
 	return &m_RootControl;
 }
@@ -208,7 +208,7 @@ ControlTree::ControlChild* ControlTree::FindControlChild(long idx, ControlChild*
 	if (pParent->index == idx) return pParent;
 	for (long n = 0; n < pParent->aChild.size(); n++)
 	{
-    const auto pCC = FindControlChild(idx, &pParent->aChild[n]);
+    auto* const pCC = FindControlChild(idx, &pParent->aChild[n]);
 		if (pCC) return pCC;
 	}
 	return nullptr;

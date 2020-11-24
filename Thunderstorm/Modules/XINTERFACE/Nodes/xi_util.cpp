@@ -289,7 +289,7 @@ void CXI_UTILS::StringFourFloat(const char* pcString, float& f1, float& f2, floa
 void CXI_UTILS::StringFillStringArray(const char* pcString, std::vector<std::string>& asStringsArray)
 {
 	char tmpstr[256];
-  auto pcSrcStr = (char*)pcString;
+  auto* pcSrcStr = (char*)pcString;
 
 	// delete old
 	asStringsArray.clear();
@@ -307,7 +307,7 @@ long CXI_UTILS::SplitStringByWidth(const char* pcText, long nFontID, float fFont
                                    std::vector<std::string>& asOutStr)
 {
 	long nMaxUsingWidth = 0;
-  const auto pcSrcStr = pcText;
+  const auto* const pcSrcStr = pcText;
 	if (pcSrcStr == nullptr) return nMaxUsingWidth;
 	auto* rs = (VDX9RENDER*)api->CreateService("dx9render");
 	asOutStr.clear();

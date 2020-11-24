@@ -126,7 +126,7 @@ void PtcData::SFLB_PotectionLoad()
 #endif
 {
 	//Данные
-  const auto buf = (char *)data;
+  auto* const buf = (char *)data;
   auto& hdr = *(PtcHeader *)buf;
 	//Треугольники
 	uint32_t tsize = sizeof(PtcHeader);

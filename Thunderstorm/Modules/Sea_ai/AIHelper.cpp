@@ -89,8 +89,8 @@ void AIHelper::CalculateRelations()
 		for (x = 0; x < dwRelationSize; x++)
 			if (x != y)
 			{
-        auto pData = api->Event(GET_RELATION_EVENT, "ll", GetIndex(aMainCharacters[y]),
-                                GetIndex(aMainCharacters[x]));
+        auto* pData = api->Event(GET_RELATION_EVENT, "ll", GetIndex(aMainCharacters[y]),
+                                 GetIndex(aMainCharacters[x]));
 				Assert(pData);
 				*GetRelation(y, x) = uint32_t(pData->GetLong());
 			}

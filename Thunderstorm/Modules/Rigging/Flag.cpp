@@ -81,7 +81,7 @@ void FLAG::Execute(uint32_t Delta_Time)
 		//====================================================
 		// Если был изменен ини-файл, то считать инфо из него
 		WIN32_FIND_DATA wfd;
-    const auto h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
+    auto* const h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
 		if (INVALID_HANDLE_VALUE != h)
 		{
       auto ft_new = wfd.ftLastWriteTime;
@@ -167,7 +167,7 @@ uint64_t FLAG::ProcessMessage(MESSAGE& message)
 			}
 			else
 			{
-        const auto oldgdata = gdata;
+        auto* const oldgdata = gdata;
 				gdata = new GROUPDATA[groupQuantity + 1];
 				if (gdata == nullptr)
 					throw std::exception("Not memory allocation");
@@ -403,7 +403,7 @@ void FLAG::AddLabel(GEOS::LABEL& gl, NODE* nod)
 		}
 		else
 		{
-      const auto oldflist = flist;
+      auto* const oldflist = flist;
 			flist = new FLAGDATA*[flagQuantity + 1];
 			if (flist == nullptr)
 				throw std::exception("Not memory allocation");
@@ -476,7 +476,7 @@ void FLAG::LoadIni()
 
 	INIFILE* ini;
 	WIN32_FIND_DATA wfd;
-  const auto h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
+  auto* const h = fio->_FindFirstFile("resource\\ini\\rigging.ini", &wfd);
 	if (INVALID_HANDLE_VALUE != h)
 	{
 		ft_old = wfd.ftLastWriteTime;
@@ -692,7 +692,7 @@ void FLAG::DoSTORM_DELETE()
 		flagQuantity = nfn;
 		groupQuantity = ngn;
 
-    const auto oldflist = flist;
+    auto* const oldflist = flist;
 		flist = new FLAGDATA*[flagQuantity];
 		if (flist)
 		{
@@ -702,7 +702,7 @@ void FLAG::DoSTORM_DELETE()
 		else
 			flist = oldflist;
 
-    const auto oldgdata = gdata;
+    auto* const oldgdata = gdata;
 		gdata = new GROUPDATA[groupQuantity];
 		if (gdata)
 		{
@@ -752,7 +752,7 @@ void FLAG::SetAdd(int flagNum)
 			}
 			else
 			{
-        const auto oldflist = flist;
+        auto* const oldflist = flist;
 				flagQuantity--;
 				flist = new FLAGDATA*[flagQuantity];
 				if (flist == nullptr)
@@ -768,8 +768,8 @@ void FLAG::SetAdd(int flagNum)
 		else
 		{
 			// установить номер текстуры
-      auto pvdat = api->Event("GetRiggingData", "sll", "GetFlagTexNum", flist[fn]->triangle,
-                              gdata[flist[fn]->HostGroup].nation);
+      auto* pvdat = api->Event("GetRiggingData", "sll", "GetFlagTexNum", flist[fn]->triangle,
+                               gdata[flist[fn]->HostGroup].nation);
 			if (pvdat == nullptr) flist[fn]->texNum = 0;
 			else flist[fn]->texNum = pvdat->GetLong();
 
@@ -820,7 +820,7 @@ void FLAG::MoveOtherHost(entid_t newm_id, long flagNum, entid_t oldm_id)
 	// если нет новой группы, то создаем ее
 	if (newgn == groupQuantity)
 	{
-    const auto oldgdata = gdata;
+    auto* const oldgdata = gdata;
 		gdata = new GROUPDATA[groupQuantity + 1];
 		if (gdata == nullptr)
 			throw std::exception("Not memory allocation");

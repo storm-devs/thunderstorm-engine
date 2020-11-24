@@ -107,7 +107,7 @@ void BillBoardProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velo
                                      const Matrix& matWorld, float EmitterTime, float EmitterLifeTime,
                                      FieldList* pFields, uint32_t* pActiveCount, uint32_t dwGUID)
 {
-  auto pData = AllocParticle();
+  auto* pData = AllocParticle();
 
 	//Сработает если партиклов будет > MAX_BILLBOARDS, столько их быть не должно :))))
 	if (!pData)
@@ -180,7 +180,7 @@ void BillBoardProcessor::AddParticle(ParticleSystem* pSystem, const Vector& velo
 	pData->KTrackZ = FRAND(1.0f);
 
 
-  const auto pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
+  const auto* const pEmitterName = pFields->GetString(ATTACHEDEMITTER_NAME);
 	if (_stricmp(pEmitterName, "none") == 0)
 	{
 		pData->AttachedEmitter = nullptr;
@@ -381,7 +381,7 @@ void BillBoardProcessor::Draw()
 		if (SizeK < PLOD) fSize = pR->CamDistance / PLOD;
 		//=============================================================
 
-    auto pV = &pVerts[Index * 4];
+    auto* pV = &pVerts[Index * 4];
 		Index++;
 
     auto DirAngle = 0.0f;

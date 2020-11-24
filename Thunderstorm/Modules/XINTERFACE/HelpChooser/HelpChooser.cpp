@@ -249,7 +249,7 @@ bool HELPCHOOSER::RunChooser(char* ChooserGroup)
 	for (i = 0; i < m_nRectQ; i++)
 	{
 		m_psRectName[i] = nullptr;
-    auto tmpStr = param;
+    auto* tmpStr = param;
 
 		tmpStr = XI_ParseStr(tmpStr, param2, sizeof(param2));
 		for (j = strlen(param2) - 1; j >= 0; j--)

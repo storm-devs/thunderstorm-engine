@@ -55,7 +55,7 @@ void AIFort::Execute(uint32_t Delta_Time)
 
 	for (uint32_t k = 0; k < aForts.size(); k++)
 	{
-    auto pF = aForts[k];
+    auto* pF = aForts[k];
 		if (pF->isDead()) continue;
 		if (!pF->isNormalMode()) continue;
 
@@ -64,7 +64,7 @@ void AIFort::Execute(uint32_t Delta_Time)
     const auto iMax = pF->GetAllCannonsNum(); // boal fix
 		for (uint32_t i = 0; i < iMax; i++)
 		{
-      auto pC = pF->GetCannon(i);
+      auto* pC = pF->GetCannon(i);
 
       const auto dwNewCurrentCannonType = pF->GetCannonType(i);
 
@@ -72,7 +72,7 @@ void AIFort::Execute(uint32_t Delta_Time)
 			if (dwCurrentCannonType != dwNewCurrentCannonType)
 			{
 				dwCurrentCannonType = dwNewCurrentCannonType;
-        auto pACannons = pF->GetACharacter()->FindAClass(pF->GetACharacter(), "Ship.Cannons");
+        auto* pACannons = pF->GetACharacter()->FindAClass(pF->GetACharacter(), "Ship.Cannons");
 				if (!pACannons) pACannons = pF->GetACharacter()->CreateSubAClass(pF->GetACharacter(), "Ship.Cannons");
 				Assert(pACannons);
 				pACannons->SetAttributeUseDword("type", dwCurrentCannonType);
@@ -164,20 +164,20 @@ bool AIFort::AddFort(ATTRIBUTES* pIslandAP, ATTRIBUTES* pFortLabelAP, ATTRIBUTES
 {
 	Assert(pFortLabelAP);
 
-  auto pFortAP = pFortLabelAP->FindAClass(pFortLabelAP, "fort");
+  auto* pFortAP = pFortLabelAP->FindAClass(pFortLabelAP, "fort");
 	Assert(pFortAP);
-  const auto pModelAP = pFortAP->FindAClass(pFortAP, "model");
+  auto* const pModelAP = pFortAP->FindAClass(pFortAP, "model");
 	Assert(pModelAP);
-  const auto pLocatorsAP = pFortAP->FindAClass(pFortAP, "locators");
+  auto* const pLocatorsAP = pFortAP->FindAClass(pFortAP, "locators");
 	Assert(pLocatorsAP);
-  const auto pModelsDirAP = pIslandAP->FindAClass(pIslandAP, "filespath.models");
+  auto* const pModelsDirAP = pIslandAP->FindAClass(pIslandAP, "filespath.models");
 	Assert(pModelsDirAP);
 
-  const auto pModelName = pModelAP->GetThisAttr();
+  auto* const pModelName = pModelAP->GetThisAttr();
 	Assert(pModelName);
-  const auto pLocatorsName = pLocatorsAP->GetThisAttr();
+  auto* const pLocatorsName = pLocatorsAP->GetThisAttr();
 	Assert(pLocatorsName);
-  const auto pModelsDir = pModelsDirAP->GetThisAttr();
+  auto* const pModelsDir = pModelsDirAP->GetThisAttr();
 	Assert(pModelsDir);
 
 	auto* pFort = new AI_FORT(pFortLabelAP);
@@ -187,11 +187,11 @@ bool AIFort::AddFort(ATTRIBUTES* pIslandAP, ATTRIBUTES* pFortLabelAP, ATTRIBUTES
 	//pFort->pFortLabelAP = pFortLabelAP;
 	aForts.push_back(pFort);
 
-  auto pACannonsType1 = pFortCharacter->FindAClass(pFortCharacter, "Fort.Cannons.Type.1");
+  auto* pACannonsType1 = pFortCharacter->FindAClass(pFortCharacter, "Fort.Cannons.Type.1");
 	Assert(pACannonsType1);
-  auto pACannonsType2 = pFortCharacter->FindAClass(pFortCharacter, "Fort.Cannons.Type.2");
+  auto* pACannonsType2 = pFortCharacter->FindAClass(pFortCharacter, "Fort.Cannons.Type.2");
 	Assert(pACannonsType2);
-  auto pACannonsType3 = pFortCharacter->FindAClass(pFortCharacter, "Fort.Cannons.Type.3");
+  auto* pACannonsType3 = pFortCharacter->FindAClass(pFortCharacter, "Fort.Cannons.Type.3");
 	Assert(pACannonsType3);
 	pFort->dwCannonType = pACannonsType1->GetAttributeAsDword();
 	pFort->dwCulverinType = pACannonsType2->GetAttributeAsDword();
@@ -201,8 +201,8 @@ bool AIFort::AddFort(ATTRIBUTES* pIslandAP, ATTRIBUTES* pFortLabelAP, ATTRIBUTES
 
 	ScanFortForCannons(pFort, pModelsDir, pLocatorsName);
 
-  auto pALights = pFortCharacter->FindAClass(GetACharacter(), "ship.lights");
-  auto pAFlares = pFortCharacter->FindAClass(GetACharacter(), "ship.flares");
+  auto* pALights = pFortCharacter->FindAClass(GetACharacter(), "ship.lights");
+  auto* pAFlares = pFortCharacter->FindAClass(GetACharacter(), "ship.flares");
 
   const auto bLights = (pALights) ? pALights->GetAttributeAsDword() != 0 : false;
   const auto bFlares = (pAFlares) ? pAFlares->GetAttributeAsDword() != 0 : false;
@@ -224,12 +224,12 @@ void AIFort::AddFortHit(long iCharacterIndex, CVECTOR& vHitPos)
 	uint32_t i, j, iMax;
 	for (i = 0; i < aForts.size(); i++)
 	{
-    auto pF = aForts[i];
+    auto* pF = aForts[i];
 
 		iMax = pF->GetAllCannonsNum(); // boal fix
 		for (j = 0; j < iMax; j++)
 		{
-      auto pC = pF->GetCannon(j);
+      auto* pC = pF->GetCannon(j);
 
 			if (pC->isDamaged()) continue;
 
@@ -238,9 +238,9 @@ void AIFort::AddFortHit(long iCharacterIndex, CVECTOR& vHitPos)
 			if (fDistance > fMinCannonDamageDistance) continue;
 
 			//VDATA * pVData = api->Event(FORT_CANNON_DAMAGE, "llallfffff", iCharacterIndex, GetIndex(pF->GetACharacter()), pF->pFortLabelAP, pF->GetAllCannonsNum(), pF->GetDamagedCannonsNum(), vPos.x, vPos.y, vPos.z, fDistance, pC->GetDamage()); Assert(pVData);
-      auto pVData = api->Event(FORT_CANNON_DAMAGE, "llallfffff", iCharacterIndex, GetIndex(pF->GetACharacter()),
-                               pF->pFortLabelAP, iMax, pF->GetDamagedCannonsNum(), vPos.x, vPos.y, vPos.z,
-                               fDistance, pC->GetDamage());
+      auto* pVData = api->Event(FORT_CANNON_DAMAGE, "llallfffff", iCharacterIndex, GetIndex(pF->GetACharacter()),
+                                pF->pFortLabelAP, iMax, pF->GetDamagedCannonsNum(), vPos.x, vPos.y, vPos.z,
+                                fDistance, pC->GetDamage());
 			Assert(pVData);
 
 			pC->SetDamage(pVData->GetFloat());

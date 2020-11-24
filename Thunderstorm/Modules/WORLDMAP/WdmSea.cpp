@@ -64,7 +64,7 @@ WdmSea::WdmSea()
 	Assert(triangle);
 	for (long j = 0, p = 0; j < WDM_SEA_SECTIONS_Z; j++)
 	{
-    const auto trg = triangle + j * WDM_SEA_SECTIONS_X * 2;
+    auto* const trg = triangle + j * WDM_SEA_SECTIONS_X * 2;
     const auto base = j * (WDM_SEA_SECTIONS_X + 1);
 		for (long i = 0; i < WDM_SEA_SECTIONS_X; i++)
 		{

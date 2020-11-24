@@ -80,12 +80,12 @@ void CameraDialog::Execute(uint32_t Delta_Time)
   auto prevPos = pos;
   auto prevAng = ang;
 
-  auto mdl = (MODEL*)EntityManager::GetEntityPointer(person);
+  auto* mdl = (MODEL*)EntityManager::GetEntityPointer(person);
 	if (mdl == nullptr) return;
 
   auto perMtx = mdl->mtx;
 
-  auto atr = api->Entity_GetAttributeClass(personId, "act.type");
+  auto* atr = api->Entity_GetAttributeClass(personId, "act.type");
 	if (atr == nullptr) perMtx.Pos().y += HDISP1;
 	else
 	{
@@ -135,13 +135,13 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 		inited = true;
 	}
 	//draw locators
-  auto root = mdl->GetNode(0);
+  auto* root = mdl->GetNode(0);
 	long sti = -1;
 	auto idSiber = root->geo->FindName("fall");
 	if ((sti = root->geo->FindLabelN(sti + 1, idSiber)) > -1)
 	{
-    auto ani = mdl->GetAnimation();
-    auto bones = &ani->GetAnimationMatrix(0);
+    auto* ani = mdl->GetAnimation();
+    auto* bones = &ani->GetAnimationMatrix(0);
 
 		GEOS::LABEL lb;
 		root->geo->GetLabel(sti, lb);
@@ -166,8 +166,8 @@ void CameraDialog::Realize(uint32_t Delta_Time)
 	idSiber = root->geo->FindName("sabel");
 	if ((sti = root->geo->FindLabelN(sti + 1, idSiber)) > -1)
 	{
-    auto ani = mdl->GetAnimation();
-    auto bones = &ani->GetAnimationMatrix(0);
+    auto* ani = mdl->GetAnimation();
+    auto* bones = &ani->GetAnimationMatrix(0);
 
 		GEOS::LABEL lb;
 		root->geo->GetLabel(sti, lb);
@@ -213,7 +213,7 @@ uint64_t CameraDialog::ProcessMessage(MESSAGE& msg)
 			strcat_s(fname, trackName);
 			strcat_s(fname, ".cam");
 			//loading animation
-      const auto cam = fio->_CreateFile(fname);
+      auto* const cam = fio->_CreateFile(fname);
       const long nbytes = fio->_SetFilePointer(cam, 0, nullptr, FILE_END);
 			fio->_SetFilePointer(cam, 0, nullptr, FILE_BEGIN);
 			frames = nbytes / 6 / sizeof(float);

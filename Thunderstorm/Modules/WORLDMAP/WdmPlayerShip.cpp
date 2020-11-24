@@ -103,7 +103,7 @@ void WdmPlayerShip::Update(float dltTime)
 	for (i = 0; i < wdmObjects->ships.size(); i++)
 	{
 		//Пропустим ненужных
-    const auto es = ((WdmEnemyShip *)wdmObjects->ships[i]);
+    auto* const es = ((WdmEnemyShip *)wdmObjects->ships[i]);
 		if ((WdmShip *)es == this || !es->isLive || es->killMe)
 		{
 			if (wdmObjects->enemyShip == es)

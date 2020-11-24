@@ -162,7 +162,7 @@ void Blots::AddBlot(long i, long rnd, const CVECTOR& lpos, const CVECTOR& dir, f
 	numClipTriangles = 0;
 	normal = -0.1f * dir;
 	//Неколизимся с патчём и мачтами
-  auto root = m->GetNode(0);
+  auto* root = m->GetNode(0);
 	SetNodesCollision(root, true);
 	m->Clip(p, 6, pos, BLOTS_RADIUS, AddPolygon);
 	SetNodesCollision(root, false);
@@ -190,7 +190,7 @@ void Blots::AddBlot(long i, long rnd, const CVECTOR& lpos, const CVECTOR& dir, f
 	//Преобразуем треугольники в локальную систему координат корабля
   auto mtx(m->mtx);
 	mtx.Transposition();
-  auto v = vrt + blot[i].startIndex;
+  auto* v = vrt + blot[i].startIndex;
 	numClipTriangles *= 3;
   auto baseU = 0.0f;
   auto baseV = 0.0f;
@@ -223,7 +223,7 @@ void Blots::SetNodesCollision(NODE* n, bool isSet)
 	{
 		n->flags &= 0x00ffffff;
 		n->flags |= n->flags << 24;
-    const auto name = n->GetName();
+    const auto* const name = n->GetName();
 		if (name && name[0])
 		{
 			if (name[0] == 'r' || name[0] == 'R')
@@ -263,7 +263,7 @@ void Blots::SaveBlot(long i)
 	sprintf_s(name, "b%.3i", i);
 	if (blot[i].isUsed)
 	{
-    auto blt = blotsInfo->CreateSubAClass(blotsInfo, name);
+    auto* blt = blotsInfo->CreateSubAClass(blotsInfo, name);
 		blt->SetAttributeUseDword("rnd", blot[i].rnd);
 		blt->SetAttributeUseFloat("x", blot[i].pos.x);
 		blt->SetAttributeUseFloat("y", blot[i].pos.y);
@@ -286,7 +286,7 @@ void Blots::LoadBlot(long i)
 	//Имя атрибута
 	char name[16];
 	sprintf_s(name, "b%.3i", i);
-  auto blt = blotsInfo->FindAClass(blotsInfo, name);
+  auto* blt = blotsInfo->FindAClass(blotsInfo, name);
 	if (blt)
 	{
 		if (!blt->GetAttribute("rnd")) return;
@@ -359,8 +359,8 @@ void Blots::Realize(uint32_t delta_time)
 			for (long n = 0; n < BLOTS_MAX; n++)
 			{
 				if (!blot[n].isUsed) continue;
-        const auto v1 = vr + n * BLOTS_NTRGS * 3;
-        const auto v2 = vrt + blot[n].startIndex;
+        auto* const v1 = vr + n * BLOTS_NTRGS * 3;
+        auto* const v2 = vrt + blot[n].startIndex;
 				for (long v = 0; v < blot[n].numTrgs * 3; v++) v1[v] = v2[v];
 			}
 			//!!! end Проверки
@@ -392,8 +392,8 @@ void Blots::Realize(uint32_t delta_time)
 			for (long n = 0; n < BLOTS_MAX; n++)
 			{
 				if (!blot[n].isUsed) continue;
-        const auto v1 = vr + n * BLOTS_NTRGS * 3;
-        const auto v2 = vrt + blot[n].startIndex;
+        auto* const v1 = vr + n * BLOTS_NTRGS * 3;
+        auto* const v2 = vrt + blot[n].startIndex;
 				for (long v = 0; v < blot[n].numTrgs * 3; v++)
 				{
 					Assert(v1[v].pos.x == v2[v].pos.x);
@@ -423,7 +423,7 @@ void Blots::Realize(uint32_t delta_time)
 			//Количество
       const long numVrt = blot[i].numTrgs * 3;
 			//Массив
-      const auto v = vrt + blot[i].startIndex;
+      auto* const v = vrt + blot[i].startIndex;
 			for (long j = 0; j < numVrt; j++) v[j].c = color;
 		}
 	}

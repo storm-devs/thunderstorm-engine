@@ -50,7 +50,7 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER* rs, unsigned int blendValue, MODEL
 	{
 		CMatrix perMtx;
 
-    auto bladeNode = obj->GetNode(0);
+    auto* bladeNode = obj->GetNode(0);
 		if ((blendValue & 0xff000000) == 0xff000000)
 		{
 			bladeNode->SetTechnique("EnvAmmoShader");
@@ -64,8 +64,8 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER* rs, unsigned int blendValue, MODEL
 
 		if ((sti = manNode->geo->FindLabelN(sti + 1, idBlade)) > -1)
 		{
-      auto ani = mdl->GetAnimation();
-      auto bones = &ani->GetAnimationMatrix(0);
+      auto* ani = mdl->GetAnimation();
+      auto* bones = &ani->GetAnimationMatrix(0);
 
 			GEOS::LABEL lb;
 			manNode->geo->GetLabel(sti, lb);
@@ -238,10 +238,10 @@ void BLADE::Realize(uint32_t Delta_Time)
 {
 	blade[0].time += 0.001f * (Delta_Time);
 
-  auto mdl = (MODEL*)EntityManager::GetEntityPointer(man);
+  auto* mdl = (MODEL*)EntityManager::GetEntityPointer(man);
 	if (!mdl) return;
 
-  auto manNode = mdl->GetNode(0);
+  auto* manNode = mdl->GetNode(0);
 	rs->TextureSet(0, -1);
 	rs->TextureSet(1, -1);
 	rs->TextureSet(2, -1);
@@ -259,10 +259,10 @@ void BLADE::Realize(uint32_t Delta_Time)
 	//draw gun
 	CMatrix perMtx;
 	long sti;
-  auto obj = (MODEL*)EntityManager::GetEntityPointer(gun);
+  auto* obj = (MODEL*)EntityManager::GetEntityPointer(gun);
 	if (obj != nullptr)
 	{
-    auto gunNode = obj->GetNode(0);
+    auto* gunNode = obj->GetNode(0);
 		if ((blendValue & 0xff000000) == 0xff000000)
 		{
 			gunNode->SetTechnique("EnvAmmoShader");
@@ -276,8 +276,8 @@ void BLADE::Realize(uint32_t Delta_Time)
 
 		if ((sti = manNode->geo->FindLabelN(sti + 1, idGun)) > -1)
 		{
-      auto ani = mdl->GetAnimation();
-      auto bones = &ani->GetAnimationMatrix(0);
+      auto* ani = mdl->GetAnimation();
+      auto* bones = &ani->GetAnimationMatrix(0);
 
 			GEOS::LABEL lb;
 			manNode->geo->GetLabel(sti, lb);
@@ -370,7 +370,7 @@ bool BLADE::LoadGunModel(MESSAGE& message)
 void BLADE::GunFire()
 {
 	auto* mdl = (MODEL*)EntityManager::GetEntityPointer(man);
-  auto manNode = mdl->GetNode(0);
+  auto* manNode = mdl->GetNode(0);
 
 	//------------------------------------------------------
 	//search gunfire
@@ -383,14 +383,14 @@ void BLADE::GunFire()
 
 	if (obj != nullptr)
 	{
-    auto gunNode = obj->GetNode(0);
+    auto* gunNode = obj->GetNode(0);
 		sti = -1;
 		auto idGun = manNode->geo->FindName(gunLocName);
 
 		if ((sti = manNode->geo->FindLabelN(sti + 1, idGun)) > -1)
 		{
-      auto ani = mdl->GetAnimation();
-      auto bones = &ani->GetAnimationMatrix(0);
+      auto* ani = mdl->GetAnimation();
+      auto* bones = &ani->GetAnimationMatrix(0);
 
 			GEOS::LABEL lb;
 			manNode->geo->GetLabel(sti, lb);

@@ -29,7 +29,7 @@ void ISLAND_DESCRIBER::SetIsland(ATTRIBUTES* pAIsland)
 	m_bYesIsland = true;
 	m_pIslandAttributes = pAIsland;
 	// создать список локаторов
-  auto pA = pAIsland->GetAttributeClass("reload");
+  auto* pA = pAIsland->GetAttributeClass("reload");
 	if (pA == nullptr) return;
 	if ((m_nLocators = pA->GetAttributesNum()) == 0) return;
 	if ((m_pLocators = new LOCATOR_DESCR[m_nLocators]) == nullptr)
@@ -52,7 +52,7 @@ void ISLAND_DESCRIBER::SetIsland(ATTRIBUTES* pAIsland)
 		m_pLocators[i].texIdx = -1;
 		m_pLocators[i].characterIndex = -1;
 		m_pLocators[i].bDiseased = false;
-    auto pvdat = api->Event("evntGetLandData", "a", pATmp);
+    auto* pvdat = api->Event("evntGetLandData", "a", pATmp);
 		if (pvdat)
 		{
 			long lTmp;
@@ -197,7 +197,7 @@ ISLAND_DESCRIBER::LOCATOR_DESCR* ISLAND_DESCRIBER::FindLocatorByName(char* name)
 	for (auto i = 0; i < m_nLocators; i++)
 	{
 		if (m_pLocators[i].pA == nullptr) continue;
-    const auto curName = m_pLocators[i].pA->GetAttribute("name");
+    auto* const curName = m_pLocators[i].pA->GetAttribute("name");
 		if (curName != nullptr && _stricmp(name, curName) == 0) return &m_pLocators[i];
 	}
 	return nullptr;

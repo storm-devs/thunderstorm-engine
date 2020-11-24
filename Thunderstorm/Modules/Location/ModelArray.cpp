@@ -125,7 +125,7 @@ long ModelArray::CreateModel(const char* modelName, const char* technique, long 
 	{
 		for (long i = 0; i < 1024; i++)
 		{
-      auto nd = m->GetNode(i);
+      auto* nd = m->GetNode(i);
 			if (!nd) break;
 			nd->SetTechnique(technique);
 		}
@@ -232,14 +232,14 @@ void ModelArray::SetUVSlide(long modelIndex, float u0, float v0, float u1, float
 {
 	Assert(modelIndex >= 0 && modelIndex < numModels);
 	if (!model[modelIndex].slider) model[modelIndex].slider = new UVSlider;
-  const auto sl = model[modelIndex].slider;
+  auto* const sl = model[modelIndex].slider;
 	sl->u0 = sl->v0 = 0.0f;
 	sl->u1 = sl->v1 = 0.0f;
 	sl->us0 = u0;
 	sl->vs0 = v0;
 	sl->us1 = u1;
 	sl->vs1 = v1;
-  auto mdl = (*this)[modelIndex];
+  auto* mdl = (*this)[modelIndex];
 	if (mdl) mdl->SetRenderTuner(sl);
 	else api->Trace("Location: Can't get model pointer for set RenderTuner");
 }
@@ -263,7 +263,7 @@ void ModelArray::SetReflection(long modelIndex, float scale)
 	if (scale > 1.0f) scale = 1.0f;
   const auto alpha = uint32_t(scale * 255.0f);
 	model[modelIndex].reflection->tfactor = (alpha << 24) | 0x00ffffff;
-  auto mdl = (*this)[modelIndex];
+  auto* mdl = (*this)[modelIndex];
 	if (mdl) mdl->SetRenderTuner(model[modelIndex].reflection);
 	else api->Trace("Location: Can't get model pointer for set RenderTuner");
 }
@@ -275,7 +275,7 @@ void ModelArray::Update(float dltTime)
 	{
 		if (model[i].slider)
 		{
-      auto sl = model[i].slider;
+      auto* sl = model[i].slider;
 			sl->u0 += dltTime * sl->us0;
 			sl->v0 += dltTime * sl->vs0;
 			sl->u1 += dltTime * sl->us1;

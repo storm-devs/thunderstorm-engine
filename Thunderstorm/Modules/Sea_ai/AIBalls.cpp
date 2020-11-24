@@ -29,10 +29,10 @@ AIBalls::~AIBalls()
 
 	for (i = 0; i < aBallTypes.size(); i++)
 	{
-    auto pBallsType = &aBallTypes[i];
+    auto* pBallsType = &aBallTypes[i];
 		for (j = 0; j < pBallsType->Balls.size(); j++)
 		{
-      auto pBall = &pBallsType->Balls[j];
+      auto* pBall = &pBallsType->Balls[j];
 			if (pBall->pParticle)
 			{
 				STORM_DELETE(pBall->pParticle);
@@ -61,15 +61,15 @@ void AIBalls::FireBallFromCamera()
 	if (!pMainCharIndex) return;
   auto iMainCharIndex = pMainCharIndex->GetLong();
 	if (iMainCharIndex < 0) return;
-  auto pMainCharacter = (VDATA *)api->GetScriptVariable("Characters");
+  auto* pMainCharacter = (VDATA *)api->GetScriptVariable("Characters");
 	if (!pMainCharacter) return;
-  auto pAMainCharacter = pMainCharacter->GetAClass(iMainCharIndex);
+  auto* pAMainCharacter = pMainCharacter->GetAClass(iMainCharIndex);
 	if (!pAMainCharacter) return;
-  auto pACannonType = pAMainCharacter->FindAClass(pAMainCharacter, "Ship.Cannons.Type");
+  auto* pACannonType = pAMainCharacter->FindAClass(pAMainCharacter, "Ship.Cannons.Type");
 	if (!pACannonType) return;
   auto dwCannonType = pACannonType->GetAttributeAsDword();
 
-  auto pABall = pAMainCharacter->CreateAttribute("_err324__", "");
+  auto* pABall = pAMainCharacter->CreateAttribute("_err324__", "");
 	if (!pABall) return;
 
 	/*AIHelper::pRS->GetTransform(D3DTS_VIEW, mView);
@@ -110,7 +110,7 @@ void AIBalls::FireBallFromCamera()
 
 void AIBalls::AddBall(ATTRIBUTES* pABall)
 {
-  const auto pBallName = pABall->GetAttribute("Type");
+  auto* const pBallName = pABall->GetAttribute("Type");
 	Assert(pBallName);
 
 	uint32_t i;
@@ -119,7 +119,7 @@ void AIBalls::AddBall(ATTRIBUTES* pABall)
 
 	aBallTypes[i].Balls.push_back(BALL_PARAMS{});
 	//BALL_PARAMS * pBall = &aBallTypes[i].Balls[aBallTypes[i].Balls.Add()];
-  auto pBall = &aBallTypes[i].Balls.back();
+  auto* pBall = &aBallTypes[i].Balls.back();
 
 	pBall->iBallOwner = pABall->GetAttributeAsDword("CharacterIndex");
 
@@ -180,13 +180,13 @@ void AIBalls::Execute(uint32_t Delta_Time)
 
 	for (i = 0; i < aBallTypes.size(); i++)
 	{
-    auto pBallsType = &aBallTypes[i];
+    auto* pBallsType = &aBallTypes[i];
 
 		AttributesPointer->SetAttributeUseDword("CurrentBallType", pBallsType->dwGoodIndex);
 
 		for (j = 0; j < pBallsType->Balls.size(); j++)
 		{
-      auto pBall = &pBallsType->Balls[j];
+      auto* pBall = &pBallsType->Balls[j];
 
 			vSrc = pBall->vPos;
 

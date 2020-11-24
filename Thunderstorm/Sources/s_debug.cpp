@@ -77,7 +77,7 @@ LRESULT CALLBACK DebugWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam
 		if (hMenu)
 		{
 			MENUITEMINFO mii;
-      const auto hFileSubMenu = GetSubMenu(hMenu, 0);
+      auto* const hFileSubMenu = GetSubMenu(hMenu, 0);
 
 			for (uint32_t n = 0; n < (uint32_t)GetMenuItemCount(hFileSubMenu); n++)
 			{
@@ -803,7 +803,7 @@ bool S_DEBUG::ProcessRegistry_Open()
 		}
 	*/
 
-  const auto hMenu = GetMenu(hMain);
+  auto* const hMenu = GetMenu(hMain);
 	if (hMenu)
 	{
 		MENUITEMINFO mii;

@@ -35,11 +35,11 @@ DX9RENDER* DX9RENDER::pRS = nullptr;
 
 uint32_t DX9SetTexturePath(VS_STACK* pS)
 {
-  auto pString = (VDATA*)pS->Pop();
-  auto pNumber = (VDATA*)pS->Pop();
+  auto* pString = (VDATA*)pS->Pop();
+  auto* pNumber = (VDATA*)pS->Pop();
 
   const uintptr_t iNumber = pNumber->GetLong();
-  const auto pStr = pString->GetString();
+  auto* const pStr = pString->GetString();
 
 	if (!DX9RENDER::pRS)
 	{
@@ -47,7 +47,7 @@ uint32_t DX9SetTexturePath(VS_STACK* pS)
 		Assert(DX9RENDER::pRS);
 	}
 
-  auto pVR = (VDATA*)pS->Push();
+  auto* pVR = (VDATA*)pS->Push();
 	if (!pVR || iNumber < 0 || iNumber >= 4)
 	{
 		pVR->Set(long(0));
@@ -65,7 +65,7 @@ uint32_t DX9SetTexturePath(VS_STACK* pS)
 
 uint32_t RPrint(VS_STACK* pS)
 {
-  auto pString = (VDATA*)pS->Pop();
+  auto* pString = (VDATA*)pS->Pop();
   const long y = ((VDATA*)pS->Pop())->GetLong();
   const long x = ((VDATA*)pS->Pop())->GetLong();
 
@@ -2508,7 +2508,7 @@ void DX9RENDER::RecompileEffects()
 {
 	effects_.release();
 
-	for (auto& p : fs::recursive_directory_iterator("resource/techniques"))
+	for (const auto& p : fs::recursive_directory_iterator("resource/techniques"))
 		if (is_regular_file(p) && p.path().extension() == ".fx")
 		{
 			auto s = p.path().string(); // hug microsoft 

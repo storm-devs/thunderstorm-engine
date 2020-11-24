@@ -156,7 +156,7 @@ inline bool BIManSign::FloatACompare(ATTRIBUTES* pA, const char* attrName, float
 
 inline bool BIManSign::StringACompare(ATTRIBUTES* pA, const char* attrName, std::string& sCompareVal)
 {
-  const auto pVal = pA->GetAttribute(attrName);
+  auto* const pVal = pA->GetAttribute(attrName);
 	if (sCompareVal == pVal) return false;
 	sCompareVal = pVal;
 	return true;
@@ -164,7 +164,7 @@ inline bool BIManSign::StringACompare(ATTRIBUTES* pA, const char* attrName, std:
 
 inline bool BIManSign::FRectACompare(ATTRIBUTES* pA, const char* attrName, FRECT& rCompareVal)
 {
-  const auto pVal = pA->GetAttribute(attrName);
+  auto* const pVal = pA->GetAttribute(attrName);
 	if (!pVal) return false;
 	FRECT rTmp;
 	rTmp.left = rCompareVal.left;

@@ -24,7 +24,7 @@ public:
 	{
 		Assert(pACharacter);
 		// get entity id from loaded ships
-		auto& entities = EntityManager::GetEntityIdVector("ship");
+    const auto& entities = EntityManager::GetEntityIdVector("ship");
 		for (auto ship : entities)
 		{
 			auto* pObj = (VAI_OBJBASE*)EntityManager::GetEntityPointer(ship);

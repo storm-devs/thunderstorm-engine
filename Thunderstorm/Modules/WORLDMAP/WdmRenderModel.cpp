@@ -120,7 +120,7 @@ void WdmRenderModel::Render(VDX9RENDER* rs) const {
 		rs->SetRenderState(D3DRS_TEXTUREFACTOR, (long(a) << 24) | 0xffffff);
 	}
 	//Проверим на видимость
-  const auto plane = rs->GetPlanes();
+  auto* const plane = rs->GetPlanes();
 	static CMatrix mtx;
 	rs->GetTransform(D3DTS_WORLD, mtx);
   const auto v = mtx * center;

@@ -70,7 +70,7 @@ bool SEAFOAM::Init()
 //--------------------------------------------------------------------
 void SEAFOAM::InitializeShipFoam()
 {
-	auto& entities = EntityManager::GetEntityIdVector("ship");
+  const auto& entities = EntityManager::GetEntityIdVector("ship");
 	for (auto ent : entities)
 	{
 		AddShip(ent);
@@ -79,7 +79,7 @@ void SEAFOAM::InitializeShipFoam()
 
 void SEAFOAM::AddShip(entid_t pShipEID)
 {
-  auto foamInfo = &shipFoamInfo[shipsCount++];
+  auto* foamInfo = &shipFoamInfo[shipsCount++];
 
 	foamInfo->ship = (SHIP_BASE*)EntityManager::GetEntityPointer(pShipEID);
 	foamInfo->shipModel = foamInfo->ship->GetModel();
@@ -479,7 +479,7 @@ uint64_t SEAFOAM::ProcessMessage(MESSAGE& message)
 	{
 	case MSG_SHIP_DELETE:
 		{
-      const auto attrs = message.AttributePointer();
+      auto* const attrs = message.AttributePointer();
 			tShipFoamInfo* foamInfo = nullptr;
 			if (attrs)
 				for (auto ship = 0; ship < shipsCount; ship++)
@@ -578,7 +578,7 @@ void SEAFOAM::Execute(uint32_t dTime)
 //--------------------------------------------------------------------
 uint32_t SEAFOAM::AttributeChanged(ATTRIBUTES* pA)
 {
-  const auto nm = pA->GetThisName();
+  const auto* const nm = pA->GetThisName();
 
 	if (!_stricmp(nm, "storm"))
 	{

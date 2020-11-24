@@ -268,7 +268,7 @@ char* COMPILER::LoadFile(const char* file_name, uint32_t& file_size, bool bFullP
 		return nullptr;
 	}
 
-  const auto pData = (char *)new char[fsize + 1];
+  auto* const pData = (char *)new char[fsize + 1];
 	fio->_ReadFile(fh, pData, fsize, &dwR);
 	if (fsize != dwR)
 	{
@@ -291,8 +291,8 @@ void COMPILER::Trace(const char* data_PTR, ...)
 	//char LogBuffer[MAX_PATH + MAX_PATH];
 	char LogBuffer[4096];
 	if (data_PTR == nullptr) return;
-  auto file_h = CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ, nullptr,OPEN_ALWAYS,
-                           FILE_ATTRIBUTE_NORMAL, nullptr);
+  auto* file_h = CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ, nullptr,OPEN_ALWAYS,
+                            FILE_ATTRIBUTE_NORMAL, nullptr);
 	SetFilePointer(file_h, 0, nullptr,FILE_END);
 	va_list args;
 	va_start(args, data_PTR);
@@ -315,7 +315,7 @@ void COMPILER::DTrace(const char* data_PTR, ...)
 	//char LogBuffer[MAX_PATH + MAX_PATH];
 	char LogBuffer[4096];
 	if (data_PTR == nullptr) return;
-  const auto file_h = fio->_CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
+  auto* const file_h = fio->_CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
 	fio->_SetFilePointer(file_h, 0, nullptr,FILE_END);
 	va_list args;
 	va_start(args, data_PTR);
@@ -355,7 +355,7 @@ bool COMPILER::AppendProgram(char* & pBase_program, uint32_t& Base_program_size,
 	if (bAddLinefeed)
 	{
 		//pBase_program = (char *)RESIZE(pBase_program,Base_program_size + Append_program_size + 3); // +1 for terminating zero, +1 for 0xd +1 for 0xa
-		const auto newPtr = new char[Base_program_size + Append_program_size + 3];
+    auto* const newPtr = new char[Base_program_size + Append_program_size + 3];
 		memcpy(newPtr, pBase_program, Base_program_size);
 		delete pBase_program;
 		pBase_program = newPtr;
@@ -369,7 +369,7 @@ bool COMPILER::AppendProgram(char* & pBase_program, uint32_t& Base_program_size,
 		return true;
 	}
 	//pBase_program = (char *)RESIZE(pBase_program,Base_program_size + Append_program_size + 2); // +1 for terminating zero, +1 for ';'
-	const auto newPtr = new char[Base_program_size + Append_program_size + 2];
+  auto* const newPtr = new char[Base_program_size + Append_program_size + 2];
 	memcpy(newPtr, pBase_program, Base_program_size);
 	delete pBase_program;
 	pBase_program = newPtr;
@@ -389,7 +389,7 @@ void COMPILER::SetError(const char* data_PTR, ...)
 	char LogBuffer[MAX_PATH + MAX_PATH];
 	char ErrorBuffer[MAX_PATH + MAX_PATH];
 	if (data_PTR == nullptr) return;
-  const auto file_h = fio->_CreateFile(COMPILER_ERRORLOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
+  auto* const file_h = fio->_CreateFile(COMPILER_ERRORLOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
 	fio->_SetFilePointer(file_h, 0, nullptr,FILE_END);
 	va_list args;
 	va_start(args, data_PTR);
@@ -433,7 +433,7 @@ void COMPILER::SetWarning(const char* data_PTR, ...)
 	char LogBuffer[MAX_PATH + MAX_PATH];
 	char ErrorBuffer[MAX_PATH + MAX_PATH];
 	if (data_PTR == nullptr) return;
-  const auto file_h = fio->_CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
+  auto* const file_h = fio->_CreateFile(COMPILER_LOG_FILENAME,GENERIC_WRITE,FILE_SHARE_READ,OPEN_ALWAYS);
 	fio->_SetFilePointer(file_h, 0, nullptr,FILE_END);
 	va_list args;
 	va_start(args, data_PTR);
@@ -963,7 +963,7 @@ bool COMPILER::ProcessDebugExpression(const char* pExpression, DATA& Result)
 	if (nDataSize > nDebExpBufferSize)
 	{
 		//	pDebExpBuffer = (char *)RESIZE(pDebExpBuffer,nDataSize);
-    const auto newPtr = new char[nDataSize];
+    auto* const newPtr = new char[nDataSize];
 		memcpy(newPtr, pDebExpBuffer, nDebExpBufferSize);
 		delete pDebExpBuffer;
 		pDebExpBuffer = newPtr;
@@ -981,7 +981,7 @@ bool COMPILER::SetOnDebugExpression(const char* pLValue, const char* pRValue, DA
 	if (nDataSize > nDebExpBufferSize)
 	{
 		//pDebExpBuffer = (char *)RESIZE(pDebExpBuffer,nDataSize);
-    const auto newPtr = new char[nDataSize];
+    auto* const newPtr = new char[nDataSize];
 		memcpy(newPtr, pDebExpBuffer, nDebExpBufferSize);
 		delete pDebExpBuffer;
 		pDebExpBuffer = newPtr;
@@ -1141,7 +1141,7 @@ void COMPILER::ResizeBCodeBuffer(SEGMENT_DESC& Segment, uint32_t add_size)
 	{
 		Segment.BCode_Buffer_size += BCODE_BUFFER_BLOCKSIZE;
 		//Segment.pCode = (char *)RESIZE(Segment.pCode,Segment.BCode_Buffer_size);
-    const auto newPtr = new char[Segment.BCode_Buffer_size];
+    auto* const newPtr = new char[Segment.BCode_Buffer_size];
 		memcpy(newPtr, Segment.pCode, Segment.BCode_Program_size);
 		delete Segment.pCode;
 		Segment.pCode = newPtr;
@@ -1175,7 +1175,7 @@ void COMPILER::CompileToken(SEGMENT_DESC& Segment, S_TOKEN_TYPE Token_type, uint
 	}
 
 	//pCompileTokenTempBuffer = (char *)RESIZE(pCompileTokenTempBuffer,data_blocks_num * (sizeof(char *) + sizeof(uint32_t)));
-  const auto newPtr = new char[data_blocks_num * (sizeof(char *) + sizeof(uint32_t))];
+  auto* const newPtr = new char[data_blocks_num * (sizeof(char *) + sizeof(uint32_t))];
 	delete pCompileTokenTempBuffer;
 	pCompileTokenTempBuffer = newPtr;
 
@@ -1943,7 +1943,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char* pInternalCode, uint32_t pInt
 								cc.nFlags = CCF_VARIABLE;
 								ci.nComponentsNum++;
 								//ci.pComponent = (CLASS_COMPONENT *)RESIZE(ci.pComponent, ci.nComponentsNum * sizeof(CLASS_COMPONENT));
-								auto newPtr = new CLASS_COMPONENT[ci.nComponentsNum];
+                auto* newPtr = new CLASS_COMPONENT[ci.nComponentsNum];
 								memcpy(newPtr, ci.pComponent, (ci.nComponentsNum - 1) * sizeof(CLASS_COMPONENT));
 								delete ci.pComponent;
 								ci.pComponent = newPtr;
@@ -1989,7 +1989,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char* pInternalCode, uint32_t pInt
 								cc.nFlags = CCF_VARARRAY;
 								ci.nComponentsNum++;
 								//ci.pComponent = (CLASS_COMPONENT *)RESIZE(ci.pComponent, ci.nComponentsNum * sizeof(CLASS_COMPONENT));
-								auto newPtr = new CLASS_COMPONENT[ci.nComponentsNum];
+                auto* newPtr = new CLASS_COMPONENT[ci.nComponentsNum];
 								memcpy(newPtr, ci.pComponent, (ci.nComponentsNum - 1) * sizeof(CLASS_COMPONENT));
 								delete ci.pComponent;
 								ci.pComponent = newPtr;
@@ -2004,7 +2004,7 @@ bool COMPILER::Compile(SEGMENT_DESC& Segment, char* pInternalCode, uint32_t pInt
 								cc.nFlags = CCF_VARIABLE;
 								ci.nComponentsNum++;
 								//ci.pComponent = (CLASS_COMPONENT *)RESIZE(ci.pComponent, ci.nComponentsNum * sizeof(CLASS_COMPONENT));
-								auto newPtr = new CLASS_COMPONENT[ci.nComponentsNum];
+                auto* newPtr = new CLASS_COMPONENT[ci.nComponentsNum];
 								memcpy(newPtr, ci.pComponent, (ci.nComponentsNum - 1) * sizeof(CLASS_COMPONENT));
 								delete ci.pComponent;
 								ci.pComponent = newPtr;
@@ -5987,7 +5987,7 @@ void COMPILER::SaveData(const void* data_PTR, uint32_t data_size)
 	{
     const uint32_t dwNewAllocate = (1 + (dwCurPointer + data_size) / (1024 * 1024)) * (1024 * 1024);
 		//pBuffer = (char*)RESIZE(pBuffer, dwNewAllocate);
-    const auto newPtr = new char[dwNewAllocate];
+    auto* const newPtr = new char[dwNewAllocate];
 		memcpy(newPtr, pBuffer, dwMaxSize);
 		delete pBuffer;
 		pBuffer = newPtr;
@@ -6128,7 +6128,7 @@ ATTRIBUTES* COMPILER::TraceARoot(ATTRIBUTES* pA, const char* & pAccess)
 	{
 		const auto len = slen + strlen(pAccess) + 1;
 		//pAS = (char *)RESIZE(pAS, len);
-    const auto newPtr = new char[len];
+    auto* const newPtr = new char[len];
 		memcpy(newPtr, pAS, len);
 		delete pAS;
 		pAS = newPtr;

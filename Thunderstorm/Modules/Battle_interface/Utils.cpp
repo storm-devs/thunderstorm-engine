@@ -47,7 +47,7 @@ bool BIUtils::ReadStringFromAttr(ATTRIBUTES* pA, const char* name, char* buf, lo
 char* BIUtils::GetStringFromAttr(ATTRIBUTES* pA, const char* name, const char* defVal)
 {
 	if (pA == nullptr || name == nullptr) return (char*)defVal;
-  const auto aVal = pA->GetAttribute(name);
+  auto* const aVal = pA->GetAttribute(name);
 	if (aVal == nullptr) return (char*)defVal;
 	return aVal;
 }
@@ -55,7 +55,7 @@ char* BIUtils::GetStringFromAttr(ATTRIBUTES* pA, const char* name, const char* d
 long BIUtils::GetTextureFromAttr(VDX9RENDER* rs, ATTRIBUTES* pA, const char* sAttrName)
 {
 	if (!rs || !pA) return -1;
-  const auto sname = pA->GetAttribute(sAttrName);
+  auto* const sname = pA->GetAttribute(sAttrName);
 	if (!sname || sname[0] == 0) return -1;
 	return rs->TextureCreate(sname);
 }
@@ -65,7 +65,7 @@ bool BIUtils::ReadRectFromAttr(ATTRIBUTES* pA, const char* name, FRECT& rOut, FR
 	rOut = rDefault;
 	if (pA && name)
 	{
-    const auto pcStr = pA->GetAttribute(name);
+    auto* const pcStr = pA->GetAttribute(name);
 		if (pcStr)
 		{
 			sscanf(pcStr, "%f,%f,%f,%f", &rOut.left, &rOut.top, &rOut.right, &rOut.bottom);
@@ -80,7 +80,7 @@ bool BIUtils::ReadRectFromAttr(ATTRIBUTES* pA, const char* name, RECT& rOut, REC
 	rOut = rDefault;
 	if (pA && name)
 	{
-    const auto pcStr = pA->GetAttribute(name);
+    auto* const pcStr = pA->GetAttribute(name);
 		if (pcStr)
 		{
 			sscanf(pcStr, "%d,%d,%d,%d", &rOut.left, &rOut.top, &rOut.right, &rOut.bottom);
@@ -96,7 +96,7 @@ bool BIUtils::ReadPosFromAttr(ATTRIBUTES* pA, const char* name, float& fX, float
 	fY = fYDef;
 	if (pA && name)
 	{
-    const auto pcStr = pA->GetAttribute(name);
+    auto* const pcStr = pA->GetAttribute(name);
 		if (pcStr)
 		{
 			sscanf(pcStr, "%f,%f", &fX, &fY);

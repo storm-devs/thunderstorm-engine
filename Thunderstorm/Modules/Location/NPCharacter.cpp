@@ -177,7 +177,7 @@ uint32_t NPCharacter::ChlProcessMessage(long messageID, MESSAGE& message)
 		if (fightLevel > 1.0f) fightLevel = 1.0f;
 		return 1;
 	case MSG_NPCHARACTER_GETTASK:
-    auto v = message.ScriptVariablePointer();
+    auto* v = message.ScriptVariablePointer();
 		if (!v) return 0;
 		v->Set((char *)GetTaskName(task.task));
 		return 1;
@@ -245,7 +245,7 @@ void NPCharacter::Update(float dltTime)
 		break;
 	}
 	AICharacter::Update(dltTime);
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	//Напишем отладочную информацию
 	if (location->IsDebugView())
 	{
@@ -279,7 +279,7 @@ void NPCharacter::Update(float dltTime)
 			command.pnt.x, command.pnt.y, command.pnt.z);
 		if (isDebugEx && AttributesPointer)
 		{
-      auto atr = AttributesPointer->FindAClass(AttributesPointer, "chr_ai.tmpl");
+      auto* atr = AttributesPointer->FindAClass(AttributesPointer, "chr_ai.tmpl");
 			if (atr)
 			{
 				for (long i = atr->GetAttributesNum() - 1; i >= 0; i--)
@@ -810,7 +810,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter* enemy)
 	//Собираем всех окружающих
 	static Supervisor::FindCharacter fndCharacter[MAX_CHARACTERS];
 	static long num = 0;
-	const auto location = GetLocation();
+  auto* const location = GetLocation();
 	if (!location->supervisor.FindCharacters(fndCharacter, num, this, CHARACTER_ATTACK_DIST, 0.0f, 0.01f, 0.0f, false))
 		return;
 	if (!num) return;

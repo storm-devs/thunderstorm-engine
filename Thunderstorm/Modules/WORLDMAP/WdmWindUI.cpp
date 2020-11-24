@@ -66,13 +66,13 @@ WdmWindUI::~WdmWindUI()
 void WdmWindUI::SetAttributes(ATTRIBUTES* apnt)
 {
 	if (!apnt) return;
-  auto ap = apnt->FindAClass(apnt, "date");
+  auto* ap = apnt->FindAClass(apnt, "date");
 	if (ap)
 	{
 		//Font
-    auto s = ap->GetAttribute("font");
+    auto* s = ap->GetAttribute("font");
 		if (s && s[0]) dateFont = wdmObjects->wm->GetRS()->LoadFont(s);
-    auto a = ap->FindAClass(ap, "monthnames");
+    auto* a = ap->FindAClass(ap, "monthnames");
 		if (a)
 		{
 			char buf[4];
@@ -101,7 +101,7 @@ void WdmWindUI::LRender(VDX9RENDER* rs)
 {
 	if (wdmObjects->isNextDayUpdate)
 	{
-    auto data = api->Event("WorldMap_GetMoral");
+    auto* data = api->Event("WorldMap_GetMoral");
 		if (data)
 		{
 			morale = data->GetFloat() * 0.02f - 1.0f;

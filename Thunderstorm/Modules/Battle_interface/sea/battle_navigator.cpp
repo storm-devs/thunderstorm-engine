@@ -362,8 +362,8 @@ void BATTLE_NAVIGATOR::UpdateFireRangeBuffer() const {
 	auto* pv = (BI_NOTEXTURE_VERTEX *)rs->LockVertexBuffer(m_idFireZoneVBuf);
 	if (pv == nullptr) return;
 
-  const auto psd = g_ShipList.GetMainCharacterShip();
-  const auto pAttr = g_ShipList.GetMainCharacterShipAttr();
+  auto* const psd = g_ShipList.GetMainCharacterShip();
+  auto* const pAttr = g_ShipList.GetMainCharacterShipAttr();
 	if (psd != nullptr && pAttr != nullptr)
 	{
 		FillOneSideFireRange(&pv[0], pAttr, psd->pAttr, "cannonf");
@@ -419,7 +419,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER* RenderService, Entity* pOwnerEI)
 	//
 	m_fShipSpeedScale = api->Entity_GetAttributeAsFloat(BIUtils::idBattleInterface, "ShipSpeedScaler", 1.f);
 
-  const auto pARoot = api->Entity_GetAttributeClass(BIUtils::idBattleInterface, "navigation");
+  auto* const pARoot = api->Entity_GetAttributeClass(BIUtils::idBattleInterface, "navigation");
 
 	m_fAspectRatio = BIUtils::GetFloatFromAttr(pARoot, "aspectRatio", 1.f);
 
@@ -627,7 +627,7 @@ void BATTLE_NAVIGATOR::Init(VDX9RENDER* RenderService, Entity* pOwnerEI)
 	m_nvShips = 0;
 
 	// fill constant value for vertex buffer
-  auto pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idEmptyVBuf);
+  auto* pV = (BI_ONETEXTURE_VERTEX *)rs->LockVertexBuffer(m_idEmptyVBuf);
 	if (pV != nullptr)
 	{
 		for (i = 0; i < 12; i++)
@@ -862,7 +862,7 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 	m_fCurAnglRightCharge = 0;
 	m_fCurAnglForwardCharge = 0;
 	m_fCurAnglBackCharge = m_fBegAnglBackCharge;
-  auto psd = g_ShipList.GetMainCharacterShip();
+  auto* psd = g_ShipList.GetMainCharacterShip();
 	if (psd == nullptr) return;
 
 	// get map center
@@ -905,7 +905,7 @@ void BATTLE_NAVIGATOR::SetMainCharacterData()
 	m_fCurAnglRightCharge = m_fBegAnglRightCharge;
 	m_fCurAnglForwardCharge = m_fBegAnglForwardCharge;
 	m_fCurAnglBackCharge = m_fBegAnglBackCharge;
-  auto pBortsAttr = BIUtils::GetAttributesFromPath(psd->pAttr, "cannons", "borts", 0);
+  auto* pBortsAttr = BIUtils::GetAttributesFromPath(psd->pAttr, "cannons", "borts", 0);
 	if (pBortsAttr != nullptr)
 	{
 		ATTRIBUTES* pTmpAttr;
@@ -949,13 +949,13 @@ void BATTLE_NAVIGATOR::SetAnotherShip()
 {
 	auto* pv = (BI_COLORONLY_VERTEX*)rs->LockVertexBuffer(m_idShipsVBuf);
 	if (pv == nullptr) return;
-  const auto pMainCharacter = g_ShipList.GetMainCharacterShip();
+  auto* const pMainCharacter = g_ShipList.GetMainCharacterShip();
   auto idx = 0;
   const auto fSqrMapRad = m_fMapRadius * m_fMapRadius;
 
 	m_nvShips = 0L;
 	// Fill ships buffer
-	for (auto psd = g_ShipList.GetShipRoot(); psd != nullptr; psd = psd->next)
+	for (auto* psd = g_ShipList.GetShipRoot(); psd != nullptr; psd = psd->next)
 	{
 		// не рисовать корабль основного героя
 		if (psd == pMainCharacter) continue;
@@ -1265,7 +1265,7 @@ void BATTLE_NAVIGATOR::SetIsland()
 		zMin = zMax = posCenter.z;
 		yMin = yMax = posCenter.y;
     auto i = 0;
-		for (auto pN = pM->GetNode(0); pN != nullptr; pN = pM->GetNode(++i))
+		for (auto* pN = pM->GetNode(0); pN != nullptr; pN = pM->GetNode(++i))
 		{
 			GEOS::INFO gi;
 			pN->geo->GetInfo(gi);

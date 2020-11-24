@@ -202,7 +202,7 @@ bool SEA::Init()
 {
 	rs = (VDX9RENDER *)api->CreateService("dx9render");
 	CreateVertexDeclaration();
-  auto pEngineIni = fio->OpenIniFile(api->EngineIniFileName());
+  auto* pEngineIni = fio->OpenIniFile(api->EngineIniFileName());
   const auto bDisableHyperThreading = (pEngineIni) ? pEngineIni->GetLong(nullptr, "HyperThreading", 1) == 0 : false;
 	bDisableSSE = (pEngineIni) ? pEngineIni->GetLong(nullptr, "DisableSSE", 0) != 0 : false;
 	bIniFoamEnable = (pEngineIni) ? pEngineIni->GetLong("Sea", "FoamEnable", 1) != 0 : false;
@@ -287,9 +287,9 @@ bool SEA::Init()
 			return false;
 		}
 
-    auto pFB = pFBuffer + sizeof(TGA_H);
+    auto* pFB = pFBuffer + sizeof(TGA_H);
 
-    auto pBuffer = new uint8_t[XWIDTH * YWIDTH];
+    auto* pBuffer = new uint8_t[XWIDTH * YWIDTH];
 		aTmpBumps.push_back(pBuffer);
 
 		for (uint32_t y = 0; y < YWIDTH; y++)
@@ -308,7 +308,7 @@ bool SEA::Init()
 
 	for (i = 0; i < FRAMES; i++)
 	{
-    auto pBuffer = new uint8_t[XWIDTH * YWIDTH];
+    auto* pBuffer = new uint8_t[XWIDTH * YWIDTH];
 		aBumps.push_back(pBuffer);
 
 		for (uint32_t y = 0; y < YWIDTH; y++)
@@ -359,7 +359,7 @@ void SEA::BuildVolumeTexture()
 	aBumpMaps.clear();
 
 	uint32_t dwTexelSize = 4;
-  auto pDst = (char*)new char[XWIDTH * YWIDTH * dwTexelSize];
+  auto* pDst = (char*)new char[XWIDTH * YWIDTH * dwTexelSize];
 
 	// build normals
 

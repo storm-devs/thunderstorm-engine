@@ -25,7 +25,7 @@ bool AIShipTouchController::isCollision2D(const CVECTOR& vSrc, const CVECTOR& vD
 {
 	CVECTOR vRes;
 
-  const auto vPentaBox = GetPentagonBox();
+  auto* const vPentaBox = GetPentagonBox();
 
 	for (uint32_t j = 0; j < 5; j++)
 		if (IntersectLines2D(vSrc, vDst, vPentaBox[j], vPentaBox[(j == 4) ? 0 : j + 1], vRes)) return true;

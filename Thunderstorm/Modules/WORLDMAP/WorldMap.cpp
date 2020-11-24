@@ -207,7 +207,7 @@ bool WorldMap::Init()
 		wdmObjects->stormBrnDistMax = AttributesPointer->GetAttributeAsFloat(
 			"stormBrnDistMax", wdmObjects->stormBrnDistMax);
 		wdmObjects->stormZone = AttributesPointer->GetAttributeAsFloat("stormZone", wdmObjects->stormZone);
-    const auto s = AttributesPointer->GetAttribute("debug");
+    auto* const s = AttributesPointer->GetAttribute("debug");
 		wdmObjects->isDebug = s && (_stricmp(s, "true") == 0);
 		saveData = AttributesPointer->CreateSubAClass(AttributesPointer, "encounters");
 	}
@@ -288,7 +288,7 @@ bool WorldMap::Init()
     const auto num = saveData->GetAttributesNum();
 		for (uint32_t i = 0; i < num; i++)
 		{
-      auto a = saveData->GetAttributeClass(i);
+      auto* a = saveData->GetAttributeClass(i);
 			if (!a) continue;
 			const char* type = a->GetAttribute("type");
 			const char* modelName = a->GetAttribute("modelName");
@@ -315,13 +315,13 @@ bool WorldMap::Init()
 			}
 			if (_stricmp(type, "Warring") == 0 && modelName && modelName[0])
 			{
-        const auto attacked = a->GetAttribute("attacked");
+        auto* const attacked = a->GetAttribute("attacked");
 				if (attacked)
 				{
-          auto a1 = saveData->FindAClass(saveData, attacked);
+          auto* a1 = saveData->FindAClass(saveData, attacked);
 					if (a1)
 					{
-            const auto modelName1 = a1->GetAttribute("modelName");
+            auto* const modelName1 = a1->GetAttribute("modelName");
 						if (modelName1 && modelName1[0])
 						{
 							if (!CreateWarringShips(modelName, modelName1, -1.0f, a, a1))
@@ -360,9 +360,9 @@ bool WorldMap::Init()
 
 
 	//Корректируем корабль игрока
-  auto playerShip = (WdmPlayerShip *)wdmObjects->playerShip;
+  auto* playerShip = (WdmPlayerShip *)wdmObjects->playerShip;
 	playerShip->PushOutFromIsland();
-  const auto atrData = AttributesPointer->FindAClass(AttributesPointer, "island");
+  auto* const atrData = AttributesPointer->FindAClass(AttributesPointer, "island");
 	if (atrData)
 	{
 		float x, z, ay;
@@ -452,7 +452,7 @@ void WorldMap::Realize(uint32_t delta_time)
 #endif
 	}
 	//
-  auto tmp = aDate->GetAttribute("sec");
+  auto* tmp = aDate->GetAttribute("sec");
 	if (tmp) strcpy_s(wdmObjects->attrSec, tmp);
 	tmp = aDate->GetAttribute("min");
 	if (tmp) strcpy_s(wdmObjects->attrMin, tmp);
@@ -627,7 +627,7 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES* apnt)
 	}
 	else if (_stricmp(apnt->GetThisName(), "cur") == 0)
 	{
-    auto pa = apnt->GetParent();
+    auto* pa = apnt->GetParent();
 		if (pa == aStorm)
 		{
       const auto cur = long(pa->GetAttributeAsDword("cur"));
@@ -662,7 +662,7 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES* apnt)
 				pa->SetAttributeUseFloat("x", x);
 				pa->SetAttributeUseFloat("z", z);
 				pa->SetAttributeUseFloat("ay", ay);
-        const auto es = (WdmEnemyShip *)wdmObjects->ships[i];
+        auto* const es = (WdmEnemyShip *)wdmObjects->ships[i];
 				pa->SetAttributeUseFloat("time", es->GetLiveTime());
 				char buf[32];
 				sprintf_s(buf, "%i", es->type);
@@ -696,7 +696,7 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES* apnt)
 	}
 	else if (_stricmp(apnt->GetThisName(), "updateinfo") == 0)
 	{
-    auto pa = apnt->GetParent();
+    auto* pa = apnt->GetParent();
 		if (pa == aInfo)
 		{
 			pa->SetAttributeUseDword("playerInStorm", long(wdmObjects->playarInStorm));
@@ -704,7 +704,7 @@ uint32_t WorldMap::AttributeChanged(ATTRIBUTES* apnt)
 	}
 	else
 	{
-		for (auto pa = apnt; pa; pa = pa->GetParent())
+		for (auto* pa = apnt; pa; pa = pa->GetParent())
 		{
 			if (_stricmp(pa->GetThisName(), "labels") == 0)
 			{

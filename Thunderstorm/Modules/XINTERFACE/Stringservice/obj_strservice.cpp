@@ -41,8 +41,8 @@ uint64_t OBJ_STRSERVICE::ProcessMessage(MESSAGE& message)
 	case MSG_STRSERVICE_TRANSLATE_STRING:
 		{
       const auto nUsrID = message.Long();
-      auto pvdat = message.ScriptVariablePointer();
-      const auto inStr = pvdat == nullptr ? nullptr : pvdat->GetString();
+      auto* pvdat = message.ScriptVariablePointer();
+      auto* const inStr = pvdat == nullptr ? nullptr : pvdat->GetString();
 			pvdat = message.ScriptVariablePointer();
 			char* outStr = nullptr;
 			if (m_pStrService != nullptr) outStr = m_pStrService->TranslateFromUsers(nUsrID, inStr);
@@ -53,7 +53,7 @@ uint64_t OBJ_STRSERVICE::ProcessMessage(MESSAGE& message)
 		break;
 	case MSG_STRSERVICE_GET_LANGUAGE:
 		{
-      auto pvdat = message.ScriptVariablePointer();
+      auto* pvdat = message.ScriptVariablePointer();
 			char* outStr = nullptr;
 			if (m_pStrService != nullptr) outStr = m_pStrService->GetLanguage();
 			if (outStr != nullptr && pvdat != nullptr) pvdat->Set(outStr);

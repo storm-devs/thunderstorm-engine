@@ -118,13 +118,13 @@ void CXI_SCROLLBAR::Draw(bool bSelected, uint32_t Delta_Time)
 
 	if (m_bShowString)
 	{
-    auto pA = ptrOwner->AttributesPointer;
+    auto* pA = ptrOwner->AttributesPointer;
 		if (pA)
 		{
 			pA = pA->GetAttributeClass(m_nodeName);
 			if (pA)
 			{
-        const auto pcStr = pA->GetAttribute("str");
+        auto* const pcStr = pA->GetAttribute("str");
 				if (pcStr)
 				{
 					m_rs->ExtPrint(m_nFontID, m_dwFontColor, 0, PR_ALIGN_CENTER, true, m_fFontScale, m_screenSize.x,
@@ -266,7 +266,7 @@ void CXI_SCROLLBAR::LoadIni(INIFILE* ini1, const char * name1, INIFILE* ini2, co
 	m_fStepValue = GetIniFloat(ini1, name1, ini2, name2, "valueStep", 1.f);
 	m_fSpeedMultiplay = GetIniFloat(ini1, name1, ini2, name2, "valueStepMultiply", 10.f);
 	m_fCurValue = m_fStartValue;
-  auto pA = ptrOwner->AttributesPointer;
+  auto* pA = ptrOwner->AttributesPointer;
 	if (pA) pA = pA->GetAttributeClass(m_nodeName);
 	if (pA) m_fCurValue = pA->GetAttributeAsFloat("str", m_fStartValue);
 	WriteDataToAttribute();
@@ -362,7 +362,7 @@ void CXI_SCROLLBAR::SaveParametersToIni()
 {
 	char pcWriteParam[2048];
 
-  auto pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
+  auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
 	if (!pIni)
 	{
 		api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
@@ -579,7 +579,7 @@ void CXI_SCROLLBAR::UpdatePosition() const {
 }
 
 void CXI_SCROLLBAR::WriteDataToAttribute() const {
-  auto pRoot = ptrOwner->AttributesPointer;
+  auto* pRoot = ptrOwner->AttributesPointer;
 	if (!pRoot) return;
 	ATTRIBUTES* pA = pRoot->GetAttributeClass(m_nodeName);
 	if (!pA) pA = pRoot->CreateSubAClass(pRoot, m_nodeName);

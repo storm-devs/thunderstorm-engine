@@ -107,8 +107,8 @@ WdmIslands::WdmIslands()
 		name = "islands\\";
 		name += label.name;
 		//Загружаем
-    auto model = (WdmRenderModel *)wdmObjects->wm->CreateModel(new WdmRenderModel(), name.c_str(), false,
-                                                               false, true, 2);
+    auto* model = (WdmRenderModel *)wdmObjects->wm->CreateModel(new WdmRenderModel(), name.c_str(), false,
+                                                                false, true, 2);
 		if (model)
 		{
 			//Общее
@@ -138,7 +138,7 @@ WdmIslands::WdmIslands()
 			                                                          true, 4, 800);
 			if (isl.palms)
 			{
-				static auto techName = "WdmModelDrawStdAlphaTest";
+				static const auto* techName = "WdmModelDrawStdAlphaTest";
 				isl.palms->SetTech(techName, techName);
 			}
 			//Пена

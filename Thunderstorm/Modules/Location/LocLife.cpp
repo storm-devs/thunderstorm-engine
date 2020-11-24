@@ -72,9 +72,9 @@ bool LocLife::Init(Location* loc)
 		location = nullptr;
 		return false;
 	}
-  auto node = m->GetNode(0);
+  auto* node = m->GetNode(0);
 	if (node) node->SetTechnique("DLightModel");
-  const auto ani = m->GetAnimation();
+  auto* const ani = m->GetAnimation();
 	if (!ani)
 	{
 		location = nullptr;
@@ -99,7 +99,7 @@ void LocLife::Update(float dltTime)
 	//Информация о модели и локации
 	auto* m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if (!m) return;
-  const auto ani = m->GetAnimation();
+  auto* const ani = m->GetAnimation();
 	if (!ani) return;
   auto& ptc = location->GetPtcData();
 	if (node < 0)
@@ -190,7 +190,7 @@ void LocLife::StartMove()
 	auto* m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if (!m) return;
 	//Запускаем проигрывание анимации
-  const auto ani = m->GetAnimation();
+  auto* const ani = m->GetAnimation();
 	if (!ani) return;
 	node = FindRandomPos(npos);
 	IsStartMove(ani);
@@ -202,7 +202,7 @@ void LocLife::StopMove()
 	auto* m = (MODEL *)EntityManager::GetEntityPointer(model);
 	if (!m) return;
 	//Запускаем проигрывание анимации
-  const auto ani = m->GetAnimation();
+  auto* const ani = m->GetAnimation();
 	if (!ani) return;
 	IsStopMove(ani);
 }

@@ -57,7 +57,7 @@ void ParticleSystem::CreateFromDataSource(DataSource* pDataSource)
 
 	for (auto n = 0; n < EmitterCount; n++)
 	{
-    const auto pEmitterDecription = pDataSource->GetEmitterDesc(n);
+    auto* const pEmitterDecription = pDataSource->GetEmitterDesc(n);
 		IEmitter* pEmitter = nullptr;
 		switch (pEmitterDecription->Type)
 		{

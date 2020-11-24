@@ -67,7 +67,7 @@ void CXI_ToolTip::SetByFormatString(XYRECT& rectOwner, INIFILE* pDefIni, const c
 	sprintf_s(pcToolTipType, sizeof(pcToolTipType), "ToolTip");
 	long m_nMaxStrWidth = -1; //~!~
 
-	for (auto pcParam = (char*)pFmtStr; pcParam && pcParam[0];)
+	for (auto* pcParam = (char*)pFmtStr; pcParam && pcParam[0];)
 	{
 		if (nullptr == CXI_UTILS::StringGetTokenID(pcParam, tokenID, sizeof(tokenID))) break;
     const auto nTokenCode = CXI_UTILS::StringGetTokenCode(tokenID);

@@ -161,7 +161,7 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
 	vSun = vCamPos + (vSunDir * Glow.fDist);
 
   auto bTempVisibleFlare = true;
-  auto pPlane = pRS->GetPlanes();
+  auto* pPlane = pRS->GetPlanes();
 	if (pPlane)
 	{
 		for (long i = 0; i < 4; i++)
@@ -269,7 +269,7 @@ void SUNGLOW::Realize(uint32_t Delta_Time)
     auto vDelta = Flares.fDist * !(vCenPos - vSun);
 		for (uint32_t i = 0; i < Flares.aFlares.size(); i++)
 		{
-      auto pF = &Flares.aFlares[i];
+      auto* pF = &Flares.aFlares[i];
       auto r = uint32_t(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor & 0xFF0000) >> 16L));
 			auto g = uint32_t(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor & 0xFF00) >> 8L));
 			auto b = uint32_t(fFadeout * fAlpha * fAlphaFlare * float((pF->dwColor & 0xFF) >> 0L));
@@ -330,12 +330,12 @@ uint32_t SUNGLOW::AttributeChanged(ATTRIBUTES* pAttribute)
 		return 0;
 	}
 
-  const auto pParent = pAttribute->GetParent();
+  auto* const pParent = pAttribute->GetParent();
 
 	if (*pParent == "Flares")
 	{
 		bHaveFlare = true;
-    const auto pTemp = pAttribute->GetThisAttr();
+    auto* const pTemp = pAttribute->GetThisAttr();
 		//flare_t * pFlare = &Flares.aFlares[Flares.aFlares.Add()];
 		flare_t flare;
 		sscanf(pTemp, "%f,%f,%d,%x", &flare.fDist, &flare.fSize, &flare.dwSubTexIndex, &flare.dwColor);

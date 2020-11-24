@@ -24,7 +24,7 @@ long WMShipIcon::CalculateSignQuantity()
 		for (n = 0; n < MAX_SIGN_QUANTITY; n++)
 		{
 			sprintf_s(param, sizeof(param), "sign%d", n + 1);
-      auto pA = m_pAData->GetAttributeClass(param);
+      auto* pA = m_pAData->GetAttributeClass(param);
 			if (pA)
 			{
 				m_Sign[n].bUse = true;
