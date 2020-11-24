@@ -2630,7 +2630,7 @@ void DX9RENDER::RunStart()
 #ifndef _XBOX
 
 	// boal del_cheat
-	if (api->Controls->GetDebugAsyncKeyState(VK_F11) < 0)
+	if (api->Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0 && api->Controls->GetDebugAsyncKeyState(VK_F11) < 0)
 	{
 		RecompileEffects();
 	}
