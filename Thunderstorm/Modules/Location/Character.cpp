@@ -1510,7 +1510,7 @@ void Character::StrafeLeft()
 	if (priorityAction.name) return;
 	if (isSwim) return;
 	if (strafeWait > 0.0f) return;
-	if (!!GetLocation()->IsSwimming()) return;
+	if (!GetLocation()->IsSwimming()) return;
 	strafeWait = 0.8f;
 	fgtSetType = fgt_strafe_l;
 	fgtSetIndex = 0;
@@ -1524,7 +1524,7 @@ void Character::StrafeRight()
 	if (priorityAction.name) return;
 	if (isSwim) return;
 	if (strafeWait > 0.0f) return;
-	if (!!GetLocation()->IsSwimming()) return;
+	if (!GetLocation()->IsSwimming()) return;
 	strafeWait = 0.8f;
 	fgtSetType = fgt_strafe_r;
 	fgtSetIndex = 0;
@@ -1645,7 +1645,7 @@ void Character::Fire()
 	if (priorityAction.name) return;
 	if (isSwim) return;
 	if (!IsGunLoad()) return;
-	if (!!GetLocation()->IsSwimming()) return;
+	if (!GetLocation()->IsSwimming()) return;
 	//Ставим действие стрельбы
 	fgtSetType = fgt_fire;
 	fgtSetIndex = 0;
