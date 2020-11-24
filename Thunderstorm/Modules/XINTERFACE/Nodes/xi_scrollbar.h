@@ -7,6 +7,8 @@
 class CXI_SCROLLBAR : public CINODE
 {
 public:
+	CXI_SCROLLBAR(CXI_SCROLLBAR&&) = delete;
+	CXI_SCROLLBAR(const CXI_SCROLLBAR&) = delete;
 	CXI_SCROLLBAR();
 	~CXI_SCROLLBAR();
 

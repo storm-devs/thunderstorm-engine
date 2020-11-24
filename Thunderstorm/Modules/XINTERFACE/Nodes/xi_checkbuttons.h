@@ -38,6 +38,8 @@ struct ButtonDescribe
 class CXI_CHECKBUTTONS : public CINODE
 {
 public:
+	CXI_CHECKBUTTONS(CXI_CHECKBUTTONS&&) = delete;
+	CXI_CHECKBUTTONS(const CXI_CHECKBUTTONS&) = delete;
 	CXI_CHECKBUTTONS();
 	~CXI_CHECKBUTTONS();
 

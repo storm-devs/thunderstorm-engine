@@ -12,6 +12,8 @@ class VDX9RENDER;
 class GIEditor : public GIEditorObject
 {
 public:
+	GIEditor(GIEditor&&) = delete;
+	GIEditor(const GIEditor&) = delete;
 	GIEditor(XINTERFACE* pInterface);
 	~GIEditor();
 

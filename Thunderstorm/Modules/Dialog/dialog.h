@@ -35,6 +35,8 @@ class DIALOG : public Entity
 {
 	static VDX9RENDER * RenderService;
 public:
+	 DIALOG(DIALOG&&) = delete;
+	 DIALOG(const DIALOG&) = delete;
 	 DIALOG();
 	~DIALOG();
 	

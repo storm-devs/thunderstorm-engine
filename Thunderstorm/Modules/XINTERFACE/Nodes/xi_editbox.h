@@ -7,6 +7,8 @@
 class CXI_EDITBOX : public CINODE
 {
 public:
+	CXI_EDITBOX(CXI_EDITBOX&&) = delete;
+	CXI_EDITBOX(const CXI_EDITBOX&) = delete;
 	CXI_EDITBOX();
 	~CXI_EDITBOX();
 

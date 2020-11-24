@@ -7,6 +7,8 @@
 class CXI_TEXTBUTTON : public CINODE
 {
 public:
+	CXI_TEXTBUTTON(CXI_TEXTBUTTON&&) = delete;
+	CXI_TEXTBUTTON(const CXI_TEXTBUTTON&) = delete;
 	CXI_TEXTBUTTON();
 	~CXI_TEXTBUTTON();
 

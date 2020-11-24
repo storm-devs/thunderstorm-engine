@@ -90,6 +90,8 @@ class WdmIslands : public WdmRenderObject
 	//Конструирование, деструктурирование
 	//--------------------------------------------------------------------------------------------
 public:
+	WdmIslands(WdmIslands&&) = delete;
+	WdmIslands(const WdmIslands&) = delete;
 	WdmIslands();
 	virtual ~WdmIslands();
 

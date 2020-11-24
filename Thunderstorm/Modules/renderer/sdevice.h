@@ -316,6 +316,7 @@ public:
 	long LoadFont(const char * fontName) override; // возвращает номер\идентификатор шрифта или -1 в случае ошибки
 	bool UnloadFont(const char * fontName) override; // возвращает истину если шрифт остался в использовании
 	bool UnloadFont(long fontID) override; // возвращает истину если шрифт остался в использовании
+	bool IncRefCounter(long fontID) override; // increase reference counter if object is being copied
 	bool SetCurFont(const char * fontName) override; // возвращает истину если установили данный шрифт
 	bool SetCurFont(long fontID) override; // возвращает истину если установили данный шрифт
 	long GetCurFont() override;

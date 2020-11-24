@@ -13,6 +13,8 @@ struct HELPEntity
 class CXI_CONTEXTHELP : public CINODE
 {
 public:
+	CXI_CONTEXTHELP(CXI_CONTEXTHELP&&) = delete;
+	CXI_CONTEXTHELP(const CXI_CONTEXTHELP&) = delete;
 	CXI_CONTEXTHELP();
 	~CXI_CONTEXTHELP();
 

@@ -39,6 +39,9 @@ class ISPYGLASS : public Entity
 		std::string sText;
 		long nAlign;
 
+		TextParam(TextParam&&) = delete;
+		TextParam(const TextParam&) = delete;
+
 		TextParam()
 		{
 			rs = nullptr;

@@ -6,6 +6,8 @@
 class CXI_FOURIMAGE : public CINODE
 {
 public:
+	CXI_FOURIMAGE(CXI_FOURIMAGE&&) = delete;
+	CXI_FOURIMAGE(const CXI_FOURIMAGE&) = delete;
 	CXI_FOURIMAGE();
 	~CXI_FOURIMAGE();
 

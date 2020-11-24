@@ -33,6 +33,8 @@ class CXI_SCROLLIMAGE : public CINODE
 	};
 
 public:
+	CXI_SCROLLIMAGE(CXI_SCROLLIMAGE&&) = delete;
+	CXI_SCROLLIMAGE(const CXI_SCROLLIMAGE&) = delete;
 	CXI_SCROLLIMAGE();
 	~CXI_SCROLLIMAGE();
 	void Draw(bool bSelected, uint32_t Delta_Time) override;

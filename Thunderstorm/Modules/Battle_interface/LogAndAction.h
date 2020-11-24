@@ -17,6 +17,8 @@ class ILogAndActions : public Entity
 	};
 
 public:
+	ILogAndActions(ILogAndActions&&) = delete;
+	ILogAndActions(const ILogAndActions&) = delete;
 	ILogAndActions();
 	~ILogAndActions();
 	bool Init() override;

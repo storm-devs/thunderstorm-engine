@@ -130,6 +130,7 @@ public:
 	virtual long LoadFont(const char* fontName) = 0; // возвращает номер\идентификатор шрифта или -1 в случае ошибки
 	virtual bool UnloadFont(const char* fontName) = 0; // возвращает истину если шрифт остался в использовании
 	virtual bool UnloadFont(long fontID) = 0; // возвращает истину если шрифт остался в использовании
+	virtual bool IncRefCounter(long fontID) = 0; // increase reference counter if object is being copied
 	virtual bool SetCurFont(const char* fontName) = 0; // возвращает истину если установили данный шрифт
 	virtual bool SetCurFont(long fontID) = 0; // возвращает истину если установили данный шрифт
 	virtual long GetCurFont() = 0;

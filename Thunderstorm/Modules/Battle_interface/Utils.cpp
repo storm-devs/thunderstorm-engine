@@ -245,10 +245,10 @@ void BIUtils::FillTextInfoArray(VDX9RENDER* pRS, ATTRIBUTES* pA, std::vector<BIT
 	tia.clear();
 
 	long q = pA->GetAttributesNum();
+	tia.reserve(q);
 	for (long n = 0; n < q; n++)
 	{
-		tia.push_back(BITextInfo());
-		tia.back().Init(pRS, pA->GetAttributeClass(n));
+		tia.emplace_back().Init(pRS, pA->GetAttributeClass(n));
 	}
 }
 
@@ -258,6 +258,32 @@ void BIUtils::PrintTextInfoArray(std::vector<BITextInfo>& tia)
 		tia[n].Print();
 }
 
+
+BITextInfo::BITextInfo(BITextInfo&& text_info) noexcept {
+  pRS = text_info.pRS;
+  sText = std::move(text_info.sText);
+  pos = std::move(text_info.pos);
+  fScale = text_info.fScale;
+  nFont = text_info.nFont;
+  dwColor = text_info.dwColor;
+  bShadow = text_info.bShadow;
+  pARefresh = text_info.pARefresh;
+
+  text_info.nFont = -1;
+}
+
+BITextInfo::BITextInfo(const BITextInfo& text_info) {
+  pRS = text_info.pRS;
+  sText = text_info.sText;
+  pos = text_info.pos;
+  fScale = text_info.fScale;
+  nFont = text_info.nFont;
+  dwColor = text_info.dwColor;
+  bShadow = text_info.bShadow;
+  pARefresh = text_info.pARefresh;
+
+  pRS->IncRefCounter(nFont);
+}
 
 BITextInfo::BITextInfo()
 {

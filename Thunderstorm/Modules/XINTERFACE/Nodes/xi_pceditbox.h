@@ -9,6 +9,8 @@ class CXI_IMAGE;
 class CXI_PCEDITBOX : public CINODE
 {
 public:
+	CXI_PCEDITBOX(CXI_PCEDITBOX&&) = delete;
+	CXI_PCEDITBOX(const CXI_PCEDITBOX&) = delete;
 	CXI_PCEDITBOX();
 	~CXI_PCEDITBOX();
 

@@ -9,6 +9,8 @@ class VXSERVICE;
 class CXI_ToolTip
 {
 public:
+	CXI_ToolTip(CXI_ToolTip&&) = delete;
+	CXI_ToolTip(const CXI_ToolTip&) = delete;
 	CXI_ToolTip(VXSERVICE* pPicService, VSTRSERVICE* pStrService, XYPOINT& pntScrSize);
 	~CXI_ToolTip();
 

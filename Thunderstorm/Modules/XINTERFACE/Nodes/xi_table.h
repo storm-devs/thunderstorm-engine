@@ -101,6 +101,8 @@ class CXI_TABLE : public CINODE
 	friend XI_TableLineDescribe;
 	friend XI_TableCellDescribe;
 public:
+	CXI_TABLE(CXI_TABLE&&) = delete;
+	CXI_TABLE(const CXI_TABLE&) = delete;
 	CXI_TABLE();
 	~CXI_TABLE();
 

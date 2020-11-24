@@ -9,6 +9,8 @@ class BIImageRender;
 class BIString : public IBIString
 {
 public:
+	BIString(BIString&&) = delete;
+	BIString(const BIString&) = delete;
 	BIString(BIImageRender* pImgRender, VDX9RENDER* rs);
 	~BIString();
 

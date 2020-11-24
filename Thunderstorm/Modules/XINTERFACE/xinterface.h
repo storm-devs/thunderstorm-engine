@@ -70,6 +70,8 @@ protected:
 	uint32_t m_dwStoreFlag_Fog;
 
 public:
+	XINTERFACE(XINTERFACE&&) = delete;
+	XINTERFACE(const XINTERFACE&) = delete;
 	XINTERFACE();
 	~XINTERFACE();
 

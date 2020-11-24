@@ -6,6 +6,8 @@
 class CXI_TITLE : public CINODE
 {
 public:
+	CXI_TITLE(CXI_TITLE&&) = delete;
+	CXI_TITLE(const CXI_TITLE&) = delete;
 	CXI_TITLE();
 	~CXI_TITLE();
 	void Draw(bool bSelected, uint32_t Delta_Time) override;

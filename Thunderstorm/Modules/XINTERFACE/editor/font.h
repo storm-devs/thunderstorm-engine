@@ -8,6 +8,8 @@ class GIEditor;
 class GIFont
 {
 public:
+	GIFont(GIFont&&) = delete;
+	GIFont(const GIFont&) = delete;
 	GIFont(GIEditor* pEditor, const char* pcFontName);
 	~GIFont();
 

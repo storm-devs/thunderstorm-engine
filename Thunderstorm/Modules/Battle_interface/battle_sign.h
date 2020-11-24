@@ -21,6 +21,8 @@ public:
 		Command_ForceDword = 0xffffffff
 	};
 
+	BISignIcon(BISignIcon&&) = delete;
+	BISignIcon(const BISignIcon&) = delete;
 	BISignIcon(entid_t BIEntityID, VDX9RENDER* pRS);
 	virtual ~BISignIcon();
 

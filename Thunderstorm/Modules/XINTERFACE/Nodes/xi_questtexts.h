@@ -6,6 +6,8 @@
 class CXI_QUESTTEXTS : public CINODE
 {
 public:
+	CXI_QUESTTEXTS(CXI_QUESTTEXTS&&) = delete;
+	CXI_QUESTTEXTS(const CXI_QUESTTEXTS&) = delete;
 	CXI_QUESTTEXTS();
 	~CXI_QUESTTEXTS();
 

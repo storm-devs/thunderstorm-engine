@@ -64,6 +64,8 @@ class Window
 //Конструирование, деструктурирование
 //--------------------------------------------------------------------------------------------
 public:
+	Window(Window&&) = delete;
+	Window(const Window&) = delete;
 	Window();
 	virtual ~Window();
 

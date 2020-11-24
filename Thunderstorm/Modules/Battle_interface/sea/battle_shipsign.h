@@ -25,6 +25,8 @@ public:
 		Command_ForceDword = 0xffffffff
 	};
 
+	BIShipIcon(BIShipIcon&&) = delete;
+	BIShipIcon(const BIShipIcon&) = delete;
 	BIShipIcon(entid_t BIEntityID, VDX9RENDER* pRS);
 	~BIShipIcon();
 

@@ -20,6 +20,8 @@ class BIImageRender;
 class BICommandList
 {
 public:
+	BICommandList(BICommandList&&) = delete;
+	BICommandList(const BICommandList&) = delete;
 	BICommandList(entid_t eid, ATTRIBUTES* pA, VDX9RENDER* rs);
 	virtual ~BICommandList();
 

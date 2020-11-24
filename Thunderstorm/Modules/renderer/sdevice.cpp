@@ -2868,11 +2868,21 @@ bool DX9RENDER::UnloadFont(long fontID)
 		if (FontList[fontID].ref == 0)
 		{
 			FontList[fontID].font->TempUnload();
-			if (idFontCurrent == fontID)
+			//if (idFontCurrent == fontID)
 				idFontCurrent = FONT_DEFAULT;
 		}
 		else return false;
 	}
+
+	return true;
+}
+
+bool DX9RENDER::IncRefCounter(long fontID)
+{
+	if (fontID < 0 || fontID >= nFontQuantity) 
+		return false;
+
+	FontList[fontID].ref++;
 
 	return true;
 }

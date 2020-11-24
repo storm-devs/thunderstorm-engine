@@ -5,9 +5,13 @@
 #include <string>
 #include <vector>
 
-class BITextInfo
+class BITextInfo final
 {
 public:
+  BITextInfo(BITextInfo&& text_info) noexcept;
+
+  BITextInfo(const BITextInfo& text_info);
+
 	BITextInfo();
 	~BITextInfo();
 	void Release();
