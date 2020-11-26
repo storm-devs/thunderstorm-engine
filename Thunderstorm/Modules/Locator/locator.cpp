@@ -41,7 +41,7 @@ void LOCATOR::LocateForI_L2(ATTRIBUTES* pA, GEOS* g, GEOS::LABEL& label) {
   GEOS::LABEL label2;
 
   const auto groupID = g->FindName(label.name);
-  if (groupID == -1) {
+  if (groupID < 0) {
     api->Trace("?void LOCATOR::LocateForI_L2(...)");
     return;
   }
@@ -93,7 +93,7 @@ void LOCATOR::LocateForI(VDATA* pData) {
   }
 
   auto groupID = g->FindName("reload");
-  if (groupID != -1) {
+  if (groupID >= 0) {
     for (long i = 0; (i = g->FindLabelG(i, groupID)) >= 0; i++) {
       g->GetLabel(i, label);
       pAA = pA->FindAClass(pA, "reload");
@@ -129,7 +129,7 @@ void LOCATOR::LocateForI(VDATA* pData) {
 
 
   groupID = g->FindName("quest_ships");
-  if (groupID != -1) {
+  if (groupID >= 0) {
     pAA = pA->FindAClass(pA, "Quest_ships");
     if (!pAA) pAA = pA->CreateAttribute("Quest_ships", "");
     if (pAA)
@@ -137,35 +137,35 @@ void LOCATOR::LocateForI(VDATA* pData) {
   }
 
   groupID = g->FindName("net_deathmatch");
-  if (groupID != -1) {
+  if (groupID >= 0) {
     pAA = pA->CreateAttribute("net_deathmatch", "");
     if (pAA)
       LocateForI_Locators(pAA, g, groupID, _XYZ_ | _AY_);
   }
 
   groupID = g->FindName("net_team");
-  if (groupID != -1) {
+  if (groupID >= 0) {
     pAA = pA->CreateAttribute("net_team", "");
     if (pAA)
       LocateForI_Locators(pAA, g, groupID, _XYZ_ | _AY_);
   }
 
   groupID = g->FindName("net_convoy");
-  if (groupID != -1) {
+  if (groupID >= 0) {
     pAA = pA->CreateAttribute("net_convoy", "");
     if (pAA)
       LocateForI_Locators(pAA, g, groupID, _XYZ_ | _AY_);
   }
 
   groupID = g->FindName("net_fort");
-  if (groupID != -1) {
+  if (groupID >= 0) {
     pAA = pA->CreateAttribute("net_fort", "");
     if (pAA)
       LocateForI_Locators(pAA, g, groupID, _XYZ_ | _AY_);
   }
 
   groupID = g->FindName("fire");
-  if (groupID != -1) {
+  if (groupID >= 0) {
     pAA = pA->FindAClass(pA, "fire");
     if (!pAA) pAA = pA->CreateAttribute("fire", "");
     if (pAA)
@@ -180,7 +180,7 @@ void LOCATOR::LocateForI(VDATA* pData) {
       if (!pLoadGroupName) continue;
 
       groupID = g->FindName(pLoadGroupName);
-      if (groupID != -1) continue;
+      if (groupID < 0) continue;
 
       pAA = pA->FindAClass(pA, pLoadGroupName);
       if (!pAA) pAA = pA->CreateAttribute(pLoadGroupName, "");

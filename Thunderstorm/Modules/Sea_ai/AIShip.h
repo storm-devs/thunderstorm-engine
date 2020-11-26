@@ -102,11 +102,8 @@ public:
   virtual CVECTOR GetPos() const = 0;
   virtual CVECTOR GetAng() const = 0;
 
-  virtual void SetPos(CVECTOR& vNewPos) {
-  };
-
-  virtual void SetAngleY(float fAngleY) {
-  };
+  virtual void SetPos(const CVECTOR& vNewPos) = 0;
+  virtual void SetAngleY(float fAngleY) = 0;
 };
 
 // ============================================================================
@@ -232,7 +229,7 @@ public:
   CVECTOR GetPos() const override { return GetAIObjShipPointer()->GetPos(); };
   CVECTOR GetAng() const override { return GetAIObjShipPointer()->GetAng(); };
 
-  void SetPos(CVECTOR& vNewPos) override { GetAIObjShipPointer()->SetPos(vNewPos); };
+  void SetPos(const CVECTOR& vNewPos) override { GetAIObjShipPointer()->SetPos(vNewPos); };
   void SetAngleY(float fAngleY) override { GetShipBasePointer()->State.vAng.y = fAngleY; }
 
   // battle section

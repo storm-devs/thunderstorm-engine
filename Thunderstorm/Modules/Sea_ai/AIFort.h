@@ -138,6 +138,8 @@ public:
     void Load(CSaveLoad* pSL, entid_t eid);
     CVECTOR GetAng() const override { return {}; }
     CVECTOR GetBoxsize() const override { return {}; }
+    void SetPos(const CVECTOR& vNewPos) override { };
+    void SetAngleY(float fAngleY) override { };
   };
 
   uint32_t GetNumForts() const { return aForts.size(); }

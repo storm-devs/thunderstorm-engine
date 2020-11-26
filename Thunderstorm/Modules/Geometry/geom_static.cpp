@@ -364,26 +364,34 @@ const char* GEOM::GetTextureName(long tx) const {
 }
 
 
-uintptr_t GEOM::FindName(const char* name) const {
+// ~!~
+// пока оставлю так
+// потом будем думать
+// TODO: ptr можно убрать из скриптов
+auto unbelievable_workaround(void * ptr) {
+  return reinterpret_cast<long>(ptr) & 0x7FFFFFFF;
+}
+
+long GEOM::FindName(const char* name) const {
   for (long n = 0; n < rhead.names; n++)
     if (_strcmpi(&globname[names[n]], name) == 0)
-      return uintptr_t(&globname[names[n]]);
+      return unbelievable_workaround(&globname[names[n]]);
   return -1;
 }
 
 //--------------------------------------------------
 //label functions
 //--------------------------------------------------
-long GEOM::FindLabelN(long start_index, uintptr_t name_id) {
+long GEOM::FindLabelN(long start_index, long name_id) {
   for (; start_index < rhead.nlabels; start_index++)
-    if (uintptr_t(label[start_index].name) == name_id)
+    if (unbelievable_workaround(label[start_index].name) == name_id)
       return start_index;
   return -1;
 }
 
-long GEOM::FindLabelG(long start_index, uintptr_t name_id) {
+long GEOM::FindLabelG(long start_index, long name_id) {
   for (; start_index < rhead.nlabels; start_index++)
-    if (uintptr_t(label[start_index].group_name) == name_id)
+    if (unbelievable_workaround(label[start_index].group_name) == name_id)
       return start_index;
   return -1;
 }
@@ -407,44 +415,44 @@ void GEOM::SetLabel(long l, const LABEL& lb) {
 //--------------------------------------------------
 //object functions
 //--------------------------------------------------
-long GEOM::FindObjN(long start_index, uintptr_t name_id) {
+long GEOM::FindObjN(long start_index, long name_id) {
   for (; start_index < rhead.nobjects; start_index++)
-    if (uintptr_t(object[start_index].name) == name_id)
+    if (unbelievable_workaround(object[start_index].name) == name_id)
       return start_index;
   return -1;
 }
 
-long GEOM::FindObjG(long start_index, uintptr_t name_id) {
+long GEOM::FindObjG(long start_index, long name_id) {
   for (; start_index < rhead.nobjects; start_index++)
-    if (uintptr_t(object[start_index].group_name) == name_id)
+    if (unbelievable_workaround(object[start_index].group_name) == name_id)
       return start_index;
   return -1;
 }
 
-long GEOM::FindMaterialN(long start_index, uintptr_t name_id) {
+long GEOM::FindMaterialN(long start_index, long name_id) {
   for (; start_index < rhead.nmaterials; start_index++)
-    if (uintptr_t(material[start_index].name) == name_id)
+    if (unbelievable_workaround(material[start_index].name) == name_id)
       return start_index;
   return -1;
 }
 
-long GEOM::FindMaterialG(long start_index, uintptr_t name_id) {
+long GEOM::FindMaterialG(long start_index, long name_id) {
   for (; start_index < rhead.nmaterials; start_index++)
-    if (uintptr_t(material[start_index].group_name) == name_id)
+    if (unbelievable_workaround(material[start_index].group_name) == name_id)
       return start_index;
   return -1;
 }
 
-long GEOM::FindLightN(long start_index, uintptr_t name_id) {
+long GEOM::FindLightN(long start_index, long name_id) {
   for (; start_index < rhead.nlights; start_index++)
-    if (uintptr_t(light[start_index].name) == name_id)
+    if (unbelievable_workaround(light[start_index].name) == name_id)
       return start_index;
   return -1;
 }
 
-long GEOM::FindLightG(long start_index, uintptr_t name_id) {
+long GEOM::FindLightG(long start_index, long name_id) {
   for (; start_index < rhead.nlights; start_index++)
-    if (uintptr_t(light[start_index].group_name) == name_id)
+    if (unbelievable_workaround(light[start_index].group_name) == name_id)
       return start_index;
   return -1;
 }
@@ -466,9 +474,9 @@ void GEOM::SetLight(long l, const LIGHT& lt) {
   light[l].type = lt.type;
 }
 
-long GEOM::FindTexture(long start_index, uintptr_t name_id) {
+long GEOM::FindTexture(long start_index, long name_id) {
   for (; start_index < rhead.ntextures; start_index++)
-    if (static_cast<uintptr_t>(globname[tlookup[start_index]]) == name_id)
+    if (globname[tlookup[start_index]] == name_id)
       return start_index;
   return -1;
 }
