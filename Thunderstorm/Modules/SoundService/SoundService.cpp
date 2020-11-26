@@ -241,6 +241,7 @@ int SoundService::FindEmptySlot() const {
     if (PlayingSounds[i].bFree) return i;
   }
 
+  api->Trace("SoundService::FindEmptySlot(): no empty slots");
   return -1;
 }
 
@@ -681,7 +682,7 @@ void SoundService::SetCameraPosition(const CVECTOR& _cameraPosition) {
   vListenerPos.y = _cameraPosition.y;
   vListenerPos.z = _cameraPosition.z;
 
-  CHECKFMODERR(system->set3DListenerAttributes(0, &vListenerPos, nullptr, &vListenerForward, &vListenerTop));
+  CHECKFMODERR(system->set3DListenerAttributes(0, &vListenerPos, nullptr, nullptr, nullptr));
 }
 
 //--------------------------------------------------------------------
@@ -697,7 +698,7 @@ void SoundService::SetCameraOrientation(const CVECTOR& _nose, const CVECTOR& _he
   vListenerTop.y = head.y;
   vListenerTop.z = head.z;
 
-  CHECKFMODERR(system->set3DListenerAttributes(0, &vListenerPos, nullptr, &vListenerForward, &vListenerTop));
+  CHECKFMODERR(system->set3DListenerAttributes(0, nullptr, nullptr, &vListenerForward, &vListenerTop));
 }
 
 //--------------------------------------------------------------------
