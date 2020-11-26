@@ -282,7 +282,6 @@
     <ClCompile Include="Modules\BATTLE_INTERFACE\WorldMapInterface\shipsign.cpp" />
     <ClCompile Include="Modules\blade\blade.cpp" />
     <ClCompile Include="Modules\Blot\Blots.cpp" />
-    <ClCompile Include="Modules\CameraDialog\CameraDialog.cpp" />
     <ClCompile Include="Modules\Collide\coll.cpp" />
     <ClCompile Include="Modules\Collide\local_collide.cpp" />
     <ClCompile Include="Modules\Dialog\dialog.cpp" />

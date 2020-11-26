@@ -65,9 +65,6 @@
     <Filter Include="Modules\Blot">
       <UniqueIdentifier>{5538e664-7b54-4e8b-aa74-3346790e3e00}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\CameraDialog">
-      <UniqueIdentifier>{2760ee31-8649-43b4-9846-577139bd65f8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Modules\Collide">
       <UniqueIdentifier>{d2418b8b-da37-4cad-81df-44d773f52bb5}</UniqueIdentifier>
     </Filter>
@@ -750,9 +747,6 @@
     </ClCompile>
     <ClCompile Include="Modules\Blot\Blots.cpp">
       <Filter>Modules\Blot</Filter>
-    </ClCompile>
-    <ClCompile Include="Modules\CameraDialog\CameraDialog.cpp">
-      <Filter>Modules\CameraDialog</Filter>
     </ClCompile>
     <ClCompile Include="Modules\Collide\coll.cpp">
       <Filter>Modules\Collide</Filter>
