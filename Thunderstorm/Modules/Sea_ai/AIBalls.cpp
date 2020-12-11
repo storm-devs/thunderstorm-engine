@@ -404,7 +404,7 @@ void AIBalls::Load(CSaveLoad* pSL) {
     for (uint32_t j = 0; j < dwNum; j++) {
       //BALL_PARAMS * pB = &aBallTypes[i].Balls[aBallTypes[i].Balls.Add()];
       BALL_PARAMS& pB = aBallTypes[i].Balls[balls_size + j];
-      pSL->Load2Buffer((char*)&pB);
+      pSL->Load2Buffer(&pB);
       if (pB.pParticle) {
         pB.pParticle = nullptr;
         if (auto eidParticle = EntityManager::GetEntityId("particles")) {

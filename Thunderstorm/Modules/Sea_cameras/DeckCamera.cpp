@@ -594,7 +594,7 @@ void DECK_CAMERA::Save(CSaveLoad* pSL) {
 }
 
 void DECK_CAMERA::Load(CSaveLoad* pSL) {
-  pSL->Load2Buffer((char*)&tri);
+  pSL->Load2Buffer(&tri);
   fSensivityDistance = pSL->LoadFloat();
   fSensivityHeightAngle = pSL->LoadFloat();
   fSensivityAzimuthAngle = pSL->LoadFloat();
@@ -616,7 +616,7 @@ void DECK_CAMERA::Load(CSaveLoad* pSL) {
   camera_pos = pSL->LoadVector();
   camera_ang = pSL->LoadVector();
   h_eye = pSL->LoadFloat();
-  pSL->Load2Buffer((char*)&Screen_Rect);
+  pSL->Load2Buffer(&Screen_Rect);
   lock_x = pSL->LoadLong();
   lock_y = pSL->LoadLong();
 
