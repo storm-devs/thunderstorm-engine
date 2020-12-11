@@ -331,7 +331,7 @@
     <ClCompile Include="Modules\Location\WideScreen.cpp" />
     <ClCompile Include="Modules\Locator\blast.cpp" />
     <ClCompile Include="Modules\Locator\locator.cpp" />
-    <ClCompile Include="Modules\Mast\MAST.cpp" />
+    <ClCompile Include="Modules\Mast\mast.cpp" />
     <ClCompile Include="Modules\Model\model.cpp" />
     <ClCompile Include="Modules\Model\node.cpp" />
     <ClCompile Include="Modules\PARTICLES\DataCache\DataCache.cpp" />

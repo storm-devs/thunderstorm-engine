@@ -27,7 +27,7 @@ public:
 
   void UpdateFlagOn() { m_bMakeBufferUpdate = true; }
 
-  long GetImageQuantity() const { return m_apImage.size(); }
+  size_t GetImageQuantity() const { return m_apImage.size(); }
   void ReleaseAllImages();
 
   long GetMinPrioritet() const { return m_nMinPrioritet; }

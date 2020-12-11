@@ -1,6 +1,8 @@
 #ifndef _CONTROLS_H_
 #define _CONTROLS_H_
 
+#include <cstdint>
+
 #define INVALID_CONTROL_CODE	0xffffffff
 #define UNASSIGNED_CONTROL		0xffffffff
 

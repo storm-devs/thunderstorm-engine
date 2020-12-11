@@ -1,36 +1,15 @@
 #pragma once
 
-#include <windows.h>
-
-#include "EntityManager.h"
+#include <Windows.h>
 #include "vapi.h"
 
 #include "timer.h"
 #include "services_list.h"
 #include "compiler.h"
-#include <vector>
-//#include "program.h"
+
+#include "EntityManager.h"
 
 #define ENGINE_SCRIPT_VERSION		54128
-
-typedef struct {
-	UINT iMsg; WPARAM wParam; LPARAM lParam;
-} SYSTEM_MESSAGE;
-
-#define SYSTEM_MESSAGE_STACK_SIZE		32
-
-#define INVALID_LAYER_CODE				0xffffffff
-
-typedef struct
-{
-	uint32_t engine_version;
-	uint32_t Atoms_max_orbit;
-	uint32_t Atoms_min_free_orbit;
-	uint32_t Atoms_number;
-	uint32_t Atoms_space;
-	//ENTITY_CREATION_TIME Creation_Time;
-
-} CORE_STATE;
 
 class CORE : public VAPI
 {
@@ -45,7 +24,6 @@ public:
 	void CleanUp();
 	void Set_Hwnd(HWND _hwnd) {App_Hwnd = _hwnd;};
 	bool Initialize();
-	bool LoadCoreState(CORE_STATE cs);
 	void ResetCore();
 	bool Run();
 	bool LoadClassesTable();
@@ -75,12 +53,9 @@ public:
 	
 	HINSTANCE hInstance{};
 
-	CORE_STATE CoreState{};
 	char * State_file_name;
 
 	TIMER Timer;
-	SYSTEM_MESSAGE MessageStack[SYSTEM_MESSAGE_STACK_SIZE]{};
-	uint32_t SystemMessagesNum;
 
 	//INPUT * Input;
 
@@ -123,9 +98,9 @@ public:
 	char *	Entity_GetAttribute(entid_t id_PTR, const char * name) override;
 	uint32_t	Entity_GetAttributeAsDword(entid_t id_PTR, const char * name, uint32_t def = 0) override;
 	FLOAT	Entity_GetAttributeAsFloat(entid_t id_PTR, const char * name, FLOAT def = 0) override;
-	BOOL	Entity_SetAttribute(entid_t id_PTR, const char * name, const char * attribute) override;
-	BOOL	Entity_SetAttributeUseDword(entid_t id_PTR, const char * name, uint32_t val) override;
-	BOOL	Entity_SetAttributeUseFloat(entid_t id_PTR, const char * name, FLOAT val) override;
+	bool	Entity_SetAttribute(entid_t id_PTR, const char * name, const char * attribute) override;
+	bool	Entity_SetAttributeUseDword(entid_t id_PTR, const char * name, uint32_t val) override;
+	bool	Entity_SetAttributeUseFloat(entid_t id_PTR, const char * name, FLOAT val) override;
 	void	Entity_SetAttributePointer(entid_t id_PTR, ATTRIBUTES * pA) override;
 	uint32_t	Entity_AttributeChanged(entid_t id_PTR, ATTRIBUTES *);
 	ATTRIBUTES * Entity_GetAttributePointer(entid_t id_PTR) override;

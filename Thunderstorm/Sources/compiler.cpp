@@ -258,7 +258,7 @@ char* COMPILER::LoadFile(const char* file_name, uint32_t& file_size, bool bFullP
   auto* const pData = static_cast<char*>(new char[fsize + 1]);
   fio->_ReadFile(fh, pData, fsize, &dwR);
   if (fsize != dwR) {
-    delete pData;
+    delete[] pData;
     fio->_CloseHandle(fh);
     return nullptr;
   }
@@ -5591,7 +5591,7 @@ ATTRIBUTES* COMPILER::TraceARoot(ATTRIBUTES* pA, const char* & pAccess) {
     //pAS = (char *)RESIZE(pAS, len);
     auto* const newPtr = new char[len];
     memcpy(newPtr, pAS, len);
-    delete pAS;
+    delete[] pAS;
     pAS = newPtr;
     strcat_s(pAS, len, ".");
     strcat_s(pAS, len, pAccess);
@@ -5764,7 +5764,7 @@ bool COMPILER::ReadVariable(char* name,/* DWORD code,*/ bool bDim, uint32_t a_in
     pString = ReadString();
     if (pString) {
       if (!bSkipVariable) pV->Set(pString);
-      delete pString;
+      delete[] pString;
     }
     break;
   case VAR_OBJECT:
@@ -5819,7 +5819,7 @@ bool COMPILER::ReadVariable(char* name,/* DWORD code,*/ bool bDim, uint32_t a_in
     if (pVRef->AttributesClass == nullptr) pVRef->AttributesClass = new ATTRIBUTES(&SCodec);
     if (pString) {
       pA = pVRef->AttributesClass->CreateSubAClass(pVRef->AttributesClass, pString);
-      delete pString;
+      delete[] pString;
     }
     pV->SetAReference(pA);
 
@@ -6071,7 +6071,7 @@ bool COMPILER::LoadState(HANDLE fh) {
     pString = ReadString();
     if (pString) {
       SCodec.Convert(pString);
-      delete pString;
+      delete[] pString;
     }
   }
 
@@ -6101,7 +6101,7 @@ bool COMPILER::LoadState(HANDLE fh) {
       return false;
     }
     ReadVariable(pString/*,n*/);
-    delete pString;
+    delete[] pString;
   }
 
   // call to script function "OnLoad()"

@@ -892,9 +892,6 @@
     <ClCompile Include="Modules\Locator\locator.cpp">
       <Filter>Modules\Locator</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\Mast\MAST.cpp">
-      <Filter>Modules\Mast</Filter>
-    </ClCompile>
     <ClCompile Include="Modules\Model\model.cpp">
       <Filter>Modules\Model</Filter>
     </ClCompile>
@@ -1479,6 +1476,9 @@
     </ClCompile>
     <ClCompile Include="Modules\Particles\K2Wrapper\psystem.cpp">
       <Filter>Modules\Particles\K2Wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\Mast\mast.cpp">
+      <Filter>Modules\Mast</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

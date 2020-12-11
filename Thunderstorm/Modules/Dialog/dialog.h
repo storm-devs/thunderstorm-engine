@@ -31,7 +31,7 @@ struct XI_TEX_VERTEX
 
 class VSoundService;
 
-class DIALOG : public Entity
+class DIALOG final : public Entity
 {
 	static VDX9RENDER * RenderService;
 public:
@@ -83,8 +83,8 @@ private:
 		long nSelectLine;
 
 		TextDescribe() {rs=nullptr; nFontID=-1;}
-		virtual ~TextDescribe() {Release();}
-		virtual void Release() {if( rs && nFontID>=0 ) rs->UnloadFont(nFontID); nFontID = -1; asText.clear();}
+		~TextDescribe() {Release();}
+		void Release() {if( rs && nFontID>=0 ) rs->UnloadFont(nFontID); nFontID = -1; asText.clear();}
 	};
 
 	bool m_bDlgChanged;

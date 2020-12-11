@@ -429,7 +429,7 @@ public:
       std::chrono::system_clock::now().time_since_epoch());
 
     /* assemble entity id */
-    const entid_stamp_t stamp = ms.count();
+    const auto stamp = static_cast<entid_stamp_t>(ms.count());
     const auto id = static_cast<entid_t>(stamp) << 32 | idx;
 
     /* push entity data */

@@ -1285,7 +1285,7 @@ bool DATA::Plus(DATA* pV) {
       strcpy_s(sTemp, size, sValue);
       strcat_s(sTemp, size, pV->sValue);
       Set(sTemp);
-      delete sTemp;
+      delete[] sTemp;
       break;
     default: return false;
     }
@@ -1306,7 +1306,7 @@ bool DATA::Plus(DATA* pV) {
       strcpy_s(sTemp, size, sValue);
       strcat_s(sTemp, size, pV->sValue);
       Set(sTemp);
-      delete sTemp;
+      delete[] sTemp;
       break;
     default: return false;
     }
@@ -1330,7 +1330,7 @@ bool DATA::Plus(DATA* pV) {
         strcpy_s(sTemp, size, pV->AttributesClass->GetThisAttr());
       }
       Set(sTemp);
-      delete sTemp;
+      delete[] sTemp;
       break;
     case VAR_INTEGER:
       _ltoa_s(pV->lValue, buffer, 10);
@@ -1348,7 +1348,7 @@ bool DATA::Plus(DATA* pV) {
         strcpy_s(sTemp, size, buffer);
       }
       Set(sTemp);
-      delete sTemp;
+      delete[] sTemp;
       break;
     case VAR_FLOAT:
       _gcvt(pV->fValue, 5, buffer);
@@ -1366,7 +1366,7 @@ bool DATA::Plus(DATA* pV) {
         strcpy_s(sTemp, size, buffer);
       }
       Set(sTemp);
-      delete sTemp;
+      delete[] sTemp;
       break;
     case VAR_STRING:
       if (sValue == nullptr) {
@@ -1385,7 +1385,7 @@ bool DATA::Plus(DATA* pV) {
         strcat_s(sTemp, size, pV->sValue);
       }
       Set(sTemp);
-      delete sTemp;
+      delete[] sTemp;
       break;
     case VAR_PTR:
       _ui64toa_s(pV->pValue, buffer, sizeof(buffer), 16);
@@ -1403,7 +1403,7 @@ bool DATA::Plus(DATA* pV) {
         strcpy_s(sTemp, size, buffer);
       }
       Set(sTemp);
-      delete sTemp;
+      delete[] sTemp;
       break;
     default: return false;
     }

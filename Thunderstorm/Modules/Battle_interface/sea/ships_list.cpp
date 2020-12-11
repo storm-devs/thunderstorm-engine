@@ -23,7 +23,7 @@ public:
   }
 
   ~TMP_LONG_STACK() {
-    delete ldat;
+    delete[] ldat;
     ldat = nullptr;
   }
 
