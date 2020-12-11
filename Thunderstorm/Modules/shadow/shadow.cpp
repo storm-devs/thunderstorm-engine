@@ -216,7 +216,7 @@ void Shadow::Realize(uint32_t Delta_Time) {
   if (minVal <= 0.5f) shading -= dtime;
   else shading += dtime;
 
-  shading = max(0.2f, max(minVal, min(shading, 1.0f)));
+  shading = std::max(0.2f, std::max(minVal, std::min(shading, 1.0f)));
   shading *= (blendValue >> 24) / 255.0f;
 
 
@@ -245,7 +245,7 @@ void Shadow::Realize(uint32_t Delta_Time) {
 
   //general params-------------------------------------
   trans = lightmtx;
-  perspective = max(proj.m[0][0], proj.m[1][1]);
+  perspective = std::max(proj.m[0][0], proj.m[1][1]);
   atten_start = 1200.0f;
   atten_end = 1300.0f;
   //---------------------------------------------------------------

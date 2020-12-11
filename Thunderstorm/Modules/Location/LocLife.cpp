@@ -152,7 +152,7 @@ long LocLife::FindPos() {
   auto p2 = pos - dir * 0.1f;
   if (ptc.FindNode(p1, yf) < 0) yf = yc;
   if (ptc.FindNode(p2, yb) < 0) yb = yc;
-  pos.y = max(yf, max(yc, yb));
+  pos.y = std::max(yf, std::max(yc, yb));
   yc = location->Trace(pos + CVECTOR(0.0f, 0.2f, 0.0f), pos - CVECTOR(0.0f, 0.2f, 0.0f));
   if (yc <= 1.0f) pos.y += 0.2f - 0.4f * yc;
   pos.y += 0.05f;

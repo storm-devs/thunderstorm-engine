@@ -3,6 +3,8 @@
 #include "../../Shared/messages.h"
 #include "inlines.h"
 
+#include <algorithm>
+
 AIBalls* AIBalls::pAIBalls = nullptr;
 
 AIBalls::AIBalls() {
@@ -32,7 +34,7 @@ AIBalls::~AIBalls() {
       if (pBall->pParticle) {
         STORM_DELETE(pBall->pParticle);
       }
-      pBall->sBallEvent.clear();
+      pBall->sBallEvent[0] = '\0';
     }
     aBallTypes[i].Balls.clear();
   }
@@ -133,7 +135,11 @@ void AIBalls::AddBall(ATTRIBUTES* pABall) {
   pBall->fDirZ = sinf(fDir);
   pBall->pParticle = nullptr;
 
-  pBall->sBallEvent = pABall->GetAttribute("Event");
+  //pBall->sBallEvent = pABall->GetAttribute("Event");
+  const auto * event_str = pABall->GetAttribute("Event");
+  const auto len = std::min(strlen(event_str), static_cast<size_t>(TSE_MAX_EVENT_LENGTH));
+  std::copy_n(event_str, len, pBall->sBallEvent);
+  pBall->sBallEvent[len] = '\0';
 
   if (aBallTypes[i].sParticleName.size()) {
     entid_t eidParticle;
@@ -192,8 +198,8 @@ void AIBalls::Execute(uint32_t Delta_Time) {
 
       vDst = pBall->vPos;
 
-      if (pBall->sBallEvent.size())
-        api->Event((char*)pBall->sBallEvent.c_str(), "lllffffffs", pBall->iBallOwner, static_cast<uint32_t>(1),
+      if (pBall->sBallEvent[0] != '\0')
+        api->Event(pBall->sBallEvent, "lllffffffs", pBall->iBallOwner, static_cast<uint32_t>(1),
                    pBallsType->dwGoodIndex, pBall->vPos.x, pBall->vPos.y, pBall->vPos.z, vSrc.x, vSrc.y,
                    vSrc.z);
 
@@ -246,11 +252,11 @@ void AIBalls::Execute(uint32_t Delta_Time) {
 
       // delete ball
       if (fRes <= 1.0f) {
-        if (pBall->sBallEvent.size()) {
-          api->Event((char*)pBall->sBallEvent.c_str(), "lllffffff", pBall->iBallOwner, static_cast<uint32_t>(0),
+        if (pBall->sBallEvent[0] != '\0') {
+          api->Event(pBall->sBallEvent, "lllffffff", pBall->iBallOwner, static_cast<uint32_t>(0),
                      pBallsType->dwGoodIndex, pBall->vPos.x, pBall->vPos.y, pBall->vPos.z, vSrc.x, vSrc.y,
                      vSrc.z);
-          pBall->sBallEvent.clear();
+          pBall->sBallEvent[0] = '\0';
         }
 
         if (pBall->pParticle) {
@@ -265,7 +271,7 @@ void AIBalls::Execute(uint32_t Delta_Time) {
         continue;
       }
 
-      if (!pBall->sBallEvent.size()) {
+      if (pBall->sBallEvent[0] == '\0') {
         aBallRects.push_back(RS_RECT{});
         //RS_RECT * pRSR = &aBallRects[aBallRects.Add()];
         RS_RECT* pRSR = &aBallRects.back();
@@ -306,8 +312,7 @@ uint32_t AIBalls::AttributeChanged(ATTRIBUTES* pAttributeChanged) {
       for (uint32_t j = 0; j < pBallsType->Balls.size(); j++) {
         BALL_PARAMS* pBall = &pBallsType->Balls[j];
 
-        if (pBall->sBallEvent.size())
-          pBall->sBallEvent.clear();
+        pBall->sBallEvent[0] = '\0';
 
         if (pBall->pParticle) {
           pBall->pParticle->Stop();
@@ -394,18 +399,18 @@ void AIBalls::Load(CSaveLoad* pSL) {
   for (uint32_t i = 0; i < aBallTypes.size(); i++) {
     const uint32_t dwNum = pSL->LoadDword();
 
+    auto balls_size = std::size(aBallTypes[i].Balls);
+    aBallTypes[i].Balls.resize(balls_size + dwNum);
     for (uint32_t j = 0; j < dwNum; j++) {
-      aBallTypes[i].Balls.push_back(BALL_PARAMS{});
       //BALL_PARAMS * pB = &aBallTypes[i].Balls[aBallTypes[i].Balls.Add()];
-      BALL_PARAMS* pB = &aBallTypes[i].Balls.back();
-      pSL->Load2Buffer((char*)pB);
-      if (pB->pParticle) {
-        pB->pParticle = nullptr;
-        entid_t eidParticle;
-        if (eidParticle = EntityManager::GetEntityId("particles")) {
-          pB->pParticle = (VPARTICLE_SYSTEM*)api->Send_Message(
-            eidParticle, "lsffffffl",PS_CREATE_RIC, (char*)aBallTypes[i].sParticleName.c_str(), pB->vPos.x,
-            pB->vPos.y, pB->vPos.z, 0.0f, 1.0f, 0.0f, 100000);
+      BALL_PARAMS& pB = aBallTypes[i].Balls[balls_size + j];
+      pSL->Load2Buffer((char*)&pB);
+      if (pB.pParticle) {
+        pB.pParticle = nullptr;
+        if (auto eidParticle = EntityManager::GetEntityId("particles")) {
+          pB.pParticle = (VPARTICLE_SYSTEM*)api->Send_Message(
+            eidParticle, "lsffffffl",PS_CREATE_RIC, (char*)aBallTypes[i].sParticleName.c_str(), pB.vPos.x,
+            pB.vPos.y, pB.vPos.z, 0.0f, 1.0f, 0.0f, 100000);
         }
       }
     }
