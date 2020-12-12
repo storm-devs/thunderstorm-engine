@@ -26,7 +26,7 @@ void WMShipCommandList::Release() {
 }
 
 long WMShipCommandList::CommandAdding() {
-  api->Event("WM_SetPossibleCommands", "l", m_nCurrentCommandCharacterIndex);
+  core.Event("WM_SetPossibleCommands", "l", m_nCurrentCommandCharacterIndex);
   long retVal = 0;
   auto* pAttr = m_pARoot->GetAttributeClass("Commands");
   if (!pAttr) return 0;

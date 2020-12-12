@@ -28,7 +28,7 @@ WEATHER::~WEATHER() {
 }
 
 void WEATHER::SetDevice() {
-  pRS = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  pRS = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   Assert(pRS);
 
   //LoadWeatherIni();
@@ -84,7 +84,7 @@ void WEATHER::Execute(uint32_t Delta_Time) {
   */
   if (fFloats[whf_time_speed] != 0.f) {
     const auto fOldTimer = fFloats[whf_time_counter];
-    fFloats[whf_time_counter] += api->GetDeltaTime() * fFloats[whf_time_speed];
+    fFloats[whf_time_counter] += core.GetDeltaTime() * fFloats[whf_time_speed];
     // смена дня
     if (fFloats[whf_time_counter] > 24.f)
       fFloats[whf_time_counter] -= 24.f;
@@ -93,7 +93,7 @@ void WEATHER::Execute(uint32_t Delta_Time) {
 
     if (static_cast<long>(fFloats[whf_time_counter] * fUpdateFrequence) != static_cast<long>(fOldTimer *
       fUpdateFrequence)) {
-      api->Event("WeatherTimeUpdate", "f", fFloats[whf_time_counter]);
+      core.Event("WeatherTimeUpdate", "f", fFloats[whf_time_counter]);
     }
     // обновление даты в скриптах
     //if( fFloats[whf_time_counter] fOldTimer
@@ -246,7 +246,7 @@ void WEATHER::CleanUP() {
 
 	SetCommonStates();
 
-	api->Trace("Weather: Load ini complete");
+	core.Trace("Weather: Load ini complete");
 }*/
 
 void WEATHER::SetCommonStates() {

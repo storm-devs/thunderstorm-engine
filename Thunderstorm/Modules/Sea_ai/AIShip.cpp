@@ -152,7 +152,7 @@ void AIShip::Execute(float fDeltaTime) {
     // 
     CheckSituation();
     RDTSC_E(dw7);
-    //api->Trace("dw7 = %d", dw7);
+    //core.Trace("dw7 = %d", dw7);
   }
   else {
     if (dtCheckSituation.Update(fDeltaTime)) CheckSituation();
@@ -181,7 +181,7 @@ void AIShip::CheckSituation() {
   pACSituation->SetAttributeUseFloat("MinEnemyDistance", fMinEnemyDist);
   auto fPower = GetPower();
 
-  api->Event(SHIP_CHECK_SITUATION, "ai", GetACharacter(), GetShipEID());
+  core.Event(SHIP_CHECK_SITUATION, "ai", GetACharacter(), GetShipEID());
 }
 
 void AIShip::Realize(float fDeltaTime) {
@@ -195,7 +195,7 @@ void AIShip::Realize(float fDeltaTime) {
   // print info about ship
   /*   // boal del_cheat
   #ifndef _XBOX
-    if (api->Controls->GetDebugAsyncKeyState('O')<0)
+    if (core.Controls->GetDebugAsyncKeyState('O')<0)
     {
       
     }
@@ -611,7 +611,7 @@ void AIShip::Load(CSaveLoad* pSL) {
   bDead = pSL->LoadDword() != 0;
 
   // set entid_t to character 
-  auto* pVCharacter = static_cast<VDATA*>(api->GetScriptVariable("Characters"));
+  auto* pVCharacter = static_cast<VDATA*>(core.GetScriptVariable("Characters"));
   pVCharacter->Set(eidShip, GetIndex(GetACharacter()));
 
   // create controllers
@@ -622,7 +622,7 @@ void AIShip::Load(CSaveLoad* pSL) {
   pRotateController = new AIShipRotateController(this);
   pSpeedController = new AIShipSpeedController(this);
 
-  api->Event(SHIP_CREATELOADSHIP, "l", GetIndex(GetACharacter()));
+  core.Event(SHIP_CREATELOADSHIP, "l", GetIndex(GetACharacter()));
 
   // Load controllers
   pCannonController->Load(pSL);

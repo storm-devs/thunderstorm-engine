@@ -12,7 +12,7 @@
 #include "geometry.h"
 #include "ship_base.h"
 #include "../../Shared/messages.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -45,7 +45,7 @@ void Debris::Init() {
   AddModel("Tornado\\Flotsam6", 5, 1.1f);
   AddModel("Tornado\\Flotsam7", 5, 1.2f);
   NormalazedModels();
-  soundService = static_cast<VSoundService*>(api->CreateService("SoundService"));
+  soundService = static_cast<VSoundService*>(core.CreateService("SoundService"));
 }
 
 void Debris::Update(float dltTime) {
@@ -134,12 +134,12 @@ void Debris::AddModel(const char* modelName, float prt, float spd) {
   auto* m = static_cast<MODEL*>(EntityManager::GetEntityPointer(id));
   if (!m) return;
   //Путь для текстур
-  auto* gs = static_cast<VGEOMETRY*>(api->CreateService("geometry"));
+  auto* gs = static_cast<VGEOMETRY*>(core.CreateService("geometry"));
   if (!gs) return;
   gs->SetTexturePath("Tornado\\");
   //Загружаем
   try {
-    api->Send_Message(id,
+    core.Send_Message(id,
                       "ls",
                       MSG_MODEL_LOAD_GEO,
                       modelName);

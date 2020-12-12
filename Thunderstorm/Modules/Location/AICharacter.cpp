@@ -10,6 +10,9 @@
 
 
 #include "AICharacter.h"
+
+#include <core.h>
+
 #include "Location.h"
 
 
@@ -139,7 +142,7 @@ void AICharacter::Update(float dltTime) {
 //Отметить перемещение персонажа
 void AICharacter::CharacterTeleport() {
   currentNode = FindNodeIndex(curPos);
-  if (currentNode < 0) api->Trace("Warning: NPCharacter <%s>-> trace node not found", characterID);
+  if (currentNode < 0) core.Trace("Warning: NPCharacter <%s>-> trace node not found", characterID);
 }
 
 //============================================================================================
@@ -286,7 +289,7 @@ void AICharacter::CmdProcessGotoPoint(float dltTime) {
             FailureCommand();
           }
           else {
-            api->Event("Location_CharacterBusyPos", "ifff", GetId(), command.pnt.x, command.pnt.y,
+            core.Event("Location_CharacterBusyPos", "ifff", GetId(), command.pnt.x, command.pnt.y,
                        command.pnt.z);
             command.cnt++;
             command.isWait = true;

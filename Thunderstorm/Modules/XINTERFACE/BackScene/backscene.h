@@ -3,7 +3,7 @@
 
 #include "dx9render.h"
 #include "Matrix.h"
-#include "EntityManager.h"
+#include <Entity.h>
 #include "../xdefines.h"
 
 class MODEL;

@@ -48,7 +48,7 @@ void CXI_SCROLLEDPICTURE::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini
 
   m_nScaleNum = GetIniLong(ini1, name1, ini2, name2, "startscale", 0) - 1;
 
-  auto* pAttribute = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+  auto* pAttribute = core.Entity_GetAttributeClass(g_idInterface, m_nodeName);
   if (pAttribute) {
     auto* pAttr = pAttribute->GetAttributeClass("imagelist");
     if (pAttr) {
@@ -167,7 +167,7 @@ void CXI_SCROLLEDPICTURE::ChangeUV(FXYRECT& frNewUV) {
   CXI_PICTURE::ChangeUV(frNewUV);
   RecalculateTexPerPixel();
   UpdateBuildenImages();
-  auto* pAttribute = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+  auto* pAttribute = core.Entity_GetAttributeClass(g_idInterface, m_nodeName);
   if (pAttribute) {
     auto* pA = pAttribute->GetAttributeClass("offset");
     if (!pA) pA = pAttribute->CreateSubAClass(pAttribute, "offset");

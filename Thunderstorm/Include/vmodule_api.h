@@ -1,9 +1,5 @@
 #pragma once
 #include <vector>
-#include "vapi.h"
-#include "vfile_service.h"
-#include "storm_assert.h"
-#include "message.h"
 
 #define INTERFACE_FUNCTION
 
@@ -29,9 +25,7 @@ class VMA;
 
 //extern VMA* _pModuleClassRoot;
 inline std::vector<VMA*> _pModuleClassRoot;
-extern VAPI* api;
 //extern VSYSTEM_API* _VSYSTEM_API;
-extern VFILE_SERVICE* fio;
 
 class VMA {
 protected:
@@ -67,4 +61,4 @@ public:
 
 #define CREATE_CLASS(a)	class a##vmacd : public VMA { public: const char * GetName() {return TEXT(#a);} void * CreateClass() {nReference++; return new a;}} a##vmaci;
 #define CREATE_SERVICE(a) class a##vmacd : public VMA { public: a * pService = 0; const char * GetName() {return TEXT(#a);} void * CreateClass() {if(pService == 0) pService = new a; nReference++; return pService;} bool Service() {return true;} void Clear(){nReference = 0; if(pService) delete pService; pService = 0;};} a##vmaci;
-#define CREATE_SCRIPTLIBRIARY(a) class a##vmacd : public VMA { public: /*a * pLibraryInitClass;*/ const char * GetName() {return TEXT(#a);} void * CreateClass() {/*if(pLibraryInitClass == 0) pLibraryInitClass = new a; nReference++; return pLibraryInitClass;*/ return new a;} bool ScriptLibriary() {return true;} /*void Clear(){nReference = 0; if(pLibraryInitClass) delete pLibraryInitClass; pLibraryInitClass = 0;}*/;} a##vmaci;
+#define CREATE_SCRIPTLIBRIARY(a) class a##vmacd : public VMA { public: /*a * pLibraryInitClass;*/ const char * GetName() {return #a;} void * CreateClass() {/*if(pLibraryInitClass == 0) pLibraryInitClass = new a; nReference++; return pLibraryInitClass;*/ return new a;} bool ScriptLibriary() {return true;} /*void Clear(){nReference = 0; if(pLibraryInitClass) delete pLibraryInitClass; pLibraryInitClass = 0;}*/;} a##vmaci;

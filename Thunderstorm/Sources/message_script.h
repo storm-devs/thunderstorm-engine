@@ -1,10 +1,11 @@
 #ifndef _MESSAGE_SCRIPT_H_
 #define _MESSAGE_SCRIPT_H_
 
+#include <core.h>
+
 #include "Cvector.h"
 #include "message.h"
 #include "vdata.h"
-#include "vapi.h"
 #include "vmodule_api.h"
 #include "Entity.h"
 
@@ -130,7 +131,7 @@ public:
 		{
 				memcpy(buffer,ReadPointer,dest_buffer_size);
 				if(dest_buffer_size > 0) buffer[dest_buffer_size - 1] = 0;
-				api->Trace("MESSAGE_SCRIPT::String() data clamped to %s ",buffer);
+				core.Trace("MESSAGE_SCRIPT::String() data clamped to %s ",buffer);
 				return;
 			//throw "insufficient string buffer";
 		}

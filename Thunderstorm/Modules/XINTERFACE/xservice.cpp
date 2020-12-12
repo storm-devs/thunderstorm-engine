@@ -1,6 +1,7 @@
 #include "xservice.h"
 #include "dx9render.h"
 #include "defines.h"
+#include "vfile_service.h"
 
 #define ERROR_MUL	1.0f
 

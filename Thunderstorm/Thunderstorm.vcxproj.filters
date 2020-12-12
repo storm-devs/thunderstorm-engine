@@ -2262,9 +2262,6 @@
     <ClInclude Include="Include\dx9render.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Include\vstring_codec.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Include\vfile_service.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -2323,9 +2320,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\Character.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\vapi.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\storm_assert.h">

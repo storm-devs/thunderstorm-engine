@@ -1,10 +1,9 @@
 #ifndef _K2_PARTICLES_H_
 #define _K2_PARTICLES_H_
 
-#include "vmodule_api.h"
-#include "entity.h"
 #include <string>
 #include <vector>
+#include <Entity.h>
 
 class IParticleService;
 class IParticleManager;

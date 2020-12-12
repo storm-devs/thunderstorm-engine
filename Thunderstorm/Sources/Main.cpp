@@ -1,3 +1,5 @@
+#include <spdlog/spdlog.h>
+
 #include "fs.h"
 #include "s_debug.h"
 #include "externs.h"
@@ -26,7 +28,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
   set_default_logger(system_log);
   system_log->set_level(spdlog::level::trace);
 
-  api = &Core;
   fio = &File_Service;
   //_VSYSTEM_API = &System_Api;
 
@@ -64,7 +65,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
   ShowWindow(hwnd, SW_SHOWNORMAL);
 
   /* Init stuff */
-  Core.InitBase();
+  core.InitBase();
 
   /* Message loop */
   auto dwOldTime = GetTickCount();
@@ -85,8 +86,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
             continue;
           dwOldTime = dwNewTime;
         }
-        if (!isHold && !Core.Run()) {
-          Core.CleanUp();
+        if (!isHold && !core.Run()) {
+          core.CleanUp();
           isHold = true;
           SendMessage(hwnd, WM_CLOSE, 0, 0L);
         }
@@ -98,7 +99,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
   }
 
   /* Release */
-  Core.ReleaseBase();
+  core.ReleaseBase();
   ClipCursor(nullptr);
 
   return msg.wParam;
@@ -107,7 +108,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
   switch (iMsg) {
   case WM_CREATE:
-    Core.Set_Hwnd(hwnd);
+    core.Set_Hwnd(hwnd);
     break;
 
   case WM_CLOSE:
@@ -115,10 +116,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
     break;
 
   case WM_DESTROY:
-    Core.Event("DestroyWindow", nullptr);
-    Core.Event("ExitApplication", nullptr);
+    core.Event("DestroyWindow", nullptr);
+    core.Event("ExitApplication", nullptr);
     CDebug.Release();
-    Core.CleanUp();
+    core.CleanUp();
     File_Service.Close();
     CDebug.CloseDebugWindow();
 
@@ -128,14 +129,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
 
   case WM_ACTIVATE:
     bActive = LOWORD(wParam) == WA_CLICKACTIVE || LOWORD(wParam) == WA_ACTIVE;
-    Core.AppState(bActive);
+    core.AppState(bActive);
     break;
 
   case WM_KEYDOWN:
     if (wParam == VK_F5) // && bDebugWindow
     {
       if (!CDebug.IsDebug())
-        CDebug.OpenDebugWindow(Core.hInstance);
+        CDebug.OpenDebugWindow(core.hInstance);
       else {
         ShowWindow(CDebug.GetWindowHandle(), SW_NORMAL);
         SetFocus(CDebug.SourceView->hOwn);
@@ -152,14 +153,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
   case WM_LBUTTONDBLCLK:
   case WM_CHAR:
   case WM_MOUSEMOVE:
-    if (Core.Controls)
-      Core.Controls->EngineMessage(iMsg, wParam, lParam);
+    if (core.Controls)
+      core.Controls->EngineMessage(iMsg, wParam, lParam);
     break;
 
   case WM_MOUSEWHEEL:
-    Core.Event("evMouseWeel", "l", static_cast<short>(HIWORD(wParam)));
-    if (Core.Controls)
-      Core.Controls->EngineMessage(iMsg, wParam, lParam);
+    core.Event("evMouseWeel", "l", static_cast<short>(HIWORD(wParam)));
+    if (core.Controls)
+      core.Controls->EngineMessage(iMsg, wParam, lParam);
     break;
 
   default: ;

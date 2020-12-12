@@ -1,10 +1,8 @@
 #include <cstdio>
 #include "token.h"
 
-#include "vapi.h"
 #include "defines.h"
 
-extern VAPI* api;
 #define DISCARD_DATABUFFER {if(pTokenData) pTokenData[0] = 0;}
 #define INVALID_ARG_DCHARS	32
 const char* TokenTypeName[] =

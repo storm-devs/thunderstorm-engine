@@ -11,7 +11,7 @@
 #include "Sharks.h"
 #include "../../Shared/messages.h"
 #include "geometry.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 //============================================================================================
 //Fish
@@ -88,21 +88,21 @@ bool Sharks::Shark::Init(float vp_x, float vp_z, bool isLoadModel) {
   //Загружаем модельку
   if (!(model = EntityManager::CreateEntity("modelr"))) return false;
   //Путь для текстур
-  auto* gs = static_cast<VGEOMETRY*>(api->CreateService("geometry"));
+  auto* gs = static_cast<VGEOMETRY*>(core.CreateService("geometry"));
   if (!gs) {
-    api->Trace("Can't create geometry service!");
+    core.Trace("Can't create geometry service!");
     return false;
   }
   gs->SetTexturePath("Animals\\");
-  if (!api->Send_Message(model, "ls", MSG_MODEL_LOAD_GEO, "Animals\\shark")) {
+  if (!core.Send_Message(model, "ls", MSG_MODEL_LOAD_GEO, "Animals\\shark")) {
     gs->SetTexturePath("");
-    api->Trace("Shark model 'shark' not loaded");
+    core.Trace("Shark model 'shark' not loaded");
     EntityManager::EraseEntity(model);
     return false;
   }
   gs->SetTexturePath("");
-  if (!api->Send_Message(model, "ls", MSG_MODEL_LOAD_ANI, "shark")) {
-    api->Trace("Shark animation 'shark' not loaded");
+  if (!core.Send_Message(model, "ls", MSG_MODEL_LOAD_ANI, "shark")) {
+    core.Trace("Shark animation 'shark' not loaded");
     EntityManager::EraseEntity(model);
     return false;
   }
@@ -464,7 +464,7 @@ Sharks::~Sharks() {
 
 //Инициализация
 bool Sharks::Init() {
-  rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (!rs) throw std::exception("No service: dx9render");
   for (long i = 0; i < numShakes; i++)
     if (!shark[i].Init(0.0f, 0.0f)) return false;
@@ -492,7 +492,7 @@ bool Sharks::Init() {
   //Загрузим текстуру
   trackTx = rs->TextureCreate("Animals\\SharkTrack.tga");
   //Анализируем возможность создания перископа
-  auto* v = static_cast<VDATA*>(api->GetScriptVariable("Environment"));
+  auto* v = static_cast<VDATA*>(core.GetScriptVariable("Environment"));
   if (v) {
     auto* root = v->GetAClass();
     if (root) {
@@ -605,10 +605,10 @@ void Sharks::Execute(uint32_t delta_time) {
 
 bool Sharks::LoadPeriscopeModel() {
   if (!(periscope.model = EntityManager::CreateEntity("modelr"))) return false;
-  auto* gs = static_cast<VGEOMETRY*>(api->CreateService("geometry"));
+  auto* gs = static_cast<VGEOMETRY*>(core.CreateService("geometry"));
   if (!gs) return false;
   gs->SetTexturePath("Animals\\");
-  if (!api->Send_Message(periscope.model, "ls", MSG_MODEL_LOAD_GEO, "Animals\\periscope")) {
+  if (!core.Send_Message(periscope.model, "ls", MSG_MODEL_LOAD_GEO, "Animals\\periscope")) {
     gs->SetTexturePath("");
     EntityManager::EraseEntity(periscope.model);
     return false;

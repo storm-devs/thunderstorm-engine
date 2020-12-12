@@ -13,11 +13,14 @@
 
 #include "vmodule_api.h"
 #include <string>
+#include <Entity.h>
 
 
 #define WDMAP_MAXOBJECTS	4096
 
 
+class ATTRIBUTES;
+class MESSAGE;
 class WdmRenderObject;
 class WdmRenderModel;
 class VDX9RENDER;

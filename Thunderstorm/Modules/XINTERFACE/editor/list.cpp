@@ -3,6 +3,9 @@
 #include "editor_defines.h"
 #include "list.h"
 
+#include <core.h>
+#include <controls.h>
+
 GIEditorList::GIEditorList(GIEditor* pEditor) {
   m_pEditor = pEditor;
   Assert(m_pEditor);
@@ -164,14 +167,14 @@ void GIEditorList::MakeMouseClick(float fX, float fY) {
 void GIEditorList::DoKeyChecking() {
   CONTROL_STATE cs;
 
-  api->Controls->GetControlState(INTERFACE_CONTROL_DOWN, cs);
+  core.Controls->GetControlState(INTERFACE_CONTROL_DOWN, cs);
   if (cs.state == CST_ACTIVATED) {
     IncrementSelectedLine(true);
     m_fDownPressTime = 0.f;
   }
   else if (cs.state == CST_ACTIVE) {
     if (m_fDownPressTime < m_fKeyRepeatDelay) {
-      m_fDownPressTime += api->GetDeltaTime() * .001f;
+      m_fDownPressTime += core.GetDeltaTime() * .001f;
     }
     else {
       IncrementSelectedLine(true);
@@ -179,14 +182,14 @@ void GIEditorList::DoKeyChecking() {
     }
   }
 
-  api->Controls->GetControlState(INTERFACE_CONTROL_UP, cs);
+  core.Controls->GetControlState(INTERFACE_CONTROL_UP, cs);
   if (cs.state == CST_ACTIVATED) {
     IncrementSelectedLine(false);
     m_fUpPressTime = 0.f;
   }
   else if (cs.state == CST_ACTIVE) {
     if (m_fUpPressTime < m_fKeyRepeatDelay) {
-      m_fUpPressTime += api->GetDeltaTime() * .001f;
+      m_fUpPressTime += core.GetDeltaTime() * .001f;
     }
     else {
       IncrementSelectedLine(false);

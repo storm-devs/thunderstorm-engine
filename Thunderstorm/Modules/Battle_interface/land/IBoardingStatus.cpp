@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include "../../Shared/battle_interface/log_msg.h"
 #include "IBoardingStatus.h"
-#include "EntityManager.h"
+#include <Entity.h>
+#include <message.h>
 
 IBoardingStatus::IBoardingStatus() {
   rs = nullptr;
@@ -11,11 +12,11 @@ IBoardingStatus::~IBoardingStatus() {
 }
 
 bool IBoardingStatus::Init() {
-  if ((rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"))) == nullptr) {
+  if ((rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"))) == nullptr) {
     throw std::exception("Can`t create render service");
   }
 
-  //api->SystemMessages(GetId(),true);
+  //core.SystemMessages(GetId(),true);
   EntityManager::AddToLayer(REALIZE, GetId(), 0xFFFFFFFF);
 
   return true;
@@ -48,7 +49,7 @@ void IBoardingStatus::Realize(uint32_t delta_time) {
 
 void IBoardingStatus::Create() {
   // Установить параметры для иконки активного действия
-  auto* pA = api->Entity_GetAttributePointer(GetId());
+  auto* pA = core.Entity_GetAttributePointer(GetId());
   if (pA != nullptr) {
     m_myPos.x = static_cast<float>(pA->GetAttributeAsDword("myLeft", 10));
     m_myPos.y = static_cast<float>(pA->GetAttributeAsDword("myTop", 460));

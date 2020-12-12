@@ -6,6 +6,8 @@
 #include "geometry.h"
 #include "blast.h"
 
+class VDATA;
+
 class LOCATOR : public Entity 
 {
 	enum

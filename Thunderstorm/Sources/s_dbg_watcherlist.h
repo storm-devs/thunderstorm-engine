@@ -4,7 +4,7 @@
 #ifndef _XBOX
 
 #include "tm_list.h"
-#include "Core.h"
+#include <core.h>
 
 
 class WATCHER_LIST : public TM_LIST

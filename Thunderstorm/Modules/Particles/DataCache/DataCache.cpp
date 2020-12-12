@@ -1,5 +1,9 @@
 #include "DataCache.h"
+
+#include <core.h>
+
 #include "filesystem.h"
+#include "vfile_service.h"
 #include "vmodule_api.h"
 
 bool ReadingAlreadyComplete;
@@ -32,7 +36,7 @@ void DataCache::CacheSystem(const char* FileName) {
   auto* const pSysFile = fio->_CreateFile(pathStr.c_str());
 
   if (pSysFile == INVALID_HANDLE_VALUE) {
-    api->Trace("Particles: '%s' File not found !!!", pathStr.c_str());
+    core.Trace("Particles: '%s' File not found !!!", pathStr.c_str());
     return;
   }
 
@@ -94,7 +98,7 @@ void DataCache::CreateDataSource(void* pBuffer, uint32_t BufferSize, const char*
   NewDataSource.pData = new DataSource(Master);
   Cache.push_back(NewDataSource);
 
-  //api->Trace("\nCreate data source for file %s", SourceFileName);
+  //core.Trace("\nCreate data source for file %s", SourceFileName);
 
   auto* ReadFile = new MemFile;
   ReadFile->OpenRead(pBuffer, BufferSize);

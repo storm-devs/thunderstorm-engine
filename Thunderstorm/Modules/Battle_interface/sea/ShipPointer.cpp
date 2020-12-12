@@ -2,7 +2,8 @@
 #include "../../Shared/battle_interface/msg_control.h"
 #include "../bi_defines.h"
 #include "ship_base.h"
-#include <EntityManager.h>
+#include <Entity.h>
+#include <message.h>
 
 // определим вертексы
 #define SPV_FORMAT		(D3DFVF_XYZ|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2)
@@ -27,7 +28,7 @@ SHIPPOINTER::~SHIPPOINTER() {
 }
 
 bool SHIPPOINTER::Init() {
-  if ((rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"))) == nullptr) {
+  if ((rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"))) == nullptr) {
     throw std::exception("Can`t create render service");
   }
 
@@ -47,9 +48,9 @@ bool SHIPPOINTER::Init() {
     rs->UnLockVertexBuffer(m_idVBuf);
   }
 
-  auto* pA = api->Entity_GetAttributeClass(GetId(), "textures");
+  auto* pA = core.Entity_GetAttributeClass(GetId(), "textures");
   if (pA == nullptr) {
-    api->Trace("WARNING! object SHIPPOINTER hav`t attribute TEXTURES");
+    core.Trace("WARNING! object SHIPPOINTER hav`t attribute TEXTURES");
     return false;
   }
 

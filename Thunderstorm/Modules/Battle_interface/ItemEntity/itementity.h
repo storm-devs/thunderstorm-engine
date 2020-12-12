@@ -4,7 +4,6 @@
 #include "../bi_defines.h"
 #include "Animation.h"
 #include "vparticle_system.h"
-#include "Entity.h"
 #include <string>
 
 class MODEL;

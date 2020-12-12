@@ -2,7 +2,6 @@
 #define _INFO_HANDLER_H_
 
 #include "dx9render.h"
-#include "Entity.h"
 
 class InfoHandler : public Entity {
   VDX9RENDER* m_rs;

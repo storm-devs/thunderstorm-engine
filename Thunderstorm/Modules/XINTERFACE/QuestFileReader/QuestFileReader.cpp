@@ -1,6 +1,10 @@
 #include <assert.h>
 #include "QuestFileReader.h"
 
+#include <core.h>
+
+#include "storm_assert.h"
+
 
 #define INVALID_LONG 0
 
@@ -181,13 +185,13 @@ bool QUEST_FILE_READER::InitQuestsQuery() {
     for (long n = 0; n < m_aQuestFileName.size(); n++) {
       auto* const hfile = fio->_CreateFile(m_aQuestFileName[n].c_str(), GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
       if (hfile == INVALID_HANDLE_VALUE) {
-        api->Trace("WARNING! Can`t open quest log file %s", m_aQuestFileName[n].c_str());
+        core.Trace("WARNING! Can`t open quest log file %s", m_aQuestFileName[n].c_str());
         continue;
       }
 
       const auto filesize = fio->_GetFileSize(hfile, nullptr);
       if (filesize == 0) {
-        api->Trace("Empty quest log file %s", m_aQuestFileName[n].c_str());
+        core.Trace("Empty quest log file %s", m_aQuestFileName[n].c_str());
         fio->_CloseHandle(hfile);
         continue;
       }
@@ -208,7 +212,7 @@ bool QUEST_FILE_READER::InitQuestsQuery() {
       uint32_t readsize;
       if (fio->_ReadFile(hfile, &m_pFileBuf[foffset], filesize, &readsize) == FALSE ||
         readsize != filesize) {
-        api->Trace("Can`t read quest log file: %s", m_aQuestFileName[n].c_str());
+        core.Trace("Can`t read quest log file: %s", m_aQuestFileName[n].c_str());
       }
       fio->_CloseHandle(hfile);
       m_pFileBuf[foffset + readsize] = 0;
@@ -234,7 +238,7 @@ bool QUEST_FILE_READER::GetQuestTitle(const char* questId, const char* questUniq
 
   const auto n = FindQuestByID(questId);
   if (n < 0) {
-    api->Trace("WARNING! Can`t find title whith ID = %s", questId);
+    core.Trace("WARNING! Can`t find title whith ID = %s", questId);
     return false;
   }
 
@@ -323,7 +327,7 @@ void QUEST_FILE_READER::ReadUserData(const char* sQuestName, long nRecordIndex) 
 
   if (!sQuestName) return;
 
-  auto* pVD = api->Event("evntQuestUserData", "sl", sQuestName, nRecordIndex);
+  auto* pVD = core.Event("evntQuestUserData", "sl", sQuestName, nRecordIndex);
   if (!pVD) return;
   auto* const pStr = pVD->GetString();
   if (!pStr || pStr[0] == 0) return;
@@ -390,13 +394,13 @@ void QUEST_FILE_READER::SetQuestTextFileName(const char* pcFileName) {
   // открываем этот файл
   const HANDLE hfile = fio->_CreateFile(pcFileName, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);
   if (hfile == INVALID_HANDLE_VALUE) {
-    api->Trace("WARNING! Can`t open quest log file %s", pcFileName);
+    core.Trace("WARNING! Can`t open quest log file %s", pcFileName);
     return;
   }
   // его размер
   const uint32_t filesize = fio->_GetFileSize(hfile, nullptr);
   if (filesize == 0) {
-    api->Trace("Empty quest log file %s", pcFileName);
+    core.Trace("Empty quest log file %s", pcFileName);
     fio->_CloseHandle(hfile);
     return;
   }
@@ -407,7 +411,7 @@ void QUEST_FILE_READER::SetQuestTextFileName(const char* pcFileName) {
   uint32_t readsize;
   if (fio->_ReadFile(hfile, pBuf, filesize, &readsize) == FALSE ||
     readsize != filesize) {
-    api->Trace("Can`t read quest log file: %s", pcFileName);
+    core.Trace("Can`t read quest log file: %s", pcFileName);
   }
   fio->_CloseHandle(hfile);
   pBuf[readsize] = 0;

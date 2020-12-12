@@ -1,6 +1,6 @@
 #include "locator.h"
 #include "../../Shared/messages.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 INTERFACE_FUNCTION
 CREATE_CLASS(LOCATOR)
@@ -20,8 +20,8 @@ LOCATOR::~LOCATOR() {
 }
 
 bool LOCATOR::Init() {
-  rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
-  gs = static_cast<VGEOMETRY*>(api->CreateService("geometry"));
+  rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
+  gs = static_cast<VGEOMETRY*>(core.CreateService("geometry"));
   if (!gs) return false;
 
   return true;
@@ -42,7 +42,7 @@ void LOCATOR::LocateForI_L2(ATTRIBUTES* pA, GEOS* g, GEOS::LABEL& label) {
 
   const auto groupID = g->FindName(label.name);
   if (groupID < 0) {
-    api->Trace("?void LOCATOR::LocateForI_L2(...)");
+    core.Trace("?void LOCATOR::LocateForI_L2(...)");
     return;
   }
 
@@ -69,16 +69,16 @@ void LOCATOR::LocateForI(VDATA* pData) {
   long i, n;
 
   if (pData == nullptr) {
-    api->Trace("?void LOCATOR::LocateForI(VDATA * pData)");
+    core.Trace("?void LOCATOR::LocateForI(VDATA * pData)");
     return;
   }
   pA = pData->GetAClass();
   if (pA == nullptr) {
-    api->Trace("?void LOCATOR::LocateForI(VDATA * pData)");
+    core.Trace("?void LOCATOR::LocateForI(VDATA * pData)");
     return;
   }
   if (!pA->GetAttribute("locators")) {
-    api->Trace("?void LOCATOR::LocateForI(VDATA * pData)");
+    core.Trace("?void LOCATOR::LocateForI(VDATA * pData)");
     return;
   }
   char sFileLocators[256];
@@ -88,7 +88,7 @@ void LOCATOR::LocateForI(VDATA* pData) {
   g = gs->CreateGeometry(sFileLocators, "", 0);
   rs->SetLoadTextureEnable(true);
   if (!g) {
-    api->Trace("?void LOCATOR::LocateForI(VDATA * pData)");
+    core.Trace("?void LOCATOR::LocateForI(VDATA * pData)");
     return;
   }
 
@@ -101,7 +101,7 @@ void LOCATOR::LocateForI(VDATA* pData) {
         for (n = 0; n < static_cast<long>(pAA->GetAttributesNum()); n++) {
           if (pAA->GetAttributeClass(n)) {
             if (!pAA->GetAttributeClass(n)->GetAttribute("name")) {
-              api->Trace("LOCATOR: no name");
+              core.Trace("LOCATOR: no name");
               continue;
             }
             if (_stricmp(pAA->GetAttributeClass(n)->GetAttribute("name"), label.name) == 0) {
@@ -122,7 +122,7 @@ void LOCATOR::LocateForI(VDATA* pData) {
     for (n = 0; n < static_cast<long>(pAA->GetAttributesNum()); n++) {
       auto* pARC = pAA->GetAttributeClass(n);
       if (!pARC->FindAClass(pARC, "x")) {
-        api->Trace("LOCATOR: Can't find locator with name: %s, geo: %s", pARC->GetAttribute("name"),
+        core.Trace("LOCATOR: Can't find locator with name: %s, geo: %s", pARC->GetAttribute("name"),
                    pA->GetAttribute("locators"));
       }
     }
@@ -279,7 +279,7 @@ uint64_t LOCATOR::ProcessMessage(MESSAGE& message) {
         for(stringIndex = 0; (stringIndex = geo->FindLabelG(stringIndex, groupID)) >= 0; stringIndex++)
         {
           geo->GetLabel(stringIndex, label);
-          api->Send_Message(ParticlesID,"lsffffffl",
+          core.Send_Message(ParticlesID,"lsffffffl",
             PS_CREATE,"smoke",label.m[3][0],label.m[3][1],label.m[3][2],-1.57,0,0,0);
         }
       }
@@ -287,14 +287,14 @@ uint64_t LOCATOR::ProcessMessage(MESSAGE& message) {
       groupID = geo->FindName("fire");
       if(groupID >= 0)
       {
-        if(!api->FindClass(&ParticlesID,"particles",0))
+        if(!core.FindClass(&ParticlesID,"particles",0))
         {
           if(!EntityManager::CreateEntity(&ParticlesID,"particles")) return 0;
         }
         for(stringIndex = 0; (stringIndex = geo->FindLabelG(stringIndex, groupID)) >= 0; stringIndex++)
         {
           geo->GetLabel(stringIndex, label);
-          api->Send_Message(ParticlesID,"lsffffffl",
+          core.Send_Message(ParticlesID,"lsffffffl",
             PS_CREATE,"fire",label.m[3][0],label.m[3][1],label.m[3][2],-1.57,0,0,0);
         }
       }
@@ -302,7 +302,7 @@ uint64_t LOCATOR::ProcessMessage(MESSAGE& message) {
       groupID = geo->FindName("water");
       if(groupID >= 0)
       {
-        if(!api->FindClass(&ParticlesID,"particles",0))
+        if(!core.FindClass(&ParticlesID,"particles",0))
         {
           if(!EntityManager::CreateEntity(&ParticlesID,"particles")) return 0;
         }
@@ -310,7 +310,7 @@ uint64_t LOCATOR::ProcessMessage(MESSAGE& message) {
         {
           
           geo->GetLabel(stringIndex, label);
-          api->Send_Message(ParticlesID,"lsffffffl",
+          core.Send_Message(ParticlesID,"lsffffffl",
             PS_CREATEX,"waterfall",label.m[3][0],label.m[3][1],label.m[3][2],label.m[2][0],label.m[2][1],-label.m[2][2],0);
         }
       }

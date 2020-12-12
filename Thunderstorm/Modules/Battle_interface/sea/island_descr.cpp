@@ -46,7 +46,7 @@ void ISLAND_DESCRIBER::SetIsland(ATTRIBUTES* pAIsland) {
     m_pLocators[i].texIdx = -1;
     m_pLocators[i].characterIndex = -1;
     m_pLocators[i].bDiseased = false;
-    auto* pvdat = api->Event("evntGetLandData", "a", pATmp);
+    auto* pvdat = core.Event("evntGetLandData", "a", pATmp);
     if (pvdat) {
       long lTmp;
       if (pvdat->Get(lTmp, 0))
@@ -114,12 +114,12 @@ ISLAND_DESCRIBER::LOCATOR_DESCR* ISLAND_DESCRIBER::GetFirstBrokenFort() {
 
 ISLAND_DESCRIBER::LOCATOR_DESCR* ISLAND_DESCRIBER::GetNext() {
   if (m_lastFindIdx < 0 || m_lastFindIdx >= m_nLocators) return nullptr;
-  assert(m_pLocators!=NULL);
+  Assert(m_pLocators!=NULL);
   return FindLocator(&m_pLocators[m_lastFindIdx], m_nLocators - m_lastFindIdx);
 }
 
 ISLAND_DESCRIBER::LOCATOR_DESCR* ISLAND_DESCRIBER::FindLocator(LOCATOR_DESCR* p, int nMax) {
-  assert(p!=NULL);
+  Assert(p!=NULL);
   if (nMax < 1) return nullptr;
   int i;
 
@@ -184,7 +184,7 @@ void ISLAND_DESCRIBER::Refresh() const {
   if (m_pLocators == nullptr) return;
   for (auto i = 0; i < m_nLocators; i++) {
     if (m_pLocators[i].locatorType == ISLAND_LOCATOR_FORT) {
-      m_pLocators[i].relation = GetVDATALong(api->Event(BI_EVENT_GET_FORT_RELATION, "a", m_pLocators[i].pA),
+      m_pLocators[i].relation = GetVDATALong(core.Event(BI_EVENT_GET_FORT_RELATION, "a", m_pLocators[i].pA),
                                              BI_RELATION_NEUTRAL);
     }
   }

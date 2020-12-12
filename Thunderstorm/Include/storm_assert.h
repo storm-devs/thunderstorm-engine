@@ -33,9 +33,9 @@ public:
 #undef STORM_THROW
 #endif
 
-#define THROW			throw "error"; //{ _VSYSTEM_API->SetX();_VSYSTEM_API->Trace(URE_MESSAGE);_VSYSTEM_API->Trace("%s line %d",__FILE__,__LINE__); throw _EXS(FATAL,"URE"); }
-#define throw std::exception(b)		throw #b; //{ _VSYSTEM_API->SetX();_VSYSTEM_API->Trace(URE_MESSAGE);_VSYSTEM_API->Trace("%s line %d",__FILE__,__LINE__);_VSYSTEM_API->Trace(TEXT(#b)); throw _EXS(FATAL,TEXT(#b));}
-#define _throw std::exception(a,b)	throw #a#b; //{ _VSYSTEM_API->SetXNF();_VSYSTEM_API->Trace(URE_MESSAGE);_VSYSTEM_API->Trace("%s line %d",__FILE__,__LINE__);_VSYSTEM_API->Trace(TEXT(#b)); throw _EXS(a,TEXT(#b)); }
+#define THROW			throw "error"; //{ _VSYSTEM_core.SetX();_VSYSTEM_core.Trace(URE_MESSAGE);_VSYSTEM_core.Trace("%s line %d",__FILE__,__LINE__); throw _EXS(FATAL,"URE"); }
+#define throw std::exception(b)		throw #b; //{ _VSYSTEM_core.SetX();_VSYSTEM_core.Trace(URE_MESSAGE);_VSYSTEM_core.Trace("%s line %d",__FILE__,__LINE__);_VSYSTEM_core.Trace(TEXT(#b)); throw _EXS(FATAL,TEXT(#b));}
+#define _throw std::exception(a,b)	throw #a#b; //{ _VSYSTEM_core.SetXNF();_VSYSTEM_core.Trace(URE_MESSAGE);_VSYSTEM_core.Trace("%s line %d",__FILE__,__LINE__);_VSYSTEM_core.Trace(TEXT(#b)); throw _EXS(a,TEXT(#b)); }
 
 #ifdef EX_OFF
 
@@ -45,7 +45,7 @@ public:
 #else
 
 #define //GUARD(block)	{ static const TCHAR block_name[] = TEXT(#block); try {
-#define //UNGUARD			} catch(_EXS exs) { _VSYSTEM_API->Trace((char*)block_name); if(exs.xtype == FATAL) { _VSYSTEM_API->SetX(); throw;}} catch(char * s) { _VSYSTEM_API->SetX();_VSYSTEM_API->Trace("User Rised Exception");_VSYSTEM_API->Trace((char*)block_name); throw _EXS(FATAL,s);} catch(...) { _VSYSTEM_API->SetX();_VSYSTEM_API->Trace("System Rised Exception");_VSYSTEM_API->Trace((char*)block_name); throw _EXS(FATAL,"unknown");}}
+#define //UNGUARD			} catch(_EXS exs) { _VSYSTEM_core.Trace((char*)block_name); if(exs.xtype == FATAL) { _VSYSTEM_core.SetX(); throw;}} catch(char * s) { _VSYSTEM_core.SetX();_VSYSTEM_core.Trace("User Rised Exception");_VSYSTEM_core.Trace((char*)block_name); throw _EXS(FATAL,s);} catch(...) { _VSYSTEM_core.SetX();_VSYSTEM_core.Trace("System Rised Exception");_VSYSTEM_core.Trace((char*)block_name); throw _EXS(FATAL,"unknown");}}
 
 #endif
 // core will automatically generate exceptions in following situation (if flag is set)
@@ -65,10 +65,10 @@ inline void __Storm_Assert__(bool expression, const char* file, long line, const
   if (!expression) {
     if (str) {
       spdlog::critical("Assert failed in {} line {}, expression string {}", file, line, str);
-      //	_VSYSTEM_API->Trace("Assert failed in %s line %d, expression string %s", file, line, str);
+      //	_VSYSTEM_core.Trace("Assert failed in %s line %d, expression string %s", file, line, str);
     }
     else {
-      //	_VSYSTEM_API->Trace("Assert failed in %s line %d", file, line);
+      //	_VSYSTEM_core.Trace("Assert failed in %s line %d", file, line);
       spdlog::critical("Assert failed in {} line {}", file, line);
     }
 #ifdef EX_OFF

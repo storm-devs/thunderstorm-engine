@@ -5,7 +5,6 @@
 #include "geos.h"
 #include "matrix.h"
 #include "sail_base.h"
-#include "Entity.h"
 
 class NODE;
 

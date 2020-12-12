@@ -7,7 +7,7 @@
 #include "vmodule_api.h"
 #include "types3d.h"
 #include "object.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 
 class LOCAL_COLLIDE {

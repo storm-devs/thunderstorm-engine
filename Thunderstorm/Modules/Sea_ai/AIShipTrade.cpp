@@ -1,7 +1,7 @@
 #include "AIShip.h"
 
 AIShipTrade::AIShipTrade() : AIShip(AIOBJ_SHIP_TRADE) {
-  //api->Trace("Create trade ship.");
+  //core.Trace("Create trade ship.");
 }
 
 AIShipTrade::~AIShipTrade() {

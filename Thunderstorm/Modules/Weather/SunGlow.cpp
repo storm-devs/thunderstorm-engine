@@ -48,9 +48,9 @@ bool SUNGLOW::Init() {
 void SUNGLOW::SetDevice() {
   entid_t ent;
 
-  pRS = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  pRS = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   Assert(pRS);
-  pCollide = static_cast<COLLIDE*>(api->CreateService("COLL"));
+  pCollide = static_cast<COLLIDE*>(core.CreateService("COLL"));
   Assert(pCollide);
 
   if (!(ent = EntityManager::GetEntityId("weather"))) throw std::exception("No found WEATHER entity!");
@@ -174,7 +174,7 @@ void SUNGLOW::Realize(uint32_t Delta_Time) {
     fMinAlphaValue = 0.2f;
   }
 
-  /*walker_t pVW = api->LayerGetWalker("sun_trace");
+  /*walker_t pVW = core.LayerGetWalker("sun_trace");
   if (pVW) 
   {
     vSrc = vCamPos;

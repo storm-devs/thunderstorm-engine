@@ -2,7 +2,6 @@
 #define _HELPCHOOSER_H_
 
 #include "dx9render.h"
-#include "Entity.h"
 #include <defines.h>
 
 class HELPCHOOSER : public Entity {

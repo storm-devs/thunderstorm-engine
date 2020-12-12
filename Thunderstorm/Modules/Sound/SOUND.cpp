@@ -1,6 +1,6 @@
 #include "../../Shared/messages.h"
 #include "../SoundService/VSoundService.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 #include "SOUND.H"
 
@@ -22,11 +22,11 @@ SOUND::~SOUND() {
 bool SOUND::Init() {
   //GUARD(SOUND::Init)
 
-  soundService = static_cast<VSoundService*>(api->CreateService("SoundService"));
+  soundService = static_cast<VSoundService*>(core.CreateService("SoundService"));
   if (!soundService)
-    api->Trace("!SOUND: Can`t create sound service");
+    core.Trace("!SOUND: Can`t create sound service");
 
-  renderer = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  renderer = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   EntityManager::AddToLayer(REALIZE, GetId(), -1);
 
   return true;

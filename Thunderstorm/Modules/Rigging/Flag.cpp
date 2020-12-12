@@ -3,7 +3,8 @@
 #include "sail_msg.h"
 #include "Weather_Base.h"
 #include "rigging_define.h"
-#include "EntityManager.h"
+#include <Entity.h>
+#include "vfile_service.h"
 
 FLAG::FLAG() {
   bUse = false;
@@ -44,7 +45,7 @@ bool FLAG::Init() {
 
 void FLAG::SetDevice() {
   // получить сервис рендера
-  RenderService = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  RenderService = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (!RenderService) {
     throw std::exception("No service: dx9render");
   }
@@ -136,7 +137,7 @@ uint64_t FLAG::ProcessMessage(MESSAGE& message) {
       MODEL* host_mdl;
       host_mdl = static_cast<MODEL*>(EntityManager::GetEntityPointer(eidModel));
       if (host_mdl == nullptr) {
-        api->Trace("Missing INIT message to FLAG: bad MODEL");
+        core.Trace("Missing INIT message to FLAG: bad MODEL");
       }
 
       if (groupQuantity == 0) {
@@ -701,7 +702,7 @@ void FLAG::SetAdd(int flagNum) {
     }
     else {
       // установить номер текстуры
-      auto* pvdat = api->Event("GetRiggingData", "sll", "GetFlagTexNum", flist[fn]->triangle,
+      auto* pvdat = core.Event("GetRiggingData", "sll", "GetFlagTexNum", flist[fn]->triangle,
                                gdata[flist[fn]->HostGroup].nation);
       if (pvdat == nullptr) flist[fn]->texNum = 0;
       else flist[fn]->texNum = pvdat->GetLong();

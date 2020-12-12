@@ -1,6 +1,9 @@
 #include "defines.h"
 #include "../SoundService/VSoundService.h"
 #include "dialog.h"
+#include <core.h>
+
+#include "vfile_service.h"
 
 #define CNORMAL	0xFFFFFFFF
 #define UNFADE_TIME 1000
@@ -244,9 +247,9 @@ void DIALOG::DlgLinkDescribe::Show(long nY) {
 }
 
 void DIALOG::DlgLinkDescribe::ShowEditMode(long nX, long nY, long nTextIdx) {
-  const auto nKeyQ = api->Controls->GetKeyBufferLength();
+  const auto nKeyQ = core.Controls->GetKeyBufferLength();
   if (nKeyQ > 0) {
-    const auto* const pKeys = api->Controls->GetKeyBuffer();
+    const auto* const pKeys = core.Controls->GetKeyBuffer();
     if (pKeys) {
       for (long n = 0; n < nKeyQ; n++) {
         if (pKeys[n].bSystem) {
@@ -286,7 +289,7 @@ void DIALOG::DlgLinkDescribe::ShowEditMode(long nX, long nY, long nTextIdx) {
   }
 
   // show cursor
-  fCursorCurrentTime += api->GetRDeltaTime() * 0.001f;
+  fCursorCurrentTime += core.GetRDeltaTime() * 0.001f;
   if (fCursorCurrentTime > fCursorVisibleTime + fCursorInvisibleTime)
     fCursorCurrentTime -= fCursorVisibleTime + fCursorInvisibleTime;
   if (fCursorCurrentTime <= fCursorVisibleTime) {
@@ -305,7 +308,7 @@ void DIALOG::DlgLinkDescribe::ShowEditMode(long nX, long nY, long nTextIdx) {
   }
 
   if (nEditVarIndex >= 0 && nEditVarIndex < 10) {
-    auto* pDat = static_cast<VDATA*>(api->GetScriptVariable("dialogEditStrings"));
+    auto* pDat = static_cast<VDATA*>(core.GetScriptVariable("dialogEditStrings"));
     if (pDat) pDat->Set((char*)asText[nTextIdx].c_str(), nEditVarIndex);
   }
 }
@@ -339,7 +342,7 @@ DIALOG::DIALOG() {
 
 //--------------------------------------------------------------------
 DIALOG::~DIALOG() {
-  api->SetTimeScale(1.f);
+  core.SetTimeScale(1.f);
 
   if (m_idVBufBack != -1) RenderService->ReleaseVertexBuffer(m_idVBufBack);
   m_idVBufBack = -1;
@@ -572,7 +575,7 @@ void DIALOG::DrawButtons() {
 void DIALOG::LoadFromIni() {
   INIFILE* pIni = fio->OpenIniFile("resource\\ini\\dialog.ini");
   if (!pIni) {
-    api->Trace("Warning! DIALOG: Can`t open ini file %s", "resource\\ini\\dialog.ini");
+    core.Trace("Warning! DIALOG: Can`t open ini file %s", "resource\\ini\\dialog.ini");
     return;
   }
 
@@ -738,13 +741,13 @@ void DIALOG::AddToStringArrayLimitedByWidth(const char* pcSrcText, long nFontID,
 bool DIALOG::Init() {
   forceEmergencyClose = false;
   selectedLinkName[0] = 0;
-  api->SetTimeScale(0.f);
+  core.SetTimeScale(0.f);
   unfadeTime = 0;
 
-  RenderService = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  RenderService = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   Assert(RenderService);
 
-  snd = static_cast<VSoundService*>(api->CreateService("SoundService"));
+  snd = static_cast<VSoundService*>(core.CreateService("SoundService"));
   //Assert( snd );
 
   //----------------------------------------------------------
@@ -778,10 +781,10 @@ void DIALOG::Realize(uint32_t Delta_Time) {
   RenderService->MakePostProcess();
   // замедленный выход из паузы
   if (unfadeTime <= UNFADE_TIME) {
-    unfadeTime += static_cast<int>(api->GetRDeltaTime());
+    unfadeTime += static_cast<int>(core.GetRDeltaTime());
     float timeK = static_cast<float>(unfadeTime) / UNFADE_TIME;
     if (timeK > 1.f) timeK = 1.f;
-    api->SetTimeScale(timeK);
+    core.SetTimeScale(timeK);
   }
 
   // играем спич
@@ -805,27 +808,27 @@ void DIALOG::Realize(uint32_t Delta_Time) {
   CONTROL_STATE cs2;
 
   // прерывание диалога
-  api->Controls->GetControlState("DlgCancel", cs);
-  if (cs.state == CST_ACTIVATED) api->Event("DialogCancel");
+  core.Controls->GetControlState("DlgCancel", cs);
+  if (cs.state == CST_ACTIVATED) core.Event("DialogCancel");
 
   bool bDoUp = false;
   bool bDoDown = false;
   //
-  api->Controls->GetControlState("DlgUp", cs);
+  core.Controls->GetControlState("DlgUp", cs);
   if (cs.state == CST_ACTIVATED) bDoUp = true;
   if (!bEditMode) {
-    api->Controls->GetControlState("DlgUp2", cs);
+    core.Controls->GetControlState("DlgUp2", cs);
     if (cs.state == CST_ACTIVATED) bDoUp = true;
-    api->Controls->GetControlState("DlgUp3", cs);
+    core.Controls->GetControlState("DlgUp3", cs);
     if (cs.state == CST_ACTIVATED) bDoUp = true;
   }
   //
-  api->Controls->GetControlState("DlgDown", cs);
+  core.Controls->GetControlState("DlgDown", cs);
   if (cs.state == CST_ACTIVATED) bDoDown = true;
   if (!bEditMode) {
-    api->Controls->GetControlState("DlgDown2", cs);
+    core.Controls->GetControlState("DlgDown2", cs);
     if (cs.state == CST_ACTIVATED) bDoDown = true;
-    api->Controls->GetControlState("DlgDown3", cs);
+    core.Controls->GetControlState("DlgDown3", cs);
     if (cs.state == CST_ACTIVATED) bDoDown = true;
   }
 
@@ -859,7 +862,7 @@ void DIALOG::Realize(uint32_t Delta_Time) {
     }
   }
   // страница вверх
-  api->Controls->GetControlState("DlgScrollUp", cs);
+  core.Controls->GetControlState("DlgScrollUp", cs);
   if (cs.state == CST_ACTIVATED) {
     if (snd) snd->SoundPlay(TICK_SOUND, PCM_STEREO, VOLUME_FX);
     if (m_DlgText.nStartIndex > 0) {
@@ -870,7 +873,7 @@ void DIALOG::Realize(uint32_t Delta_Time) {
     }
   }
   // страница вниз
-  api->Controls->GetControlState("DlgScrollDown", cs);
+  core.Controls->GetControlState("DlgScrollDown", cs);
   if (cs.state == CST_ACTIVATED) {
     if (snd) snd->SoundPlay(TICK_SOUND, PCM_STEREO, VOLUME_FX);
     if (!m_DlgText.IsLastPage()) {
@@ -881,9 +884,9 @@ void DIALOG::Realize(uint32_t Delta_Time) {
     }
   }
   // действие
-  api->Controls->GetControlState("DlgAction", cs);
-  api->Controls->GetControlState("DlgAction2", cs2);
-  api->Controls->GetControlState("DlgAction1", cs1); // boal
+  core.Controls->GetControlState("DlgAction", cs);
+  core.Controls->GetControlState("DlgAction2", cs2);
+  core.Controls->GetControlState("DlgAction1", cs1); // boal
   if (bEditMode) {
     cs.state = CST_INACTIVE;
   }
@@ -905,7 +908,7 @@ void DIALOG::Realize(uint32_t Delta_Time) {
 
           //set default
           strcpy_s(soundName, charDefSnd);
-          api->Event("DialogEvent");
+          core.Event("DialogEvent");
         }
       }
     }
@@ -974,10 +977,10 @@ uint64_t DIALOG::ProcessMessage(MESSAGE& message) {
     charId = message.EntityID();
     charMdl = message.EntityID();
     const char* attr = nullptr;
-    if (attr = api->Entity_GetAttribute(charId, "name"))
+    if (attr = core.Entity_GetAttribute(charId, "name"))
       m_sTalkPersName = attr;
     if (m_sTalkPersName.size() > 0) m_sTalkPersName += " ";
-    if (attr = api->Entity_GetAttribute(charId, "lastname"))
+    if (attr = core.Entity_GetAttribute(charId, "lastname"))
       m_sTalkPersName += attr;
     m_BackParams.fCharacterNameRectCenterWidth = 4.f + RenderService->StringWidth(
       (char*)m_sTalkPersName.c_str(), m_nCharNameTextFont, m_fCharNameTextScale);
@@ -990,8 +993,8 @@ uint64_t DIALOG::ProcessMessage(MESSAGE& message) {
 void DIALOG::EmergencyExit() {
   if (forceEmergencyClose) return;
   forceEmergencyClose = true;
-  api->Trace("DIALOG: Invalid links, emergency exit! (last link = %s)", selectedLinkName);
-  api->Event("EmergencyDialogExit");
+  core.Trace("DIALOG: Invalid links, emergency exit! (last link = %s)", selectedLinkName);
+  core.Event("EmergencyDialogExit");
 }
 
 void DIALOG::UpdateDlgTexts() {

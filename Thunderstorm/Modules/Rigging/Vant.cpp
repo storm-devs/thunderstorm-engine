@@ -3,7 +3,8 @@
 #include "sail_msg.h"
 #include "ship_base.h"
 #include "rigging_define.h"
-#include "EntityManager.h"
+#include <Entity.h>
+#include "vfile_service.h"
 
 VANT::VANT() {
   bUse = false;
@@ -48,7 +49,7 @@ bool VANT::Init() {
 
 void VANT::SetDevice() {
   // получить сервис рендера
-  RenderService = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  RenderService = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (!RenderService) {
     throw std::exception("No service: dx9render");
   }

@@ -191,7 +191,7 @@ bool APCMCoded::LoadDataToBuffer(LPDIRECTSOUNDBUFFER _buffer, HANDLE _inFile, DW
 		return false;
 	}
 
-	Assert(_cachedData->size == buffer1Size)
+	Assert(_cachedData->size == buffer1Size);
 	memcpy(buffer1, (void *) _cachedData->pcmData, _cachedData->size);
 	/*
 	{ //uncached, simply read from file

@@ -1,6 +1,6 @@
 #include "../../Shared/messages.h"
 #include "Seafoam.h"
-#include <EntityManager.h>
+#include <Entity.h>
 #include "defines.h"
 
 INTERFACE_FUNCTION
@@ -38,7 +38,7 @@ SEAFOAM::~SEAFOAM() {
 bool SEAFOAM::Init() {
   //GUARD(SEAFOAM::Init)
 
-  /*if (api->IsNetActive())
+  /*if (core.IsNetActive())
   {
     NetFindClass(false, &seaID, "NetSea");
     sea = (SEA_BASE*) EntityManager::GetEntityPointer(seaID);
@@ -49,15 +49,15 @@ bool SEAFOAM::Init() {
     sea = static_cast<SEA_BASE*>(EntityManager::GetEntityPointer(seaID));
   }
 
-  renderer = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
-  soundService = static_cast<VSoundService*>(api->CreateService("SoundService"));
+  renderer = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
+  soundService = static_cast<VSoundService*>(core.CreateService("SoundService"));
 
   psIni = fio->OpenIniFile("resource\\ini\\particles.ini");
 
   InitializeShipFoam();
 
   //EntityManager::CreateEntity(&arrowModel,"MODELR");
-  //api->Send_Message(arrowModel,"ls",MSG_MODEL_LOAD_GEO, "fish01");
+  //core.Send_Message(arrowModel,"ls",MSG_MODEL_LOAD_GEO, "fish01");
 
   carcassTexture = renderer->TextureCreate("seafoam_2.tga");
   return true;
@@ -425,7 +425,7 @@ void SEAFOAM::RealizeShipFoam_Particles(tShipFoamInfo& _shipFoamInfo, uint32_t _
   }
 
   RDTSC_E(ticks)
-  //api->Trace("Seafoam realize(carcass->Execute) = %d", ticks);
+  //core.Trace("Seafoam realize(carcass->Execute) = %d", ticks);
 }
 
 void SEAFOAM::RealizeShipFoam_Mesh(tShipFoamInfo& _shipFoamInfo, uint32_t _dTime) {
@@ -501,7 +501,7 @@ void SEAFOAM::Realize(uint32_t _dTime) {
     while (renderer->TechniqueExecuteNext());
 
   RDTSC_E(ticks)
-  //api->Trace("Seafoam realize = %d", ticks);
+  //core.Trace("Seafoam realize = %d", ticks);
   //UNGUARD
 }
 
@@ -550,7 +550,7 @@ uint32_t SEAFOAM::AttributeChanged(ATTRIBUTES* pA) {
   {
     entid_t shipID;
     uint32_t dwShipNetID = pA->GetAttributeAsDword();
-    if (api->IsNetActive())
+    if (core.IsNetActive())
     {
       if (NetFindClass(false, &shipID, "NetShip")) do
       {

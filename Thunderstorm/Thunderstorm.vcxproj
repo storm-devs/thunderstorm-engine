@@ -29,7 +29,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>ClangCL</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -38,7 +38,7 @@
     <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <PlatformToolset>ClangCL</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
@@ -610,13 +610,11 @@
     <ClInclude Include="Include\TIVBufferManager.h" />
     <ClInclude Include="Include\triangle.h" />
     <ClInclude Include="Include\types3d.h" />
-    <ClInclude Include="Include\vapi.h" />
     <ClInclude Include="Include\vdata.h" />
     <ClInclude Include="Include\vfile_service.h" />
     <ClInclude Include="Include\VideoTexture.h" />
     <ClInclude Include="Include\vmodule_api.h" />
     <ClInclude Include="Include\vparticle_system.h" />
-    <ClInclude Include="Include\vstring_codec.h" />
     <ClInclude Include="Include\v_s_stack.h" />
     <ClInclude Include="Include\Weather_Base.h" />
     <ClInclude Include="Modules\BATTLE_INTERFACE\ActivePerkShower.h" />

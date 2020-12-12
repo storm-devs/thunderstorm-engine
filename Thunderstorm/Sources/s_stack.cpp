@@ -1,9 +1,7 @@
 #include "s_stack.h"
-#include "vapi.h"
 #include "storm_assert.h"
 
 extern void trace(char* p, ...);
-extern VAPI* api;
 
 S_STACK::S_STACK() {
   Buffer_size = 0;
@@ -62,7 +60,7 @@ DATA* S_STACK::Pop() {
   {
     entid_t id;
     pStackData[Data_num]->Get(id);
-    api->Entity_SetAttributePointer(&id,0);
+    core.Entity_SetAttributePointer(&id,0);
   }//*/
   return pStackData[Data_num];
 }

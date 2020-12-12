@@ -137,7 +137,7 @@ bool AMP3Coded::Unload()
 bool AMP3Coded::OpenMP3File(const char *_filename, WAVEFORMATEX *_waveFormat, unsigned long *_bufferSize)
 {
 	GUARD(AMP3Coded::OpenWAVFile)
-	Assert(_filename && _waveFormat && _bufferSize)
+	Assert(_filename && _waveFormat && _bufferSize);
 
 	AMP3Coded::Unload();
 
@@ -212,13 +212,13 @@ bool AMP3Coded::LoadDataToBuffer(LPDIRECTSOUNDBUFFER _buffer, MMCKINFO &_info)
 
 	#ifndef _XBOX
 		_buffer->QueryInterface(IID_IDirectSoundNotify, (void **) &soundNotify);
-		Assert(soundNotify)
+		Assert(soundNotify);
 
 		outCode = soundNotify->SetNotificationPositions(2, notifyPositions);
-		Assert(outCode == DS_OK)
+		Assert(outCode == DS_OK);
 	#else
 		outCode = _buffer->SetNotificationPositions(2, notifyPositions);
-		Assert(outCode == DS_OK)
+		Assert(outCode == DS_OK);
 	#endif
 
 	leftFlushes = -1;
@@ -244,7 +244,7 @@ bool AMP3Coded::LoadDataToBuffer(LPDIRECTSOUNDBUFFER _buffer, MMCKINFO &_info)
 bool AMP3Coded::AddAndDecodeMP3Data(bool _looped)
 {
 	GUARD(AMP3Coded::AddMP3Data)
-	Assert(inFile)
+	Assert(inFile);
 
 	if (!validMP3 || !decodedStream)
 		return false;

@@ -6,8 +6,9 @@
 
 #include "types3d.h"
 #include "Matrix.h"
-#include "Entity.h"
+#include <Entity.h>
 #include "service.h"
+#include "storm_assert.h"
 
 #define FONT_DEFAULT    0
 

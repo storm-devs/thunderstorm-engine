@@ -1,5 +1,9 @@
 #include "xi_changer.h"
 
+#include <core.h>
+
+#include "vfile_service.h"
+
 CXI_CHANGER::CXI_CHANGER() {
   m_nPlaceQuantity = 0;
   m_pPlace = nullptr;
@@ -133,7 +137,7 @@ void CXI_CHANGER::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, const
   m_pTexVert[6].tv = m_pTexVert[7].tv = m_pTexVert[2].tv = m_pTexVert[3].tv = 0.f;
 
   m_nCurrentPos = 0;
-  auto* pAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+  auto* pAttr = core.Entity_GetAttributeClass(g_idInterface, m_nodeName);
   if (pAttr != nullptr) m_nCurrentPos = pAttr->GetAttributeAsDword("current", 0);
 
   SetRectanglesToPosition(0);
@@ -181,7 +185,7 @@ int CXI_CHANGER::CommandExecute(int wActCode) {
     if (bChangePosition && m_nCurrentPos >= 0 && m_nCurrentPos < m_nPlaceQuantity) {
       SetRectanglesToPosition(m_nCurrentPos);
       // set attribute to new position
-      auto* pAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+      auto* pAttr = core.Entity_GetAttributeClass(g_idInterface, m_nodeName);
       if (pAttr != nullptr)
         pAttr->SetAttributeUseDword("current", m_nCurrentPos);
     }
@@ -244,7 +248,7 @@ void CXI_CHANGER::SaveParametersToIni() {
 
   auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
   if (!pIni) {
-    api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
+    core.Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
     return;
   }
 
@@ -279,7 +283,7 @@ uint32_t CXI_CHANGER::MessageProc(long msgcode, MESSAGE& message) {
         m_nCurrentPos = n;
         SetRectanglesToPosition(m_nCurrentPos);
         // set attribute to new position
-        auto* pAttr = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+        auto* pAttr = core.Entity_GetAttributeClass(g_idInterface, m_nodeName);
         if (pAttr != nullptr) pAttr->SetAttributeUseDword("current", m_nCurrentPos);
       }
     }

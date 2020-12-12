@@ -3,6 +3,7 @@
 
 #include "vmodule_api.h"
 #include "controls.h"
+#include "../Animation/ActionInfo.h"
 
 struct ControlKeyBuffer
 {

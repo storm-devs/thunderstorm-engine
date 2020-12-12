@@ -1,6 +1,7 @@
 #ifndef _CONTROLS_H_
 #define _CONTROLS_H_
 
+#include <Windows.h>
 #include <cstdint>
 
 #define INVALID_CONTROL_CODE	0xffffffff

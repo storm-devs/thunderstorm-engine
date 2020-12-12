@@ -1,12 +1,15 @@
 #pragma once
+
+#include <Entity.h>
+#include "../../Shared/layers.h"
+#include "vmodule_api.h"
+
+#include <cassert>
 #include <cstdint>
 #include <vector>
 #include <chrono>
 #include <array>
 #include <algorithm>
-#include "Entity.h"
-#include "vmodule_api.h"
-#include "../../Shared/layers.h"
 
 class EntityManager final {
   /* typedefs */

@@ -4,7 +4,6 @@
 
 #include <string>
 #include <vector>
-#include "Entity.h"
 #include "../bi_defines.h"
 
 class BIImageRender;

@@ -37,7 +37,7 @@ void TSinkSplash::Start(const CVECTOR& _pos, uint16_t* _indexes, SINK_VERTEX* _v
 
   const auto midY = sea->WaveXZ(center.x, center.z) + SPLASH_MOVE_Y;
   distortDivider = rand(SPLASH_DISTORT_DIVIDER) + 10.0f;
-  //	_VSYSTEM_API->Trace("i=%X, v=%X", _indexes, _vertexes);
+  //	_VSYSTEM_core.Trace("i=%X, v=%X", _indexes, _vertexes);
   const auto stepSize = GRID_LENGTH / GRID_STEPS;
   const auto halfSize = GRID_LENGTH / 2.0f;
   for (uint16_t z = 0; z < GRID_STEPS; ++z)

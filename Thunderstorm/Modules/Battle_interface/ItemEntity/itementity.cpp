@@ -2,7 +2,8 @@
 #include "../Utils.h"
 #include "model.h"
 #include "../../Shared/messages.h"
-#include "EntityManager.h"
+#include <Entity.h>
+#include <message.h>
 
 ItemEntity::ItemEntity() {
   SetBeginData();
@@ -101,7 +102,7 @@ bool ItemEntity::ReadAndCreate() {
   auto* const pcTechnique = BIUtils::GetStringFromAttr(AttributesPointer, "technique", "");
   if (pcModelName) {
     if (m_eidModel = EntityManager::CreateEntity("modelr")) {
-      api->Send_Message(m_eidModel, "ls",MSG_MODEL_LOAD_GEO, pcModelName);
+      core.Send_Message(m_eidModel, "ls",MSG_MODEL_LOAD_GEO, pcModelName);
       m_pModel = static_cast<MODEL*>(EntityManager::GetEntityPointer(m_eidModel));
       SetModelToPosition(m_mtxpos);
       SetTechnique(pcTechnique);
@@ -130,7 +131,7 @@ void ItemEntity::Release() {
 
 void ItemEntity::SetModelToPosition(const CMatrix& mtx) const {
   if (m_pModel) {
-    api->Send_Message(m_eidModel, "lffffffffffff",MSG_MODEL_SET_POSITION,
+    core.Send_Message(m_eidModel, "lffffffffffff",MSG_MODEL_SET_POSITION,
                       m_mtxpos.Pos().x, m_mtxpos.Pos().y, m_mtxpos.Pos().z,
                       m_mtxpos.Vx().x, m_mtxpos.Vx().y, m_mtxpos.Vx().z,
                       m_mtxpos.Vy().x, m_mtxpos.Vy().y, m_mtxpos.Vy().z,
@@ -221,8 +222,8 @@ void ItemEntity::DrawIntoLocator() {
 }
 
 entid_t ItemEntity::GetModelEIDFromCharacterEID(entid_t chrEID) {
-  if (auto* data = static_cast<VDATA*>(api->GetScriptVariable("g_TmpModelVariable"))) {
-    api->Send_Message(chrEID, "le", MSG_CHARACTER_GETMODEL, data);
+  if (auto* data = static_cast<VDATA*>(core.GetScriptVariable("g_TmpModelVariable"))) {
+    core.Send_Message(chrEID, "le", MSG_CHARACTER_GETMODEL, data);
     return data->GetEntityID();
   }
 
@@ -272,7 +273,7 @@ bool ItemEntity::CreateParticle() {
       const auto eidParticle = EntityManager::GetEntityId("particles");
       if (eidParticle) {
         const auto vPos = m_mtxpos.Pos();
-        m_pParticle = (VPARTICLE_SYSTEM*)api->Send_Message(eidParticle, "lsffffffl", PS_CREATE_RIC,
+        m_pParticle = (VPARTICLE_SYSTEM*)core.Send_Message(eidParticle, "lsffffffl", PS_CREATE_RIC,
                                                            pcParticleName, vPos.x, vPos.y, vPos.z, 0.0f, 1.0f,
                                                            0.0f, 0);
         return true;
@@ -286,7 +287,7 @@ void ItemEntity::DeleteParticle() {
   if (m_pParticle) {
     const auto eidParticle = EntityManager::GetEntityId("particles");
     if (eidParticle) {
-      if (api->Send_Message(eidParticle, "lp", PS_VALIDATE_PARTICLE, m_pParticle))
+      if (core.Send_Message(eidParticle, "lp", PS_VALIDATE_PARTICLE, m_pParticle))
         m_pParticle->Pause(true);
     }
     m_pParticle = nullptr;

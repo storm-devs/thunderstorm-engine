@@ -1,5 +1,10 @@
 #include <d3dx9math.h>
 #include "SailorsWayPoints.h"
+
+#include <core.h>
+
+
+#include "vfile_service.h"
 #include "vmodule_api.h"
 
 //--------------------------------------------------------------------------------------------------------------
@@ -336,7 +341,7 @@ int SailorsPoints::WriteToFile(std::string fileName) {
   if (!pIni) pIni = fio->CreateIniFile(fileName.c_str(), false);
 
   if (!pIni) {
-    api->Trace("Warning! Can`t open '%s' for write", fileName.c_str());
+    core.Trace("Warning! Can`t open '%s' for write", fileName.c_str());
     return 0;
   }
 
@@ -382,7 +387,7 @@ int SailorsPoints::ReadFromFile(std::string fileName) {
   auto* pIni = fio->OpenIniFile(fileName.c_str());
 
   if (!pIni) {
-    api->Trace("Sailors : Can`t open '%s'", fileName.c_str());
+    core.Trace("Sailors : Can`t open '%s'", fileName.c_str());
     return 0;
   }
 

@@ -3,7 +3,6 @@
 
 
 #include "dx9render.h"
-#include "entity.h"
 
 class SoundService;
 

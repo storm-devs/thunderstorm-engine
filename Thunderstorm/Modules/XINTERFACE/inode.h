@@ -7,6 +7,8 @@
 #include "defines.h"
 #include "Nodes/xi_tooltips.h"
 #include "vxservice.h"
+#include <core.h>
+#include "vfile_service.h"
 
 class CXI_ToolTip;
 

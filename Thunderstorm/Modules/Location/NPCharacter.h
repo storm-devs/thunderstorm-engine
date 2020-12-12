@@ -12,7 +12,7 @@
 #define _NPCharacter_H_
 
 #include "AICharacter.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 class NPCharacter : public AICharacter {
 protected:

@@ -2,7 +2,6 @@
 #define _BI_TIMER_H_
 
 #include <string>
-#include "Entity.h"
 #include "../bi_defines.h"
 
 class BIImageRender;

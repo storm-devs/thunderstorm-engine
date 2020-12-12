@@ -10,6 +10,8 @@
 
 #include "Bone.h"
 
+
+#include "storm_assert.h"
 #include "vmodule_api.h"
 
 //============================================================================================
@@ -135,7 +137,7 @@ inline float Bone::Clamp(float v, const char* str) {
     v = 1.0f;
     isErr = true;
   }
-  if (isErr && str) api->Trace(str);
+  if (isErr && str) core.Trace(str);
   return v;
 }
 

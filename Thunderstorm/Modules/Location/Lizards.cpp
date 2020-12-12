@@ -9,7 +9,7 @@
 //============================================================================================
 
 #include "Lizards.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 
 Lizards::Lizards() {
@@ -28,7 +28,7 @@ bool Lizards::Init() {
   //Заводим ящерец
   for (long i = 0; i < num; i++) lizard[i].Init(location);
   //Исполнение
-  //api->LayerCreate("realize", true, false);
+  //core.LayerCreate("realize", true, false);
   EntityManager::SetLayerType(REALIZE, EntityManager::Layer::Type::realize);
   EntityManager::AddToLayer(REALIZE, GetId(), 100000);
   return true;

@@ -1,8 +1,12 @@
 #include "sea.h"
+
+#include <core.h>
+
 #include "tga.h"
 #include "../../Shared/sea_ai/Script_defines.h"
 #include "SSE.h"
 #include "inlines.h"
+#include "vfile_service.h"
 
 //#define OLD_WORLD_POS
 
@@ -194,9 +198,9 @@ void SEA::CreateVertexDeclaration() {
 }
 
 bool SEA::Init() {
-  rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   CreateVertexDeclaration();
-  auto* pEngineIni = fio->OpenIniFile(api->EngineIniFileName());
+  auto* pEngineIni = fio->OpenIniFile(core.EngineIniFileName());
   const auto bDisableHyperThreading = (pEngineIni) ? pEngineIni->GetLong(nullptr, "HyperThreading", 1) == 0 : false;
   bDisableSSE = (pEngineIni) ? pEngineIni->GetLong(nullptr, "DisableSSE", 0) != 0 : false;
   bIniFoamEnable = (pEngineIni) ? pEngineIni->GetLong("Sea", "FoamEnable", 1) != 0 : false;
@@ -213,7 +217,7 @@ bool SEA::Init() {
   if (bHyperThreading) {
     uint32_t dwLogicals, dwCores, dwPhysicals;
     intel.CPUCount(&dwLogicals, &dwCores, &dwPhysicals);
-    api->Trace("Total logical: %d, Total cores: %d, Total physical: %d", dwLogicals, dwCores, dwPhysicals);
+    core.Trace("Total logical: %d, Total cores: %d, Total physical: %d", dwLogicals, dwCores, dwPhysicals);
 
     const auto dwNumThreads = dwLogicals * dwCores - 1;
 
@@ -272,7 +276,7 @@ bool SEA::Init() {
     //sprintf_s(str, "resource\\sea\\sea0000.tga", i);
     fio->LoadFile(str, &pFBuffer, &dwSize);
     if (!pFBuffer) {
-      api->Trace("Sea: Can't load %s", str);
+      core.Trace("Sea: Can't load %s", str);
       return false;
     }
 
@@ -320,7 +324,7 @@ bool SEA::Init() {
 
   EditMode_Update();
 
-  api->Trace("Intel CPU: %s, SSE: %s, HyperThreading: %s", (bIntel) ? "Yes" : "No", (bSSE) ? "On" : "Off",
+  core.Trace("Intel CPU: %s, SSE: %s, HyperThreading: %s", (bIntel) ? "Yes" : "No", (bSSE) ? "On" : "Off",
              (bHyperThreading) ? "On" : "Off");
 
   return true;
@@ -1314,7 +1318,7 @@ void SEA::CalculateHeightMap(float fFrame, float fAmplitude, float* pfOut, std::
 void SEA::Realize(uint32_t dwDeltaTime) {
   static float fTmp = 0.0f;
 
-  if (api->Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0 && api->Controls->GetDebugAsyncKeyState('S') < 0) {
+  if (core.Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0 && core.Controls->GetDebugAsyncKeyState('S') < 0) {
     if (bTempFullMode) {
       bTempFullMode = false;
       fGridStep = fTempGridStep;
@@ -1446,7 +1450,7 @@ void SEA::Realize(uint32_t dwDeltaTime) {
   CalculateHeightMap(fFrame2, 1.0f / 255.0f, pSeaFrame2, aBumps);
   CalculateNormalMap(fFrame2, 1.0f / 255.0f, pSeaNormalsFrame2, aNormals);
   RDTSC_E(dwX);
-  //api->Trace("dwX = %d", dwX);
+  //core.Trace("dwX = %d", dwX);
 
   aBlocks.clear();
   BuildTree(0, 0, 0);
@@ -1820,7 +1824,7 @@ float SEA::Cannon_Trace(long iBallOwner, const CVECTOR& vSrc, const CVECTOR& vDs
   if (fRes <= 1.0f) {
     const CVECTOR vTemp = vSrc + fRes * (vDst - vSrc);
     const float fTmpY = WaveXZ(vTemp.x, vTemp.z, nullptr);
-    api->Event(BALL_WATER_HIT, "lfff", iBallOwner, vTemp.x, fTmpY, vTemp.z);
+    core.Event(BALL_WATER_HIT, "lfff", iBallOwner, vTemp.x, fTmpY, vTemp.z);
   }
 
   return fRes;

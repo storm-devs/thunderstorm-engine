@@ -2,7 +2,8 @@
 #include "rands.h"
 #include "../../Shared/messages.h"
 #include "defines.h"
-#include "EntityManager.h"
+#include <Entity.h>
+#include "vfile_service.h"
 
 //--------------------------------------------------------------------
 TFishSchools::TFishSchools()
@@ -36,7 +37,7 @@ void TFishSchools::LoadSettings() {
 void TFishSchools::Init() {
   LoadSettings();
 
-  renderService = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  renderService = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (!renderService)
     throw std::exception("!FishSchools: No service 'dx9render'");
 
@@ -59,7 +60,7 @@ void TFishSchools::Init() {
   AddAttractor(&cameraObject);
 
   fishSchoolModel = EntityManager::CreateEntity("MODELR");
-  api->Send_Message(fishSchoolModel, "ls",MSG_MODEL_LOAD_GEO, ANIMALS_FISHSCHOOL_FILENAME);
+  core.Send_Message(fishSchoolModel, "ls",MSG_MODEL_LOAD_GEO, ANIMALS_FISHSCHOOL_FILENAME);
 }
 
 //--------------------------------------------------------------------

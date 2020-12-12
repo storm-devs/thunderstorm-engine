@@ -12,7 +12,7 @@
 #include "Location.h"
 #include "geometry.h"
 #include "../../Shared/messages.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 
 LocEagle::LocEagle() {
@@ -40,22 +40,22 @@ bool LocEagle::Init() {
   if (!location) return false;
   cnt = location->GetPtcData().middle + CVECTOR(0.0f, 30.0f, 0.0f);
   //Путь для текстур
-  auto* gs = static_cast<VGEOMETRY*>(api->CreateService("geometry"));
+  auto* gs = static_cast<VGEOMETRY*>(core.CreateService("geometry"));
   if (!gs) {
-    api->Trace("Can't create geometry service!");
+    core.Trace("Can't create geometry service!");
     return false;
   }
   //Моделька
   if (!(mdl = EntityManager::CreateEntity("modelr"))) return false;
   EntityManager::AddToLayer(REALIZE, mdl, 20);
   gs->SetTexturePath("Animals\\");
-  if (!api->Send_Message(mdl, "ls", MSG_MODEL_LOAD_GEO, "Animals\\eagle")) {
+  if (!core.Send_Message(mdl, "ls", MSG_MODEL_LOAD_GEO, "Animals\\eagle")) {
     gs->SetTexturePath("");
     return false;
   }
   gs->SetTexturePath("");
   //Анимация
-  if (!api->Send_Message(mdl, "ls", MSG_MODEL_LOAD_ANI, "eagle")) return false;
+  if (!core.Send_Message(mdl, "ls", MSG_MODEL_LOAD_ANI, "eagle")) return false;
   //Запускаем проигрывание анимации
   auto* m = static_cast<MODEL*>(EntityManager::GetEntityPointer(mdl));
   if (!m) return false;
@@ -64,7 +64,7 @@ bool LocEagle::Init() {
   if (!ani->Player(0).SetAction("flight")) return false;
   if (!ani->Player(0).Play()) return false;
   //Включаем в список исполнения
-  //api->LayerCreate("execute", true, false);
+  //core.LayerCreate("execute", true, false);
   EntityManager::SetLayerType(EXECUTE, EntityManager::Layer::Type::execute);
   EntityManager::AddToLayer(EXECUTE, GetId(), 10);
   return true;

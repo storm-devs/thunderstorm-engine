@@ -1,7 +1,6 @@
 #ifndef SAIL_BASE_H
 #define SAIL_BASE_H
 #include "Sd2_h/CannonTrace.h"
-#include "Entity.h"
 
 class NODE;
 

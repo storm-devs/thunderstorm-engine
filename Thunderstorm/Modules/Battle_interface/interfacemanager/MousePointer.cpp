@@ -70,12 +70,12 @@ void MousePointer::InitMouseCursors() {
 
 void MousePointer::MoveCursor() {
   CONTROL_STATE cs;
-  const auto fDeltaTime = api->GetDeltaTime() * 0.001f;
+  const auto fDeltaTime = core.GetDeltaTime() * 0.001f;
 
-  api->Controls->GetControlState("ITurnH", cs);
+  core.Controls->GetControlState("ITurnH", cs);
   m_mousepos.x += m_mousesensivity.x * fDeltaTime * cs.fValue;
 
-  api->Controls->GetControlState("ITurnV", cs);
+  core.Controls->GetControlState("ITurnV", cs);
   m_mousepos.y -= m_mousesensivity.y * fDeltaTime * cs.fValue;
 
   if (m_mousepos.x < static_cast<float>(m_cursorzone.left)) m_mousepos.x = static_cast<float>(m_cursorzone.left);

@@ -20,6 +20,7 @@
 #include "../interfacemanager/InterfaceManager.h"
 
 #include "ShipInfoImages.h"
+#include <message.h>
 
 INTERFACE_FUNCTION
 CREATE_CLASS(BATTLE_INTERFACE)
@@ -80,7 +81,7 @@ BATTLE_INTERFACE::~BATTLE_INTERFACE() {
 bool BATTLE_INTERFACE::Init() {
   BIUtils::idBattleInterface = GetId();
 
-  if ((rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"))) == nullptr) {
+  if ((rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"))) == nullptr) {
     throw std::exception("Can`t create render service");
   }
 
@@ -98,15 +99,15 @@ void BATTLE_INTERFACE::Execute(uint32_t delta_time) {
     CONTROL_STATE cs;
 
     if (m_bShowBattleNavigator) {
-      api->Controls->GetControlState(MINIMAP_ZOOM_IN, cs);
+      core.Controls->GetControlState(MINIMAP_ZOOM_IN, cs);
       if (cs.state == CST_ACTIVE) BattleNavigator.DecrementScale();
-      api->Controls->GetControlState(MINIMAP_ZOOM_OUT, cs);
+      core.Controls->GetControlState(MINIMAP_ZOOM_OUT, cs);
       if (cs.state == CST_ACTIVE) BattleNavigator.IncrementScale();
     }
 
     if (m_bShowCommandMenu && m_pShipIcon) {
       if (!m_pShipIcon->IsActive()) {
-        api->Controls->GetControlState(BI_COMMANDS_ACTIVATE_SEA, cs);
+        core.Controls->GetControlState(BI_COMMANDS_ACTIVATE_SEA, cs);
         if (cs.state == CST_ACTIVATED) {
           m_pShipIcon->SetActive(true);
         }
@@ -121,7 +122,7 @@ void BATTLE_INTERFACE::Execute(uint32_t delta_time) {
     {
       if( !m_pShipIcon || !m_pShipIcon->IsActive() )
       {
-        if(!m_bMyShipView) api->Event("blieGetMsgIconRoot");
+        if(!m_bMyShipView) core.Event("blieGetMsgIconRoot");
         m_bMyShipView = true;
       }
       else
@@ -136,10 +137,10 @@ void BATTLE_INTERFACE::Execute(uint32_t delta_time) {
 
 void BATTLE_INTERFACE::Realize(uint32_t delta_time) {
 #ifndef _XBOX
-  if (api->Controls->GetDebugAsyncKeyState('K') < 0) return;
+  if (core.Controls->GetDebugAsyncKeyState('K') < 0) return;
 #endif
   if (m_bNeedIslandSet) {
-    api->Trace("Island Set");
+    core.Trace("Island Set");
     BattleNavigator.SetIsland();
     m_bNeedIslandSet = false;
   }
@@ -305,10 +306,10 @@ void BATTLE_INTERFACE::CheckSeaState() {
   if (main_sd == nullptr) return;
 
   long nReloadTargetIndex = -1;
-  auto sqrRadius = api->Entity_GetAttributeAsFloat(BIUtils::idBattleInterface, "boardRadius", 0.f);
+  auto sqrRadius = core.Entity_GetAttributeAsFloat(BIUtils::idBattleInterface, "boardRadius", 0.f);
   sqrRadius *= sqrRadius;
   auto minReloadRadius = sqrRadius;
-  auto sqrFreeDistance = api->Entity_GetAttributeAsFloat(BIUtils::idBattleInterface, "freeDistance", 500.f);
+  auto sqrFreeDistance = core.Entity_GetAttributeAsFloat(BIUtils::idBattleInterface, "freeDistance", 500.f);
   sqrFreeDistance *= sqrFreeDistance;
 
   auto bSailTo = false, bLandTroops = false, bMap = true;
@@ -345,7 +346,7 @@ void BATTLE_INTERFACE::CheckSeaState() {
   if (g_IslandDescr.GetFirstEnemyFort() != nullptr)
     bAttack = true;
 
-  api->Event(BI_EVENT_SET_SEA_STATE, "lllllll", bSailTo, bLandTroops, bMap, bAttack, bDefend, bReload,
+  core.Event(BI_EVENT_SET_SEA_STATE, "lllllll", bSailTo, bLandTroops, bMap, bAttack, bDefend, bReload,
              nReloadTargetIndex);
   m_bShowBattleBorder = !bMap;
 }

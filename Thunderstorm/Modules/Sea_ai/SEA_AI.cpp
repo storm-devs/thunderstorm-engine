@@ -60,7 +60,7 @@ void SEA_AI::Realize(uint32_t Delta_Time) {
   for (uint32_t i = 0; i < AIGroup::AIGroups.size(); i++) {
     AIGroup::AIGroups[i]->Realize(fDeltaTime);
   }
-  //api->Trace("%d",dwTotal);
+  //core.Trace("%d",dwTotal);
   //AIHelper::pRS->Print(0,90,"%d",dwRDTSC);//dwTotal);
 }
 
@@ -143,11 +143,11 @@ uint64_t SEA_AI::ProcessMessage(MESSAGE& message) {
       auto fSailState = message.Float();
       auto* pAIShip = AIShip::FindShip(pCharacter);
       if (!pAIShip) {
-        api->Trace("SeaAI err: SetSailState, can't find ship for character = %s",
+        core.Trace("SeaAI err: SetSailState, can't find ship for character = %s",
                    pCharacter->GetAttribute("id"));
         return 0;
       }
-      api->Send_Message(pAIShip->GetShipEID(), "lf", MSG_SHIP_SET_SAIL_STATE, fSailState);
+      core.Send_Message(pAIShip->GetShipEID(), "lf", MSG_SHIP_SET_SAIL_STATE, fSailState);
     }
     break;
   case AI_MESSAGE_SHIP_SET_TASK:
@@ -362,7 +362,7 @@ void SEA_AI::Save(const char* pStr) {
   SL.CreateWrite();
 
   Helper.Save(&SL);
-  api->Send_Message(EntityManager::GetEntityId("SEA_CAMERAS"), "lp", AI_MESSAGE_SEASAVE, &SL);
+  core.Send_Message(EntityManager::GetEntityId("SEA_CAMERAS"), "lp", AI_MESSAGE_SEASAVE, &SL);
 
   AIBalls::pAIBalls->Save(&SL);
 
@@ -380,7 +380,7 @@ void SEA_AI::Load(const char* pStr) {
   SL.CreateLoad();
 
   Helper.Load(&SL);
-  api->Send_Message(EntityManager::GetEntityId("SEA_CAMERAS"), "lp", AI_MESSAGE_SEALOAD, &SL);
+  core.Send_Message(EntityManager::GetEntityId("SEA_CAMERAS"), "lp", AI_MESSAGE_SEALOAD, &SL);
 
   AIBalls::pAIBalls->Load(&SL);
 

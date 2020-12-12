@@ -11,7 +11,7 @@
 #include "Supervisor.h"
 #include "Character.h"
 #include "LocatorArray.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -166,7 +166,7 @@ void Supervisor::Update(float dltTime) {
 void Supervisor::PreUpdate(float dltTime) const {
   //Сбрасываем состояние персонажей
   for (long i = 0; i < numCharacters; i++) character[i].c->Reset();
-  api->Event("CharactersStateUpdate", "f", dltTime);
+  core.Event("CharactersStateUpdate", "f", dltTime);
 }
 
 void Supervisor::PostUpdate(float dltTime) {
@@ -191,7 +191,7 @@ void Supervisor::PostUpdate(float dltTime) {
       const auto dlt = time - character[curUpdate].lastTime;
       character[curUpdate].lastTime = time;
       if (EntityManager::GetEntityPointer(character[curUpdate].c->GetId())) {
-        api->Event("CharacterUpdate", "if", character[curUpdate].c->GetId(), dlt);
+        core.Event("CharacterUpdate", "if", character[curUpdate].c->GetId(), dlt);
       }
       curUpdate++;
     }

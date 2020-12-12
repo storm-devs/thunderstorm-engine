@@ -1,4 +1,5 @@
 #include "Astronomy.h"
+#include "vfile_service.h"
 #include "Weather_Base.h"
 
 Astronomy::STARS::STARS() {
@@ -187,7 +188,7 @@ void Astronomy::STARS::Init(ATTRIBUTES* pAP) {
         pVPos[i] = vPos;
         pVColors[i] = ARGB(s.fAlpha * 255.0f, 255, 255, 255);
       }
-      //api->Trace("Stars: min = %.3f, max = %.3f", fMinMag, fMaxMag);
+      //core.Trace("Stars: min = %.3f, max = %.3f", fMinMag, fMaxMag);
 
       // запишем все буферы в файл для того что бы в след раз не пересчитывать
       hOutFile = fio->_CreateFile("resource\\star.dat",GENERIC_WRITE, 0,CREATE_ALWAYS);
@@ -246,7 +247,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour) {
   if (fabsf(fFov - fPrevFov) > 1e-5f) {
     float fTmpK[5];
     float fTmpRnd[7];
-    m_fTwinklingTime += api->GetDeltaTime() * 0.001f * (0.8f + FRAND(0.2f));
+    m_fTwinklingTime += core.GetDeltaTime() * 0.001f * (0.8f + FRAND(0.2f));
     if (m_fTwinklingTime > PI * 2 * 3 * 5 * 7) m_fTwinklingTime -= PI * 2 * 3 * 5 * 7;
     fTmpK[0] = 0.7f + 0.3f * sinf(m_fTwinklingTime * 0.5f);
     fTmpK[1] = 0.75f + 0.25f * sinf(m_fTwinklingTime * 3.f);
@@ -385,7 +386,7 @@ void Astronomy::STARS::Realize(double dDeltaTime, double dHour) {
 
   fPrevFov = fFov;
 
-  //api->Trace("RDTSC = %d", dw1);
+  //core.Trace("RDTSC = %d", dw1);
   //Astronomy::pRS->SetTransform(D3DTS_VIEW, mView);
 }
 
@@ -412,7 +413,7 @@ void Astronomy::STARS::TimeUpdate(ATTRIBUTES* pAP) {
   if (!bEnable) return;
   if (iVertexBuffer == -1) {
     bEnable = false;
-    api->Trace("Warning! Weather has not stars parameters");
+    core.Trace("Warning! Weather has not stars parameters");
     return;
   }
 

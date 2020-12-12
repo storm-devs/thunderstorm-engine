@@ -1,5 +1,6 @@
 #include "ISLAND.h"
 #include "tga.h"
+#include "vfile_service.h"
 
 bool ISLAND::DoZapSuperGeneratorDecodeFile(const char* sname) {
   auto* const hFile = fio->_CreateFile(sname, GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING);

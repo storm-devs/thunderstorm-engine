@@ -46,7 +46,7 @@ void BIManCommandList::Release() {
 }
 
 long BIManCommandList::CommandAdding() {
-  api->Event("BI_SetPossibleCommands", "l", m_nCurrentCommandCharacterIndex);
+  core.Event("BI_SetPossibleCommands", "l", m_nCurrentCommandCharacterIndex);
   long retVal = 0;
   auto* pAttr = m_pARoot->GetAttributeClass("Commands");
   if (!pAttr) return 0;
@@ -89,7 +89,7 @@ long BIManCommandList::UserIconsAdding() {
 }
 
 long BIManCommandList::AbilityAdding() {
-  api->Event("evntSetUsingAbility", "l", m_nCurrentCommandCharacterIndex);
+  core.Event("evntSetUsingAbility", "l", m_nCurrentCommandCharacterIndex);
   long retVal = 0;
   auto* pAttr = m_pARoot->GetAttributeClass("AbilityIcons");
   if (!pAttr) return 0;

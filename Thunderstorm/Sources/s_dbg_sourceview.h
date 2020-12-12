@@ -5,7 +5,7 @@
 
 #include <Windows.h>
 #include <CommCtrl.h>
-#include "Core.h"
+#include <core.h>
 
 #include <string>
 #include <vector>

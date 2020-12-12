@@ -2,11 +2,11 @@
 #include "resource.h"
 #ifndef _XBOX
 #include "s_dbg_sourceview.h"
-#include "Core.h"
+#include <core.h>
 #include "s_debug.h"
 #include <algorithm>
+#include "data.h"
 
-extern CORE Core;
 extern S_DEBUG CDebug;
 
 #define X_OFFSET 0//16
@@ -117,7 +117,7 @@ LRESULT CALLBACK SourceViewWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM l
       case VK_F5:
         CDebug.SetTraceMode(TMODE_CONTINUE);
         ShowWindow(CDebug.hMain,SW_MINIMIZE);
-        //SetFocus(Core.App_Hwnd);
+        //SetFocus(core.App_Hwnd);
         break;
       case 'C':
         if (CDebug.SourceView->nEndSelection == CDebug.SourceView->nStartSelection) break;
@@ -1010,7 +1010,7 @@ bool SOURCE_VIEW::SetVariableOnChange(const char* pString, bool bSet) {
 
   pStr = GetToken(pStr, sVarName);
   if (!pStr) {
-    pObject = static_cast<VDATA*>(api->GetScriptVariable(sVarName.c_str(), nullptr));
+    pObject = static_cast<VDATA*>(core.GetScriptVariable(sVarName.c_str(), nullptr));
     if (!pObject) return false;
     // set VOC to alone variable
     return true;
@@ -1022,14 +1022,14 @@ bool SOURCE_VIEW::SetVariableOnChange(const char* pString, bool bSet) {
     if (sToken != "]") {
       return false;
     }
-    auto* pV = static_cast<VDATA*>(api->GetScriptVariable(sVarName.c_str(), nullptr));
+    auto* pV = static_cast<VDATA*>(core.GetScriptVariable(sVarName.c_str(), nullptr));
     if (!pV) return false;
     sscanf(sDigit.c_str(), "%d", &iDigit);
     pObject = pV->GetArrayElement(iDigit);
     pStr = GetToken(pStr, sToken);
   }
   else if (sToken == ".") {
-    pObject = static_cast<VDATA*>(api->GetScriptVariable(sVarName.c_str(), nullptr));
+    pObject = static_cast<VDATA*>(core.GetScriptVariable(sVarName.c_str(), nullptr));
   }
   else
     return false;

@@ -1,7 +1,6 @@
 #ifndef _STRING_CODEC_H_
 #define _STRING_CODEC_H_
 
-#include "vstring_codec.h"
 #include "defines.h"
 #define HASH_TABLE_SIZE	512	// must be power of 2
 

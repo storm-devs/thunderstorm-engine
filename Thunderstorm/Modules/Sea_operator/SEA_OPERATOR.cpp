@@ -1,8 +1,11 @@
 #include  "SEA_OPERATOR.h"
+
+#include <core.h>
+
 #include "defines.h"
 #include "rands.h"
 #include "../../Shared/messages.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 
 CREATE_CLASS(SEA_OPERATOR)
@@ -31,9 +34,9 @@ SEA_OPERATOR::~SEA_OPERATOR() {
 bool SEA_OPERATOR::Init() {
   EntityManager::AddToLayer(REALIZE, GetId(), 1);
   EntityManager::AddToLayer(EXECUTE, GetId(), 0);
-  //api->SystemMessages(GetId(),true);
+  //core.SystemMessages(GetId(),true);
 
-  renderer = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  renderer = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
 
   return true;
 }
@@ -127,7 +130,7 @@ uint64_t SEA_OPERATOR::ProcessMessage(MESSAGE& message) {
 
 //--------------------------------------------------------------------
 void SEA_OPERATOR::Realize(uint32_t dTime) {
-  //renderer->Print(0, 90, "lastControlTime: %d", api->Controls->LastControlTime());
+  //renderer->Print(0, 90, "lastControlTime: %d", core.Controls->LastControlTime());
 
   if (!enabled)
     return;
@@ -194,7 +197,7 @@ void SEA_OPERATOR::StartNewAction() {
   auto* currentAction = actionBuffer.TopElement();
   if (active && !currentAction) {
     active = false;
-    api->SetTimeScale(1.0f);
+    core.SetTimeScale(1.0f);
     sinceLastActionTime = 0;
     return;
   }
@@ -204,7 +207,7 @@ void SEA_OPERATOR::StartNewAction() {
   currentAction = actionBuffer.TopElement();
   if (!currentAction) {
     if (active) {
-      api->SetTimeScale(1.0f);
+      core.SetTimeScale(1.0f);
       sinceLastActionTime = 0;
     }
     active = false;
@@ -213,7 +216,7 @@ void SEA_OPERATOR::StartNewAction() {
 
   active = true;
   currentAction->timePassed = 0;
-  api->SetTimeScale(currentAction->timeK);
+  core.SetTimeScale(currentAction->timeK);
 }
 
 //--------------------------------------------------------------------
@@ -336,7 +339,7 @@ void SEA_OPERATOR::ShowFromBall(tAction* _action) {
     timeScale = MIN_TIME_DELTA;
   if (timeScale > 1.0f)
     timeScale = 1.0f;
-  api->SetTimeScale(timeScale);
+  core.SetTimeScale(timeScale);
   */
 
   const auto timeDistance = static_cast<float>(_action->timePassed) / 60.0f;
@@ -347,7 +350,7 @@ void SEA_OPERATOR::ShowFromBall(tAction* _action) {
   cameraTargetPos.y += 0.1f * sinf(timeDistance * 1.3f);
   cameraTargetPos.z += 0.1f * sinf(timeDistance * 1.9f);
   lastCP = cameraPos;
-  api->SetTimeScale(0.3f);
+  core.SetTimeScale(0.3f);
 }
 
 //--------------------------------------------------------------------
@@ -390,7 +393,7 @@ void SEA_OPERATOR::ShowAroundPoint(tAction* _action) {
   //cameraPos += quake;
   //cameraTargetPos += quake;
 */
-  api->SetTimeScale(timeScale);
+  core.SetTimeScale(timeScale);
 }
 
 //--------------------------------------------------------------------
@@ -403,7 +406,7 @@ void SEA_OPERATOR::ShowBallAtMyShip(tAction* _action) {
   if (cameraPos.y < minY)
     cameraPos.y = minY;
 
-  api->SetTimeScale(timeScale);
+  core.SetTimeScale(timeScale);
 }
 
 //--------------------------------------------------------------------
@@ -416,7 +419,7 @@ void SEA_OPERATOR::ShowMyShipFromPoint(tAction* _action) {
   if (cameraPos.y < minY)
     cameraPos.y = minY;
 
-  //api->SetTimeScale(timeScale);
+  //core.SetTimeScale(timeScale);
 }
 
 //--------------------------------------------------------------------
@@ -425,7 +428,7 @@ bool SEA_OPERATOR::IsTimeToActivate(bool _testControls /* =true */) {
     return false;
 
   if (_testControls) {
-    const uint32_t lastControlTime = api->Controls->LastControlTime();
+    const uint32_t lastControlTime = core.Controls->LastControlTime();
     if (lastControlTime < idleTime)
       return false;
   }

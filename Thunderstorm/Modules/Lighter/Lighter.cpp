@@ -9,7 +9,10 @@
 //============================================================================================
 
 #include "Lighter.h"
-#include "EntityManager.h"
+
+#include <core.h>
+
+#include <Entity.h>
 //============================================================================================
 //Конструирование, деструктурирование
 //============================================================================================
@@ -37,7 +40,7 @@ bool Lighter::Init() {
   delete ini;
   if (!isLoading) return false;
   //DX9 render
-  rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (!rs) throw std::exception("No service: dx9render");
   //
   EntityManager::SetLayerType(LIGHTER_EXECUTE, EntityManager::Layer::Type::execute);
@@ -178,7 +181,7 @@ void Lighter::MsgAddModel(MESSAGE& message) {
   message.String(511, name);
   name[511] = 0;
   if (!name[0]) {
-    api->Trace("Location lighter: no model name, skip it!");
+    core.Trace("Location lighter: no model name, skip it!");
     return;
   }
   const auto model = message.EntityID();

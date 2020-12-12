@@ -418,12 +418,12 @@ int CXI_TABLE::CommandExecute(int wActCode) {
     switch (wActCode) {
     case ACTION_ACTIVATE:
       if (m_nSelectIndex >= 0)
-        api->Event("TableActivate", "sl", m_nodeName, m_nSelectIndex);
+        core.Event("TableActivate", "sl", m_nodeName, m_nSelectIndex);
       break;
 
     case ACTION_MOUSEDBLCLICK:
       if (m_nSelectIndex >= 0)
-        api->Event("TableActivate", "sl", m_nodeName, m_nSelectIndex);
+        core.Event("TableActivate", "sl", m_nodeName, m_nSelectIndex);
       break;
 
     case ACTION_UPSTEP:
@@ -483,7 +483,7 @@ int CXI_TABLE::CommandExecute(int wActCode) {
           const auto nCol = GetColByX(static_cast<long>(ptrOwner->GetMousePoint().x));
           if (m_bDoColsSelect) SelectRow(n, nCol);
           else SelectRow(n);
-          //api->Event( "OnTableClick", "sll", m_nodeName, m_nSelectIndex, nCol+1 );
+          //core.Event( "OnTableClick", "sll", m_nodeName, m_nSelectIndex, nCol+1 );
         }
       }
       break;
@@ -495,8 +495,8 @@ int CXI_TABLE::CommandExecute(int wActCode) {
           const auto nCol = GetColByX(static_cast<long>(ptrOwner->GetMousePoint().x));
           if (m_bDoColsSelect) SelectRow(n, nCol);
           else SelectRow(n);
-          //api->Event( "OnTableClick", "sll", m_nodeName, (m_pHeader?n:(n+1)), nCol+1 );
-          api->Event("OnTableClick", "sll", m_nodeName, m_nSelectIndex, nCol + 1);
+          //core.Event( "OnTableClick", "sll", m_nodeName, (m_pHeader?n:(n+1)), nCol+1 );
+          core.Event("OnTableClick", "sll", m_nodeName, m_nSelectIndex, nCol + 1);
         }
       }
       break;
@@ -582,7 +582,7 @@ void CXI_TABLE::SaveParametersToIni() {
 
   INIFILE* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
   if (!pIni) {
-    api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
+    core.Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
     return;
   }
 
@@ -1003,7 +1003,7 @@ void CXI_TABLE::WriteSquare(XI_ONETEX_VERTEX* pV, long nImgID, uint32_t dwCol, l
 
 void CXI_TABLE::UpdateTableCells() {
   // Set new current image
-  ATTRIBUTES* pARoot = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+  ATTRIBUTES* pARoot = core.Entity_GetAttributeClass(g_idInterface, m_nodeName);
   if (!pARoot) {
     m_nLineQuantity = 0;
     return;
@@ -1113,7 +1113,7 @@ void CXI_TABLE::SelectLine(long nLineNum) {
   UpdateSelectImage();
   UpdateScroller();
   if (!m_bFirstFrame)
-    api->Event("TableSelectChange", "sll", m_nodeName, m_nSelectIndex + 1, m_nSelectColIndex + 1);
+    core.Event("TableSelectChange", "sll", m_nodeName, m_nSelectIndex + 1, m_nSelectColIndex + 1);
 }
 
 void CXI_TABLE::SelectCol(long nColNum) {
@@ -1122,7 +1122,7 @@ void CXI_TABLE::SelectCol(long nColNum) {
   else m_nSelectColIndex = nColNum;
   UpdateSelectImage();
   if (!m_bFirstFrame)
-    api->Event("TableSelectChange", "sll", m_nodeName, m_nSelectIndex + 1, m_nSelectColIndex + 1);
+    core.Event("TableSelectChange", "sll", m_nodeName, m_nSelectIndex + 1, m_nSelectColIndex + 1);
 }
 
 void CXI_TABLE::UpdateSelectImage() {
@@ -1192,7 +1192,7 @@ void CXI_TABLE::SetTopIndexForSelect(long nSelIndex) {
 
 void CXI_TABLE::UpdateLineQuantity() {
   m_nLineQuantity = 0;
-  ATTRIBUTES* pARoot = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+  ATTRIBUTES* pARoot = core.Entity_GetAttributeClass(g_idInterface, m_nodeName);
   if (!pARoot) return;
 
   if (!pARoot->GetAttributeClass("tr1")) return; // нет ни одного
@@ -1229,7 +1229,7 @@ void CXI_TABLE::UpdateLineQuantity() {
 
 void CXI_TABLE::SetTopIndex(long nTopIndex) {
   m_nTopIndex = nTopIndex;
-  ATTRIBUTES* pA = api->Entity_GetAttributeClass(g_idInterface, m_nodeName);
+  ATTRIBUTES* pA = core.Entity_GetAttributeClass(g_idInterface, m_nodeName);
   if (pA) pA->SetAttributeUseDword("top", nTopIndex);
 }
 

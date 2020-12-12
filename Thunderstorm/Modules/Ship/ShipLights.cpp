@@ -32,9 +32,9 @@ ShipLights::~ShipLights() {
 }
 
 bool ShipLights::Init() {
-  pRS = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  pRS = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   Assert(pRS);
-  pCollide = static_cast<COLLIDE*>(api->CreateService("coll"));
+  pCollide = static_cast<COLLIDE*>(core.CreateService("coll"));
   Assert(pCollide);
   pSea = static_cast<SEA_BASE*>(EntityManager::GetEntityPointer(EntityManager::GetEntityId("sea")));
   return true;
@@ -122,7 +122,7 @@ void ShipLights::AddDynamicLights(VAI_OBJBASE* pObject, const CVECTOR& vPos) {
   std::string sLightType = "cannondefault";
   auto* pLT = FindLightType(sLightType);
   if (!pLT) {
-    api->Trace("Can find ship light \"%s\"", sLightType.c_str());
+    core.Trace("Can find ship light \"%s\"", sLightType.c_str());
     return;
   }
 
@@ -305,7 +305,7 @@ void ShipLights::AddLights(VAI_OBJBASE* pObject, MODEL* pModel, bool bLights, bo
 
   LightType* pLT = FindLightType(sLightType);
   if (!pLT) {
-    api->Trace("Can't find ship light \"%s\"", sLightType.c_str());
+    core.Trace("Can't find ship light \"%s\"", sLightType.c_str());
     return;
   }
 

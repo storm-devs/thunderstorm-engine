@@ -1,7 +1,6 @@
 #ifndef WEATHER_BASE_HPP
 #define WEATHER_BASE_HPP
 
-#include "entity.h"
 #include "Cvector.h"
 
 #define MAX_FLOAT_PARAMS		128

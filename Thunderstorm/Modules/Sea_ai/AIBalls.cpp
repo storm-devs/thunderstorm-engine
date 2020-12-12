@@ -42,7 +42,7 @@ AIBalls::~AIBalls() {
 }
 
 bool AIBalls::Init() {
-  rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   SetDevice();
   return true;
 }
@@ -51,11 +51,11 @@ void AIBalls::SetDevice() {
 }
 
 void AIBalls::FireBallFromCamera() {
-  auto* pMainCharIndex = static_cast<VDATA*>(api->GetScriptVariable("nMainCharacterIndex"));
+  auto* pMainCharIndex = static_cast<VDATA*>(core.GetScriptVariable("nMainCharacterIndex"));
   if (!pMainCharIndex) return;
   auto iMainCharIndex = pMainCharIndex->GetLong();
   if (iMainCharIndex < 0) return;
-  auto* pMainCharacter = static_cast<VDATA*>(api->GetScriptVariable("Characters"));
+  auto* pMainCharacter = static_cast<VDATA*>(core.GetScriptVariable("Characters"));
   if (!pMainCharacter) return;
   auto* pAMainCharacter = pMainCharacter->GetAClass(iMainCharIndex);
   if (!pAMainCharacter) return;
@@ -144,7 +144,7 @@ void AIBalls::AddBall(ATTRIBUTES* pABall) {
   if (aBallTypes[i].sParticleName.size()) {
     entid_t eidParticle;
     if (eidParticle = EntityManager::GetEntityId("particles")) {
-      pBall->pParticle = (VPARTICLE_SYSTEM*)api->Send_Message(eidParticle, "lsffffffl",PS_CREATE_RIC,
+      pBall->pParticle = (VPARTICLE_SYSTEM*)core.Send_Message(eidParticle, "lsffffffl",PS_CREATE_RIC,
                                                               (char*)aBallTypes[i].sParticleName.c_str(),
                                                               pBall->vPos.x, pBall->vPos.y, pBall->vPos.z, 0.0f,
                                                               1.0f, 0.0f, 100000);
@@ -166,7 +166,7 @@ void AIBalls::Execute(uint32_t Delta_Time) {
 
   aBallRects.clear();
 
-  //if (!pVWForts) pVWForts = (VIDWALKER*)api->LayerGetWalker("fort_cannon_trace");
+  //if (!pVWForts) pVWForts = (VIDWALKER*)core.LayerGetWalker("fort_cannon_trace");
 
   auto mView = rs->GetView();
 
@@ -199,7 +199,7 @@ void AIBalls::Execute(uint32_t Delta_Time) {
       vDst = pBall->vPos;
 
       if (pBall->sBallEvent[0] != '\0')
-        api->Event(pBall->sBallEvent, "lllffffffs", pBall->iBallOwner, static_cast<uint32_t>(1),
+        core.Event(pBall->sBallEvent, "lllffffffs", pBall->iBallOwner, static_cast<uint32_t>(1),
                    pBallsType->dwGoodIndex, pBall->vPos.x, pBall->vPos.y, pBall->vPos.z, vSrc.x, vSrc.y,
                    vSrc.z);
 
@@ -222,7 +222,7 @@ void AIBalls::Execute(uint32_t Delta_Time) {
           CVECTOR vRes, v = fBallFlySoundStereoMultiplyer * CVECTOR(x, y, 0.0f);
           mView.MulToInv(v, vRes);
 
-          api->Event(BALL_FLY_NEAR_CAMERA, "fff", vRes.x, vRes.y, vRes.z);
+          core.Event(BALL_FLY_NEAR_CAMERA, "fff", vRes.x, vRes.y, vRes.z);
         }
       }
 
@@ -253,7 +253,7 @@ void AIBalls::Execute(uint32_t Delta_Time) {
       // delete ball
       if (fRes <= 1.0f) {
         if (pBall->sBallEvent[0] != '\0') {
-          api->Event(pBall->sBallEvent, "lllffffff", pBall->iBallOwner, static_cast<uint32_t>(0),
+          core.Event(pBall->sBallEvent, "lllffffff", pBall->iBallOwner, static_cast<uint32_t>(0),
                      pBallsType->dwGoodIndex, pBall->vPos.x, pBall->vPos.y, pBall->vPos.z, vSrc.x, vSrc.y,
                      vSrc.z);
           pBall->sBallEvent[0] = '\0';
@@ -295,7 +295,7 @@ void AIBalls::Realize(uint32_t Delta_Time) {
   dwFireBallFromCameraTime += Delta_Time;
   /*
 #ifndef _XBOX
-  if (api->Controls->GetDebugAsyncKeyState('C') < 0 && dwFireBallFromCameraTime > 30 && AttributesPointer->GetAttributeAsDword("FireBallFromCamera", 0) != 0)
+  if (core.Controls->GetDebugAsyncKeyState('C') < 0 && dwFireBallFromCameraTime > 30 && AttributesPointer->GetAttributeAsDword("FireBallFromCamera", 0) != 0)
   {
     dwFireBallFromCameraTime = 0;
     FireBallFromCamera();
@@ -408,7 +408,7 @@ void AIBalls::Load(CSaveLoad* pSL) {
       if (pB.pParticle) {
         pB.pParticle = nullptr;
         if (auto eidParticle = EntityManager::GetEntityId("particles")) {
-          pB.pParticle = (VPARTICLE_SYSTEM*)api->Send_Message(
+          pB.pParticle = (VPARTICLE_SYSTEM*)core.Send_Message(
             eidParticle, "lsffffffl",PS_CREATE_RIC, (char*)aBallTypes[i].sParticleName.c_str(), pB.vPos.x,
             pB.vPos.y, pB.vPos.z, 0.0f, 1.0f, 0.0f, 100000);
         }

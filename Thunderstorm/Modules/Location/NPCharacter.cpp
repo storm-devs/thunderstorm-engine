@@ -91,42 +91,42 @@ bool NPCharacter::PostInit() {
   long tmpBool;
   VDATA* vd;
   //Параметры аттаки
-  vd = api->Event("NPC_Event_GetAttackActive", "i", GetId());
+  vd = core.Event("NPC_Event_GetAttackActive", "i", GetId());
   tmp = attackCur;
   if (vd && vd->Get(tmp)) attackCur = tmp;
-  vd = api->Event("NPC_Event_GetAttackWeightFast", "i", GetId());
+  vd = core.Event("NPC_Event_GetAttackWeightFast", "i", GetId());
   tmp = attackPrbFast;
   if (vd && vd->Get(tmp)) attackPrbFast = tmp;
-  vd = api->Event("NPC_Event_GetAttackWeightForce", "i", GetId());
+  vd = core.Event("NPC_Event_GetAttackWeightForce", "i", GetId());
   tmp = attackPrbForce;
   if (vd && vd->Get(tmp)) attackPrbForce = tmp;
-  vd = api->Event("NPC_Event_GetAttackWeightRound", "i", GetId());
+  vd = core.Event("NPC_Event_GetAttackWeightRound", "i", GetId());
   tmp = attackPrbRound;
   if (vd && vd->Get(tmp)) attackPrbRound = tmp;
-  vd = api->Event("NPC_Event_GetAttackWeightBreak", "i", GetId());
+  vd = core.Event("NPC_Event_GetAttackWeightBreak", "i", GetId());
   tmp = attackPrbBreak;
   if (vd && vd->Get(tmp)) attackPrbBreak = tmp;
-  vd = api->Event("NPC_Event_GetAttackWeightFeint", "i", GetId());
+  vd = core.Event("NPC_Event_GetAttackWeightFeint", "i", GetId());
   tmp = attackPrbFeint;
   if (vd && vd->Get(tmp)) attackPrbFeint = tmp;
   //Прараметры защиты
-  vd = api->Event("NPC_Event_GetDefenceActive", "i", GetId());
+  vd = core.Event("NPC_Event_GetDefenceActive", "i", GetId());
   tmp = defenceCur;
   if (vd && vd->Get(tmp)) defenceCur = tmp;
-  vd = api->Event("NPC_Event_GetDefenceWeightBlock", "i", GetId());
+  vd = core.Event("NPC_Event_GetDefenceWeightBlock", "i", GetId());
   tmp = defencePrbBlock;
   if (vd && vd->Get(tmp)) defencePrbBlock = tmp;
-  vd = api->Event("NPC_Event_GetDefenceWeightParry", "i", GetId());
+  vd = core.Event("NPC_Event_GetDefenceWeightParry", "i", GetId());
   tmp = defencePrbParry;
   if (vd && vd->Get(tmp)) defencePrbParry = tmp;
-  vd = api->Event("NPC_Event_EnableRecoil", "i", GetId());
+  vd = core.Event("NPC_Event_EnableRecoil", "i", GetId());
   tmpBool = isRecoilEnable;
   if (vd && vd->Get(tmpBool)) isRecoilEnable = tmpBool != 0;
   //Параметры стрельбы
-  vd = api->Event("NPC_Event_GetFireActive", "i", GetId());
+  vd = core.Event("NPC_Event_GetFireActive", "i", GetId());
   tmp = fireCur;
   if (vd && vd->Get(tmp)) fireCur = tmp;
-  vd = api->Event("NPC_Event_EnableFire", "i", GetId());
+  vd = core.Event("NPC_Event_EnableFire", "i", GetId());
   tmpBool = isFireEnable;
   if (vd && vd->Get(tmpBool)) isFireEnable = tmpBool != 0;
   //Пормализация параметров
@@ -453,7 +453,7 @@ void NPCharacter::UpdateFollowCharacter(float dltTime) {
     SetRunMode(false);
     if (dst > NPC_START_DIST_NPC * NPC_START_DIST_NPC) {
       CmdGotoPoint(c->curPos.x, c->curPos.y, c->curPos.z, NPC_STOP_DIST_NPC, c->currentNode, false);
-      api->Event("Location_CharacterFollowGo", "si", GetTaskName(npct_followcharacter), GetId());
+      core.Event("Location_CharacterFollowGo", "si", GetTaskName(npct_followcharacter), GetId());
     }
   }
   else {
@@ -483,7 +483,7 @@ void NPCharacter::UpdateEscapeCharacter(float dltTime) {
     task.task = npct_none;
     CmdStay();
     SetRunMode(false);
-    api->Event("Location_CharacterEscapeSlide", "si", GetTaskName(npct_escape), GetId());
+    core.Event("Location_CharacterEscapeSlide", "si", GetTaskName(npct_escape), GetId());
   }
 }
 
@@ -600,7 +600,7 @@ void NPCharacter::UpdateFightCharacter(float dltTime) {
       if (dst > fDist * fDist) {
         //Надо подойти ближе
         CmdGotoPoint(c->curPos.x, c->curPos.y, c->curPos.z, fDistTo, c->currentNode, false);
-        api->Event("Location_CharacterFightGo", "si", GetTaskName(npct_followcharacter), GetId());
+        core.Event("Location_CharacterFightGo", "si", GetTaskName(npct_followcharacter), GetId());
       } //else{
       //Воюем
       //}
@@ -733,7 +733,7 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter* enemy) {
   if (!(wishAttact | wishDefence)) return;
   //Получаем режим выбора цели для атаки
   long isAdaptive = true;
-  VDATA* vd = api->Event("NPC_Event_AdaptiveTargetSelect", "i", GetId());
+  VDATA* vd = core.Event("NPC_Event_AdaptiveTargetSelect", "i", GetId());
   if (vd) vd->Get(isAdaptive);
   //Коректируем с учётом наличия групп
   CharactersGroups* chrGroup = static_cast<CharactersGroups*>(EntityManager::GetEntityPointer(charactersGroups));
@@ -793,12 +793,12 @@ void NPCharacter::DoFightActionAnalysisNone(float dltTime, NPCharacter* enemy) {
     //Если надо, то анализируем цель
     if (wishAttact) {
       float hp = 1.0f;
-      vd = api->Event("NpcEvtHP", "i", chr->GetId());
+      vd = core.Event("NpcEvtHP", "i", chr->GetId());
       if (vd) vd->Get(hp);
       if (hp < 0.0f) hp = 0.0f;
       if (hp > 1.0f) hp = 1.0f;
       float energy = 1.0f;
-      vd = api->Event("NpcEvtEgy", "i", chr->GetId());
+      vd = core.Event("NpcEvtEgy", "i", chr->GetId());
       if (vd) vd->Get(energy);
       if (energy < 0.0f) energy = 0.0f;
       if (energy > 1.0f) energy = 1.0f;
@@ -984,7 +984,7 @@ void NPCharacter::DoFightBlock(bool needParry) {
 //Получить энергию
 float NPCharacter::GetEnergy() const {
   float energy = 1.0f;
-  VDATA* vd = api->Event("NpcEvtEgy", "i", GetId());
+  VDATA* vd = core.Event("NpcEvtEgy", "i", GetId());
   if (vd) vd->Get(energy);
   if (energy < 0.0f) energy = 0.0f;
   if (energy > 1.0f) energy = 1.0f;
@@ -993,7 +993,7 @@ float NPCharacter::GetEnergy() const {
 
 //Получить энергию для действия
 float NPCharacter::GetActEnergy(const char* act) const {
-  VDATA* vd = api->Event("NPC_Event_GetActionEnergy", "is", GetId(), act);
+  VDATA* vd = core.Event("NPC_Event_GetActionEnergy", "is", GetId(), act);
   float energy;
   if (vd && vd->Get(energy)) return energy;
   return 0.1f;
@@ -1020,21 +1020,21 @@ void NPCharacter::EndGotoCommand() {
     task.task = npct_none;
     CmdStay();
     SetRunMode(false);
-    api->Event("Location_CharacterEndTask", "si", GetTaskName(npct_gotopoint), GetId());
+    core.Event("Location_CharacterEndTask", "si", GetTaskName(npct_gotopoint), GetId());
     return;
   case npct_runtopoint:
     task.task = npct_none;
     CmdStay();
     SetRunMode(false);
-    api->Event("Location_CharacterEndTask", "si", GetTaskName(npct_runtopoint), GetId());
+    core.Event("Location_CharacterEndTask", "si", GetTaskName(npct_runtopoint), GetId());
     return;
   case npct_followcharacter:
     CmdStay();
-    api->Event("Location_CharacterFollowStay", "si", GetTaskName(npct_followcharacter), GetId());
+    core.Event("Location_CharacterFollowStay", "si", GetTaskName(npct_followcharacter), GetId());
     return;
   case npct_fight:
     CmdStay();
-    api->Event("Location_CharacterFightStay", "si", GetTaskName(npct_followcharacter), GetId());
+    core.Event("Location_CharacterFightStay", "si", GetTaskName(npct_followcharacter), GetId());
   }
 }
 
@@ -1043,12 +1043,12 @@ void NPCharacter::EndEscapeCommand() {
   task.task = npct_stay;
   SetRunMode(false);
   CmdStay();
-  api->Event("Location_CharacterEndTask", "si", GetTaskName(npct_escape), GetId());
+  core.Event("Location_CharacterEndTask", "si", GetTaskName(npct_escape), GetId());
 }
 
 //С персонажем слишком часто коллизяться
 void NPCharacter::CollisionThreshold() {
-  api->Event("Location_CharacterColThreshold", "si", GetTaskName(task.task), GetId());
+  core.Event("Location_CharacterColThreshold", "si", GetTaskName(task.task), GetId());
 }
 
 //Сохранить задачу в стеке
@@ -1099,7 +1099,7 @@ bool NPCharacter::PopTask() {
 
 //Невозможно дальнейшее выполнение команды
 void NPCharacter::FailureCommand(NPCTask task) const {
-  api->Event("Location_CharacterTaskFailure", "si", GetTaskName(task), GetId());
+  core.Event("Location_CharacterTaskFailure", "si", GetTaskName(task), GetId());
 }
 
 //Получить тип задачи по имени

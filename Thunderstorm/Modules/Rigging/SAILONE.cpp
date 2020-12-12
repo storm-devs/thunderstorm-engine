@@ -7,7 +7,7 @@
 #include "Sd2_h/VAI_ObjBase.h"
 #include "rigging_define.h"
 #include "sail.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 
 extern long g_iBallOwnerIdx;
@@ -1469,7 +1469,7 @@ float SAILONE::SSailTrace(CVECTOR& src, CVECTOR& dst, bool bCannonTrace) {
       if (pVai != nullptr && pVai->GetACharacter() != nullptr)
         charIdx = pVai->GetACharacter()->GetAttributeAsDword("index");
       if (charIdx != -1)
-        api->Event("DoSailHole", "llssllllf", g_iBallOwnerIdx, charIdx, "*",
+        core.Event("DoSailHole", "llssllllf", g_iBallOwnerIdx, charIdx, "*",
                    hostNode->GetName(), groupNum,
                    ss.holeCount, GetHoleDword(), 12,
                    static_cast<float>(maxSpeed) / pp->gdata[HostNum].speed_m);
@@ -1518,7 +1518,7 @@ float SAILONE::TSailTrace(CVECTOR& src, CVECTOR& dst, bool bCannonTrace) {
       if (pVai != nullptr && pVai->GetACharacter() != nullptr)
         charIdx = pVai->GetACharacter()->GetAttributeAsDword("index");
       if (charIdx != -1)
-        api->Event("DoSailHole", "llssllllf", g_iBallOwnerIdx, charIdx, "*",
+        core.Event("DoSailHole", "llssllllf", g_iBallOwnerIdx, charIdx, "*",
                    hostNode->GetName(), groupNum,
                    ss.holeCount, GetHoleDword(), 10,
                    static_cast<float>(maxSpeed) / pp->gdata[HostNum].speed_m);

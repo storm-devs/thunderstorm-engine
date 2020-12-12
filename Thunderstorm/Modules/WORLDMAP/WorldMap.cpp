@@ -22,7 +22,7 @@
 #include "WdmWindUI.h"
 #include "WdmIcon.h"
 #include "defines.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 //============================================================================================
 
@@ -113,20 +113,20 @@ WorldMap::~WorldMap() {
 bool WorldMap::Init() {
   //GUARD(LocationCamera::Init())
   //Layers
-  //api->LayerCreate("execute", true, false);
+  //core.LayerCreate("execute", true, false);
   EntityManager::SetLayerType(EXECUTE, EntityManager::Layer::Type::execute);
-  //api->LayerCreate("realize", true, false);
+  //core.LayerCreate("realize", true, false);
   EntityManager::SetLayerType(REALIZE, EntityManager::Layer::Type::realize);
   EntityManager::AddToLayer(EXECUTE, GetId(), 10000);
   EntityManager::AddToLayer(REALIZE, GetId(), 10000);
 
   //DX9 render
-  rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (!rs) throw std::exception("No service: dx9render");
   rs->SetPerspective((1.57f + 1.0f) / 2);
   wdmObjects->rs = rs;
   //GS
-  wdmObjects->gs = static_cast<VGEOMETRY*>(api->CreateService("geometry"));
+  wdmObjects->gs = static_cast<VGEOMETRY*>(core.CreateService("geometry"));
   //Создаём объекты карты
   WdmRenderObject* ro;
   //Создаём острова
@@ -263,7 +263,7 @@ bool WorldMap::Init() {
   //AddLObject(ro, 10099);
   //Календарь
   //WdmCounter * cnt = new WdmCounter();
-  //if(!cnt->Init()) api->Trace("Counter not created");
+  //if(!cnt->Init()) core.Trace("Counter not created");
 
   //AddLObject(cnt, 10099);
   //Иконка
@@ -283,13 +283,13 @@ bool WorldMap::Init() {
       }
       if (_stricmp(type, "Merchant") == 0 && modelName && modelName[0]) {
         if (!CreateMerchantShip(modelName, nullptr, nullptr, 1.0f, -1.0f, a)) {
-          api->Trace("WoldMap: not loaded merchant encounter.");
+          core.Trace("WoldMap: not loaded merchant encounter.");
         }
         continue;
       }
       if (_stricmp(type, "Follow") == 0 && modelName && modelName[0]) {
         if (!CreateFollowShip(modelName, 1.0f, -1.0f, a)) {
-          api->Trace("WoldMap: not loaded follow encounter.");
+          core.Trace("WoldMap: not loaded follow encounter.");
         }
         continue;
       }
@@ -301,11 +301,11 @@ bool WorldMap::Init() {
             auto* const modelName1 = a1->GetAttribute("modelName");
             if (modelName1 && modelName1[0]) {
               if (!CreateWarringShips(modelName, modelName1, -1.0f, a, a1)) {
-                api->Trace("WoldMap: not loaded warring encounter.");
+                core.Trace("WoldMap: not loaded warring encounter.");
               }
             }
             else {
-              api->Trace("WoldMap: not loaded warring encounter.");
+              core.Trace("WoldMap: not loaded warring encounter.");
               saveData->DeleteAttributeClassX(a);
               saveData->DeleteAttributeClassX(a1);
             }
@@ -319,7 +319,7 @@ bool WorldMap::Init() {
       if (_stricmp(type, "Storm") == 0) {
         const auto isTornado = (a->GetAttributeAsDword("isTornado", 0) != 0);
         if (!CreateStorm(isTornado, -1.0f, a)) {
-          api->Trace("WoldMap: not loaded storm encounter.");
+          core.Trace("WoldMap: not loaded storm encounter.");
         }
         continue;
       }
@@ -362,12 +362,12 @@ void WorldMap::Realize(uint32_t delta_time) {
   }
   if (!wdmObjects->isPause) {
     CONTROL_STATE cs;
-    api->Controls->GetControlState("WMapCancel", cs);
+    core.Controls->GetControlState("WMapCancel", cs);
     if (cs.state == CST_ACTIVATED) {
       if (wdmObjects->playerShip) {
-        if (!static_cast<WdmPlayerShip*>(wdmObjects->playerShip)->ExitFromMap()) api->Event("ExitFromWorldMap");
+        if (!static_cast<WdmPlayerShip*>(wdmObjects->playerShip)->ExitFromMap()) core.Event("ExitFromWorldMap");
       }
-      else api->Event("ExitFromWorldMap");
+      else core.Event("ExitFromWorldMap");
     }
   }
   //---------------------------------------------------------
@@ -398,15 +398,15 @@ void WorldMap::Realize(uint32_t delta_time) {
       aDate->SetAttributeUseDword("day", day);
 
 #ifndef EVENTS_OFF
-      api->Event("WorldMap_UpdateDate", "f", hour);
+      core.Event("WorldMap_UpdateDate", "f", hour);
       wdmObjects->isNextDayUpdate = true;
-      api->Event("NextDay");
+      core.Event("NextDay");
 #endif
     }
   }
   else {
 #ifndef EVENTS_OFF
-    api->Event("WorldMap_UpdateDate", "f", hour);
+    core.Event("WorldMap_UpdateDate", "f", hour);
 #endif
   }
   //
@@ -453,7 +453,7 @@ void WorldMap::Realize(uint32_t delta_time) {
     auto psx = 0.0f, psz = 0.0f, psay = 0.0f;
     wdmObjects->playerShip->GetPosition(psx, psz, psay);
 #ifndef ENCS_OFF
-    api->Event("WorldMap_EncounterCreate", "ffff", encTime, psx, psz, psay);
+    core.Event("WorldMap_EncounterCreate", "ffff", encTime, psx, psz, psay);
 #endif
     encTime = 0.0f;
   }
@@ -475,7 +475,7 @@ void WorldMap::Realize(uint32_t delta_time) {
   if (AttributesPointer) {
     const char* upd = AttributesPointer->GetAttribute("addQuestEncounters");
     if (upd && upd[0] != 0) {
-      api->Event("WorldMap_AddQuestEncounters", nullptr);
+      core.Event("WorldMap_AddQuestEncounters", nullptr);
     }
   }
 }
@@ -537,9 +537,9 @@ uint64_t WorldMap::ProcessMessage(MESSAGE& message) {
     break;
   case MSG_WORLDMAP_LAUNCH_EXIT_TO_SEA:
     if (wdmObjects->playerShip) {
-      if (!static_cast<WdmPlayerShip*>(wdmObjects->playerShip)->ExitFromMap()) api->Event("ExitFromWorldMap");
+      if (!static_cast<WdmPlayerShip*>(wdmObjects->playerShip)->ExitFromMap()) core.Event("ExitFromWorldMap");
     }
-    else api->Event("ExitFromWorldMap");
+    else core.Event("ExitFromWorldMap");
     break;
   }
   return 0;
@@ -799,20 +799,20 @@ bool WorldMap::CreateMerchantShip(const char* modelName, const char* locNameStar
   AddLObject(ship, 100);
   //Ищем место куда плыть
   if (!wdmObjects->islands) {
-    api->Trace("World map: Islands not found");
+    core.Trace("World map: Islands not found");
   }
   CVECTOR gpos;
   if (!locNameEnd || !locNameEnd[0]) {
     if (wdmObjects->islands) {
       if (!wdmObjects->islands->GetRandomMerchantPoint(gpos)) {
-        api->Trace("World map: Locators <Merchants:...> not found");
+        core.Trace("World map: Locators <Merchants:...> not found");
       }
     }
   }
   else {
     if (wdmObjects->islands) {
       if (!wdmObjects->islands->GetQuestLocator(locNameEnd, gpos)) {
-        api->Trace("World map: Quest locator <Quests:%s> for merchant not found", locNameEnd);
+        core.Trace("World map: Quest locator <Quests:%s> for merchant not found", locNameEnd);
       }
     }
   }
@@ -824,7 +824,7 @@ bool WorldMap::CreateMerchantShip(const char* modelName, const char* locNameStar
         ship->Teleport(gpos.x, gpos.z, rand() * (PI * 2.0f / RAND_MAX));
       }
       else {
-        api->Trace("World map: Quest locator <Quests:%s> for merchant not found", locNameStart); // boal fix
+        core.Trace("World map: Quest locator <Quests:%s> for merchant not found", locNameStart); // boal fix
       }
     }
   }
@@ -856,7 +856,7 @@ bool WorldMap::CreateMerchantShipXZ(const char* modelName, float x1, float z1, f
   AddLObject(ship, 100);
   //Ищем место куда плыть
   if (!wdmObjects->islands) {
-    api->Trace("World map: Islands not found");
+    core.Trace("World map: Islands not found");
   }
 
   static_cast<WdmMerchantShip*>(ship)->Goto(x2, z2, 2.0f); // куда
@@ -894,7 +894,7 @@ bool WorldMap::CreateFollowShip(const char* modelName, float kSpeed, float time,
     if (time < 1.0f) time = 1.0f;
     static_cast<WdmEnemyShip*>(ship)->SetLiveTime(time);
   }
-  VDATA* isSkipEnable = api->Event("WorldMap_IsSkipEnable");
+  VDATA* isSkipEnable = core.Event("WorldMap_IsSkipEnable");
   if (isSkipEnable) {
     long skipEnable = 0;
     if (isSkipEnable->Get(skipEnable)) {

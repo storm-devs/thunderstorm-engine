@@ -2,6 +2,7 @@
 #define _OBJ_STRSERVICE_H_
 
 #include "stringService.h"
+#include <Entity.h>
 
 class OBJ_STRSERVICE : public Entity {
   VSTRSERVICE* m_pStrService;

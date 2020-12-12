@@ -1,4 +1,9 @@
 #include "TButterflies.h"
+
+#include <core.h>
+
+
+#include "vfile_service.h"
 #include "../../Shared/messages.h"
 
 #pragma warning (disable : 4244)
@@ -35,11 +40,11 @@ void TButterflies::LoadSettings() {
 void TButterflies::Init() {
   LoadSettings();
 
-  renderService = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  renderService = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (!renderService)
     throw std::exception("!Butterflies: No service 'dx9render'");
 
-  collide = static_cast<COLLIDE*>(api->CreateService("coll"));
+  collide = static_cast<COLLIDE*>(core.CreateService("coll"));
   if (!collide)
     throw std::exception("!Butterflies: No service COLLIDE");
 

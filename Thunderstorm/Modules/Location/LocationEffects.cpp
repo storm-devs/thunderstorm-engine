@@ -10,7 +10,7 @@
 
 #include "LocationEffects.h"
 #include "dx9render.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 #define LFX_SPLASHES_NUM	(sizeof(chrSplash)/sizeof(ChrSplash))
 #define LFX_SPLASHES_P_NUM	64// fix boal for intel cpp (sizeof(LocationEffects::ChrSplash::prt)/sizeof(ParticleSplash))
@@ -58,14 +58,14 @@ LocationEffects::~LocationEffects() {
 //Инициализация
 bool LocationEffects::Init() {
   //DX9 render
-  rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (!rs) throw std::exception("No service: dx9render");
 
-  //api->LayerCreate("execute", true, false);
+  //core.LayerCreate("execute", true, false);
   EntityManager::SetLayerType(EXECUTE, EntityManager::Layer::Type::execute);
   EntityManager::AddToLayer(EXECUTE, GetId(), 10);
 
-  //api->LayerCreate("realize", true, false);
+  //core.LayerCreate("realize", true, false);
   EntityManager::SetLayerType(REALIZE, EntityManager::Layer::Type::realize);
   EntityManager::AddToLayer(REALIZE, GetId(), 1000000);
 
@@ -483,14 +483,14 @@ void LocationEffects::SGFirePrt(const CVECTOR& pos, const CVECTOR& ndir) {
 void LocationEffects::ProcessedShotgun(float dltTime) {
   if (!isShgInited) return;
   CVECTOR winDir = 0.0f;
-  VDATA* param = api->Event("EWhr_GetWindAngle", nullptr);
+  VDATA* param = core.Event("EWhr_GetWindAngle", nullptr);
   if (param) {
     float ang;
     if (!param->Get(ang)) ang = 0.0f;
     winDir.x = sinf(ang);
     winDir.z = cosf(ang);
   }
-  param = api->Event("EWhr_GetWindSpeed", nullptr);
+  param = core.Event("EWhr_GetWindSpeed", nullptr);
   if (param) {
     float spd;
     if (!param->Get(spd)) spd = 0.0f;

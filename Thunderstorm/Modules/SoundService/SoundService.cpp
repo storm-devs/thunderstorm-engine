@@ -2,7 +2,7 @@
 #include "defines.h"
 #include "rands.h"
 #include "SoundService.h"
-#include "EntityManager.h"
+#include <Entity.h>
 #include <FMOD/fmod_errors.h>
 
 //для debug
@@ -23,7 +23,7 @@ CREATE_CLASS(SoundVisualisationEntity)
 FMOD_RESULT SoundService::ErrorHandler(const FMOD_RESULT result, const char* file, unsigned line, const char* func,
                                        const char* expr) {
   if (result != FMOD_OK) {
-    api->Trace("[%s:%s:%d] %s (%s)", file, func, line, FMOD_ErrorString(result), expr);
+    core.Trace("[%s:%s:%d] %s (%s)", file, func, line, FMOD_ErrorString(result), expr);
   }
   return result;
 }
@@ -65,17 +65,17 @@ SoundService::~SoundService() {
 bool SoundService::Init() {
   initialized = false;
 
-  rs = static_cast<VDX9RENDER*>(api->CreateService("DX9RENDER"));
+  rs = static_cast<VDX9RENDER*>(core.CreateService("DX9RENDER"));
 
   CHECKFMODERR(FMOD::System_Create(&system));
   unsigned version;
   CHECKFMODERR(system->getVersion(&version));
 
   if (version < FMOD_VERSION) {
-    api->Trace("Error : You are using old FMOD version %08x !\n", version);
+    core.Trace("Error : You are using old FMOD version %08x !\n", version);
     return false;
   }
-  api->Trace("Using FMOD %08x", FMOD_VERSION);
+  core.Trace("Using FMOD %08x", FMOD_VERSION);
 
   CHECKFMODERR(system->init(MAX_SOUNDS_SLOTS, FMOD_INIT_NORMAL, nullptr));
   CHECKFMODERR(system->set3DSettings(1.0, DISTANCEFACTOR, 1.0f));
@@ -117,7 +117,7 @@ bool SoundService::Init() {
     break;
 
   }
-  api->Trace("FMOD: Speaker mode %s", TextSpkMode.c_str());*/
+  core.Trace("FMOD: Speaker mode %s", TextSpkMode.c_str());*/
   //FMOD_REVERB_PROPERTIES revProp = FMOD_PRESET_CONCERTHALL;
   //status = system->setReverbProperties(&revProp);
   //FMOD_CHECK("FMOD:setReverbProperties",status);
@@ -146,7 +146,7 @@ void SoundService::ProcessFader(int idx) {
     return;
   }
 
-  const auto fTime = api->GetDeltaTime() * 0.001f;
+  const auto fTime = core.GetDeltaTime() * 0.001f;
 
   PlayingSounds[idx].fFaderCurrentVolume += PlayingSounds[idx].fFaderDeltaInSec * fTime;
 
@@ -241,7 +241,7 @@ int SoundService::FindEmptySlot() const {
     if (PlayingSounds[i].bFree) return i;
   }
 
-  api->Trace("SoundService::FindEmptySlot(): no empty slots");
+  core.Trace("SoundService::FindEmptySlot(): no empty slots");
   return -1;
 }
 
@@ -304,7 +304,7 @@ TSD_ID SoundService::SoundPlay(const char* _name,
     if (AliasIdx >= 0 && Aliases[AliasIdx].SoundFiles.size() > 0) {
       //Играем из алиаса звук...
       FileName = GetRandomName(&Aliases[AliasIdx]);
-      //api->Trace("Play sound from alias %s", FileName.c_str());
+      //core.Trace("Play sound from alias %s", FileName.c_str());
 
       _minDistance = Aliases[AliasIdx].fMinDistance;
       _maxDistance = Aliases[AliasIdx].fMaxDistance;
@@ -333,13 +333,13 @@ TSD_ID SoundService::SoundPlay(const char* _name,
       const auto status = CHECKFMODERR(
         system->createStream(SoundName.c_str(), FMOD_CREATESAMPLE | FMOD_2D | dwMode, nullptr, &sound));
       if (status != FMOD_OK) {
-        api->Trace("system->createStream(%s, FMOD_HARDWARE | FMOD_2D | dwMode, 0, &sound)", SoundName.c_str());
+        core.Trace("system->createStream(%s, FMOD_HARDWARE | FMOD_2D | dwMode, 0, &sound)", SoundName.c_str());
         return 0;
       }
     }
 
     catch (...) {
-      api->Trace("Internal FMOD error, when create stream. File '%s'", SoundName.c_str());
+      core.Trace("Internal FMOD error, when create stream. File '%s'", SoundName.c_str());
       return 0;
     }
 
@@ -382,7 +382,7 @@ TSD_ID SoundService::SoundPlay(const char* _name,
 
     SoundIdx = FindEmptySlot();
     if (SoundIdx < 0) {
-      api->Trace("Can't find empty slots for sound !!!!");
+      core.Trace("Can't find empty slots for sound !!!!");
       return 0;
     }
 
@@ -400,7 +400,7 @@ TSD_ID SoundService::SoundPlay(const char* _name,
   //Начинаем проигрывать звук, правда запауженный...
   const auto status = CHECKFMODERR(system->playSound(sound, nullptr, true, &PlayingSounds[SoundIdx].channel));
   if (status != FMOD_OK) {
-    api->Trace("system->playSound(FMOD_CHANNEL_FREE, sound, true, &PlayingSounds[%d].channel)", SoundIdx);
+    core.Trace("system->playSound(FMOD_CHANNEL_FREE, sound, true, &PlayingSounds[%d].channel)", SoundIdx);
   }
 
 
@@ -554,7 +554,7 @@ void SoundService::SoundSet3DParam(TSD_ID _id, eSoundMessage _message, const voi
 void SoundService::SoundRestart(TSD_ID _id) {
   if (_id == 0) return;
   _id--;
-  // boal fix api->Trace("Sound restart !");
+  // boal fix core.Trace("Sound restart !");
 }
 
 //--------------------------------------------------------------------
@@ -563,7 +563,7 @@ void SoundService::SoundRelease(TSD_ID _id) {
   _id--;
 
 
-  //boal fix api->Trace("Sound release !");
+  //boal fix core.Trace("Sound release !");
 }
 
 //--------------------------------------------------------------------
@@ -601,7 +601,7 @@ void SoundService::SoundSetVolume(TSD_ID _id, float _volume) {
   }
 
   _id--;
-  //	api->Trace("Sound set volume !");
+  //	core.Trace("Sound set volume !");
 
 
   if (_id <= 1) {
@@ -656,7 +656,7 @@ void SoundService::SoundResume(TSD_ID _id, long _time/* = 0*/) {
 
   _id--;
   if (PlayingSounds[_id].bFree) {
-    api->Trace("Can't sound resume %d !!!! Sound is not playig !!!!", _id);
+    core.Trace("Can't sound resume %d !!!! Sound is not playig !!!!", _id);
     return;
   }
 
@@ -756,7 +756,7 @@ void SoundService::SetMasterVolume(float _fxVolume, float _musicVolume, float _s
     //FMOD_CHECK("FMOD_SOUND:setVolume",status);
   }
 
-  //api->Trace("Set master volume");
+  //core.Trace("Set master volume");
 }
 
 //--------------------------------------------------------------------
@@ -765,14 +765,14 @@ void SoundService::GetMasterVolume(float* _fxVolume, float* _musicVolume, float*
   *_musicVolume = fMusicVolume;
   *_speechVolume = fSpeechVolume;
 
-  api->Trace("Get master volume");
+  core.Trace("Get master volume");
 }
 
 
 //--------------------------------------------------------------------
 TSD_ID SoundService::SoundDuplicate(TSD_ID _sourceID) {
   _sourceID--;
-  api->Trace("Sound duplicate");
+  core.Trace("Sound duplicate");
   return 0;
 }
 
@@ -911,7 +911,7 @@ void SoundService::AnalyseNameStringAndAddToAlias(tAlias* _alias, const char* in
     snd.fProbability = DEFAULT_PROBABILITY;
     snd.FileName = tempString2;
 
-    //api->Trace("  -> sound %s", snd.FileName.c_str());
+    //core.Trace("  -> sound %s", snd.FileName.c_str());
 
     _alias->SoundFiles.push_back(snd);
 
@@ -928,7 +928,7 @@ void SoundService::AnalyseNameStringAndAddToAlias(tAlias* _alias, const char* in
   *(--col) = 0; // truncate at first ','
   snd.FileName = tempString2;
 
-  //api->Trace("  -> sound %s, %f", snd.FileName.c_str(), snd.fProbability);
+  //core.Trace("  -> sound %s, %f", snd.FileName.c_str(), snd.fProbability);
 
   _alias->SoundFiles.push_back(snd);
 }
@@ -937,7 +937,7 @@ void SoundService::AddAlias(INIFILE* _iniFile, char* _sectionName) {
   static char tempString[COMMON_STRING_LENGTH];
   if (!_iniFile || !_sectionName) return;
 
-  //api->Trace("Add sound alias %s", _sectionName);
+  //core.Trace("Add sound alias %s", _sectionName);
 
 
   //tAlias* pAlias = &Aliases[Aliases.Add()];
@@ -968,7 +968,7 @@ void SoundService::LoadAliasFile(const char* _filename) {
   std::string iniName = ALIAS_DIRECTORY;
   iniName += _filename;
 
-  //api->Trace("Find sound alias file %s", iniName.c_str());
+  //core.Trace("Find sound alias file %s", iniName.c_str());
 
   INIFILE* aliasIni;
   aliasIni = fio->OpenIniFile(iniName.c_str());
@@ -1011,7 +1011,7 @@ void SoundService::CreateEntityIfNeed() {
 }
 
 void SoundService::DebugDraw() {
-  if (api->Controls->GetDebugAsyncKeyState('J') < 0) {
+  if (core.Controls->GetDebugAsyncKeyState('J') < 0) {
     bShowDebugInfo = !bShowDebugInfo;
     Sleep(200);
   }
@@ -1185,7 +1185,7 @@ int SoundService::GetFromCache(const char* szName, eSoundType _type) {
   //FMOD_CHECK("FMOD_SOUND:createSound",status);
 
   if (Cache.sound == nullptr) {
-    //api->Trace("Problem with sound loading !!! '%s'", szName);
+    //core.Trace("Problem with sound loading !!! '%s'", szName);
     return -1;
   }
   Cache.type = _type;
@@ -1440,7 +1440,7 @@ void SoundService::ProcessSoundSchemes() {
   // handle schemes
   //if (!schemesEnabled) return;
 
-  const uint32_t dTime = api->GetDeltaTime();
+  const uint32_t dTime = core.GetDeltaTime();
 
   for (uint32_t i = 0; i < SoundSchemeChannels.size(); i++) {
     if (SoundSchemeChannels[i].looped) {

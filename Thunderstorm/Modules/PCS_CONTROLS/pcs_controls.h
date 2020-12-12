@@ -4,6 +4,7 @@
 #include "vmodule_api.h"
 #include "KeyBuffer.h"
 #include "ControlTree.h"
+#include "../Animation/ActionInfo.h"
 
 struct SYSTEM_CONTROL_ELEMENT
 {

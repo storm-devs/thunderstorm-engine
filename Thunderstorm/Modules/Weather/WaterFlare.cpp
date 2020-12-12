@@ -36,7 +36,7 @@ bool WATERFLARE::Init() {
 void WATERFLARE::SetDevice() {
   //GUARD(void WATERFLARE::SetDevice())
 
-  RS = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  RS = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (!RS) throw std::exception("No service: dx9render");
 
   entid_t ent;

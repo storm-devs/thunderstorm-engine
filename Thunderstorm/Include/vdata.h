@@ -1,6 +1,7 @@
 #ifndef _VDATA_H_
 #define _VDATA_H_
-#include "Entity.h"
+
+#include <Entity.h>
 
 class DATA;
 

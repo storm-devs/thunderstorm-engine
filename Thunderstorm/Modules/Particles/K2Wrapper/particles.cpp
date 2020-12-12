@@ -2,7 +2,7 @@
 #include "psystem.h"
 #include "defines.h"
 #include "filesystem.h"
-#include "EntityManager.h"
+#include <Entity.h>
 #include "../../Shared/messages.h"
 #include "particles/iparticlemanager.h"
 #include "particles/iparticlesservice.h"
@@ -24,7 +24,7 @@ bool PARTICLES::Init() {
   EntityManager::AddToLayer(REALIZE, GetId(), 0xfffff);
   EntityManager::AddToLayer(EXECUTE, GetId(), 0);
 
-  pService = static_cast<IParticleService*>(api->CreateService("ParticleService"));
+  pService = static_cast<IParticleService*>(core.CreateService("ParticleService"));
   Assert(pService);
   pManager = pService->DefManager();
   Assert(pManager);
@@ -205,10 +205,10 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem(const char* pFileName, uint32_t LifeTim
   pathStr = path.string();
   //MessageBoxA(NULL, (LPCSTR)path.c_str(), "", MB_OK); //~!~
 
-  //api->Trace("K2 Particles Wrapper: Create system '%s'", pFileName);
+  //core.Trace("K2 Particles Wrapper: Create system '%s'", pFileName);
   IParticleSystem* pSys = pManager->CreateParticleSystemEx(pathStr.c_str(), __FILE__, __LINE__);
   if (!pSys) {
-    //api->Trace("Can't create particles system '%s'", pFileName);
+    //core.Trace("Can't create particles system '%s'", pFileName);
     return nullptr;
   }
 
@@ -218,7 +218,7 @@ PARTICLE_SYSTEM* PARTICLES::CreateSystem(const char* pFileName, uint32_t LifeTim
   pNewPS->SetManager(this);
 
 
-  //api->Trace("PSYS Created ok");
+  //core.Trace("PSYS Created ok");
 
   SystemInfo Info;
   Info.pSystem = pNewPS;
@@ -238,7 +238,7 @@ void PARTICLES::DeleteSystem(uintptr_t SystemID) {
   bSystemDelete = true;
   for (uint32_t n = 0; n < CreatedSystems.size(); n++) {
     if (CreatedSystems[n].pSystem == (PARTICLE_SYSTEM*)SystemID) {
-      //api->Trace("Delete particles system with name '%s'", CreatedSystems[n].FileName.c_str());
+      //core.Trace("Delete particles system with name '%s'", CreatedSystems[n].FileName.c_str());
       delete CreatedSystems[n].pSystem;
       //CreatedSystems.ExtractNoShift(n);
       CreatedSystems[n] = CreatedSystems.back();
@@ -248,7 +248,7 @@ void PARTICLES::DeleteSystem(uintptr_t SystemID) {
     }
   }
 
-  //api->Trace("Can't delete particle system with GUID %d", SystemID);
+  //core.Trace("Can't delete particle system with GUID %d", SystemID);
 
   bSystemDelete = false;
 }

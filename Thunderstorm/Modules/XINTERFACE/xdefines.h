@@ -5,6 +5,7 @@
 #include "stringService.h"
 #include "QuestFileReader//QuestFileReader.h"
 #include "../../Shared/interface/messages.h"
+#include <EntityManager.h>
 
 
 #define PI	3.14159265358979323846f

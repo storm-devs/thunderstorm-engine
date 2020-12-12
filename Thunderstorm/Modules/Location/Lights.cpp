@@ -42,13 +42,13 @@ Lights::~Lights() {
 //Инициализация
 bool Lights::Init() {
   //DX9 render
-  rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (!rs) throw std::exception("No service: dx9render");
-  collide = static_cast<COLLIDE*>(api->CreateService("COLL"));
+  collide = static_cast<COLLIDE*>(core.CreateService("COLL"));
   //Зачитаем параметры
   auto* ini = fio->OpenIniFile("RESOURCE\\Ini\\lights.ini");
   if (!ini) {
-    api->Trace("Location lights not inited -> RESOURCES\\Ini\\lights.ini not found");
+    core.Trace("Location lights not inited -> RESOURCES\\Ini\\lights.ini not found");
     return false;
   }
   char lName[256];
@@ -58,7 +58,7 @@ bool Lights::Init() {
     long i;
     for (i = 0; i < numTypes; i++) {
       if (_stricmp(lName, types[i].name) == 0) {
-        api->Trace("Location lights redefinition light: %s", lName);
+        core.Trace("Location lights redefinition light: %s", lName);
         break;
       }
     }
@@ -116,7 +116,7 @@ bool Lights::Init() {
   }
   delete ini;
   if (numTypes == 0) {
-    api->Trace("Location lights not inited -> 0 light types");
+    core.Trace("Location lights not inited -> 0 light types");
     return false;
   }
   //Начнём исполняться
@@ -131,7 +131,7 @@ bool Lights::Init() {
 void Lights::Execute(uint32_t delta_time) {
 #ifndef _XBOX
 #ifdef LIGHTS_DEBUG
-  if (api->Controls->GetDebugAsyncKeyState(VK_F11) < 0) {
+  if (core.Controls->GetDebugAsyncKeyState(VK_F11) < 0) {
     for (long i = 0; i < numTypes; i++) UpdateLightTypes(i);
   }
 #endif
@@ -319,7 +319,7 @@ void Lights::AddLight(long index, const CVECTOR& pos) {
   //Отправим сообщение лайтеру
 
   if (const auto eid = EntityManager::GetEntityId("Lighter")) {
-    api->Send_Message(eid, "sffffffffffs", "AddLight",
+    core.Send_Message(eid, "sffffffffffs", "AddLight",
                       pos.x,
                       pos.y,
                       pos.z,

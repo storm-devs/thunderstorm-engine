@@ -119,7 +119,7 @@ void CXI_SLIDELINE::SaveParametersToIni() {
 
   auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
   if (!pIni) {
-    api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
+    core.Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
     return;
   }
 
@@ -133,7 +133,7 @@ void CXI_SLIDELINE::SaveParametersToIni() {
 void CXI_SLIDELINE::DoMouseControl() {
   if (!m_bClickable || !m_bSelected || m_bLockedNode) return;
   CONTROL_STATE cs;
-  api->Controls->GetControlState("ILClick", cs);
+  core.Controls->GetControlState("ILClick", cs);
   const auto fmp = ptrOwner->GetMousePoint();
   if (cs.state == CST_ACTIVATED) {
     if (fmp.x < m_rect.left) return;
@@ -174,7 +174,7 @@ uint32_t CXI_SLIDELINE::MessageProc(long msgcode, MESSAGE& message) {
     {
       m_nGrateQuantity = message.Long();
       if (m_nGrateQuantity < 2) m_nGrateQuantity = 2;
-      auto* pA = api->Entity_GetAttributeClass(g_idInterface, "nodes");
+      auto* pA = core.Entity_GetAttributeClass(g_idInterface, "nodes");
       if (pA) pA = pA->GetAttributeClass(m_nodeName);
       if (pA) {
         m_nMinValue = pA->GetAttributeAsDword("minLimit", -1);
@@ -221,7 +221,7 @@ void CXI_SLIDELINE::LoadIni(INIFILE* ini1, const char* name1, INIFILE* ini2, con
   m_nSpeedSlide = GetIniLong(ini1, name1, ini2, name2, "speedSlide", 1);
 
   m_nCurValue = 0;
-  auto* pA = api->Entity_GetAttributeClass(g_idInterface, "nodes");
+  auto* pA = core.Entity_GetAttributeClass(g_idInterface, "nodes");
   if (pA != nullptr) pA = pA->GetAttributeClass(m_nodeName);
   if (pA != nullptr) m_nCurValue = static_cast<long>(pA->GetAttributeAsFloat("value", 0.f) * m_nGrateQuantity);
   m_nMinValue = m_nMaxValue = -1;
@@ -278,8 +278,8 @@ void CXI_SLIDELINE::SetNewValue(long newValue) {
     m_rs->UnLockVertexBuffer(m_idVBuf);
   }
 
-  ATTRIBUTES* pA = api->Entity_GetAttributeClass(g_idInterface, "nodes");
+  ATTRIBUTES* pA = core.Entity_GetAttributeClass(g_idInterface, "nodes");
   if (pA != nullptr) pA = pA->GetAttributeClass(m_nodeName);
   if (pA != nullptr) pA->SetAttributeUseFloat("value", static_cast<float>(m_nCurValue) / m_nGrateQuantity);
-  api->PostEvent("eSlideChange", 0, "slf", m_nodeName, m_nCurValue, static_cast<float>(m_nCurValue) / m_nGrateQuantity);
+  core.PostEvent("eSlideChange", 0, "slf", m_nodeName, m_nCurValue, static_cast<float>(m_nCurValue) / m_nGrateQuantity);
 }

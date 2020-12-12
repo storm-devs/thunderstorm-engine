@@ -1,6 +1,7 @@
 #include "Foam.h"
 #include "math3d/Plane.h"
 #include "inlines.h"
+#include <core.h>
 
 CoastFoam::CoastFoam() {
   pSea = nullptr;
@@ -31,7 +32,7 @@ CoastFoam::~CoastFoam() {
 }
 
 bool CoastFoam::Init() {
-  rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
 
   iVBuffer = rs->CreateVertexBuffer(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1 | D3DFVF_TEXTUREFORMAT2,
                                     sizeof(FoamVertex) * 5000, D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY);
@@ -46,7 +47,7 @@ bool CoastFoam::Init() {
 }
 
 void CoastFoam::Execute(uint32_t Delta_Time) {
-  bEditMode = (bCanEdit) ? LOWORD(api->Controls->GetDebugKeyState(VK_NUMLOCK)) != 0 : false;
+  bEditMode = (bCanEdit) ? LOWORD(core.Controls->GetDebugKeyState(VK_NUMLOCK)) != 0 : false;
   auto fDeltaTime = static_cast<float>(Delta_Time) * 0.001f;
 }
 
@@ -188,10 +189,10 @@ void CoastFoam::Realize(uint32_t Delta_Time) {
       rs->DrawRects(aRects.data(), aRects.size(), "FoamPoints");
     }
 
-  auto bShift = api->Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0;
-  auto bMenu = api->Controls->GetDebugAsyncKeyState(VK_MENU) < 0;
-  if (bShift && api->Controls->GetDebugAsyncKeyState('L') < 0) Load();
-  if (bShift && api->Controls->GetDebugAsyncKeyState('S') < 0) Save();
+  auto bShift = core.Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0;
+  auto bMenu = core.Controls->GetDebugAsyncKeyState(VK_MENU) < 0;
+  if (bShift && core.Controls->GetDebugAsyncKeyState('L') < 0) Load();
+  if (bShift && core.Controls->GetDebugAsyncKeyState('S') < 0) Save();
 
   if (bEditMode) {
     RS_SPRITE spr[4];
@@ -237,15 +238,15 @@ void CoastFoam::Realize(uint32_t Delta_Time) {
 
     CONTROL_STATE cs, csH, csV;
 
-    api->Controls->GetControlState("Turn H", csH);
+    core.Controls->GetControlState("Turn H", csH);
     fCursorPosX += csH.lValue;
-    api->Controls->GetControlState("Turn V", csV);
+    core.Controls->GetControlState("Turn V", csV);
     fCursorPosY += csV.lValue;
 
     fCursorPosX = Max(0.0f, Min(fCursorPosX, static_cast<float>(vp.Width)));
     fCursorPosY = Max(0.0f, Min(fCursorPosY, static_cast<float>(vp.Height)));
 
-    api->Controls->GetControlState("CoastFoamLB", cs);
+    core.Controls->GetControlState("CoastFoamLB", cs);
 
     if (cs.state == CST_ACTIVE && !bMoved) {
       bMoved = true;
@@ -287,9 +288,9 @@ void CoastFoam::Realize(uint32_t Delta_Time) {
     }
 
     CONTROL_STATE csIns, csDel, csCopy;
-    api->Controls->GetControlState("CoastFoamINS", csIns);
-    api->Controls->GetControlState("CoastFoamDEL", csDel);
-    api->Controls->GetControlState("CoastFoamCopy", csCopy);
+    core.Controls->GetControlState("CoastFoamINS", csIns);
+    core.Controls->GetControlState("CoastFoamDEL", csDel);
+    core.Controls->GetControlState("CoastFoamCopy", csCopy);
 
     if (bShift && csCopy.state == CST_ACTIVATED && bSelected) {
       auto* pF = new Foam();

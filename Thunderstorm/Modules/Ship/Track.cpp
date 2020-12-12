@@ -1,7 +1,7 @@
 #include "Track.h"
 #include "defines.h"
 #include "inlines.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 VDX9RENDER* ShipTracks::ShipTrack::pRS = nullptr;
 SEA_BASE* ShipTracks::ShipTrack::pSea = nullptr;
@@ -19,7 +19,7 @@ ShipTracks::~ShipTracks() {
 bool ShipTracks::Init() {
   entid_t sea_id;
 
-  ShipTrack::pRS = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  ShipTrack::pRS = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   Assert(ShipTrack::pRS);
   if (sea_id = EntityManager::GetEntityId("sea"))
     ShipTrack::pSea = static_cast<SEA_BASE*>(EntityManager::GetEntityPointer(sea_id));

@@ -11,9 +11,8 @@
 #ifndef _LocatorArray_H_
 #define _LocatorArray_H_
 
-
-#include "vmodule_api.h"
 #include "Matrix.h"
+#include "storm_assert.h"
 
 
 class LocatorArray {

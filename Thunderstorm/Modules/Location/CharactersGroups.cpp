@@ -10,6 +10,7 @@
 
 #include "CharactersGroups.h"
 #include "NPCharacter.h"
+#include "storm_assert.h"
 
 
 #define CGS_LOOK				15.0f
@@ -108,7 +109,7 @@ bool CharactersGroups::Init() {
   location = static_cast<Location*>(EntityManager::GetEntityPointer(loc));
   if (!location) return false;
   RegistryGroup("");
-  //api->LayerCreate("execute", true, false);
+  //core.LayerCreate("execute", true, false);
   EntityManager::SetLayerType(EXECUTE, EntityManager::Layer::Type::execute);
   EntityManager::AddToLayer(EXECUTE, GetId(), 10);
   return true;
@@ -118,7 +119,7 @@ bool CharactersGroups::Init() {
 void CharactersGroups::Execute(uint32_t delta_time) {
   /*#ifndef _XBOX
   #ifdef _DEBUG
-    if(api->Controls->GetDebugAsyncKeyState(VK_F11) < 0) DumpRelations();
+    if(core.Controls->GetDebugAsyncKeyState(VK_F11) < 0) DumpRelations();
   #endif
   #endif*/ //boal свои у нас читы
   //Время
@@ -162,7 +163,7 @@ void CharactersGroups::Execute(uint32_t delta_time) {
   //Удалим все неправильные цели
   if (isDeactivate) RemoveAllInvalidTargets();
   //Сообщим о текущем положении дел у игрока
-  api->Event("CharacterGroup_UpdateAlarm", "fl", playerAlarm, playerActive);
+  core.Event("CharacterGroup_UpdateAlarm", "fl", playerAlarm, playerActive);
   //Исполняем персонажей
   waveTime += dltTime;
   if (curExecuteChr >= 0) {
@@ -938,7 +939,7 @@ void CharactersGroups::ClearAllTargets() const {
 void CharactersGroups::SaveData() {
   //Корневой атрибут для сохранения данных
   if (!AttributesPointer) {
-    api->Trace("CharactersGroups::SaveData -> no attributes");
+    core.Trace("CharactersGroups::SaveData -> no attributes");
     return;
   }
   auto* saveData = AttributesPointer->FindAClass(AttributesPointer, "savedata");
@@ -986,7 +987,7 @@ void CharactersGroups::SaveData() {
 void CharactersGroups::LoadDataRelations() {
   //Корневой атрибут для сохранения данных
   if (!AttributesPointer) {
-    api->Trace("CharactersGroups::LoadDataRelations -> no attributes");
+    core.Trace("CharactersGroups::LoadDataRelations -> no attributes");
     return;
   }
   auto* saveData = AttributesPointer->FindAClass(AttributesPointer, "savedata");
@@ -1023,17 +1024,17 @@ void CharactersGroups::LoadDataRelations() {
     long actState = grp->GetAttributeAsDword("actState", r.actState);
     long relState = grp->GetAttributeAsDword("relState", r.relState);
     if (curState <= rs_beginvalue || curState >= rs_endvalue) {
-      api->Trace("CharactersGroups::LoadDataRelations -> invalide curState value, set this neitral");
+      core.Trace("CharactersGroups::LoadDataRelations -> invalide curState value, set this neitral");
       curState = rs_neitral;
     }
     r.curState = static_cast<RelState>(curState);
     if (actState <= rs_beginvalue || actState >= rs_endvalue) {
-      api->Trace("CharactersGroups::LoadDataRelations -> invalide actState value, set this enemy");
+      core.Trace("CharactersGroups::LoadDataRelations -> invalide actState value, set this enemy");
       actState = rs_enemy;
     }
     r.actState = static_cast<RelState>(actState);
     if (relState <= rs_beginvalue || relState >= rs_endvalue) {
-      api->Trace("CharactersGroups::LoadDataRelations -> invalide relState value, set this neitral");
+      core.Trace("CharactersGroups::LoadDataRelations -> invalide relState value, set this neitral");
       relState = rs_neitral;
     }
     r.relState = static_cast<RelState>(relState);
@@ -1063,28 +1064,28 @@ void CharactersGroups::DumpRelations() {
   //Сохраняем отношения групп
   for (long i = 0; i < numGroups; i++) {
     for (long j = 0; j < i; j++) {
-      api->Trace("\"%s\" <-> \"%s\"", groups[i]->name.name, groups[j]->name.name);
+      core.Trace("\"%s\" <-> \"%s\"", groups[i]->name.name, groups[j]->name.name);
       //Сохраним отношения
       auto& r = FindRelation(i, j);
-      api->Trace("alarm: %f", r.alarm);
-      api->Trace("alarmdown: %f", r.alarmdown);
-      api->Trace("alarmmin: %f", r.alarmmin);
-      api->Trace("alarmmax: %f", r.alarmmax);
-      api->Trace("isActive: %s", r.isActive ? "true" : "false");
-      api->Trace("curState: \"%s\"", GetTextState(r.curState));
-      api->Trace("actState: \"%s\"", GetTextState(r.actState));
-      api->Trace("relState: \"%s\"", GetTextState(r.relState));
-      api->Trace("");
+      core.Trace("alarm: %f", r.alarm);
+      core.Trace("alarmdown: %f", r.alarmdown);
+      core.Trace("alarmmin: %f", r.alarmmin);
+      core.Trace("alarmmax: %f", r.alarmmax);
+      core.Trace("isActive: %s", r.isActive ? "true" : "false");
+      core.Trace("curState: \"%s\"", GetTextState(r.curState));
+      core.Trace("actState: \"%s\"", GetTextState(r.actState));
+      core.Trace("relState: \"%s\"", GetTextState(r.relState));
+      core.Trace("");
     }
   }
-  api->Trace("Groups info:");
-  api->Trace("");
+  core.Trace("Groups info:");
+  core.Trace("");
   for (long i = 0; i < numGroups; i++) {
-    api->Trace("name: \"%s\"", groups[i]->name.name);
-    api->Trace("    look: %f", groups[i]->look);
-    api->Trace("    hear: %f", groups[i]->hear);
-    api->Trace("    say: %f", groups[i]->say);
-    api->Trace("");
+    core.Trace("name: \"%s\"", groups[i]->name.name);
+    core.Trace("    look: %f", groups[i]->look);
+    core.Trace("    hear: %f", groups[i]->hear);
+    core.Trace("    say: %f", groups[i]->say);
+    core.Trace("");
   }
 }
 

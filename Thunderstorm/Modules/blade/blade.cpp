@@ -143,11 +143,11 @@ void BLADE::BLADE_INFO::DrawBlade(VDX9RENDER* rs, unsigned int blendValue, MODEL
         }
       }
       else {
-        api->Trace("BLADE::Realize -> no find locator \"%s\", model \"%s\"", bladeEnd, bladeNode->GetName());
+        core.Trace("BLADE::Realize -> no find locator \"%s\", model \"%s\"", bladeEnd, bladeNode->GetName());
       }
     }
     else {
-      api->Trace("BLADE::Realize -> no find locator \"%s\", model \"%s\"", bladeStart, bladeNode->GetName());
+      core.Trace("BLADE::Realize -> no find locator \"%s\", model \"%s\"", bladeStart, bladeNode->GetName());
     }
   }
 }
@@ -165,11 +165,11 @@ bool BLADE::BLADE_INFO::LoadBladeModel(MESSAGE& message) {
     strcpy_s(path, "Ammo\\");
     strcat_s(path, mdlName);
     //Путь до текстур
-    auto* gs = static_cast<VGEOMETRY*>(api->CreateService("geometry"));
+    auto* gs = static_cast<VGEOMETRY*>(core.CreateService("geometry"));
     if (gs) gs->SetTexturePath("Ammo\\");
     //Создаём модельку
     eid = EntityManager::CreateEntity("modelr");
-    if (!api->Send_Message(eid, "ls", MSG_MODEL_LOAD_GEO, path)) {
+    if (!core.Send_Message(eid, "ls", MSG_MODEL_LOAD_GEO, path)) {
       EntityManager::EraseEntity(eid);
       if (gs) gs->SetTexturePath("");
       return false;
@@ -198,12 +198,12 @@ BLADE::~BLADE() {
 bool BLADE::Init() {
   //GUARD(BLADE::BLADE())
 
-  col = static_cast<COLLIDE*>(api->CreateService("coll"));
+  col = static_cast<COLLIDE*>(core.CreateService("coll"));
   if (col == nullptr) throw std::exception("No service: COLLIDE");
 
   EntityManager::AddToLayer(REALIZE, GetId(), 65550);
 
-  rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (!rs) throw std::exception("No service: dx9render");
 
   //UNGUARD
@@ -323,11 +323,11 @@ bool BLADE::LoadGunModel(MESSAGE& message) {
     strcpy_s(path, "Ammo\\");
     strcat_s(path, mdlName);
     //Путь до текстур
-    auto* gs = static_cast<VGEOMETRY*>(api->CreateService("geometry"));
+    auto* gs = static_cast<VGEOMETRY*>(core.CreateService("geometry"));
     if (gs) gs->SetTexturePath("Ammo\\");
     //Создаём модельку
     gun = EntityManager::CreateEntity("modelr");
-    if (!api->Send_Message(gun, "ls", MSG_MODEL_LOAD_GEO, path)) {
+    if (!core.Send_Message(gun, "ls", MSG_MODEL_LOAD_GEO, path)) {
       EntityManager::EraseEntity(gun);
       if (gs) gs->SetTexturePath("");
       return false;
@@ -385,11 +385,11 @@ void BLADE::GunFire() {
       resm.EqMultiply(perMtx, *(CMatrix*)&lb.m);
       auto rp = perMtx * CVECTOR(lb.m[3][0], lb.m[3][1], lb.m[3][2]);
 
-      api->Send_Message(EntityManager::GetEntityId("particles"), "lsffffffl", PS_CREATEX, "gunfire", rp.x, rp.y,
+      core.Send_Message(EntityManager::GetEntityId("particles"), "lsffffffl", PS_CREATEX, "gunfire", rp.x, rp.y,
                         rp.z,
                         resm.Vz().x, resm.Vz().y, resm.Vz().z, 0);
     }
-    else api->Trace("MSG_BLADE_GUNFIRE Can't find gun_fire locator");
+    else core.Trace("MSG_BLADE_GUNFIRE Can't find gun_fire locator");
   }
 }
 
@@ -411,7 +411,7 @@ uint64_t BLADE::ProcessMessage(MESSAGE& message) {
       blade[n].locatorName = sabergunBeltName;
       blade[n].lifeTime = 0.0f;
     }
-    //api->Trace("MSG_BLADE_BELT::%s", beltName);
+    //core.Trace("MSG_BLADE_BELT::%s", beltName);
     break;
 
   case MSG_BLADE_HAND:
@@ -422,7 +422,7 @@ uint64_t BLADE::ProcessMessage(MESSAGE& message) {
     else if (n == 1) {
       blade[n].locatorName = sabergunHandName;
     }
-    //api->Trace("MSG_BLADE_HAND::%s", handName);
+    //core.Trace("MSG_BLADE_HAND::%s", handName);
     break;
 
   case MSG_BLADE_GUNSET:
@@ -430,15 +430,15 @@ uint64_t BLADE::ProcessMessage(MESSAGE& message) {
     break;
   case MSG_BLADE_GUNBELT:
     gunLocName = gunBeltName;
-    //api->Trace("MSG_BLADE_GUNBELT::%s", gunLocName);
+    //core.Trace("MSG_BLADE_GUNBELT::%s", gunLocName);
     break;
   case MSG_BLADE_GUNHAND:
     gunLocName = gunHandName;
-    //api->Trace("MSG_BLADE_GUNHAND::%s", gunLocName);
+    //core.Trace("MSG_BLADE_GUNHAND::%s", gunLocName);
     break;
   case MSG_BLADE_GUNFIRE:
     GunFire();
-    //api->Trace("MSG_BLADE_GUNFIRE::%s", handName);
+    //core.Trace("MSG_BLADE_GUNFIRE::%s", handName);
     break;
 
   case MSG_BLADE_TRACE_ON:
@@ -446,7 +446,7 @@ uint64_t BLADE::ProcessMessage(MESSAGE& message) {
     if (n >= 0 && n < BLADE_INFO_QUANTITY) {
       blade[0].lifeTime = blade[0].defLifeTime;
     }
-    //api->Trace("MSG_BLADE_TRACE_ON::%f", lifeTime);
+    //core.Trace("MSG_BLADE_TRACE_ON::%f", lifeTime);
     break;
 
   case MSG_BLADE_TRACE_OFF:
@@ -454,15 +454,15 @@ uint64_t BLADE::ProcessMessage(MESSAGE& message) {
     if (n >= 0 && n < BLADE_INFO_QUANTITY) {
       blade[0].lifeTime = 0.0f;
     }
-    //api->Trace("MSG_BLADE_TRACE_OFF");
+    //core.Trace("MSG_BLADE_TRACE_OFF");
     break;
 
   case MSG_BLADE_BLOOD:
-    //api->Trace("MSG_BLADE_BLOOD");
+    //core.Trace("MSG_BLADE_BLOOD");
     break;
 
   case MSG_BLADE_LIGHT:
-    //api->Trace("MSG_BLADE_LIGHT");
+    //core.Trace("MSG_BLADE_LIGHT");
     break;
   case MSG_BLADE_ALPHA:
     blendValue = message.Long();
@@ -493,7 +493,7 @@ void BLADE::AddTieItem(MESSAGE& message) {
 
   auto n = FindTieItemByIndex(nItemIdx);
   if (n >= 0) {
-    api->Trace("Warning! BLADE::AddTieItem(%d,%s,%s) already set that item", nItemIdx, mdlName, locName);
+    core.Trace("Warning! BLADE::AddTieItem(%d,%s,%s) already set that item", nItemIdx, mdlName, locName);
   }
   else {
     for (n = 0; n < ITEMS_INFO_QUANTITY; n++)
@@ -503,7 +503,7 @@ void BLADE::AddTieItem(MESSAGE& message) {
       items[n].LoadItemModel(mdlName, locName);
     }
     else {
-      api->Trace("Warning! BLADE::AddTieItem(%d,%s,%s) very mach items already set", nItemIdx, mdlName, locName);
+      core.Trace("Warning! BLADE::AddTieItem(%d,%s,%s) very mach items already set", nItemIdx, mdlName, locName);
     }
   }
 }
@@ -600,11 +600,11 @@ bool BLADE::TIEITEM_INFO::LoadItemModel(const char* mdlName, const char* locName
   strcpy_s(path, "Ammo\\");
   strcat_s(path, mdlName);
   //Путь до текстур
-  auto* gs = static_cast<VGEOMETRY*>(api->CreateService("geometry"));
+  auto* gs = static_cast<VGEOMETRY*>(core.CreateService("geometry"));
   if (gs) gs->SetTexturePath("Ammo\\");
   //Создаём модельку
   eid = EntityManager::CreateEntity("modelr");
-  if (!api->Send_Message(eid, "ls", MSG_MODEL_LOAD_GEO, path)) {
+  if (!core.Send_Message(eid, "ls", MSG_MODEL_LOAD_GEO, path)) {
     EntityManager::EraseEntity(eid);
     if (gs) gs->SetTexturePath("");
     return false;

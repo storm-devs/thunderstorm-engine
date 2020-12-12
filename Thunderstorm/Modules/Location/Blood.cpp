@@ -25,10 +25,10 @@ Blood::~Blood() {
 
 //Инициализация
 bool Blood::Init() {
-  pRS = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  pRS = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   Assert(pRS);
 
-  pCol = static_cast<COLLIDE*>(api->CreateService("coll"));
+  pCol = static_cast<COLLIDE*>(core.CreateService("coll"));
   Assert(pCol);
 
   texID = pRS->TextureCreate("blood.tga");
@@ -233,7 +233,7 @@ void Blood::BuildBloodDataByCollision(const CVECTOR& cpos) {
       curBlood.nStartIdx -= MAX_BLOOD_TRIANGLES;
   }
   else {
-    api->Trace("Blood::BuildData() : can`t blood add - insufficient buffer space");
+    core.Trace("Blood::BuildData() : can`t blood add - insufficient buffer space");
     return;
   }
   nUsedTQ += nClipTQ;

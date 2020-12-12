@@ -12,6 +12,7 @@
 #define _Lights_H_
 
 #include "LTypes.h"
+#include "storm_assert.h"
 
 class LighterLights  
 {

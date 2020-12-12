@@ -1,7 +1,7 @@
 #include "Timer.h"
 #include "../image/imgrender.h"
 #include "../Utils.h"
-#include "vmodule_api.h"
+#include <message.h>
 
 BITimer::BITimer() {
   SetBeginData();
@@ -92,7 +92,7 @@ void BITimer::SetBeginData() {
   m_fCurTimerCounter = 0.f;
   m_fMaxTimerCounter = 0.f;
 
-  m_pRender = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  m_pRender = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   Assert(m_pRender);
   m_pImgRndr = new BIImageRender(m_pRender);
   m_pBackImage = nullptr;
@@ -114,6 +114,6 @@ void BITimer::CloseTimer(bool bTimeOut) {
   m_fCurTimerCounter = 0.f;
   m_pForeImage->CutSide(0.f, 0.f, 0.f, 0.f);
   if (bTimeOut) {
-    api->Event((char*)m_sEventName.c_str(), nullptr);
+    core.Event((char*)m_sEventName.c_str(), nullptr);
   }
 }

@@ -5,7 +5,8 @@
 #include "v_s_stack.h"
 #include <DxErr.h>
 #include "inlines.h"
-#include "EntityManager.h"
+#include <Entity.h>
+#include "s_import_func.h"
 
 #define POST_PROCESS_FVF (D3DFVF_XYZRHW | D3DFVF_TEX4)
 
@@ -38,7 +39,7 @@ uint32_t DX9SetTexturePath(VS_STACK* pS) {
   auto* const pStr = pString->GetString();
 
   if (!DX9RENDER::pRS) {
-    api->CreateService("dx9render");
+    core.CreateService("dx9render");
     Assert(DX9RENDER::pRS);
   }
 
@@ -88,19 +89,19 @@ bool DX9RENDER_SCRIPT_LIBRIARY::Init() {
   sIFuncInfo.pFuncName = "SetTexturePath";
   sIFuncInfo.pReturnValueName = "int";
   sIFuncInfo.pFuncAddress = DX9SetTexturePath;
-  api->SetScriptFunction(&sIFuncInfo);
+  core.SetScriptFunction(&sIFuncInfo);
 
   sIFuncInfo.nArguments = 3;
   sIFuncInfo.pFuncName = "RPrint";
   sIFuncInfo.pReturnValueName = "int";
   sIFuncInfo.pFuncAddress = RPrint;
-  api->SetScriptFunction(&sIFuncInfo);
+  core.SetScriptFunction(&sIFuncInfo);
 
   sIFuncInfo.nArguments = 3;
   sIFuncInfo.pFuncName = "SetGlowParams";
   sIFuncInfo.pReturnValueName = "int";
   sIFuncInfo.pFuncAddress = SetGlowParams;
-  api->SetScriptFunction(&sIFuncInfo);
+  core.SetScriptFunction(&sIFuncInfo);
 
   return true;
 }
@@ -239,7 +240,7 @@ uint32_t dwSoundBytesCached = 0;
 
 inline bool DX9RENDER::ErrorHandler(HRESULT hr, const char* file, unsigned line, const char* func, const char* expr) {
   if (hr != D3D_OK) {
-    api->Trace("[%s:%s:%d] %s: %s (%s)", file, func, line, DXGetErrorString(hr), DXGetErrorDescription(hr), expr);
+    core.Trace("[%s:%s:%d] %s: %s (%s)", file, func, line, DXGetErrorString(hr), DXGetErrorDescription(hr), expr);
     return true;
   }
 
@@ -346,7 +347,7 @@ bool DX9RENDER::Init() {
   d3d9 = nullptr;
 
   INIFILE* ini;
-  ini = fio->OpenIniFile(api->EngineIniFileName());
+  ini = fio->OpenIniFile(core.EngineIniFileName());
   if (ini) {
     //bPostProcessEnabled = ini->GetLong(0, "PostProcess", 0) == 1;
     bPostProcessEnabled = false; //~!~
@@ -387,13 +388,13 @@ bool DX9RENDER::Init() {
     }
 
     //stencil_format = D3DFMT_D24S8;
-    if (!InitDevice(bWindow, api->GetAppHWND(), screen_size.x, screen_size.y)) return false;
+    if (!InitDevice(bWindow, core.GetAppHWND(), screen_size.x, screen_size.y)) return false;
 
     RecompileEffects();
 
     // получить стартовый ини файл для шрифтов
     if (!ini->ReadString(nullptr, "startFontIniFile", str, sizeof(str) - 1, "")) {
-      api->Trace("Not finded 'startFontIniFile' parameter into ENGINE.INI file");
+      core.Trace("Not finded 'startFontIniFile' parameter into ENGINE.INI file");
       sprintf_s(str, "resource\\ini\\fonts.ini");
     }
     const auto len = strlen(str) + 1;
@@ -402,11 +403,11 @@ bool DX9RENDER::Init() {
     strcpy_s(fontIniFileName, len, str);
     // get start font quantity
     if (!ini->ReadString(nullptr, "font", str, sizeof(str) - 1, "")) {
-      api->Trace("Start font not defined");
+      core.Trace("Start font not defined");
       sprintf_s(str, "normal");
     }
     if (LoadFont(str) == -1L)
-      api->Trace("can not init start font: %s", str);
+      core.Trace("can not init start font: %s", str);
     idFontCurrent = 0L;
 
     //Progress image parameters
@@ -440,15 +441,15 @@ bool DX9RENDER::Init() {
       xs = GetSystemMetrics(SM_CXSCREEN);
       ys = GetSystemMetrics(SM_CYSCREEN);
       if (bUseLargeBackBuffer)
-        MoveWindow(api->GetAppHWND(), 0, 0, xs, ys, true);
+        MoveWindow(core.GetAppHWND(), 0, 0, xs, ys, true);
       else
-        MoveWindow(api->GetAppHWND(), (xs - screen_size.x) / 2, (ys - screen_size.y) / 2, screen_size.x,
+        MoveWindow(core.GetAppHWND(), (xs - screen_size.x) / 2, (ys - screen_size.y) / 2, screen_size.x,
                    screen_size.y, true);
     }
 #endif
 
     CreateSphere();
-    auto* pScriptRender = static_cast<VDATA*>(api->GetScriptVariable("Render"));
+    auto* pScriptRender = static_cast<VDATA*>(core.GetScriptVariable("Render"));
     ATTRIBUTES* pARender = pScriptRender->GetAClass();
 
     pARender->SetAttributeUseDword("full_screen", !bWindow);
@@ -519,7 +520,7 @@ DX9RENDER::~DX9RENDER() {
 
   if (bPreparedCapture) {
     STORM_DELETE(lpbi);
-    ReleaseDC(api->GetAppHWND(), hDesktopDC);
+    ReleaseDC(core.GetAppHWND(), hDesktopDC);
     DeleteDC(hCaptureDC);
     DeleteObject(hCaptureBitmap);
   }
@@ -631,11 +632,11 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height) {
   bWindow = windowed;
 
   hwnd = _hwnd;
-  api->Trace("Initializing DirectX 9");
+  core.Trace("Initializing DirectX 9");
   d3d = Direct3DCreate9(D3D_SDK_VERSION);
   if (d3d == nullptr) {
     //MessageBox(hwnd, "Direct3DCreate9 error", "InitDevice::Direct3DCreate9", MB_OK);
-    api->Trace("Direct3DCreate9 error : InitDevice::Direct3DCreate9");
+    core.Trace("Direct3DCreate9 error : InitDevice::Direct3DCreate9");
     return false;
   }
 
@@ -716,7 +717,7 @@ bool DX9RENDER::InitDevice(bool windowed, HWND _hwnd, long width, long height) {
 	}
 	else
 	{
-		api->Trace("no standard supported video medes found [ 640*480, 720*480, 640*576, 720*576, 1280*720. 1920*1080");
+		core.Trace("no standard supported video medes found [ 640*480, 720*480, 640*576, 720*576, 1280*720. 1920*1080");
 	}
 #endif
 
@@ -1136,7 +1137,7 @@ bool DX9RENDER::DX9EndScene() {
   }
 
 #ifndef _XBOX
-  if (api->Controls->GetDebugAsyncKeyState(VK_MULTIPLY) < 0)
+  if (core.Controls->GetDebugAsyncKeyState(VK_MULTIPLY) < 0)
 #endif
   {
     //MEMORYSTATUS ms;
@@ -1148,12 +1149,12 @@ bool DX9RENDER::DX9EndScene() {
     GetTransform(D3DTS_VIEW, mView);
     mView.Transposition();
     Print(0, 0, "Cam: %.3f, %.3f, %.3f", mView.Pos().x, mView.Pos().y, mView.Pos().z);
-    Print(screen_size.x - 100, 50, "%d fps", api->EngineFps());
+    Print(screen_size.x - 100, 50, "%d fps", core.EngineFps());
 
     if (bShowFps) {
-      Print(screen_size.x - 100, 50, "%d", api->EngineFps());
+      Print(screen_size.x - 100, 50, "%d", core.EngineFps());
       /*MSTATE sms;
-      api->GetMemoryState(&sms);
+      core.GetMemoryState(&sms);
 
       //Print(80,50,"%d Kb",(ms.dwTotalPhys - ms.dwAvailPhys)/(1024));
 
@@ -1191,16 +1192,16 @@ bool DX9RENDER::DX9EndScene() {
   if (CHECKD3DERR(EndScene())) return false;
 
 #ifndef _XBOX
-  /*if (api->Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0 && api->Controls->GetDebugAsyncKeyState(VK_F6) < 0)
+  /*if (core.Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0 && core.Controls->GetDebugAsyncKeyState(VK_F6) < 0)
   {
   bVideoCapture ^= 1;
-  api->SetDeltaTime((bVideoCapture) ? long(1000.0f / fFixedFPS) : 0);
+  core.SetDeltaTime((bVideoCapture) ? long(1000.0f / fFixedFPS) : 0);
   if (!bVideoCapture)
   SaveCaptureBuffers();
   Sleep(300);
   }*/
 
-  // boal if (bMakeShoot || api->Controls->GetDebugAsyncKeyState(VK_F8) < 0)  MakeScreenShot();
+  // boal if (bMakeShoot || core.Controls->GetDebugAsyncKeyState(VK_F8) < 0)  MakeScreenShot();
   if (bMakeShoot || GetAsyncKeyState(VK_F8) < 0) MakeScreenShot();
 #endif
 
@@ -1256,7 +1257,7 @@ long DX9RENDER::TextureCreate(const char* fname) {
   //fs::path path = fs::path() / "resource" / "textures" / fname;
 
   if (fname == nullptr) {
-    api->Trace("Can't create texture with null name");
+    core.Trace("Can't create texture with null name");
     return -1L;
   }
 
@@ -1349,7 +1350,7 @@ bool DX9RENDER::TextureLoad(long t) {
   //fio->SetDrive();
   if (file == INVALID_HANDLE_VALUE) {
     if (bTrace) {
-      api->Trace("Can't load texture %s", fn);
+      core.Trace("Can't load texture %s", fn);
     }
     delete Textures[t].name;
     Textures[t].name = nullptr;
@@ -1360,7 +1361,7 @@ bool DX9RENDER::TextureLoad(long t) {
   uint32_t readingBytes = 0;
   if (!fio->_ReadFile(file, &head, sizeof(head), &readingBytes) || readingBytes != sizeof(head)) {
     if (bTrace) {
-      api->Trace("Can't load texture %s", fn);
+      core.Trace("Can't load texture %s", fn);
     }
     delete Textures[t].name;
     Textures[t].name = nullptr;
@@ -1373,7 +1374,7 @@ bool DX9RENDER::TextureLoad(long t) {
   for (textureFI = 0; textureFI < sizeof(textureFormats) / sizeof(SD_TEXTURE_FORMAT); textureFI++)
     if (textureFormats[textureFI].txFormat == head.format) break;
   if (textureFI == sizeof(textureFormats) / sizeof(SD_TEXTURE_FORMAT) || head.flags & TX_FLAGS_PALLETTE) {
-    if (bTrace) api->Trace("Invalidate texture format %s, not loading it.", fn);
+    if (bTrace) core.Trace("Invalidate texture format %s, not loading it.", fn);
     delete Textures[t].name;
     Textures[t].name = nullptr;
     fio->_CloseHandle(file);
@@ -1404,7 +1405,7 @@ bool DX9RENDER::TextureLoad(long t) {
       true
       || !tex) {
       if (bTrace)
-        api->Trace(
+        core.Trace(
           "Texture %s is not created (width: %i, height: %i, num mips: %i, format: %s), not loading it.", fn,
           head.width, head.height, head.nmips, formatTxt);
       delete Textures[t].name;
@@ -1431,7 +1432,7 @@ bool DX9RENDER::TextureLoad(long t) {
       //Если была ошибка, то прерываем загрузку
       if (isError) {
         if (bTrace)
-          api->Trace(
+          core.Trace(
             "Can't loading mip %i, texture %s is not created (width: %i, height: %i, num mips: %i, format: %s), not loading it.",
             m, fn, head.width, head.height, head.nmips, formatTxt);
         delete Textures[t].name;
@@ -1451,7 +1452,7 @@ bool DX9RENDER::TextureLoad(long t) {
   else {
     //Загрузка cubemap
     if (head.width != head.height) {
-      if (bTrace) api->Trace("Cube map texture can't has not squared sides %s, not loading it.", fn);
+      if (bTrace) core.Trace("Cube map texture can't has not squared sides %s, not loading it.", fn);
       delete Textures[t].name;
       Textures[t].name = nullptr;
       fio->_CloseHandle(file);
@@ -1461,7 +1462,7 @@ bool DX9RENDER::TextureLoad(long t) {
     D3DCAPS9 devcaps;
     if (CHECKD3DERR(d3d9->GetDeviceCaps(&devcaps))) {
       if (bTrace)
-        api->Trace(
+        core.Trace(
           "Cube map texture %s is not created (size: %i, num mips: %i, format: %s), not loading it.", fn,
           head.width, head.nmips, formatTxt);
       delete Textures[t].name;
@@ -1475,7 +1476,7 @@ bool DX9RENDER::TextureLoad(long t) {
     if (CHECKD3DERR(d3d9->CreateCubeTexture(head.width, head.nmips, 0, d3dFormat, D3DPOOL_MANAGED, &tex, NULL)) ==
       true || !tex) {
       if (bTrace)
-        api->Trace(
+        core.Trace(
           "Cube map texture %s is not created (size: %i, num mips: %i, format: %s), not loading it.", fn,
           head.width, head.nmips, formatTxt);
       delete Textures[t].name;
@@ -1527,7 +1528,7 @@ bool DX9RENDER::TextureLoad(long t) {
     else isError = true;
     if (isError) {
       if (bTrace)
-        api->Trace(
+        core.Trace(
           "Cube map texture %s can't loading (size: %i, num mips: %i, format: %s), not loading it.", fn,
           head.width, head.nmips, formatTxt);
       delete Textures[t].name;
@@ -1590,7 +1591,7 @@ uint32_t DX9RENDER::LoadCubmapSide(HANDLE file, IDirect3DCubeTexture9* tex, D3DC
     if (surface) surface->Release();
     //Если была ошибка, то прерываем загрузку
     if (isError) {
-      if (bTrace) api->Trace("Can't loading cubemap mip %i (side: %i), not loading it.", m, face);
+      if (bTrace) core.Trace("Can't loading cubemap mip %i (side: %i), not loading it.", m, face);
       return 0;
     }
     //Пересчитываем размеры для следующего мипа
@@ -1832,7 +1833,7 @@ bool DX9RENDER::SetCamera(CVECTOR lookFrom, CVECTOR lookTo, CVECTOR up) {
 }
 
 void DX9RENDER::ProcessScriptPosAng(const CVECTOR& vPos, const CVECTOR& vAng) {
-  api->Event("CameraPosAng", "ffffff", vPos.x, vPos.y, vPos.z, vAng.x, vAng.y, vAng.z);
+  core.Event("CameraPosAng", "ffffff", vPos.x, vPos.y, vPos.z, vAng.x, vAng.y, vAng.z);
 }
 
 void DX9RENDER::GetNearFarPlane(float& fNear, float& fFar) {
@@ -2232,7 +2233,7 @@ bool DX9RENDER::LoadState(ENTITY_STATE* state) {
   //d3d9 = NULL;
   //state->Struct(sizeof(screen_size),(char *)&screen_size);
   //state->MemoryBlock(sizeof(bool),(char *)&window);
-  //InitDevice(window,api->GetAppHWND(),screen_size.x,screen_size.y);
+  //InitDevice(window,core.GetAppHWND(),screen_size.x,screen_size.y);
   //UNGUARD
   return true;
 }
@@ -2375,7 +2376,7 @@ void DX9RENDER::SetGLOWParams(float _fBlurBrushSize, long _GlowIntensity, long _
 void DX9RENDER::RunStart() {
   bDeviceLost = true;
 
-  auto* pScriptRender = static_cast<VDATA*>(api->GetScriptVariable("Render"));
+  auto* pScriptRender = static_cast<VDATA*>(core.GetScriptVariable("Render"));
   ATTRIBUTES* pARender = pScriptRender->GetAClass();
 
   bSeaEffect = pARender->GetAttributeAsDword("SeaEffect", 0) != 0;
@@ -2384,7 +2385,7 @@ void DX9RENDER::RunStart() {
   dwBackColor = pARender->GetAttributeAsDword("BackColor", 0);
 
   if (bSeaEffect) {
-    fSin += static_cast<float>(api->GetRDeltaTime()) * 0.001f * fSeaEffectSpeed;
+    fSin += static_cast<float>(core.GetRDeltaTime()) * 0.001f * fSeaEffectSpeed;
 
     const auto sx = static_cast<float>(screen_size.x);
     const auto sy = static_cast<float>(screen_size.y);
@@ -2448,11 +2449,11 @@ void DX9RENDER::RunStart() {
 #ifndef _XBOX
 
   // boal del_cheat
-  if (api->Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0 && api->Controls->GetDebugAsyncKeyState(VK_F11) < 0) {
+  if (core.Controls->GetDebugAsyncKeyState(VK_SHIFT) < 0 && core.Controls->GetDebugAsyncKeyState(VK_F11) < 0) {
     RecompileEffects();
   }
 
-  SetRenderState(D3DRS_FILLMODE, (api->Controls->GetDebugAsyncKeyState('F') < 0) ? D3DFILL_WIREFRAME : D3DFILL_SOLID);
+  SetRenderState(D3DRS_FILLMODE, (core.Controls->GetDebugAsyncKeyState('F') < 0) ? D3DFILL_WIREFRAME : D3DFILL_SOLID);
   //SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID); eddy
 
 #else
@@ -2622,7 +2623,7 @@ long DX9RENDER::LoadFont(const char* fontName) {
       throw std::exception("allocate memory error");
     if (!FontList[i].font->Init(fontName, fontIniFileName, d3d9, this)) {
       delete FontList[i].font;
-      api->Trace("Can't init font %s", fontName);
+      core.Trace("Can't init font %s", fontName);
       return -1L;
     }
     FontList[i].hash = hashVal;
@@ -2652,7 +2653,7 @@ bool DX9RENDER::UnloadFont(const char* fontName) {
   for (int i = 0; i < nFontQuantity; i++)
     if (FontList[i].hash == hashVal && _stricmp(FontList[i].name, fontName) == 0)
       return UnloadFont(i);
-  api->Trace("Font name \"%s\" is not containing", fontName);
+  core.Trace("Font name \"%s\" is not containing", fontName);
   return false;
 }
 
@@ -2697,7 +2698,7 @@ bool DX9RENDER::SetCurFont(const char* fontName) {
       idFontCurrent = i;
       return true;
     }
-  api->Trace("Font name \"%s\" is not containing", fontName);
+  core.Trace("Font name \"%s\" is not containing", fontName);
   return false;
 }
 
@@ -2881,7 +2882,7 @@ void DX9RENDER::MakeScreenShot() {
   bMakeShoot = false;
 
   if (!(screen_bpp == D3DFMT_X8R8G8B8 || screen_bpp == D3DFMT_A8R8G8B8)) {
-    api->Trace("Can't make screenshots in non 32bit video modes");
+    core.Trace("Can't make screenshots in non 32bit video modes");
     return;
   }
 
@@ -2895,12 +2896,12 @@ void DX9RENDER::MakeScreenShot() {
 
   //Получаем картинку
   if (FAILED(GetRenderTarget(&renderTarget))) {
-    api->Trace("Falure get render target for make screenshot");
+    core.Trace("Falure get render target for make screenshot");
     return;
   }
   if (FAILED(CreateOffscreenPlainSurface(screen_size.x, screen_size.y, D3DFMT_X8R8G8B8, &surface))) {
     renderTarget->Release();
-    api->Trace("Falure create buffer for make screenshot");
+    core.Trace("Falure create buffer for make screenshot");
     return;
   }
 
@@ -2909,7 +2910,7 @@ void DX9RENDER::MakeScreenShot() {
     FAILED(surface->LockRect(&lr, &r, 0))) {
     surface->Release();
     renderTarget->Release();
-    api->Trace("Falure make screenshot");
+    core.Trace("Falure make screenshot");
     return;
   }
   renderTarget->Release();
@@ -2926,7 +2927,7 @@ void DX9RENDER::MakeScreenShot() {
   if (fh == INVALID_HANDLE_VALUE) {
     surface->UnlockRect();
     surface->Release();
-    api->Trace("Can't create screenshot file");
+    core.Trace("Can't create screenshot file");
     return;
   }
   fio->_WriteFile(fh, &Dhdr, sizeof(TGA_H), nullptr);
@@ -3477,7 +3478,7 @@ void DX9RENDER::PlayToTexture() {
       cur = cur->next;
     }
     else {
-      api->Trace("ERROR: void DX9RENDER::PlayToTexture()");
+      core.Trace("ERROR: void DX9RENDER::PlayToTexture()");
       delete cur->name;
       VideoTextureEntity* pcur = cur;
       cur = cur->next;
@@ -3607,7 +3608,7 @@ void DX9RENDER::StartProgressView() {
     const long t = TextureCreate("Loading\\progress.tga");
     isInPViewProcess = false;
     if (t < 0) {
-      api->Trace("Progress error!");
+      core.Trace("Progress error!");
       return;
     }
     progressTexture = t;
@@ -3865,7 +3866,7 @@ bool DX9RENDER::PushRenderTarget() {
 
 bool DX9RENDER::PopRenderTarget() {
   if (stRenderTarget.empty()) {
-    api->Trace("DX9Error: Try to pop RenderTarget, but RenderTarget stack is empty");
+    core.Trace("DX9Error: Try to pop RenderTarget, but RenderTarget stack is empty");
     return false;
   }
 

@@ -161,7 +161,7 @@ void BaseEmitter::IncreaseTime(float DeltaTime) {
 }
 
 void BaseEmitter::CreateBillBoardParticle(FieldList& Fields) {
-  //	api->Trace("Create BB Particle\n");
+  //	core.Trace("Create BB Particle\n");
 
   ParticleTypes.push_back(structParticleType{});
   //structParticleType* NewBillBoard = &ParticleTypes[ParticleTypes.Add()];
@@ -174,11 +174,11 @@ void BaseEmitter::CreateBillBoardParticle(FieldList& Fields) {
   NewBillBoard->pFields = &Fields;
   NewBillBoard->Visible = true;
 
-  //	api->Trace("%d", NewBillBoard->MaxParticlesCount);
+  //	core.Trace("%d", NewBillBoard->MaxParticlesCount);
 }
 
 void BaseEmitter::CreateModelParticle(FieldList& Fields) {
-  //	api->Trace("Create MODEL Particle\n");
+  //	core.Trace("Create MODEL Particle\n");
 
   ParticleTypes.push_back(structParticleType{});
   //structParticleType* NewModel = &ParticleTypes[ParticleTypes.Add()];

@@ -91,8 +91,8 @@ enum eSoundMessage {
 #define SOUND_TRACE(a)    true
 #define SOUND_TRACE2(a,b) true
 #else
-	#define SOUND_TRACE(a)    _VSYSTEM_API->Trace(a);
-	#define SOUND_TRACE2(a,b) _VSYSTEM_API->Trace(a,b);
+	#define SOUND_TRACE(a)    _VSYSTEM_core.Trace(a);
+	#define SOUND_TRACE2(a,b) _VSYSTEM_core.Trace(a,b);
 #endif
 
 #define THROW_STRING(s, p) { static char _tmpString[2048]; sprintf_s(_tmpString, s, p); throw _tmpString; }

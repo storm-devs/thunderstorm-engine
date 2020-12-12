@@ -1,19 +1,31 @@
 #pragma once
 
 #include <Windows.h>
-#include "vapi.h"
+// common includes
+#include <EntityManager.h>
+#include <controls.h>
+#include <vdata.h>
+#include <message.h>
+#include <vfile_service.h>
+//
+#include "../Sources/timer.h"
+#include "../Sources/services_list.h"
+//#include "../Sources/compiler.h"
 
-#include "timer.h"
-#include "services_list.h"
-#include "compiler.h"
 
-#include "EntityManager.h"
+
 
 #define ENGINE_SCRIPT_VERSION		54128
 
-class CORE : public VAPI
+class COMPILER;
+class IFUNCINFO;
+class VDATA;
+class CORE
 {
 public:
+	CONTROLS* Controls;
+
+
 	CORE();
 	~CORE() = default;
 	
@@ -59,7 +71,7 @@ public:
 
 	//INPUT * Input;
 
-	COMPILER Compiler;
+	COMPILER * Compiler;
 	//PROGRAM Program;
 
 	void ProcessControls();
@@ -82,58 +94,61 @@ public:
 	// common programm control
 
 	// shutdown core, delete all objects and close programm
-	void Exit() override;
+	void Exit();
 	// return application handle
-	HWND GetAppHWND() override;
-	HINSTANCE GetAppInstance() override;
+	HWND GetAppHWND();
+	HINSTANCE GetAppInstance();
 	// set time scale; affect on std entity functions DeltaTime parameter
-	void  SetTimeScale(float _scale) override;
+	void  SetTimeScale(float _scale);
 	// write message to system log file
-	void Trace(const char * Format,...) override;
+	void Trace(const char * Format,...);
 
 	// return service object pointer; 
-	void * CreateService(const char * service_name) override;
+	void * CreateService(const char * service_name);
 
-	ATTRIBUTES * Entity_GetAttributeClass(entid_t id_PTR, const char * name) override;
-	char *	Entity_GetAttribute(entid_t id_PTR, const char * name) override;
-	uint32_t	Entity_GetAttributeAsDword(entid_t id_PTR, const char * name, uint32_t def = 0) override;
-	FLOAT	Entity_GetAttributeAsFloat(entid_t id_PTR, const char * name, FLOAT def = 0) override;
-	bool	Entity_SetAttribute(entid_t id_PTR, const char * name, const char * attribute) override;
-	bool	Entity_SetAttributeUseDword(entid_t id_PTR, const char * name, uint32_t val) override;
-	bool	Entity_SetAttributeUseFloat(entid_t id_PTR, const char * name, FLOAT val) override;
-	void	Entity_SetAttributePointer(entid_t id_PTR, ATTRIBUTES * pA) override;
+	ATTRIBUTES * Entity_GetAttributeClass(entid_t id_PTR, const char * name);
+	char *	Entity_GetAttribute(entid_t id_PTR, const char * name);
+	uint32_t	Entity_GetAttributeAsDword(entid_t id_PTR, const char * name, uint32_t def = 0);
+	FLOAT	Entity_GetAttributeAsFloat(entid_t id_PTR, const char * name, FLOAT def = 0);
+	bool	Entity_SetAttribute(entid_t id_PTR, const char * name, const char * attribute);
+	bool	Entity_SetAttributeUseDword(entid_t id_PTR, const char * name, uint32_t val);
+	bool	Entity_SetAttributeUseFloat(entid_t id_PTR, const char * name, FLOAT val);
+	void	Entity_SetAttributePointer(entid_t id_PTR, ATTRIBUTES * pA);
 	uint32_t	Entity_AttributeChanged(entid_t id_PTR, ATTRIBUTES *);
-	ATTRIBUTES * Entity_GetAttributePointer(entid_t id_PTR) override;
+	ATTRIBUTES * Entity_GetAttributePointer(entid_t id_PTR);
 	
 	// messeges system
 
 	// send message to an object
-	uint64_t Send_Message(entid_t Destination, const char * Format,...) override;
+	uint64_t Send_Message(entid_t Destination, const char * Format,...);
 	
 	// save core state
-	bool SaveState(const char * file_name) override;
+	bool SaveState(const char * file_name);
 	// force core to load state file at the start of next game loop, return false if no state file
-	bool InitiateStateLoading(const char * file_name) override;
+	bool InitiateStateLoading(const char * file_name);
 
 	// return current fps
-	uint32_t EngineFps() override;
+	uint32_t EngineFps();
 	// set fixed delta time mode, (-1) - off
-	void SetDeltaTime(long delta_time) override;
-	uint32_t GetDeltaTime() override;
-	uint32_t GetRDeltaTime() override;
+	void SetDeltaTime(long delta_time);
+	uint32_t GetDeltaTime();
+	uint32_t GetRDeltaTime();
 	//
-	VDATA * Event(const char * Event_name, const char * Format,...) override;
-	uint32_t PostEvent(const char * Event_name, uint32_t post_time, const char * Format,...) override;
+	VDATA * Event(const char * Event_name, const char * Format = nullptr,...);
+	uint32_t PostEvent(const char * Event_name, uint32_t post_time, const char * Format,...);
 
-	void * GetSaveData(const char * file_name, long & data_size) override;
+	void * GetSaveData(const char * file_name, long & data_size);
 	
-	bool SetSaveData(const char * file_name, void * data_ptr, long data_size) override;
+	bool SetSaveData(const char * file_name, void * data_ptr, long data_size);
 
-	uint32_t SetScriptFunction(IFUNCINFO * pFuncInfo) override;
+	uint32_t SetScriptFunction(IFUNCINFO * pFuncInfo);
 
-	char * EngineIniFileName() override;
+	char * EngineIniFileName();
 
-	void * GetScriptVariable(const char * pVariableName, uint32_t * pdwVarIndex) override;
+	void * GetScriptVariable(const char * pVariableName, uint32_t * pdwVarIndex = nullptr);
 
 	bool LoCheck();
 };
+
+// core instance
+inline CORE core;

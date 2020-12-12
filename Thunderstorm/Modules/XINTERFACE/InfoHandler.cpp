@@ -1,4 +1,7 @@
 #include "InfoHandler.h"
+
+#include <core.h>
+
 #include "vmodule_api.h"
 
 InfoHandler::InfoHandler() {
@@ -13,9 +16,9 @@ InfoHandler::~InfoHandler() {
 
 bool InfoHandler::Init() {
   // получить сервис рендера
-  m_rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  m_rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (!m_rs) {
-    api->Trace("No service: dx9render");
+    core.Trace("No service: dx9render");
     return false;
   }
   if (m_rs->IsInsideScene()) {
@@ -23,7 +26,7 @@ bool InfoHandler::Init() {
   }
 
   if (m_rs->GetRenderTarget(&m_pRenderTarget) != D3D_OK || !m_pRenderTarget) {
-    api->Trace("Can`t get render target");
+    core.Trace("Can`t get render target");
     return false;
   }
 
@@ -39,7 +42,7 @@ bool InfoHandler::Init() {
     }
   }
   if (!isOk) {
-    api->Trace("Screen shot for info shower not created!");
+    core.Trace("Screen shot for info shower not created!");
     if (m_pSurface) {
       m_rs->Release(m_pSurface);
       m_pSurface = nullptr;
@@ -62,7 +65,7 @@ void InfoHandler::Realize(uint32_t delta_time) const {
   m_rs->MakePostProcess();
   // Поддерживаем постоянный экран
   if (m_rs->UpdateSurface(m_pSurface, nullptr, 0, m_pRenderTarget, nullptr) != D3D_OK) {
-    api->Trace("Can't copy fader screen shot to render target!");
+    core.Trace("Can't copy fader screen shot to render target!");
   }
 }
 
@@ -294,7 +297,7 @@ void InfoHandler::RestoreRender()
 {
 	if (m_rs->GetRenderTarget(&m_pRenderTarget) != D3D_OK)
 	{
-		api->Trace("Can`t get render target");
+		core.Trace("Can`t get render target");
 		return;
 	}
 
@@ -315,7 +318,7 @@ void InfoHandler::RestoreRender()
 	}
 	if (!isOk)
 	{
-		api->Trace("Screen shot for info shower not created!");
+		core.Trace("Screen shot for info shower not created!");
 		if (m_pSurface)
 		{
 			m_rs->Release(m_pSurface); m_pSurface = 0;

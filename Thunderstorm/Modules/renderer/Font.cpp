@@ -28,7 +28,7 @@ FONT::~FONT() {
   if (VBuffer) VBuffer->Release();
   if (RenderService) {
     if (TextureID >= 0) RenderService->TextureRelease(TextureID);
-    //api->FreeService("dx9render");
+    //core.FreeService("dx9render");
   }
 }
 
@@ -163,7 +163,7 @@ bool FONT::Init(const char* font_name, const char* iniName, IDirect3DDevice9* _d
 
   TextureID = RenderService->TextureCreate(textureName);
   if (TextureID < 0) {
-    api->Trace("Not Found Texture: %s", textureName);
+    core.Trace("Not Found Texture: %s", textureName);
     return false;
   }
 

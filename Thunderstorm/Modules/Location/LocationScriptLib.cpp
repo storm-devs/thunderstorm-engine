@@ -1,7 +1,8 @@
 #include "LocationScriptLib.h"
 #include "v_s_stack.h"
 #include "Fader.h"
-#include "EntityManager.h"
+#include <Entity.h>
+#include "s_import_func.h"
 
 //============================================================================================
 
@@ -176,7 +177,7 @@ uint32_t slNativeSetReloadBackImage(VS_STACK* pS) {
   const char* nm = nullptr;
   if (!pStr->Get(nm)) return IFUNCRESULT_FAILED;
   //Устанавливаем картинку
-  VDX9RENDER* rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  VDX9RENDER* rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (rs) {
     rs->SetProgressImage(nm);
   }
@@ -184,19 +185,19 @@ uint32_t slNativeSetReloadBackImage(VS_STACK* pS) {
 }
 
 uint32_t slNativeReloadProgressStart(VS_STACK* pS) {
-  VDX9RENDER* rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  VDX9RENDER* rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (rs) rs->StartProgressView();
   return IFUNCRESULT_OK;
 }
 
 uint32_t slNativeReloadProgressUpdate(VS_STACK* pS) {
-  VDX9RENDER* rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  VDX9RENDER* rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (rs) rs->ProgressView();
   return IFUNCRESULT_OK;
 }
 
 uint32_t slNativeReloadProgressEnd(VS_STACK* pS) {
-  auto* rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  auto* rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (rs) rs->EndProgressView();
   return IFUNCRESULT_OK;
 }
@@ -218,7 +219,7 @@ uint32_t slNativeExecuteTechnique(VS_STACK* pS) {
   if (!pStr->Get(nm)) return IFUNCRESULT_FAILED;
   //Исполить технику
   if (nm && nm[0]) {
-    auto* rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+    auto* rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
     rs->TechniqueExecuteStart(nm);
     while (rs->TechniqueExecuteNext());
   }
@@ -254,67 +255,67 @@ bool ScriptLocationLibrary::Init() {
   sIFuncInfo.pFuncName = "NativeFindCharacter";
   sIFuncInfo.pReturnValueName = "int";
   sIFuncInfo.pFuncAddress = slNativeFindCharacter;
-  api->SetScriptFunction(&sIFuncInfo);
+  core.SetScriptFunction(&sIFuncInfo);
 
   sIFuncInfo.nArguments = 2;
   sIFuncInfo.pFuncName = "NativeFindLocation";
   sIFuncInfo.pReturnValueName = "int";
   sIFuncInfo.pFuncAddress = slNativeFindLocation;
-  api->SetScriptFunction(&sIFuncInfo);
+  core.SetScriptFunction(&sIFuncInfo);
 
   sIFuncInfo.nArguments = 0;
   sIFuncInfo.pFuncName = "NativeFindLoadCharacter";
   sIFuncInfo.pReturnValueName = "int";
   sIFuncInfo.pFuncAddress = slNativeFindLaodLocation;
-  api->SetScriptFunction(&sIFuncInfo);
+  core.SetScriptFunction(&sIFuncInfo);
 
   sIFuncInfo.nArguments = 1;
   sIFuncInfo.pFuncName = "SetReloadProgressBackImage";
   sIFuncInfo.pReturnValueName = "void";
   sIFuncInfo.pFuncAddress = slNativeSetReloadBackImage;
-  api->SetScriptFunction(&sIFuncInfo);
+  core.SetScriptFunction(&sIFuncInfo);
 
   sIFuncInfo.nArguments = 0;
   sIFuncInfo.pFuncName = "SetReloadNextTipsImage";
   sIFuncInfo.pReturnValueName = "void";
   sIFuncInfo.pFuncAddress = slNativeSetReloadNextTipsImage;
-  api->SetScriptFunction(&sIFuncInfo);
+  core.SetScriptFunction(&sIFuncInfo);
 
   sIFuncInfo.nArguments = 0;
   sIFuncInfo.pFuncName = "ReloadProgressStart";
   sIFuncInfo.pReturnValueName = "void";
   sIFuncInfo.pFuncAddress = slNativeReloadProgressStart;
-  api->SetScriptFunction(&sIFuncInfo);
+  core.SetScriptFunction(&sIFuncInfo);
 
   sIFuncInfo.nArguments = 0;
   sIFuncInfo.pFuncName = "ReloadProgressUpdate";
   sIFuncInfo.pReturnValueName = "void";
   sIFuncInfo.pFuncAddress = slNativeReloadProgressUpdate;
-  api->SetScriptFunction(&sIFuncInfo);
+  core.SetScriptFunction(&sIFuncInfo);
 
   sIFuncInfo.nArguments = 0;
   sIFuncInfo.pFuncName = "ReloadProgressEnd";
   sIFuncInfo.pReturnValueName = "void";
   sIFuncInfo.pFuncAddress = slNativeReloadProgressEnd;
-  api->SetScriptFunction(&sIFuncInfo);
+  core.SetScriptFunction(&sIFuncInfo);
 
   sIFuncInfo.nArguments = 1;
   sIFuncInfo.pFuncName = "SystemDelay";
   sIFuncInfo.pReturnValueName = "void";
   sIFuncInfo.pFuncAddress = slNativeSleep;
-  api->SetScriptFunction(&sIFuncInfo);
+  core.SetScriptFunction(&sIFuncInfo);
 
   sIFuncInfo.nArguments = 1;
   sIFuncInfo.pFuncName = "ExecuteTechnique";
   sIFuncInfo.pReturnValueName = "void";
   sIFuncInfo.pFuncAddress = slNativeExecuteTechnique;
-  api->SetScriptFunction(&sIFuncInfo);
+  core.SetScriptFunction(&sIFuncInfo);
 
   sIFuncInfo.nArguments = 0;
   sIFuncInfo.pFuncName = "GetNextLineString";
   sIFuncInfo.pReturnValueName = "string";
   sIFuncInfo.pFuncAddress = slGetNextLineString;
-  api->SetScriptFunction(&sIFuncInfo);
+  core.SetScriptFunction(&sIFuncInfo);
 
   return true;
 }

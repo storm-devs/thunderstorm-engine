@@ -1,3 +1,5 @@
+#include <core.h>
+
 #include "geometry_R.h"
 
 INTERFACE_FUNCTION
@@ -46,14 +48,14 @@ void GEOMETRY::SetVBConvertFunc(VERTEX_TRANSFORM _transform_func) {
 static bool geoLog = false;
 
 bool GEOMETRY::Init() {
-  RenderService = static_cast<VDX9RENDER*>(api->CreateService(RenderServiceName));
+  RenderService = static_cast<VDX9RENDER*>(core.CreateService(RenderServiceName));
   if (!RenderService) {
-    api->Trace("No service: %s", RenderServiceName);
+    core.Trace("No service: %s", RenderServiceName);
   }
   GSR.SetRenderService(RenderService);
 
   INIFILE* ini;
-  ini = fio->OpenIniFile(api->EngineIniFileName());
+  ini = fio->OpenIniFile(core.EngineIniFileName());
   if (ini) {
     geoLog = ini->GetLong(nullptr, "geometry_log", 0) == 1;
     delete ini;
@@ -109,11 +111,11 @@ GEOS* GEOMETRY::CreateGeometry(const char* file_name, const char* light_file_nam
     }
   }
   catch (const char* ee) {
-    api->Trace("%s: %s", fnt, ee);
+    core.Trace("%s: %s", fnt, ee);
     return nullptr;
   }
   catch (...) {
-    api->Trace("Invalid model: %s", fnt);
+    core.Trace("Invalid model: %s", fnt);
     return nullptr;
   }
 
@@ -170,7 +172,7 @@ HANDLE GEOM_SERVICE_R::OpenFile(const char* fname) {
   if (RenderService) RenderService->ProgressView();
   auto* const fl = fio->_CreateFile(fname,GENERIC_READ,FILE_SHARE_READ,OPEN_EXISTING);
   if (fl == INVALID_HANDLE_VALUE)
-    if (_strcmpi(&fname[strlen(fname) - 4], ".col") == 0); //	api->Trace("geometry::can't open file %s", fname);
+    if (_strcmpi(&fname[strlen(fname) - 4], ".col") == 0); //	core.Trace("geometry::can't open file %s", fname);
     else throw "can't open geometry file";
   return fl;
 }

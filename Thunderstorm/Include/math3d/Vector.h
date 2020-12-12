@@ -261,7 +261,7 @@ inline float Vector::operator ~() const {
 inline Vector Vector::operator !() const {
   auto v(*this);
   auto length = v.Normalize();
-  //assert(fabsf(length) > 1e-20);
+  //Assert(fabsf(length) > 1e-20);
   return v;
 }
 

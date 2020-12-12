@@ -202,7 +202,7 @@ float AIShipTouchController::GetBestRotateDirection() {
 void AIShipTouchController::Realize(float fDeltaTime) {
 #ifndef _XBOX
   /* espkk. code was unreachable (return)
-   *if (api->Controls->GetDebugAsyncKeyState('G')<0)
+   *if (core.Controls->GetDebugAsyncKeyState('G')<0)
   {
     uint32_t			i;
     CMatrix			m;

@@ -11,8 +11,8 @@
 #ifndef _LocLife_h_
 #define _LocLife_h_
 
-#include "vmodule_api.h"
 #include "Animation.h"
+#include <Entity.h>
 
 class Location;
 class Animation;

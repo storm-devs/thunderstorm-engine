@@ -9,7 +9,7 @@
 //============================================================================================
 
 #include "WideScreen.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 //============================================================================================
 //Конструирование, деструктурирование
@@ -26,10 +26,10 @@ WideScreen::~WideScreen() {
 //Инициализация
 bool WideScreen::Init() {
   //Layers
-  //api->LayerCreate("realize", true, false);
+  //core.LayerCreate("realize", true, false);
   EntityManager::SetLayerType(REALIZE, EntityManager::Layer::Type::realize);
   EntityManager::AddToLayer(REALIZE, GetId(), -257);
-  rs = static_cast<VDX9RENDER*>(api->CreateService("dx9render"));
+  rs = static_cast<VDX9RENDER*>(core.CreateService("dx9render"));
   if (!rs) throw std::exception("No service: dx9render");
   D3DVIEWPORT9 vp;
   rs->GetViewport(&vp);

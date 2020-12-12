@@ -8,6 +8,8 @@
 #include "geos.h"
 #include "model.h"
 
+class VDATA;
+
 struct SAILGROUP {
   uint32_t nVert, nIndx;
   long vertBuf, indxBuf;

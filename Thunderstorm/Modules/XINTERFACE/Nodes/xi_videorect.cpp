@@ -1,6 +1,6 @@
 #include "xi_videorect.h"
 #include "../base_video.h"
-#include "EntityManager.h"
+#include <Entity.h>
 
 CXI_VIDEORECT::CXI_VIDEORECT() {
   m_rs = nullptr;
@@ -75,7 +75,7 @@ void CXI_VIDEORECT::SaveParametersToIni() {
 
   auto* pIni = fio->OpenIniFile((char*)ptrOwner->m_sDialogFileName.c_str());
   if (!pIni) {
-    api->Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
+    core.Trace("Warning! Can`t open ini file name %s", ptrOwner->m_sDialogFileName.c_str());
     return;
   }
 
@@ -116,15 +116,15 @@ void CXI_VIDEORECT::StartVideoPlay(char* videoFileName) {
   m_rectTex.top = 1.f - m_rectTex.top;
   if (auto* const ptr = EntityManager::GetEntityPointer(m_eiVideo))
     static_cast<xiBaseVideo*>(ptr)->SetShowVideo(false);
-  api->Send_Message(m_eiVideo, "ls", MSG_SET_VIDEO_PLAY, videoFileName);
+  core.Send_Message(m_eiVideo, "ls", MSG_SET_VIDEO_PLAY, videoFileName);
 
 
 #else
 	EntityManager::CreateEntity( &m_eiVideo, "WMVideoPlay" );
-	api->Send_Message(m_eiVideo, "ls", MSG_SET_VIDEO_PLAY, videoFileName);
+	core.Send_Message(m_eiVideo, "ls", MSG_SET_VIDEO_PLAY, videoFileName);
 	float fScrW = (float)m_screenSize.x;
 	float fScrH = (float)m_screenSize.y;
-	api->Send_Message(m_eiVideo, "lffffffff", 40123,
+	core.Send_Message(m_eiVideo, "lffffffff", 40123,
 		m_rectTex.left, m_rectTex.top, m_rectTex.right, m_rectTex.bottom,
 		m_rect.left/fScrW, m_rect.top/fScrH, m_rect.right/fScrW, m_rect.bottom/fScrH);
 #endif

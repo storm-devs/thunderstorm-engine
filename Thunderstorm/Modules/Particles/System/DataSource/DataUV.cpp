@@ -57,7 +57,7 @@ void DataUV::Load(MemFile* File) {
 }
 
 void DataUV::SetName(const char* szName) {
-  //api->Trace("DataUV::SetName - '%s'", szName);
+  //core.Trace("DataUV::SetName - '%s'", szName);
   Name = szName;
 }
 
