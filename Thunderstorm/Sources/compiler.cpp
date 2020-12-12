@@ -81,6 +81,7 @@ COMPILER::COMPILER() {
   rAP = nullptr;
   //bScriptTrace = false;
   bFirstRun = true;
+  pBuffer = nullptr;
 }
 
 COMPILER::~COMPILER() {

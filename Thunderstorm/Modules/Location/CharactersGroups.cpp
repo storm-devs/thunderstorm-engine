@@ -862,7 +862,7 @@ CharactersGroups::Group* CharactersGroups::FindGroup(const char* name) {
 }
 
 //Найти группу по имени
-inline long CharactersGroups::FindGroupIndex(const char* name) {
+long CharactersGroups::FindGroupIndex(const char* name) {
   if (!name) return -1;
   const auto l = String::GetLen(name);
   const auto h = String::GetHash(name);
@@ -886,8 +886,7 @@ CharactersGroups::Relation& CharactersGroups::FindRelation(MESSAGE& message, boo
 }
 
 //Найти отношение групп
-inline CharactersGroups::Relation&
-CharactersGroups::FindRelation(const char* name1, const char* name2, bool* selfgroup) {
+CharactersGroups::Relation& CharactersGroups::FindRelation(const char* name1, const char* name2, bool* selfgroup) {
   auto g1 = FindGroupIndex(name1);
   if (g1 < 0) {
     RegistryGroup(name1);
@@ -904,7 +903,7 @@ CharactersGroups::FindRelation(const char* name1, const char* name2, bool* selfg
 }
 
 //Найти отношение групп
-inline CharactersGroups::Relation& CharactersGroups::FindRelation(long g1, long g2, bool* selfgroup) {
+CharactersGroups::Relation& CharactersGroups::FindRelation(long g1, long g2, bool* selfgroup) {
   Assert(g1 >= 0 && g1 < numGroups);
   Assert(g2 >= 0 && g2 < numGroups);
   if (selfgroup) *selfgroup = (g1 == g2);
@@ -915,7 +914,7 @@ inline CharactersGroups::Relation& CharactersGroups::FindRelation(long g1, long 
 }
 
 //Получить индекс группы персонажа
-inline long CharactersGroups::GetCharacterGroup(Character* c) {
+long CharactersGroups::GetCharacterGroup(Character* c) {
   if (!c) return -1;
   if (c->groupID >= 0 && c->groupID < numGroups) {
     if (_stricmp(c->group, groups[c->groupID]->name) == 0) {
