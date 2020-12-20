@@ -3,6 +3,7 @@
 #include "../Utils.h"
 #include "../../Shared/battle_interface/msg_control.h"
 #include "vmodule_api.h"
+#include <core.h>
 
 BIManSign::BIManSign(entid_t BIEntityID, VDX9RENDER* pRS) {
   Assert(pRS);

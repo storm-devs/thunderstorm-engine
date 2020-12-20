@@ -1,4 +1,7 @@
 #include "seafoam_ps.h"
+
+#include <core.h>
+
 #include "object.h"
 #include <Entity.h>
 

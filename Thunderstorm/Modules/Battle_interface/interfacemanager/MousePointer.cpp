@@ -2,6 +2,7 @@
 #include "../Utils.h"
 #include "../image/imgrender.h"
 #include "vmodule_api.h"
+#include <core.h>
 
 #define BI_MOUSECURSOR_ICON_ORDER	35000
 

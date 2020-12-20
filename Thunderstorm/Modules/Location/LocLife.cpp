@@ -16,6 +16,7 @@
 #include "../../Shared/messages.h"
 #include <Entity.h>
 #include <model.h>
+#include <core.h>
 
 //============================================================================================
 

@@ -10,6 +10,7 @@
 
 #include "AnimationImp.h"
 #include "AnimationServiceImp.h"
+#include <core.h>
 
 //============================================================================================
 

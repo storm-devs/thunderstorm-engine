@@ -4,6 +4,7 @@
 #include "ship_base.h"
 #include <Entity.h>
 #include <message.h>
+#include <core.h>
 
 // определим вертексы
 #define SPV_FORMAT		(D3DFVF_XYZ|D3DFVF_TEX1|D3DFVF_TEXTUREFORMAT2)

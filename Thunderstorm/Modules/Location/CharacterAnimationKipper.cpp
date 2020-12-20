@@ -11,6 +11,7 @@
 #include "CharacterAnimationKipper.h"
 #include "dx9render.h"
 #include <Entity.h>
+#include <core.h>
 
 //============================================================================================
 //Конструирование, деструктурирование

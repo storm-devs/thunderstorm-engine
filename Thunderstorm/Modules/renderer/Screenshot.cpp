@@ -2,6 +2,7 @@
 
 #include "sdevice.h"
 #include "tga.h"
+#include <core.h>
 
 void DX9RENDER::PrepareCapture() {
   hDesktopDC = GetDC(core.GetAppHWND());

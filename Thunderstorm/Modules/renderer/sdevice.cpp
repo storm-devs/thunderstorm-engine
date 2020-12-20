@@ -1,4 +1,7 @@
 #include "sdevice.h"
+
+#include <core.h>
+
 #include "filesystem.h"
 #include "texture.h"
 #include "script_libriary.h"

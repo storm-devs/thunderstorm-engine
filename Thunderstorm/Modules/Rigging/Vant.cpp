@@ -5,6 +5,7 @@
 #include "rigging_define.h"
 #include <Entity.h>
 #include "vfile_service.h"
+#include <core.h>
 
 VANT::VANT() {
   bUse = false;

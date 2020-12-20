@@ -1,6 +1,7 @@
 #include "TFlotsam.h"
 #include "../../Shared/messages.h"
 #include <Entity.h>
+#include <core.h>
 
 int TFlotsam::modelsInitialized = 0;
 MODEL* TFlotsam::models[FLOTSAM_MODELS_COUNT];

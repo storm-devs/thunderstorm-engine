@@ -8,7 +8,7 @@
 #include "types3d.h"
 #include "object.h"
 #include <Entity.h>
-
+#include <core.h>
 
 class LOCAL_COLLIDE {
 public:

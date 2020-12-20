@@ -13,6 +13,7 @@
 #include "geometry.h"
 #include "../../Shared/messages.h"
 #include <Entity.h>
+#include <core.h>
 
 
 LocEagle::LocEagle() {

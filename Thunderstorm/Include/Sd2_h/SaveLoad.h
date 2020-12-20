@@ -3,6 +3,7 @@
 
 #include <string>
 #include "vdata.h"
+#include <core.h>
 #include "../defines.h"
 
 class CSaveLoad {

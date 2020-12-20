@@ -7,6 +7,7 @@
 
 #include "../../Shared/bimanager/messages.h"
 #include "vmodule_api.h"
+#include <core.h>
 
 BI_InterfaceManager::BI_InterfaceManager() {
   m_pRS = nullptr;

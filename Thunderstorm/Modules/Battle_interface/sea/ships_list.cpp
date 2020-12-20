@@ -1,5 +1,8 @@
 #include <cassert>
 #include "ships_list.h"
+
+#include <core.h>
+
 #include "../../Shared/battle_interface/msg_control.h"
 #include <Entity.h>
 //#include "battle_command.h"

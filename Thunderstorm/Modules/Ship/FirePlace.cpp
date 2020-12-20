@@ -3,6 +3,7 @@
 #include "../../Shared/messages.h"
 #include "Sd2_h/SaveLoad.h"
 #include <Entity.h>
+#include <core.h>
 
 entid_t FirePlace::eidSound;
 

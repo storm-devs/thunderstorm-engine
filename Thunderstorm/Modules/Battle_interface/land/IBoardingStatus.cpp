@@ -3,6 +3,7 @@
 #include "IBoardingStatus.h"
 #include <Entity.h>
 #include <message.h>
+#include <core.h>
 
 IBoardingStatus::IBoardingStatus() {
   rs = nullptr;

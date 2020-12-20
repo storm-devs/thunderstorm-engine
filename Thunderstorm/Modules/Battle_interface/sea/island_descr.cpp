@@ -1,4 +1,7 @@
 #include "island_descr.h"
+
+#include <core.h>
+
 #include "model.h"
 #include "../../Shared/battle_interface/msg_control.h"
 

@@ -10,6 +10,7 @@
 #include <Entity.h>
 #include <message.h>
 #include <controls.h>
+#include <core.h>
 
 void ISPYGLASS::ImageParam::Release() {
   STORM_DELETE(pImage);

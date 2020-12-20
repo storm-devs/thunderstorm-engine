@@ -3,6 +3,7 @@
 #include "sea/ships_list.h"
 #include "Utils.h"
 #include "../../Shared/battle_interface/msg_control.h"
+#include <core.h>
 
 BICommandList::BICommandList(entid_t eid, ATTRIBUTES* pA, VDX9RENDER* rs) {
   m_idHostObj = eid;

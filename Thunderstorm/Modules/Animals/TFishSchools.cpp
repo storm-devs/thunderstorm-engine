@@ -4,6 +4,7 @@
 #include "defines.h"
 #include <Entity.h>
 #include "vfile_service.h"
+#include <core.h>
 
 //--------------------------------------------------------------------
 TFishSchools::TFishSchools()

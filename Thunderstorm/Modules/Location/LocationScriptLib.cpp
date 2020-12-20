@@ -3,6 +3,7 @@
 #include "Fader.h"
 #include <Entity.h>
 #include "s_import_func.h"
+#include <core.h>
 
 //============================================================================================
 

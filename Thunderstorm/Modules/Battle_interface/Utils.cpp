@@ -1,4 +1,7 @@
 #include "Utils.h"
+
+#include <core.h>
+
 #include "image/imgrender.h"
 #include "vmodule_api.h"
 

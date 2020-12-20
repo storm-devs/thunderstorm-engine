@@ -1,6 +1,9 @@
 #include <stdio.h>
 
 #include "ibattle.h"
+
+#include <core.h>
+
 #include "island_descr.h"
 #include "ShipPointer.h"
 #include "battle_shipsign.h"

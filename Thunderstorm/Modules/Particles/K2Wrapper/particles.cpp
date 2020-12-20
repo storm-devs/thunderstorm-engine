@@ -7,6 +7,7 @@
 #include "particles/iparticlemanager.h"
 #include "particles/iparticlesservice.h"
 #include "particles/iparticlesystem.h"
+#include <core.h>
 
 PARTICLES::PARTICLES() {
   bSystemDelete = false;

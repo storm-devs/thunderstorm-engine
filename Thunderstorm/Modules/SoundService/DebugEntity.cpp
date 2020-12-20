@@ -1,6 +1,9 @@
 #include "DebugEntity.h"
 #include "SoundService.h"
 #include <Entity.h>
+#include <core.h>
+
+#include "../../../Shared/layers.h"
 
 SoundVisualisationEntity::SoundVisualisationEntity() {
   pSound = nullptr;

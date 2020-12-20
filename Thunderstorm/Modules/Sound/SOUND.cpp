@@ -4,6 +4,8 @@
 
 #include "SOUND.H"
 
+#include <core.h>
+
 #define MSG_SOUND_ALIAS_ADD					77017   //"s"		  alias_name
 
 INTERFACE_FUNCTION

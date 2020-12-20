@@ -2,6 +2,7 @@
 
 #include "modelr.h"
 #include <Entity.h>
+#include <core.h>
 
 VGEOMETRY* NODER::gs = nullptr;
 VDX9RENDER* NODER::rs = nullptr;

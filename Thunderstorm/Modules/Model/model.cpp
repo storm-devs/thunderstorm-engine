@@ -2,6 +2,7 @@
 #include "../../Shared/messages.h"
 #include "defines.h"
 #include <Entity.h>
+#include <core.h>
 
 INTERFACE_FUNCTION
 CREATE_CLASS(MODELR)

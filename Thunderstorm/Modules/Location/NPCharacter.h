@@ -13,6 +13,7 @@
 
 #include "AICharacter.h"
 #include <Entity.h>
+#include <core.h>
 
 class NPCharacter : public AICharacter {
 protected:

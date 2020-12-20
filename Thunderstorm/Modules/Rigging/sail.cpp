@@ -1,4 +1,7 @@
 #include "sail.h"
+
+#include <core.h>
+
 #include "defines.h"
 #include "sail_msg.h"
 #include "Weather_Base.h"

@@ -1,5 +1,8 @@
 #include <crtdbg.h>
 #include "touch.h"
+
+#include <core.h>
+
 #include "Character.h"
 #include "../../Shared/sea_ai/Script_defines.h"
 #include "../../Shared/messages.h"

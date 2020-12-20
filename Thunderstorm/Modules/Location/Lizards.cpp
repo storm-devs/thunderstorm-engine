@@ -10,6 +10,7 @@
 
 #include "Lizards.h"
 #include <Entity.h>
+#include <core.h>
 
 
 Lizards::Lizards() {

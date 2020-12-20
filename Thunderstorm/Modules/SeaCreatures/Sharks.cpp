@@ -12,6 +12,7 @@
 #include "../../Shared/messages.h"
 #include "geometry.h"
 #include <Entity.h>
+#include <core.h>
 
 //============================================================================================
 //Fish

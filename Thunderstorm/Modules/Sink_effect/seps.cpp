@@ -1,6 +1,7 @@
 #include "seps.h"
 #include "object.h"
 #include <Entity.h>
+#include <core.h>
 
 SEPS_PS::SEPS_PS() {
   TechniqueName = nullptr;

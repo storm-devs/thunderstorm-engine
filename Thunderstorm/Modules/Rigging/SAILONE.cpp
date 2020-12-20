@@ -8,6 +8,7 @@
 #include "rigging_define.h"
 #include "sail.h"
 #include <Entity.h>
+#include <core.h>
 
 
 extern long g_iBallOwnerIdx;

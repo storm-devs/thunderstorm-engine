@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include "battle_navigator.h"
+
+#include <core.h>
+
 #include "ship_base.h"
 #include "Island_Base.h"
 #include "ships_list.h"

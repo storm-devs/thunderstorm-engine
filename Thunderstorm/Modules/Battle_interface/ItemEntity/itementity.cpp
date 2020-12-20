@@ -4,6 +4,7 @@
 #include "../../Shared/messages.h"
 #include <Entity.h>
 #include <message.h>
+#include <core.h>
 
 ItemEntity::ItemEntity() {
   SetBeginData();

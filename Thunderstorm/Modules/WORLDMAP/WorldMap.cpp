@@ -10,6 +10,9 @@
 
 #include "../../Shared/messages.h"
 #include "WorldMap.h"
+
+#include <core.h>
+
 #include "WdmCameraStdCtrl.h"
 #include "WdmSea.h"
 #include "WdmIslands.h"

@@ -1,6 +1,10 @@
+#include <core.h>
+
 #include "sea.h"
 #include "../../Shared/messages.h"
 #include <Entity.h>
+
+#include "../../../Shared/layers.h"
 
 void SEA::EnvMap_GetSideMatrix(D3DCUBEMAP_FACES Face, CMatrix& mView) {
   CVECTOR vLookTo, vUp;

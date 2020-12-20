@@ -2,6 +2,7 @@
 #include "defines.h"
 #include "inlines.h"
 #include <Entity.h>
+#include <core.h>
 
 VDX9RENDER* ShipTracks::ShipTrack::pRS = nullptr;
 SEA_BASE* ShipTracks::ShipTrack::pSea = nullptr;

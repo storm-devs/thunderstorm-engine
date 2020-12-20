@@ -2,6 +2,7 @@
 #include "../image/imgrender.h"
 #include "../Utils.h"
 #include <message.h>
+#include <core.h>
 
 BITimer::BITimer() {
   SetBeginData();

@@ -6,6 +6,8 @@
 #include <FMOD/fmod_errors.h>
 
 //для debug
+#include <core.h>
+
 #include "DebugEntity.h"
 #include "math3d/Color.h"
 

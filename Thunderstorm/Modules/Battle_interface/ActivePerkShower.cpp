@@ -3,6 +3,7 @@
 #include "vmodule_api.h"
 #include "ActivePerkShower.h"
 #include "bi_defines.h"
+#include <core.h>
 
 ActivePerkShower::ActivePerkShower() {
   rs = nullptr;

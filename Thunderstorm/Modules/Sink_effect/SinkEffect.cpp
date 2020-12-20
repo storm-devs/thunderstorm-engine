@@ -3,6 +3,7 @@
 #include "SinkEffect.H"
 #include "ship_base.h"
 #include <Entity.h>
+#include <core.h>
 
 CREATE_CLASS(SINKEFFECT)
 

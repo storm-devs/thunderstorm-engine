@@ -1,5 +1,6 @@
 #include "ShipCamera.h"
 #include "Sd2_h/SaveLoad.h"
+#include <core.h>
 
 #define SCMR_BOXSCALE_X		1.6f
 #define SCMR_BOXSCALE_Y		1.3f

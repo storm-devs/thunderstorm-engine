@@ -4,6 +4,7 @@
 #include "../../Shared/messages.h"
 #include <Entity.h>
 #include "vfile_service.h"
+#include <core.h>
 //#pragma warning (disable : 4244)
 
 //--------------------------------------------------------------------

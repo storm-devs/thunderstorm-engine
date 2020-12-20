@@ -15,6 +15,7 @@
 #define MAX_SOUNDS_SLOTS 512
 
 
+class INIFILE;
 //debug....
 class SoundVisualisationEntity;
 

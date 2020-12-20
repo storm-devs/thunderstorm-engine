@@ -149,7 +149,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam) {
   case WM_LBUTTONDOWN:
   case WM_MBUTTONDOWN:
   case WM_MBUTTONUP:
-  case MM_MCINOTIFY:
+  //case MM_MCINOTIFY:
   case WM_LBUTTONDBLCLK:
   case WM_CHAR:
   case WM_MOUSEMOVE:

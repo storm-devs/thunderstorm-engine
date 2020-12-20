@@ -1,8 +1,6 @@
 #include "TButterflies.h"
 
 #include <core.h>
-
-
 #include "vfile_service.h"
 #include "../../Shared/messages.h"
 

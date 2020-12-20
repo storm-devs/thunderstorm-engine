@@ -3,6 +3,7 @@
 #include "LogAndAction.h"
 #include <controls.h>
 #include <message.h>
+#include <core.h>
 
 static entid_t g_ILogAndActions;
 
