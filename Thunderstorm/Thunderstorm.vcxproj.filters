@@ -1453,9 +1453,6 @@
     <ClCompile Include="Modules\XINTERFACE\editor\xfont.cpp">
       <Filter>Modules\XINTERFACE\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\renderer\TIVBufferManager.cpp">
-      <Filter>Modules\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="sources\externs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1479,6 +1476,9 @@
     </ClCompile>
     <ClCompile Include="Modules\Mast\mast.cpp">
       <Filter>Modules\Mast</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\renderer\IVBufferManager.cpp">
+      <Filter>Modules\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2241,9 +2241,6 @@
     <ClInclude Include="Include\PtcData.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Include\TIVBufferManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Include\attributes.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -2389,6 +2386,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Include\collide.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IVBufferManager.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

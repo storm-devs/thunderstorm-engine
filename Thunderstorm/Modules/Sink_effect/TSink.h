@@ -1,11 +1,9 @@
-#ifndef _TSINK_H_
-#define _TSINK_H_
+#pragma once
 
 #include "dx9render.h"
 #include "sea_base.h"
 #include "Cvector.h"
-#include "../SoundService/VSoundService.h"
-#include "TIVBufferManager.h"
+#include "IVBufferManager.h"
 #include "TSinkSplash.h"
 #include "TFlotsam.h"
 
@@ -32,7 +30,7 @@ private:
 	VDX9RENDER *renderer;
 	SEA_BASE *sea;
 	long texture;
-	TIVBufferManager *ivManager;
+	IVBufferManager *ivManager;
 	uint32_t time;
 
 	TSinkSplash splashes[MAX_SPLASHES];
@@ -44,5 +42,3 @@ private:
 	float	radius;
 	CVECTOR center;
 };
-
-#endif

@@ -360,7 +360,7 @@
     <ClCompile Include="Modules\renderer\Font.cpp" />
     <ClCompile Include="Modules\renderer\Screenshot.cpp" />
     <ClCompile Include="Modules\renderer\sdevice.cpp" />
-    <ClCompile Include="Modules\renderer\TIVBufferManager.cpp" />
+    <ClCompile Include="Modules\renderer\IVBufferManager.cpp" />
     <ClCompile Include="Modules\Rigging\Flag.cpp" />
     <ClCompile Include="Modules\Rigging\rigging_main.cpp" />
     <ClCompile Include="Modules\Rigging\Rope.cpp" />
@@ -605,7 +605,7 @@
     <ClInclude Include="Include\strutils.h" />
     <ClInclude Include="Include\s_import_func.h" />
     <ClInclude Include="Include\tga.h" />
-    <ClInclude Include="Include\TIVBufferManager.h" />
+    <ClInclude Include="Include\IVBufferManager.h" />
     <ClInclude Include="Include\triangle.h" />
     <ClInclude Include="Include\types3d.h" />
     <ClInclude Include="Include\vdata.h" />

@@ -6,7 +6,7 @@
 #include "model.h"
 #include "sea_base.h"
 //#include "..\geom_lib\geos.h"
-#include "TIVBufferManager.h"
+#include "IVBufferManager.h"
 
 #define MAX_RINGS     25
 #define FADE_IN_TIME  200
@@ -64,7 +64,8 @@ private:
 
 	VDX9RENDER       *renderService;
 	SEA_BASE		 *sea;
-	TIVBufferManager *ivManager;
+	IVBufferManager *ivManager;
 	long             ringTexture;
 	tRing			 rings[MAX_RINGS];
 };
+

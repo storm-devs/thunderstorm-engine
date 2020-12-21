@@ -46,7 +46,7 @@ void TButterflies::Init() {
   if (!collide)
     throw std::exception("!Butterflies: No service COLLIDE");
 
-  ivManager = new TIVBufferManager(renderService,
+  ivManager = new IVBufferManager(renderService,
                                    BUTTERFLY_VERTEX_TYPE,
                                    sizeof(tButterflyVertex),
                                    3 * 4, 6, butterfliesCount);

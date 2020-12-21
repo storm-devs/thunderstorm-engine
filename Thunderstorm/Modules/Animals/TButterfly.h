@@ -4,7 +4,7 @@
 #include "Cvector.h"
 #include "model.h"
 #include "collide.h"
-#include "TIVBufferManager.h"
+#include "IVBufferManager.h"
 #include "EntityManager.h"
 
 ///////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ public:
 	void  SetMinY (float _minY)    { minY = _minY; maxY = minY + MAX_HEIGHT; }
 
 	void Draw(HDC _dc);
-	void Draw(TIVBufferManager *_ivManager);
+	void Draw(IVBufferManager *_ivManager);
 	void Draw(VDX9RENDER *_renderer, MODEL *_model);
 
 private:
@@ -74,3 +74,4 @@ private:
 //--------------------------------------------------------------------
 
 #endif
+

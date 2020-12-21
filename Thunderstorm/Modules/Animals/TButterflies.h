@@ -8,7 +8,7 @@
 #include "geometry.h"
 #include "dx9render.h"
 #include "collide.h"
-#include "TIVBufferManager.h"
+#include "IVBufferManager.h"
 
 #define Y_REDEFINE_TIME		250
 
@@ -31,7 +31,7 @@ private:
 
 	VDX9RENDER *renderService;
 	COLLIDE *collide;
-	TIVBufferManager *ivManager;
+	IVBufferManager *ivManager;
 	entid_t  butterflyModel;
 	TButterfly butterflies[BUTTERFLY_COUNT];
 	long butterfliesCount;
@@ -44,3 +44,4 @@ private:
 };
 
 #endif // !defined
+

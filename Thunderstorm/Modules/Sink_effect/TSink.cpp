@@ -19,7 +19,7 @@ void TSink::Initialize(INIFILE* _ini, IDirect3DDevice9* _device, SEA_BASE* _sea,
   sea = _sea;
   renderer = _renderer;
 
-  ivManager = new TIVBufferManager(renderer,
+  ivManager = new IVBufferManager(renderer,
                                    SINK_FVF,
                                    sizeof(SINK_VERTEX),
                                    3 * TRIANGLES_COUNT,
